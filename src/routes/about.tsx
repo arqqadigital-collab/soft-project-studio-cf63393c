@@ -103,7 +103,8 @@ function AboutPage() {
             </Link>
           </header>
 
-          <section className="flex flex-1 items-center justify-center px-6 py-20 md:px-12">
+          <section className="flex flex-1 items-center justify-center px-6 pb-32 pt-4 md:px-12">
+            {/* offset upward to visually center against the fixed header */}
             <motion.div
               initial={{ opacity: 0, y: 30 }}
               animate={{ opacity: 1, y: 0 }}
