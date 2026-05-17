@@ -63,7 +63,12 @@
 
 :root {
   --radius: 0.625rem;
-  --background: oklch(1 0 0);
+  --background: oklch(0.985 0.005 200);
+  --brand-blue: oklch(0.62 0.13 230);
+  --brand-green: oklch(0.78 0.17 145);
+  --brand-dark: oklch(0.18 0.04 240);
+  --gradient-brand: linear-gradient(135deg, oklch(0.62 0.13 230), oklch(0.78 0.17 145));
+  --shadow-brand: 0 10px 30px -10px oklch(0.62 0.13 230 / 0.4);
   --foreground: oklch(0.129 0.042 264.695);
   --card: oklch(1 0 0);
   --card-foreground: oklch(0.129 0.042 264.695);
@@ -141,4 +146,17 @@
     background-color: var(--color-background);
     color: var(--color-foreground);
   }
+}
+
+@keyframes marquee {
+  from { transform: translateX(0); }
+  to { transform: translateX(-50%); }
+}
+
+.animate-marquee {
+  animation: marquee 40s linear infinite;
+}
+
+.marquee-pause:hover .animate-marquee {
+  animation-play-state: paused;
 }
