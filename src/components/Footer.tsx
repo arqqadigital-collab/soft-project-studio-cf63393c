@@ -1,17 +1,34 @@
+import { Link } from "@tanstack/react-router";
 import logo from "@/assets/logo.png";
 
-const columns = [
+type FooterLink = { label: string; to?: "/" | "/about"; href?: string };
+
+const columns: { title: string; links: FooterLink[] }[] = [
   {
     title: "Solutions",
-    links: ["Digital Strategy", "Cloud Infrastructure", "Data Analytics", "Cybersecurity"],
+    links: [
+      { label: "Digital Strategy", href: "#" },
+      { label: "Cloud Infrastructure", href: "#" },
+      { label: "Data Analytics", href: "#" },
+      { label: "Cybersecurity", href: "#" },
+    ],
   },
   {
     title: "Company",
-    links: ["About Us", "Our Team", "Careers", "Partner Program"],
+    links: [
+      { label: "About Us", to: "/about" },
+      { label: "Our Team", href: "#" },
+      { label: "Careers", href: "#" },
+      { label: "Partner Program", href: "#" },
+    ],
   },
   {
     title: "Contact",
-    links: ["Support Portal", "Sales Inquiry", "Media Resources"],
+    links: [
+      { label: "Support Portal", href: "#" },
+      { label: "Sales Inquiry", href: "#" },
+      { label: "Media Resources", href: "#" },
+    ],
   },
 ];
 
@@ -44,13 +61,22 @@ export function Footer() {
               </h3>
               <ul className="mt-6 space-y-4">
                 {col.links.map((link) => (
-                  <li key={link}>
-                    <a
-                      href="#"
-                      className="text-base text-white/85 transition-colors hover:text-white"
-                    >
-                      {link}
-                    </a>
+                  <li key={link.label}>
+                    {link.to ? (
+                      <Link
+                        to={link.to}
+                        className="text-base text-white/85 transition-colors hover:text-white"
+                      >
+                        {link.label}
+                      </Link>
+                    ) : (
+                      <a
+                        href={link.href}
+                        className="text-base text-white/85 transition-colors hover:text-white"
+                      >
+                        {link.label}
+                      </a>
+                    )}
                   </li>
                 ))}
               </ul>
