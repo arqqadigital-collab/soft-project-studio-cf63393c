@@ -133,54 +133,53 @@ function AboutPage() {
         </div>
       </main>
 
-      {/* INTRO */}
-      <section className="relative z-20 -mt-16 rounded-t-[2.5rem] bg-white px-6 py-24 shadow-[0_-20px_60px_-20px_rgba(0,0,0,0.4)] md:px-12">
-        <div className="mx-auto max-w-4xl text-center">
-          <p className="text-lg leading-relaxed text-foreground/80 md:text-xl">
-            SBS is a specialised provider of enterprise software solutions, healthcare
-            technologies, and digital transformation services designed to help organisations
-            modernise operations, improve efficiency, and unlock data-driven decision-making.
-          </p>
-        </div>
-      </section>
+      {/* INTRO + MISSION & VISION (unified) */}
+      <section className="relative z-20 -mt-16 rounded-t-[2.5rem] bg-white px-6 pb-24 pt-24 shadow-[0_-20px_60px_-20px_rgba(0,0,0,0.4)] md:px-12">
+        <div className="mx-auto max-w-6xl">
+          <div className="mx-auto max-w-4xl text-center">
+            <p className="text-lg leading-relaxed text-foreground/80 md:text-xl">
+              SBS is a specialised provider of enterprise software solutions, healthcare
+              technologies, and digital transformation services designed to help organisations
+              modernise operations, improve efficiency, and unlock data-driven decision-making.
+            </p>
+          </div>
 
-      {/* MISSION & VISION */}
-      <section className="bg-white px-6 pb-24 md:px-12">
-        <div className="mx-auto grid max-w-6xl gap-8 md:grid-cols-2">
-          {[
-            {
-              icon: Target,
-              title: "Our Mission",
-              body: "To help organisations leverage technology as a strategic asset, enabling operational excellence, automation, and data-driven growth.",
-            },
-            {
-              icon: Eye,
-              title: "Our Vision",
-              body: "To become a leading regional provider of integrated enterprise and healthcare technology solutions, empowering organisations with scalable, intelligent systems.",
-            },
-          ].map((item, i) => (
-            <motion.div
-              key={item.title}
-              initial={{ opacity: 0, y: 24 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, margin: "-80px" }}
-              transition={{ duration: 0.6, delay: i * 0.1 }}
-              className="group relative overflow-hidden rounded-3xl border border-border bg-card p-10 transition-shadow hover:shadow-[var(--shadow-brand)]"
-            >
-              <div
-                className="absolute -right-12 -top-12 h-40 w-40 rounded-full opacity-10 blur-2xl transition-opacity group-hover:opacity-20"
-                style={{ background: "var(--gradient-brand)" }}
-              />
-              <div
-                className="inline-flex h-14 w-14 items-center justify-center rounded-2xl text-white shadow-[var(--shadow-brand)]"
-                style={{ background: "var(--gradient-brand)" }}
+          <div className="mt-16 grid gap-8 md:grid-cols-2">
+            {[
+              {
+                icon: Target,
+                title: "Our Mission",
+                body: "To help organisations leverage technology as a strategic asset, enabling operational excellence, automation, and data-driven growth.",
+              },
+              {
+                icon: Eye,
+                title: "Our Vision",
+                body: "To become a leading regional provider of integrated enterprise and healthcare technology solutions, empowering organisations with scalable, intelligent systems.",
+              },
+            ].map((item, i) => (
+              <motion.div
+                key={item.title}
+                initial={{ opacity: 0, y: 24 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, margin: "-80px" }}
+                transition={{ duration: 0.7, delay: i * 0.2, ease: [0.22, 1, 0.36, 1] }}
+                className="group relative overflow-hidden rounded-3xl border border-border bg-card p-10 transition-shadow hover:shadow-[var(--shadow-brand)]"
               >
-                <item.icon className="h-7 w-7" />
-              </div>
-              <h2 className="mt-6 text-2xl font-bold text-foreground">{item.title}</h2>
-              <p className="mt-4 text-base leading-relaxed text-foreground/75">{item.body}</p>
-            </motion.div>
-          ))}
+                <div
+                  className="absolute -right-12 -top-12 h-40 w-40 rounded-full opacity-10 blur-2xl transition-opacity group-hover:opacity-20"
+                  style={{ background: "var(--gradient-brand)" }}
+                />
+                <div
+                  className="inline-flex h-14 w-14 items-center justify-center rounded-2xl text-white shadow-[var(--shadow-brand)]"
+                  style={{ background: "var(--gradient-brand)" }}
+                >
+                  <item.icon className="h-7 w-7" />
+                </div>
+                <h2 className="mt-6 text-2xl font-bold text-foreground">{item.title}</h2>
+                <p className="mt-4 text-base leading-relaxed text-foreground/75">{item.body}</p>
+              </motion.div>
+            ))}
+          </div>
         </div>
       </section>
 
