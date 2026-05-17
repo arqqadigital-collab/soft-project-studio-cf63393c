@@ -145,7 +145,7 @@ function AboutPage() {
       </section>
 
       {/* MISSION & VISION */}
-      <section className="bg-background px-6 pb-24 md:px-12">
+      <section className="bg-white px-6 pb-24 md:px-12">
         <div className="mx-auto grid max-w-6xl gap-8 md:grid-cols-2">
           {[
             {
