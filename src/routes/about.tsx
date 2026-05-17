@@ -134,7 +134,7 @@ function AboutPage() {
       </main>
 
       {/* INTRO */}
-      <section className="relative z-20 -mt-16 rounded-t-[2.5rem] bg-background px-6 py-24 shadow-[0_-20px_60px_-20px_rgba(0,0,0,0.4)] md:px-12">
+      <section className="relative z-20 -mt-16 rounded-t-[2.5rem] bg-white px-6 py-24 shadow-[0_-20px_60px_-20px_rgba(0,0,0,0.4)] md:px-12">
         <div className="mx-auto max-w-4xl text-center">
           <p className="text-lg leading-relaxed text-foreground/80 md:text-xl">
             SBS is a specialised provider of enterprise software solutions, healthcare
