@@ -14,6 +14,7 @@ import { SuccessStoriesSection } from "@/components/SuccessStoriesSection";
 import { PartnersSection } from "@/components/PartnersSection";
 import { CtaSection } from "@/components/CtaSection";
 import { Footer } from "@/components/Footer";
+import { MainNav } from "@/components/MainNav";
 
 export const Route = createFileRoute("/")({
   component: Index,
@@ -29,7 +30,7 @@ export const Route = createFileRoute("/")({
   }),
 });
 
-const navLinks = ["Products", "Solutions", "Company", "Clients", "Case Studies", "Contact"];
+
 
 function Index() {
   const heroRef = useRef<HTMLElement>(null);
@@ -73,17 +74,7 @@ function Index() {
               className="h-12 w-auto md:h-14"
             />
 
-            <nav className="hidden items-center gap-8 lg:flex">
-              {navLinks.map((link) => (
-                <a
-                  key={link}
-                  href="#"
-                  className="text-sm font-medium text-white/80 transition-colors hover:text-white"
-                >
-                  {link}
-                </a>
-              ))}
-            </nav>
+            <MainNav />
 
             <button
               className="rounded-full px-7 py-3 text-sm font-semibold text-white shadow-[var(--shadow-brand)] transition-transform hover:scale-105"
