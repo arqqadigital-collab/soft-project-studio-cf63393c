@@ -2,7 +2,7 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import { motion } from "framer-motion";
 import { ArrowRight, Target, Eye, Sparkles, Building2, Layers, Stethoscope, Handshake, Rocket } from "lucide-react";
 import logo from "@/assets/logo.png";
-import aboutHero from "@/assets/about-hero.jpg";
+import aboutHeroVideo from "@/assets/about-hero.mp4";
 import { Footer } from "@/components/Footer";
 import { CtaSection } from "@/components/CtaSection";
 
@@ -22,7 +22,7 @@ export const Route = createFileRoute("/about")({
         content:
           "Discover how SBS combines ERP expertise, healthcare integration, and enterprise consulting to build intelligent ecosystems.",
       },
-      { property: "og:image", content: aboutHero },
+      
     ],
   }),
 });
@@ -63,9 +63,12 @@ function AboutPage() {
       {/* HERO */}
       <main className="relative min-h-[90vh] w-full overflow-hidden bg-background">
         <div className="absolute inset-0">
-          <img
-            src={aboutHero}
-            alt="SBS team collaborating on digital transformation"
+          <video
+            src={aboutHeroVideo}
+            autoPlay
+            muted
+            loop
+            playsInline
             className="h-full w-full object-cover"
           />
           <div className="absolute inset-0 bg-gradient-to-b from-black/70 via-black/55 to-black/80" />
@@ -100,17 +103,17 @@ function AboutPage() {
             </Link>
           </header>
 
-          <section className="flex flex-1 items-center px-6 py-20 md:px-12">
+          <section className="flex flex-1 items-center justify-center px-6 py-20 md:px-12">
             <motion.div
               initial={{ opacity: 0, y: 30 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8 }}
-              className="mx-auto max-w-5xl"
+              className="mx-auto flex max-w-4xl flex-col items-center text-center"
             >
               <span className="inline-flex items-center gap-2 rounded-full border border-white/20 bg-white/10 px-4 py-1.5 text-xs font-medium uppercase tracking-[0.2em] text-white/90 backdrop-blur">
                 <Sparkles className="h-3.5 w-3.5" /> About SBS
               </span>
-              <h1 className="mt-6 max-w-4xl text-4xl font-bold leading-[1.05] tracking-tight text-white md:text-6xl lg:text-7xl">
+              <h1 className="mt-6 text-2xl font-bold leading-[1.15] tracking-tight text-white md:text-4xl lg:text-5xl">
                 Empowering Organizations Through{" "}
                 <span
                   className="bg-clip-text text-transparent"
@@ -119,7 +122,7 @@ function AboutPage() {
                   Intelligent Technology Solutions
                 </span>
               </h1>
-              <p className="mt-8 max-w-3xl text-base leading-relaxed text-white/85 md:text-lg">
+              <p className="mt-6 max-w-2xl text-base leading-relaxed text-white/85 md:text-lg">
                 By combining ERP expertise, healthcare system integration, and enterprise
                 consulting, SBS helps organisations transform fragmented processes into
                 connected, intelligent ecosystems.
