@@ -249,12 +249,8 @@ function AboutPage() {
       {/* FUTURE / CLOSING */}
       <section
         className="relative overflow-hidden px-6 py-24 md:px-12"
-        style={{ background: "var(--brand-dark)" }}
+        style={{ backgroundColor: "#091628" }}
       >
-        <div
-          className="absolute inset-0 opacity-[0.12]"
-          style={{ background: "var(--gradient-brand)" }}
-        />
         <div className="relative mx-auto max-w-4xl text-center">
           <h2 className="text-3xl font-bold tracking-tight text-white md:text-5xl">
             Building the Future with{" "}
