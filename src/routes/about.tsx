@@ -5,6 +5,7 @@ import logo from "@/assets/logo.png";
 import aboutHeroVideo from "@/assets/about-hero.mp4";
 import { Footer } from "@/components/Footer";
 import { CtaSection } from "@/components/CtaSection";
+import { MainNav } from "@/components/MainNav";
 
 export const Route = createFileRoute("/about")({
   component: AboutPage,
@@ -27,7 +28,7 @@ export const Route = createFileRoute("/about")({
   }),
 });
 
-const navLinks = ["Products", "Solutions", "Company", "Clients", "Case Studies", "Contact"];
+
 
 const journey = [
   {
@@ -83,17 +84,7 @@ function AboutPage() {
                 className="h-12 w-auto md:h-14"
               />
             </Link>
-            <nav className="hidden items-center gap-8 lg:flex">
-              {navLinks.map((link) => (
-                <a
-                  key={link}
-                  href="#"
-                  className="text-sm font-medium text-white/80 transition-colors hover:text-white"
-                >
-                  {link}
-                </a>
-              ))}
-            </nav>
+            <MainNav />
             <Link
               to="/"
               className="rounded-full px-7 py-3 text-sm font-semibold text-white shadow-[var(--shadow-brand)] transition-transform hover:scale-105"
