@@ -256,13 +256,16 @@ function AboutPage() {
       </section>
 
       {/* FUTURE / CLOSING */}
-      <section className="relative overflow-hidden px-6 py-24 md:px-12">
+      <section
+        className="relative overflow-hidden px-6 py-24 md:px-12"
+        style={{ background: "var(--brand-dark)" }}
+      >
         <div
-          className="absolute inset-0 opacity-[0.08]"
+          className="absolute inset-0 opacity-[0.12]"
           style={{ background: "var(--gradient-brand)" }}
         />
         <div className="relative mx-auto max-w-4xl text-center">
-          <h2 className="text-3xl font-bold tracking-tight text-foreground md:text-5xl">
+          <h2 className="text-3xl font-bold tracking-tight text-white md:text-5xl">
             Building the Future with{" "}
             <span
               className="bg-clip-text text-transparent"
@@ -271,18 +274,18 @@ function AboutPage() {
               Intelligent Systems
             </span>
           </h2>
-          <p className="mt-8 text-lg leading-relaxed text-foreground/80">
+          <p className="mt-8 text-lg leading-relaxed text-white/80">
             As organizations continue to navigate digital transformation, the need for{" "}
-            <strong className="text-foreground">integrated, scalable, and intelligent systems</strong>{" "}
+            <strong className="text-white">integrated, scalable, and intelligent systems</strong>{" "}
             has never been greater.
           </p>
-          <p className="mt-6 text-lg leading-relaxed text-foreground/80">
+          <p className="mt-6 text-lg leading-relaxed text-white/80">
             SBS remains committed to helping organizations adopt technologies that enhance
             efficiency, strengthen decision-making, and create long-term competitive advantage.
           </p>
 
           <div className="mt-12 inline-flex flex-col items-center gap-6">
-            <p className="max-w-2xl text-base font-medium text-foreground md:text-lg">
+            <p className="max-w-2xl text-base font-medium text-white/90 md:text-lg">
               Looking to modernize your operations with smarter technology solutions? Connect
               with SBS to explore how our expertise can support your organization's digital
               transformation journey.
