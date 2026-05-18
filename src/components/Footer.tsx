@@ -1,7 +1,7 @@
-import { Link } from "@tanstack/react-router";
+import { Link } from "react-router-dom";
 import logo from "@/assets/logo.png";
 
-type FooterLink = { label: string; to?: "/" | "/about"; href?: string };
+type FooterLink = { label: string; to?: string; href?: string };
 
 const columns: { title: string; links: FooterLink[] }[] = [
   {
