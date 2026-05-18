@@ -1,7 +1,7 @@
-import { Link } from "@tanstack/react-router";
+import { Link } from "react-router-dom";
 import { ChevronDown } from "lucide-react";
 
-type CompanyItem = { label: string; to?: "/" | "/about"; href?: string };
+type CompanyItem = { label: string; to?: string; href?: string };
 
 const companyItems: CompanyItem[] = [
   { label: "About Us", to: "/about" },
@@ -15,16 +15,10 @@ const otherLinks = ["Products", "Solutions", "Clients", "Case Studies", "Contact
 export function MainNav() {
   return (
     <nav className="hidden items-center gap-8 lg:flex">
-      <a
-        href="#"
-        className="text-sm font-medium text-white/80 transition-colors hover:text-white"
-      >
+      <a href="#" className="text-sm font-medium text-white/80 transition-colors hover:text-white">
         Products
       </a>
-      <a
-        href="#"
-        className="text-sm font-medium text-white/80 transition-colors hover:text-white"
-      >
+      <a href="#" className="text-sm font-medium text-white/80 transition-colors hover:text-white">
         Solutions
       </a>
 
@@ -45,7 +39,6 @@ export function MainNav() {
                   key={item.label}
                   to={item.to}
                   className="block rounded-lg px-4 py-2.5 text-sm font-medium text-white/85 transition-colors hover:bg-white/10 hover:text-white"
-                  activeProps={{ className: "bg-white/10 text-white" }}
                 >
                   {item.label}
                 </Link>

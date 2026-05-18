@@ -1,4 +1,3 @@
-import { createFileRoute } from "@tanstack/react-router";
 import { useRef } from "react";
 import { ArrowRight } from "lucide-react";
 import { motion, useScroll, useTransform } from "framer-motion";
@@ -16,30 +15,13 @@ import { CtaSection } from "@/components/CtaSection";
 import { Footer } from "@/components/Footer";
 import { MainNav } from "@/components/MainNav";
 
-export const Route = createFileRoute("/")({
-  component: Index,
-  head: () => ({
-    meta: [
-      { title: "SBS — Transforming Complexity Into Digital Clarity" },
-      {
-        name: "description",
-        content:
-          "End-to-end digital transformation for modern enterprises and healthcare organizations.",
-      },
-    ],
-  }),
-});
-
-
-
-function Index() {
+export default function Index() {
   const heroRef = useRef<HTMLElement>(null);
   const { scrollYProgress } = useScroll({
     target: heroRef,
     offset: ["start start", "end start"],
   });
 
-  // Parallax: background moves slower, content fades & lifts on scroll out
   const bgY = useTransform(scrollYProgress, [0, 1], ["0%", "75%"]);
   const contentY = useTransform(scrollYProgress, [0, 1], ["0%", "-60%"]);
   const contentOpacity = useTransform(scrollYProgress, [0, 0.8], [1, 0]);
@@ -50,7 +32,6 @@ function Index() {
         ref={heroRef}
         className="relative h-screen w-full overflow-hidden bg-background"
       >
-        {/* Parallax background video */}
         <motion.video
           style={{ y: bgY }}
           className="absolute inset-0 -top-[10%] h-[120%] w-full object-cover"
@@ -62,7 +43,6 @@ function Index() {
         />
         <div className="absolute inset-0 bg-black/60 backdrop-blur-[2px]" />
 
-        {/* Content */}
         <motion.div
           style={{ y: contentY, opacity: contentOpacity }}
           className="relative z-10 flex h-full flex-col"
@@ -111,7 +91,6 @@ function Index() {
         </motion.div>
       </main>
 
-      {/* Blur transition between hero and Expertise */}
       <div
         aria-hidden
         className="relative z-20 -mt-32 h-32 w-full"
@@ -125,7 +104,6 @@ function Index() {
         }}
       />
 
-      {/* Parallax reveal: Expertise sits above hero as user scrolls */}
       <div className="relative z-20 rounded-t-[2.5rem] bg-background shadow-[0_-20px_60px_-20px_rgba(0,0,0,0.4)]">
         <ExpertiseSection />
         <ProcessSection />

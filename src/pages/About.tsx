@@ -1,4 +1,4 @@
-import { createFileRoute, Link } from "@tanstack/react-router";
+import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
 import { ArrowRight, Target, Eye, Sparkles, Building2, Layers, Stethoscope, Handshake, Rocket } from "lucide-react";
 import logo from "@/assets/logo.png";
@@ -7,61 +7,17 @@ import { Footer } from "@/components/Footer";
 import { CtaSection } from "@/components/CtaSection";
 import { MainNav } from "@/components/MainNav";
 
-export const Route = createFileRoute("/about")({
-  component: AboutPage,
-  head: () => ({
-    meta: [
-      { title: "About SBS — Empowering Organizations Through Intelligent Technology" },
-      {
-        name: "description",
-        content:
-          "SBS is a specialised provider of enterprise software, healthcare technologies, and digital transformation services that help organisations modernise operations.",
-      },
-      { property: "og:title", content: "About SBS — Empowering Organizations Through Intelligent Technology" },
-      {
-        property: "og:description",
-        content:
-          "Discover how SBS combines ERP expertise, healthcare integration, and enterprise consulting to build intelligent ecosystems.",
-      },
-      
-    ],
-  }),
-});
-
-
-
 const journey = [
-  {
-    icon: Building2,
-    title: "Foundation",
-    body: "SBS was established to help organisations solve operational challenges through smart, scalable technology solutions.",
-  },
-  {
-    icon: Layers,
-    title: "Expansion",
-    body: "We evolved into a full-service provider, delivering ERP implementation, system integration, and process automation across industries.",
-  },
-  {
-    icon: Stethoscope,
-    title: "Healthcare Focus",
-    body: "SBS expanded into healthcare, providing solutions such as HIS, EMR, PACS, and RCM systems, strengthening our industry specialisation.",
-  },
-  {
-    icon: Handshake,
-    title: "Strategic Partnerships",
-    body: "Collaborations with platforms like Odoo and Microsoft Dynamics 365 enabled us to deliver enterprise-grade, flexible solutions.",
-  },
-  {
-    icon: Rocket,
-    title: "Today",
-    body: "We continue to drive digital transformation through integrated systems, automation, and data-driven solutions that help organisations scale and innovate.",
-  },
+  { icon: Building2, title: "Foundation", body: "SBS was established to help organisations solve operational challenges through smart, scalable technology solutions." },
+  { icon: Layers, title: "Expansion", body: "We evolved into a full-service provider, delivering ERP implementation, system integration, and process automation across industries." },
+  { icon: Stethoscope, title: "Healthcare Focus", body: "SBS expanded into healthcare, providing solutions such as HIS, EMR, PACS, and RCM systems, strengthening our industry specialisation." },
+  { icon: Handshake, title: "Strategic Partnerships", body: "Collaborations with platforms like Odoo and Microsoft Dynamics 365 enabled us to deliver enterprise-grade, flexible solutions." },
+  { icon: Rocket, title: "Today", body: "We continue to drive digital transformation through integrated systems, automation, and data-driven solutions that help organisations scale and innovate." },
 ];
 
-function AboutPage() {
+export default function About() {
   return (
     <>
-      {/* HERO */}
       <main className="relative min-h-[90vh] w-full overflow-hidden bg-background">
         <div className="absolute inset-0">
           <video
@@ -95,7 +51,6 @@ function AboutPage() {
           </header>
 
           <section className="flex flex-1 items-center justify-center px-6 pb-32 pt-4 md:px-12">
-            {/* offset upward to visually center against the fixed header */}
             <motion.div
               initial={{ opacity: 0, y: 30 }}
               animate={{ opacity: 1, y: 0 }}
@@ -124,7 +79,6 @@ function AboutPage() {
         </div>
       </main>
 
-      {/* INTRO + MISSION & VISION (unified) */}
       <section className="relative z-20 -mt-16 rounded-t-[2.5rem] bg-white px-6 pb-24 pt-24 shadow-[0_-20px_60px_-20px_rgba(0,0,0,0.4)] md:px-12">
         <div className="mx-auto max-w-6xl">
           <div className="mx-auto max-w-4xl text-center">
@@ -137,16 +91,8 @@ function AboutPage() {
 
           <div className="mt-16 grid gap-8 md:grid-cols-2">
             {[
-              {
-                icon: Target,
-                title: "Our Mission",
-                body: "To help organisations leverage technology as a strategic asset, enabling operational excellence, automation, and data-driven growth.",
-              },
-              {
-                icon: Eye,
-                title: "Our Vision",
-                body: "To become a leading regional provider of integrated enterprise and healthcare technology solutions, empowering organisations with scalable, intelligent systems.",
-              },
+              { icon: Target, title: "Our Mission", body: "To help organisations leverage technology as a strategic asset, enabling operational excellence, automation, and data-driven growth." },
+              { icon: Eye, title: "Our Vision", body: "To become a leading regional provider of integrated enterprise and healthcare technology solutions, empowering organisations with scalable, intelligent systems." },
             ].map((item, i) => (
               <motion.div
                 key={item.title}
@@ -174,7 +120,6 @@ function AboutPage() {
         </div>
       </section>
 
-      {/* JOURNEY */}
       <section
         className="px-6 py-24 md:px-12"
         style={{ background: "color-mix(in oklab, var(--brand-blue) 4%, var(--background))" }}
@@ -190,7 +135,6 @@ function AboutPage() {
           </div>
 
           <div className="relative mt-20">
-            {/* timeline line */}
             <div
               className="absolute left-8 top-0 h-full w-px md:left-1/2 md:-translate-x-1/2"
               style={{ background: "var(--gradient-brand)", opacity: 0.25 }}
@@ -207,15 +151,9 @@ function AboutPage() {
                     whileInView={{ opacity: 1, y: 0 }}
                     viewport={{ once: true, margin: "-60px" }}
                     transition={{ duration: 0.5, delay: i * 0.05 }}
-                    className={`relative flex items-start gap-6 md:items-center ${
-                      isRight ? "md:flex-row-reverse" : ""
-                    }`}
+                    className={`relative flex items-start gap-6 md:items-center ${isRight ? "md:flex-row-reverse" : ""}`}
                   >
-                    {/* dot */}
-                    <div
-                      className="absolute left-8 z-10 -translate-x-1/2 md:left-1/2"
-                      aria-hidden
-                    >
+                    <div className="absolute left-8 z-10 -translate-x-1/2 md:left-1/2" aria-hidden>
                       <div
                         className="flex h-16 w-16 items-center justify-center rounded-full border-4 border-background text-white shadow-[var(--shadow-brand)]"
                         style={{ background: "var(--gradient-brand)" }}
@@ -224,10 +162,8 @@ function AboutPage() {
                       </div>
                     </div>
 
-                    {/* spacer to position content opposite the dot on desktop */}
                     <div className="hidden md:block md:w-1/2" />
 
-                    {/* card */}
                     <div className="ml-24 w-full md:ml-0 md:w-1/2 md:px-12">
                       <div className="rounded-2xl border border-border bg-card p-6 shadow-sm md:p-8">
                         <h3 className="text-xl font-bold text-foreground md:text-2xl">
@@ -246,7 +182,6 @@ function AboutPage() {
         </div>
       </section>
 
-      {/* FUTURE / CLOSING */}
       <section
         className="relative overflow-hidden px-6 py-24 md:px-12"
         style={{ backgroundColor: "#091628" }}
