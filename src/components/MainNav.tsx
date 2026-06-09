@@ -151,16 +151,23 @@ const menus: Menu[] = [
   {
     label: "Company",
     items: [
-      { label: "About Us", description: "Our story and mission", to: "/about" },
-      { label: "Careers", description: "Join our team", href: "#" },
-    ],
-  },
-  {
-    label: "Resources",
-    items: [
-      { label: "Blog", description: "Insights and updates", href: "#" },
-      { label: "Case Studies", description: "Success stories", href: "#" },
-      { label: "Events & Webinars", description: "Upcoming events", href: "#" },
+      {
+        label: "Company",
+        description: "Our story and mission",
+        items: [
+          { label: "About Us", to: "/about" },
+          { label: "Careers", href: "#" },
+        ],
+      },
+      {
+        label: "Resources",
+        description: "Insights and updates",
+        items: [
+          { label: "Blog", href: "#" },
+          { label: "Case Studies", href: "#" },
+          { label: "Events & Webinars", href: "#" },
+        ],
+      },
     ],
   },
 ];
