@@ -139,7 +139,7 @@ export function MainNav() {
             <ChevronDown className="h-3.5 w-3.5 transition-transform group-hover:rotate-180" />
           </button>
           <div className="invisible absolute left-1/2 top-full z-50 w-72 -translate-x-1/2 pt-3 opacity-0 transition-all duration-200 group-hover:visible group-hover:opacity-100">
-            <div className="overflow-hidden rounded-2xl border border-white/10 bg-[var(--brand-dark)]/95 p-2 shadow-2xl backdrop-blur-md">
+            <div className="rounded-2xl border border-white/10 bg-[var(--brand-dark)]/95 p-2 shadow-2xl backdrop-blur-md">
               {menu.items.map((item) =>
                 item.items ? (
                   <SubMenuItem key={item.label} item={item} />
