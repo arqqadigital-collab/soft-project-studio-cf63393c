@@ -241,7 +241,7 @@ export function MainNav() {
         const hasRightPanel = menu.items.some((i) => i.items && i.items.length > 0);
         const width = hasRightPanel ? "w-[640px]" : "w-[520px]";
         return (
-          <div key={menu.label} className="group static">
+          <div key={menu.label} className="group relative">
             <button
               type="button"
               className="inline-flex items-center gap-1 text-sm font-medium text-white/80 transition-colors hover:text-white"
