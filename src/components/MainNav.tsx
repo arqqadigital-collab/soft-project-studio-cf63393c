@@ -80,23 +80,72 @@ const menus: Menu[] = [
       {
         label: "ERP Platforms",
         description: "Enterprise resource planning suites",
-        href: "#",
+        items: [
+          { label: "Microsoft Dynamics 365 Business Central", href: "#" },
+          { label: "Odoo", href: "#" },
+          { label: "Zoho", href: "#" },
+        ],
       },
       {
         label: "Business Verticals (ERP)",
         description: "Industry-tailored ERP solutions",
-        href: "#",
+        items: [
+          { label: "Manufacturing & Trading", href: "#" },
+          { label: "Logistics & Distribution", href: "#" },
+          { label: "Retail & E-commerce", href: "#" },
+          { label: "Education & Research", href: "#" },
+        ],
       },
     ],
   },
   {
     label: "Services",
     items: [
-      { label: "Cybersecurity", description: "Protect your digital estate", href: "#" },
-      { label: "Consulting", description: "Strategy and advisory", href: "#" },
-      { label: "Implementation & Integration", description: "Deploy and integrate", href: "#" },
-      { label: "Staff Aug & Managed Services", description: "Talent and managed ops", href: "#" },
-      { label: "Learning & Knowledge", description: "Enablement and training", href: "#" },
+      {
+        label: "Cybersecurity",
+        description: "Protect your digital estate",
+        items: [
+          { label: "Identity & Access Management", href: "#" },
+          { label: "Network & Endpoint Security", href: "#" },
+          { label: "Data Protection & Compliance", href: "#" },
+          { label: "Healthcare Cybersecurity", href: "#" },
+        ],
+      },
+      {
+        label: "Consulting",
+        description: "Strategy and advisory",
+        items: [
+          { label: "Healthcare IT Consulting", href: "#" },
+          { label: "ERP Consulting", href: "#" },
+          { label: "Digital Transformation", href: "#" },
+        ],
+      },
+      {
+        label: "Implementation & Integration",
+        description: "Deploy and integrate",
+        items: [
+          { label: "Integration & Interoperability Services", href: "#" },
+          { label: "Data Migration", href: "#" },
+        ],
+      },
+      {
+        label: "Staff Aug & Managed Services",
+        description: "Talent and managed ops",
+        items: [
+          { label: "Healthcare IT Professionals", href: "#" },
+          { label: "EMR Specialists (Epic/Cerner/InterSystems)", href: "#" },
+          { label: "Managed IT Services", href: "#" },
+          { label: "ERP & Tech Talent", href: "#" },
+        ],
+      },
+      {
+        label: "Learning & Knowledge",
+        description: "Enablement and training",
+        items: [
+          { label: "Totara LMS", href: "#" },
+          { label: "EndNote Reference Management", href: "#" },
+        ],
+      },
     ],
   },
   {
@@ -164,6 +213,7 @@ function MegaPanel({ menu }: { menu: Menu }) {
       <div className="space-y-1 border-r border-white/10 bg-white/[0.02] p-3">
         {menu.items.map((item, idx) => {
           const isActive = idx === activeIdx;
+          const hasChildren = item.items && item.items.length > 0;
           const content = (
             <>
               <div className="flex-1">
@@ -172,18 +222,20 @@ function MegaPanel({ menu }: { menu: Menu }) {
                   <div className="mt-0.5 text-xs text-white/60">{item.description}</div>
                 )}
               </div>
-              <ChevronRight
-                className={`h-4 w-4 shrink-0 transition-colors ${
-                  isActive ? "text-white" : "text-white/40"
-                }`}
-              />
+              {hasChildren && (
+                <ChevronRight
+                  className={`h-4 w-4 shrink-0 transition-colors ${
+                    isActive ? "text-white" : "text-white/40"
+                  }`}
+                />
+              )}
             </>
           );
           const className = `flex w-full items-center gap-3 rounded-xl p-3 text-left transition-colors ${
             isActive ? "bg-white/10" : "hover:bg-white/5"
           }`;
 
-          if (item.items && item.items.length > 0) {
+          if (hasChildren) {
             return (
               <button
                 key={item.label}
