@@ -152,14 +152,20 @@ const menus: Menu[] = [
     label: "Company",
     items: [
       { label: "About Us", description: "Our story and mission", to: "/about" },
-      { label: "Our Team", description: "Meet the leadership", href: "#" },
       { label: "Careers", description: "Join our team", href: "#" },
-      { label: "Partner Program", description: "Build with us", href: "#" },
+    ],
+  },
+  {
+    label: "Resources",
+    items: [
+      { label: "Blog", description: "Insights and updates", href: "#" },
+      { label: "Case Studies", description: "Success stories", href: "#" },
+      { label: "Events & Webinars", description: "Upcoming events", href: "#" },
     ],
   },
 ];
 
-const simpleLinks = ["Clients", "Case Studies", "Contact"];
+const simpleLinks = ["Clients", "Contact"];
 
 function LeafLink({
   item,
