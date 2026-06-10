@@ -122,7 +122,8 @@ export default function HIS() {
     target: problemRef,
     offset: ["start start", "end end"],
   });
-  const problemX = useTransform(problemProgress, [0, 1], ["0%", "-83.3333%"]);
+  // delay horizontal motion: nothing happens for the first ~18% of scroll (vertical breathing room)
+  const problemX = useTransform(problemProgress, [0.18, 1], ["0%", "-83.3333%"]);
 
   return (
     <>
@@ -226,11 +227,11 @@ export default function HIS() {
       </section>
 
       {/* PROBLEM — horizontal scroll on dark */}
-      <section ref={problemRef} className="relative bg-[#0a0e1a]" style={{ height: "320vh" }}>
+      <section ref={problemRef} className="relative bg-[#0a0e1a] mb-24 md:mb-32" style={{ height: "340vh" }}>
         <div className="sticky top-0 flex h-screen flex-col overflow-hidden">
           {/* Header */}
           <div className="mx-auto w-full max-w-7xl px-6 pt-16 md:px-12 md:pt-20">
-            <div className="grid gap-8 md:grid-cols-2 md:items-end">
+            <div className="grid gap-8 md:grid-cols-2 md:items-start">
               <div>
                 <span className="inline-flex items-center gap-2 rounded-full bg-red-500/10 px-3 py-1.5 text-xs font-semibold uppercase tracking-wider text-red-300 ring-1 ring-red-500/20">
                   <AlertTriangle className="h-3.5 w-3.5" /> The Problem
@@ -242,7 +243,7 @@ export default function HIS() {
                   </span>
                 </h2>
               </div>
-              <p className="max-w-md text-base leading-relaxed text-white/60 md:ml-auto md:text-right md:text-lg">
+              <p className="max-w-md text-base leading-relaxed text-white/60 md:ml-auto md:mt-2 md:text-right md:text-lg">
                 A hospital's information system is its nervous system. When it is fragmented, the
                 whole organism suffers.
               </p>
