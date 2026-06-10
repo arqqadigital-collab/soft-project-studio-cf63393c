@@ -31,7 +31,7 @@ import {
 import logo from "@/assets/logo.png";
 import hisHeroVideo from "@/assets/his-hero.mp4.asset.json";
 import hisCtaVideo from "@/assets/his-cta.mp4.asset.json";
-import bgSteps from "@/assets/bg-steps.png.asset.json";
+import bgSteps from "@/assets/bg-steps-2.png.asset.json";
 import { Footer } from "@/components/Footer";
 import { CtaSection } from "@/components/CtaSection";
 import { MainNav } from "@/components/MainNav";
