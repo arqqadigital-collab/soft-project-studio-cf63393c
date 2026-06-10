@@ -440,7 +440,7 @@ export default function HIS() {
                   className="bg-clip-text text-4xl font-bold tracking-tight text-transparent md:text-5xl"
                   style={{ backgroundImage: "var(--gradient-brand)" }}
                 >
-                  {s.value}
+                  <AnimatedStat value={s.value} />
                 </div>
                 <p className="mt-3 text-sm leading-relaxed text-white/75">{s.label}</p>
               </div>
