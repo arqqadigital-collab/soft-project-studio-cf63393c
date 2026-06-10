@@ -1,6 +1,7 @@
 import { Routes, Route, Link } from "react-router-dom";
 import Index from "./pages/Index";
 import About from "./pages/About";
+import HIS from "./pages/HIS";
 
 function NotFound() {
   return (
@@ -29,6 +30,7 @@ export default function App() {
     <Routes>
       <Route path="/" element={<Index />} />
       <Route path="/about" element={<About />} />
+      <Route path="/healthcare/his" element={<HIS />} />
       <Route path="*" element={<NotFound />} />
     </Routes>
   );
