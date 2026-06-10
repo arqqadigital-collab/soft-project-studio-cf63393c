@@ -243,7 +243,7 @@ export default function HIS() {
                   </span>
                 </h2>
               </div>
-              <p className="max-w-md text-base leading-relaxed text-white/60 md:ml-auto md:text-right md:text-lg">
+              <p className="max-w-md text-base leading-relaxed text-white/60 md:ml-auto md:mt-2 md:text-right md:text-lg">
                 A hospital's information system is its nervous system. When it is fragmented, the
                 whole organism suffers.
               </p>
