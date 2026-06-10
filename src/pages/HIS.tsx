@@ -532,6 +532,17 @@ export default function HIS() {
 
       {/* FINAL CTA */}
       <section id="contact" className="relative overflow-hidden px-6 py-24 md:px-12" style={{ backgroundColor: "#091628" }}>
+        <div className="absolute inset-0">
+          <video
+            src={hisCtaVideo.url}
+            autoPlay
+            muted
+            loop
+            playsInline
+            className="h-full w-full object-cover"
+          />
+          <div className="absolute inset-0 bg-gradient-to-b from-[#091628]/85 via-[#091628]/75 to-[#091628]/90" />
+        </div>
         <div className="relative mx-auto max-w-4xl text-center">
           <h2 className="text-3xl font-bold tracking-tight text-white md:text-5xl">
             Your Hospital Deserves a System That{" "}
