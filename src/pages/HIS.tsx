@@ -31,6 +31,7 @@ import {
 import logo from "@/assets/logo.png";
 import hisHeroVideo from "@/assets/his-hero.mp4.asset.json";
 import hisCtaVideo from "@/assets/his-cta.mp4.asset.json";
+import bgStepsLight from "@/assets/bg-steps-light.png.asset.json";
 
 import { Footer } from "@/components/Footer";
 import { CtaSection } from "@/components/CtaSection";
@@ -421,7 +422,15 @@ export default function HIS() {
       </section>
 
       {/* HOW IT WORKS */}
-      <section className="relative bg-background px-6 py-24 md:px-12">
+      <section
+        className="relative px-6 py-24 md:px-12"
+        style={{
+          backgroundImage: `url(${bgStepsLight.url})`,
+          backgroundSize: "cover",
+          backgroundPosition: "center",
+          backgroundAttachment: "fixed",
+        }}
+      >
         <div className="relative mx-auto max-w-7xl">
           <div className="mx-auto max-w-3xl text-center">
             <span className="inline-flex items-center gap-2 rounded-full bg-[color:var(--brand-blue)]/10 px-3 py-1.5 text-xs font-semibold uppercase tracking-wider text-[color:var(--brand-blue)]">
