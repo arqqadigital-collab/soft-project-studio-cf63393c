@@ -20,12 +20,10 @@ const menus: Menu[] = [
         description: "Core hospital and clinic platforms",
         items: [
           { label: "Hospital Information System (HIS)", href: "#" },
-          { label: "Clinic Management System", href: "#" },
           { label: "Dental Management Suite", href: "#" },
           { label: "Laboratory Information System (LIS)", href: "#" },
           { label: "Radiology Information System (RIS)", href: "#" },
-          { label: "Emergency Department Management", href: "#" },
-          { label: "Physiotherapy & Rehabilitation", href: "#" },
+          { label: "RCM", href: "#" },
         ],
       },
       {
@@ -34,14 +32,7 @@ const menus: Menu[] = [
         items: [
           { label: "Blood Bank & Donor Management", href: "#" },
           { label: "Medication & Dosage Management", href: "#" },
-          { label: "Telemedicine & Virtual Care", href: "#" },
-          { label: "Hospital Operations & RTLS", href: "#" },
         ],
-      },
-      {
-        label: "Patient Engagement & Identity",
-        description: "Patient portals and identity",
-        href: "#",
       },
       {
         label: "Medical Imaging",
@@ -52,15 +43,9 @@ const menus: Menu[] = [
         ],
       },
       {
-        label: "Revenue Cycle & Financial Performance",
-        description: "Claims, billing and financial KPIs",
-        href: "#",
-      },
-      {
         label: "Compliance & Interoperability",
         description: "Regional compliance and standards",
         items: [
-          { label: "KSA Compliance & Interoperability", href: "#" },
           { label: "UAE Compliance & Interoperability", href: "#" },
         ],
       },
@@ -68,7 +53,6 @@ const menus: Menu[] = [
         label: "Healthcare AI",
         description: "Clinical AI and readiness",
         items: [
-          { label: "Clinical AI & Documentation", href: "#" },
           { label: "EMRAM Roadmap & AI Readiness", href: "#" },
         ],
       },
@@ -92,8 +76,6 @@ const menus: Menu[] = [
         items: [
           { label: "Manufacturing & Trading", href: "#" },
           { label: "Logistics & Distribution", href: "#" },
-          { label: "Retail & E-commerce", href: "#" },
-          { label: "Education & Research", href: "#" },
         ],
       },
     ],
