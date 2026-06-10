@@ -227,8 +227,8 @@ export default function HIS() {
       </section>
 
       {/* PROBLEM — horizontal scroll on dark */}
-      <section ref={problemRef} className="relative bg-[#0a0e1a] mb-24 md:mb-32" style={{ height: "340vh" }}>
-        <div className="sticky top-0 flex h-screen flex-col overflow-hidden">
+      <section ref={problemRef} className="relative bg-[#0a0e1a]" style={{ height: "300vh" }}>
+        <div className="sticky top-0 flex h-screen flex-col overflow-hidden pb-20 md:pb-28">
           {/* Header */}
           <div className="mx-auto w-full max-w-7xl px-6 pt-16 md:px-12 md:pt-20">
             <div className="grid gap-8 md:grid-cols-2 md:items-start">
