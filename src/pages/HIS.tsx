@@ -129,12 +129,12 @@ function AnimatedStat({ value }: { value: string }) {
 export default function HIS() {
   const problemImages = [problem1, problem2, problem3, problem4, problem5, problem6];
   const problemTexts = [
-    "A physician orders a medication without seeing the lab result that arrived twenty minutes ago — because the lab and prescribing systems are not integrated.",
-    "A patient is transferred from the ED to a ward and their medication reconciliation is not completed, their allergy history does not follow them.",
-    "A bed manager cannot give the CEO an accurate census at 9am because bed status lives on a whiteboard, in three nursing stations and in two separate IT systems.",
-    "A patient is billed for a procedure that was cancelled and not billed for one that was added — because clinical and billing records are updated manually.",
-    "Clinical governance teams cannot produce meaningful quality reports because clinical data is stored in formats that cannot be queried across departments.",
-    "New physicians spend weeks learning which system holds which information — because there is no single place where the complete patient story lives.",
+    "A physician orders a medication without seeing the laboratory result that arrived twenty minutes ago — because the lab system and the prescribing system are not integrated and no one thought to check.",
+    "A patient is transferred from the ED to a general ward and their care team changes, their medication reconciliation is not completed, and their allergy history does not follow them because the systems do not talk to each other.",
+    "A bed manager cannot give the CEO an accurate census at 9am because bed status lives on a whiteboard, in three nursing stations, and in two separate IT systems that each show different numbers.",
+    "A patient is billed for a procedure that was cancelled and not billed for one that was added — because the clinical record and the billing system are updated manually and independently.",
+    "Clinical governance teams cannot produce meaningful quality reports because clinical data is stored in formats that cannot be queried, combined, or analyzed across departments.",
+    "New physicians joining the hospital spend weeks learning which system holds which information — because there is no single place where the complete patient story lives.",
   ];
   const problemTitles = [
     "Disconnected Orders",
