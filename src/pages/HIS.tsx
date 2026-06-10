@@ -22,7 +22,7 @@ import {
   Network,
 } from "lucide-react";
 import logo from "@/assets/logo.png";
-import aboutHeroVideo from "@/assets/about-hero.mp4";
+import hisHeroVideo from "@/assets/his-hero.mp4.asset.json";
 import { Footer } from "@/components/Footer";
 import { CtaSection } from "@/components/CtaSection";
 import { MainNav } from "@/components/MainNav";
@@ -92,7 +92,7 @@ export default function HIS() {
       {/* HERO */}
       <main className="relative min-h-[90vh] w-full overflow-hidden bg-background">
         <div className="absolute inset-0">
-          <video src={aboutHeroVideo} autoPlay muted loop playsInline className="h-full w-full object-cover" />
+          <video src={hisHeroVideo.url} autoPlay muted loop playsInline className="h-full w-full object-cover" />
           <div className="absolute inset-0 bg-gradient-to-b from-black/75 via-black/60 to-black/85" />
         </div>
 
@@ -118,21 +118,12 @@ export default function HIS() {
               transition={{ duration: 0.8 }}
               className="mx-auto flex max-w-5xl flex-col items-center text-center"
             >
-              <span className="inline-flex items-center gap-2 rounded-full border border-white/20 bg-white/10 px-4 py-1.5 text-xs font-medium uppercase tracking-[0.2em] text-white/90 backdrop-blur">
-                <Sparkles className="h-3.5 w-3.5" /> Hospital Information System
-              </span>
-              <h1 className="mt-6 text-3xl font-bold leading-[1.1] tracking-tight text-white md:text-5xl lg:text-6xl">
+              <h1 className="text-3xl font-bold leading-[1.1] tracking-tight text-white md:text-5xl lg:text-6xl">
                 Every Department. Every Patient.{" "}
                 <span className="bg-clip-text text-transparent" style={{ backgroundImage: "var(--gradient-brand)" }}>
                   Every Decision. One System.
                 </span>
               </h1>
-              <p className="mt-6 max-w-3xl text-base leading-relaxed text-white/85 md:text-lg">
-                Secreta HIS is a fully integrated, enterprise-grade Hospital Information System that connects every
-                department, every workflow and every data point in your facility into one unified clinical and
-                operational platform. Built for the complexity of modern healthcare. Designed for the humans who
-                deliver it.
-              </p>
 
               <div className="mt-9 flex flex-col items-center gap-3 sm:flex-row">
                 <a
@@ -165,8 +156,40 @@ export default function HIS() {
         </div>
       </main>
 
+      {/* INTRO */}
+      <section className="relative z-20 -mt-12 rounded-t-[2.5rem] bg-background px-6 py-24 shadow-[0_-20px_60px_-20px_rgba(0,0,0,0.4)] md:px-12 md:py-32">
+        <div className="mx-auto max-w-5xl text-center">
+          <p
+            className="text-sm font-semibold uppercase tracking-[0.25em]"
+            style={{ color: "var(--brand-blue)" }}
+          >
+            Introducing Secreta HIS
+          </p>
+          <h2 className="mt-6 text-4xl font-bold leading-[1.1] tracking-tight md:text-5xl lg:text-6xl">
+            <span style={{ color: "var(--brand-dark)" }}>One Unified Platform for</span>
+            <br />
+            <span
+              className="bg-clip-text text-transparent"
+              style={{ backgroundImage: "var(--gradient-brand)" }}
+            >
+              Modern Healthcare
+            </span>
+          </h2>
+          <p className="mx-auto mt-8 max-w-3xl text-base leading-relaxed text-muted-foreground md:text-lg">
+            A hospital generates thousands of clinical decisions, administrative transactions, and
+            operational events every single day. When the systems supporting those events are
+            disconnected — different platforms for pharmacy, laboratory, radiology, nursing, billing,
+            and management — information is delayed, duplicated, and lost. Secreta HIS is a fully
+            integrated, enterprise-grade Hospital Information System that connects every department,
+            every workflow, and every data point in your facility into one unified clinical and
+            operational platform. Built for the complexity of modern healthcare. Designed for the
+            humans who deliver it.
+          </p>
+        </div>
+      </section>
+
       {/* PROBLEM */}
-      <section className="relative z-20 -mt-12 rounded-t-[2.5rem] bg-white px-6 pb-24 pt-24 shadow-[0_-20px_60px_-20px_rgba(0,0,0,0.4)] md:px-12">
+      <section className="relative bg-white px-6 pb-24 pt-24 md:px-12">
         <div className="mx-auto max-w-5xl">
           <div className="mx-auto max-w-3xl text-center">
             <span className="inline-flex items-center gap-2 rounded-full bg-red-50 px-3 py-1.5 text-xs font-semibold uppercase tracking-wider text-red-700">
