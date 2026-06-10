@@ -129,12 +129,12 @@ function AnimatedStat({ value }: { value: string }) {
 export default function HIS() {
   const problemImages = [problem1, problem2, problem3, problem4, problem5, problem6];
   const problemTexts = [
-    "A physician orders a medication without seeing the lab result that arrived twenty minutes ago — because the lab and prescribing systems are not integrated.",
-    "A patient is transferred from the ED to a ward and their medication reconciliation is not completed, their allergy history does not follow them.",
-    "A bed manager cannot give the CEO an accurate census at 9am because bed status lives on a whiteboard, in three nursing stations and in two separate IT systems.",
-    "A patient is billed for a procedure that was cancelled and not billed for one that was added — because clinical and billing records are updated manually.",
-    "Clinical governance teams cannot produce meaningful quality reports because clinical data is stored in formats that cannot be queried across departments.",
-    "New physicians spend weeks learning which system holds which information — because there is no single place where the complete patient story lives.",
+    "A physician orders a medication without seeing the laboratory result that arrived twenty minutes ago — because the lab system and the prescribing system are not integrated and no one thought to check.",
+    "A patient is transferred from the ED to a general ward and their care team changes, their medication reconciliation is not completed, and their allergy history does not follow them because the systems do not talk to each other.",
+    "A bed manager cannot give the CEO an accurate census at 9am because bed status lives on a whiteboard, in three nursing stations, and in two separate IT systems that each show different numbers.",
+    "A patient is billed for a procedure that was cancelled and not billed for one that was added — because the clinical record and the billing system are updated manually and independently.",
+    "Clinical governance teams cannot produce meaningful quality reports because clinical data is stored in formats that cannot be queried, combined, or analyzed across departments.",
+    "New physicians joining the hospital spend weeks learning which system holds which information — because there is no single place where the complete patient story lives.",
   ];
   const problemTitles = [
     "Disconnected Orders",
@@ -260,38 +260,30 @@ export default function HIS() {
       </section>
 
       {/* PROBLEM — horizontal scroll on dark */}
-      <section ref={problemRef} className="relative bg-[#0a0e1a]" style={{ height: "300vh" }}>
-        <div className="sticky top-0 flex h-screen flex-col overflow-hidden pb-20 md:pb-28">
+      <section ref={problemRef} className="relative bg-[#0a0e1a]" style={{ height: "320vh" }}>
+        <div className="sticky top-0 flex min-h-screen flex-col overflow-hidden pb-12 md:pb-16">
           {/* Header */}
-          <div className="mx-auto w-full max-w-7xl px-6 pt-16 md:px-12 md:pt-20">
-            <div className="grid gap-8 md:grid-cols-2 md:items-start">
-              <div>
-                <span className="inline-flex items-center gap-2 rounded-full bg-red-500/10 px-3 py-1.5 text-xs font-semibold uppercase tracking-wider text-red-300 ring-1 ring-red-500/20">
-                  <AlertTriangle className="h-3.5 w-3.5" /> The Problem
-                </span>
-                <h2 className="mt-5 text-3xl font-bold tracking-tight text-white md:text-5xl lg:text-6xl">
-                  A Disconnected Hospital Is a{" "}
-                  <span className="bg-clip-text text-transparent" style={{ backgroundImage: "var(--gradient-brand)" }}>
-                    Dangerous Hospital.
-                  </span>
-                </h2>
-              </div>
-              <p className="max-w-md text-base leading-relaxed text-white/60 md:ml-auto md:mt-2 md:text-right md:text-lg">
-                A hospital's information system is its nervous system. When it is fragmented, the
-                whole organism suffers.
-              </p>
-            </div>
+          <div className="mx-auto w-full max-w-7xl px-6 pt-14 md:px-12 md:pt-16">
+            <span className="inline-flex items-center gap-2 rounded-full bg-red-500/10 px-3 py-1.5 text-xs font-semibold uppercase tracking-wider text-red-300 ring-1 ring-red-500/20">
+              <AlertTriangle className="h-3.5 w-3.5" /> The Problem
+            </span>
+            <h2 className="mt-5 max-w-5xl text-3xl font-bold leading-[1.1] tracking-tight text-white md:text-4xl lg:text-5xl">
+              A Disconnected Hospital Is a{" "}
+              <span className="bg-clip-text text-transparent" style={{ backgroundImage: "var(--gradient-brand)" }}>
+                Dangerous Hospital.
+              </span>
+            </h2>
           </div>
 
           {/* Horizontally scrolling cards */}
-          <div className="mt-12 flex flex-1 items-center overflow-hidden">
+          <div className="mt-10 flex flex-1 items-center overflow-hidden md:mt-12">
             <motion.div style={{ x: problemX }} className="flex items-stretch gap-6 px-6 md:gap-8 md:px-12">
               {problemCards.map((card, i) => (
                 <article
                   key={i}
-                  className="flex w-[82vw] shrink-0 flex-col overflow-hidden rounded-[2rem] bg-[#0f1424] shadow-2xl ring-1 ring-white/10 md:w-[460px] lg:w-[520px]"
+                  className="flex w-[82vw] shrink-0 flex-col overflow-hidden rounded-[2rem] bg-[#0f1424] shadow-2xl ring-1 ring-white/10 md:w-[440px] lg:w-[480px]"
                 >
-                  <div className="relative h-[240px] w-full overflow-hidden md:h-[260px]">
+                  <div className="relative h-[190px] w-full overflow-hidden md:h-[210px]">
                     <img
                       src={card.image}
                       alt={card.title}
@@ -300,14 +292,14 @@ export default function HIS() {
                     />
                     <div className="absolute inset-0 bg-gradient-to-t from-[#0f1424] via-[#0f1424]/30 to-transparent" />
                   </div>
-                  <div className="flex flex-1 flex-col p-7 md:p-8">
+                  <div className="flex flex-1 flex-col p-6 md:p-7">
                     <span className="text-xs font-semibold uppercase tracking-[0.3em] text-red-300">
                       0{i + 1} — Risk
                     </span>
-                    <h3 className="mt-3 text-2xl font-bold leading-tight text-white md:text-[28px]">
+                    <h3 className="mt-3 text-xl font-bold leading-tight text-white md:text-2xl">
                       {card.title}
                     </h3>
-                    <p className="mt-4 text-sm leading-relaxed text-white/75 md:text-base">
+                    <p className="mt-3 text-sm leading-relaxed text-white/75">
                       {card.body}
                     </p>
                   </div>
@@ -315,7 +307,15 @@ export default function HIS() {
               ))}
             </motion.div>
           </div>
+        </div>
 
+        {/* Transition line */}
+        <div className="relative mx-auto max-w-4xl px-6 pb-20 text-center md:px-12 md:pb-28">
+          <p className="text-lg leading-relaxed text-white/70 md:text-xl">
+            A hospital's information system is its nervous system. When it is fragmented, the whole
+            organism suffers. When it is unified, everything works better — clinically, operationally,
+            and financially.
+          </p>
         </div>
       </section>
 
