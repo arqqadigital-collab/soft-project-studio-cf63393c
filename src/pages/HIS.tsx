@@ -30,6 +30,7 @@ import {
 } from "lucide-react";
 import logo from "@/assets/logo.png";
 import hisHeroVideo from "@/assets/his-hero.mp4.asset.json";
+import hisCtaVideo from "@/assets/his-cta.mp4.asset.json";
 import { Footer } from "@/components/Footer";
 import { CtaSection } from "@/components/CtaSection";
 import { MainNav } from "@/components/MainNav";
