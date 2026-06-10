@@ -122,8 +122,8 @@ export default function HIS() {
     target: problemRef,
     offset: ["start start", "end end"],
   });
-  // delay horizontal motion: nothing happens for the first ~18% of scroll (vertical breathing room)
-  const problemX = useTransform(problemProgress, [0.18, 1], ["0%", "-83.3333%"]);
+  // vertical breathing room before horizontal scroll, and a settle pause at the end
+  const problemX = useTransform(problemProgress, [0.15, 0.82], ["0%", "-83.3333%"]);
 
   return (
     <>
