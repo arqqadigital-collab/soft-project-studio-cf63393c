@@ -285,27 +285,29 @@ export default function HIS() {
 
           {/* Horizontally scrolling cards */}
           <div className="mt-12 flex flex-1 items-center overflow-hidden">
-            <motion.div style={{ x: problemX }} className="flex gap-6 px-6 md:gap-8 md:px-12">
+            <motion.div style={{ x: problemX }} className="flex items-stretch gap-6 px-6 md:gap-8 md:px-12">
               {problemCards.map((card, i) => (
                 <article
                   key={i}
-                  className="relative flex h-[58vh] w-[82vw] shrink-0 overflow-hidden rounded-[2rem] shadow-2xl md:w-[480px] lg:w-[540px]"
+                  className="flex w-[82vw] shrink-0 flex-col overflow-hidden rounded-[2rem] bg-[#0f1424] shadow-2xl ring-1 ring-white/10 md:w-[460px] lg:w-[520px]"
                 >
-                  <img
-                    src={card.image}
-                    alt={card.title}
-                    loading="lazy"
-                    className="absolute inset-0 h-full w-full object-cover"
-                  />
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/95 via-black/55 to-black/10" />
-                  <div className="relative z-10 flex h-full w-full flex-col justify-end p-7 md:p-10">
+                  <div className="relative h-[240px] w-full overflow-hidden md:h-[260px]">
+                    <img
+                      src={card.image}
+                      alt={card.title}
+                      loading="lazy"
+                      className="h-full w-full object-cover"
+                    />
+                    <div className="absolute inset-0 bg-gradient-to-t from-[#0f1424] via-[#0f1424]/30 to-transparent" />
+                  </div>
+                  <div className="flex flex-1 flex-col p-7 md:p-8">
                     <span className="text-xs font-semibold uppercase tracking-[0.3em] text-red-300">
                       0{i + 1} — Risk
                     </span>
-                    <h3 className="mt-3 text-2xl font-bold leading-tight text-white md:text-3xl">
+                    <h3 className="mt-3 text-2xl font-bold leading-tight text-white md:text-[28px]">
                       {card.title}
                     </h3>
-                    <p className="mt-4 max-w-md text-sm leading-relaxed text-white/80 md:text-base">
+                    <p className="mt-4 text-sm leading-relaxed text-white/75 md:text-base">
                       {card.body}
                     </p>
                   </div>
@@ -313,6 +315,7 @@ export default function HIS() {
               ))}
             </motion.div>
           </div>
+
         </div>
       </section>
 
