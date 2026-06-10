@@ -86,47 +86,27 @@ const menus: Menu[] = [
       {
         label: "Cybersecurity",
         description: "Protect your digital estate",
-        items: [
-          { label: "Identity & Access Management", href: "#" },
-          { label: "Network & Endpoint Security", href: "#" },
-          { label: "Data Protection & Compliance", href: "#" },
-          { label: "Healthcare Cybersecurity", href: "#" },
-        ],
+        href: "#",
       },
       {
         label: "Consulting",
         description: "Strategy and advisory",
-        items: [
-          { label: "Healthcare IT Consulting", href: "#" },
-          { label: "ERP Consulting", href: "#" },
-          { label: "Digital Transformation", href: "#" },
-        ],
+        href: "#",
       },
       {
         label: "Implementation & Integration",
         description: "Deploy and integrate",
-        items: [
-          { label: "Integration & Interoperability Services", href: "#" },
-          { label: "Data Migration", href: "#" },
-        ],
+        href: "#",
       },
       {
         label: "Staff Aug & Managed Services",
         description: "Talent and managed ops",
-        items: [
-          { label: "Healthcare IT Professionals", href: "#" },
-          { label: "EMR Specialists (Epic/Cerner/InterSystems)", href: "#" },
-          { label: "Managed IT Services", href: "#" },
-          { label: "ERP & Tech Talent", href: "#" },
-        ],
+        href: "#",
       },
       {
         label: "Learning & Knowledge",
         description: "Enablement and training",
-        items: [
-          { label: "Totara LMS", href: "#" },
-          { label: "EndNote Reference Management", href: "#" },
-        ],
+        href: "#",
       },
     ],
   },
