@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
-import { useRef } from "react";
-import { motion, useScroll, useTransform } from "framer-motion";
+import { useRef, useEffect, useState } from "react";
+import { motion, useScroll, useTransform, useInView, animate } from "framer-motion";
 import problem1 from "@/assets/his/problem-1.jpg";
 import problem2 from "@/assets/his/problem-2.jpg";
 import problem3 from "@/assets/his/problem-3.jpg";
