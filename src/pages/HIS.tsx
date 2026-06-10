@@ -31,6 +31,7 @@ import {
 import logo from "@/assets/logo.png";
 import hisHeroVideo from "@/assets/his-hero.mp4.asset.json";
 import hisCtaVideo from "@/assets/his-cta.mp4.asset.json";
+import bgSteps from "@/assets/bg-steps.png.asset.json";
 import { Footer } from "@/components/Footer";
 import { CtaSection } from "@/components/CtaSection";
 import { MainNav } from "@/components/MainNav";
@@ -420,8 +421,16 @@ export default function HIS() {
       </section>
 
       {/* HOW IT WORKS */}
-      <section className="relative px-6 py-24 md:px-12" style={{ backgroundColor: "#0a0a0a" }}>
-        <div className="mx-auto max-w-7xl">
+      <section
+        className="relative px-6 py-24 md:px-12"
+        style={{
+          backgroundImage: `linear-gradient(rgba(8,14,26,0.78), rgba(8,14,26,0.88)), url(${bgSteps.url})`,
+          backgroundSize: "cover",
+          backgroundPosition: "center",
+          backgroundAttachment: "fixed",
+        }}
+      >
+        <div className="relative mx-auto max-w-7xl">
           <div className="mx-auto max-w-3xl text-center">
             <span className="inline-flex items-center gap-2 rounded-full bg-white/10 px-3 py-1.5 text-xs font-semibold uppercase tracking-wider text-white/80">
               <Workflow className="h-3.5 w-3.5" /> How It Works
