@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
-import { useRef } from "react";
-import { motion, useScroll, useTransform } from "framer-motion";
+import { useRef, useEffect, useState } from "react";
+import { motion, useScroll, useTransform, useInView, animate } from "framer-motion";
 import problem1 from "@/assets/his/problem-1.jpg";
 import problem2 from "@/assets/his/problem-2.jpg";
 import problem3 from "@/assets/his/problem-3.jpg";
@@ -93,6 +93,35 @@ const trustChips = [
   "Cloud & On-Premise",
 ];
 
+function AnimatedStat({ value }: { value: string }) {
+  // Split into prefix, numeric, suffix. If no number found (e.g. "Zero"), render as-is.
+  const match = value.match(/^([^\d]*)(\d+(?:\.\d+)?)(.*)$/);
+  const ref = useRef<HTMLSpanElement>(null);
+  const inView = useInView(ref, { once: true, margin: "-80px" });
+  const [display, setDisplay] = useState(match ? (match[2].includes(".") ? "0.0" : "0") : value);
+
+  useEffect(() => {
+    if (!match || !inView) return;
+    const end = parseFloat(match[2]);
+    const decimals = match[2].includes(".") ? (match[2].split(".")[1]?.length ?? 0) : 0;
+    const controls = animate(0, end, {
+      duration: 2,
+      ease: "easeOut",
+      onUpdate: (v) => setDisplay(v.toFixed(decimals)),
+    });
+    return () => controls.stop();
+  }, [inView, match]);
+
+  if (!match) return <span ref={ref}>{value}</span>;
+  return (
+    <span ref={ref}>
+      {match[1]}
+      {display}
+      {match[3]}
+    </span>
+  );
+}
+
 export default function HIS() {
   const problemImages = [problem1, problem2, problem3, problem4, problem5, problem6];
   const problemTexts = [
@@ -122,8 +151,8 @@ export default function HIS() {
     target: problemRef,
     offset: ["start start", "end end"],
   });
-  // delay horizontal motion: nothing happens for the first ~18% of scroll (vertical breathing room)
-  const problemX = useTransform(problemProgress, [0.18, 1], ["0%", "-83.3333%"]);
+  // vertical breathing room before horizontal scroll, and a settle pause at the end
+  const problemX = useTransform(problemProgress, [0.15, 0.82], ["0%", "-83.3333%"]);
 
   return (
     <>
@@ -227,8 +256,8 @@ export default function HIS() {
       </section>
 
       {/* PROBLEM — horizontal scroll on dark */}
-      <section ref={problemRef} className="relative bg-[#0a0e1a] mb-24 md:mb-32" style={{ height: "340vh" }}>
-        <div className="sticky top-0 flex h-screen flex-col overflow-hidden">
+      <section ref={problemRef} className="relative bg-[#0a0e1a]" style={{ height: "300vh" }}>
+        <div className="sticky top-0 flex h-screen flex-col overflow-hidden pb-20 md:pb-28">
           {/* Header */}
           <div className="mx-auto w-full max-w-7xl px-6 pt-16 md:px-12 md:pt-20">
             <div className="grid gap-8 md:grid-cols-2 md:items-start">
@@ -411,7 +440,7 @@ export default function HIS() {
                   className="bg-clip-text text-4xl font-bold tracking-tight text-transparent md:text-5xl"
                   style={{ backgroundImage: "var(--gradient-brand)" }}
                 >
-                  {s.value}
+                  <AnimatedStat value={s.value} />
                 </div>
                 <p className="mt-3 text-sm leading-relaxed text-white/75">{s.label}</p>
               </div>
