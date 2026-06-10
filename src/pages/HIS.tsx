@@ -1,5 +1,12 @@
 import { Link } from "react-router-dom";
-import { motion } from "framer-motion";
+import { useRef } from "react";
+import { motion, useScroll, useTransform } from "framer-motion";
+import problem1 from "@/assets/his/problem-1.jpg";
+import problem2 from "@/assets/his/problem-2.jpg";
+import problem3 from "@/assets/his/problem-3.jpg";
+import problem4 from "@/assets/his/problem-4.jpg";
+import problem5 from "@/assets/his/problem-5.jpg";
+import problem6 from "@/assets/his/problem-6.jpg";
 import {
   ArrowRight,
   Sparkles,
@@ -87,6 +94,36 @@ const trustChips = [
 ];
 
 export default function HIS() {
+  const problemImages = [problem1, problem2, problem3, problem4, problem5, problem6];
+  const problemTexts = [
+    "A physician orders a medication without seeing the lab result that arrived twenty minutes ago — because the lab and prescribing systems are not integrated.",
+    "A patient is transferred from the ED to a ward and their medication reconciliation is not completed, their allergy history does not follow them.",
+    "A bed manager cannot give the CEO an accurate census at 9am because bed status lives on a whiteboard, in three nursing stations and in two separate IT systems.",
+    "A patient is billed for a procedure that was cancelled and not billed for one that was added — because clinical and billing records are updated manually.",
+    "Clinical governance teams cannot produce meaningful quality reports because clinical data is stored in formats that cannot be queried across departments.",
+    "New physicians spend weeks learning which system holds which information — because there is no single place where the complete patient story lives.",
+  ];
+  const problemTitles = [
+    "Disconnected Orders",
+    "Lost in Transfer",
+    "Invisible Census",
+    "Billing Drift",
+    "Unreportable Data",
+    "Tribal Knowledge",
+  ];
+  const problemCards = problemImages.map((img, i) => ({
+    image: img,
+    title: problemTitles[i],
+    body: problemTexts[i],
+  }));
+
+  const problemRef = useRef<HTMLDivElement>(null);
+  const { scrollYProgress: problemProgress } = useScroll({
+    target: problemRef,
+    offset: ["start start", "end end"],
+  });
+  const problemX = useTransform(problemProgress, [0, 1], ["0%", "-83.3333%"]);
+
   return (
     <>
       {/* HERO */}
@@ -188,39 +225,64 @@ export default function HIS() {
         </div>
       </section>
 
-      {/* PROBLEM */}
-      <section className="relative bg-white px-6 pb-24 pt-24 md:px-12">
-        <div className="mx-auto max-w-5xl">
-          <div className="mx-auto max-w-3xl text-center">
-            <span className="inline-flex items-center gap-2 rounded-full bg-red-50 px-3 py-1.5 text-xs font-semibold uppercase tracking-wider text-red-700">
-              <AlertTriangle className="h-3.5 w-3.5" /> The Problem
-            </span>
-            <h2 className="mt-5 text-3xl font-bold tracking-tight text-foreground md:text-5xl">
-              A Disconnected Hospital Is a Dangerous Hospital.
-            </h2>
-          </div>
-
-          <div className="mt-12 grid gap-5 md:grid-cols-2">
-            {[
-              "A physician orders a medication without seeing the lab result that arrived twenty minutes ago — because the lab and prescribing systems are not integrated.",
-              "A patient is transferred from the ED to a ward and their medication reconciliation is not completed, their allergy history does not follow them.",
-              "A bed manager cannot give the CEO an accurate census at 9am because bed status lives on a whiteboard, in three nursing stations and in two separate IT systems.",
-              "A patient is billed for a procedure that was cancelled and not billed for one that was added — because clinical and billing records are updated manually.",
-              "Clinical governance teams cannot produce meaningful quality reports because clinical data is stored in formats that cannot be queried across departments.",
-              "New physicians spend weeks learning which system holds which information — because there is no single place where the complete patient story lives.",
-            ].map((t) => (
-              <div key={t} className="rounded-2xl border border-border bg-card p-6 text-foreground/80">
-                {t}
+      {/* PROBLEM — horizontal scroll on dark */}
+      <section ref={problemRef} className="relative bg-[#0a0e1a]" style={{ height: "320vh" }}>
+        <div className="sticky top-0 flex h-screen flex-col overflow-hidden">
+          {/* Header */}
+          <div className="mx-auto w-full max-w-7xl px-6 pt-16 md:px-12 md:pt-20">
+            <div className="grid gap-8 md:grid-cols-2 md:items-end">
+              <div>
+                <span className="inline-flex items-center gap-2 rounded-full bg-red-500/10 px-3 py-1.5 text-xs font-semibold uppercase tracking-wider text-red-300 ring-1 ring-red-500/20">
+                  <AlertTriangle className="h-3.5 w-3.5" /> The Problem
+                </span>
+                <h2 className="mt-5 text-3xl font-bold tracking-tight text-white md:text-5xl lg:text-6xl">
+                  A Disconnected Hospital Is a{" "}
+                  <span className="bg-clip-text text-transparent" style={{ backgroundImage: "var(--gradient-brand)" }}>
+                    Dangerous Hospital.
+                  </span>
+                </h2>
               </div>
-            ))}
+              <p className="max-w-md text-base leading-relaxed text-white/60 md:ml-auto md:text-right md:text-lg">
+                A hospital's information system is its nervous system. When it is fragmented, the
+                whole organism suffers.
+              </p>
+            </div>
           </div>
 
-          <p className="mx-auto mt-12 max-w-3xl text-center text-lg italic leading-relaxed text-foreground/70">
-            A hospital's information system is its nervous system. When it is fragmented, the whole organism suffers.
-            When it is unified, everything works better — clinically, operationally and financially.
-          </p>
+          {/* Horizontally scrolling cards */}
+          <div className="mt-12 flex flex-1 items-center overflow-hidden">
+            <motion.div style={{ x: problemX }} className="flex gap-6 px-6 md:gap-8 md:px-12">
+              {problemCards.map((card, i) => (
+                <article
+                  key={i}
+                  className="relative flex h-[58vh] w-[82vw] shrink-0 overflow-hidden rounded-[2rem] shadow-2xl md:w-[480px] lg:w-[540px]"
+                >
+                  <img
+                    src={card.image}
+                    alt={card.title}
+                    loading="lazy"
+                    className="absolute inset-0 h-full w-full object-cover"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/95 via-black/55 to-black/10" />
+                  <div className="relative z-10 flex h-full w-full flex-col justify-end p-7 md:p-10">
+                    <span className="text-xs font-semibold uppercase tracking-[0.3em] text-red-300">
+                      0{i + 1} — Risk
+                    </span>
+                    <h3 className="mt-3 text-2xl font-bold leading-tight text-white md:text-3xl">
+                      {card.title}
+                    </h3>
+                    <p className="mt-4 max-w-md text-sm leading-relaxed text-white/80 md:text-base">
+                      {card.body}
+                    </p>
+                  </div>
+                </article>
+              ))}
+            </motion.div>
+          </div>
         </div>
       </section>
+
+
 
       {/* SOLUTION / FEATURES */}
       <section
