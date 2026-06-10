@@ -189,7 +189,7 @@ export default function HIS() {
       </section>
 
       {/* PROBLEM */}
-      <section className="relative z-20 -mt-12 rounded-t-[2.5rem] bg-white px-6 pb-24 pt-24 shadow-[0_-20px_60px_-20px_rgba(0,0,0,0.4)] md:px-12">
+      <section className="relative bg-white px-6 pb-24 pt-24 md:px-12">
         <div className="mx-auto max-w-5xl">
           <div className="mx-auto max-w-3xl text-center">
             <span className="inline-flex items-center gap-2 rounded-full bg-red-50 px-3 py-1.5 text-xs font-semibold uppercase tracking-wider text-red-700">
