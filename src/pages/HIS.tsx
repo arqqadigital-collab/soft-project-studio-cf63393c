@@ -126,6 +126,66 @@ function AnimatedStat({ value }: { value: string }) {
   );
 }
 
+function ExpandingJourney({ steps }: { steps: typeof journey }) {
+  const [active, setActive] = useState(0);
+  return (
+    <div className="mt-14 flex flex-col gap-3 md:flex-row md:gap-4" style={{ minHeight: "520px" }}>
+      {steps.map((step, i) => {
+        const Icon = step.icon;
+        const isActive = active === i;
+        return (
+          <motion.div
+            key={step.title}
+            onMouseEnter={() => setActive(i)}
+            onClick={() => setActive(i)}
+            animate={{ flexGrow: isActive ? 4 : 1 }}
+            transition={{ duration: 0.55, ease: [0.4, 0, 0.2, 1] }}
+            className="group relative cursor-pointer overflow-hidden rounded-3xl border border-white/10 bg-white/5 p-7 md:p-8"
+            style={{ flexBasis: 0, minWidth: 0 }}
+          >
+            <div
+              className="flex h-14 w-14 items-center justify-center rounded-2xl text-white shadow-[var(--shadow-brand)]"
+              style={{ background: "var(--gradient-brand)" }}
+            >
+              <Icon className="h-7 w-7" />
+            </div>
+
+            <div className="mt-6 flex h-[calc(100%-3.5rem)] flex-col">
+              <motion.div
+                animate={{ opacity: isActive ? 1 : 0 }}
+                transition={{ duration: 0.3, delay: isActive ? 0.25 : 0 }}
+                className="flex-1"
+              >
+                {isActive && (
+                  <>
+                    <div className="text-xs font-bold uppercase tracking-[0.2em] text-white/50">
+                      Step {i + 1}
+                    </div>
+                    <h3 className="mt-2 text-2xl font-bold text-white md:text-3xl">{step.title}</h3>
+                    <p className="mt-4 max-w-md text-base leading-relaxed text-white/70">{step.body}</p>
+                  </>
+                )}
+              </motion.div>
+
+              {!isActive && (
+                <div className="mt-auto">
+                  <div className="text-xs font-bold uppercase tracking-[0.2em] text-white/40">
+                    Step {i + 1}
+                  </div>
+                  <h3 className="mt-2 text-lg font-semibold text-white/90 [writing-mode:horizontal-tb] md:text-xl">
+                    {step.title}
+                  </h3>
+                </div>
+              )}
+            </div>
+          </motion.div>
+        );
+      })}
+    </div>
+  );
+}
+
+
 export default function HIS() {
   const problemImages = [problem1, problem2, problem3, problem4, problem5, problem6];
   const problemTexts = [
