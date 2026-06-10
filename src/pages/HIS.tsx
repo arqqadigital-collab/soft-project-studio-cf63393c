@@ -95,30 +95,33 @@ const trustChips = [
 ];
 
 function AnimatedStat({ value }: { value: string }) {
-  // Split into prefix, numeric, suffix. If no number found (e.g. "Zero"), render as-is.
-  const match = value.match(/^([^\d]*)(\d+(?:\.\d+)?)(.*)$/);
   const ref = useRef<HTMLSpanElement>(null);
   const inView = useInView(ref, { once: true, margin: "-80px" });
-  const [display, setDisplay] = useState(match ? (match[2].includes(".") ? "0.0" : "0") : value);
+  const match = value.match(/^([^\d]*)(\d+(?:\.\d+)?)(.*)$/);
+  const hasNumber = !!match;
+  const prefix = match?.[1] ?? "";
+  const numStr = match?.[2] ?? "";
+  const suffix = match?.[3] ?? "";
+  const end = hasNumber ? parseFloat(numStr) : 0;
+  const decimals = numStr.includes(".") ? (numStr.split(".")[1]?.length ?? 0) : 0;
+  const [display, setDisplay] = useState(hasNumber ? (0).toFixed(decimals) : value);
 
   useEffect(() => {
-    if (!match || !inView) return;
-    const end = parseFloat(match[2]);
-    const decimals = match[2].includes(".") ? (match[2].split(".")[1]?.length ?? 0) : 0;
+    if (!hasNumber || !inView) return;
     const controls = animate(0, end, {
       duration: 2,
       ease: "easeOut",
       onUpdate: (v) => setDisplay(v.toFixed(decimals)),
     });
     return () => controls.stop();
-  }, [inView, match]);
+  }, [inView, hasNumber, end, decimals]);
 
-  if (!match) return <span ref={ref}>{value}</span>;
+  if (!hasNumber) return <span ref={ref}>{value}</span>;
   return (
     <span ref={ref}>
-      {match[1]}
+      {prefix}
       {display}
-      {match[3]}
+      {suffix}
     </span>
   );
 }
