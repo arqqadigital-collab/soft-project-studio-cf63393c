@@ -141,7 +141,7 @@ function ExpandingJourney({ steps }: { steps: typeof journey }) {
             onClick={() => setActive(i)}
             animate={{ flexGrow: isActive ? 4 : 1 }}
             transition={{ duration: 0.55, ease: [0.4, 0, 0.2, 1] }}
-            className="group relative cursor-pointer overflow-hidden rounded-3xl border border-white/10 bg-white/5 p-7 md:p-8"
+            className="group relative cursor-pointer overflow-hidden rounded-3xl border border-border bg-card p-7 md:p-8"
             style={{ flexBasis: 0, minWidth: 0 }}
           >
             <div
@@ -159,21 +159,21 @@ function ExpandingJourney({ steps }: { steps: typeof journey }) {
               >
                 {isActive && (
                   <>
-                    <div className="text-xs font-bold uppercase tracking-[0.2em] text-white/50">
+                    <div className="text-xs font-bold uppercase tracking-[0.2em] text-foreground/50">
                       Step {i + 1}
                     </div>
-                    <h3 className="mt-2 text-2xl font-bold text-white md:text-3xl">{step.title}</h3>
-                    <p className="mt-4 max-w-md text-base leading-relaxed text-white/70">{step.body}</p>
+                    <h3 className="mt-2 text-2xl font-bold text-foreground md:text-3xl">{step.title}</h3>
+                    <p className="mt-4 max-w-md text-base leading-relaxed text-foreground/70">{step.body}</p>
                   </>
                 )}
               </motion.div>
 
               {!isActive && (
                 <div className="mt-auto">
-                  <div className="text-xs font-bold uppercase tracking-[0.2em] text-white/40">
+                  <div className="text-xs font-bold uppercase tracking-[0.2em] text-foreground/40">
                     Step {i + 1}
                   </div>
-                  <h3 className="mt-2 text-lg font-semibold text-white/90 [writing-mode:horizontal-tb] md:text-xl">
+                  <h3 className="mt-2 text-lg font-semibold text-foreground/90 [writing-mode:horizontal-tb] md:text-xl">
                     {step.title}
                   </h3>
                 </div>
