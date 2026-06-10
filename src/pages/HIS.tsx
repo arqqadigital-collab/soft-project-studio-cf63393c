@@ -308,6 +308,7 @@ export default function HIS() {
             </motion.div>
           </div>
         </div>
+      </section>
 
 
 
