@@ -19,7 +19,7 @@ const menus: Menu[] = [
         label: "Hospital & Clinical Systems",
         description: "Core hospital and clinic platforms",
         items: [
-          { label: "Hospital Information System (HIS)", href: "#" },
+          { label: "Hospital Information System (HIS)", to: "/healthcare/his" },
           { label: "Dental Management Suite", href: "#" },
           { label: "Laboratory Information System (LIS)", href: "#" },
           { label: "Radiology Information System (RIS)", href: "#" },

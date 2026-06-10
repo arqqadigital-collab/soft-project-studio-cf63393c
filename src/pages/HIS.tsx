@@ -1,0 +1,457 @@
+import { Link } from "react-router-dom";
+import { motion } from "framer-motion";
+import {
+  ArrowRight,
+  Sparkles,
+  AlertTriangle,
+  CheckCircle2,
+  UserPlus,
+  CalendarCheck,
+  BedDouble,
+  FileText,
+  ClipboardList,
+  HeartPulse,
+  Pill,
+  FlaskConical,
+  Scan,
+  Stethoscope,
+  Receipt,
+  BarChart3,
+  Workflow,
+  ShieldCheck,
+  Network,
+} from "lucide-react";
+import logo from "@/assets/logo.png";
+import aboutHeroVideo from "@/assets/about-hero.mp4";
+import { Footer } from "@/components/Footer";
+import { CtaSection } from "@/components/CtaSection";
+import { MainNav } from "@/components/MainNav";
+
+const features = [
+  { icon: UserPlus, title: "Patient Registration & Master Patient Index", body: "Capture complete demographics, identity verification, insurance and consent at first registration. A Master Patient Index ensures every patient has one unique record across your facility — eliminating duplicates and merging fragmented histories. Biometric identity verification is available at registration and every subsequent point of care." },
+  { icon: CalendarCheck, title: "Outpatient & Appointment Management", body: "Manage the full outpatient cycle — booking, scheduling, waiting lists, check-in, consultation documentation and post-consultation workflow. No-show management, recall scheduling and referral tracking are integrated into the same workflow." },
+  { icon: BedDouble, title: "Inpatient Admission, Transfer & Discharge", body: "Manage every stage of the inpatient journey with real-time bed visibility across every ward. Discharge summaries are generated from structured clinical data — not written from scratch under time pressure." },
+  { icon: FileText, title: "Electronic Medical Records", body: "A complete longitudinal EMR — problem lists, diagnoses, medications, allergies, vital signs, clinical notes, results, imaging and correspondence — accessible to every authorized clinician. One source of truth. No paper backup." },
+  { icon: ClipboardList, title: "Physician Order Management & CPOE", body: "Physicians enter all orders electronically with clinical decision support running at the point of every order — drug interactions, allergy alerts, dose validation and duplicate detection. Orders route instantly to the receiving department." },
+  { icon: HeartPulse, title: "Nursing Clinical Documentation", body: "Structured assessments, care plans, vitals, fluid balance, wound and pain scoring, fall risk and pressure injury documentation — all electronic, all connected, all visible to the medical team in real time." },
+  { icon: Pill, title: "Pharmacy & Medication Management", body: "A closed-loop medication system — prescribing through pharmacy verification, dispensing and barcode-verified bedside administration. Every dose checked, every administration verified, every record current." },
+  { icon: FlaskConical, title: "Laboratory Information System", body: "Integrated lab workflows — sample registration, ordering, result entry, validation and delivery — fully connected to the clinical record. Critical values trigger automatic alerts. Result trends visible without leaving the chart." },
+  { icon: Scan, title: "Radiology Information System", body: "Integrated radiology order management, scheduling, DICOM image linking and structured reporting. PACS integration delivers images alongside reports without a separate system login." },
+  { icon: Stethoscope, title: "Operating Theatre & Surgical Management", body: "Surgical scheduling, pre-op assessment, operative and anesthesia records, implant tracking, recovery and post-op care — all in the HIS. Theatre utilization and outcomes reported automatically." },
+  { icon: Receipt, title: "Revenue Cycle & Billing Management", body: "Charges are captured automatically from clinical activity and flow into billing without manual entry. Pre-authorization, claims, adjudication, denials and patient payments — all managed within the HIS." },
+  { icon: BarChart3, title: "Clinical Analytics & Executive Reporting", body: "Real-time dashboards for census, occupancy, length of stay, readmissions, infections, surgical outcomes, revenue cycle and productivity — without manual data compilation." },
+];
+
+const journey = [
+  { icon: UserPlus, title: "Registration", body: "Patient registered with verified identity and complete demographics. A unique master record is created or retrieved. Duplicate detection prevents fragmented histories." },
+  { icon: CalendarCheck, title: "Outpatient Consultation", body: "Appointment conducted with full clinical history visible. The physician documents, orders, prescribes and refers — all in one screen, all in one workflow." },
+  { icon: BedDouble, title: "Admission", body: "If admission is required, the patient moves from outpatient directly into inpatient workflow. Bed assignment, assessment, reconciliation and nursing documentation begin immediately." },
+  { icon: HeartPulse, title: "Inpatient Care", body: "Every clinical event — rounds, assessments, investigations, procedures, medications, transfers — is documented in the unified record with continuous decision support." },
+  { icon: FileText, title: "Discharge", body: "Discharge planning begins at admission. The summary is generated from structured data. Medications are reconciled and follow-up appointments booked through the patient portal." },
+  { icon: Receipt, title: "Billing & Settlement", body: "All clinical activity is captured automatically. Bills are generated from the clinical record, claims submitted electronically and payment reconciled — closing the financial and clinical record together." },
+];
+
+const stats = [
+  { value: "1.2 days", label: "Average reduction in length of stay within 12 months of full HIS go-live" },
+  { value: "11%", label: "Average increase in net revenue per admission through automated charge capture" },
+  { value: "35%", label: "Reduction in IT operational cost by replacing point solutions with unified HIS" },
+  { value: "94%", label: "First-pass insurance claim acceptance with integrated revenue cycle management" },
+  { value: "Zero", label: "Medication reconciliation failures reported across closed-loop medication clients" },
+  { value: "100%", label: "Of HIS clients pursuing EMRAM Stage 6 achieved it within their target timeline" },
+];
+
+const integrations = [
+  { title: "National Platforms", items: ["NPHIES", "Malaffi", "Riayati", "ZATCA Fatoora", "UAE Emirates ID", "Saudi Absher", "Qatar NHIX", "Bahrain NHRA", "Wasfaty"] },
+  { title: "Compatible Third-Party Systems", items: ["Epic", "Cerner", "Agfa", "Philips IntelliSpace", "GE Centricity", "Omnicell", "Pyxis", "SAP", "Oracle", "Microsoft Dynamics", "Xero"] },
+  { title: "Supported Standards", items: ["HL7 v2", "HL7 FHIR R4", "DICOM 3.0", "IHE Profiles", "SNOMED CT", "LOINC", "ICD-10", "CPT", "DRG Groupers", "REST API", "GCC NHP"] },
+];
+
+const faqs = [
+  { q: "How long does a full HIS implementation take?", a: "A community hospital typically completes in 4 to 6 months. A large general hospital with full module deployment and multiple third-party integrations typically takes 9 to 18 months. A phased approach — going live with core modules first and adding clinical modules progressively — is recommended for large facilities." },
+  { q: "Can Secreta HIS replace our existing systems module by module, or does it require a full replacement?", a: "Both approaches are supported. Some clients implement Secreta HIS as a full replacement in a phased go-live. Others implement specific modules — such as the EMR or revenue cycle — alongside existing systems, using integration interfaces, and migrate additional modules over time." },
+  { q: "How is clinical data migrated from our existing systems?", a: "Data migration is managed by Secreta's dedicated team. Clinical data is extracted, transformed to Secreta's data model, validated for completeness and accuracy, and loaded into the new system before go-live. A detailed migration plan is produced before any data movement begins." },
+  { q: "Does the system support both cloud and on-premise deployment?", a: "Yes. Secreta HIS is available as a cloud-hosted solution on regionally compliant infrastructure — including within-country hosting for KSA, UAE and Qatar — and as on-premise. Hybrid deployment is also supported." },
+  { q: "How does the system handle multiple facilities within the same health group?", a: "Multi-site deployment is a core capability of the Health System tier. Each facility runs its own clinical environment with its own configuration, while group leadership accesses a consolidated view — unified patient records, group analytics and centralized governance reporting." },
+  { q: "What clinical decision support is included in the HIS?", a: "Drug interaction checking, allergy cross-referencing, dose validation, duplicate detection, sepsis screening, early warning score automation, preventive care reminders, evidence-based order sets and condition-specific pathways. The CDS library is configurable by your clinical informatics team." },
+  { q: "How does the system support nursing handover and shift communication?", a: "Structured handover tools are built in — allowing nurses to complete a standardized handover record for every patient, flagging active concerns, pending results and anticipated events. Handover completion is tracked and reported as part of the clinical documentation." },
+  { q: "What training and support are provided after go-live?", a: "Every deployment includes a structured pre-go-live training program by role, on-site go-live support, and ongoing support through a dedicated team with SLA-defined response times. Updates, compliance releases and new features are included." },
+];
+
+const trustChips = [
+  "300+ Hospitals",
+  "HIMSS EMRAM Stage 6 Ready",
+  "HL7 FHIR & DICOM Native",
+  "HIPAA · GDPR · GCC Compliant",
+  "Arabic & English",
+  "Cloud & On-Premise",
+];
+
+export default function HIS() {
+  return (
+    <>
+      {/* HERO */}
+      <main className="relative min-h-[90vh] w-full overflow-hidden bg-background">
+        <div className="absolute inset-0">
+          <video src={aboutHeroVideo} autoPlay muted loop playsInline className="h-full w-full object-cover" />
+          <div className="absolute inset-0 bg-gradient-to-b from-black/75 via-black/60 to-black/85" />
+        </div>
+
+        <div className="relative z-10 flex min-h-[90vh] flex-col">
+          <header className="flex items-center justify-between px-6 py-6 md:px-12">
+            <Link to="/">
+              <img src={logo} alt="SBS — Superior Business Solutions" className="h-12 w-auto md:h-14" />
+            </Link>
+            <MainNav />
+            <Link
+              to="/"
+              className="rounded-full px-7 py-3 text-sm font-semibold text-white shadow-[var(--shadow-brand)] transition-transform hover:scale-105"
+              style={{ background: "var(--gradient-brand)" }}
+            >
+              Get Started
+            </Link>
+          </header>
+
+          <section className="flex flex-1 items-center justify-center px-6 pb-28 pt-4 md:px-12">
+            <motion.div
+              initial={{ opacity: 0, y: 30 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.8 }}
+              className="mx-auto flex max-w-5xl flex-col items-center text-center"
+            >
+              <span className="inline-flex items-center gap-2 rounded-full border border-white/20 bg-white/10 px-4 py-1.5 text-xs font-medium uppercase tracking-[0.2em] text-white/90 backdrop-blur">
+                <Sparkles className="h-3.5 w-3.5" /> Hospital Information System
+              </span>
+              <h1 className="mt-6 text-3xl font-bold leading-[1.1] tracking-tight text-white md:text-5xl lg:text-6xl">
+                Every Department. Every Patient.{" "}
+                <span className="bg-clip-text text-transparent" style={{ backgroundImage: "var(--gradient-brand)" }}>
+                  Every Decision. One System.
+                </span>
+              </h1>
+              <p className="mt-6 max-w-3xl text-base leading-relaxed text-white/85 md:text-lg">
+                Secreta HIS is a fully integrated, enterprise-grade Hospital Information System that connects every
+                department, every workflow and every data point in your facility into one unified clinical and
+                operational platform. Built for the complexity of modern healthcare. Designed for the humans who
+                deliver it.
+              </p>
+
+              <div className="mt-9 flex flex-col items-center gap-3 sm:flex-row">
+                <a
+                  href="#contact"
+                  className="inline-flex items-center gap-2 rounded-full px-8 py-4 text-sm font-semibold text-white shadow-[var(--shadow-brand)] transition-transform hover:scale-105"
+                  style={{ background: "var(--gradient-brand)" }}
+                >
+                  See Secreta HIS in Action <ArrowRight className="h-4 w-4" />
+                </a>
+                <a
+                  href="#contact"
+                  className="inline-flex items-center gap-2 rounded-full border border-white/30 bg-white/5 px-8 py-4 text-sm font-semibold text-white backdrop-blur transition-colors hover:bg-white/15"
+                >
+                  Book an Enterprise Demonstration
+                </a>
+              </div>
+
+              <div className="mt-10 flex flex-wrap items-center justify-center gap-2">
+                {trustChips.map((c) => (
+                  <span
+                    key={c}
+                    className="rounded-full border border-white/15 bg-white/5 px-3 py-1.5 text-xs text-white/80 backdrop-blur"
+                  >
+                    {c}
+                  </span>
+                ))}
+              </div>
+            </motion.div>
+          </section>
+        </div>
+      </main>
+
+      {/* PROBLEM */}
+      <section className="relative z-20 -mt-12 rounded-t-[2.5rem] bg-white px-6 pb-24 pt-24 shadow-[0_-20px_60px_-20px_rgba(0,0,0,0.4)] md:px-12">
+        <div className="mx-auto max-w-5xl">
+          <div className="mx-auto max-w-3xl text-center">
+            <span className="inline-flex items-center gap-2 rounded-full bg-red-50 px-3 py-1.5 text-xs font-semibold uppercase tracking-wider text-red-700">
+              <AlertTriangle className="h-3.5 w-3.5" /> The Problem
+            </span>
+            <h2 className="mt-5 text-3xl font-bold tracking-tight text-foreground md:text-5xl">
+              A Disconnected Hospital Is a Dangerous Hospital.
+            </h2>
+          </div>
+
+          <div className="mt-12 grid gap-5 md:grid-cols-2">
+            {[
+              "A physician orders a medication without seeing the lab result that arrived twenty minutes ago — because the lab and prescribing systems are not integrated.",
+              "A patient is transferred from the ED to a ward and their medication reconciliation is not completed, their allergy history does not follow them.",
+              "A bed manager cannot give the CEO an accurate census at 9am because bed status lives on a whiteboard, in three nursing stations and in two separate IT systems.",
+              "A patient is billed for a procedure that was cancelled and not billed for one that was added — because clinical and billing records are updated manually.",
+              "Clinical governance teams cannot produce meaningful quality reports because clinical data is stored in formats that cannot be queried across departments.",
+              "New physicians spend weeks learning which system holds which information — because there is no single place where the complete patient story lives.",
+            ].map((t) => (
+              <div key={t} className="rounded-2xl border border-border bg-card p-6 text-foreground/80">
+                {t}
+              </div>
+            ))}
+          </div>
+
+          <p className="mx-auto mt-12 max-w-3xl text-center text-lg italic leading-relaxed text-foreground/70">
+            A hospital's information system is its nervous system. When it is fragmented, the whole organism suffers.
+            When it is unified, everything works better — clinically, operationally and financially.
+          </p>
+        </div>
+      </section>
+
+      {/* SOLUTION / FEATURES */}
+      <section
+        className="px-6 py-24 md:px-12"
+        style={{ background: "color-mix(in oklab, var(--brand-blue) 4%, var(--background))" }}
+      >
+        <div className="mx-auto max-w-6xl">
+          <div className="mx-auto max-w-3xl text-center">
+            <span className="text-xs font-semibold uppercase tracking-[0.3em] text-[color:var(--brand-blue)]">
+              The Platform
+            </span>
+            <h2 className="mt-4 text-3xl font-bold tracking-tight text-foreground md:text-5xl">
+              Every Core Hospital Function. One Integrated Platform.
+            </h2>
+            <p className="mt-5 text-base leading-relaxed text-foreground/70 md:text-lg">
+              From the moment a patient is registered to the moment their account is settled and their record is
+              archived — every department, every discipline and every data point connected in real time.
+            </p>
+          </div>
+
+          <div className="mt-14 grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+            {features.map((f, i) => {
+              const Icon = f.icon;
+              return (
+                <motion.div
+                  key={f.title}
+                  initial={{ opacity: 0, y: 24 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true, margin: "-60px" }}
+                  transition={{ duration: 0.5, delay: (i % 3) * 0.08 }}
+                  className="group relative overflow-hidden rounded-2xl border border-border bg-card p-7 transition-shadow hover:shadow-[var(--shadow-brand)]"
+                >
+                  <div
+                    className="inline-flex h-12 w-12 items-center justify-center rounded-xl text-white shadow-[var(--shadow-brand)]"
+                    style={{ background: "var(--gradient-brand)" }}
+                  >
+                    <Icon className="h-6 w-6" />
+                  </div>
+                  <h3 className="mt-5 text-lg font-bold text-foreground">{f.title}</h3>
+                  <p className="mt-3 text-sm leading-relaxed text-foreground/70">{f.body}</p>
+                </motion.div>
+              );
+            })}
+          </div>
+        </div>
+      </section>
+
+      {/* HOW IT WORKS */}
+      <section className="px-6 py-24 md:px-12">
+        <div className="mx-auto max-w-6xl">
+          <div className="mx-auto max-w-3xl text-center">
+            <span className="inline-flex items-center gap-2 rounded-full bg-[color:var(--brand-blue)]/10 px-3 py-1.5 text-xs font-semibold uppercase tracking-wider text-[color:var(--brand-blue)]">
+              <Workflow className="h-3.5 w-3.5" /> How It Works
+            </span>
+            <h2 className="mt-5 text-3xl font-bold tracking-tight text-foreground md:text-5xl">
+              The Complete Patient Journey — Managed in One System
+            </h2>
+          </div>
+
+          <div className="relative mt-20">
+            <div
+              className="absolute left-8 top-0 h-full w-px md:left-1/2 md:-translate-x-1/2"
+              style={{ background: "var(--gradient-brand)", opacity: 0.25 }}
+            />
+            <div className="space-y-12">
+              {journey.map((step, i) => {
+                const Icon = step.icon;
+                const isRight = i % 2 === 1;
+                return (
+                  <motion.div
+                    key={step.title}
+                    initial={{ opacity: 0, y: 30 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    viewport={{ once: true, margin: "-60px" }}
+                    transition={{ duration: 0.5, delay: i * 0.05 }}
+                    className={`relative flex items-start gap-6 md:items-center ${isRight ? "md:flex-row-reverse" : ""}`}
+                  >
+                    <div className="absolute left-8 z-10 -translate-x-1/2 md:left-1/2" aria-hidden>
+                      <div
+                        className="flex h-16 w-16 items-center justify-center rounded-full border-4 border-background text-white shadow-[var(--shadow-brand)]"
+                        style={{ background: "var(--gradient-brand)" }}
+                      >
+                        <Icon className="h-7 w-7" />
+                      </div>
+                    </div>
+                    <div className="hidden md:block md:w-1/2" />
+                    <div className="ml-24 w-full md:ml-0 md:w-1/2 md:px-12">
+                      <div className="rounded-2xl border border-border bg-card p-6 shadow-sm md:p-8">
+                        <div className="text-xs font-bold uppercase tracking-[0.2em] text-[color:var(--brand-blue)]">
+                          Step {i + 1}
+                        </div>
+                        <h3 className="mt-2 text-xl font-bold text-foreground md:text-2xl">{step.title}</h3>
+                        <p className="mt-3 text-base leading-relaxed text-foreground/75">{step.body}</p>
+                      </div>
+                    </div>
+                  </motion.div>
+                );
+              })}
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* METRICS */}
+      <section className="relative overflow-hidden px-6 py-24 md:px-12" style={{ backgroundColor: "#091628" }}>
+        <div
+          className="absolute -left-32 top-1/2 h-96 w-96 -translate-y-1/2 rounded-full opacity-20 blur-3xl"
+          style={{ background: "var(--gradient-brand)" }}
+          aria-hidden
+        />
+        <div className="relative mx-auto max-w-6xl">
+          <div className="mx-auto max-w-3xl text-center">
+            <span className="text-xs font-semibold uppercase tracking-[0.3em] text-white/60">Outcomes</span>
+            <h2 className="mt-4 text-3xl font-bold tracking-tight text-white md:text-5xl">
+              Enterprise Outcomes Measured Across Our HIS Client Network
+            </h2>
+          </div>
+          <div className="mt-14 grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+            {stats.map((s) => (
+              <div
+                key={s.label}
+                className="rounded-2xl border border-white/10 bg-white/5 p-8 backdrop-blur"
+              >
+                <div
+                  className="bg-clip-text text-4xl font-bold tracking-tight text-transparent md:text-5xl"
+                  style={{ backgroundImage: "var(--gradient-brand)" }}
+                >
+                  {s.value}
+                </div>
+                <p className="mt-3 text-sm leading-relaxed text-white/75">{s.label}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* INTEGRATIONS */}
+      <section className="px-6 py-24 md:px-12">
+        <div className="mx-auto max-w-6xl">
+          <div className="mx-auto max-w-3xl text-center">
+            <span className="inline-flex items-center gap-2 rounded-full bg-[color:var(--brand-blue)]/10 px-3 py-1.5 text-xs font-semibold uppercase tracking-wider text-[color:var(--brand-blue)]">
+              <Network className="h-3.5 w-3.5" /> Integrations
+            </span>
+            <h2 className="mt-5 text-3xl font-bold tracking-tight text-foreground md:text-5xl">
+              An Open Architecture That Connects Your Entire Healthcare Ecosystem
+            </h2>
+            <p className="mt-5 text-base leading-relaxed text-foreground/70 md:text-lg">
+              Secreta HIS is built on open standards — not a proprietary integration model that locks you into a single
+              vendor ecosystem. Every external system that needs to connect, can.
+            </p>
+          </div>
+
+          <div className="mt-12 grid gap-6 md:grid-cols-3">
+            {integrations.map((g) => (
+              <div key={g.title} className="rounded-2xl border border-border bg-card p-7">
+                <h3 className="text-base font-bold text-foreground">{g.title}</h3>
+                <div className="mt-5 flex flex-wrap gap-2">
+                  {g.items.map((i) => (
+                    <span
+                      key={i}
+                      className="rounded-full border border-border bg-background px-3 py-1.5 text-xs font-medium text-foreground/80"
+                    >
+                      {i}
+                    </span>
+                  ))}
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* FAQ */}
+      <section
+        className="px-6 py-24 md:px-12"
+        style={{ background: "color-mix(in oklab, var(--brand-blue) 4%, var(--background))" }}
+      >
+        <div className="mx-auto max-w-4xl">
+          <div className="text-center">
+            <span className="inline-flex items-center gap-2 rounded-full bg-[color:var(--brand-blue)]/10 px-3 py-1.5 text-xs font-semibold uppercase tracking-wider text-[color:var(--brand-blue)]">
+              <ShieldCheck className="h-3.5 w-3.5" /> FAQ
+            </span>
+            <h2 className="mt-5 text-3xl font-bold tracking-tight text-foreground md:text-5xl">Common Questions</h2>
+          </div>
+
+          <div className="mt-12 space-y-4">
+            {faqs.map((f) => (
+              <details
+                key={f.q}
+                className="group rounded-2xl border border-border bg-card p-6 transition-shadow open:shadow-[var(--shadow-brand)]"
+              >
+                <summary className="flex cursor-pointer list-none items-start justify-between gap-4 text-left">
+                  <span className="flex items-start gap-3 text-base font-semibold text-foreground md:text-lg">
+                    <CheckCircle2 className="mt-0.5 h-5 w-5 shrink-0 text-[color:var(--brand-blue)]" />
+                    {f.q}
+                  </span>
+                  <span
+                    className="mt-1 inline-flex h-6 w-6 shrink-0 items-center justify-center rounded-full border border-border text-foreground/60 transition-transform group-open:rotate-45"
+                    aria-hidden
+                  >
+                    +
+                  </span>
+                </summary>
+                <p className="mt-4 pl-8 text-sm leading-relaxed text-foreground/75 md:text-base">{f.a}</p>
+              </details>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* FINAL CTA */}
+      <section id="contact" className="relative overflow-hidden px-6 py-24 md:px-12" style={{ backgroundColor: "#091628" }}>
+        <div className="relative mx-auto max-w-4xl text-center">
+          <h2 className="text-3xl font-bold tracking-tight text-white md:text-5xl">
+            Your Hospital Deserves a System That{" "}
+            <span className="bg-clip-text text-transparent" style={{ backgroundImage: "var(--gradient-brand)" }}>
+              Matches Its Ambition.
+            </span>
+          </h2>
+          <p className="mt-8 text-lg leading-relaxed text-white/80">
+            Every patient deserves complete information at the point of care. Every clinician deserves a system that
+            supports their work instead of obstructing it. Every leader deserves accurate, real-time data.
+          </p>
+          <p className="mt-6 text-lg leading-relaxed text-white/80">
+            A truly integrated Hospital Information System is not a technology investment. It is the foundation of every
+            clinical, operational and financial improvement your organization will make for the next decade.
+          </p>
+
+          <div className="mt-12 flex flex-col items-center justify-center gap-4 sm:flex-row">
+            <a
+              href="#"
+              className="inline-flex items-center gap-3 rounded-full px-10 py-5 text-base font-semibold text-white shadow-[var(--shadow-brand)] transition-transform hover:scale-105"
+              style={{ background: "var(--gradient-brand)" }}
+            >
+              Book Your Enterprise Demonstration
+              <ArrowRight className="h-5 w-5" />
+            </a>
+            <a
+              href="#"
+              className="inline-flex items-center gap-3 rounded-full border border-white/30 bg-white/5 px-10 py-5 text-base font-semibold text-white backdrop-blur transition-colors hover:bg-white/15"
+            >
+              Request an Implementation Roadmap
+            </a>
+          </div>
+
+          <p className="mt-8 text-sm italic text-white/60">
+            Structured implementation support. Data migration included. Pricing tailored to your scale and deployment
+            model.
+          </p>
+        </div>
+      </section>
+
+      <CtaSection />
+      <Footer />
+    </>
+  );
+}
