@@ -360,60 +360,21 @@ export default function HIS() {
       </section>
 
       {/* HOW IT WORKS */}
-      <section className="px-6 py-24 md:px-12">
-        <div className="mx-auto max-w-6xl">
+      <section className="relative px-6 py-24 md:px-12" style={{ backgroundColor: "#0a0a0a" }}>
+        <div className="mx-auto max-w-7xl">
           <div className="mx-auto max-w-3xl text-center">
-            <span className="inline-flex items-center gap-2 rounded-full bg-[color:var(--brand-blue)]/10 px-3 py-1.5 text-xs font-semibold uppercase tracking-wider text-[color:var(--brand-blue)]">
+            <span className="inline-flex items-center gap-2 rounded-full bg-white/10 px-3 py-1.5 text-xs font-semibold uppercase tracking-wider text-white/80">
               <Workflow className="h-3.5 w-3.5" /> How It Works
             </span>
-            <h2 className="mt-5 text-3xl font-bold tracking-tight text-foreground md:text-5xl">
+            <h2 className="mt-5 text-3xl font-bold tracking-tight text-white md:text-5xl">
               The Complete Patient Journey — Managed in One System
             </h2>
           </div>
 
-          <div className="relative mt-20">
-            <div
-              className="absolute left-8 top-0 h-full w-px md:left-1/2 md:-translate-x-1/2"
-              style={{ background: "var(--gradient-brand)", opacity: 0.25 }}
-            />
-            <div className="space-y-12">
-              {journey.map((step, i) => {
-                const Icon = step.icon;
-                const isRight = i % 2 === 1;
-                return (
-                  <motion.div
-                    key={step.title}
-                    initial={{ opacity: 0, y: 30 }}
-                    whileInView={{ opacity: 1, y: 0 }}
-                    viewport={{ once: true, margin: "-60px" }}
-                    transition={{ duration: 0.5, delay: i * 0.05 }}
-                    className={`relative flex items-start gap-6 md:items-center ${isRight ? "md:flex-row-reverse" : ""}`}
-                  >
-                    <div className="absolute left-8 z-10 -translate-x-1/2 md:left-1/2" aria-hidden>
-                      <div
-                        className="flex h-16 w-16 items-center justify-center rounded-full border-4 border-background text-white shadow-[var(--shadow-brand)]"
-                        style={{ background: "var(--gradient-brand)" }}
-                      >
-                        <Icon className="h-7 w-7" />
-                      </div>
-                    </div>
-                    <div className="hidden md:block md:w-1/2" />
-                    <div className="ml-24 w-full md:ml-0 md:w-1/2 md:px-12">
-                      <div className="rounded-2xl border border-border bg-card p-6 shadow-sm md:p-8">
-                        <div className="text-xs font-bold uppercase tracking-[0.2em] text-[color:var(--brand-blue)]">
-                          Step {i + 1}
-                        </div>
-                        <h3 className="mt-2 text-xl font-bold text-foreground md:text-2xl">{step.title}</h3>
-                        <p className="mt-3 text-base leading-relaxed text-foreground/75">{step.body}</p>
-                      </div>
-                    </div>
-                  </motion.div>
-                );
-              })}
-            </div>
-          </div>
+          <ExpandingJourney steps={journey} />
         </div>
       </section>
+
 
       {/* METRICS */}
       <section className="relative overflow-hidden px-6 py-24 md:px-12" style={{ backgroundColor: "#091628" }}>
