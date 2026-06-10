@@ -231,7 +231,7 @@ export default function HIS() {
         <div className="sticky top-0 flex h-screen flex-col overflow-hidden">
           {/* Header */}
           <div className="mx-auto w-full max-w-7xl px-6 pt-16 md:px-12 md:pt-20">
-            <div className="grid gap-8 md:grid-cols-2 md:items-end">
+            <div className="grid gap-8 md:grid-cols-2 md:items-start">
               <div>
                 <span className="inline-flex items-center gap-2 rounded-full bg-red-500/10 px-3 py-1.5 text-xs font-semibold uppercase tracking-wider text-red-300 ring-1 ring-red-500/20">
                   <AlertTriangle className="h-3.5 w-3.5" /> The Problem
