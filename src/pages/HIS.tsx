@@ -421,21 +421,13 @@ export default function HIS() {
       </section>
 
       {/* HOW IT WORKS */}
-      <section
-        className="relative px-6 py-24 md:px-12"
-        style={{
-          backgroundImage: `linear-gradient(rgba(8,14,26,0.78), rgba(8,14,26,0.88)), url(${bgSteps.url})`,
-          backgroundSize: "cover",
-          backgroundPosition: "center",
-          backgroundAttachment: "fixed",
-        }}
-      >
+      <section className="relative bg-background px-6 py-24 md:px-12">
         <div className="relative mx-auto max-w-7xl">
           <div className="mx-auto max-w-3xl text-center">
-            <span className="inline-flex items-center gap-2 rounded-full bg-white/10 px-3 py-1.5 text-xs font-semibold uppercase tracking-wider text-white/80">
+            <span className="inline-flex items-center gap-2 rounded-full bg-[color:var(--brand-blue)]/10 px-3 py-1.5 text-xs font-semibold uppercase tracking-wider text-[color:var(--brand-blue)]">
               <Workflow className="h-3.5 w-3.5" /> How It Works
             </span>
-            <h2 className="mt-5 text-3xl font-bold tracking-tight text-white md:text-5xl">
+            <h2 className="mt-5 text-3xl font-bold tracking-tight text-foreground md:text-5xl">
               The Complete Patient Journey — Managed in One System
             </h2>
           </div>
