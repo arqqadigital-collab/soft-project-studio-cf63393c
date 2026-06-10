@@ -308,16 +308,8 @@ export default function HIS() {
             </motion.div>
           </div>
         </div>
-
-        {/* Transition line */}
-        <div className="relative mx-auto max-w-4xl px-6 pb-20 text-center md:px-12 md:pb-28">
-          <p className="text-lg leading-relaxed text-white/70 md:text-xl">
-            A hospital's information system is its nervous system. When it is fragmented, the whole
-            organism suffers. When it is unified, everything works better — clinically, operationally,
-            and financially.
-          </p>
-        </div>
       </section>
+
 
 
 
