@@ -30,6 +30,7 @@ import {
 } from "lucide-react";
 import logo from "@/assets/logo.png";
 import hisHeroVideo from "@/assets/his-hero.mp4.asset.json";
+import hisCtaVideo from "@/assets/his-cta.mp4.asset.json";
 import { Footer } from "@/components/Footer";
 import { CtaSection } from "@/components/CtaSection";
 import { MainNav } from "@/components/MainNav";
@@ -94,30 +95,33 @@ const trustChips = [
 ];
 
 function AnimatedStat({ value }: { value: string }) {
-  // Split into prefix, numeric, suffix. If no number found (e.g. "Zero"), render as-is.
-  const match = value.match(/^([^\d]*)(\d+(?:\.\d+)?)(.*)$/);
   const ref = useRef<HTMLSpanElement>(null);
   const inView = useInView(ref, { once: true, margin: "-80px" });
-  const [display, setDisplay] = useState(match ? (match[2].includes(".") ? "0.0" : "0") : value);
+  const match = value.match(/^([^\d]*)(\d+(?:\.\d+)?)(.*)$/);
+  const hasNumber = !!match;
+  const prefix = match?.[1] ?? "";
+  const numStr = match?.[2] ?? "";
+  const suffix = match?.[3] ?? "";
+  const end = hasNumber ? parseFloat(numStr) : 0;
+  const decimals = numStr.includes(".") ? (numStr.split(".")[1]?.length ?? 0) : 0;
+  const [display, setDisplay] = useState(hasNumber ? (0).toFixed(decimals) : value);
 
   useEffect(() => {
-    if (!match || !inView) return;
-    const end = parseFloat(match[2]);
-    const decimals = match[2].includes(".") ? (match[2].split(".")[1]?.length ?? 0) : 0;
+    if (!hasNumber || !inView) return;
     const controls = animate(0, end, {
       duration: 2,
       ease: "easeOut",
       onUpdate: (v) => setDisplay(v.toFixed(decimals)),
     });
     return () => controls.stop();
-  }, [inView, match]);
+  }, [inView, hasNumber, end, decimals]);
 
-  if (!match) return <span ref={ref}>{value}</span>;
+  if (!hasNumber) return <span ref={ref}>{value}</span>;
   return (
     <span ref={ref}>
-      {match[1]}
+      {prefix}
       {display}
-      {match[3]}
+      {suffix}
     </span>
   );
 }
@@ -281,27 +285,29 @@ export default function HIS() {
 
           {/* Horizontally scrolling cards */}
           <div className="mt-12 flex flex-1 items-center overflow-hidden">
-            <motion.div style={{ x: problemX }} className="flex gap-6 px-6 md:gap-8 md:px-12">
+            <motion.div style={{ x: problemX }} className="flex items-stretch gap-6 px-6 md:gap-8 md:px-12">
               {problemCards.map((card, i) => (
                 <article
                   key={i}
-                  className="relative flex h-[58vh] w-[82vw] shrink-0 overflow-hidden rounded-[2rem] shadow-2xl md:w-[480px] lg:w-[540px]"
+                  className="flex w-[82vw] shrink-0 flex-col overflow-hidden rounded-[2rem] bg-[#0f1424] shadow-2xl ring-1 ring-white/10 md:w-[460px] lg:w-[520px]"
                 >
-                  <img
-                    src={card.image}
-                    alt={card.title}
-                    loading="lazy"
-                    className="absolute inset-0 h-full w-full object-cover"
-                  />
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/95 via-black/55 to-black/10" />
-                  <div className="relative z-10 flex h-full w-full flex-col justify-end p-7 md:p-10">
+                  <div className="relative h-[240px] w-full overflow-hidden md:h-[260px]">
+                    <img
+                      src={card.image}
+                      alt={card.title}
+                      loading="lazy"
+                      className="h-full w-full object-cover"
+                    />
+                    <div className="absolute inset-0 bg-gradient-to-t from-[#0f1424] via-[#0f1424]/30 to-transparent" />
+                  </div>
+                  <div className="flex flex-1 flex-col p-7 md:p-8">
                     <span className="text-xs font-semibold uppercase tracking-[0.3em] text-red-300">
                       0{i + 1} — Risk
                     </span>
-                    <h3 className="mt-3 text-2xl font-bold leading-tight text-white md:text-3xl">
+                    <h3 className="mt-3 text-2xl font-bold leading-tight text-white md:text-[28px]">
                       {card.title}
                     </h3>
-                    <p className="mt-4 max-w-md text-sm leading-relaxed text-white/80 md:text-base">
+                    <p className="mt-4 text-sm leading-relaxed text-white/75 md:text-base">
                       {card.body}
                     </p>
                   </div>
@@ -309,6 +315,7 @@ export default function HIS() {
               ))}
             </motion.div>
           </div>
+
         </div>
       </section>
 
@@ -525,6 +532,17 @@ export default function HIS() {
 
       {/* FINAL CTA */}
       <section id="contact" className="relative overflow-hidden px-6 py-24 md:px-12" style={{ backgroundColor: "#091628" }}>
+        <div className="absolute inset-0">
+          <video
+            src={hisCtaVideo.url}
+            autoPlay
+            muted
+            loop
+            playsInline
+            className="h-full w-full object-cover"
+          />
+          <div className="absolute inset-0 bg-gradient-to-b from-[#091628]/85 via-[#091628]/75 to-[#091628]/90" />
+        </div>
         <div className="relative mx-auto max-w-4xl text-center">
           <h2 className="text-3xl font-bold tracking-tight text-white md:text-5xl">
             Your Hospital Deserves a System That{" "}
