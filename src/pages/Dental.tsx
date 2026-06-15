@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
-import { useState } from "react";
-import { motion } from "framer-motion";
+import { useState, useRef, useEffect } from "react";
+import { motion, useScroll, useTransform, useInView, animate } from "framer-motion";
 import {
   ArrowRight,
   AlertTriangle,
@@ -18,28 +18,58 @@ import {
   UserCog,
   ChevronDown,
   CheckCircle2,
-  Sparkles,
 } from "lucide-react";
 import logo from "@/assets/logo.png";
+import dentalHeroVideo from "@/assets/dental/dental-hero.mp4.asset.json";
+import problem1 from "@/assets/dental/problem-1.jpg";
+import problem2 from "@/assets/dental/problem-2.jpg";
+import problem3 from "@/assets/dental/problem-3.jpg";
+import problem4 from "@/assets/dental/problem-4.jpg";
+import problem5 from "@/assets/dental/problem-5.jpg";
+import problem6 from "@/assets/dental/problem-6.jpg";
 import { Footer } from "@/components/Footer";
 import { MainNav } from "@/components/MainNav";
 
-const trustChips = [
-  "500+ Dental Clinics",
-  "HIPAA & GDPR Compliant",
-  "FDI & Universal Tooth Numbering",
-  "Insurance-Ready",
-  "Arabic & English",
-  "Cloud & On-Premise",
-];
+function AnimatedStat({ value }: { value: string }) {
+  const ref = useRef<HTMLSpanElement>(null);
+  const inView = useInView(ref, { once: true, margin: "-80px" });
+  const match = value.match(/^([^\d]*)(\d+(?:\.\d+)?)(.*)$/);
+  const hasNumber = !!match;
+  const prefix = match?.[1] ?? "";
+  const numStr = match?.[2] ?? "";
+  const suffix = match?.[3] ?? "";
+  const end = hasNumber ? parseFloat(numStr) : 0;
+  const decimals = numStr.includes(".") ? (numStr.split(".")[1]?.length ?? 0) : 0;
+  const [display, setDisplay] = useState(hasNumber ? (0).toFixed(decimals) : value);
+
+  useEffect(() => {
+    if (!hasNumber || !inView) return;
+    const controls = animate(0, end, {
+      duration: 2,
+      ease: "easeOut",
+      onUpdate: (v) => setDisplay(v.toFixed(decimals)),
+    });
+    return () => controls.stop();
+  }, [inView, hasNumber, end, decimals]);
+
+  if (!hasNumber) return <span ref={ref}>{value}</span>;
+  return (
+    <span ref={ref}>
+      {prefix}
+      {display}
+      {suffix}
+    </span>
+  );
+}
+
 
 const problems = [
-  { title: "Paper Charts Steal Chair Time", body: "Dentists spend the last 20 minutes of every appointment updating paper charts instead of talking to patients about treatment, prevention, and next steps." },
-  { title: "Verbal Treatment Plans", body: "Plans presented at the chair without written estimates or formal approval — leading to billing disputes, patient confusion, and revenue loss." },
-  { title: "Recalls Drifting Away", body: "Manual recall management means patient lists go months out of date and patients quietly drift between acute episodes." },
-  { title: "Imaging Lives Elsewhere", body: "Radiographs scattered across envelopes, folders, and disconnected viewers — forcing the dentist to switch systems mid-appointment." },
-  { title: "Rejected Insurance Claims", body: "Claims submitted manually with missing tooth codes or clinical justification — rejected and resubmitted weeks later from a spreadsheet." },
-  { title: "No Multi-Chair Visibility", body: "No real-time view of which chair is busy, which practitioner is running late, or which patient has been waiting too long." },
+  { title: "Paper Charts Steal Chair Time", image: problem1, body: "Dentists spend the last 20 minutes of every appointment updating paper charts instead of talking to patients about treatment, prevention, and next steps." },
+  { title: "Verbal Treatment Plans", image: problem2, body: "Plans presented at the chair without written estimates or formal approval — leading to billing disputes, patient confusion, and revenue loss." },
+  { title: "Recalls Drifting Away", image: problem3, body: "Manual recall management means patient lists go months out of date and patients quietly drift between acute episodes." },
+  { title: "Imaging Lives Elsewhere", image: problem4, body: "Radiographs scattered across envelopes, folders, and disconnected viewers — forcing the dentist to switch systems mid-appointment." },
+  { title: "Rejected Insurance Claims", image: problem5, body: "Claims submitted manually with missing tooth codes or clinical justification — rejected and resubmitted weeks later from a spreadsheet." },
+  { title: "No Multi-Chair Visibility", image: problem6, body: "No real-time view of which chair is busy, which practitioner is running late, or which patient has been waiting too long." },
 ];
 
 const features = [
@@ -168,19 +198,27 @@ function FaqItem({ q, a }: { q: string; a: string }) {
 }
 
 export default function Dental() {
+  const problemRef = useRef<HTMLDivElement>(null);
+  const { scrollYProgress: problemProgress } = useScroll({
+    target: problemRef,
+    offset: ["start start", "end end"],
+  });
+  const problemX = useTransform(problemProgress, [0.15, 0.82], ["0%", "-83.3333%"]);
+
   return (
     <>
       {/* HERO */}
       <main className="relative min-h-[90vh] w-full overflow-hidden bg-[var(--brand-dark)]">
         <div className="absolute inset-0">
-          <div
-            className="absolute inset-0"
-            style={{
-              background:
-                "radial-gradient(ellipse at top, rgba(56,189,248,0.25), transparent 60%), radial-gradient(ellipse at bottom right, rgba(99,102,241,0.25), transparent 55%), linear-gradient(135deg, #061229 0%, #0a1e3f 50%, #0d2a52 100%)",
-            }}
+          <video
+            src={dentalHeroVideo.url}
+            autoPlay
+            muted
+            loop
+            playsInline
+            className="h-full w-full object-cover"
           />
-          <div className="absolute inset-0 bg-[radial-gradient(circle_at_30%_20%,rgba(255,255,255,0.06),transparent_40%)]" />
+          <div className="absolute inset-0 bg-gradient-to-b from-black/70 via-black/55 to-black/85" />
         </div>
         <div className="relative z-10 flex min-h-[90vh] flex-col">
           <header className="flex items-center justify-between px-6 py-6 md:px-12">
@@ -204,18 +242,12 @@ export default function Dental() {
               transition={{ duration: 0.8 }}
               className="mx-auto flex max-w-5xl flex-col items-center text-center"
             >
-              <span className="inline-flex items-center gap-2 rounded-full border border-white/15 bg-white/5 px-3 py-1.5 text-xs font-semibold uppercase tracking-[0.25em] text-white/80 backdrop-blur">
-                <Sparkles className="h-3.5 w-3.5" /> Secreta Dental
-              </span>
-              <h1 className="mt-6 text-3xl font-bold leading-[1.1] tracking-tight text-white md:text-5xl lg:text-6xl">
+              <h1 className="text-3xl font-bold leading-[1.1] tracking-tight text-white md:text-5xl lg:text-6xl">
                 Every Smile Starts With a{" "}
                 <span className="bg-clip-text text-transparent" style={{ backgroundImage: "var(--gradient-brand)" }}>
                   Smarter Practice.
                 </span>
               </h1>
-              <p className="mt-7 max-w-3xl text-base leading-relaxed text-white/75 md:text-lg">
-                A full-featured dental management system covering everything from chair-side charting to final payment. Built for modern dental clinics that want to deliver exceptional patient care while running a seamless, paperless, and financially optimized practice.
-              </p>
 
               <div className="mt-9 flex flex-col items-center gap-3 sm:flex-row">
                 <a
@@ -232,51 +264,77 @@ export default function Dental() {
                   See a Live Demo
                 </a>
               </div>
-
-              <div className="mt-10 flex flex-wrap items-center justify-center gap-2">
-                {trustChips.map((c) => (
-                  <span
-                    key={c}
-                    className="rounded-full border border-white/15 bg-white/5 px-3 py-1.5 text-xs text-white/80 backdrop-blur"
-                  >
-                    {c}
-                  </span>
-                ))}
-              </div>
             </motion.div>
           </section>
         </div>
       </main>
 
-      {/* PROBLEM */}
-      <section className="relative bg-[#0a0e1a] px-6 py-24 md:px-12 md:py-32">
-        <div className="mx-auto max-w-6xl">
-          <div className="max-w-3xl">
+      {/* INTRODUCING */}
+      <section className="relative z-20 -mt-12 rounded-t-[2.5rem] bg-background px-6 py-24 shadow-[0_-20px_60px_-20px_rgba(0,0,0,0.4)] md:px-12 md:py-32">
+        <div className="mx-auto max-w-5xl text-center">
+          <p className="text-sm font-semibold uppercase tracking-[0.25em]" style={{ color: "var(--brand-blue)" }}>
+            Introducing Secreta Dental
+          </p>
+          <h2 className="mt-6 text-4xl font-bold leading-[1.1] tracking-tight md:text-5xl lg:text-6xl">
+            <span style={{ color: "var(--brand-dark)" }}>One Unified Platform for</span>
+            <br />
+            <span className="bg-clip-text text-transparent" style={{ backgroundImage: "var(--gradient-brand)" }}>
+              Modern Dental Practices
+            </span>
+          </h2>
+          <p className="mx-auto mt-8 max-w-3xl text-base leading-relaxed text-muted-foreground md:text-lg">
+            A full-featured dental management system covering everything from chair-side charting to final payment.
+            Built for modern dental clinics that want to deliver exceptional patient care while running a seamless,
+            paperless, and financially optimized practice.
+          </p>
+        </div>
+      </section>
+
+      {/* PROBLEM — horizontal scroll on dark */}
+      <section ref={problemRef} className="relative bg-[#0a0e1a]" style={{ height: "320vh" }}>
+        <div className="sticky top-0 flex min-h-screen flex-col overflow-hidden pb-12 md:pb-16">
+          <div className="mx-auto w-full max-w-7xl px-6 pt-14 md:px-12 md:pt-16">
             <span className="inline-flex items-center gap-2 rounded-full bg-red-500/10 px-3 py-1.5 text-xs font-semibold uppercase tracking-wider text-red-300 ring-1 ring-red-500/20">
               <AlertTriangle className="h-3.5 w-3.5" /> The Problem
             </span>
-            <h2 className="mt-5 text-3xl font-bold leading-[1.1] tracking-tight text-white md:text-4xl lg:text-5xl">
+            <h2 className="mt-5 max-w-5xl text-3xl font-bold leading-[1.1] tracking-tight text-white md:text-4xl lg:text-5xl">
               Running a Dental Practice Has Never Been{" "}
               <span className="bg-clip-text text-transparent" style={{ backgroundImage: "var(--gradient-brand)" }}>
                 More Complex.
               </span>
             </h2>
-            <p className="mt-6 text-base leading-relaxed text-white/65 md:text-lg">
-              Most systems were not built for where dentistry is today. Dentistry is a precision discipline. Your practice management platform should be too.
+            <p className="mt-5 max-w-2xl text-base leading-relaxed text-white/65 md:text-lg">
+              Most systems were not built for where dentistry is today. Dentistry is a precision discipline. Your
+              practice management platform should be too.
             </p>
           </div>
 
-          <div className="mt-14 grid gap-5 md:grid-cols-2 lg:grid-cols-3">
-            {problems.map((p, i) => (
-              <article
-                key={p.title}
-                className="flex flex-col rounded-2xl bg-white/[0.04] p-6 ring-1 ring-white/10 backdrop-blur"
-              >
-                <span className="text-xs font-semibold uppercase tracking-[0.3em] text-red-300">0{i + 1} — Risk</span>
-                <h3 className="mt-3 text-lg font-bold text-white">{p.title}</h3>
-                <p className="mt-3 text-sm leading-relaxed text-white/70">{p.body}</p>
-              </article>
-            ))}
+          <div className="mt-10 flex flex-1 items-center overflow-hidden md:mt-12">
+            <motion.div style={{ x: problemX }} className="flex items-stretch gap-6 px-6 md:gap-8 md:px-12">
+              {problems.map((card, i) => (
+                <article
+                  key={card.title}
+                  className="flex w-[82vw] shrink-0 flex-col overflow-hidden rounded-[2rem] bg-[#0f1424] shadow-2xl ring-1 ring-white/10 md:w-[440px] lg:w-[480px]"
+                >
+                  <div className="relative h-[190px] w-full overflow-hidden md:h-[210px]">
+                    <img
+                      src={card.image}
+                      alt={card.title}
+                      loading="lazy"
+                      className="h-full w-full object-cover"
+                    />
+                    <div className="absolute inset-0 bg-gradient-to-t from-[#0f1424] via-[#0f1424]/30 to-transparent" />
+                  </div>
+                  <div className="flex flex-1 flex-col p-6 md:p-7">
+                    <span className="text-xs font-semibold uppercase tracking-[0.3em] text-red-300">
+                      0{i + 1} — Risk
+                    </span>
+                    <h3 className="mt-3 text-xl font-bold leading-tight text-white md:text-2xl">{card.title}</h3>
+                    <p className="mt-3 text-sm leading-relaxed text-white/75">{card.body}</p>
+                  </div>
+                </article>
+              ))}
+            </motion.div>
           </div>
         </div>
       </section>
@@ -300,12 +358,16 @@ export default function Dental() {
           </div>
 
           <div className="mt-16 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
-            {features.map((f) => {
+            {features.map((f, i) => {
               const Icon = f.icon;
               return (
-                <article
+                <motion.article
                   key={f.title}
-                  className="group relative flex flex-col rounded-2xl border border-border bg-card p-7 transition-all hover:-translate-y-1 hover:shadow-[var(--shadow-elegant)]"
+                  initial={{ opacity: 0, y: 24 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true, margin: "-60px" }}
+                  transition={{ duration: 0.5, delay: (i % 3) * 0.08 }}
+                  className="group relative flex flex-col overflow-hidden rounded-2xl border border-border bg-card p-7 transition-shadow hover:shadow-[var(--shadow-brand)]"
                 >
                   <div
                     className="flex h-12 w-12 items-center justify-center rounded-xl text-white shadow-[var(--shadow-brand)]"
@@ -315,7 +377,7 @@ export default function Dental() {
                   </div>
                   <h3 className="mt-5 text-lg font-bold text-foreground">{f.title}</h3>
                   <p className="mt-3 text-sm leading-relaxed text-foreground/70">{f.body}</p>
-                </article>
+                </motion.article>
               );
             })}
           </div>
@@ -364,7 +426,7 @@ export default function Dental() {
                   className="bg-clip-text text-5xl font-bold text-transparent md:text-6xl"
                   style={{ backgroundImage: "var(--gradient-brand)" }}
                 >
-                  {s.value}
+                  <AnimatedStat value={s.value} />
                 </div>
                 <p className="mt-4 text-sm leading-relaxed text-white/75">{s.label}</p>
               </div>
