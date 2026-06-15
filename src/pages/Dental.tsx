@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
-import { useState } from "react";
-import { motion } from "framer-motion";
+import { useState, useRef, useEffect } from "react";
+import { motion, useScroll, useTransform, useInView, animate } from "framer-motion";
 import {
   ArrowRight,
   AlertTriangle,
@@ -18,11 +18,49 @@ import {
   UserCog,
   ChevronDown,
   CheckCircle2,
-  Sparkles,
 } from "lucide-react";
 import logo from "@/assets/logo.png";
+import dentalHeroVideo from "@/assets/dental/dental-hero.mp4.asset.json";
+import problem1 from "@/assets/dental/problem-1.jpg";
+import problem2 from "@/assets/dental/problem-2.jpg";
+import problem3 from "@/assets/dental/problem-3.jpg";
+import problem4 from "@/assets/dental/problem-4.jpg";
+import problem5 from "@/assets/dental/problem-5.jpg";
+import problem6 from "@/assets/dental/problem-6.jpg";
 import { Footer } from "@/components/Footer";
 import { MainNav } from "@/components/MainNav";
+
+function AnimatedStat({ value }: { value: string }) {
+  const ref = useRef<HTMLSpanElement>(null);
+  const inView = useInView(ref, { once: true, margin: "-80px" });
+  const match = value.match(/^([^\d]*)(\d+(?:\.\d+)?)(.*)$/);
+  const hasNumber = !!match;
+  const prefix = match?.[1] ?? "";
+  const numStr = match?.[2] ?? "";
+  const suffix = match?.[3] ?? "";
+  const end = hasNumber ? parseFloat(numStr) : 0;
+  const decimals = numStr.includes(".") ? (numStr.split(".")[1]?.length ?? 0) : 0;
+  const [display, setDisplay] = useState(hasNumber ? (0).toFixed(decimals) : value);
+
+  useEffect(() => {
+    if (!hasNumber || !inView) return;
+    const controls = animate(0, end, {
+      duration: 2,
+      ease: "easeOut",
+      onUpdate: (v) => setDisplay(v.toFixed(decimals)),
+    });
+    return () => controls.stop();
+  }, [inView, hasNumber, end, decimals]);
+
+  if (!hasNumber) return <span ref={ref}>{value}</span>;
+  return (
+    <span ref={ref}>
+      {prefix}
+      {display}
+      {suffix}
+    </span>
+  );
+}
 
 const trustChips = [
   "500+ Dental Clinics",
@@ -34,12 +72,12 @@ const trustChips = [
 ];
 
 const problems = [
-  { title: "Paper Charts Steal Chair Time", body: "Dentists spend the last 20 minutes of every appointment updating paper charts instead of talking to patients about treatment, prevention, and next steps." },
-  { title: "Verbal Treatment Plans", body: "Plans presented at the chair without written estimates or formal approval — leading to billing disputes, patient confusion, and revenue loss." },
-  { title: "Recalls Drifting Away", body: "Manual recall management means patient lists go months out of date and patients quietly drift between acute episodes." },
-  { title: "Imaging Lives Elsewhere", body: "Radiographs scattered across envelopes, folders, and disconnected viewers — forcing the dentist to switch systems mid-appointment." },
-  { title: "Rejected Insurance Claims", body: "Claims submitted manually with missing tooth codes or clinical justification — rejected and resubmitted weeks later from a spreadsheet." },
-  { title: "No Multi-Chair Visibility", body: "No real-time view of which chair is busy, which practitioner is running late, or which patient has been waiting too long." },
+  { title: "Paper Charts Steal Chair Time", image: problem1, body: "Dentists spend the last 20 minutes of every appointment updating paper charts instead of talking to patients about treatment, prevention, and next steps." },
+  { title: "Verbal Treatment Plans", image: problem2, body: "Plans presented at the chair without written estimates or formal approval — leading to billing disputes, patient confusion, and revenue loss." },
+  { title: "Recalls Drifting Away", image: problem3, body: "Manual recall management means patient lists go months out of date and patients quietly drift between acute episodes." },
+  { title: "Imaging Lives Elsewhere", image: problem4, body: "Radiographs scattered across envelopes, folders, and disconnected viewers — forcing the dentist to switch systems mid-appointment." },
+  { title: "Rejected Insurance Claims", image: problem5, body: "Claims submitted manually with missing tooth codes or clinical justification — rejected and resubmitted weeks later from a spreadsheet." },
+  { title: "No Multi-Chair Visibility", image: problem6, body: "No real-time view of which chair is busy, which practitioner is running late, or which patient has been waiting too long." },
 ];
 
 const features = [
