@@ -172,6 +172,13 @@ function AnimatedStat({ value }: { value: string }) {
 }
 
 export default function LIS() {
+  const problemRef = useRef<HTMLDivElement>(null);
+  const { scrollYProgress: problemProgress } = useScroll({
+    target: problemRef,
+    offset: ["start start", "end end"],
+  });
+  const problemX = useTransform(problemProgress, [0.15, 0.82], ["0%", "-75%"]);
+
   return (
     <>
       {/* HERO */}
@@ -270,41 +277,50 @@ export default function LIS() {
         </div>
       </section>
 
-      {/* PROBLEM */}
-      <section className="relative bg-[#0a0e1a] px-6 py-24 md:px-12">
-        <div className="mx-auto max-w-7xl">
-          <div className="mx-auto max-w-3xl text-center">
+      {/* PROBLEM — horizontal scroll on dark */}
+      <section ref={problemRef} className="relative bg-[#0a0e1a]" style={{ height: "260vh" }}>
+        <div className="sticky top-0 flex min-h-screen flex-col overflow-hidden">
+          <div className="mx-auto w-full max-w-7xl px-6 pt-14 md:px-12 md:pt-16">
             <span className="inline-flex items-center gap-2 rounded-full bg-red-500/10 px-3 py-1.5 text-xs font-semibold uppercase tracking-wider text-red-300 ring-1 ring-red-500/20">
               <AlertTriangle className="h-3.5 w-3.5" /> The Problem
             </span>
-            <h2 className="mt-5 text-3xl font-bold leading-[1.1] tracking-tight text-white md:text-4xl lg:text-5xl">
+            <h2 className="mt-5 max-w-5xl text-2xl font-bold leading-[1.1] tracking-tight text-white md:text-4xl lg:text-5xl">
               Is Your Lab Struggling{" "}
               <span className="bg-clip-text text-transparent" style={{ backgroundImage: "var(--gradient-brand)" }}>
                 With This?
               </span>
             </h2>
-            <p className="mt-6 text-base leading-relaxed text-white/70 md:text-lg">
+            <p className="mt-4 max-w-2xl text-sm leading-relaxed text-white/65 md:text-base">
               There's a better way to run your laboratory.
             </p>
           </div>
 
-          <div className="mt-14 grid gap-6 md:grid-cols-2">
-            {problemCards.map((card, i) => (
-              <motion.article
-                key={card.title}
-                initial={{ opacity: 0, y: 24 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true, margin: "-60px" }}
-                transition={{ duration: 0.5, delay: (i % 2) * 0.1 }}
-                className="rounded-2xl bg-[#0f1424] p-7 ring-1 ring-white/10"
-              >
-                <span className="text-xs font-semibold uppercase tracking-[0.3em] text-red-300">
-                  0{i + 1} — Risk
-                </span>
-                <h3 className="mt-3 text-xl font-bold leading-tight text-white md:text-2xl">{card.title}</h3>
-                <p className="mt-3 text-sm leading-relaxed text-white/75">{card.body}</p>
-              </motion.article>
-            ))}
+          <div className="mt-8 flex flex-1 items-center overflow-hidden pb-16 md:mt-10 md:pb-24">
+            <motion.div style={{ x: problemX }} className="flex items-stretch gap-6 px-6 md:gap-8 md:px-12">
+              {problemCards.map((card, i) => (
+                <article
+                  key={card.title}
+                  className="flex w-[82vw] shrink-0 flex-col overflow-hidden rounded-[2rem] bg-[#0f1424] shadow-2xl ring-1 ring-white/10 md:w-[420px] lg:w-[460px]"
+                >
+                  <div className="relative h-[170px] w-full shrink-0 overflow-hidden md:h-[190px]">
+                    <img
+                      src={card.image}
+                      alt={card.title}
+                      loading="lazy"
+                      className="h-full w-full object-cover"
+                    />
+                    <div className="absolute inset-0 bg-gradient-to-t from-[#0f1424] via-[#0f1424]/30 to-transparent" />
+                  </div>
+                  <div className="flex flex-1 flex-col p-6 md:p-7">
+                    <span className="text-xs font-semibold uppercase tracking-[0.3em] text-red-300">
+                      0{i + 1} — Risk
+                    </span>
+                    <h3 className="mt-3 text-lg font-bold leading-tight text-white md:text-xl">{card.title}</h3>
+                    <p className="mt-3 text-sm leading-relaxed text-white/75">{card.body}</p>
+                  </div>
+                </article>
+              ))}
+            </motion.div>
           </div>
         </div>
       </section>
@@ -357,52 +373,20 @@ export default function LIS() {
       </section>
 
       {/* HOW IT WORKS */}
-      <section
-        className="relative px-6 py-24 md:px-12"
-        style={{
-          backgroundImage: `url(${bgStepsLight.url})`,
-          backgroundSize: "cover",
-          backgroundPosition: "center",
-          backgroundAttachment: "fixed",
-        }}
-      >
-        <div className="relative mx-auto max-w-7xl">
+      <section className="bg-background px-6 py-24 md:px-12 md:py-32">
+        <div className="mx-auto max-w-6xl">
           <div className="mx-auto max-w-3xl text-center">
-            <span className="inline-flex items-center gap-2 rounded-full bg-[color:var(--brand-blue)]/10 px-3 py-1.5 text-xs font-semibold uppercase tracking-wider text-[color:var(--brand-blue)]">
-              <Workflow className="h-3.5 w-3.5" /> How It Works
+            <span className="text-xs font-semibold uppercase tracking-[0.3em] text-[color:var(--brand-blue)]">
+              How It Works
             </span>
-            <h2 className="mt-5 text-3xl font-bold tracking-tight text-foreground md:text-5xl">
+            <h2 className="mt-4 text-3xl font-bold tracking-tight text-foreground md:text-5xl">
               Up and Running in 4 Steps
             </h2>
+            <p className="mt-5 text-base leading-relaxed text-foreground/70 md:text-lg">
+              From configuration to optimization — every step connected, every workflow streamlined.
+            </p>
           </div>
-
-          <div className="mt-14 grid gap-6 md:grid-cols-2 lg:grid-cols-4">
-            {journey.map((step, i) => {
-              const Icon = step.icon;
-              return (
-                <motion.div
-                  key={step.title}
-                  initial={{ opacity: 0, y: 24 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true, margin: "-60px" }}
-                  transition={{ duration: 0.5, delay: i * 0.1 }}
-                  className="relative rounded-2xl border border-border bg-card p-7 shadow-sm"
-                >
-                  <div className="absolute -top-4 left-7 inline-flex h-8 items-center justify-center rounded-full bg-[color:var(--brand-blue)] px-3 text-xs font-bold uppercase tracking-wider text-white">
-                    Step {i + 1}
-                  </div>
-                  <div
-                    className="mt-2 inline-flex h-12 w-12 items-center justify-center rounded-xl text-white shadow-[var(--shadow-brand)]"
-                    style={{ background: "var(--gradient-brand)" }}
-                  >
-                    <Icon className="h-6 w-6" />
-                  </div>
-                  <h3 className="mt-5 text-lg font-bold text-foreground">{step.title}</h3>
-                  <p className="mt-3 text-sm leading-relaxed text-foreground/70">{step.body}</p>
-                </motion.div>
-              );
-            })}
-          </div>
+          <ExpandingJourney steps={journey} />
         </div>
       </section>
 
