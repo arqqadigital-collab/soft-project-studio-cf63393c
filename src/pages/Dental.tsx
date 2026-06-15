@@ -27,6 +27,12 @@ import problem3 from "@/assets/dental/problem-3.jpg";
 import problem4 from "@/assets/dental/problem-4.jpg";
 import problem5 from "@/assets/dental/problem-5.jpg";
 import problem6 from "@/assets/dental/problem-6.jpg";
+import preVisitOnlineBooking from "@/assets/dental/journey/pre-visit-online-booking.png.asset.json";
+import checkInReception from "@/assets/dental/journey/check-in-reception.png.asset.json";
+import examinationCharting from "@/assets/dental/journey/examination-charting.png.asset.json";
+import treatmentPlanApproval from "@/assets/dental/journey/treatment-plan-approval.png.asset.json";
+import treatmentDeliveredDocumented from "@/assets/dental/journey/treatment-delivered-documented.png.asset.json";
+import claimPaymentRecallSet from "@/assets/dental/journey/claim-payment-recall-set.png.asset.json";
 import { Footer } from "@/components/Footer";
 import { CtaSection } from "@/components/CtaSection";
 import { MainNav } from "@/components/MainNav";
@@ -64,7 +70,6 @@ function AnimatedStat({ value }: { value: string }) {
   );
 }
 
-
 const problems = [
   { title: "Paper Charts Steal Chair Time", image: problem1, body: "Dentists spend the last 20 minutes of every appointment updating paper charts instead of talking to patients about treatment, prevention, and next steps." },
   { title: "Verbal Treatment Plans", image: problem2, body: "Plans presented at the chair without written estimates or formal approval — leading to billing disputes, patient confusion, and revenue loss." },
@@ -90,12 +95,12 @@ const features = [
 ];
 
 const journey = [
-  { icon: ClipboardList, title: "Pre-Visit & Online Booking", body: "Patient books online or via reception. Digital medical history, consent, and registration forms are sent and completed before arrival." },
-  { icon: Users, title: "Check-In & Reception", body: "Patient checks in at reception or self-service kiosk. The record opens with full history, outstanding plan items, recalls, medical alerts, and insurance visible to the team." },
-  { icon: Smile, title: "Examination & Charting", body: "Dentist conducts the exam with the digital chart on the chairside screen. Radiographs auto-appear in the record. Clinical photos attach to the relevant teeth." },
-  { icon: FileSignature, title: "Treatment Plan & Approval", body: "A plan is built from the findings. Costs calculate automatically. The patient reviews, asks questions, and approves digitally — a copy is sent immediately." },
-  { icon: CheckCircle2, title: "Treatment Delivered & Documented", body: "Completed procedures are marked on the chart. Structured templates and voice input speed up notes. Post-op instructions are delivered digitally. Charges post automatically." },
-  { icon: Receipt, title: "Claim, Payment & Recall Set", body: "Insurance claims submitted electronically. Payment processed and receipted. The patient's next recall is scheduled, reminders set, and they leave with a complete record." },
+  { icon: ClipboardList, title: "Pre-Visit & Online Booking", image: preVisitOnlineBooking.url, body: "Patient books online or via reception. Digital medical history, consent, and registration forms are sent and completed before arrival." },
+  { icon: Users, title: "Check-In & Reception", image: checkInReception.url, body: "Patient checks in at reception or self-service kiosk. The record opens with full history, outstanding plan items, recalls, medical alerts, and insurance visible to the team." },
+  { icon: Smile, title: "Examination & Charting", image: examinationCharting.url, body: "Dentist conducts the exam with the digital chart on the chairside screen. Radiographs auto-appear in the record. Clinical photos attach to the relevant teeth." },
+  { icon: FileSignature, title: "Treatment Plan & Approval", image: treatmentPlanApproval.url, body: "A plan is built from the findings. Costs calculate automatically. The patient reviews, asks questions, and approves digitally — a copy is sent immediately." },
+  { icon: CheckCircle2, title: "Treatment Delivered & Documented", image: treatmentDeliveredDocumented.url, body: "Completed procedures are marked on the chart. Structured templates and voice input speed up notes. Post-op instructions are delivered digitally. Charges post automatically." },
+  { icon: Receipt, title: "Claim, Payment & Recall Set", image: claimPaymentRecallSet.url, body: "Insurance claims submitted electronically. Payment processed and receipted. The patient's next recall is scheduled, reminders set, and they leave with a complete record." },
 ];
 
 const stats = [
@@ -127,7 +132,7 @@ const faqs = [
 function ExpandingJourney({ steps }: { steps: typeof journey }) {
   const [active, setActive] = useState(0);
   return (
-    <div className="mt-14 flex flex-col gap-3 md:flex-row md:gap-4 md:h-[520px]">
+    <div className="mt-14 flex flex-col gap-3 md:h-[520px] md:flex-row md:gap-4">
       {steps.map((step, i) => {
         const Icon = step.icon;
         const isActive = active === i;
@@ -138,15 +143,15 @@ function ExpandingJourney({ steps }: { steps: typeof journey }) {
             onClick={() => setActive(i)}
             animate={{ flexGrow: isActive ? 4 : 1 }}
             transition={{ duration: 0.55, ease: [0.4, 0, 0.2, 1] }}
-            className="group relative cursor-pointer overflow-hidden rounded-3xl border border-border md:h-full"
-            style={{
-              flexBasis: 0,
-              minWidth: 0,
-              background: "linear-gradient(135deg, rgba(13,32,68,0.95), rgba(40,86,170,0.85))",
-            }}
+            className="group relative cursor-pointer overflow-hidden rounded-3xl border border-border bg-card/70 md:h-full"
+            style={{ flexBasis: 0, minWidth: 0 }}
           >
-            <div className="absolute inset-0 opacity-30" style={{ background: "var(--gradient-brand)" }} aria-hidden="true" />
-            <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(5,12,24,0.25)_0%,rgba(5,12,24,0.6)_60%,rgba(5,12,24,0.9)_100%)]" aria-hidden="true" />
+            <div
+              className="absolute inset-0 bg-cover bg-center bg-no-repeat transition-transform duration-700 group-hover:scale-105"
+              style={{ backgroundImage: `url(${step.image})` }}
+              aria-hidden="true"
+            />
+            <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(5,12,24,0.38)_0%,rgba(5,12,24,0.72)_50%,rgba(5,12,24,0.95)_100%)]" aria-hidden="true" />
             <div className="relative flex h-full min-h-[320px] flex-col p-7">
               <div
                 className="flex h-14 w-14 items-center justify-center rounded-2xl text-white shadow-[var(--shadow-brand)]"
