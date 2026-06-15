@@ -9,6 +9,8 @@ import problem5 from "@/assets/his/problem-5.jpg";
 import problem6 from "@/assets/his/problem-6.jpg";
 import {
   ArrowRight,
+  ChevronLeft,
+  ChevronRight,
   Sparkles,
   AlertTriangle,
   CheckCircle2,
