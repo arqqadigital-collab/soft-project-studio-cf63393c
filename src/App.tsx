@@ -3,6 +3,7 @@ import Index from "./pages/Index";
 import About from "./pages/About";
 import HIS from "./pages/HIS";
 import Dental from "./pages/Dental";
+import LIS from "./pages/LIS";
 
 function NotFound() {
   return (
