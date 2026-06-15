@@ -366,12 +366,16 @@ export default function Dental() {
           </div>
 
           <div className="mt-16 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
-            {features.map((f) => {
+            {features.map((f, i) => {
               const Icon = f.icon;
               return (
-                <article
+                <motion.article
                   key={f.title}
-                  className="group relative flex flex-col rounded-2xl border border-border bg-card p-7 transition-all hover:-translate-y-1 hover:shadow-[var(--shadow-elegant)]"
+                  initial={{ opacity: 0, y: 24 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true, margin: "-60px" }}
+                  transition={{ duration: 0.5, delay: (i % 3) * 0.08 }}
+                  className="group relative flex flex-col overflow-hidden rounded-2xl border border-border bg-card p-7 transition-shadow hover:shadow-[var(--shadow-brand)]"
                 >
                   <div
                     className="flex h-12 w-12 items-center justify-center rounded-xl text-white shadow-[var(--shadow-brand)]"
@@ -381,7 +385,7 @@ export default function Dental() {
                   </div>
                   <h3 className="mt-5 text-lg font-bold text-foreground">{f.title}</h3>
                   <p className="mt-3 text-sm leading-relaxed text-foreground/70">{f.body}</p>
-                </article>
+                </motion.article>
               );
             })}
           </div>
@@ -430,7 +434,7 @@ export default function Dental() {
                   className="bg-clip-text text-5xl font-bold text-transparent md:text-6xl"
                   style={{ backgroundImage: "var(--gradient-brand)" }}
                 >
-                  {s.value}
+                  <AnimatedStat value={s.value} />
                 </div>
                 <p className="mt-4 text-sm leading-relaxed text-white/75">{s.label}</p>
               </div>
