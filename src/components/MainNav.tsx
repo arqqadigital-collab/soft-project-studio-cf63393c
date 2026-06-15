@@ -62,6 +62,20 @@ const menus: Menu[] = [
           { label: "EMRAM Roadmap & AI Readiness", href: "#" },
         ],
       },
+      {
+        label: "Patient Engagement & Identity",
+        description: "Patient portals and identity management",
+        items: [
+          { label: "Patient Engagement & Identity", href: "#" },
+        ],
+      },
+      {
+        label: "Revenue Cycle & Financial Performance",
+        description: "Billing and financial operations",
+        items: [
+          { label: "Revenue Cycle & Financial Performance", href: "#" },
+        ],
+      },
     ],
   },
   {
