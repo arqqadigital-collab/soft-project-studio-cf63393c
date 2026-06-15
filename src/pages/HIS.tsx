@@ -70,10 +70,24 @@ const stats = [
   { value: "100%", label: "Of HIS clients pursuing EMRAM Stage 6 achieved it within their target timeline" },
 ];
 
-const integrations = [
-  { title: "National Platforms", items: ["NPHIES", "Malaffi", "Riayati", "ZATCA Fatoora", "UAE Emirates ID", "Saudi Absher", "Qatar NHIX", "Bahrain NHRA", "Wasfaty"] },
-  { title: "Compatible Third-Party Systems", items: ["Epic", "Cerner", "Agfa", "Philips IntelliSpace", "GE Centricity", "Omnicell", "Pyxis", "SAP", "Oracle", "Microsoft Dynamics", "Xero"] },
-  { title: "Supported Standards", items: ["HL7 v2", "HL7 FHIR R4", "DICOM 3.0", "IHE Profiles", "SNOMED CT", "LOINC", "ICD-10", "CPT", "DRG Groupers", "REST API", "GCC NHP"] },
+import nphiesLogo from "@/assets/logos/nphies.png.asset.json";
+import malaffiLogo from "@/assets/logos/malaffi.png.asset.json";
+import riayatiLogo from "@/assets/logos/riayati.png.asset.json";
+import zatcaLogo from "@/assets/logos/zatca.png.asset.json";
+import emiratesIdLogo from "@/assets/logos/emirates-id.png.asset.json";
+import absherLogo from "@/assets/logos/absher.png.asset.json";
+import nhraLogo from "@/assets/logos/nhra.png.asset.json";
+import wasfatyLogo from "@/assets/logos/wasfaty.png.asset.json";
+
+const nationalPlatforms = [
+  { name: "NPHIES", logo: nphiesLogo.url },
+  { name: "Malaffi", logo: malaffiLogo.url },
+  { name: "Riayati", logo: riayatiLogo.url },
+  { name: "ZATCA Fatoora", logo: zatcaLogo.url },
+  { name: "UAE Emirates ID", logo: emiratesIdLogo.url },
+  { name: "Saudi Absher", logo: absherLogo.url },
+  { name: "Bahrain NHRA", logo: nhraLogo.url },
+  { name: "Wasfaty", logo: wasfatyLogo.url },
 ];
 
 const faqs = [
@@ -495,20 +509,16 @@ export default function HIS() {
             </p>
           </div>
 
-          <div className="mt-12 grid gap-6 md:grid-cols-3">
-            {integrations.map((g) => (
-              <div key={g.title} className="rounded-2xl border border-border bg-card p-7">
-                <h3 className="text-base font-bold text-foreground">{g.title}</h3>
-                <div className="mt-5 flex flex-wrap gap-2">
-                  {g.items.map((i) => (
-                    <span
-                      key={i}
-                      className="rounded-full border border-border bg-background px-3 py-1.5 text-xs font-medium text-foreground/80"
-                    >
-                      {i}
-                    </span>
-                  ))}
+          <div className="mt-12 grid grid-cols-2 gap-4 sm:grid-cols-3 md:grid-cols-4">
+            {nationalPlatforms.map((p) => (
+              <div
+                key={p.name}
+                className="flex flex-col items-center justify-center gap-3 rounded-2xl border border-border bg-white p-6 shadow-sm transition-shadow hover:shadow-md"
+              >
+                <div className="flex h-20 w-full items-center justify-center">
+                  <img src={p.logo} alt={`${p.name} logo`} className="max-h-full max-w-full object-contain" loading="lazy" />
                 </div>
+                <span className="text-center text-xs font-medium text-foreground/70">{p.name}</span>
               </div>
             ))}
           </div>
