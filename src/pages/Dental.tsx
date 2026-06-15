@@ -497,12 +497,20 @@ export default function Dental() {
       <section
         id="contact"
         className="relative overflow-hidden px-6 py-28 md:px-12 md:py-36"
-        style={{
-          background:
-            "linear-gradient(135deg, var(--brand-dark) 0%, #0d2a52 50%, #0a1e3f 100%)",
-        }}
+        style={{ backgroundColor: "#091628" }}
       >
-        <div className="absolute inset-0 opacity-40" style={{ background: "var(--gradient-brand)", mixBlendMode: "soft-light" }} />
+        <div className="absolute inset-0">
+          <video
+            src={dentalCtaVideo.url}
+            autoPlay
+            muted
+            loop
+            playsInline
+            className="h-full w-full object-cover"
+          />
+          <div className="absolute inset-0 bg-gradient-to-b from-[#091628]/85 via-[#091628]/75 to-[#091628]/90" />
+        </div>
+        <div className="absolute inset-0 opacity-30" style={{ background: "var(--gradient-brand)", mixBlendMode: "soft-light" }} />
         <div className="relative mx-auto max-w-4xl text-center">
           <h2 className="text-3xl font-bold leading-[1.1] tracking-tight text-white md:text-5xl">
             A Great Dental Practice Is Built on Great Clinical Care.{" "}
@@ -534,6 +542,7 @@ export default function Dental() {
         </div>
       </section>
 
+      <CtaSection />
       <Footer />
     </>
   );
