@@ -28,7 +28,9 @@ import problem4 from "@/assets/dental/problem-4.jpg";
 import problem5 from "@/assets/dental/problem-5.jpg";
 import problem6 from "@/assets/dental/problem-6.jpg";
 import { Footer } from "@/components/Footer";
+import { CtaSection } from "@/components/CtaSection";
 import { MainNav } from "@/components/MainNav";
+import dentalCtaVideo from "@/assets/dental/dental-cta.mp4.asset.json";
 
 function AnimatedStat({ value }: { value: string }) {
   const ref = useRef<HTMLSpanElement>(null);
@@ -291,32 +293,32 @@ export default function Dental() {
       </section>
 
       {/* PROBLEM — horizontal scroll on dark */}
-      <section ref={problemRef} className="relative bg-[#0a0e1a]" style={{ height: "320vh" }}>
-        <div className="sticky top-0 flex min-h-screen flex-col overflow-hidden pb-12 md:pb-16">
+      <section ref={problemRef} className="relative bg-[#0a0e1a]" style={{ height: "360vh" }}>
+        <div className="sticky top-0 flex min-h-screen flex-col overflow-hidden">
           <div className="mx-auto w-full max-w-7xl px-6 pt-14 md:px-12 md:pt-16">
             <span className="inline-flex items-center gap-2 rounded-full bg-red-500/10 px-3 py-1.5 text-xs font-semibold uppercase tracking-wider text-red-300 ring-1 ring-red-500/20">
               <AlertTriangle className="h-3.5 w-3.5" /> The Problem
             </span>
-            <h2 className="mt-5 max-w-5xl text-3xl font-bold leading-[1.1] tracking-tight text-white md:text-4xl lg:text-5xl">
+            <h2 className="mt-5 max-w-5xl text-2xl font-bold leading-[1.1] tracking-tight text-white md:text-4xl lg:text-5xl">
               Running a Dental Practice Has Never Been{" "}
               <span className="bg-clip-text text-transparent" style={{ backgroundImage: "var(--gradient-brand)" }}>
                 More Complex.
               </span>
             </h2>
-            <p className="mt-5 max-w-2xl text-base leading-relaxed text-white/65 md:text-lg">
+            <p className="mt-4 max-w-2xl text-sm leading-relaxed text-white/65 md:text-base">
               Most systems were not built for where dentistry is today. Dentistry is a precision discipline. Your
               practice management platform should be too.
             </p>
           </div>
 
-          <div className="mt-10 flex flex-1 items-center overflow-hidden md:mt-12">
+          <div className="mt-8 flex flex-1 items-center overflow-hidden pb-16 md:mt-10 md:pb-24">
             <motion.div style={{ x: problemX }} className="flex items-stretch gap-6 px-6 md:gap-8 md:px-12">
               {problems.map((card, i) => (
                 <article
                   key={card.title}
-                  className="flex w-[82vw] shrink-0 flex-col overflow-hidden rounded-[2rem] bg-[#0f1424] shadow-2xl ring-1 ring-white/10 md:w-[440px] lg:w-[480px]"
+                  className="flex w-[82vw] shrink-0 flex-col overflow-hidden rounded-[2rem] bg-[#0f1424] shadow-2xl ring-1 ring-white/10 md:w-[420px] lg:w-[460px]"
                 >
-                  <div className="relative h-[190px] w-full overflow-hidden md:h-[210px]">
+                  <div className="relative h-[170px] w-full shrink-0 overflow-hidden md:h-[190px]">
                     <img
                       src={card.image}
                       alt={card.title}
@@ -329,7 +331,7 @@ export default function Dental() {
                     <span className="text-xs font-semibold uppercase tracking-[0.3em] text-red-300">
                       0{i + 1} — Risk
                     </span>
-                    <h3 className="mt-3 text-xl font-bold leading-tight text-white md:text-2xl">{card.title}</h3>
+                    <h3 className="mt-3 text-lg font-bold leading-tight text-white md:text-xl">{card.title}</h3>
                     <p className="mt-3 text-sm leading-relaxed text-white/75">{card.body}</p>
                   </div>
                 </article>
