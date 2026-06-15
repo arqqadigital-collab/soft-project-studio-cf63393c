@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
 import { useRef, useEffect, useState } from "react";
-import { motion, useInView, animate } from "framer-motion";
+import { motion, useInView, animate, useScroll, useTransform } from "framer-motion";
 import {
   ArrowRight,
   AlertTriangle,
@@ -21,6 +21,14 @@ import {
 } from "lucide-react";
 import logo from "@/assets/logo.png";
 import bgStepsLight from "@/assets/bg-steps-light.png.asset.json";
+import lisProblem1 from "@/assets/lis/problem-1.jpg";
+import lisProblem2 from "@/assets/lis/problem-2.jpg";
+import lisProblem3 from "@/assets/lis/problem-3.jpg";
+import lisProblem4 from "@/assets/lis/problem-4.jpg";
+import lisJourney1 from "@/assets/lis/journey-1.jpg";
+import lisJourney2 from "@/assets/lis/journey-2.jpg";
+import lisJourney3 from "@/assets/lis/journey-3.jpg";
+import lisJourney4 from "@/assets/lis/journey-4.jpg";
 
 import { Footer } from "@/components/Footer";
 import { CtaSection } from "@/components/CtaSection";
@@ -36,10 +44,10 @@ const features = [
 ];
 
 const journey = [
-  { icon: Settings, title: "Configure Your Lab", body: "Set up your departments, test catalog, reference ranges, and user roles in a guided onboarding session." },
-  { icon: Link2, title: "Connect Your Instruments", body: "Integrate your analyzers and existing hospital systems using our pre-built connectors and HL7 interfaces." },
-  { icon: Rocket, title: "Go Live", body: "Your team starts processing samples, entering results, and generating reports — all from one screen." },
-  { icon: TrendingUp, title: "Optimize Over Time", body: "Use built-in analytics to track turnaround times, error rates, and workload distribution. Improve continuously with real data." },
+  { icon: Settings, title: "Configure Your Lab", image: lisJourney1, body: "Set up your departments, test catalog, reference ranges, and user roles in a guided onboarding session." },
+  { icon: Link2, title: "Connect Your Instruments", image: lisJourney2, body: "Integrate your analyzers and existing hospital systems using our pre-built connectors and HL7 interfaces." },
+  { icon: Rocket, title: "Go Live", image: lisJourney3, body: "Your team starts processing samples, entering results, and generating reports — all from one screen." },
+  { icon: TrendingUp, title: "Optimize Over Time", image: lisJourney4, body: "Use built-in analytics to track turnaround times, error rates, and workload distribution. Improve continuously with real data." },
 ];
 
 const stats = [
@@ -50,11 +58,70 @@ const stats = [
 ];
 
 const problemCards = [
-  { title: "Mislabeled Samples", body: "Manual sample logging leads to mislabeling and lost specimens — putting patient safety and lab credibility at risk." },
-  { title: "Delayed Results", body: "Disconnected systems and paper-based reporting create delays that slow down diagnosis and treatment decisions." },
-  { title: "Audit Failures", body: "Incomplete chain-of-custody records make accreditation audits stressful — and sometimes impossible to pass." },
-  { title: "Wasted Staff Time", body: "Hours lost every day re-entering the same data between instruments, worksheets, and the hospital record." },
+  { title: "Mislabeled Samples", image: lisProblem1, body: "Manual sample logging leads to mislabeling and lost specimens — putting patient safety and lab credibility at risk." },
+  { title: "Delayed Results", image: lisProblem2, body: "Disconnected systems and paper-based reporting create delays that slow down diagnosis and treatment decisions." },
+  { title: "Audit Failures", image: lisProblem3, body: "Incomplete chain-of-custody records make accreditation audits stressful — and sometimes impossible to pass." },
+  { title: "Wasted Staff Time", image: lisProblem4, body: "Hours lost every day re-entering the same data between instruments, worksheets, and the hospital record." },
 ];
+
+function ExpandingJourney({ steps }: { steps: typeof journey }) {
+  const [active, setActive] = useState(0);
+  return (
+    <div className="mt-14 flex flex-col gap-3 md:h-[520px] md:flex-row md:gap-4">
+      {steps.map((step, i) => {
+        const Icon = step.icon;
+        const isActive = active === i;
+        return (
+          <motion.div
+            key={step.title}
+            onMouseEnter={() => setActive(i)}
+            onClick={() => setActive(i)}
+            animate={{ flexGrow: isActive ? 4 : 1 }}
+            transition={{ duration: 0.55, ease: [0.4, 0, 0.2, 1] }}
+            className="group relative cursor-pointer overflow-hidden rounded-3xl border border-border bg-card/70 md:h-full"
+            style={{ flexBasis: 0, minWidth: 0 }}
+          >
+            <div
+              className="absolute inset-0 bg-cover bg-center bg-no-repeat transition-transform duration-700 group-hover:scale-105"
+              style={{ backgroundImage: `url(${step.image})` }}
+              aria-hidden="true"
+            />
+            <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(5,12,24,0.38)_0%,rgba(5,12,24,0.72)_50%,rgba(5,12,24,0.95)_100%)]" aria-hidden="true" />
+            <div className="relative flex h-full min-h-[320px] flex-col p-7">
+              <div
+                className="flex h-14 w-14 items-center justify-center rounded-2xl text-white shadow-[var(--shadow-brand)]"
+                style={{ background: "var(--gradient-brand)" }}
+              >
+                <Icon className="h-7 w-7" />
+              </div>
+              <div className="mt-6 flex h-[calc(100%-3.5rem)] flex-col">
+                <motion.div
+                  animate={{ opacity: isActive ? 1 : 0 }}
+                  transition={{ duration: 0.3, delay: isActive ? 0.25 : 0 }}
+                  className="flex-1"
+                >
+                  {isActive && (
+                    <>
+                      <div className="text-xs font-bold uppercase tracking-[0.2em] text-white/70">Step {i + 1}</div>
+                      <h3 className="mt-2 text-2xl font-bold text-white md:text-3xl">{step.title}</h3>
+                      <p className="mt-4 max-w-md text-base leading-relaxed text-white/85">{step.body}</p>
+                    </>
+                  )}
+                </motion.div>
+                {!isActive && (
+                  <div className="mt-auto">
+                    <div className="text-xs font-bold uppercase tracking-[0.2em] text-white/65">Step {i + 1}</div>
+                    <h3 className="mt-2 text-lg font-semibold text-white md:text-xl">{step.title}</h3>
+                  </div>
+                )}
+              </div>
+            </div>
+          </motion.div>
+        );
+      })}
+    </div>
+  );
+}
 
 const faqs = [
   { q: "How long does implementation take?", a: "Most labs are fully live within 2 to 4 weeks, depending on the number of instruments and integrations required." },
