@@ -5,7 +5,6 @@ import {
   ArrowRight,
   AlertTriangle,
   CheckCircle2,
-  CheckCircle2 as _CheckCircle2Unused,
   ShieldCheck,
   Network,
   FlaskConical,
@@ -20,7 +19,6 @@ import {
   TrendingUp,
 } from "lucide-react";
 import logo from "@/assets/logo.png";
-import bgStepsLight from "@/assets/bg-steps-light.png.asset.json";
 import lisProblem1 from "@/assets/lis/problem-1.jpg";
 import lisProblem2 from "@/assets/lis/problem-2.jpg";
 import lisProblem3 from "@/assets/lis/problem-3.jpg";
