@@ -62,14 +62,6 @@ function AnimatedStat({ value }: { value: string }) {
   );
 }
 
-const trustChips = [
-  "500+ Dental Clinics",
-  "HIPAA & GDPR Compliant",
-  "FDI & Universal Tooth Numbering",
-  "Insurance-Ready",
-  "Arabic & English",
-  "Cloud & On-Premise",
-];
 
 const problems = [
   { title: "Paper Charts Steal Chair Time", image: problem1, body: "Dentists spend the last 20 minutes of every appointment updating paper charts instead of talking to patients about treatment, prevention, and next steps." },
