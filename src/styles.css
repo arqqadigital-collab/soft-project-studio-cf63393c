@@ -160,3 +160,7 @@
 .marquee-pause:hover .animate-marquee {
   animation-play-state: paused;
 }
+
+.scrollbar-hide::-webkit-scrollbar {
+  display: none;
+}
