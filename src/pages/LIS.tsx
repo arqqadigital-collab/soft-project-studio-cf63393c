@@ -5,7 +5,7 @@ import {
   ArrowRight,
   AlertTriangle,
   CheckCircle2,
-  Workflow,
+  CheckCircle2 as _CheckCircle2Unused,
   ShieldCheck,
   Network,
   FlaskConical,
