@@ -22,7 +22,7 @@ const menus: Menu[] = [
           { label: "Hospital Information System (HIS)", to: "/healthcare/his" },
           { label: "Clinic Management System", href: "#" },
           { label: "Dental Management Suite", to: "/healthcare/dental" },
-          { label: "Laboratory Information System (LIS)", href: "#" },
+          { label: "Laboratory Information System (LIS)", to: "/healthcare/lis" },
           { label: "Radiology Information System (RIS)", href: "#" },
           { label: "Emergency Department Management", href: "#" },
           { label: "Physiotherapy & Rehabilitation", href: "#" },
