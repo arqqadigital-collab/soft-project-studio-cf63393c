@@ -34,6 +34,7 @@ export default function App() {
       <Route path="/about" element={<About />} />
         <Route path="/healthcare/his" element={<HIS />} />
         <Route path="/healthcare/dental" element={<Dental />} />
+        <Route path="/healthcare/lis" element={<LIS />} />
       <Route path="*" element={<NotFound />} />
     </Routes>
   );
