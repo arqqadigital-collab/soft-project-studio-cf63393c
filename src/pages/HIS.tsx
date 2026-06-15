@@ -164,7 +164,7 @@ function ExpandingJourney({ steps }: { steps: typeof journey }) {
             onClick={() => setActive(i)}
             animate={{ flexGrow: isActive ? 4 : 1 }}
             transition={{ duration: 0.55, ease: [0.4, 0, 0.2, 1] }}
-            className="group relative cursor-pointer overflow-hidden rounded-3xl border border-border bg-card/70 md:p-8"
+            className="group relative cursor-pointer overflow-hidden rounded-3xl border border-border bg-card/70 md:h-full md:p-8"
             style={{ flexBasis: 0, minWidth: 0 }}
           >
             <div
