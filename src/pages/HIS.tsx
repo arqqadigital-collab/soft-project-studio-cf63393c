@@ -34,6 +34,12 @@ import logo from "@/assets/logo.png";
 import hisHeroVideo from "@/assets/his-hero.mp4.asset.json";
 import hisCtaVideo from "@/assets/his-cta.mp4.asset.json";
 import bgStepsLight from "@/assets/bg-steps-light.png.asset.json";
+import registrationStep from "@/assets/his-journey/registration.png.asset.json";
+import outpatientConsultationStep from "@/assets/his-journey/outpatient-consultation.png.asset.json";
+import admissionStep from "@/assets/his-journey/admission.png.asset.json";
+import inpatientCareStep from "@/assets/his-journey/inpatient-care.png.asset.json";
+import dischargeStep from "@/assets/his-journey/discharge.png.asset.json";
+import billingSettlementStep from "@/assets/his-journey/billing-settlement.png.asset.json";
 
 import { Footer } from "@/components/Footer";
 import { CtaSection } from "@/components/CtaSection";
@@ -55,12 +61,12 @@ const features = [
 ];
 
 const journey = [
-  { icon: UserPlus, title: "Registration", body: "Patient registered with verified identity and complete demographics. A unique master record is created or retrieved. Duplicate detection prevents fragmented histories." },
-  { icon: CalendarCheck, title: "Outpatient Consultation", body: "Appointment conducted with full clinical history visible. The physician documents, orders, prescribes and refers — all in one screen, all in one workflow." },
-  { icon: BedDouble, title: "Admission", body: "If admission is required, the patient moves from outpatient directly into inpatient workflow. Bed assignment, assessment, reconciliation and nursing documentation begin immediately." },
-  { icon: HeartPulse, title: "Inpatient Care", body: "Every clinical event — rounds, assessments, investigations, procedures, medications, transfers — is documented in the unified record with continuous decision support." },
-  { icon: FileText, title: "Discharge", body: "Discharge planning begins at admission. The summary is generated from structured data. Medications are reconciled and follow-up appointments booked through the patient portal." },
-  { icon: Receipt, title: "Billing & Settlement", body: "All clinical activity is captured automatically. Bills are generated from the clinical record, claims submitted electronically and payment reconciled — closing the financial and clinical record together." },
+  { icon: UserPlus, title: "Registration", image: registrationStep.url, body: "Patient registered with verified identity and complete demographics. A unique master record is created or retrieved. Duplicate detection prevents fragmented histories." },
+  { icon: CalendarCheck, title: "Outpatient Consultation", image: outpatientConsultationStep.url, body: "Appointment conducted with full clinical history visible. The physician documents, orders, prescribes and refers — all in one screen, all in one workflow." },
+  { icon: BedDouble, title: "Admission", image: admissionStep.url, body: "If admission is required, the patient moves from outpatient directly into inpatient workflow. Bed assignment, assessment, reconciliation and nursing documentation begin immediately." },
+  { icon: HeartPulse, title: "Inpatient Care", image: inpatientCareStep.url, body: "Every clinical event — rounds, assessments, investigations, procedures, medications, transfers — is documented in the unified record with continuous decision support." },
+  { icon: FileText, title: "Discharge", image: dischargeStep.url, body: "Discharge planning begins at admission. The summary is generated from structured data. Medications are reconciled and follow-up appointments booked through the patient portal." },
+  { icon: Receipt, title: "Billing & Settlement", image: billingSettlementStep.url, body: "All clinical activity is captured automatically. Bills are generated from the clinical record, claims submitted electronically and payment reconciled — closing the financial and clinical record together." },
 ];
 
 const stats = [
@@ -158,43 +164,51 @@ function ExpandingJourney({ steps }: { steps: typeof journey }) {
             onClick={() => setActive(i)}
             animate={{ flexGrow: isActive ? 4 : 1 }}
             transition={{ duration: 0.55, ease: [0.4, 0, 0.2, 1] }}
-            className="group relative cursor-pointer overflow-hidden rounded-3xl border border-border bg-card/70 p-7 backdrop-blur-sm md:p-8"
+            className="group relative cursor-pointer overflow-hidden rounded-3xl border border-border bg-card/70 md:p-8"
             style={{ flexBasis: 0, minWidth: 0 }}
           >
             <div
-              className="flex h-14 w-14 items-center justify-center rounded-2xl text-white shadow-[var(--shadow-brand)]"
-              style={{ background: "var(--gradient-brand)" }}
-            >
-              <Icon className="h-7 w-7" />
-            </div>
-
-            <div className="mt-6 flex h-[calc(100%-3.5rem)] flex-col">
-              <motion.div
-                animate={{ opacity: isActive ? 1 : 0 }}
-                transition={{ duration: 0.3, delay: isActive ? 0.25 : 0 }}
-                className="flex-1"
+              className="absolute inset-0 bg-cover bg-center bg-no-repeat transition-transform duration-700 group-hover:scale-105"
+              style={{ backgroundImage: `url(${step.image})` }}
+              aria-hidden="true"
+            />
+            <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(5,12,24,0.18)_0%,rgba(5,12,24,0.58)_48%,rgba(5,12,24,0.88)_100%)]" aria-hidden="true" />
+            <div className="relative flex h-full min-h-[320px] flex-col p-7">
+              <div
+                className="flex h-14 w-14 items-center justify-center rounded-2xl text-white shadow-[var(--shadow-brand)]"
+                style={{ background: "var(--gradient-brand)" }}
               >
-                {isActive && (
-                  <>
-                    <div className="text-xs font-bold uppercase tracking-[0.2em] text-foreground/50">
+                <Icon className="h-7 w-7" />
+              </div>
+
+              <div className="mt-6 flex h-[calc(100%-3.5rem)] flex-col">
+                <motion.div
+                  animate={{ opacity: isActive ? 1 : 0 }}
+                  transition={{ duration: 0.3, delay: isActive ? 0.25 : 0 }}
+                  className="flex-1"
+                >
+                  {isActive && (
+                    <>
+                      <div className="text-xs font-bold uppercase tracking-[0.2em] text-white/70">
+                        Step {i + 1}
+                      </div>
+                      <h3 className="mt-2 text-2xl font-bold text-white md:text-3xl">{step.title}</h3>
+                      <p className="mt-4 max-w-md text-base leading-relaxed text-white/85">{step.body}</p>
+                    </>
+                  )}
+                </motion.div>
+
+                {!isActive && (
+                  <div className="mt-auto">
+                    <div className="text-xs font-bold uppercase tracking-[0.2em] text-white/65">
                       Step {i + 1}
                     </div>
-                    <h3 className="mt-2 text-2xl font-bold text-foreground md:text-3xl">{step.title}</h3>
-                    <p className="mt-4 max-w-md text-base leading-relaxed text-foreground/70">{step.body}</p>
-                  </>
-                )}
-              </motion.div>
-
-              {!isActive && (
-                <div className="mt-auto">
-                  <div className="text-xs font-bold uppercase tracking-[0.2em] text-foreground/40">
-                    Step {i + 1}
+                    <h3 className="mt-2 text-lg font-semibold text-white [writing-mode:horizontal-tb] md:text-xl">
+                      {step.title}
+                    </h3>
                   </div>
-                  <h3 className="mt-2 text-lg font-semibold text-foreground/90 [writing-mode:horizontal-tb] md:text-xl">
-                    {step.title}
-                  </h3>
-                </div>
-              )}
+                )}
+              </div>
             </div>
           </motion.div>
         );
@@ -585,6 +599,9 @@ export default function HIS() {
             </p>
           </div>
 
+          <p className="mt-10 text-center text-sm font-semibold uppercase tracking-[0.18em] text-foreground/55">
+            National Platforms
+          </p>
           <LogoSlider platforms={nationalPlatforms} />
         </div>
       </section>
