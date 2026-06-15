@@ -509,20 +509,16 @@ export default function HIS() {
             </p>
           </div>
 
-          <div className="mt-12 grid gap-6 md:grid-cols-3">
-            {integrations.map((g) => (
-              <div key={g.title} className="rounded-2xl border border-border bg-card p-7">
-                <h3 className="text-base font-bold text-foreground">{g.title}</h3>
-                <div className="mt-5 flex flex-wrap gap-2">
-                  {g.items.map((i) => (
-                    <span
-                      key={i}
-                      className="rounded-full border border-border bg-background px-3 py-1.5 text-xs font-medium text-foreground/80"
-                    >
-                      {i}
-                    </span>
-                  ))}
+          <div className="mt-12 grid grid-cols-2 gap-4 sm:grid-cols-3 md:grid-cols-4">
+            {nationalPlatforms.map((p) => (
+              <div
+                key={p.name}
+                className="flex flex-col items-center justify-center gap-3 rounded-2xl border border-border bg-white p-6 shadow-sm transition-shadow hover:shadow-md"
+              >
+                <div className="flex h-20 w-full items-center justify-center">
+                  <img src={p.logo} alt={`${p.name} logo`} className="max-h-full max-w-full object-contain" loading="lazy" />
                 </div>
+                <span className="text-center text-xs font-medium text-foreground/70">{p.name}</span>
               </div>
             ))}
           </div>
