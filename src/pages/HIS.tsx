@@ -70,10 +70,24 @@ const stats = [
   { value: "100%", label: "Of HIS clients pursuing EMRAM Stage 6 achieved it within their target timeline" },
 ];
 
-const integrations = [
-  { title: "National Platforms", items: ["NPHIES", "Malaffi", "Riayati", "ZATCA Fatoora", "UAE Emirates ID", "Saudi Absher", "Qatar NHIX", "Bahrain NHRA", "Wasfaty"] },
-  { title: "Compatible Third-Party Systems", items: ["Epic", "Cerner", "Agfa", "Philips IntelliSpace", "GE Centricity", "Omnicell", "Pyxis", "SAP", "Oracle", "Microsoft Dynamics", "Xero"] },
-  { title: "Supported Standards", items: ["HL7 v2", "HL7 FHIR R4", "DICOM 3.0", "IHE Profiles", "SNOMED CT", "LOINC", "ICD-10", "CPT", "DRG Groupers", "REST API", "GCC NHP"] },
+import nphiesLogo from "@/assets/logos/nphies.png.asset.json";
+import malaffiLogo from "@/assets/logos/malaffi.png.asset.json";
+import riayatiLogo from "@/assets/logos/riayati.png.asset.json";
+import zatcaLogo from "@/assets/logos/zatca.png.asset.json";
+import emiratesIdLogo from "@/assets/logos/emirates-id.png.asset.json";
+import absherLogo from "@/assets/logos/absher.png.asset.json";
+import nhraLogo from "@/assets/logos/nhra.png.asset.json";
+import wasfatyLogo from "@/assets/logos/wasfaty.png.asset.json";
+
+const nationalPlatforms = [
+  { name: "NPHIES", logo: nphiesLogo.url },
+  { name: "Malaffi", logo: malaffiLogo.url },
+  { name: "Riayati", logo: riayatiLogo.url },
+  { name: "ZATCA Fatoora", logo: zatcaLogo.url },
+  { name: "UAE Emirates ID", logo: emiratesIdLogo.url },
+  { name: "Saudi Absher", logo: absherLogo.url },
+  { name: "Bahrain NHRA", logo: nhraLogo.url },
+  { name: "Wasfaty", logo: wasfatyLogo.url },
 ];
 
 const faqs = [
