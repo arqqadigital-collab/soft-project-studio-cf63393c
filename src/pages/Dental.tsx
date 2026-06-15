@@ -1,0 +1,475 @@
+import { Link } from "react-router-dom";
+import { useState } from "react";
+import { motion } from "framer-motion";
+import {
+  ArrowRight,
+  AlertTriangle,
+  Smile,
+  ClipboardList,
+  CalendarCheck,
+  Scan,
+  BellRing,
+  FileSignature,
+  ShieldCheck,
+  Receipt,
+  Users,
+  Activity,
+  FlaskConical,
+  UserCog,
+  ChevronDown,
+  CheckCircle2,
+  Sparkles,
+} from "lucide-react";
+import logo from "@/assets/logo.png";
+import { Footer } from "@/components/Footer";
+import { MainNav } from "@/components/MainNav";
+
+const trustChips = [
+  "500+ Dental Clinics",
+  "HIPAA & GDPR Compliant",
+  "FDI & Universal Tooth Numbering",
+  "Insurance-Ready",
+  "Arabic & English",
+  "Cloud & On-Premise",
+];
+
+const problems = [
+  { title: "Paper Charts Steal Chair Time", body: "Dentists spend the last 20 minutes of every appointment updating paper charts instead of talking to patients about treatment, prevention, and next steps." },
+  { title: "Verbal Treatment Plans", body: "Plans presented at the chair without written estimates or formal approval — leading to billing disputes, patient confusion, and revenue loss." },
+  { title: "Recalls Drifting Away", body: "Manual recall management means patient lists go months out of date and patients quietly drift between acute episodes." },
+  { title: "Imaging Lives Elsewhere", body: "Radiographs scattered across envelopes, folders, and disconnected viewers — forcing the dentist to switch systems mid-appointment." },
+  { title: "Rejected Insurance Claims", body: "Claims submitted manually with missing tooth codes or clinical justification — rejected and resubmitted weeks later from a spreadsheet." },
+  { title: "No Multi-Chair Visibility", body: "No real-time view of which chair is busy, which practitioner is running late, or which patient has been waiting too long." },
+];
+
+const features = [
+  { icon: Smile, title: "Digital Dental Charting", body: "Interactive chart that maps every tooth in real time. Record restorations, caries, missing teeth, RCT, crowns, bridges, implants, periodontal conditions — surface by surface with clicks and color codes. Full periodontal charting built in: six-point pocket depth, BoP, recession, furcation, mobility, BPE." },
+  { icon: FileSignature, title: "Treatment Planning & Approvals", body: "Build multi-stage treatment plans directly from the digital chart. Procedures link automatically to your fee schedule for itemized, real-time cost estimates. Alternative options presented side by side. Patient approvals captured digitally with timestamped consent." },
+  { icon: CalendarCheck, title: "Chair & Practitioner Scheduling", body: "Visual, color-coded scheduler shows every chair, practitioner, and slot. Drag-and-drop booking. Conflicts prevented automatically. Automated SMS, email, and WhatsApp reminders — reducing no-shows without a single phone call." },
+  { icon: Scan, title: "Radiograph & Image Management", body: "DICOM-integrated periapical, bitewing, panoramic, and CBCT imaging — auto-attached to teeth and treatment plans. Intraoral and clinical photographs in the same record. Pre/post comparisons built in. Integrated CBCT viewer inside the chart." },
+  { icon: BellRing, title: "Automated Recall & Communication", body: "Never manage a recall list manually again. Patients are tracked automatically for examinations, hygiene, perio maintenance, and ongoing treatment with multi-channel reminders." },
+  { icon: ShieldCheck, title: "Insurance & Pre-Authorization", body: "Generate insurer-ready claims directly from the clinical record — correct tooth codes, clinical justification, and attachments. Submit electronically and track adjudication in real time." },
+  { icon: Receipt, title: "Billing & Patient Accounts", body: "Itemized invoicing, installment plans, multi-modal payments, and reconciliation against patient accounts. Outstanding balances and aging AR tracked in real time." },
+  { icon: Activity, title: "Periodontal Management Program", body: "Structured periodontal care — staging, active therapy, SPT scheduling, and long-term recall. Pocket depth and bleeding scores tracked longitudinally with graphical comparisons." },
+  { icon: FlaskConical, title: "Dental Laboratory Management", body: "Digital lab prescriptions with shade, material, dimensions, and instructions. Track cases from despatch to fit. Reconcile invoices against orders. Monitor turnaround by lab and case type." },
+  { icon: UserCog, title: "Staff Management & Governance", body: "Manage practitioner schedules, leave, CPD records, and clinical governance reporting. Audit trails on every record. Role-based access aligned to your clinical structure." },
+  { icon: Users, title: "Multi-Site Group Practices", body: "Patients move between branches with one continuous record. Group leadership gets unified analytics across every location while each site keeps its own configuration." },
+  { icon: ClipboardList, title: "Paperless Patient Onboarding", body: "Digital medical history, consent, and registration forms sent before the appointment — completed at home and ready before the patient walks in." },
+];
+
+const journey = [
+  { icon: ClipboardList, title: "Pre-Visit & Online Booking", body: "Patient books online or via reception. Digital medical history, consent, and registration forms are sent and completed before arrival." },
+  { icon: Users, title: "Check-In & Reception", body: "Patient checks in at reception or self-service kiosk. The record opens with full history, outstanding plan items, recalls, medical alerts, and insurance visible to the team." },
+  { icon: Smile, title: "Examination & Charting", body: "Dentist conducts the exam with the digital chart on the chairside screen. Radiographs auto-appear in the record. Clinical photos attach to the relevant teeth." },
+  { icon: FileSignature, title: "Treatment Plan & Approval", body: "A plan is built from the findings. Costs calculate automatically. The patient reviews, asks questions, and approves digitally — a copy is sent immediately." },
+  { icon: CheckCircle2, title: "Treatment Delivered & Documented", body: "Completed procedures are marked on the chart. Structured templates and voice input speed up notes. Post-op instructions are delivered digitally. Charges post automatically." },
+  { icon: Receipt, title: "Claim, Payment & Recall Set", body: "Insurance claims submitted electronically. Payment processed and receipted. The patient's next recall is scheduled, reminders set, and they leave with a complete record." },
+];
+
+const stats = [
+  { value: "32%", label: "Reduction in chairside admin time after going digital" },
+  { value: "2.3x", label: "More treatment plans formally approved with digital consent workflows" },
+  { value: "91%", label: "First-pass dental claim acceptance with integrated insurance workflows" },
+  { value: "45%", label: "Increase in recall attendance with automated multi-channel reminders" },
+  { value: "100%", label: "Paperless charting from day one of go-live" },
+  { value: "<2 weeks", label: "Average single-clinic deployment from kick-off to go-live" },
+];
+
+const integrationGroups = [
+  { title: "Digital Imaging", items: ["Carestream", "Dentsply Sirona", "Planmeca", "Acteon", "Apteryx", "Vatech", "Romexis", "All DICOM-compliant systems"] },
+  { title: "Intraoral Cameras", items: ["Carestream CS 3700", "DEXIS", "Sirona Schick", "Apteryx XVWeb", "TWAIN/DICOM compliant cameras"] },
+  { title: "Accounting & Payments", items: ["Xero", "QuickBooks", "Sage", "Stripe", "Network International", "Telr", "REST API"] },
+  { title: "Insurance Payers", items: ["GCC dental payers", "DHA Dubai", "DOH Abu Dhabi", "NPHIES Saudi Arabia", "Custom EDI / API"] },
+  { title: "Standards", items: ["DICOM 3.0", "HL7 FHIR", "FDI & Universal Tooth Numbering", "ISO Dental Codes", "ICD-10", "WhatsApp Business API"] },
+];
+
+const faqs = [
+  { q: "How does the system handle treatment across multiple visits within a single plan?", a: "Multi-visit treatment plans are managed through structured treatment sequencing. Each appointment is linked to the items scheduled for that visit. As appointments complete, items are marked done, the chart updates, and charges post automatically. Outstanding items remain visible on the patient's active plan with the next appointment linked. Complete progress — done, remaining, and scheduled — is visible at a glance." },
+  { q: "Does the system support specialist referrals within a group practice?", a: "Yes. Internal referral workflows let general dentists refer patients to endodontists, periodontists, oral surgeons, orthodontists, and implantologists within the group — with clinical notes, radiographs, and plan context attached. The specialist receives the referral with full background and books the patient directly. Treatment outcomes flow back to the referring dentist's record automatically." },
+  { q: "How does the laboratory management module work for external dental labs?", a: "Lab prescriptions are generated digitally from the treatment plan and transmitted electronically to your chosen lab. Case status is tracked from despatch through fabrication, return, and fit appointment. Invoices are reconciled against orders automatically and turnaround performance is reported by lab and case type." },
+  { q: "Is the platform suitable for both single-chair clinics and multi-site groups?", a: "Yes. The platform scales from a single-chair practice to multi-branch dental groups. Single clinics deploy in 2 to 3 weeks. Multi-site groups deploy by location, with each site going live sequentially over 4 to 8 weeks depending on group size." },
+  { q: "How is patient data protected and what compliance standards are supported?", a: "Role-based access, audit logs, encryption in transit and at rest, and configurable data residency. The platform supports HIPAA, GDPR, and GCC-region data protection requirements with full audit trails on every record." },
+  { q: "What training and onboarding support is provided?", a: "A dedicated onboarding specialist manages setup, data migration, hardware integration, staff training, and go-live support for every account. Pre-go-live training is role-based and post-go-live support is provided through a dedicated team with SLA-defined response times." },
+];
+
+function ExpandingJourney({ steps }: { steps: typeof journey }) {
+  const [active, setActive] = useState(0);
+  return (
+    <div className="mt-14 flex flex-col gap-3 md:flex-row md:gap-4 md:h-[520px]">
+      {steps.map((step, i) => {
+        const Icon = step.icon;
+        const isActive = active === i;
+        return (
+          <motion.div
+            key={step.title}
+            onMouseEnter={() => setActive(i)}
+            onClick={() => setActive(i)}
+            animate={{ flexGrow: isActive ? 4 : 1 }}
+            transition={{ duration: 0.55, ease: [0.4, 0, 0.2, 1] }}
+            className="group relative cursor-pointer overflow-hidden rounded-3xl border border-border md:h-full"
+            style={{
+              flexBasis: 0,
+              minWidth: 0,
+              background: "linear-gradient(135deg, rgba(13,32,68,0.95), rgba(40,86,170,0.85))",
+            }}
+          >
+            <div className="absolute inset-0 opacity-30" style={{ background: "var(--gradient-brand)" }} aria-hidden="true" />
+            <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(5,12,24,0.25)_0%,rgba(5,12,24,0.6)_60%,rgba(5,12,24,0.9)_100%)]" aria-hidden="true" />
+            <div className="relative flex h-full min-h-[320px] flex-col p-7">
+              <div
+                className="flex h-14 w-14 items-center justify-center rounded-2xl text-white shadow-[var(--shadow-brand)]"
+                style={{ background: "var(--gradient-brand)" }}
+              >
+                <Icon className="h-7 w-7" />
+              </div>
+              <div className="mt-6 flex h-[calc(100%-3.5rem)] flex-col">
+                <motion.div
+                  animate={{ opacity: isActive ? 1 : 0 }}
+                  transition={{ duration: 0.3, delay: isActive ? 0.25 : 0 }}
+                  className="flex-1"
+                >
+                  {isActive && (
+                    <>
+                      <div className="text-xs font-bold uppercase tracking-[0.2em] text-white/70">Step {i + 1}</div>
+                      <h3 className="mt-2 text-2xl font-bold text-white md:text-3xl">{step.title}</h3>
+                      <p className="mt-4 max-w-md text-base leading-relaxed text-white/85">{step.body}</p>
+                    </>
+                  )}
+                </motion.div>
+                {!isActive && (
+                  <div className="mt-auto">
+                    <div className="text-xs font-bold uppercase tracking-[0.2em] text-white/65">Step {i + 1}</div>
+                    <h3 className="mt-2 text-lg font-semibold text-white md:text-xl">{step.title}</h3>
+                  </div>
+                )}
+              </div>
+            </div>
+          </motion.div>
+        );
+      })}
+    </div>
+  );
+}
+
+function FaqItem({ q, a }: { q: string; a: string }) {
+  const [open, setOpen] = useState(false);
+  return (
+    <div className="border-b border-border">
+      <button
+        onClick={() => setOpen((o) => !o)}
+        className="flex w-full items-center justify-between gap-4 py-5 text-left"
+      >
+        <span className="text-base font-semibold text-foreground md:text-lg">{q}</span>
+        <ChevronDown className={`h-5 w-5 shrink-0 text-muted-foreground transition-transform ${open ? "rotate-180" : ""}`} />
+      </button>
+      {open && <p className="pb-5 pr-9 text-sm leading-relaxed text-muted-foreground md:text-base">{a}</p>}
+    </div>
+  );
+}
+
+export default function Dental() {
+  return (
+    <>
+      {/* HERO */}
+      <main className="relative min-h-[90vh] w-full overflow-hidden bg-[var(--brand-dark)]">
+        <div className="absolute inset-0">
+          <div
+            className="absolute inset-0"
+            style={{
+              background:
+                "radial-gradient(ellipse at top, rgba(56,189,248,0.25), transparent 60%), radial-gradient(ellipse at bottom right, rgba(99,102,241,0.25), transparent 55%), linear-gradient(135deg, #061229 0%, #0a1e3f 50%, #0d2a52 100%)",
+            }}
+          />
+          <div className="absolute inset-0 bg-[radial-gradient(circle_at_30%_20%,rgba(255,255,255,0.06),transparent_40%)]" />
+        </div>
+        <div className="relative z-10 flex min-h-[90vh] flex-col">
+          <header className="flex items-center justify-between px-6 py-6 md:px-12">
+            <Link to="/">
+              <img src={logo} alt="SBS — Superior Business Solutions" className="h-12 w-auto md:h-14" />
+            </Link>
+            <MainNav />
+            <Link
+              to="/"
+              className="rounded-full px-7 py-3 text-sm font-semibold text-white shadow-[var(--shadow-brand)] transition-transform hover:scale-105"
+              style={{ background: "var(--gradient-brand)" }}
+            >
+              Get Started
+            </Link>
+          </header>
+
+          <section className="flex flex-1 items-center justify-center px-6 pb-28 pt-4 md:px-12">
+            <motion.div
+              initial={{ opacity: 0, y: 30 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.8 }}
+              className="mx-auto flex max-w-5xl flex-col items-center text-center"
+            >
+              <span className="inline-flex items-center gap-2 rounded-full border border-white/15 bg-white/5 px-3 py-1.5 text-xs font-semibold uppercase tracking-[0.25em] text-white/80 backdrop-blur">
+                <Sparkles className="h-3.5 w-3.5" /> Secreta Dental
+              </span>
+              <h1 className="mt-6 text-3xl font-bold leading-[1.1] tracking-tight text-white md:text-5xl lg:text-6xl">
+                Every Smile Starts With a{" "}
+                <span className="bg-clip-text text-transparent" style={{ backgroundImage: "var(--gradient-brand)" }}>
+                  Smarter Practice.
+                </span>
+              </h1>
+              <p className="mt-7 max-w-3xl text-base leading-relaxed text-white/75 md:text-lg">
+                A full-featured dental management system covering everything from chair-side charting to final payment. Built for modern dental clinics that want to deliver exceptional patient care while running a seamless, paperless, and financially optimized practice.
+              </p>
+
+              <div className="mt-9 flex flex-col items-center gap-3 sm:flex-row">
+                <a
+                  href="#contact"
+                  className="inline-flex items-center gap-2 rounded-full px-8 py-4 text-sm font-semibold text-white shadow-[var(--shadow-brand)] transition-transform hover:scale-105"
+                  style={{ background: "var(--gradient-brand)" }}
+                >
+                  Build a Smarter Dental Practice <ArrowRight className="h-4 w-4" />
+                </a>
+                <a
+                  href="#contact"
+                  className="inline-flex items-center gap-2 rounded-full border border-white/30 bg-white/5 px-8 py-4 text-sm font-semibold text-white backdrop-blur transition-colors hover:bg-white/15"
+                >
+                  See a Live Demo
+                </a>
+              </div>
+
+              <div className="mt-10 flex flex-wrap items-center justify-center gap-2">
+                {trustChips.map((c) => (
+                  <span
+                    key={c}
+                    className="rounded-full border border-white/15 bg-white/5 px-3 py-1.5 text-xs text-white/80 backdrop-blur"
+                  >
+                    {c}
+                  </span>
+                ))}
+              </div>
+            </motion.div>
+          </section>
+        </div>
+      </main>
+
+      {/* PROBLEM */}
+      <section className="relative bg-[#0a0e1a] px-6 py-24 md:px-12 md:py-32">
+        <div className="mx-auto max-w-6xl">
+          <div className="max-w-3xl">
+            <span className="inline-flex items-center gap-2 rounded-full bg-red-500/10 px-3 py-1.5 text-xs font-semibold uppercase tracking-wider text-red-300 ring-1 ring-red-500/20">
+              <AlertTriangle className="h-3.5 w-3.5" /> The Problem
+            </span>
+            <h2 className="mt-5 text-3xl font-bold leading-[1.1] tracking-tight text-white md:text-4xl lg:text-5xl">
+              Running a Dental Practice Has Never Been{" "}
+              <span className="bg-clip-text text-transparent" style={{ backgroundImage: "var(--gradient-brand)" }}>
+                More Complex.
+              </span>
+            </h2>
+            <p className="mt-6 text-base leading-relaxed text-white/65 md:text-lg">
+              Most systems were not built for where dentistry is today. Dentistry is a precision discipline. Your practice management platform should be too.
+            </p>
+          </div>
+
+          <div className="mt-14 grid gap-5 md:grid-cols-2 lg:grid-cols-3">
+            {problems.map((p, i) => (
+              <article
+                key={p.title}
+                className="flex flex-col rounded-2xl bg-white/[0.04] p-6 ring-1 ring-white/10 backdrop-blur"
+              >
+                <span className="text-xs font-semibold uppercase tracking-[0.3em] text-red-300">0{i + 1} — Risk</span>
+                <h3 className="mt-3 text-lg font-bold text-white">{p.title}</h3>
+                <p className="mt-3 text-sm leading-relaxed text-white/70">{p.body}</p>
+              </article>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* SOLUTION / FEATURES */}
+      <section
+        className="px-6 py-24 md:px-12"
+        style={{ background: "color-mix(in oklab, var(--brand-blue) 4%, var(--background))" }}
+      >
+        <div className="mx-auto max-w-6xl">
+          <div className="mx-auto max-w-3xl text-center">
+            <span className="text-xs font-semibold uppercase tracking-[0.3em] text-[color:var(--brand-blue)]">
+              The Platform
+            </span>
+            <h2 className="mt-4 text-3xl font-bold tracking-tight text-foreground md:text-5xl">
+              Everything Your Dental Practice Needs — in One Unified Platform.
+            </h2>
+            <p className="mt-5 text-base leading-relaxed text-foreground/70 md:text-lg">
+              From the moment a patient books their first appointment to the moment their treatment plan is complete and their account is settled — Secreta Dental manages every clinical and administrative workflow in one intuitive system.
+            </p>
+          </div>
+
+          <div className="mt-16 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+            {features.map((f) => {
+              const Icon = f.icon;
+              return (
+                <article
+                  key={f.title}
+                  className="group relative flex flex-col rounded-2xl border border-border bg-card p-7 transition-all hover:-translate-y-1 hover:shadow-[var(--shadow-elegant)]"
+                >
+                  <div
+                    className="flex h-12 w-12 items-center justify-center rounded-xl text-white shadow-[var(--shadow-brand)]"
+                    style={{ background: "var(--gradient-brand)" }}
+                  >
+                    <Icon className="h-6 w-6" />
+                  </div>
+                  <h3 className="mt-5 text-lg font-bold text-foreground">{f.title}</h3>
+                  <p className="mt-3 text-sm leading-relaxed text-foreground/70">{f.body}</p>
+                </article>
+              );
+            })}
+          </div>
+        </div>
+      </section>
+
+      {/* HOW IT WORKS */}
+      <section className="bg-background px-6 py-24 md:px-12 md:py-32">
+        <div className="mx-auto max-w-6xl">
+          <div className="mx-auto max-w-3xl text-center">
+            <span className="text-xs font-semibold uppercase tracking-[0.3em] text-[color:var(--brand-blue)]">
+              How It Works
+            </span>
+            <h2 className="mt-4 text-3xl font-bold tracking-tight text-foreground md:text-5xl">
+              A Seamless Patient Journey — End to End.
+            </h2>
+            <p className="mt-5 text-base leading-relaxed text-foreground/70 md:text-lg">
+              From the first online booking to the final settled invoice — every step connected, every record current.
+            </p>
+          </div>
+          <ExpandingJourney steps={journey} />
+        </div>
+      </section>
+
+      {/* STATS */}
+      <section
+        className="px-6 py-24 md:px-12"
+        style={{
+          background: "linear-gradient(135deg, var(--brand-dark) 0%, #0d2a52 100%)",
+        }}
+      >
+        <div className="mx-auto max-w-6xl">
+          <div className="mx-auto max-w-3xl text-center">
+            <span className="text-xs font-semibold uppercase tracking-[0.3em] text-white/70">Outcomes</span>
+            <h2 className="mt-4 text-3xl font-bold tracking-tight text-white md:text-5xl">
+              Outcomes Dental Practices Across Our Network Are Achieving.
+            </h2>
+          </div>
+          <div className="mt-14 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+            {stats.map((s) => (
+              <div
+                key={s.label}
+                className="rounded-2xl border border-white/10 bg-white/5 p-8 text-center backdrop-blur"
+              >
+                <div
+                  className="bg-clip-text text-5xl font-bold text-transparent md:text-6xl"
+                  style={{ backgroundImage: "var(--gradient-brand)" }}
+                >
+                  {s.value}
+                </div>
+                <p className="mt-4 text-sm leading-relaxed text-white/75">{s.label}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* INTEGRATIONS */}
+      <section className="bg-background px-6 py-24 md:px-12 md:py-32">
+        <div className="mx-auto max-w-6xl">
+          <div className="mx-auto max-w-3xl text-center">
+            <span className="text-xs font-semibold uppercase tracking-[0.3em] text-[color:var(--brand-blue)]">
+              Integrations
+            </span>
+            <h2 className="mt-4 text-3xl font-bold tracking-tight text-foreground md:text-5xl">
+              Connects With Your Equipment, Insurers, and Business Systems.
+            </h2>
+            <p className="mt-5 text-base leading-relaxed text-foreground/70 md:text-lg">
+              Clinical and financial data flows where it needs to go — without manual import, duplication, or reconciliation.
+            </p>
+          </div>
+
+          <div className="mt-14 grid gap-5 md:grid-cols-2 lg:grid-cols-3">
+            {integrationGroups.map((g) => (
+              <div key={g.title} className="rounded-2xl border border-border bg-card p-6">
+                <h3 className="text-sm font-bold uppercase tracking-wider text-[color:var(--brand-blue)]">
+                  {g.title}
+                </h3>
+                <ul className="mt-4 space-y-2">
+                  {g.items.map((it) => (
+                    <li key={it} className="flex items-start gap-2 text-sm text-foreground/75">
+                      <CheckCircle2 className="mt-0.5 h-4 w-4 shrink-0 text-[color:var(--brand-blue)]" />
+                      {it}
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* FAQ */}
+      <section
+        className="px-6 py-24 md:px-12"
+        style={{ background: "color-mix(in oklab, var(--brand-blue) 4%, var(--background))" }}
+      >
+        <div className="mx-auto max-w-4xl">
+          <div className="text-center">
+            <span className="text-xs font-semibold uppercase tracking-[0.3em] text-[color:var(--brand-blue)]">
+              FAQ
+            </span>
+            <h2 className="mt-4 text-3xl font-bold tracking-tight text-foreground md:text-5xl">Common Questions</h2>
+          </div>
+          <div className="mt-12">
+            {faqs.map((f) => (
+              <FaqItem key={f.q} q={f.q} a={f.a} />
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* FINAL CTA */}
+      <section
+        id="contact"
+        className="relative overflow-hidden px-6 py-28 md:px-12 md:py-36"
+        style={{
+          background:
+            "linear-gradient(135deg, var(--brand-dark) 0%, #0d2a52 50%, #0a1e3f 100%)",
+        }}
+      >
+        <div className="absolute inset-0 opacity-40" style={{ background: "var(--gradient-brand)", mixBlendMode: "soft-light" }} />
+        <div className="relative mx-auto max-w-4xl text-center">
+          <h2 className="text-3xl font-bold leading-[1.1] tracking-tight text-white md:text-5xl">
+            A Great Dental Practice Is Built on Great Clinical Care.{" "}
+            <span className="bg-clip-text text-transparent" style={{ backgroundImage: "var(--gradient-brand)" }}>
+              And Great Care Deserves Great Systems Behind It.
+            </span>
+          </h2>
+          <p className="mx-auto mt-7 max-w-2xl text-base leading-relaxed text-white/75 md:text-lg">
+            Every treatment plan, every radiograph, every recall, every claim — all of it either builds or erodes the practice you are working to create. Give your practice the platform it deserves.
+          </p>
+          <div className="mt-9 flex flex-col items-center justify-center gap-3 sm:flex-row">
+            <a
+              href="#contact"
+              className="inline-flex items-center gap-2 rounded-full px-8 py-4 text-sm font-semibold text-white shadow-[var(--shadow-brand)] transition-transform hover:scale-105"
+              style={{ background: "var(--gradient-brand)" }}
+            >
+              Book Your Free Demo <ArrowRight className="h-4 w-4" />
+            </a>
+            <a
+              href="#contact"
+              className="inline-flex items-center gap-2 rounded-full border border-white/30 bg-white/5 px-8 py-4 text-sm font-semibold text-white backdrop-blur transition-colors hover:bg-white/15"
+            >
+              Start a 30-Day Trial
+            </a>
+          </div>
+          <p className="mt-6 text-xs uppercase tracking-[0.25em] text-white/55">
+            No setup fees · No long-term contracts · Full onboarding & data migration support
+          </p>
+        </div>
+      </section>
+
+      <Footer />
+    </>
+  );
+}
