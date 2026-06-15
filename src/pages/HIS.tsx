@@ -153,7 +153,7 @@ function AnimatedStat({ value }: { value: string }) {
 function ExpandingJourney({ steps }: { steps: typeof journey }) {
   const [active, setActive] = useState(0);
   return (
-    <div className="mt-14 flex flex-col gap-3 md:flex-row md:gap-4" style={{ minHeight: "520px" }}>
+    <div className="mt-14 flex flex-col gap-3 md:flex-row md:gap-4 md:h-[520px]">
       {steps.map((step, i) => {
         const Icon = step.icon;
         const isActive = active === i;
