@@ -370,19 +370,23 @@ export default function Dental() {
               return (
                 <motion.article
                   key={f.title}
-                  initial={{ opacity: 0, y: 30 }}
-                  whileInView={{ opacity: 1, y: 0 }}
+                  initial={{ opacity: 0, y: 36, scale: 0.97, filter: "blur(8px)" }}
+                  whileInView={{ opacity: 1, y: 0, scale: 1, filter: "blur(0px)" }}
                   whileHover={{ y: -6 }}
-                  viewport={{ once: true, margin: "-60px" }}
-                  transition={{ duration: 0.55, delay: (i % 3) * 0.1, ease: [0.22, 1, 0.36, 1] }}
+                  viewport={{ once: true, margin: "-80px" }}
+                  transition={{ duration: 0.6, delay: i * 0.05, ease: [0.22, 1, 0.36, 1] }}
                   className="group relative flex flex-col overflow-hidden rounded-2xl border border-border bg-card p-7 transition-shadow hover:shadow-[var(--shadow-brand)]"
                 >
-                  <div
+                  <motion.div
+                    initial={{ opacity: 0, scale: 0.8, rotate: -8 }}
+                    whileInView={{ opacity: 1, scale: 1, rotate: 0 }}
+                    viewport={{ once: true, margin: "-80px" }}
+                    transition={{ duration: 0.45, delay: i * 0.05 + 0.08, ease: [0.22, 1, 0.36, 1] }}
                     className="flex h-12 w-12 items-center justify-center rounded-xl text-white shadow-[var(--shadow-brand)] transition-transform duration-300 group-hover:scale-110"
                     style={{ background: "var(--gradient-brand)" }}
                   >
                     <Icon className="h-6 w-6" />
-                  </div>
+                  </motion.div>
                   <h3 className="mt-5 text-lg font-bold text-foreground">{f.title}</h3>
                   <p className="mt-3 text-sm leading-relaxed text-foreground/70">{f.body}</p>
                 </motion.article>
