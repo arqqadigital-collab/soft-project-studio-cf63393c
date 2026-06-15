@@ -20,10 +20,12 @@ const menus: Menu[] = [
         description: "Core hospital and clinic platforms",
         items: [
           { label: "Hospital Information System (HIS)", to: "/healthcare/his" },
+          { label: "Clinic Management System", href: "#" },
           { label: "Dental Management Suite", href: "#" },
           { label: "Laboratory Information System (LIS)", href: "#" },
           { label: "Radiology Information System (RIS)", href: "#" },
-          { label: "RCM", href: "#" },
+          { label: "Emergency Department Management", href: "#" },
+          { label: "Physiotherapy & Rehabilitation", href: "#" },
         ],
       },
       {
@@ -32,6 +34,8 @@ const menus: Menu[] = [
         items: [
           { label: "Blood Bank & Donor Management", href: "#" },
           { label: "Medication & Dosage Management", href: "#" },
+          { label: "Telemedicine & Virtual Care", href: "#" },
+          { label: "Hospital Operations & RTLS", href: "#" },
         ],
       },
       {
@@ -46,6 +50,7 @@ const menus: Menu[] = [
         label: "Compliance & Interoperability",
         description: "Regional compliance and standards",
         items: [
+          { label: "KSA Compliance & Interoperability", href: "#" },
           { label: "UAE Compliance & Interoperability", href: "#" },
         ],
       },
@@ -53,6 +58,7 @@ const menus: Menu[] = [
         label: "Healthcare AI",
         description: "Clinical AI and readiness",
         items: [
+          { label: "Clinical AI & Documentation", href: "#" },
           { label: "EMRAM Roadmap & AI Readiness", href: "#" },
         ],
       },
@@ -76,6 +82,8 @@ const menus: Menu[] = [
         items: [
           { label: "Manufacturing & Trading", href: "#" },
           { label: "Logistics & Distribution", href: "#" },
+          { label: "Retail & E-commerce", href: "#" },
+          { label: "Education & Research", href: "#" },
         ],
       },
     ],
@@ -86,27 +94,47 @@ const menus: Menu[] = [
       {
         label: "Cybersecurity",
         description: "Protect your digital estate",
-        href: "#",
+        items: [
+          { label: "Identity & Access Management", href: "#" },
+          { label: "Network & Endpoint Security", href: "#" },
+          { label: "Data Protection & Compliance", href: "#" },
+          { label: "Healthcare Cybersecurity", href: "#" },
+        ],
       },
       {
         label: "Consulting",
         description: "Strategy and advisory",
-        href: "#",
+        items: [
+          { label: "Healthcare IT Consulting", href: "#" },
+          { label: "ERP Consulting", href: "#" },
+          { label: "Digital Transformation", href: "#" },
+        ],
       },
       {
         label: "Implementation & Integration",
         description: "Deploy and integrate",
-        href: "#",
+        items: [
+          { label: "Integration & Interoperability Services", href: "#" },
+          { label: "Data Migration", href: "#" },
+        ],
       },
       {
         label: "Staff Aug & Managed Services",
         description: "Talent and managed ops",
-        href: "#",
+        items: [
+          { label: "Healthcare IT Professionals", href: "#" },
+          { label: "EMR Specialists (Epic/Cerner/InterSystems)", href: "#" },
+          { label: "Managed IT Services", href: "#" },
+          { label: "ERP & Tech Talent", href: "#" },
+        ],
       },
       {
         label: "Learning & Knowledge",
         description: "Enablement and training",
-        href: "#",
+        items: [
+          { label: "Totara LMS", href: "#" },
+          { label: "EndNote Reference Management", href: "#" },
+        ],
       },
     ],
   },
