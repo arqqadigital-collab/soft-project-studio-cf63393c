@@ -25,8 +25,10 @@ import lisProblem2 from "@/assets/lis/problem-2.jpg";
 import lisProblem3 from "@/assets/lis/problem-3.jpg";
 import lisProblem4 from "@/assets/lis/problem-4.jpg";
 import lisJourney1 from "@/assets/lis/journey-1.jpg";
-import lisJourney2 from "@/assets/lis/journey-2.jpg";
-import lisJourney3 from "@/assets/lis/journey-3.jpg";
+import lisJourney2Asset from "@/assets/lis/journey-2.png.asset.json";
+import lisJourney3Asset from "@/assets/lis/journey-3.png.asset.json";
+const lisJourney2 = lisJourney2Asset.url;
+const lisJourney3 = lisJourney3Asset.url;
 import lisJourney4 from "@/assets/lis/journey-4.jpg";
 
 import { Footer } from "@/components/Footer";
