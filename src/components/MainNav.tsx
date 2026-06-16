@@ -24,6 +24,7 @@ const menus: Menu[] = [
           { label: "Dental Management Suite", to: "/healthcare/dental" },
           { label: "Laboratory Information System (LIS)", to: "/healthcare/lis" },
           { label: "Radiology Information System (RIS)", to: "/healthcare/ris" },
+          { label: "Revenue Cycle Management (RCM)", href: "#" },
           { label: "Emergency Department Management", href: "#" },
           { label: "Physiotherapy & Rehabilitation", href: "#" },
         ],
