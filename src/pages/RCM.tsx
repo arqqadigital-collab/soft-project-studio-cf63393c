@@ -23,7 +23,7 @@ import logo from "@/assets/logo.png";
 import rcmHeroVideo from "@/assets/rcm/rcm-hero.mp4.asset.json";
 import hisVideo from "@/assets/rcm/his-video.mp4.asset.json";
 import rcmProblem1 from "@/assets/rcm/problem-1.jpg";
-import rcmProblem2 from "@/assets/rcm/problem-2.jpg";
+
 import rcmProblem3 from "@/assets/rcm/problem-3.jpg";
 import rcmProblem4 from "@/assets/rcm/problem-4.jpg";
 import rcmProblem5 from "@/assets/rcm/problem-5.jpg";
