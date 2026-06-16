@@ -20,6 +20,7 @@ import {
   CreditCard,
 } from "lucide-react";
 import logo from "@/assets/logo.png";
+import rcmHeroVideo from "@/assets/rcm/rcm-hero.mp4.asset.json";
 import rcmProblem1 from "@/assets/rcm/problem-1.jpg";
 import rcmProblem2 from "@/assets/rcm/problem-2.jpg";
 import rcmProblem3 from "@/assets/rcm/problem-3.jpg";
