@@ -21,6 +21,7 @@ import {
 } from "lucide-react";
 import logo from "@/assets/logo.png";
 import rcmHeroVideo from "@/assets/rcm/rcm-hero.mp4.asset.json";
+import hisVideo from "@/assets/rcm/his-video.mp4.asset.json";
 import rcmProblem1 from "@/assets/rcm/problem-1.jpg";
 import rcmProblem2 from "@/assets/rcm/problem-2.jpg";
 import rcmProblem3 from "@/assets/rcm/problem-3.jpg";
@@ -528,6 +529,14 @@ export default function RCM() {
         style={{ backgroundColor: "#091628" }}
       >
         <div className="absolute inset-0">
+          <video
+            src={hisVideo.url}
+            autoPlay
+            muted
+            loop
+            playsInline
+            className="h-full w-full object-cover opacity-40"
+          />
           <div
             className="absolute inset-0 opacity-60"
             style={{ background: "radial-gradient(circle at 30% 30%, rgba(56,189,248,0.35), transparent 55%), radial-gradient(circle at 70% 70%, rgba(99,102,241,0.4), transparent 55%)" }}
