@@ -4,6 +4,7 @@ import About from "./pages/About";
 import HIS from "./pages/HIS";
 import Dental from "./pages/Dental";
 import LIS from "./pages/LIS";
+import RIS from "./pages/RIS";
 
 function NotFound() {
   return (
@@ -35,6 +36,7 @@ export default function App() {
         <Route path="/healthcare/his" element={<HIS />} />
         <Route path="/healthcare/dental" element={<Dental />} />
         <Route path="/healthcare/lis" element={<LIS />} />
+        <Route path="/healthcare/ris" element={<RIS />} />
       <Route path="*" element={<NotFound />} />
     </Routes>
   );
