@@ -20,6 +20,7 @@ import {
   CreditCard,
 } from "lucide-react";
 import logo from "@/assets/logo.png";
+import rcmHeroVideo from "@/assets/rcm/rcm-hero.mp4.asset.json";
 import rcmProblem1 from "@/assets/rcm/problem-1.jpg";
 import rcmProblem2 from "@/assets/rcm/problem-2.jpg";
 import rcmProblem3 from "@/assets/rcm/problem-3.jpg";
@@ -197,11 +198,15 @@ export default function RCM() {
       {/* HERO */}
       <main className="relative min-h-[90vh] w-full overflow-hidden bg-background">
         <div className="absolute inset-0">
-          <div
-            className="absolute inset-0 bg-cover bg-center"
-            style={{ backgroundImage: `url(${rcmJourney6})` }}
+          <video
+            src={rcmHeroVideo.url}
+            autoPlay
+            muted
+            loop
+            playsInline
+            className="h-full w-full object-cover"
           />
-          <div className="absolute inset-0 bg-gradient-to-b from-black/75 via-black/60 to-black/90" />
+          <div className="absolute inset-0 bg-gradient-to-b from-black/70 via-black/55 to-black/85" />
         </div>
 
         <div className="relative z-10 flex min-h-[90vh] flex-col">
@@ -232,11 +237,6 @@ export default function RCM() {
                   and Revenue Collected.
                 </span>
               </h1>
-
-              <p className="mt-6 max-w-3xl text-base leading-relaxed text-white/80 md:text-lg">
-                End-to-end revenue cycle automation with real-time visibility and the analytical intelligence to turn
-                your revenue cycle from a cost center into a competitive advantage.
-              </p>
 
               <div className="mt-9 flex flex-col items-center gap-3 sm:flex-row">
                 <a
@@ -283,10 +283,7 @@ export default function RCM() {
             </span>
           </h2>
           <p className="mx-auto mt-8 max-w-3xl text-base leading-relaxed text-muted-foreground md:text-lg">
-            Secreta RCM manages the complete revenue cycle as a connected, automated, analytically driven process —
-            not a series of manual handoffs between departments that each work from different systems with different
-            data. Accurate coding, clean claims, zero missed charges, proactive denial management, and real-time
-            financial intelligence.
+            Healthcare organizations deliver extraordinary care every day and fail to collect full payment for a significant portion of it — not because of poor clinical quality, but because of claim errors, missed charges, delayed submissions, and denial management processes that cannot keep pace with payer complexity. Secreta Revenue Cycle Management closes every gap between the care your team delivers and the revenue your organization collects — with end-to-end automation, real-time visibility, and the analytical intelligence to turn your revenue cycle from a cost center into a competitive advantage.
           </p>
         </div>
       </section>
