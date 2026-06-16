@@ -23,10 +23,11 @@ import logo from "@/assets/logo.png";
 import rcmHeroVideo from "@/assets/rcm/rcm-hero.mp4.asset.json";
 import hisVideo from "@/assets/rcm/his-video.mp4.asset.json";
 import rcmProblem1 from "@/assets/rcm/problem-1.jpg";
-import rcmProblem2 from "@/assets/rcm/problem-2.jpg";
+
 import rcmProblem3 from "@/assets/rcm/problem-3.jpg";
 import rcmProblem4 from "@/assets/rcm/problem-4.jpg";
 import rcmProblem5 from "@/assets/rcm/problem-5.jpg";
+import rcmProblem2Real from "@/assets/rcm/rcm-problem-2-real.png.asset.json";
 import rcmJourney1 from "@/assets/rcm/journey-1.jpg";
 import rcmJourney2 from "@/assets/rcm/journey-2.jpg";
 import rcmJourney3 from "@/assets/rcm/journey-3.jpg";
@@ -71,7 +72,7 @@ const stats = [
 
 const problemCards = [
   { title: "Rejected Claims", image: rcmProblem1, body: "Claims submitted with incorrect or missing diagnosis codes, procedure codes, or documentation — rejected by payers with no obligation to explain how to fix them." },
-  { title: "Missed Charges", image: rcmProblem2, body: "Charges for procedures, medications, and bedside investigations never captured in billing because no one manually entered them and no automated capture exists." },
+  { title: "Missed Charges", image: rcmProblem2Real.url, body: "Charges for procedures, medications, and bedside investigations never captured in billing because no one manually entered them and no automated capture exists." },
   { title: "Expired Authorizations", image: rcmProblem3, body: "Prior authorizations expire before the procedure is performed, claims are submitted without a valid auth, and the payer denies on a technicality that should never have arisen." },
   { title: "Reactive Denial Management", image: rcmProblem4, body: "Denials sit in a queue, get worked weeks later, some are resubmitted, many are written off because the appeal window has already closed." },
   { title: "Monthly-in-Arrears Reporting", image: rcmProblem5, body: "By the time leadership sees a revenue problem in the data, the causes are weeks old and the financial impact has already accumulated." },
@@ -535,13 +536,13 @@ export default function RCM() {
             muted
             loop
             playsInline
-            className="h-full w-full object-cover opacity-40"
+            className="h-full w-full object-cover opacity-70"
           />
           <div
-            className="absolute inset-0 opacity-60"
-            style={{ background: "radial-gradient(circle at 30% 30%, rgba(56,189,248,0.35), transparent 55%), radial-gradient(circle at 70% 70%, rgba(99,102,241,0.4), transparent 55%)" }}
+            className="absolute inset-0 opacity-40"
+            style={{ background: "radial-gradient(circle at 30% 30%, rgba(56,189,248,0.25), transparent 55%), radial-gradient(circle at 70% 70%, rgba(99,102,241,0.3), transparent 55%)" }}
           />
-          <div className="absolute inset-0 bg-gradient-to-b from-[#091628]/85 via-[#091628]/75 to-[#091628]/90" />
+          <div className="absolute inset-0 bg-gradient-to-b from-[#091628]/55 via-[#091628]/45 to-[#091628]/65" />
         </div>
         <div className="relative mx-auto max-w-4xl text-center">
           <h2 className="text-3xl font-bold tracking-tight text-white md:text-5xl">
