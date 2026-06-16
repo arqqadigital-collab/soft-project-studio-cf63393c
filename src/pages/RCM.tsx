@@ -283,10 +283,7 @@ export default function RCM() {
             </span>
           </h2>
           <p className="mx-auto mt-8 max-w-3xl text-base leading-relaxed text-muted-foreground md:text-lg">
-            Secreta RCM manages the complete revenue cycle as a connected, automated, analytically driven process —
-            not a series of manual handoffs between departments that each work from different systems with different
-            data. Accurate coding, clean claims, zero missed charges, proactive denial management, and real-time
-            financial intelligence.
+            Healthcare organizations deliver extraordinary care every day and fail to collect full payment for a significant portion of it — not because of poor clinical quality, but because of claim errors, missed charges, delayed submissions, and denial management processes that cannot keep pace with payer complexity. Secreta Revenue Cycle Management closes every gap between the care your team delivers and the revenue your organization collects — with end-to-end automation, real-time visibility, and the analytical intelligence to turn your revenue cycle from a cost center into a competitive advantage.
           </p>
         </div>
       </section>
