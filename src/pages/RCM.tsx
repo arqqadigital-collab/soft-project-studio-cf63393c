@@ -27,6 +27,7 @@ import rcmProblem2 from "@/assets/rcm/problem-2.jpg";
 import rcmProblem3 from "@/assets/rcm/problem-3.jpg";
 import rcmProblem4 from "@/assets/rcm/problem-4.jpg";
 import rcmProblem5 from "@/assets/rcm/problem-5.jpg";
+import rcmProblem2Real from "@/assets/rcm/rcm-problem-2-real.png.asset.json";
 import rcmJourney1 from "@/assets/rcm/journey-1.jpg";
 import rcmJourney2 from "@/assets/rcm/journey-2.jpg";
 import rcmJourney3 from "@/assets/rcm/journey-3.jpg";
