@@ -19,6 +19,7 @@ import {
   TrendingUp,
 } from "lucide-react";
 import logo from "@/assets/logo.png";
+import lisHeroVideo from "@/assets/lis/lis-hero.mp4.asset.json";
 import lisProblem1 from "@/assets/lis/problem-1.jpg";
 import lisProblem2 from "@/assets/lis/problem-2.jpg";
 import lisProblem3 from "@/assets/lis/problem-3.jpg";
@@ -181,12 +182,16 @@ export default function LIS() {
     <>
       {/* HERO */}
       <main className="relative min-h-[90vh] w-full overflow-hidden bg-background">
-        <div className="absolute inset-0" style={{ background: "var(--brand-dark)" }}>
-          <div
-            className="absolute inset-0 opacity-40"
-            style={{ background: "radial-gradient(circle at 20% 20%, rgba(56,189,248,0.35), transparent 55%), radial-gradient(circle at 80% 60%, rgba(99,102,241,0.4), transparent 55%)" }}
+        <div className="absolute inset-0">
+          <video
+            src={lisHeroVideo.url}
+            autoPlay
+            muted
+            loop
+            playsInline
+            className="h-full w-full object-cover"
           />
-          <div className="absolute inset-0 bg-gradient-to-b from-black/40 via-black/55 to-black/80" />
+          <div className="absolute inset-0 bg-gradient-to-b from-black/70 via-black/55 to-black/85" />
         </div>
 
         <div className="relative z-10 flex min-h-[90vh] flex-col">
@@ -217,11 +222,6 @@ export default function LIS() {
                   Clarity at Every Result.
                 </span>
               </h1>
-              <p className="mt-6 max-w-3xl text-base leading-relaxed text-white/80 md:text-lg">
-                Transform your lab operations with a system built for speed, accuracy, and complete traceability. From
-                sample intake to final report, every step is tracked, automated, and audit-ready — so your team can
-                focus on what matters: accurate diagnoses and faster care.
-              </p>
 
               <div className="mt-9 flex flex-col items-center gap-3 sm:flex-row">
                 <a
@@ -268,9 +268,9 @@ export default function LIS() {
             </span>
           </h2>
           <p className="mx-auto mt-8 max-w-3xl text-base leading-relaxed text-muted-foreground md:text-lg">
-            A single, integrated platform that covers your entire laboratory workflow — from the moment a sample
-            arrives to the second a result is delivered. Built for modern clinical and diagnostic labs that demand
-            speed, accuracy, and audit-grade traceability at every step.
+            Transform your lab operations with a system built for speed, accuracy, and complete traceability. From
+            sample intake to final report, every step is tracked, automated, and audit-ready — so your team can
+            focus on what matters: accurate diagnoses and faster care.
           </p>
         </div>
       </section>
