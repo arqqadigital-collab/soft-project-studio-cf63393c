@@ -238,11 +238,6 @@ export default function RCM() {
                 </span>
               </h1>
 
-              <p className="mt-6 max-w-3xl text-base leading-relaxed text-white/80 md:text-lg">
-                End-to-end revenue cycle automation with real-time visibility and the analytical intelligence to turn
-                your revenue cycle from a cost center into a competitive advantage.
-              </p>
-
               <div className="mt-9 flex flex-col items-center gap-3 sm:flex-row">
                 <a
                   href="#contact"
