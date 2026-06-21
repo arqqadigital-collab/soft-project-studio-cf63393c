@@ -20,6 +20,7 @@ import {
   Archive,
 } from "lucide-react";
 import logo from "@/assets/logo.png";
+import heroVideo from "@/assets/blood-bank/hero-video.mp4.asset.json";
 import { Footer } from "@/components/Footer";
 import { CtaSection } from "@/components/CtaSection";
 import { MainNav } from "@/components/MainNav";
