@@ -122,11 +122,19 @@ export default function BloodBank() {
       {/* HERO */}
       <main className="relative min-h-[90vh] w-full overflow-hidden bg-background">
         <div className="absolute inset-0">
+          <video
+            src={heroVideo.url}
+            autoPlay
+            muted
+            loop
+            playsInline
+            className="absolute inset-0 h-full w-full object-cover"
+          />
           <div
             className="absolute inset-0"
             style={{
               background:
-                "radial-gradient(ellipse at 20% 20%, rgba(220,38,38,0.35), transparent 55%), radial-gradient(ellipse at 80% 70%, rgba(190,18,60,0.4), transparent 55%), linear-gradient(180deg, #1a0407 0%, #0a0e1a 100%)",
+                "linear-gradient(180deg, rgba(10,14,26,0.55) 0%, rgba(10,14,26,0.65) 60%, rgba(10,14,26,0.85) 100%)",
             }}
           />
         </div>
@@ -162,13 +170,8 @@ export default function BloodBank() {
                   Every Donor Counts.
                 </span>
               </h1>
-              <p className="mx-auto mt-7 max-w-3xl text-base leading-relaxed text-white/80 md:text-lg">
-                A dedicated system for managing the full lifecycle of blood collection, processing, testing, and
-                transfusion — built with safety-first logic to protect patients and streamline blood bank operations
-                under the highest regulatory standards.
-              </p>
 
-              <div className="mt-9 flex flex-col items-center gap-3 sm:flex-row">
+              <div className="mt-10 flex flex-col items-center gap-3 sm:flex-row">
                 <a
                   href="#contact"
                   className="inline-flex items-center gap-2 rounded-full px-8 py-4 text-sm font-semibold text-white shadow-[var(--shadow-brand)] transition-transform hover:scale-105"
@@ -183,17 +186,6 @@ export default function BloodBank() {
                   See It in Action
                 </a>
               </div>
-
-              <div className="mt-10 flex flex-wrap items-center justify-center gap-2">
-                {trustChips.map((c) => (
-                  <span
-                    key={c}
-                    className="rounded-full border border-white/15 bg-white/5 px-3 py-1.5 text-xs text-white/80 backdrop-blur"
-                  >
-                    {c}
-                  </span>
-                ))}
-              </div>
             </motion.div>
           </section>
         </div>
@@ -201,20 +193,41 @@ export default function BloodBank() {
 
       {/* INTRO */}
       <section className="relative z-20 -mt-12 rounded-t-[2.5rem] bg-background px-6 py-24 shadow-[0_-20px_60px_-20px_rgba(0,0,0,0.4)] md:px-12 md:py-32">
-        <div className="mx-auto max-w-5xl text-center">
+        <div className="mx-auto max-w-4xl text-center">
           <p className="text-sm font-semibold uppercase tracking-[0.25em]" style={{ color: "var(--brand-blue)" }}>
-            The Stakes
+            Built for Blood Banking
           </p>
-          <h2 className="mt-6 text-4xl font-bold leading-[1.1] tracking-tight md:text-5xl lg:text-6xl">
-            <span style={{ color: "var(--brand-dark)" }}>The Stakes in Blood Banking</span>
-            <br />
+          <h2 className="mt-6 text-3xl font-bold leading-[1.15] tracking-tight md:text-4xl lg:text-5xl">
+            <span style={{ color: "var(--brand-dark)" }}>A Dedicated System for the </span>
             <span className="bg-clip-text text-transparent" style={{ backgroundImage: "var(--gradient-brand)" }}>
-              Are Unlike Any Other Department.
+              Full Lifecycle of Blood.
             </span>
           </h2>
           <p className="mx-auto mt-8 max-w-3xl text-base leading-relaxed text-muted-foreground md:text-lg">
-            In blood banking, there is no margin for error. Secreta Blood Bank was built specifically to make sure
-            mislabeled units, missed expiries, unverified donors, and audit gaps never happen on your watch.
+            A dedicated system for managing the full lifecycle of blood collection, processing, testing, and
+            transfusion. Built with safety-first logic to protect patients and streamline blood bank operations under
+            the highest regulatory standards — because in blood banking, there is no margin for error.
+          </p>
+
+          <div className="mt-10 flex flex-col items-center justify-center gap-3 sm:flex-row">
+            <a
+              href="#contact"
+              className="inline-flex items-center gap-2 rounded-full px-8 py-4 text-sm font-semibold text-white shadow-[var(--shadow-brand)] transition-transform hover:scale-105"
+              style={{ background: "var(--gradient-brand)" }}
+            >
+              Secure Your Blood Supply Chain <ArrowRight className="h-4 w-4" />
+            </a>
+            <a
+              href="#contact"
+              className="inline-flex items-center gap-2 rounded-full border border-border bg-card px-8 py-4 text-sm font-semibold text-foreground transition-colors hover:bg-muted"
+            >
+              See It in Action
+            </a>
+          </div>
+
+          <p className="mx-auto mt-10 max-w-3xl text-sm text-muted-foreground md:text-base">
+            Trusted by blood banks across 25 countries · FDA 21 CFR Part 11 Compliant · AABB &amp; ISO 15189 Ready ·
+            Full Hemovigilance Support
           </p>
         </div>
       </section>
