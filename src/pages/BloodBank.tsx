@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
 import { useRef, useEffect, useState } from "react";
-import { motion, useInView, animate, useScroll, useTransform } from "framer-motion";
+import { motion, useInView, animate } from "framer-motion";
 import {
   ArrowRight,
   AlertTriangle,
@@ -14,13 +14,24 @@ import {
   Boxes,
   Activity,
   Tag,
-  ClipboardList,
   Hospital,
   HeartPulse,
-  Archive,
+  Workflow,
 } from "lucide-react";
 import logo from "@/assets/logo.png";
 import heroVideo from "@/assets/blood-bank/hero-video.mp4.asset.json";
+import ctaVideo from "@/assets/blood-bank/cta-video.mp4.asset.json";
+import bgStepsLight from "@/assets/bg-steps-light.png.asset.json";
+import problemMislabeled from "@/assets/blood-bank/problems/mislabeled.jpg";
+import problemExpired from "@/assets/blood-bank/problems/expired.jpg";
+import problemPaper from "@/assets/blood-bank/problems/paper.jpg";
+import problemReaction from "@/assets/blood-bank/problems/reaction.jpg";
+import problemAudit from "@/assets/blood-bank/problems/audit.jpg";
+import journeyDonor from "@/assets/blood-bank/journey/donor-arrives.jpg";
+import journeyCollection from "@/assets/blood-bank/journey/collection.jpg";
+import journeyTesting from "@/assets/blood-bank/journey/testing.jpg";
+import journeyCrossmatch from "@/assets/blood-bank/journey/crossmatch.jpg";
+import journeyTransfusion from "@/assets/blood-bank/journey/transfusion.jpg";
 import { Footer } from "@/components/Footer";
 import { CtaSection } from "@/components/CtaSection";
 import { MainNav } from "@/components/MainNav";
@@ -36,11 +47,11 @@ const features = [
 ];
 
 const journey = [
-  { icon: UserCheck, title: "Donor Arrives", body: "The system retrieves the donor's full history, runs automated eligibility checks, and either clears them for collection or flags the appropriate deferral reason — all before a needle is placed." },
-  { icon: Droplets, title: "Unit Collected & Processed", body: "Collection details are recorded in real time. Components are processed and entered into inventory with full traceability. Testing requests are sent automatically to the laboratory." },
-  { icon: FlaskConical, title: "Testing & Quarantine", body: "Units remain in quarantine until all required test results are received and validated. Reactive or incomplete results trigger automatic holds that cannot be overridden without authorization." },
-  { icon: TestTube2, title: "Crossmatch & Issue", body: "A transfusion request arrives from the ward. The system performs compatibility checks, confirms crossmatch results, and issues the unit with a complete handover record." },
-  { icon: HeartPulse, title: "Transfusion & Follow-up", body: "Transfusion is documented at the bedside. Any adverse events are reported through the integrated hemovigilance pathway. The complete unit lifecycle is archived for audit and regulatory review." },
+  { icon: UserCheck, title: "Donor Arrives", image: journeyDonor, body: "The system retrieves the donor's full history, runs automated eligibility checks, and either clears them for collection or flags the appropriate deferral reason — all before a needle is placed." },
+  { icon: Droplets, title: "Unit Collected & Processed", image: journeyCollection, body: "Collection details are recorded in real time. Components are processed and entered into inventory with full traceability. Testing requests are sent automatically to the laboratory." },
+  { icon: FlaskConical, title: "Testing & Quarantine", image: journeyTesting, body: "Units remain in quarantine until all required test results are received and validated. Reactive or incomplete results trigger automatic holds that cannot be overridden without authorization." },
+  { icon: TestTube2, title: "Crossmatch & Issue", image: journeyCrossmatch, body: "A transfusion request arrives from the ward. The system performs compatibility checks, confirms crossmatch results, and issues the unit with a complete handover record." },
+  { icon: HeartPulse, title: "Transfusion & Follow-up", image: journeyTransfusion, body: "Transfusion is documented at the bedside. Any adverse events are reported through the integrated hemovigilance pathway. The complete unit lifecycle is archived for audit and regulatory review." },
 ];
 
 const stats = [
@@ -51,11 +62,11 @@ const stats = [
 ];
 
 const problemCards = [
-  { title: "Mislabeled Units", body: "A mislabeled unit reaching the wrong patient — a single clerical error with life-threatening consequences and no easy path to recovery." },
-  { title: "Expired Components", body: "Expired components missed because inventory tracking was manual, wasting precious donations and exposing patients to risk." },
-  { title: "Paper-Based Donor History", body: "A donor turned away — or worse, cleared in error — because eligibility history was stored on paper and never reconciled." },
-  { title: "Unstructured Reaction Reporting", body: "A transfusion reaction with no structured reporting pathway, no investigation workflow, and no data trail for hemovigilance." },
-  { title: "Audit Gaps", body: "A regulatory audit revealing gaps in chain-of-custody documentation — exactly the gaps that erode trust and put licensure at risk." },
+  { title: "Mislabeled Units", image: problemMislabeled, body: "A mislabeled unit reaching the wrong patient — a single clerical error with life-threatening consequences and no easy path to recovery." },
+  { title: "Expired Components", image: problemExpired, body: "Expired components missed because inventory tracking was manual, wasting precious donations and exposing patients to risk." },
+  { title: "Paper-Based Donor History", image: problemPaper, body: "A donor turned away — or worse, cleared in error — because eligibility history was stored on paper and never reconciled." },
+  { title: "Unstructured Reaction Reporting", image: problemReaction, body: "A transfusion reaction with no structured reporting pathway, no investigation workflow, and no data trail for hemovigilance." },
+  { title: "Audit Gaps", image: problemAudit, body: "A regulatory audit revealing gaps in chain-of-custody documentation — exactly the gaps that erode trust and put licensure at risk." },
 ];
 
 const faqs = [
@@ -109,14 +120,74 @@ function AnimatedStat({ value }: { value: string }) {
   );
 }
 
-export default function BloodBank() {
-  const problemRef = useRef<HTMLDivElement>(null);
-  const { scrollYProgress: problemProgress } = useScroll({
-    target: problemRef,
-    offset: ["start start", "end end"],
-  });
-  const problemX = useTransform(problemProgress, [0.15, 0.82], ["0%", "-80%"]);
+function ExpandingJourney({ steps }: { steps: typeof journey }) {
+  const [active, setActive] = useState(0);
+  return (
+    <div className="mt-14 flex flex-col gap-3 md:flex-row md:gap-4 md:h-[520px]">
+      {steps.map((step, i) => {
+        const Icon = step.icon;
+        const isActive = active === i;
+        return (
+          <motion.div
+            key={step.title}
+            onMouseEnter={() => setActive(i)}
+            onClick={() => setActive(i)}
+            animate={{ flexGrow: isActive ? 4 : 1 }}
+            transition={{ duration: 0.55, ease: [0.4, 0, 0.2, 1] }}
+            className="group relative cursor-pointer overflow-hidden rounded-3xl border border-border bg-card/70 md:h-full md:p-8"
+            style={{ flexBasis: 0, minWidth: 0 }}
+          >
+            <div
+              className="absolute inset-0 bg-cover bg-center bg-no-repeat transition-transform duration-700 group-hover:scale-105"
+              style={{ backgroundImage: `url(${step.image})` }}
+              aria-hidden="true"
+            />
+            <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(5,12,24,0.35)_0%,rgba(5,12,24,0.72)_48%,rgba(5,12,24,0.94)_100%)]" aria-hidden="true" />
+            <div className="relative flex h-full min-h-[320px] flex-col p-7">
+              <div
+                className="flex h-14 w-14 items-center justify-center rounded-2xl text-white shadow-[var(--shadow-brand)]"
+                style={{ background: "var(--gradient-brand)" }}
+              >
+                <Icon className="h-7 w-7" />
+              </div>
 
+              <div className="mt-6 flex h-[calc(100%-3.5rem)] flex-col">
+                <motion.div
+                  animate={{ opacity: isActive ? 1 : 0 }}
+                  transition={{ duration: 0.3, delay: isActive ? 0.25 : 0 }}
+                  className="flex-1"
+                >
+                  {isActive && (
+                    <>
+                      <div className="text-xs font-bold uppercase tracking-[0.2em] text-white/70">
+                        Step {i + 1}
+                      </div>
+                      <h3 className="mt-2 text-2xl font-bold text-white md:text-3xl">{step.title}</h3>
+                      <p className="mt-4 max-w-md text-base leading-relaxed text-white/85">{step.body}</p>
+                    </>
+                  )}
+                </motion.div>
+
+                {!isActive && (
+                  <div className="mt-auto">
+                    <div className="text-xs font-bold uppercase tracking-[0.2em] text-white/65">
+                      Step {i + 1}
+                    </div>
+                    <h3 className="mt-2 text-lg font-semibold text-white md:text-xl">
+                      {step.title}
+                    </h3>
+                  </div>
+                )}
+              </div>
+            </div>
+          </motion.div>
+        );
+      })}
+    </div>
+  );
+}
+
+export default function BloodBank() {
   return (
     <>
       {/* HERO */}
@@ -186,6 +257,17 @@ export default function BloodBank() {
                   See It in Action
                 </a>
               </div>
+
+              <div className="mt-10 flex flex-wrap items-center justify-center gap-3">
+                {trustChips.map((chip) => (
+                  <span
+                    key={chip}
+                    className="rounded-full border border-white/20 bg-white/5 px-4 py-2 text-xs font-medium text-white/90 backdrop-blur md:text-sm"
+                  >
+                    {chip}
+                  </span>
+                ))}
+              </div>
             </motion.div>
           </section>
         </div>
@@ -208,82 +290,58 @@ export default function BloodBank() {
             transfusion. Built with safety-first logic to protect patients and streamline blood bank operations under
             the highest regulatory standards — because in blood banking, there is no margin for error.
           </p>
-
-          <div className="mt-10 flex flex-col items-center justify-center gap-3 sm:flex-row">
-            <a
-              href="#contact"
-              className="inline-flex items-center gap-2 rounded-full px-8 py-4 text-sm font-semibold text-white shadow-[var(--shadow-brand)] transition-transform hover:scale-105"
-              style={{ background: "var(--gradient-brand)" }}
-            >
-              Secure Your Blood Supply Chain <ArrowRight className="h-4 w-4" />
-            </a>
-            <a
-              href="#contact"
-              className="inline-flex items-center gap-2 rounded-full border border-border bg-card px-8 py-4 text-sm font-semibold text-foreground transition-colors hover:bg-muted"
-            >
-              See It in Action
-            </a>
-          </div>
-
-          <p className="mx-auto mt-10 max-w-3xl text-sm text-muted-foreground md:text-base">
-            Trusted by blood banks across 25 countries · FDA 21 CFR Part 11 Compliant · AABB &amp; ISO 15189 Ready ·
-            Full Hemovigilance Support
-          </p>
         </div>
       </section>
 
-      {/* PROBLEM — horizontal scroll */}
-      <section ref={problemRef} className="relative bg-[#0a0e1a]" style={{ height: "300vh" }}>
-        <div className="sticky top-0 flex min-h-screen flex-col overflow-hidden">
-          <div className="mx-auto w-full max-w-7xl px-6 pt-14 md:px-12 md:pt-16">
+      {/* PROBLEM — grid, all cards visible */}
+      <section className="relative bg-[#0a0e1a] px-6 py-24 md:px-12 md:py-32">
+        <div className="mx-auto max-w-7xl">
+          <div className="max-w-4xl">
             <span className="inline-flex items-center gap-2 rounded-full bg-red-500/10 px-3 py-1.5 text-xs font-semibold uppercase tracking-wider text-red-300 ring-1 ring-red-500/20">
               <AlertTriangle className="h-3.5 w-3.5" /> The Problem
             </span>
-            <h2 className="mt-5 max-w-5xl text-2xl font-bold leading-[1.1] tracking-tight text-white md:text-4xl lg:text-5xl">
+            <h2 className="mt-5 text-3xl font-bold leading-[1.1] tracking-tight text-white md:text-4xl lg:text-5xl">
               These Are Not Hypothetical Risks.{" "}
               <span className="bg-clip-text text-transparent" style={{ backgroundImage: "var(--gradient-brand)" }}>
                 They Happen Every Day.
               </span>
             </h2>
-            <p className="mt-4 max-w-2xl text-sm leading-relaxed text-white/65 md:text-base">
+            <p className="mt-5 max-w-2xl text-base leading-relaxed text-white/65">
               In blood banks running on outdated or disconnected systems, small failures compound into patient safety
               incidents and compliance crises.
             </p>
           </div>
 
-          <div className="mt-8 flex flex-1 items-center overflow-hidden pb-16 md:mt-10 md:pb-24">
-            <motion.div style={{ x: problemX }} className="flex items-stretch gap-6 px-6 md:gap-8 md:px-12">
-              {problemCards.map((card, i) => {
-                const gradients = [
-                  "radial-gradient(ellipse at 30% 30%, rgba(220,38,38,0.55), transparent 60%), linear-gradient(135deg,#1a0a12,#0a0e1a)",
-                  "radial-gradient(ellipse at 70% 40%, rgba(190,18,60,0.5), transparent 60%), linear-gradient(135deg,#0f1424,#1a0a12)",
-                  "radial-gradient(ellipse at 50% 80%, rgba(159,18,57,0.55), transparent 60%), linear-gradient(135deg,#0a0e1a,#1a0a12)",
-                  "radial-gradient(ellipse at 20% 60%, rgba(220,38,38,0.5), transparent 60%), linear-gradient(135deg,#140818,#0a0e1a)",
-                  "radial-gradient(ellipse at 80% 30%, rgba(190,18,60,0.55), transparent 60%), linear-gradient(135deg,#0a0e1a,#140818)",
-                ];
-                return (
-                  <article
-                    key={card.title}
-                    className="flex w-[82vw] shrink-0 flex-col overflow-hidden rounded-[2rem] bg-[#0f1424] shadow-2xl ring-1 ring-white/10 md:w-[440px] lg:w-[480px]"
-                  >
-                    <div
-                      className="relative flex h-56 w-full items-center justify-center md:h-64"
-                      style={{ background: gradients[i % gradients.length] }}
-                    >
-                      <AlertTriangle className="h-20 w-20 text-white/15" strokeWidth={1.2} />
-                      <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-[#0f1424]" />
-                    </div>
-                    <div className="flex flex-1 flex-col p-7 md:p-8">
-                      <span className="text-xs font-semibold uppercase tracking-[0.3em] text-red-300">
-                        0{i + 1} — Risk
-                      </span>
-                      <h3 className="mt-3 text-xl font-bold leading-tight text-white md:text-2xl">{card.title}</h3>
-                      <p className="mt-4 text-sm leading-relaxed text-white/75 md:text-base">{card.body}</p>
-                    </div>
-                  </article>
-                );
-              })}
-            </motion.div>
+          <div className="mt-14 grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+            {problemCards.map((card, i) => (
+              <motion.article
+                key={card.title}
+                initial={{ opacity: 0, y: 24 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, margin: "-60px" }}
+                transition={{ duration: 0.55, delay: (i % 3) * 0.1 }}
+                className="group flex flex-col overflow-hidden rounded-[1.75rem] bg-[#0f1424] shadow-2xl ring-1 ring-white/10"
+              >
+                <div className="relative h-56 w-full overflow-hidden">
+                  <img
+                    src={card.image}
+                    alt={card.title}
+                    loading="lazy"
+                    width={1024}
+                    height={768}
+                    className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-105"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-[#0f1424]" />
+                </div>
+                <div className="flex flex-1 flex-col p-7">
+                  <span className="text-xs font-semibold uppercase tracking-[0.3em] text-red-300">
+                    0{i + 1} — Risk
+                  </span>
+                  <h3 className="mt-3 text-xl font-bold leading-tight text-white">{card.title}</h3>
+                  <p className="mt-3 text-sm leading-relaxed text-white/75">{card.body}</p>
+                </div>
+              </motion.article>
+            ))}
           </div>
         </div>
       </section>
@@ -335,45 +393,27 @@ export default function BloodBank() {
         </div>
       </section>
 
-      {/* HOW IT WORKS */}
-      <section className="bg-background px-6 py-24 md:px-12 md:py-32">
-        <div className="mx-auto max-w-6xl">
+      {/* HOW IT WORKS — HIS style expanding journey */}
+      <section
+        className="relative px-6 py-24 md:px-12"
+        style={{
+          backgroundImage: `url(${bgStepsLight.url})`,
+          backgroundSize: "cover",
+          backgroundPosition: "center",
+          backgroundAttachment: "fixed",
+        }}
+      >
+        <div className="relative mx-auto max-w-7xl">
           <div className="mx-auto max-w-3xl text-center">
-            <span className="text-xs font-semibold uppercase tracking-[0.3em] text-[color:var(--brand-blue)]">
-              How It Works
+            <span className="inline-flex items-center gap-2 rounded-full bg-[color:var(--brand-blue)]/10 px-3 py-1.5 text-xs font-semibold uppercase tracking-wider text-[color:var(--brand-blue)]">
+              <Workflow className="h-3.5 w-3.5" /> How It Works
             </span>
-            <h2 className="mt-4 text-3xl font-bold tracking-tight text-foreground md:text-5xl">
-              Safety Built Into Every Step
+            <h2 className="mt-5 text-3xl font-bold tracking-tight text-foreground md:text-5xl">
+              The Complete Blood Journey — Managed in One System
             </h2>
           </div>
 
-          <div className="mt-14 grid gap-6 md:grid-cols-2 lg:grid-cols-5">
-            {journey.map((step, i) => {
-              const Icon = step.icon;
-              return (
-                <motion.div
-                  key={step.title}
-                  initial={{ opacity: 0, y: 24 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true, margin: "-60px" }}
-                  transition={{ duration: 0.5, delay: i * 0.08 }}
-                  className="relative rounded-2xl border border-border bg-card p-6"
-                >
-                  <div
-                    className="inline-flex h-12 w-12 items-center justify-center rounded-xl text-white shadow-[var(--shadow-brand)]"
-                    style={{ background: "var(--gradient-brand)" }}
-                  >
-                    <Icon className="h-6 w-6" />
-                  </div>
-                  <div className="mt-5 text-xs font-bold uppercase tracking-[0.2em] text-[color:var(--brand-blue)]">
-                    Step {i + 1}
-                  </div>
-                  <h3 className="mt-2 text-base font-bold text-foreground">{step.title}</h3>
-                  <p className="mt-2 text-sm leading-relaxed text-foreground/70">{step.body}</p>
-                </motion.div>
-              );
-            })}
-          </div>
+          <ExpandingJourney steps={journey} />
         </div>
       </section>
 
@@ -411,21 +451,21 @@ export default function BloodBank() {
         </div>
       </section>
 
-      {/* INTEGRATIONS */}
+      {/* INTEGRATIONS — single row */}
       <section className="px-6 py-24 md:px-12">
-        <div className="mx-auto max-w-4xl text-center">
+        <div className="mx-auto max-w-6xl text-center">
           <span className="inline-flex items-center gap-2 rounded-full bg-[color:var(--brand-blue)]/10 px-3 py-1.5 text-xs font-semibold uppercase tracking-wider text-[color:var(--brand-blue)]">
             <Network className="h-3.5 w-3.5" /> Integrations
           </span>
           <h2 className="mt-5 text-3xl font-bold tracking-tight text-foreground md:text-5xl">
             Connected Across Your Entire Hospital Ecosystem
           </h2>
-          <p className="mt-6 text-base leading-relaxed text-foreground/70 md:text-lg">
+          <p className="mx-auto mt-6 max-w-3xl text-base leading-relaxed text-foreground/70 md:text-lg">
             Secreta Blood Bank integrates directly with your HIS, LIS, and EMR to eliminate duplicate data entry and
             ensure real-time information flow between departments. Transfusion requests arrive automatically from
             clinical systems. Test results flow in from the laboratory without manual transcription.
           </p>
-          <div className="mt-10 flex flex-wrap justify-center gap-3">
+          <div className="mt-10 flex flex-nowrap items-center gap-3 overflow-x-auto pb-2 md:justify-center md:overflow-visible">
             {[
               "ISBT 128",
               "HL7 v2 & FHIR",
@@ -437,7 +477,7 @@ export default function BloodBank() {
             ].map((tag) => (
               <span
                 key={tag}
-                className="rounded-full border border-border bg-card px-4 py-2 text-sm font-medium text-foreground/80 shadow-sm"
+                className="shrink-0 whitespace-nowrap rounded-full border border-border bg-card px-4 py-2 text-sm font-medium text-foreground/80 shadow-sm"
               >
                 {tag}
               </span>
@@ -484,21 +524,22 @@ export default function BloodBank() {
         </div>
       </section>
 
-      {/* FINAL CTA */}
+      {/* FINAL CTA — video background */}
       <section
         id="contact"
         className="relative overflow-hidden px-6 py-24 md:px-12"
         style={{ backgroundColor: "#091628" }}
       >
         <div className="absolute inset-0">
-          <div
-            className="absolute inset-0"
-            style={{
-              background:
-                "radial-gradient(circle at 30% 30%, rgba(220,38,38,0.35), transparent 55%), radial-gradient(circle at 70% 70%, rgba(99,102,241,0.3), transparent 55%)",
-            }}
+          <video
+            src={ctaVideo.url}
+            autoPlay
+            muted
+            loop
+            playsInline
+            className="absolute inset-0 h-full w-full object-cover"
           />
-          <div className="absolute inset-0 bg-gradient-to-b from-[#091628]/60 via-[#091628]/45 to-[#091628]/70" />
+          <div className="absolute inset-0 bg-gradient-to-b from-[#091628]/75 via-[#091628]/65 to-[#091628]/85" />
         </div>
         <div className="relative mx-auto max-w-4xl text-center">
           <h2 className="text-3xl font-bold tracking-tight text-white md:text-5xl">
@@ -507,7 +548,7 @@ export default function BloodBank() {
               Before the Transfusion Starts.
             </span>
           </h2>
-          <p className="mt-8 text-lg leading-relaxed text-white/80">
+          <p className="mt-8 text-lg leading-relaxed text-white/85">
             Every unit your blood bank issues carries the weight of a patient's life. Give your team the system that
             matches that responsibility — with the traceability, safety logic, and compliance tools that leave nothing
             to chance.
@@ -529,7 +570,7 @@ export default function BloodBank() {
             </a>
           </div>
 
-          <p className="mt-8 text-sm italic text-white/60">
+          <p className="mt-8 text-sm italic text-white/70">
             No setup fees. No long-term contracts. Dedicated support from day one.
           </p>
         </div>
