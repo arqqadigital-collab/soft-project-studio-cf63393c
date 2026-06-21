@@ -33,7 +33,7 @@ const menus: Menu[] = [
         label: "Specialized Clinical Modules",
         description: "Targeted modules for specialized care",
         items: [
-          { label: "Blood Bank & Donor Management", href: "#" },
+          { label: "Blood Bank & Donor Management", to: "/healthcare/blood-bank" },
           { label: "Medication & Dosage Management", href: "#" },
           { label: "Telemedicine & Virtual Care", href: "#" },
           { label: "Hospital Operations & RTLS", href: "#" },
