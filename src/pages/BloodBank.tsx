@@ -253,24 +253,36 @@ export default function BloodBank() {
 
           <div className="mt-8 flex flex-1 items-center overflow-hidden pb-16 md:mt-10 md:pb-24">
             <motion.div style={{ x: problemX }} className="flex items-stretch gap-6 px-6 md:gap-8 md:px-12">
-              {problemCards.map((card, i) => (
-                <article
-                  key={card.title}
-                  className="flex w-[82vw] shrink-0 flex-col overflow-hidden rounded-[2rem] bg-[#0f1424] p-7 shadow-2xl ring-1 ring-white/10 md:w-[420px] md:p-8 lg:w-[460px]"
-                >
-                  <div
-                    className="inline-flex h-12 w-12 items-center justify-center rounded-xl text-white shadow-[var(--shadow-brand)]"
-                    style={{ background: "linear-gradient(135deg,#dc2626,#9f1239)" }}
+              {problemCards.map((card, i) => {
+                const gradients = [
+                  "radial-gradient(ellipse at 30% 30%, rgba(220,38,38,0.55), transparent 60%), linear-gradient(135deg,#1a0a12,#0a0e1a)",
+                  "radial-gradient(ellipse at 70% 40%, rgba(190,18,60,0.5), transparent 60%), linear-gradient(135deg,#0f1424,#1a0a12)",
+                  "radial-gradient(ellipse at 50% 80%, rgba(159,18,57,0.55), transparent 60%), linear-gradient(135deg,#0a0e1a,#1a0a12)",
+                  "radial-gradient(ellipse at 20% 60%, rgba(220,38,38,0.5), transparent 60%), linear-gradient(135deg,#140818,#0a0e1a)",
+                  "radial-gradient(ellipse at 80% 30%, rgba(190,18,60,0.55), transparent 60%), linear-gradient(135deg,#0a0e1a,#140818)",
+                ];
+                return (
+                  <article
+                    key={card.title}
+                    className="flex w-[82vw] shrink-0 flex-col overflow-hidden rounded-[2rem] bg-[#0f1424] shadow-2xl ring-1 ring-white/10 md:w-[440px] lg:w-[480px]"
                   >
-                    <AlertTriangle className="h-6 w-6" />
-                  </div>
-                  <span className="mt-6 text-xs font-semibold uppercase tracking-[0.3em] text-red-300">
-                    0{i + 1} — Risk
-                  </span>
-                  <h3 className="mt-3 text-lg font-bold leading-tight text-white md:text-xl">{card.title}</h3>
-                  <p className="mt-3 text-sm leading-relaxed text-white/75">{card.body}</p>
-                </article>
-              ))}
+                    <div
+                      className="relative flex h-56 w-full items-center justify-center md:h-64"
+                      style={{ background: gradients[i % gradients.length] }}
+                    >
+                      <AlertTriangle className="h-20 w-20 text-white/15" strokeWidth={1.2} />
+                      <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-[#0f1424]" />
+                    </div>
+                    <div className="flex flex-1 flex-col p-7 md:p-8">
+                      <span className="text-xs font-semibold uppercase tracking-[0.3em] text-red-300">
+                        0{i + 1} — Risk
+                      </span>
+                      <h3 className="mt-3 text-xl font-bold leading-tight text-white md:text-2xl">{card.title}</h3>
+                      <p className="mt-4 text-sm leading-relaxed text-white/75 md:text-base">{card.body}</p>
+                    </div>
+                  </article>
+                );
+              })}
             </motion.div>
           </div>
         </div>
