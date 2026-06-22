@@ -31,6 +31,11 @@ import journeyAnalyze from "@/assets/ai-imaging/journey/analyze.jpg";
 import journeyPrioritize from "@/assets/ai-imaging/journey/prioritize.jpg";
 import journeyReview from "@/assets/ai-imaging/journey/review.jpg";
 import journeyDeliver from "@/assets/ai-imaging/journey/deliver.jpg";
+import problemWorkload from "@/assets/ai-imaging/problems/workload.jpg";
+import problemSubtle from "@/assets/ai-imaging/problems/subtle.jpg";
+import problemWorklist from "@/assets/ai-imaging/problems/worklist.jpg";
+import problemIncidental from "@/assets/ai-imaging/problems/incidental.jpg";
+import problemRural from "@/assets/ai-imaging/problems/rural.jpg";
 import bgStepsLight from "@/assets/bg-steps-light.png.asset.json";
 import { Footer } from "@/components/Footer";
 
@@ -67,11 +72,11 @@ const stats = [
 ];
 
 const problemCards = [
-  { title: "Radiologist Workload Crisis", body: "Workloads have increased over 30% in the last decade while trained radiologists have not kept pace. Studies are read faster, under greater pressure, with less time per image — and the error rate reflects it." },
-  { title: "Subtle Findings Get Missed", body: "A 4mm pulmonary nodule, early diabetic retinopathy, a hairline fracture on a night shift plain film — the findings most likely to be missed are the ones most likely to matter." },
-  { title: "Critical Studies Sit in Worklists", body: "Time-sensitive studies sit in queues for hours because there is no automated triage logic to surface them before a radiologist manually reviews the worklist." },
-  { title: "Incidental Findings Go Unreported", body: "Findings in non-target organs are missed because no structured system prompts the radiologist to look beyond the primary clinical indication." },
-  { title: "Rural Sites Wait for Subspecialty Reads", body: "Under-resourced facilities perform imaging without access to subspecialty expertise — patients wait days or weeks for a specialist read that AI-assisted workflows could support in minutes." },
+  { title: "Radiologist Workload Crisis", body: "Workloads have increased over 30% in the last decade while trained radiologists have not kept pace. Studies are read faster, under greater pressure, with less time per image — and the error rate reflects it.", image: problemWorkload },
+  { title: "Subtle Findings Get Missed", body: "A 4mm pulmonary nodule, early diabetic retinopathy, a hairline fracture on a night shift plain film — the findings most likely to be missed are the ones most likely to matter.", image: problemSubtle },
+  { title: "Critical Studies Sit in Worklists", body: "Time-sensitive studies sit in queues for hours because there is no automated triage logic to surface them before a radiologist manually reviews the worklist.", image: problemWorklist },
+  { title: "Incidental Findings Go Unreported", body: "Findings in non-target organs are missed because no structured system prompts the radiologist to look beyond the primary clinical indication.", image: problemIncidental },
+  { title: "Rural Sites Wait for Subspecialty Reads", body: "Under-resourced facilities perform imaging without access to subspecialty expertise — patients wait days or weeks for a specialist read that AI-assisted workflows could support in minutes.", image: problemRural },
 ];
 
 const faqs = [
@@ -296,9 +301,6 @@ export default function AIImaging() {
                 Solve.
               </span>
             </h2>
-            <p className="mt-5 max-w-3xl text-base leading-relaxed text-white/70 md:text-lg">
-              AI in medical imaging is no longer a research aspiration. It is a clinical necessity — and the technology is ready.
-            </p>
           </div>
 
           <div className="mt-6 flex flex-1 items-center overflow-hidden md:mt-8">
@@ -308,6 +310,16 @@ export default function AIImaging() {
                   key={i}
                   className="flex w-[82vw] shrink-0 flex-col overflow-hidden rounded-[2rem] bg-[#0f1424] shadow-2xl ring-1 ring-white/10 md:w-[440px] lg:w-[480px]"
                 >
+                  <div className="aspect-[16/9] w-full overflow-hidden bg-black/40">
+                    <img
+                      src={card.image}
+                      alt={card.title}
+                      loading="lazy"
+                      width={896}
+                      height={512}
+                      className="h-full w-full object-cover"
+                    />
+                  </div>
                   <div className="flex flex-1 flex-col p-7 md:p-8">
                     <span className="text-xs font-semibold uppercase tracking-[0.3em] text-red-300">
                       0{i + 1} — Pressure Point
