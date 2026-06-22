@@ -301,9 +301,6 @@ export default function AIImaging() {
                 Solve.
               </span>
             </h2>
-            <p className="mt-5 max-w-3xl text-base leading-relaxed text-white/70 md:text-lg">
-              AI in medical imaging is no longer a research aspiration. It is a clinical necessity — and the technology is ready.
-            </p>
           </div>
 
           <div className="mt-6 flex flex-1 items-center overflow-hidden md:mt-8">
@@ -313,6 +310,16 @@ export default function AIImaging() {
                   key={i}
                   className="flex w-[82vw] shrink-0 flex-col overflow-hidden rounded-[2rem] bg-[#0f1424] shadow-2xl ring-1 ring-white/10 md:w-[440px] lg:w-[480px]"
                 >
+                  <div className="aspect-[16/9] w-full overflow-hidden bg-black/40">
+                    <img
+                      src={card.image}
+                      alt={card.title}
+                      loading="lazy"
+                      width={896}
+                      height={512}
+                      className="h-full w-full object-cover"
+                    />
+                  </div>
                   <div className="flex flex-1 flex-col p-7 md:p-8">
                     <span className="text-xs font-semibold uppercase tracking-[0.3em] text-red-300">
                       0{i + 1} — Pressure Point
