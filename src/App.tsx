@@ -33,16 +33,19 @@ function NotFound() {
 
 export default function App() {
   return (
-    <Routes>
-      <Route path="/" element={<Index />} />
-      <Route path="/about" element={<About />} />
+    <>
+      <Header />
+      <Routes>
+        <Route path="/" element={<Index />} />
+        <Route path="/about" element={<About />} />
         <Route path="/healthcare/his" element={<HIS />} />
         <Route path="/healthcare/dental" element={<Dental />} />
         <Route path="/healthcare/lis" element={<LIS />} />
         <Route path="/healthcare/ris" element={<RIS />} />
         <Route path="/healthcare/rcm" element={<RCM />} />
         <Route path="/healthcare/blood-bank" element={<BloodBank />} />
-      <Route path="*" element={<NotFound />} />
-    </Routes>
+        <Route path="*" element={<NotFound />} />
+      </Routes>
+    </>
   );
 }
