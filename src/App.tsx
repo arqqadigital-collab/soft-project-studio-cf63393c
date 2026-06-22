@@ -8,6 +8,7 @@ import LIS from "./pages/LIS";
 import RIS from "./pages/RIS";
 import RCM from "./pages/RCM";
 import BloodBank from "./pages/BloodBank";
+import MedicationDosage from "./pages/MedicationDosage";
 
 function NotFound() {
   return (
@@ -44,6 +45,7 @@ export default function App() {
         <Route path="/healthcare/ris" element={<RIS />} />
         <Route path="/healthcare/rcm" element={<RCM />} />
         <Route path="/healthcare/blood-bank" element={<BloodBank />} />
+        <Route path="/healthcare/medication-dosage" element={<MedicationDosage />} />
         <Route path="*" element={<NotFound />} />
       </Routes>
     </>
