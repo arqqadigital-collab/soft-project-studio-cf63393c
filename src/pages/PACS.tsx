@@ -8,6 +8,12 @@ import {
   Network,
   Workflow,
   Layers,
+  ScanSearch,
+  Boxes,
+  Globe2,
+  Cpu,
+  FileCode2,
+
   HardDrive,
   Monitor,
   Users,
