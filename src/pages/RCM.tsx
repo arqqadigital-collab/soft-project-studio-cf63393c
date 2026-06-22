@@ -89,7 +89,7 @@ function ExpandingJourney({ steps }: { steps: typeof journey }) {
             onClick={() => setActive(i)}
             animate={{ flexGrow: isActive ? 4 : 1 }}
             transition={{ duration: 0.55, ease: [0.4, 0, 0.2, 1] }}
-            className="group relative cursor-pointer overflow-hidden rounded-3xl border border-border bg-card/70 md:h-full"
+            className={`group relative cursor-pointer overflow-hidden rounded-3xl border border-border bg-card/70 md:h-full`}
             style={{ flexBasis: 0, minWidth: 0 }}
           >
             <div
@@ -98,7 +98,7 @@ function ExpandingJourney({ steps }: { steps: typeof journey }) {
               aria-hidden="true"
             />
             <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(5,12,24,0.38)_0%,rgba(5,12,24,0.72)_50%,rgba(5,12,24,0.95)_100%)]" aria-hidden="true" />
-            <div className="relative flex h-full min-h-[320px] flex-col p-7">
+            <div className={`relative flex h-full min-h-[320px] flex-col ${isActive ? 'p-7' : 'p-4'}`}>
               <div
                 className="flex h-14 w-14 items-center justify-center rounded-2xl text-white shadow-[var(--shadow-brand)]"
                 style={{ background: "var(--gradient-brand)" }}
@@ -121,8 +121,8 @@ function ExpandingJourney({ steps }: { steps: typeof journey }) {
                 </motion.div>
                 {!isActive && (
                   <div className="mt-auto">
-                    <div className="text-xs font-bold uppercase tracking-[0.2em] text-white/65">Step {i + 1}</div>
-                    <h3 className="mt-2 text-lg font-semibold text-white md:text-xl">{step.title}</h3>
+                    <div className="text-[10px] font-bold uppercase tracking-[0.2em] text-white/65">Step {i + 1}</div>
+                    <h3 className="mt-2 text-sm font-semibold leading-snug text-white md:text-base">{step.title}</h3>
                   </div>
                 )}
               </div>
