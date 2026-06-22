@@ -293,58 +293,8 @@ export default function BloodBank() {
         </div>
       </section>
 
-      {/* PROBLEM — grid, all cards visible */}
-      <section className="relative bg-[#0a0e1a] px-6 py-24 md:px-12 md:py-32">
-        <div className="mx-auto max-w-7xl">
-          <div className="max-w-4xl">
-            <span className="inline-flex items-center gap-2 rounded-full bg-red-500/10 px-3 py-1.5 text-xs font-semibold uppercase tracking-wider text-red-300 ring-1 ring-red-500/20">
-              <AlertTriangle className="h-3.5 w-3.5" /> The Problem
-            </span>
-            <h2 className="mt-5 text-3xl font-bold leading-[1.1] tracking-tight text-white md:text-4xl lg:text-5xl">
-              These Are Not Hypothetical Risks.{" "}
-              <span className="bg-clip-text text-transparent" style={{ backgroundImage: "var(--gradient-brand)" }}>
-                They Happen Every Day.
-              </span>
-            </h2>
-            <p className="mt-5 max-w-2xl text-base leading-relaxed text-white/65">
-              In blood banks running on outdated or disconnected systems, small failures compound into patient safety
-              incidents and compliance crises.
-            </p>
-          </div>
-
-          <div className="mt-14 grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-            {problemCards.map((card, i) => (
-              <motion.article
-                key={card.title}
-                initial={{ opacity: 0, y: 24 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true, margin: "-60px" }}
-                transition={{ duration: 0.55, delay: (i % 3) * 0.1 }}
-                className="group flex flex-col overflow-hidden rounded-[1.75rem] bg-[#0f1424] shadow-2xl ring-1 ring-white/10"
-              >
-                <div className="relative h-56 w-full overflow-hidden">
-                  <img
-                    src={card.image}
-                    alt={card.title}
-                    loading="lazy"
-                    width={1024}
-                    height={768}
-                    className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-105"
-                  />
-                  <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-[#0f1424]" />
-                </div>
-                <div className="flex flex-1 flex-col p-7">
-                  <span className="text-xs font-semibold uppercase tracking-[0.3em] text-red-300">
-                    0{i + 1} — Risk
-                  </span>
-                  <h3 className="mt-3 text-xl font-bold leading-tight text-white">{card.title}</h3>
-                  <p className="mt-3 text-sm leading-relaxed text-white/75">{card.body}</p>
-                </div>
-              </motion.article>
-            ))}
-          </div>
-        </div>
-      </section>
+      {/* PROBLEM — horizontal scroll on dark */}
+      <ProblemSection />
 
       {/* SOLUTION / FEATURES */}
       <section
