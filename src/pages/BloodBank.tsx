@@ -301,7 +301,59 @@ export default function BloodBank() {
       </section>
 
       {/* PROBLEM — horizontal scroll on dark */}
-      <ProblemSection />
+      <section ref={problemRef} className="relative bg-[#0a0e1a]" style={{ height: "320vh" }}>
+        <div className="sticky top-0 flex min-h-screen flex-col overflow-hidden pb-12 md:pb-16">
+          {/* Header */}
+          <div className="mx-auto w-full max-w-7xl px-6 pt-14 md:px-12 md:pt-16">
+            <span className="inline-flex items-center gap-2 rounded-full bg-red-500/10 px-3 py-1.5 text-xs font-semibold uppercase tracking-wider text-red-300 ring-1 ring-red-500/20">
+              <AlertTriangle className="h-3.5 w-3.5" /> The Problem
+            </span>
+            <h2 className="mt-5 max-w-5xl text-3xl font-bold leading-[1.1] tracking-tight text-white md:text-4xl lg:text-5xl">
+              These Are Not Hypothetical Risks.{" "}
+              <span className="bg-clip-text text-transparent" style={{ backgroundImage: "var(--gradient-brand)" }}>
+                They Happen Every Day.
+              </span>
+            </h2>
+            <p className="mt-5 max-w-2xl text-base leading-relaxed text-white/65">
+              In blood banks running on outdated or disconnected systems, small failures compound into patient safety
+              incidents and compliance crises.
+            </p>
+          </div>
+
+          {/* Horizontally scrolling cards */}
+          <div className="mt-10 flex flex-1 items-center overflow-hidden md:mt-12">
+            <motion.div style={{ x: problemX }} className="flex items-stretch gap-6 px-6 md:gap-8 md:px-12">
+              {problemCards.map((card, i) => (
+                <article
+                  key={i}
+                  className="flex w-[82vw] shrink-0 flex-col overflow-hidden rounded-[2rem] bg-[#0f1424] shadow-2xl ring-1 ring-white/10 md:w-[440px] lg:w-[480px]"
+                >
+                  <div className="relative h-[190px] w-full overflow-hidden md:h-[210px]">
+                    <img
+                      src={card.image}
+                      alt={card.title}
+                      loading="lazy"
+                      className="h-full w-full object-cover"
+                    />
+                    <div className="absolute inset-0 bg-gradient-to-t from-[#0f1424] via-[#0f1424]/30 to-transparent" />
+                  </div>
+                  <div className="flex flex-1 flex-col p-6 md:p-7">
+                    <span className="text-xs font-semibold uppercase tracking-[0.3em] text-red-300">
+                      0{i + 1} — Risk
+                    </span>
+                    <h3 className="mt-3 text-xl font-bold leading-tight text-white md:text-2xl">
+                      {card.title}
+                    </h3>
+                    <p className="mt-3 text-sm leading-relaxed text-white/75">
+                      {card.body}
+                    </p>
+                  </div>
+                </article>
+              ))}
+            </motion.div>
+          </div>
+        </div>
+      </section>
 
       {/* SOLUTION / FEATURES */}
       <section
