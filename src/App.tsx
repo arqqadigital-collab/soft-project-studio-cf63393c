@@ -10,6 +10,7 @@ import RCM from "./pages/RCM";
 import BloodBank from "./pages/BloodBank";
 import MedicationDosage from "./pages/MedicationDosage";
 import PACS from "./pages/PACS";
+import AIImaging from "./pages/AIImaging";
 
 function NotFound() {
   return (
@@ -48,6 +49,7 @@ export default function App() {
         <Route path="/healthcare/blood-bank" element={<BloodBank />} />
         <Route path="/healthcare/medication-dosage" element={<MedicationDosage />} />
         <Route path="/healthcare/pacs" element={<PACS />} />
+        <Route path="/healthcare/ai-imaging" element={<AIImaging />} />
         <Route path="*" element={<NotFound />} />
       </Routes>
     </>
