@@ -72,11 +72,11 @@ const stats = [
 ];
 
 const problemCards = [
-  { title: "Radiologist Workload Crisis", body: "Workloads have increased over 30% in the last decade while trained radiologists have not kept pace. Studies are read faster, under greater pressure, with less time per image — and the error rate reflects it." },
-  { title: "Subtle Findings Get Missed", body: "A 4mm pulmonary nodule, early diabetic retinopathy, a hairline fracture on a night shift plain film — the findings most likely to be missed are the ones most likely to matter." },
-  { title: "Critical Studies Sit in Worklists", body: "Time-sensitive studies sit in queues for hours because there is no automated triage logic to surface them before a radiologist manually reviews the worklist." },
-  { title: "Incidental Findings Go Unreported", body: "Findings in non-target organs are missed because no structured system prompts the radiologist to look beyond the primary clinical indication." },
-  { title: "Rural Sites Wait for Subspecialty Reads", body: "Under-resourced facilities perform imaging without access to subspecialty expertise — patients wait days or weeks for a specialist read that AI-assisted workflows could support in minutes." },
+  { title: "Radiologist Workload Crisis", body: "Workloads have increased over 30% in the last decade while trained radiologists have not kept pace. Studies are read faster, under greater pressure, with less time per image — and the error rate reflects it.", image: problemWorkload },
+  { title: "Subtle Findings Get Missed", body: "A 4mm pulmonary nodule, early diabetic retinopathy, a hairline fracture on a night shift plain film — the findings most likely to be missed are the ones most likely to matter.", image: problemSubtle },
+  { title: "Critical Studies Sit in Worklists", body: "Time-sensitive studies sit in queues for hours because there is no automated triage logic to surface them before a radiologist manually reviews the worklist.", image: problemWorklist },
+  { title: "Incidental Findings Go Unreported", body: "Findings in non-target organs are missed because no structured system prompts the radiologist to look beyond the primary clinical indication.", image: problemIncidental },
+  { title: "Rural Sites Wait for Subspecialty Reads", body: "Under-resourced facilities perform imaging without access to subspecialty expertise — patients wait days or weeks for a specialist read that AI-assisted workflows could support in minutes.", image: problemRural },
 ];
 
 const faqs = [
