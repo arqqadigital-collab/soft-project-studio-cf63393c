@@ -308,7 +308,7 @@ export default function BloodBank() {
             <span className="inline-flex items-center gap-2 rounded-full bg-red-500/10 px-3 py-1.5 text-xs font-semibold uppercase tracking-wider text-red-300 ring-1 ring-red-500/20">
               <AlertTriangle className="h-3.5 w-3.5" /> The Problem
             </span>
-            <h2 className="mt-5 max-w-5xl text-3xl font-bold leading-[1.1] tracking-tight text-white md:text-4xl lg:text-5xl">
+            <h2 className="mt-5 max-w-5xl text-3xl font-bold leading-[1.1] tracking-tight text-white md:text-4xl lg:text-[2.5rem]">
               These Are Not Hypothetical Risks.{" "}
               <span className="bg-clip-text text-transparent" style={{ backgroundImage: "var(--gradient-brand)" }}>
                 They Happen Every Day.
@@ -321,7 +321,7 @@ export default function BloodBank() {
           </div>
 
           {/* Horizontally scrolling cards */}
-          <div className="mt-10 flex flex-1 items-center overflow-hidden md:mt-12">
+          <div className="mt-6 flex flex-1 items-center overflow-hidden md:mt-8">
             <motion.div style={{ x: problemX }} className="flex items-stretch gap-6 px-6 md:gap-8 md:px-12">
               {problemCards.map((card, i) => (
                 <article
