@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
 import { useRef, useEffect, useState } from "react";
-import { motion, useInView, animate } from "framer-motion";
+import { motion, useScroll, useTransform, useInView, animate } from "framer-motion";
 import {
   ArrowRight,
   AlertTriangle,
@@ -27,7 +27,7 @@ import problemExpired from "@/assets/blood-bank/problems/expired.jpg";
 import problemPaper from "@/assets/blood-bank/problems/paper.jpg";
 import problemReaction from "@/assets/blood-bank/problems/reaction.jpg";
 import problemAudit from "@/assets/blood-bank/problems/audit.jpg";
-import journeyDonor from "@/assets/blood-bank/journey/donor-arrives.jpg";
+import journeyDonor from "@/assets/blood-bank/journey/donor-arrives-new.jpg";
 import journeyCollection from "@/assets/blood-bank/journey/collection.jpg";
 import journeyTesting from "@/assets/blood-bank/journey/testing.jpg";
 import journeyCrossmatch from "@/assets/blood-bank/journey/crossmatch.jpg";
