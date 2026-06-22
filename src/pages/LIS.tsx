@@ -18,7 +18,6 @@ import {
   Rocket,
   TrendingUp,
 } from "lucide-react";
-import logo from "@/assets/logo.png";
 import lisHeroVideo from "@/assets/lis/lis-hero.mp4.asset.json";
 import lisProblem1 from "@/assets/lis/problem-1.jpg";
 import lisProblem2 from "@/assets/lis/problem-2.jpg";
@@ -33,7 +32,6 @@ import lisJourney4 from "@/assets/lis/journey-4.jpg";
 
 import { Footer } from "@/components/Footer";
 import { CtaSection } from "@/components/CtaSection";
-import { MainNav } from "@/components/MainNav";
 
 const features = [
   { icon: FlaskConical, title: "Sample Management", body: "Track every specimen from collection to disposal with barcode scanning, real-time location updates, and automated rejection flags for compromised samples." },
@@ -197,19 +195,6 @@ export default function LIS() {
         </div>
 
         <div className="relative z-10 flex min-h-[90vh] flex-col">
-          <header className="sticky top-0 z-50 flex items-center justify-between px-6 py-4 md:px-12 bg-[var(--brand-dark)]/80 backdrop-blur-md border-b border-white/5">
-            <Link to="/">
-              <img src={logo} alt="SBS — Superior Business Solutions" className="h-12 w-auto md:h-14" />
-            </Link>
-            <MainNav />
-            <Link
-              to="/"
-              className="rounded-full px-7 py-3 text-sm font-semibold text-white shadow-[var(--shadow-brand)] transition-transform hover:scale-105"
-              style={{ background: "var(--gradient-brand)" }}
-            >
-              Get Started
-            </Link>
-          </header>
 
           <section className="flex flex-1 items-center justify-center px-6 pb-28 pt-4 md:px-12">
             <motion.div

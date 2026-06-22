@@ -1,11 +1,9 @@
 import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
 import { ArrowRight, Target, Eye, Sparkles, Building2, Layers, Stethoscope, Handshake, Rocket } from "lucide-react";
-import logo from "@/assets/logo.png";
 import aboutHeroVideo from "@/assets/about-hero.mp4";
 import { Footer } from "@/components/Footer";
 import { CtaSection } from "@/components/CtaSection";
-import { MainNav } from "@/components/MainNav";
 
 const journey = [
   { icon: Building2, title: "Foundation", body: "SBS was established to help organisations solve operational challenges through smart, scalable technology solutions." },
@@ -32,23 +30,6 @@ export default function About() {
         </div>
 
         <div className="relative z-10 flex min-h-[90vh] flex-col">
-          <header className="sticky top-0 z-50 flex items-center justify-between px-6 py-4 md:px-12 bg-[var(--brand-dark)]/80 backdrop-blur-md border-b border-white/5">
-            <Link to="/">
-              <img
-                src={logo}
-                alt="SBS — Superior Business Solutions"
-                className="h-12 w-auto md:h-14"
-              />
-            </Link>
-            <MainNav />
-            <Link
-              to="/"
-              className="rounded-full px-7 py-3 text-sm font-semibold text-white shadow-[var(--shadow-brand)] transition-transform hover:scale-105"
-              style={{ background: "var(--gradient-brand)" }}
-            >
-              Get Started
-            </Link>
-          </header>
 
           <section className="flex flex-1 items-center justify-center px-6 pb-32 pt-4 md:px-12">
             <motion.div

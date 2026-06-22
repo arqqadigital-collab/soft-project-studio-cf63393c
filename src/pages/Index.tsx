@@ -1,7 +1,6 @@
 import { useRef } from "react";
 import { ArrowRight } from "lucide-react";
 import { motion, useScroll, useTransform } from "framer-motion";
-import logo from "@/assets/logo.png";
 import headerVideo from "@/assets/header-bg.mp4";
 import { ExpertiseSection } from "@/components/ExpertiseSection";
 import { StatsSection } from "@/components/StatsSection";
@@ -13,7 +12,6 @@ import { SuccessStoriesSection } from "@/components/SuccessStoriesSection";
 import { PartnersSection } from "@/components/PartnersSection";
 import { CtaSection } from "@/components/CtaSection";
 import { Footer } from "@/components/Footer";
-import { MainNav } from "@/components/MainNav";
 
 export default function Index() {
   const heroRef = useRef<HTMLElement>(null);
@@ -47,22 +45,6 @@ export default function Index() {
           style={{ y: contentY, opacity: contentOpacity }}
           className="relative z-10 flex h-full flex-col"
         >
-          <header className="sticky top-0 z-50 flex items-center justify-between px-6 py-4 md:px-12 bg-[var(--brand-dark)]/80 backdrop-blur-md border-b border-white/5">
-            <img
-              src={logo}
-              alt="SBS — Superior Business Solutions"
-              className="h-12 w-auto md:h-14"
-            />
-
-            <MainNav />
-
-            <button
-              className="rounded-full px-7 py-3 text-sm font-semibold text-white shadow-[var(--shadow-brand)] transition-transform hover:scale-105"
-              style={{ background: "var(--gradient-brand)" }}
-            >
-              Get Started
-            </button>
-          </header>
 
           <section className="flex flex-1 flex-col items-center justify-center px-6 text-center">
             <h1 className="max-w-3xl text-3xl font-bold leading-[1.1] tracking-tight md:text-5xl lg:text-6xl">

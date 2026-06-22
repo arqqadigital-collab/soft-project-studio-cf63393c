@@ -19,7 +19,6 @@ import {
   Stethoscope,
   CreditCard,
 } from "lucide-react";
-import logo from "@/assets/logo.png";
 import rcmHeroVideo from "@/assets/rcm/rcm-hero.mp4.asset.json";
 import hisVideo from "@/assets/rcm/his-video.mp4.asset.json";
 import rcmProblem1 from "@/assets/rcm/problem-1.jpg";
@@ -37,7 +36,6 @@ import rcmJourney6 from "@/assets/rcm/journey-6.jpg";
 
 import { Footer } from "@/components/Footer";
 import { CtaSection } from "@/components/CtaSection";
-import { MainNav } from "@/components/MainNav";
 
 const features = [
   { icon: UserCheck, title: "Registration & Eligibility Verification", body: "Capture complete demographics and verify insurance eligibility in real time against the payer's active policy database. Lapsed coverage, exclusions, and pending authorizations are flagged at the front door — not weeks later when claims are denied." },
@@ -212,19 +210,6 @@ export default function RCM() {
         </div>
 
         <div className="relative z-10 flex min-h-[90vh] flex-col">
-          <header className="sticky top-0 z-50 flex items-center justify-between px-6 py-4 md:px-12 bg-[var(--brand-dark)]/80 backdrop-blur-md border-b border-white/5">
-            <Link to="/">
-              <img src={logo} alt="SBS — Superior Business Solutions" className="h-12 w-auto md:h-14" />
-            </Link>
-            <MainNav />
-            <Link
-              to="/"
-              className="rounded-full px-7 py-3 text-sm font-semibold text-white shadow-[var(--shadow-brand)] transition-transform hover:scale-105"
-              style={{ background: "var(--gradient-brand)" }}
-            >
-              Get Started
-            </Link>
-          </header>
 
           <section className="flex flex-1 items-center justify-center px-6 pb-28 pt-4 md:px-12">
             <motion.div
