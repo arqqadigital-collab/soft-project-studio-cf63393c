@@ -550,7 +550,7 @@ export default function AIImaging() {
         style={{ backgroundColor: "#091628" }}
       >
         <img
-          src={heroImage}
+          src={heroVideo.url}
           alt=""
           className="absolute inset-0 h-full w-full object-cover opacity-40"
           aria-hidden="true"
