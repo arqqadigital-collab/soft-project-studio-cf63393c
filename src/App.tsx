@@ -45,6 +45,7 @@ export default function App() {
         <Route path="/healthcare/ris" element={<RIS />} />
         <Route path="/healthcare/rcm" element={<RCM />} />
         <Route path="/healthcare/blood-bank" element={<BloodBank />} />
+        <Route path="/healthcare/medication-dosage" element={<MedicationDosage />} />
         <Route path="*" element={<NotFound />} />
       </Routes>
     </>
