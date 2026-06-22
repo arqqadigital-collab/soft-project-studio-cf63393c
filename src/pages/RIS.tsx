@@ -1,4 +1,3 @@
-import { Link } from "react-router-dom";
 import { useRef, useEffect, useState } from "react";
 import { motion, useInView, animate, useScroll, useTransform } from "framer-motion";
 import {
@@ -19,7 +18,6 @@ import {
   Mic,
   Send,
 } from "lucide-react";
-import logo from "@/assets/logo.png";
 import risProblem1 from "@/assets/ris/problem-1.jpg";
 import risProblem2 from "@/assets/ris/problem-2.jpg";
 import risProblem3 from "@/assets/ris/problem-3.jpg";
@@ -33,7 +31,6 @@ import risJourney5 from "@/assets/ris/journey-5.jpg";
 
 import { Footer } from "@/components/Footer";
 import { CtaSection } from "@/components/CtaSection";
-import { MainNav } from "@/components/MainNav";
 
 const features = [
   { icon: CalendarClock, title: "Order Management & Scheduling", body: "Receive imaging orders directly from your HIS or EMR. Schedule patients against modality availability, technologist assignments, and room capacity. Eliminate double bookings with real-time calendar logic and automated patient notifications." },
@@ -186,7 +183,7 @@ export default function RIS() {
   return (
     <>
       {/* HERO */}
-      <main className="relative min-h-[90vh] w-full overflow-hidden bg-background">
+      <main className="pt-20 relative min-h-[90vh] w-full overflow-hidden bg-background">
         <div className="absolute inset-0">
           <div
             className="absolute inset-0 bg-cover bg-center"
@@ -196,19 +193,6 @@ export default function RIS() {
         </div>
 
         <div className="relative z-10 flex min-h-[90vh] flex-col">
-          <header className="sticky top-0 z-50 flex items-center justify-between px-6 py-4 md:px-12 bg-[var(--brand-dark)]/80 backdrop-blur-md border-b border-white/5">
-            <Link to="/">
-              <img src={logo} alt="SBS — Superior Business Solutions" className="h-12 w-auto md:h-14" />
-            </Link>
-            <MainNav />
-            <Link
-              to="/"
-              className="rounded-full px-7 py-3 text-sm font-semibold text-white shadow-[var(--shadow-brand)] transition-transform hover:scale-105"
-              style={{ background: "var(--gradient-brand)" }}
-            >
-              Get Started
-            </Link>
-          </header>
 
           <section className="flex flex-1 items-center justify-center px-6 pb-28 pt-4 md:px-12">
             <motion.div

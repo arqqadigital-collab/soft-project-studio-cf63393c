@@ -1,4 +1,3 @@
-import { Link } from "react-router-dom";
 import { useRef, useEffect, useState } from "react";
 import { motion, useScroll, useTransform, useInView, animate } from "framer-motion";
 import {
@@ -18,7 +17,6 @@ import {
   HeartPulse,
   Workflow,
 } from "lucide-react";
-import logo from "@/assets/logo.png";
 import heroVideo from "@/assets/blood-bank/hero-video.mp4.asset.json";
 import ctaVideo from "@/assets/blood-bank/cta-video.mp4.asset.json";
 import bgStepsLight from "@/assets/bg-steps-light.png.asset.json";
@@ -34,7 +32,6 @@ import journeyCrossmatch from "@/assets/blood-bank/journey/crossmatch.jpg";
 import journeyTransfusion from "@/assets/blood-bank/journey/transfusion.jpg";
 import { Footer } from "@/components/Footer";
 import { CtaSection } from "@/components/CtaSection";
-import { MainNav } from "@/components/MainNav";
 
 const features = [
   { icon: UserCheck, title: "Donor Registration & Eligibility Screening", body: "Build comprehensive donor profiles with full medical history, travel records, medication flags, and deferral tracking. Automated eligibility checks against configurable screening criteria ensure no ineligible donor proceeds to collection. Permanent and temporary deferrals are logged and enforced system-wide." },
@@ -198,7 +195,7 @@ export default function BloodBank() {
   return (
     <>
       {/* HERO */}
-      <main className="relative min-h-[90vh] w-full overflow-hidden bg-background">
+      <main className="pt-20 relative min-h-[90vh] w-full overflow-hidden bg-background">
         <div className="absolute inset-0">
           <video
             src={heroVideo.url}
@@ -218,19 +215,6 @@ export default function BloodBank() {
         </div>
 
         <div className="relative z-10 flex min-h-[90vh] flex-col">
-          <header className="sticky top-0 z-50 flex items-center justify-between px-6 py-4 md:px-12 bg-[var(--brand-dark)]/80 backdrop-blur-md border-b border-white/5">
-            <Link to="/">
-              <img src={logo} alt="SBS — Superior Business Solutions" className="h-12 w-auto md:h-14" />
-            </Link>
-            <MainNav />
-            <Link
-              to="/"
-              className="rounded-full px-7 py-3 text-sm font-semibold text-white shadow-[var(--shadow-brand)] transition-transform hover:scale-105"
-              style={{ background: "var(--gradient-brand)" }}
-            >
-              Get Started
-            </Link>
-          </header>
 
           <section className="flex flex-1 items-center justify-center px-6 pb-28 pt-4 md:px-12">
             <motion.div

@@ -1,4 +1,3 @@
-import { Link } from "react-router-dom";
 import { useState, useRef, useEffect } from "react";
 import { motion, useScroll, useTransform, useInView, animate } from "framer-motion";
 import {
@@ -19,7 +18,6 @@ import {
   ChevronDown,
   CheckCircle2,
 } from "lucide-react";
-import logo from "@/assets/logo.png";
 import dentalHeroVideo from "@/assets/dental/dental-hero.mp4.asset.json";
 import problem1 from "@/assets/dental/problem-1.jpg";
 import problem2 from "@/assets/dental/problem-2.jpg";
@@ -35,7 +33,6 @@ import treatmentDeliveredDocumented from "@/assets/dental/journey/treatment-deli
 import claimPaymentRecallSet from "@/assets/dental/journey/claim-payment-recall-set.png.asset.json";
 import { Footer } from "@/components/Footer";
 import { CtaSection } from "@/components/CtaSection";
-import { MainNav } from "@/components/MainNav";
 import dentalCtaVideo from "@/assets/dental/dental-cta.mp4.asset.json";
 
 function AnimatedStat({ value }: { value: string }) {
@@ -215,7 +212,7 @@ export default function Dental() {
   return (
     <>
       {/* HERO */}
-      <main className="relative min-h-[90vh] w-full overflow-hidden bg-[var(--brand-dark)]">
+      <main className="pt-20 relative min-h-[90vh] w-full overflow-hidden bg-[var(--brand-dark)]">
         <div className="absolute inset-0">
           <video
             src={dentalHeroVideo.url}
@@ -228,19 +225,6 @@ export default function Dental() {
           <div className="absolute inset-0 bg-gradient-to-b from-black/70 via-black/55 to-black/85" />
         </div>
         <div className="relative z-10 flex min-h-[90vh] flex-col">
-          <header className="sticky top-0 z-50 flex items-center justify-between px-6 py-4 md:px-12 bg-[var(--brand-dark)]/80 backdrop-blur-md border-b border-white/5">
-            <Link to="/">
-              <img src={logo} alt="SBS — Superior Business Solutions" className="h-12 w-auto md:h-14" />
-            </Link>
-            <MainNav />
-            <Link
-              to="/"
-              className="rounded-full px-7 py-3 text-sm font-semibold text-white shadow-[var(--shadow-brand)] transition-transform hover:scale-105"
-              style={{ background: "var(--gradient-brand)" }}
-            >
-              Get Started
-            </Link>
-          </header>
 
           <section className="flex flex-1 items-center justify-center px-6 pb-28 pt-4 md:px-12">
             <motion.div
