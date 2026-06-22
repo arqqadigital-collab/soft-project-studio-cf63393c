@@ -167,11 +167,11 @@ function ExpandingJourney({ steps }: { steps: typeof journey }) {
                 </motion.div>
 
                 {!isActive && (
-                  <div className="mt-auto">
-                    <div className="text-xs font-bold uppercase tracking-[0.2em] text-white/65">
+                  <div className="mt-auto text-left">
+                    <div className="whitespace-nowrap text-xs font-bold uppercase tracking-[0.15em] text-white/65">
                       Step {i + 1}
                     </div>
-                    <h3 className="mt-2 text-lg font-semibold text-white md:text-xl">
+                    <h3 className="mt-2 text-left text-lg font-semibold text-white md:text-xl">
                       {step.title}
                     </h3>
                   </div>
