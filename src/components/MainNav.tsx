@@ -43,7 +43,7 @@ const menus: Menu[] = [
         label: "Medical Imaging",
         description: "PACS, archiving and AI imaging",
         items: [
-          { label: "PACS & Medical Archiving", href: "#" },
+          { label: "PACS & Medical Archiving", to: "/healthcare/pacs" },
           { label: "AI for Medical Imaging", href: "#" },
         ],
       },
