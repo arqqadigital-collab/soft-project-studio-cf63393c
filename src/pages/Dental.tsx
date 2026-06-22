@@ -1,4 +1,3 @@
-import { Link } from "react-router-dom";
 import { useState, useRef, useEffect } from "react";
 import { motion, useScroll, useTransform, useInView, animate } from "framer-motion";
 import {

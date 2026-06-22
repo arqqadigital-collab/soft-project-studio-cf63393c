@@ -1,4 +1,3 @@
-import { Link } from "react-router-dom";
 import { useRef, useEffect, useState } from "react";
 import { motion, useScroll, useTransform, useInView, animate } from "framer-motion";
 import problem1 from "@/assets/his/problem-1.jpg";
