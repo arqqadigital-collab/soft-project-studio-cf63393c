@@ -509,11 +509,20 @@ export default function MedicationDosage() {
         className="relative overflow-hidden px-6 py-24 md:px-12"
         style={{ backgroundColor: "#091628" }}
       >
+        <video
+          src={ctaVideo.url}
+          autoPlay
+          muted
+          loop
+          playsInline
+          className="absolute inset-0 h-full w-full object-cover"
+          aria-hidden="true"
+        />
         <div
           className="absolute inset-0"
           style={{
             background:
-              "linear-gradient(180deg, rgba(9,22,40,0.9) 0%, rgba(9,22,40,0.8) 50%, rgba(9,22,40,0.9) 100%)",
+              "linear-gradient(180deg, rgba(9,22,40,0.85) 0%, rgba(9,22,40,0.75) 50%, rgba(9,22,40,0.9) 100%)",
           }}
         />
         <div className="relative mx-auto max-w-4xl text-center">
