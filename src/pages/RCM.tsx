@@ -212,7 +212,7 @@ export default function RCM() {
         </div>
 
         <div className="relative z-10 flex min-h-[90vh] flex-col">
-          <header className="flex items-center justify-between px-6 py-6 md:px-12">
+          <header className="sticky top-0 z-50 flex items-center justify-between px-6 py-4 md:px-12 bg-[var(--brand-dark)]/80 backdrop-blur-md border-b border-white/5">
             <Link to="/">
               <img src={logo} alt="SBS — Superior Business Solutions" className="h-12 w-auto md:h-14" />
             </Link>
