@@ -29,6 +29,7 @@ import journeyDispense from "@/assets/medication/journey/dispense.jpg";
 import journeyAdminister from "@/assets/medication/journey/administer.jpg";
 import journeyDocument from "@/assets/medication/journey/document.jpg";
 import bgStepsLight from "@/assets/bg-steps-light.png.asset.json";
+import ctaVideo from "@/assets/medication/cta-video.mp4.asset.json";
 import { Footer } from "@/components/Footer";
 import { CtaSection } from "@/components/CtaSection";
 
