@@ -25,7 +25,7 @@ import {
   FileCheck,
   Sparkles,
 } from "lucide-react";
-import heroImage from "@/assets/ai-imaging/hero.jpg";
+import heroVideo from "@/assets/ai-imaging/hero-video.mp4.asset.json";
 import journeyAcquire from "@/assets/ai-imaging/journey/acquire.jpg";
 import journeyAnalyze from "@/assets/ai-imaging/journey/analyze.jpg";
 import journeyPrioritize from "@/assets/ai-imaging/journey/prioritize.jpg";
@@ -210,9 +210,12 @@ export default function AIImaging() {
       {/* HERO */}
       <main className="pt-20 relative min-h-[90vh] w-full overflow-hidden bg-background">
         <div className="absolute inset-0">
-          <img
-            src={heroImage}
-            alt="Radiologist reviewing AI-annotated CT brain scans"
+          <video
+            src={heroVideo.url}
+            autoPlay
+            loop
+            muted
+            playsInline
             className="absolute inset-0 h-full w-full object-cover"
           />
           <div
@@ -547,7 +550,7 @@ export default function AIImaging() {
         style={{ backgroundColor: "#091628" }}
       >
         <img
-          src={heroImage}
+          src={heroVideo.url}
           alt=""
           className="absolute inset-0 h-full w-full object-cover opacity-40"
           aria-hidden="true"
