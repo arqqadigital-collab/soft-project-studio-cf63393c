@@ -8,6 +8,7 @@ import LIS from "./pages/LIS";
 import RIS from "./pages/RIS";
 import RCM from "./pages/RCM";
 import BloodBank from "./pages/BloodBank";
+import MedicationDosage from "./pages/MedicationDosage";
 
 function NotFound() {
   return (
