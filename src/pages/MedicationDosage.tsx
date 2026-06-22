@@ -30,6 +30,7 @@ import journeyAdminister from "@/assets/medication/journey/administer.jpg";
 import journeyDocument from "@/assets/medication/journey/document.jpg";
 import bgStepsLight from "@/assets/bg-steps-light.png.asset.json";
 import ctaVideo from "@/assets/medication/cta-video.mp4.asset.json";
+import heroVideo from "@/assets/medication/hero-video.mp4.asset.json";
 import { Footer } from "@/components/Footer";
 import { CtaSection } from "@/components/CtaSection";
 
@@ -199,6 +200,14 @@ export default function MedicationDosage() {
       {/* HERO */}
       <main className="pt-20 relative min-h-[90vh] w-full overflow-hidden bg-background">
         <div className="absolute inset-0">
+          <video
+            autoPlay
+            muted
+            loop
+            playsInline
+            className="absolute inset-0 h-full w-full object-cover"
+            src={heroVideo.url}
+          />
           <div
             className="absolute inset-0"
             style={{
