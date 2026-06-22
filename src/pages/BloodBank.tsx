@@ -188,6 +188,13 @@ function ExpandingJourney({ steps }: { steps: typeof journey }) {
 }
 
 export default function BloodBank() {
+  const problemRef = useRef<HTMLDivElement>(null);
+  const { scrollYProgress: problemProgress } = useScroll({
+    target: problemRef,
+    offset: ["start start", "end end"],
+  });
+  const problemX = useTransform(problemProgress, [0.15, 0.82], ["0%", "-80%"]);
+
   return (
     <>
       {/* HERO */}
