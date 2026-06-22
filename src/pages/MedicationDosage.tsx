@@ -29,6 +29,7 @@ import journeyDispense from "@/assets/medication/journey/dispense.jpg";
 import journeyAdminister from "@/assets/medication/journey/administer.jpg";
 import journeyDocument from "@/assets/medication/journey/document.jpg";
 import bgStepsLight from "@/assets/bg-steps-light.png.asset.json";
+import ctaVideo from "@/assets/medication/cta-video.mp4.asset.json";
 import { Footer } from "@/components/Footer";
 import { CtaSection } from "@/components/CtaSection";
 
@@ -167,11 +168,11 @@ function ExpandingJourney({ steps }: { steps: typeof journey }) {
                 </motion.div>
 
                 {!isActive && (
-                  <div className="mt-auto">
-                    <div className="text-xs font-bold uppercase tracking-[0.2em] text-white/65">
+                  <div className="mt-auto text-left">
+                    <div className="whitespace-nowrap text-xs font-bold uppercase tracking-[0.15em] text-white/65">
                       Step {i + 1}
                     </div>
-                    <h3 className="mt-2 text-lg font-semibold text-white md:text-xl">
+                    <h3 className="mt-2 text-left text-lg font-semibold text-white md:text-xl">
                       {step.title}
                     </h3>
                   </div>
@@ -286,9 +287,6 @@ export default function MedicationDosage() {
                 They Happen Every Day.
               </span>
             </h2>
-            <p className="mt-5 max-w-2xl text-base leading-relaxed text-white/65">
-              In hospitals running on outdated or disconnected systems, small failures compound into patient safety incidents, readmissions, and regulatory risk.
-            </p>
           </div>
 
           {/* Horizontally scrolling cards */}
@@ -511,11 +509,20 @@ export default function MedicationDosage() {
         className="relative overflow-hidden px-6 py-24 md:px-12"
         style={{ backgroundColor: "#091628" }}
       >
+        <video
+          src={ctaVideo.url}
+          autoPlay
+          muted
+          loop
+          playsInline
+          className="absolute inset-0 h-full w-full object-cover"
+          aria-hidden="true"
+        />
         <div
           className="absolute inset-0"
           style={{
             background:
-              "linear-gradient(180deg, rgba(9,22,40,0.9) 0%, rgba(9,22,40,0.8) 50%, rgba(9,22,40,0.9) 100%)",
+              "linear-gradient(180deg, rgba(9,22,40,0.85) 0%, rgba(9,22,40,0.75) 50%, rgba(9,22,40,0.9) 100%)",
           }}
         />
         <div className="relative mx-auto max-w-4xl text-center">
