@@ -449,33 +449,68 @@ export default function PACS() {
           <p className="mx-auto mt-6 max-w-3xl text-base leading-relaxed text-foreground/70 md:text-lg">
             Secreta PACS integrates with every system that produces, consumes, or references medical imaging — from modalities on the scanner room floor to AI engines in the cloud, from the RIS to the EMR delivering reports to referring clinicians.
           </p>
-          <div className="mt-10 flex flex-nowrap items-center gap-3 overflow-x-auto pb-2 md:flex-wrap md:justify-center md:overflow-visible">
+          <div className="mt-14 grid gap-6 text-left md:grid-cols-2 lg:grid-cols-3">
             {[
-              "DICOM 3.0",
-              "HL7 v2 & FHIR",
-              "Secreta RIS",
-              "Epic",
-              "Cerner",
-              "Meditech",
-              "Agfa",
-              "Philips IntelliSpace",
-              "GE Centricity",
-              "Fujifilm Synapse",
-              "Intelerad",
-              "IHE XDS-I",
-              "Malaffi",
-              "Riayati",
-              "NPHIES",
-              "Qatar NHIX",
-            ].map((tag) => (
-              <span
-                key={tag}
-                className="shrink-0 whitespace-nowrap rounded-full border border-border bg-card px-4 py-2 text-sm font-medium text-foreground/80 shadow-sm"
-              >
-                {tag}
-              </span>
-            ))}
+              {
+                icon: ScanSearch,
+                title: "Modality Integration",
+                subtitle: "All DICOM 3.0 compliant",
+                items: ["CT", "MRI", "X-Ray", "Fluoroscopy", "Mammography", "Ultrasound", "Nuclear Medicine", "PET-CT", "Dental", "Interventional", "Endoscopy", "Dermatology", "Ophthalmology", "Pathology WSI"],
+              },
+              {
+                icon: Boxes,
+                title: "System Integration",
+                subtitle: "RIS, EMR & enterprise platforms",
+                items: ["Secreta RIS", "Epic", "Cerner", "Meditech", "Agfa", "Philips IntelliSpace", "GE Centricity", "Fujifilm Synapse", "Intelerad", "All RIS via DICOM MWL & HL7"],
+              },
+              {
+                icon: Globe2,
+                title: "National Platform Integration",
+                subtitle: "Regional health information exchanges",
+                items: ["Malaffi", "Riayati", "NPHIES", "Qatar NHIX", "IHE XDS-I Image Exchange Networks"],
+              },
+              {
+                icon: Cpu,
+                title: "AI Platform Integration",
+                subtitle: "Clinical AI engines & custom vendors",
+                items: ["Secreta AI Imaging", "Google Health AI", "Aidoc", "Annalise.ai", "Custom AI vendor integration via DICOM SR & DICOMweb"],
+              },
+              {
+                icon: FileCode2,
+                title: "Supported Standards",
+                subtitle: "Interoperability protocols",
+                items: ["DICOM 3.0", "DICOMweb", "WADO-RS", "STOW-RS", "HL7 v2 & FHIR R4", "IHE Radiology Profiles", "IHE XDS-I", "IHE Cross-Enterprise Document Sharing", "IEC 62494 Radiation Dose Reporting", "REST API"],
+              },
+            ].map((group) => {
+              const Icon = group.icon;
+              return (
+                <div
+                  key={group.title}
+                  className="group relative overflow-hidden rounded-2xl border border-border bg-card p-6 shadow-sm transition-all hover:-translate-y-1 hover:shadow-lg"
+                >
+                  <div
+                    className="inline-flex h-11 w-11 items-center justify-center rounded-xl text-white shadow-[var(--shadow-brand)]"
+                    style={{ background: "var(--gradient-brand)" }}
+                  >
+                    <Icon className="h-5 w-5" />
+                  </div>
+                  <h3 className="mt-4 text-lg font-semibold text-foreground">{group.title}</h3>
+                  <p className="mt-1 text-sm text-foreground/60">{group.subtitle}</p>
+                  <div className="mt-4 flex flex-wrap gap-2">
+                    {group.items.map((tag) => (
+                      <span
+                        key={tag}
+                        className="rounded-full border border-border bg-background/60 px-3 py-1 text-xs font-medium text-foreground/75"
+                      >
+                        {tag}
+                      </span>
+                    ))}
+                  </div>
+                </div>
+              );
+            })}
           </div>
+
         </div>
       </section>
 
