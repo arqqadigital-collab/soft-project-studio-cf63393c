@@ -218,7 +218,7 @@ export default function BloodBank() {
         </div>
 
         <div className="relative z-10 flex min-h-[90vh] flex-col">
-          <header className="flex items-center justify-between px-6 py-6 md:px-12">
+          <header className="sticky top-0 z-50 flex items-center justify-between px-6 py-4 md:px-12 bg-[var(--brand-dark)]/80 backdrop-blur-md border-b border-white/5">
             <Link to="/">
               <img src={logo} alt="SBS — Superior Business Solutions" className="h-12 w-auto md:h-14" />
             </Link>
@@ -239,10 +239,7 @@ export default function BloodBank() {
               transition={{ duration: 0.8 }}
               className="mx-auto flex max-w-5xl flex-col items-center text-center"
             >
-              <span className="mb-6 inline-flex items-center gap-2 rounded-full border border-white/15 bg-white/5 px-4 py-1.5 text-xs font-semibold uppercase tracking-[0.25em] text-white/85 backdrop-blur">
-                <Droplets className="h-3.5 w-3.5" /> Secreta Blood Bank
-              </span>
-              <h1 className="text-3xl font-bold leading-[1.1] tracking-tight text-white md:text-5xl lg:text-6xl">
+              <h1 className="whitespace-nowrap text-2xl font-bold leading-[1.1] tracking-tight text-white sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl">
                 Every Unit Matters.{" "}
                 <span className="bg-clip-text text-transparent" style={{ backgroundImage: "var(--gradient-brand)" }}>
                   Every Donor Counts.
