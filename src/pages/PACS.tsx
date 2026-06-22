@@ -538,7 +538,10 @@ export default function PACS() {
             </span>
           </h2>
           <p className="mt-8 text-lg leading-relaxed text-white/85">
-            Medical images drive diagnoses, guide procedures, inform treatment decisions, and create the longitudinal visual record of your patients' health over time. They deserve infrastructure that stores them without loss, delivers them without delay, and displays them without compromise — to every clinician who needs them, wherever they are.
+            Medical images drive diagnoses, guide procedures, inform treatment decisions, and create the longitudinal visual record of your patients' health over time. They deserve infrastructure that stores them without loss, delivers them without delay, displays them without compromise, and makes them available to every clinician who needs them — wherever they are, whenever they need them.
+          </p>
+          <p className="mt-6 text-lg font-medium text-white">
+            That is what Secreta PACS delivers. Every image. Every time.
           </p>
 
           <div className="mt-12 flex flex-col items-center justify-center gap-4 sm:flex-row">
@@ -558,8 +561,9 @@ export default function PACS() {
           </div>
 
           <p className="mt-8 text-sm italic text-white/70">
-            Legacy PACS migration support included. On-premise, cloud, and hybrid deployment available. Infrastructure assessment delivered within two weeks.
+            Legacy PACS migration support included. On-premise, cloud, and hybrid deployment available. Infrastructure assessment delivered within two weeks. Pricing tailored to your study volume and site configuration.
           </p>
+
         </div>
       </section>
 
