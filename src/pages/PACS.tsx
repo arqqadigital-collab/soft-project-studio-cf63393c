@@ -232,11 +232,6 @@ export default function PACS() {
                 </span>
               </h1>
 
-              <p className="mt-6 max-w-3xl text-base leading-relaxed text-white/80 md:text-lg">
-                Secreta PACS is an enterprise-grade picture archiving and communication system that stores, manages, distributes, and displays every medical image your facility produces — instantly, securely, and from any authorized device anywhere in the world.
-              </p>
-
-              <div className="mt-10 flex flex-col items-center gap-3 sm:flex-row">
                 <a
                   href="#contact"
                   className="inline-flex items-center gap-2 rounded-full px-8 py-4 text-sm font-semibold text-white shadow-[var(--shadow-brand)] transition-transform hover:scale-105"
@@ -280,7 +275,7 @@ export default function PACS() {
             </span>
           </h2>
           <p className="mx-auto mt-8 max-w-3xl text-base leading-relaxed text-muted-foreground md:text-lg">
-            Medical imaging is one of the most data-intensive and time-critical workflows in your hospital. When images are delayed, lost, or inaccessible at the point of decision-making, patients wait longer, diagnoses are delayed, and procedures are repeated. Secreta PACS solves that — at enterprise scale, with zero compromise.
+            Medical imaging is one of the most data-intensive, time-critical, and clinically consequential workflows in your hospital. When images are delayed, lost, duplicated, or inaccessible at the point of clinical decision-making, patients wait longer, diagnoses are delayed, and procedures are repeated unnecessarily. Secreta PACS is an enterprise-grade picture archiving and communication system that stores, manages, distributes, and displays every medical image your facility produces — instantly, securely, and from any authorized device anywhere in the world.
           </p>
         </div>
       </section>
