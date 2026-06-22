@@ -28,7 +28,7 @@ export default function Index() {
     <>
       <main
         ref={heroRef}
-        className="pt-20 relative h-screen w-full overflow-hidden bg-background"
+        className="pt-20 pt-20 relative h-screen w-full overflow-hidden bg-background"
       >
         <motion.video
           style={{ y: bgY }}

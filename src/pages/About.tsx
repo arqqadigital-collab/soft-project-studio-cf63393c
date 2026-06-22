@@ -16,7 +16,7 @@ const journey = [
 export default function About() {
   return (
     <>
-      <main className="pt-20 relative min-h-[90vh] w-full overflow-hidden bg-background">
+      <main className="pt-20 pt-20 relative min-h-[90vh] w-full overflow-hidden bg-background">
         <div className="absolute inset-0">
           <video
             src={aboutHeroVideo}

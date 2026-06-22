@@ -196,7 +196,7 @@ export default function BloodBank() {
   return (
     <>
       {/* HERO */}
-      <main className="relative min-h-[90vh] w-full overflow-hidden bg-background">
+      <main className="pt-20 relative min-h-[90vh] w-full overflow-hidden bg-background">
         <div className="absolute inset-0">
           <video
             src={heroVideo.url}

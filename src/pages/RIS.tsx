@@ -184,7 +184,7 @@ export default function RIS() {
   return (
     <>
       {/* HERO */}
-      <main className="relative min-h-[90vh] w-full overflow-hidden bg-background">
+      <main className="pt-20 relative min-h-[90vh] w-full overflow-hidden bg-background">
         <div className="absolute inset-0">
           <div
             className="absolute inset-0 bg-cover bg-center"

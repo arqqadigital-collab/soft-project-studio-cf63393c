@@ -213,7 +213,7 @@ export default function Dental() {
   return (
     <>
       {/* HERO */}
-      <main className="relative min-h-[90vh] w-full overflow-hidden bg-[var(--brand-dark)]">
+      <main className="pt-20 relative min-h-[90vh] w-full overflow-hidden bg-[var(--brand-dark)]">
         <div className="absolute inset-0">
           <video
             src={dentalHeroVideo.url}
