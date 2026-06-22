@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
 import { useRef, useEffect, useState } from "react";
-import { motion, useInView, animate } from "framer-motion";
+import { motion, useScroll, useTransform, useInView, animate } from "framer-motion";
 import {
   ArrowRight,
   AlertTriangle,
@@ -27,7 +27,7 @@ import problemExpired from "@/assets/blood-bank/problems/expired.jpg";
 import problemPaper from "@/assets/blood-bank/problems/paper.jpg";
 import problemReaction from "@/assets/blood-bank/problems/reaction.jpg";
 import problemAudit from "@/assets/blood-bank/problems/audit.jpg";
-import journeyDonor from "@/assets/blood-bank/journey/donor-arrives.jpg";
+import journeyDonor from "@/assets/blood-bank/journey/donor-arrives-new.jpg";
 import journeyCollection from "@/assets/blood-bank/journey/collection.jpg";
 import journeyTesting from "@/assets/blood-bank/journey/testing.jpg";
 import journeyCrossmatch from "@/assets/blood-bank/journey/crossmatch.jpg";
@@ -188,6 +188,13 @@ function ExpandingJourney({ steps }: { steps: typeof journey }) {
 }
 
 export default function BloodBank() {
+  const problemRef = useRef<HTMLDivElement>(null);
+  const { scrollYProgress: problemProgress } = useScroll({
+    target: problemRef,
+    offset: ["start start", "end end"],
+  });
+  const problemX = useTransform(problemProgress, [0.15, 0.82], ["0%", "-80%"]);
+
   return (
     <>
       {/* HERO */}
@@ -258,11 +265,11 @@ export default function BloodBank() {
                 </a>
               </div>
 
-              <div className="mt-10 flex flex-wrap items-center justify-center gap-3">
+              <div className="mt-10 flex flex-nowrap items-center justify-center gap-3 overflow-x-auto pb-2">
                 {trustChips.map((chip) => (
                   <span
                     key={chip}
-                    className="rounded-full border border-white/20 bg-white/5 px-4 py-2 text-xs font-medium text-white/90 backdrop-blur md:text-sm"
+                    className="shrink-0 whitespace-nowrap rounded-full border border-white/20 bg-white/5 px-4 py-2 text-xs font-medium text-white/90 backdrop-blur md:text-sm"
                   >
                     {chip}
                   </span>
@@ -293,14 +300,15 @@ export default function BloodBank() {
         </div>
       </section>
 
-      {/* PROBLEM — grid, all cards visible */}
-      <section className="relative bg-[#0a0e1a] px-6 py-24 md:px-12 md:py-32">
-        <div className="mx-auto max-w-7xl">
-          <div className="max-w-4xl">
+      {/* PROBLEM — horizontal scroll on dark */}
+      <section ref={problemRef} className="relative bg-[#0a0e1a]" style={{ height: "320vh" }}>
+        <div className="sticky top-0 flex min-h-screen flex-col overflow-hidden pb-12 md:pb-16">
+          {/* Header */}
+          <div className="mx-auto w-full max-w-7xl px-6 pt-14 md:px-12 md:pt-16">
             <span className="inline-flex items-center gap-2 rounded-full bg-red-500/10 px-3 py-1.5 text-xs font-semibold uppercase tracking-wider text-red-300 ring-1 ring-red-500/20">
               <AlertTriangle className="h-3.5 w-3.5" /> The Problem
             </span>
-            <h2 className="mt-5 text-3xl font-bold leading-[1.1] tracking-tight text-white md:text-4xl lg:text-5xl">
+            <h2 className="mt-5 max-w-5xl text-3xl font-bold leading-[1.1] tracking-tight text-white md:text-4xl lg:text-5xl">
               These Are Not Hypothetical Risks.{" "}
               <span className="bg-clip-text text-transparent" style={{ backgroundImage: "var(--gradient-brand)" }}>
                 They Happen Every Day.
@@ -312,36 +320,37 @@ export default function BloodBank() {
             </p>
           </div>
 
-          <div className="mt-14 grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-            {problemCards.map((card, i) => (
-              <motion.article
-                key={card.title}
-                initial={{ opacity: 0, y: 24 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true, margin: "-60px" }}
-                transition={{ duration: 0.55, delay: (i % 3) * 0.1 }}
-                className="group flex flex-col overflow-hidden rounded-[1.75rem] bg-[#0f1424] shadow-2xl ring-1 ring-white/10"
-              >
-                <div className="relative h-56 w-full overflow-hidden">
-                  <img
-                    src={card.image}
-                    alt={card.title}
-                    loading="lazy"
-                    width={1024}
-                    height={768}
-                    className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-105"
-                  />
-                  <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-[#0f1424]" />
-                </div>
-                <div className="flex flex-1 flex-col p-7">
-                  <span className="text-xs font-semibold uppercase tracking-[0.3em] text-red-300">
-                    0{i + 1} — Risk
-                  </span>
-                  <h3 className="mt-3 text-xl font-bold leading-tight text-white">{card.title}</h3>
-                  <p className="mt-3 text-sm leading-relaxed text-white/75">{card.body}</p>
-                </div>
-              </motion.article>
-            ))}
+          {/* Horizontally scrolling cards */}
+          <div className="mt-10 flex flex-1 items-center overflow-hidden md:mt-12">
+            <motion.div style={{ x: problemX }} className="flex items-stretch gap-6 px-6 md:gap-8 md:px-12">
+              {problemCards.map((card, i) => (
+                <article
+                  key={i}
+                  className="flex w-[82vw] shrink-0 flex-col overflow-hidden rounded-[2rem] bg-[#0f1424] shadow-2xl ring-1 ring-white/10 md:w-[440px] lg:w-[480px]"
+                >
+                  <div className="relative h-[190px] w-full overflow-hidden md:h-[210px]">
+                    <img
+                      src={card.image}
+                      alt={card.title}
+                      loading="lazy"
+                      className="h-full w-full object-cover"
+                    />
+                    <div className="absolute inset-0 bg-gradient-to-t from-[#0f1424] via-[#0f1424]/30 to-transparent" />
+                  </div>
+                  <div className="flex flex-1 flex-col p-6 md:p-7">
+                    <span className="text-xs font-semibold uppercase tracking-[0.3em] text-red-300">
+                      0{i + 1} — Risk
+                    </span>
+                    <h3 className="mt-3 text-xl font-bold leading-tight text-white md:text-2xl">
+                      {card.title}
+                    </h3>
+                    <p className="mt-3 text-sm leading-relaxed text-white/75">
+                      {card.body}
+                    </p>
+                  </div>
+                </article>
+              ))}
+            </motion.div>
           </div>
         </div>
       </section>
