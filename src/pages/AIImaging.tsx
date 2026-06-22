@@ -31,6 +31,11 @@ import journeyAnalyze from "@/assets/ai-imaging/journey/analyze.jpg";
 import journeyPrioritize from "@/assets/ai-imaging/journey/prioritize.jpg";
 import journeyReview from "@/assets/ai-imaging/journey/review.jpg";
 import journeyDeliver from "@/assets/ai-imaging/journey/deliver.jpg";
+import problemWorkload from "@/assets/ai-imaging/problems/workload.jpg";
+import problemSubtle from "@/assets/ai-imaging/problems/subtle.jpg";
+import problemWorklist from "@/assets/ai-imaging/problems/worklist.jpg";
+import problemIncidental from "@/assets/ai-imaging/problems/incidental.jpg";
+import problemRural from "@/assets/ai-imaging/problems/rural.jpg";
 import bgStepsLight from "@/assets/bg-steps-light.png.asset.json";
 import { Footer } from "@/components/Footer";
 
