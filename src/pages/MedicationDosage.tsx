@@ -286,9 +286,6 @@ export default function MedicationDosage() {
                 They Happen Every Day.
               </span>
             </h2>
-            <p className="mt-5 max-w-2xl text-base leading-relaxed text-white/65">
-              In hospitals running on outdated or disconnected systems, small failures compound into patient safety incidents, readmissions, and regulatory risk.
-            </p>
           </div>
 
           {/* Horizontally scrolling cards */}
