@@ -232,6 +232,7 @@ export default function PACS() {
                 </span>
               </h1>
 
+              <div className="mt-10 flex flex-col items-center gap-3 sm:flex-row">
                 <a
                   href="#contact"
                   className="inline-flex items-center gap-2 rounded-full px-8 py-4 text-sm font-semibold text-white shadow-[var(--shadow-brand)] transition-transform hover:scale-105"
