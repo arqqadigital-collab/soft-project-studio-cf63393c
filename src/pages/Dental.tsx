@@ -470,14 +470,14 @@ export default function Dental() {
                   {g.title}
                 </h3>
                 {g.title === "Digital Imaging" ? (
-                  <div className="mt-4 flex flex-wrap items-center justify-center gap-6">
+                  <div className="mt-4 flex flex-wrap items-center justify-center gap-3">
                     {digitalImagingLogos.map((l) => (
                       <img
                         key={l.name}
                         src={l.src}
                         alt={`${l.name} logo`}
                         loading="lazy"
-                        className="max-h-16 w-auto max-w-[120px] object-contain"
+                        className="max-h-24 w-auto max-w-[160px] object-contain"
                       />
                     ))}
                   </div>
