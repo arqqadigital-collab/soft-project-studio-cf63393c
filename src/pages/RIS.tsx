@@ -426,7 +426,7 @@ export default function RIS() {
             integrations with Epic, Cerner, Agfa, Philips IntelliSpace, and all major HL7-compatible platforms. Full
             DICOM Worklist (DICOM MWL) support. Open REST API for custom connections.
           </p>
-          <div className="mt-12 flex flex-wrap items-center justify-center gap-4">
+          <div className="mt-12 flex flex-wrap items-center justify-center gap-6">
             {[
               { src: philipsLogo.url, name: "Philips" },
               { src: iheLogo.url, name: "IHE International" },
@@ -440,7 +440,7 @@ export default function RIS() {
                 src={logo.src}
                 alt={`${logo.name} logo`}
                 loading="lazy"
-                className="h-auto max-h-24 w-auto max-w-40 object-contain"
+                className="h-auto max-h-32 w-auto max-w-56 object-contain"
               />
             ))}
           </div>
