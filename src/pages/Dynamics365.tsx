@@ -28,6 +28,7 @@ import useCase1Asset from "@/assets/dynamics/use-case-1.jpg.asset.json";
 import useCase2Asset from "@/assets/dynamics/use-case-2.jpg.asset.json";
 import useCase3Asset from "@/assets/dynamics/use-case-3.jpg.asset.json";
 import useCase4Asset from "@/assets/dynamics/use-case-4.jpg.asset.json";
+import patternBg from "@/assets/dynamics/dynamics-pattern.jpg.asset.json";
 
 const services = [
   {
@@ -421,7 +422,7 @@ export default function Dynamics365() {
             </p>
           </div>
 
-          <div className="mt-14 grid grid-cols-1 gap-6 md:grid-cols-2">
+          <div className="mt-14 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4">
             {useCases.map((u) => (
               <motion.div
                 key={u.n}
@@ -441,16 +442,16 @@ export default function Dynamics365() {
                     className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
                   />
                 </div>
-                <div className="p-7">
-                  <div className="flex items-baseline gap-4">
-                    <span className="text-3xl font-bold" style={{ color: "var(--brand-blue)" }}>
+                <div className="p-5">
+                  <div className="flex items-baseline gap-3">
+                    <span className="text-2xl font-bold" style={{ color: "var(--brand-blue)" }}>
                       {u.n}
                     </span>
-                    <h3 className="text-lg font-bold leading-tight" style={{ color: "var(--brand-dark)" }}>
+                    <h3 className="text-base font-bold leading-tight" style={{ color: "var(--brand-dark)" }}>
                       {u.title}
                     </h3>
                   </div>
-                  <p className="mt-3 text-sm leading-relaxed text-muted-foreground">{u.body}</p>
+                  <p className="mt-2 text-xs leading-relaxed text-muted-foreground">{u.body}</p>
                 </div>
               </motion.div>
             ))}
@@ -520,16 +521,21 @@ export default function Dynamics365() {
 
       {/* STANDARD VS STRATEGIC */}
       <section className="relative overflow-hidden bg-[#0a0e1a] px-6 py-24 md:px-12 md:py-32">
-        <div
-          className="absolute inset-0"
-          style={{
-            background:
-              "radial-gradient(800px 400px at 80% 20%, rgba(56,189,248,0.12), transparent 60%), radial-gradient(700px 380px at 10% 80%, rgba(99,102,241,0.12), transparent 60%)",
-          }}
+        <img
+          src={patternBg.url}
+          alt=""
+          loading="lazy"
+          width={1920}
+          height={800}
+          className="absolute inset-0 h-full w-full object-cover opacity-40"
           aria-hidden="true"
         />
-        <div className="relative mx-auto max-w-5xl text-center">
-          <h2 className="text-4xl font-bold leading-[1.1] tracking-tight text-white md:text-5xl lg:text-6xl">
+        <div
+          className="absolute inset-0 bg-[#0a0e1a]/60"
+          aria-hidden="true"
+        />
+        <div className="relative z-10 mx-auto max-w-5xl text-center">
+          <h2 className="text-3xl font-bold leading-[1.15] tracking-tight text-white md:text-4xl lg:text-5xl">
             Standard D365 covers the operational baseline.{" "}
             <span className="bg-clip-text text-transparent" style={{ backgroundImage: "var(--gradient-brand)" }}>
               Strategic implementation aligns it with how you actually work.
