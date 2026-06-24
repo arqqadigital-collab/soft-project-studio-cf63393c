@@ -20,6 +20,10 @@ import {
 import heroVideo from "@/assets/blood-bank/hero-video.mp4.asset.json";
 import ctaVideo from "@/assets/blood-bank/cta-video.mp4.asset.json";
 import bgStepsLight from "@/assets/bg-steps-light.png.asset.json";
+import aabbLogo from "@/assets/bloodbank/integrations/aabb.png.asset.json";
+import fdaLogo from "@/assets/bloodbank/integrations/fda.png.asset.json";
+import iccbbaLogo from "@/assets/bloodbank/integrations/iccbba.png.asset.json";
+import iso15189Logo from "@/assets/bloodbank/integrations/iso15189.png.asset.json";
 import problemMislabeled from "@/assets/blood-bank/problems/mislabeled.jpg";
 import problemExpired from "@/assets/blood-bank/problems/expired.jpg";
 import problemPaper from "@/assets/blood-bank/problems/paper.jpg";
