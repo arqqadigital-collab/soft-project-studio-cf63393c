@@ -459,19 +459,19 @@ export default function BloodBank() {
             ensure real-time information flow between departments. Transfusion requests arrive automatically from
             clinical systems. Test results flow in from the laboratory without manual transcription.
           </p>
-          <div className="mt-10 grid grid-cols-2 justify-items-center gap-4 md:grid-cols-4">
+          <div className="mt-10 grid grid-cols-2 items-center justify-items-center gap-8 md:grid-cols-4">
             {[
               { src: aabbLogo.url, alt: "AABB Accredited" },
               { src: fdaLogo.url, alt: "FDA 21 CFR Part 11 Compliance" },
               { src: iccbbaLogo.url, alt: "ICCBBA ISBT 128" },
               { src: iso15189Logo.url, alt: "ISO 15189 Accreditation" },
             ].map((logo) => (
-              <div
+              <img
                 key={logo.alt}
-                className="flex aspect-square w-full max-w-40 items-center justify-center rounded-2xl border border-border bg-card p-4 shadow-sm"
-              >
-                <img src={logo.src} alt={logo.alt} className="max-h-[90%] w-full object-contain" />
-              </div>
+                src={logo.src}
+                alt={logo.alt}
+                className="h-auto max-h-32 w-full max-w-56 object-contain"
+              />
             ))}
           </div>
         </div>
