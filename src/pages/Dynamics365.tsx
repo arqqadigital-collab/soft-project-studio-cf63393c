@@ -164,14 +164,6 @@ const discoveryItems = [
   "Implementation roadmap",
 ];
 
-const trustChips = [
-  "Microsoft Partner",
-  "D365 Finance & SCM",
-  "Business Central",
-  "Power Platform",
-  "Azure & M365",
-  "Power BI Architecture",
-];
 
 function AnimatedNumber({ value }: { value: string }) {
   const ref = useRef<HTMLSpanElement>(null);
