@@ -469,14 +469,28 @@ export default function Dental() {
                 <h3 className="text-sm font-bold uppercase tracking-wider text-[color:var(--brand-blue)]">
                   {g.title}
                 </h3>
-                <ul className="mt-4 space-y-2">
-                  {g.items.map((it) => (
-                    <li key={it} className="flex items-start gap-2 text-sm text-foreground/75">
-                      <CheckCircle2 className="mt-0.5 h-4 w-4 shrink-0 text-[color:var(--brand-blue)]" />
-                      {it}
-                    </li>
-                  ))}
-                </ul>
+                {g.title === "Digital Imaging" ? (
+                  <div className="mt-4 flex flex-wrap items-center justify-center gap-6">
+                    {digitalImagingLogos.map((l) => (
+                      <img
+                        key={l.name}
+                        src={l.src}
+                        alt={`${l.name} logo`}
+                        loading="lazy"
+                        className="max-h-16 w-auto max-w-[120px] object-contain"
+                      />
+                    ))}
+                  </div>
+                ) : (
+                  <ul className="mt-4 space-y-2">
+                    {g.items.map((it) => (
+                      <li key={it} className="flex items-start gap-2 text-sm text-foreground/75">
+                        <CheckCircle2 className="mt-0.5 h-4 w-4 shrink-0 text-[color:var(--brand-blue)]" />
+                        {it}
+                      </li>
+                    ))}
+                  </ul>
+                )}
               </div>
             ))}
           </div>
