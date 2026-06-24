@@ -28,6 +28,23 @@ import problem6 from "@/assets/dental/problem-6.jpg";
 import preVisitOnlineBooking from "@/assets/dental/journey/pre-visit-online-booking.png.asset.json";
 import checkInReception from "@/assets/dental/journey/check-in-reception.png.asset.json";
 import examinationCharting from "@/assets/dental/journey/examination-charting.png.asset.json";
+import imgVatech from "@/assets/dental/integrations/vatech.png.asset.json";
+import imgRomexis from "@/assets/dental/integrations/romexis.png.asset.json";
+import imgPlanetDds from "@/assets/dental/integrations/planet-dds.png.asset.json";
+import imgDentsply from "@/assets/dental/integrations/dentsply-sirona.png.asset.json";
+import imgCarestream from "@/assets/dental/integrations/carestream.png.asset.json";
+import imgApteryx from "@/assets/dental/integrations/apteryx.png.asset.json";
+import imgActeon from "@/assets/dental/integrations/acteon.png.asset.json";
+
+const digitalImagingLogos = [
+  { name: "Vatech", src: imgVatech.url },
+  { name: "Romexis", src: imgRomexis.url },
+  { name: "Planet DDS", src: imgPlanetDds.url },
+  { name: "Dentsply Sirona", src: imgDentsply.url },
+  { name: "Carestream Dental", src: imgCarestream.url },
+  { name: "Apteryx", src: imgApteryx.url },
+  { name: "Acteon", src: imgActeon.url },
+];
 import treatmentPlanApproval from "@/assets/dental/journey/treatment-plan-approval.png.asset.json";
 import treatmentDeliveredDocumented from "@/assets/dental/journey/treatment-delivered-documented.png.asset.json";
 import claimPaymentRecallSet from "@/assets/dental/journey/claim-payment-recall-set.png.asset.json";
