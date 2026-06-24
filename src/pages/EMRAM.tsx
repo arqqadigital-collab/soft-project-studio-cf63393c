@@ -194,13 +194,16 @@ export default function EMRAM() {
       {/* HERO */}
       <main className="relative min-h-[90vh] w-full overflow-hidden bg-background pt-20">
         <div className="absolute inset-0">
-          <div
-            className="absolute inset-0"
-            style={{
-              background:
-                "radial-gradient(60% 80% at 20% 10%, rgba(56,189,248,0.18), transparent 60%), radial-gradient(50% 60% at 80% 90%, rgba(99,102,241,0.18), transparent 60%), linear-gradient(180deg, #050b18 0%, #07142b 60%, #050b18 100%)",
-            }}
+          <video
+            className="absolute inset-0 h-full w-full object-cover"
+            src={emramHeroVideo.url}
+            autoPlay
+            muted
+            loop
+            playsInline
+            aria-hidden="true"
           />
+          <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(5,11,24,0.7)_0%,rgba(7,20,43,0.78)_60%,rgba(5,11,24,0.9)_100%)]" />
         </div>
 
         <div className="relative z-10 flex min-h-[90vh] flex-col">
@@ -211,20 +214,12 @@ export default function EMRAM() {
               transition={{ duration: 0.8 }}
               className="mx-auto flex max-w-5xl flex-col items-center text-center"
             >
-              <span className="mb-6 inline-flex items-center gap-2 rounded-full border border-white/15 bg-white/5 px-3 py-1.5 text-xs font-semibold uppercase tracking-wider text-white/80 backdrop-blur">
-                <Sparkles className="h-3.5 w-3.5" /> EMRAM Roadmap & AI Readiness
-              </span>
               <h1 className="text-3xl font-bold leading-[1.1] tracking-tight text-white md:text-5xl lg:text-6xl">
                 Your Path to EMRAM Stage 7 —{" "}
                 <span className="bg-clip-text text-transparent" style={{ backgroundImage: "var(--gradient-brand)" }}>
                   and the AI Capabilities That Come With It.
                 </span>
               </h1>
-              <p className="mt-8 max-w-3xl text-base leading-relaxed text-white/80 md:text-lg">
-                Strategy, technology and implementation support to advance through every EMRAM stage — and emerge at
-                Stage 7 genuinely ready for AI-powered clinical decision support, predictive analytics and population
-                health management.
-              </p>
 
               <div className="mt-9 flex flex-col items-center gap-3 sm:flex-row">
                 <a
@@ -271,11 +266,12 @@ export default function EMRAM() {
             </span>
           </h2>
           <p className="mx-auto mt-8 max-w-3xl text-base leading-relaxed text-muted-foreground md:text-lg">
-            EMRAM Stage 7 signals to patients, payers, regulators and partners that your organization has achieved a
-            fully paperless, closed-loop, analytically capable clinical environment. Most hospitals are not on a
-            structured path to get there. Secreta EMRAM Roadmap & AI Readiness gives your organization the strategy,
-            the technology and the implementation support to advance through every stage — and to emerge at Stage 7
-            genuinely ready for clinical AI.
+            EMRAM Stage 7 is the global gold standard for hospital digital maturity. It signals to patients, payers,
+            regulators, and partners that your organization has achieved a fully paperless, closed-loop, analytically
+            capable clinical environment. But most hospitals are not on a structured path to get there. Secreta EMRAM
+            Roadmap & AI Readiness gives your organization the strategy, the technology, and the implementation support
+            to advance through every EMRAM stage — and to emerge at Stage 7 genuinely ready for AI-powered clinical
+            decision support, predictive analytics, and population health management.
           </p>
         </div>
       </section>
@@ -298,30 +294,21 @@ export default function EMRAM() {
           <div className="mt-8 flex flex-1 items-center overflow-hidden pb-16 md:mt-10 md:pb-24">
             <motion.div style={{ x: problemX }} className="flex items-stretch gap-6 px-6 md:gap-8 md:px-12">
               {problemCards.map((card, i) => {
-                const Icon = card.icon;
                 return (
                   <article
                     key={card.title}
                     className="flex w-[82vw] shrink-0 flex-col overflow-hidden rounded-[2rem] bg-[#0f1424] shadow-2xl ring-1 ring-white/10 md:w-[440px] lg:w-[480px]"
                   >
-                    <div
-                      className="relative flex h-[190px] w-full items-center justify-center overflow-hidden md:h-[210px]"
-                      style={{
-                        background:
-                          "linear-gradient(135deg, #0a1f3a 0%, #102a4d 50%, #0a1f3a 100%)",
-                      }}
-                    >
-                      <div
-                        className="absolute inset-0 opacity-40"
-                        style={{ background: "var(--gradient-brand)", mixBlendMode: "overlay" }}
+                    <div className="relative h-[190px] w-full overflow-hidden md:h-[210px]">
+                      <img
+                        src={card.image}
+                        alt={card.title}
+                        loading="lazy"
+                        width={800}
+                        height={600}
+                        className="h-full w-full object-cover"
                       />
-                      <div
-                        className="relative flex h-20 w-20 items-center justify-center rounded-2xl text-white shadow-[var(--shadow-brand)]"
-                        style={{ background: "var(--gradient-brand)" }}
-                      >
-                        <Icon className="h-10 w-10" />
-                      </div>
-                      <div className="absolute inset-0 bg-gradient-to-t from-[#0f1424] via-[#0f1424]/20 to-transparent" />
+                      <div className="absolute inset-0 bg-gradient-to-t from-[#0f1424] via-[#0f1424]/30 to-transparent" />
                     </div>
                     <div className="flex flex-1 flex-col p-6 md:p-7">
                       <span className="text-xs font-semibold uppercase tracking-[0.3em] text-red-300">
