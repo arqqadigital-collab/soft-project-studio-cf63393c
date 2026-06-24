@@ -13,7 +13,7 @@ type Menu = { label: string; items: MenuItem[] };
 
 const menus: Menu[] = [
   {
-    label: "Health Care",
+    label: "HealthCare",
     items: [
       {
         label: "Hospital & Clinical Systems",
@@ -177,7 +177,7 @@ const menus: Menu[] = [
   },
 ];
 
-const simpleLinks = ["Clients", "Contact"];
+const simpleLinks = ["Contact"];
 
 function LeafLink({
   item,
