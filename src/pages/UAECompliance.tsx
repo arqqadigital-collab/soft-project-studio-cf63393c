@@ -32,6 +32,7 @@ import journey1 from "@/assets/uae-compliance/journey/j1.jpg.asset.json";
 import journey2 from "@/assets/uae-compliance/journey/j2.jpg.asset.json";
 import journey3 from "@/assets/uae-compliance/journey/j3.jpg.asset.json";
 import journey4 from "@/assets/uae-compliance/journey/j4.jpg.asset.json";
+import uaeCtaVideo from "@/assets/uae-compliance/uae-cta.mp4.asset.json";
 
 const features = [
   { icon: Building2, title: "UAE DHA Compliance — Dubai", body: "Full alignment with Dubai Health Authority regulations. Compliant eClaims submission, DHA-formatted clinical documentation, integration with Dubai HIE, and practitioner licensing verification." },
@@ -407,40 +408,66 @@ export default function UAECompliance() {
 
       {/* INTEGRATIONS */}
       <section className="px-6 py-24 md:px-12">
-        <div className="mx-auto max-w-4xl text-center">
-          <span className="inline-flex items-center gap-2 rounded-full bg-[color:var(--brand-blue)]/10 px-3 py-1.5 text-xs font-semibold uppercase tracking-wider text-[color:var(--brand-blue)]">
-            <Network className="h-3.5 w-3.5" /> Integrations
-          </span>
-          <h2 className="mt-5 text-3xl font-bold tracking-tight text-foreground md:text-5xl">
-            Certified Across Every GCC National Health Platform
-          </h2>
-          <p className="mt-6 text-base leading-relaxed text-foreground/70 md:text-lg">
-            Active, certified integrations with every major national health and insurance platform across the Gulf —
-            maintained and updated as specifications evolve in each market.
-          </p>
-          <div className="mt-10 flex flex-wrap justify-center gap-3">
-            {[
-              "Malaffi",
-              "Riayati",
-              "DHA eClaims",
-              "DOH Abu Dhabi Gateway",
-              "Qatar NHIX",
-              "NHRA Bahrain",
-              "Kuwait MOH",
-              "Oman TPA",
-              "HL7 FHIR R4",
-              "ICD-10-AM",
-              "CPT-4",
-              "DRG GCC Grouper",
-              "REST API",
-            ].map((tag) => (
-              <span
-                key={tag}
-                className="rounded-full border border-border bg-card px-4 py-2 text-sm font-medium text-foreground/80 shadow-sm"
-              >
-                {tag}
-              </span>
-            ))}
+        <div className="mx-auto max-w-5xl">
+          <div className="text-center">
+            <span className="inline-flex items-center gap-2 rounded-full bg-[color:var(--brand-blue)]/10 px-3 py-1.5 text-xs font-semibold uppercase tracking-wider text-[color:var(--brand-blue)]">
+              <Network className="h-3.5 w-3.5" /> Integrations
+            </span>
+            <h2 className="mt-5 text-3xl font-bold tracking-tight text-foreground md:text-5xl">
+              Certified Across Every GCC National Health Platform
+            </h2>
+            <p className="mx-auto mt-6 max-w-3xl text-base leading-relaxed text-foreground/70 md:text-lg">
+              Secreta UAE & GCC holds active, certified integrations with every major national health and insurance
+              platform across the Gulf — maintained and updated as specifications evolve in each market.
+            </p>
+          </div>
+
+          <div className="mt-12 grid gap-6 md:grid-cols-2">
+            <div className="rounded-3xl border border-border bg-card p-8 shadow-sm">
+              <h3 className="text-lg font-bold text-foreground">National Platform Integrations</h3>
+              <div className="mt-5 flex flex-wrap gap-2">
+                {[
+                  "Malaffi — Abu Dhabi HIE",
+                  "Riayati — Dubai HIE",
+                  "DHA eClaims Portal",
+                  "DOH Abu Dhabi Insurance Gateway",
+                  "Qatar NHIX",
+                  "NHRA Bahrain Insurance Portal",
+                  "Kuwait MOH Reporting Platform",
+                  "Oman TPA Integration Gateway",
+                ].map((tag) => (
+                  <span
+                    key={tag}
+                    className="rounded-full border border-border bg-background px-3.5 py-1.5 text-xs font-medium text-foreground/80"
+                  >
+                    {tag}
+                  </span>
+                ))}
+              </div>
+            </div>
+            <div className="rounded-3xl border border-border bg-card p-8 shadow-sm">
+              <h3 className="text-lg font-bold text-foreground">Supported Standards Across GCC Markets</h3>
+              <div className="mt-5 flex flex-wrap gap-2">
+                {[
+                  "HL7 FHIR R4",
+                  "ICD-10-AM",
+                  "CPT-4",
+                  "DRG GCC Grouper Variants",
+                  "UAE Federal Data Protection Law",
+                  "Qatar Personal Data Privacy Law",
+                  "GCC Cybersecurity Frameworks",
+                  "REST API",
+                  "Arabic Unicode Clinical Documentation",
+                ].map((tag) => (
+                  <span
+                    key={tag}
+                    className="rounded-full border border-border bg-background px-3.5 py-1.5 text-xs font-medium text-foreground/80"
+                  >
+                    {tag}
+                  </span>
+                ))}
+              </div>
+            </div>
           </div>
         </div>
       </section>
@@ -490,11 +517,15 @@ export default function UAECompliance() {
         style={{ backgroundColor: "#091628" }}
       >
         <div className="absolute inset-0">
-          <div
-            className="absolute inset-0 opacity-60"
-            style={{ background: "radial-gradient(circle at 30% 30%, rgba(56,189,248,0.35), transparent 55%), radial-gradient(circle at 70% 70%, rgba(99,102,241,0.4), transparent 55%)" }}
+          <video
+            src={uaeCtaVideo.url}
+            autoPlay
+            muted
+            loop
+            playsInline
+            className="absolute inset-0 h-full w-full object-cover"
           />
-          <div className="absolute inset-0 bg-gradient-to-b from-[#091628]/85 via-[#091628]/75 to-[#091628]/90" />
+          <div className="absolute inset-0 bg-gradient-to-b from-[#091628]/80 via-[#091628]/75 to-[#091628]/90" />
         </div>
         <div className="relative mx-auto max-w-4xl text-center">
           <h2 className="text-3xl font-bold tracking-tight text-white md:text-5xl">
