@@ -28,6 +28,12 @@ import risJourney2 from "@/assets/ris/journey-2.jpg";
 import risJourney3 from "@/assets/ris/journey-3.jpg";
 import risJourney4 from "@/assets/ris/journey-4.jpg";
 import risJourney5 from "@/assets/ris/journey-5.jpg";
+import philipsLogo from "@/assets/ris/integrations/philips.png.asset.json";
+import iheLogo from "@/assets/ris/integrations/ihe.png.asset.json";
+import epicLogo from "@/assets/ris/integrations/epic.png.asset.json";
+import dicomLogo from "@/assets/ris/integrations/dicom.png.asset.json";
+import cernerLogo from "@/assets/ris/integrations/cerner.png.asset.json";
+import agfaLogo from "@/assets/ris/integrations/agfa.png.asset.json";
 
 import { Footer } from "@/components/Footer";
 import { CtaSection } from "@/components/CtaSection";
