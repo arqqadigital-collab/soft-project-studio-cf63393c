@@ -91,26 +91,19 @@ function ExpandingJourney({ steps }: { steps: typeof journey }) {
             style={{ flexBasis: 0, minWidth: 0 }}
           >
             <div
-              className="absolute inset-0"
-              style={{
-                background: `linear-gradient(135deg, #0a1f3a 0%, #102a4d 50%, #0a1f3a 100%)`,
-              }}
+              className="absolute inset-0 bg-cover bg-center bg-no-repeat transition-transform duration-700 group-hover:scale-105"
+              style={{ backgroundImage: `url(${step.image})` }}
               aria-hidden="true"
             />
-            <div
-              className="absolute inset-0 opacity-40"
-              style={{ background: "var(--gradient-brand)", mixBlendMode: "overlay" }}
-              aria-hidden="true"
-            />
-            <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(5,12,24,0.25)_0%,rgba(5,12,24,0.6)_60%,rgba(5,12,24,0.9)_100%)]" aria-hidden="true" />
-            <div className={`relative flex h-full min-h-[320px] flex-col ${isActive ? "p-7" : "p-4"}`}>
+            <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(5,12,24,0.35)_0%,rgba(5,12,24,0.72)_48%,rgba(5,12,24,0.94)_100%)]" aria-hidden="true" />
+            <div className={`relative flex h-full min-h-[320px] flex-col ${isActive ? "p-6" : "p-3"}`}>
               <div
-                className="flex h-14 w-14 items-center justify-center rounded-2xl text-white shadow-[var(--shadow-brand)]"
+                className="flex h-11 w-11 items-center justify-center rounded-xl text-white shadow-[var(--shadow-brand)]"
                 style={{ background: "var(--gradient-brand)" }}
               >
-                <Icon className="h-7 w-7" />
+                <Icon className="h-5 w-5" />
               </div>
-              <div className="mt-6 flex h-[calc(100%-3.5rem)] flex-col">
+              <div className="mt-5 flex h-[calc(100%-2.75rem)] flex-col">
                 <motion.div
                   animate={{ opacity: isActive ? 1 : 0 }}
                   transition={{ duration: 0.3, delay: isActive ? 0.25 : 0 }}
@@ -118,16 +111,16 @@ function ExpandingJourney({ steps }: { steps: typeof journey }) {
                 >
                   {isActive && (
                     <>
-                      <div className="text-xs font-bold uppercase tracking-[0.2em] text-white/70">Stage {i + 1}</div>
-                      <h3 className="mt-2 text-2xl font-bold text-white md:text-3xl">{step.title}</h3>
-                      <p className="mt-4 max-w-md text-base leading-relaxed text-white/85">{step.body}</p>
+                      <div className="text-[10px] font-bold uppercase tracking-[0.2em] text-white/70">Stage {i + 1}</div>
+                      <h3 className="mt-2 text-lg font-bold leading-tight text-white md:text-xl">{step.title}</h3>
+                      <p className="mt-3 max-w-md text-xs leading-relaxed text-white/85 md:text-sm">{step.body}</p>
                     </>
                   )}
                 </motion.div>
                 {!isActive && (
                   <div className="mt-auto">
-                    <div className="text-[10px] font-bold uppercase tracking-[0.2em] text-white/65">Stage {i + 1}</div>
-                    <h3 className="mt-2 text-sm font-semibold leading-snug text-white md:text-base">{step.title}</h3>
+                    <div className="text-[9px] font-bold uppercase tracking-[0.2em] text-white/65">Stage {i + 1}</div>
+                    <h3 className="mt-1.5 text-xs font-semibold leading-snug text-white md:text-sm">{step.title}</h3>
                   </div>
                 )}
               </div>
