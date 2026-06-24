@@ -12,6 +12,7 @@ import MedicationDosage from "./pages/MedicationDosage";
 import PACS from "./pages/PACS";
 import AIImaging from "./pages/AIImaging";
 import UAECompliance from "./pages/UAECompliance";
+import EMRAM from "./pages/EMRAM";
 
 function NotFound() {
   return (
@@ -52,6 +53,7 @@ export default function App() {
         <Route path="/healthcare/pacs" element={<PACS />} />
         <Route path="/healthcare/ai-imaging" element={<AIImaging />} />
         <Route path="/healthcare/uae-compliance" element={<UAECompliance />} />
+        <Route path="/healthcare/emram" element={<EMRAM />} />
         <Route path="*" element={<NotFound />} />
       </Routes>
     </>
