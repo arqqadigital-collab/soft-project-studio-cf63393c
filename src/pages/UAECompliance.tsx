@@ -277,9 +277,6 @@ export default function UAECompliance() {
                 Compliance Landscape.
               </span>
             </h2>
-            <p className="mt-4 max-w-2xl text-sm leading-relaxed text-white/65 md:text-base">
-              Your platform needs to be built for the GCC — not adapted to it.
-            </p>
           </div>
 
           <div className="mt-8 flex flex-1 items-center overflow-hidden pb-16 md:mt-10 md:pb-24">
@@ -287,13 +284,22 @@ export default function UAECompliance() {
               {problemCards.map((card, i) => (
                 <article
                   key={card.title}
-                  className="flex w-[82vw] shrink-0 flex-col overflow-hidden rounded-[2rem] bg-[#0f1424] shadow-2xl ring-1 ring-white/10 md:w-[420px] lg:w-[460px]"
+                  className="flex w-[82vw] shrink-0 flex-col overflow-hidden rounded-[2rem] bg-[#0f1424] shadow-2xl ring-1 ring-white/10 md:w-[440px] lg:w-[480px]"
                 >
-                  <div className="flex flex-1 flex-col p-7 md:p-8">
+                  <div className="relative h-[190px] w-full overflow-hidden md:h-[210px]">
+                    <img
+                      src={card.image}
+                      alt={card.title}
+                      loading="lazy"
+                      className="h-full w-full object-cover"
+                    />
+                    <div className="absolute inset-0 bg-gradient-to-t from-[#0f1424] via-[#0f1424]/30 to-transparent" />
+                  </div>
+                  <div className="flex flex-1 flex-col p-6 md:p-7">
                     <span className="text-xs font-semibold uppercase tracking-[0.3em] text-red-300">
                       0{i + 1} — Risk
                     </span>
-                    <h3 className="mt-3 text-lg font-bold leading-tight text-white md:text-xl">{card.title}</h3>
+                    <h3 className="mt-3 text-xl font-bold leading-tight text-white md:text-2xl">{card.title}</h3>
                     <p className="mt-3 text-sm leading-relaxed text-white/75">{card.body}</p>
                   </div>
                 </article>
