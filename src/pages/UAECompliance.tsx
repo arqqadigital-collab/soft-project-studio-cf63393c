@@ -191,14 +191,8 @@ export default function UAECompliance() {
       {/* HERO */}
       <main className="pt-20 relative min-h-[90vh] w-full overflow-hidden bg-background">
         <div className="absolute inset-0">
-          <div
-            className="absolute inset-0"
-            style={{
-              background:
-                "radial-gradient(circle at 25% 30%, rgba(56,189,248,0.45), transparent 55%), radial-gradient(circle at 75% 70%, rgba(99,102,241,0.5), transparent 55%), linear-gradient(180deg, #050b18 0%, #0a1428 100%)",
-            }}
-          />
-          <div className="absolute inset-0 bg-gradient-to-b from-black/40 via-black/30 to-black/70" />
+          <video src={uaeHeroVideo.url} autoPlay muted loop playsInline className="h-full w-full object-cover" />
+          <div className="absolute inset-0 bg-gradient-to-b from-black/75 via-black/60 to-black/85" />
         </div>
 
         <div className="relative z-10 flex min-h-[90vh] flex-col">
@@ -209,20 +203,12 @@ export default function UAECompliance() {
               transition={{ duration: 0.8 }}
               className="mx-auto flex max-w-5xl flex-col items-center text-center"
             >
-              <span className="mb-6 inline-flex items-center gap-2 rounded-full border border-white/15 bg-white/5 px-4 py-1.5 text-xs font-semibold uppercase tracking-[0.25em] text-white/80 backdrop-blur">
-                UAE & GCC Compliance
-              </span>
               <h1 className="text-3xl font-bold leading-[1.1] tracking-tight text-white md:text-5xl lg:text-6xl">
                 One Platform. Every GCC Market.{" "}
                 <span className="bg-clip-text text-transparent" style={{ backgroundImage: "var(--gradient-brand)" }}>
                   Full Regulatory Compliance.
                 </span>
               </h1>
-              <p className="mx-auto mt-7 max-w-3xl text-base leading-relaxed text-white/80 md:text-lg">
-                The Gulf healthcare sector operates across six distinct regulatory environments. Secreta UAE & GCC is the only
-                healthcare management platform that delivers full compliance across the UAE, Qatar, Bahrain, Kuwait, and Oman
-                in a single unified system.
-              </p>
 
               <div className="mt-9 flex flex-col items-center gap-3 sm:flex-row">
                 <a
