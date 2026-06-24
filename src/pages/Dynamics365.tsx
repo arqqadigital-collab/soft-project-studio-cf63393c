@@ -521,16 +521,21 @@ export default function Dynamics365() {
 
       {/* STANDARD VS STRATEGIC */}
       <section className="relative overflow-hidden bg-[#0a0e1a] px-6 py-24 md:px-12 md:py-32">
-        <div
-          className="absolute inset-0"
-          style={{
-            background:
-              "radial-gradient(800px 400px at 80% 20%, rgba(56,189,248,0.12), transparent 60%), radial-gradient(700px 380px at 10% 80%, rgba(99,102,241,0.12), transparent 60%)",
-          }}
+        <img
+          src={patternBg.url}
+          alt=""
+          loading="lazy"
+          width={1920}
+          height={800}
+          className="absolute inset-0 h-full w-full object-cover opacity-25"
           aria-hidden="true"
         />
-        <div className="relative mx-auto max-w-5xl text-center">
-          <h2 className="text-4xl font-bold leading-[1.1] tracking-tight text-white md:text-5xl lg:text-6xl">
+        <div
+          className="absolute inset-0 bg-[#0a0e1a]/70"
+          aria-hidden="true"
+        />
+        <div className="relative z-10 mx-auto max-w-5xl text-center">
+          <h2 className="text-3xl font-bold leading-[1.15] tracking-tight text-white md:text-4xl lg:text-5xl">
             Standard D365 covers the operational baseline.{" "}
             <span className="bg-clip-text text-transparent" style={{ backgroundImage: "var(--gradient-brand)" }}>
               Strategic implementation aligns it with how you actually work.
