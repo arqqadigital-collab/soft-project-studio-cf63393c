@@ -255,8 +255,11 @@ export default function UAECompliance() {
             </span>
           </h2>
           <p className="mx-auto mt-8 max-w-3xl text-base leading-relaxed text-muted-foreground md:text-lg">
-            The technical depth of a country-built system in every GCC market, with the unified architecture of a regional
-            platform — so your compliance is solid at the local level and manageable at the group level simultaneously.
+            The Gulf healthcare sector operates across six distinct regulatory environments — each with its own insurance
+            frameworks, data protection laws, e-health mandates, and reporting obligations. Secreta UAE & GCC is the only
+            healthcare management platform that delivers full compliance across the UAE, Qatar, Bahrain, Kuwait, and Oman
+            in a single unified system — with the country-specific configuration depth that generic regional platforms
+            cannot match.
           </p>
         </div>
       </section>
