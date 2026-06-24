@@ -422,7 +422,7 @@ export default function Dynamics365() {
             </p>
           </div>
 
-          <div className="mt-14 grid grid-cols-1 gap-6 md:grid-cols-2">
+          <div className="mt-14 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4">
             {useCases.map((u) => (
               <motion.div
                 key={u.n}
@@ -442,16 +442,16 @@ export default function Dynamics365() {
                     className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
                   />
                 </div>
-                <div className="p-7">
-                  <div className="flex items-baseline gap-4">
-                    <span className="text-3xl font-bold" style={{ color: "var(--brand-blue)" }}>
+                <div className="p-5">
+                  <div className="flex items-baseline gap-3">
+                    <span className="text-2xl font-bold" style={{ color: "var(--brand-blue)" }}>
                       {u.n}
                     </span>
-                    <h3 className="text-lg font-bold leading-tight" style={{ color: "var(--brand-dark)" }}>
+                    <h3 className="text-base font-bold leading-tight" style={{ color: "var(--brand-dark)" }}>
                       {u.title}
                     </h3>
                   </div>
-                  <p className="mt-3 text-sm leading-relaxed text-muted-foreground">{u.body}</p>
+                  <p className="mt-2 text-xs leading-relaxed text-muted-foreground">{u.body}</p>
                 </div>
               </motion.div>
             ))}
