@@ -52,7 +52,7 @@ const menus: Menu[] = [
         description: "Regional compliance and standards",
         items: [
           { label: "KSA Compliance & Interoperability", href: "#" },
-          { label: "UAE Compliance & Interoperability", href: "#" },
+          { label: "UAE Compliance & Interoperability", to: "/healthcare/uae-compliance" },
         ],
       },
       {
