@@ -221,42 +221,19 @@ export default function Dynamics365() {
         </div>
 
         <div className="relative z-10 flex min-h-[90vh] flex-col">
-          <section className="flex flex-1 items-center justify-center px-6 pb-28 pt-4 md:px-12">
+          <section className="flex flex-1 items-center justify-center px-6 pb-16 pt-4 md:px-12">
             <motion.div
               initial={{ opacity: 0, y: 30 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8 }}
               className="mx-auto flex max-w-5xl flex-col items-center text-center"
             >
-              <span className="mb-6 inline-flex items-center gap-2 rounded-full border border-white/20 bg-white/5 px-4 py-1.5 text-xs font-semibold uppercase tracking-[0.2em] text-white/80 backdrop-blur">
-                Microsoft Dynamics 365 Partner
-              </span>
-
               <h1 className="text-3xl font-bold leading-[1.1] tracking-tight text-white md:text-5xl lg:text-6xl">
                 Standardized where beneficial.{" "}
                 <span className="bg-clip-text text-transparent" style={{ backgroundImage: "var(--gradient-brand)" }}>
                   Engineered where it matters.
                 </span>
               </h1>
-
-              <p className="mt-6 max-w-3xl text-base leading-relaxed text-white/80 md:text-lg">
-                SBS implements, customizes, and integrates Microsoft Dynamics 365 environments
-                structured around how your enterprise actually operates — not how the software defaults.
-              </p>
-
-              <ul className="mt-6 grid max-w-3xl grid-cols-1 gap-2 text-left text-sm text-white/85 sm:grid-cols-2">
-                {[
-                  "End-to-end D365 Finance, SCM & Business Central",
-                  "Power Platform, Azure & Microsoft 365 integration",
-                  "Custom workflows, approvals & process automation",
-                  "Power BI reporting architecture & executive dashboards",
-                ].map((line) => (
-                  <li key={line} className="flex items-start gap-2">
-                    <CheckCircle2 className="mt-0.5 h-4 w-4 shrink-0 text-[var(--brand-blue)]" />
-                    <span>{line}</span>
-                  </li>
-                ))}
-              </ul>
 
               <div className="mt-9 flex flex-col items-center gap-3 sm:flex-row">
                 <a
@@ -273,25 +250,50 @@ export default function Dynamics365() {
                   View capabilities
                 </a>
               </div>
-
-              <p className="mt-8 max-w-2xl text-xs text-white/60">
-                Trusted by growing organizations across healthcare, distribution, professional services, and enterprise operations.
-              </p>
-
-              <div className="mt-8 flex w-full flex-wrap items-center justify-center gap-2 px-2">
-                {trustChips.map((c) => (
-                  <span
-                    key={c}
-                    className="rounded-full border border-white/15 bg-white/5 px-3 py-1.5 text-[11px] text-white/80 backdrop-blur md:text-xs"
-                  >
-                    {c}
-                  </span>
-                ))}
-              </div>
             </motion.div>
           </section>
         </div>
       </main>
+
+      {/* INTRODUCTION */}
+      <section className="relative z-20 -mt-12 rounded-t-[2.5rem] bg-background px-6 py-20 shadow-[0_-20px_60px_-20px_rgba(0,0,0,0.4)] md:px-12 md:py-28">
+        <div className="mx-auto max-w-4xl text-center">
+          <p className="text-base leading-relaxed text-muted-foreground md:text-lg">
+            SBS implements, customizes, and integrates Microsoft Dynamics 365 environments structured around how you
+            operate — delivering end-to-end value across finance, operations, and analytics.
+          </p>
+
+          <div className="mt-10 grid grid-cols-1 gap-4 text-left sm:grid-cols-2">
+            {[
+              "End-to-end D365 Finance, SCM & Business Central",
+              "Power Platform, Azure & Microsoft 365 integration",
+              "Custom workflows, approvals & process automation",
+              "Power BI reporting architecture & executive dashboards",
+            ].map((line) => (
+              <div key={line} className="flex items-start gap-3 rounded-xl border border-border bg-card p-4">
+                <CheckCircle2 className="mt-0.5 h-5 w-5 shrink-0 text-[var(--brand-blue)]" />
+                <span className="text-sm font-medium text-foreground">{line}</span>
+              </div>
+            ))}
+          </div>
+
+          <p className="mt-10 text-sm text-muted-foreground">
+            Trusted by growing organizations across healthcare, distribution, professional services, and enterprise operations.
+          </p>
+
+          <div className="mt-10 flex flex-col items-center justify-center gap-4 sm:flex-row sm:gap-10">
+            <div className="text-center">
+              <p className="text-sm font-semibold uppercase tracking-wider text-muted-foreground">Microsoft Partner status</p>
+              <p className="mt-1 text-2xl font-bold" style={{ color: "var(--brand-dark)" }}>Gold / Certified</p>
+            </div>
+            <div className="hidden h-10 w-px bg-border sm:block" />
+            <div className="text-center">
+              <p className="text-sm font-semibold uppercase tracking-wider text-muted-foreground">Years of implementation experience</p>
+              <p className="mt-1 text-2xl font-bold" style={{ color: "var(--brand-dark)" }}>10+</p>
+            </div>
+          </div>
+        </div>
+      </section>
 
       {/* WHAT WE DELIVER */}
       <section id="services" className="relative z-20 -mt-12 rounded-t-[2.5rem] bg-background px-6 py-24 shadow-[0_-20px_60px_-20px_rgba(0,0,0,0.4)] md:px-12 md:py-32">
