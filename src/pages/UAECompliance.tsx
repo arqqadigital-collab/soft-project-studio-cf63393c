@@ -21,6 +21,17 @@ import {
 } from "lucide-react";
 import { Footer } from "@/components/Footer";
 import { CtaSection } from "@/components/CtaSection";
+import uaeHeroVideo from "@/assets/uae-compliance/uae-hero.mp4.asset.json";
+import problem1 from "@/assets/uae-compliance/problem/p1.jpg.asset.json";
+import problem2 from "@/assets/uae-compliance/problem/p2.jpg.asset.json";
+import problem3 from "@/assets/uae-compliance/problem/p3.jpg.asset.json";
+import problem4 from "@/assets/uae-compliance/problem/p4.jpg.asset.json";
+import problem5 from "@/assets/uae-compliance/problem/p5.jpg.asset.json";
+import problem6 from "@/assets/uae-compliance/problem/p6.jpg.asset.json";
+import journey1 from "@/assets/uae-compliance/journey/j1.jpg.asset.json";
+import journey2 from "@/assets/uae-compliance/journey/j2.jpg.asset.json";
+import journey3 from "@/assets/uae-compliance/journey/j3.jpg.asset.json";
+import journey4 from "@/assets/uae-compliance/journey/j4.jpg.asset.json";
 
 const features = [
   { icon: Building2, title: "UAE DHA Compliance — Dubai", body: "Full alignment with Dubai Health Authority regulations. Compliant eClaims submission, DHA-formatted clinical documentation, integration with Dubai HIE, and practitioner licensing verification." },
@@ -36,10 +47,10 @@ const features = [
 ];
 
 const journey = [
-  { icon: MapPin, title: "Regional Compliance Mapping", body: "Our GCC implementation team maps your operational footprint — countries, facilities, regulatory frameworks, and payers — and produces a prioritized country-by-country gap analysis." },
-  { icon: Settings, title: "Country Configuration & Integration", body: "Each facility is configured to its local regulatory environment. Country-specific payer profiles, coding standards, claim formats, and national platform integrations are activated and tested." },
-  { icon: GraduationCap, title: "Bilingual Training & Phased Go-Live", body: "Staff across all markets are trained in Arabic and English by country-specialist consultants. Go-live is phased by country or facility with on-site live support during each go-live." },
-  { icon: RefreshCw, title: "Continuous Regulatory Alignment", body: "Our regional compliance team monitors all GCC markets continuously and deploys updates before effective dates — so your facilities stay compliant without tracking changes themselves." },
+  { icon: MapPin, title: "Regional Compliance Mapping", image: journey1.url, body: "Our GCC implementation team maps your operational footprint — countries, facilities, regulatory frameworks, and payers — and produces a prioritized country-by-country gap analysis." },
+  { icon: Settings, title: "Country Configuration & Integration", image: journey2.url, body: "Each facility is configured to its local regulatory environment. Country-specific payer profiles, coding standards, claim formats, and national platform integrations are activated and tested." },
+  { icon: GraduationCap, title: "Bilingual Training & Phased Go-Live", image: journey3.url, body: "Staff across all markets are trained in Arabic and English by country-specialist consultants. Go-live is phased by country or facility with on-site live support during each go-live." },
+  { icon: RefreshCw, title: "Continuous Regulatory Alignment", image: journey4.url, body: "Our regional compliance team monitors all GCC markets continuously and deploys updates before effective dates — so your facilities stay compliant without tracking changes themselves." },
 ];
 
 const stats = [
@@ -50,12 +61,12 @@ const stats = [
 ];
 
 const problemCards = [
-  { title: "Three Frameworks at Once", body: "A group operating in Dubai, Abu Dhabi, and Doha is subject to three different insurance frameworks, data protection regimes, and e-health platform requirements — simultaneously." },
-  { title: "DHA vs DOH Specifications", body: "UAE facilities must comply with both DHA in Dubai and DOH in Abu Dhabi — similar in intent but different in technical specification. Generic systems can't bridge both." },
-  { title: "HIE Integration as Afterthought", body: "Malaffi and Riayati require active integration and real-time data sharing — yet most systems treat HIE connectivity as a checkbox rather than a core capability." },
-  { title: "Disparate National Platforms", body: "Qatar's NHIX, Bahrain's NHRA, and Kuwait's MOH all have distinct integration requirements that a single generic system cannot address without country-specific configuration." },
-  { title: "Strict Data Protection Laws", body: "UAE Federal Personal Data Protection Law and equivalent GCC frameworks impose strict requirements on how patient data is stored, processed, and transferred." },
-  { title: "Manual Group Reporting", body: "Multi-country groups produce compliance reports for each market separately using manual processes — slow, error-prone, and impossible to consolidate at group level." },
+  { image: problem1.url, title: "Three Frameworks at Once", body: "A group operating in Dubai, Abu Dhabi, and Doha is subject to three different insurance frameworks, data protection regimes, and e-health platform requirements — simultaneously." },
+  { image: problem2.url, title: "DHA vs DOH Specifications", body: "UAE facilities must comply with both DHA in Dubai and DOH in Abu Dhabi — similar in intent but different in technical specification. Generic systems can't bridge both." },
+  { image: problem3.url, title: "HIE Integration as Afterthought", body: "Malaffi and Riayati require active integration and real-time data sharing — yet most systems treat HIE connectivity as a checkbox rather than a core capability." },
+  { image: problem4.url, title: "Disparate National Platforms", body: "Qatar's NHIX, Bahrain's NHRA, and Kuwait's MOH all have distinct integration requirements that a single generic system cannot address without country-specific configuration." },
+  { image: problem5.url, title: "Strict Data Protection Laws", body: "UAE Federal Personal Data Protection Law and equivalent GCC frameworks impose strict requirements on how patient data is stored, processed, and transferred." },
+  { image: problem6.url, title: "Manual Group Reporting", body: "Multi-country groups produce compliance reports for each market separately using manual processes — slow, error-prone, and impossible to consolidate at group level." },
 ];
 
 function ExpandingJourney({ steps }: { steps: typeof journey }) {
@@ -72,11 +83,15 @@ function ExpandingJourney({ steps }: { steps: typeof journey }) {
             onClick={() => setActive(i)}
             animate={{ flexGrow: isActive ? 4 : 1 }}
             transition={{ duration: 0.55, ease: [0.4, 0, 0.2, 1] }}
-            className="group relative cursor-pointer overflow-hidden rounded-3xl border border-border md:h-full"
-            style={{ flexBasis: 0, minWidth: 0, background: "linear-gradient(135deg, #0a1428 0%, #0f1f3a 100%)" }}
+            className={`group relative cursor-pointer overflow-hidden rounded-3xl border border-border md:h-full`}
+            style={{ flexBasis: 0, minWidth: 0 }}
           >
-            <div className="absolute inset-0 opacity-30" style={{ background: "var(--gradient-brand)" }} aria-hidden="true" />
-            <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(5,12,24,0.38)_0%,rgba(5,12,24,0.72)_50%,rgba(5,12,24,0.95)_100%)]" aria-hidden="true" />
+            <div
+              className="absolute inset-0 bg-cover bg-center bg-no-repeat transition-transform duration-700 group-hover:scale-105"
+              style={{ backgroundImage: `url(${step.image})` }}
+              aria-hidden="true"
+            />
+            <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(5,12,24,0.35)_0%,rgba(5,12,24,0.72)_48%,rgba(5,12,24,0.94)_100%)]" aria-hidden="true" />
             <div className={`relative flex h-full min-h-[320px] flex-col ${isActive ? "p-7" : "p-4"}`}>
               <div
                 className="flex h-14 w-14 items-center justify-center rounded-2xl text-white shadow-[var(--shadow-brand)]"
@@ -176,14 +191,8 @@ export default function UAECompliance() {
       {/* HERO */}
       <main className="pt-20 relative min-h-[90vh] w-full overflow-hidden bg-background">
         <div className="absolute inset-0">
-          <div
-            className="absolute inset-0"
-            style={{
-              background:
-                "radial-gradient(circle at 25% 30%, rgba(56,189,248,0.45), transparent 55%), radial-gradient(circle at 75% 70%, rgba(99,102,241,0.5), transparent 55%), linear-gradient(180deg, #050b18 0%, #0a1428 100%)",
-            }}
-          />
-          <div className="absolute inset-0 bg-gradient-to-b from-black/40 via-black/30 to-black/70" />
+          <video src={uaeHeroVideo.url} autoPlay muted loop playsInline className="h-full w-full object-cover" />
+          <div className="absolute inset-0 bg-gradient-to-b from-black/75 via-black/60 to-black/85" />
         </div>
 
         <div className="relative z-10 flex min-h-[90vh] flex-col">
@@ -194,20 +203,12 @@ export default function UAECompliance() {
               transition={{ duration: 0.8 }}
               className="mx-auto flex max-w-5xl flex-col items-center text-center"
             >
-              <span className="mb-6 inline-flex items-center gap-2 rounded-full border border-white/15 bg-white/5 px-4 py-1.5 text-xs font-semibold uppercase tracking-[0.25em] text-white/80 backdrop-blur">
-                UAE & GCC Compliance
-              </span>
               <h1 className="text-3xl font-bold leading-[1.1] tracking-tight text-white md:text-5xl lg:text-6xl">
                 One Platform. Every GCC Market.{" "}
                 <span className="bg-clip-text text-transparent" style={{ backgroundImage: "var(--gradient-brand)" }}>
                   Full Regulatory Compliance.
                 </span>
               </h1>
-              <p className="mx-auto mt-7 max-w-3xl text-base leading-relaxed text-white/80 md:text-lg">
-                The Gulf healthcare sector operates across six distinct regulatory environments. Secreta UAE & GCC is the only
-                healthcare management platform that delivers full compliance across the UAE, Qatar, Bahrain, Kuwait, and Oman
-                in a single unified system.
-              </p>
 
               <div className="mt-9 flex flex-col items-center gap-3 sm:flex-row">
                 <a
@@ -254,8 +255,11 @@ export default function UAECompliance() {
             </span>
           </h2>
           <p className="mx-auto mt-8 max-w-3xl text-base leading-relaxed text-muted-foreground md:text-lg">
-            The technical depth of a country-built system in every GCC market, with the unified architecture of a regional
-            platform — so your compliance is solid at the local level and manageable at the group level simultaneously.
+            The Gulf healthcare sector operates across six distinct regulatory environments — each with its own insurance
+            frameworks, data protection laws, e-health mandates, and reporting obligations. Secreta UAE & GCC is the only
+            healthcare management platform that delivers full compliance across the UAE, Qatar, Bahrain, Kuwait, and Oman
+            in a single unified system — with the country-specific configuration depth that generic regional platforms
+            cannot match.
           </p>
         </div>
       </section>
@@ -273,9 +277,6 @@ export default function UAECompliance() {
                 Compliance Landscape.
               </span>
             </h2>
-            <p className="mt-4 max-w-2xl text-sm leading-relaxed text-white/65 md:text-base">
-              Your platform needs to be built for the GCC — not adapted to it.
-            </p>
           </div>
 
           <div className="mt-8 flex flex-1 items-center overflow-hidden pb-16 md:mt-10 md:pb-24">
@@ -283,13 +284,22 @@ export default function UAECompliance() {
               {problemCards.map((card, i) => (
                 <article
                   key={card.title}
-                  className="flex w-[82vw] shrink-0 flex-col overflow-hidden rounded-[2rem] bg-[#0f1424] shadow-2xl ring-1 ring-white/10 md:w-[420px] lg:w-[460px]"
+                  className="flex w-[82vw] shrink-0 flex-col overflow-hidden rounded-[2rem] bg-[#0f1424] shadow-2xl ring-1 ring-white/10 md:w-[440px] lg:w-[480px]"
                 >
-                  <div className="flex flex-1 flex-col p-7 md:p-8">
+                  <div className="relative h-[190px] w-full overflow-hidden md:h-[210px]">
+                    <img
+                      src={card.image}
+                      alt={card.title}
+                      loading="lazy"
+                      className="h-full w-full object-cover"
+                    />
+                    <div className="absolute inset-0 bg-gradient-to-t from-[#0f1424] via-[#0f1424]/30 to-transparent" />
+                  </div>
+                  <div className="flex flex-1 flex-col p-6 md:p-7">
                     <span className="text-xs font-semibold uppercase tracking-[0.3em] text-red-300">
                       0{i + 1} — Risk
                     </span>
-                    <h3 className="mt-3 text-lg font-bold leading-tight text-white md:text-xl">{card.title}</h3>
+                    <h3 className="mt-3 text-xl font-bold leading-tight text-white md:text-2xl">{card.title}</h3>
                     <p className="mt-3 text-sm leading-relaxed text-white/75">{card.body}</p>
                   </div>
                 </article>
