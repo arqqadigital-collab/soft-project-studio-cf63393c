@@ -238,11 +238,11 @@ export default function EMRAM() {
                 </a>
               </div>
 
-              <div className="mt-10 flex w-full flex-nowrap items-center justify-center gap-2 overflow-x-auto whitespace-nowrap px-2 [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+              <div className="mt-10 flex w-full flex-wrap items-center justify-center gap-2 px-2">
                 {trustChips.map((c) => (
                   <span
                     key={c}
-                    className="shrink-0 rounded-full border border-white/15 bg-white/5 px-3 py-1.5 text-[11px] text-white/80 backdrop-blur md:text-xs"
+                    className="rounded-full border border-white/15 bg-white/5 px-3 py-1.5 text-[11px] text-white/80 backdrop-blur md:text-xs"
                   >
                     {c}
                   </span>
