@@ -225,6 +225,7 @@ export default function Dynamics365() {
             preload="auto"
             className="absolute inset-0 h-full w-full object-cover"
             src={heroVideo.url}
+            poster={patternBg.url}
           />
           <div
             className="absolute inset-0"
