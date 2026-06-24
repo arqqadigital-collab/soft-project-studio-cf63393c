@@ -260,9 +260,16 @@ export default function Dynamics365() {
       </main>
 
       {/* INTRODUCTION */}
-      <section className="relative z-20 -mt-12 rounded-t-[2.5rem] bg-background px-6 py-20 shadow-[0_-20px_60px_-20px_rgba(0,0,0,0.4)] md:px-12 md:py-28">
+      <section className="relative z-20 -mt-12 rounded-t-[2.5rem] bg-[#0a0e1a] px-6 py-20 shadow-[0_-20px_60px_-20px_rgba(0,0,0,0.4)] md:px-12 md:py-28">
         <div className="mx-auto max-w-4xl text-center">
-          <p className="text-base leading-relaxed text-muted-foreground md:text-lg">
+          <h2 className="text-3xl font-bold leading-[1.1] tracking-tight text-white md:text-4xl lg:text-5xl">
+            Microsoft Dynamics 365{" "}
+            <span className="bg-clip-text text-transparent" style={{ backgroundImage: "var(--gradient-brand)" }}>
+              Implementation, Integration & Customization
+            </span>
+          </h2>
+
+          <p className="mt-6 text-base leading-relaxed text-white/70 md:text-lg">
             SBS implements, customizes, and integrates Microsoft Dynamics 365 environments structured around how you
             operate — delivering end-to-end value across finance, operations, and analytics.
           </p>
@@ -274,28 +281,16 @@ export default function Dynamics365() {
               "Custom workflows, approvals & process automation",
               "Power BI reporting architecture & executive dashboards",
             ].map((line) => (
-              <div key={line} className="flex items-start gap-3 rounded-xl border border-border bg-card p-4">
+              <div key={line} className="flex items-start gap-3 rounded-xl border border-white/10 bg-white/[0.03] p-4">
                 <CheckCircle2 className="mt-0.5 h-5 w-5 shrink-0 text-[var(--brand-blue)]" />
-                <span className="text-sm font-medium text-foreground">{line}</span>
+                <span className="text-sm font-medium text-white/90">{line}</span>
               </div>
             ))}
           </div>
 
-          <p className="mt-10 text-sm text-muted-foreground">
+          <p className="mt-10 text-sm text-white/60">
             Trusted by growing organizations across healthcare, distribution, professional services, and enterprise operations.
           </p>
-
-          <div className="mt-10 flex flex-col items-center justify-center gap-4 sm:flex-row sm:gap-10">
-            <div className="text-center">
-              <p className="text-sm font-semibold uppercase tracking-wider text-muted-foreground">Microsoft Partner status</p>
-              <p className="mt-1 text-2xl font-bold" style={{ color: "var(--brand-dark)" }}>Gold / Certified</p>
-            </div>
-            <div className="hidden h-10 w-px bg-border sm:block" />
-            <div className="text-center">
-              <p className="text-sm font-semibold uppercase tracking-wider text-muted-foreground">Years of implementation experience</p>
-              <p className="mt-1 text-2xl font-bold" style={{ color: "var(--brand-dark)" }}>10+</p>
-            </div>
-          </div>
         </div>
       </section>
 
