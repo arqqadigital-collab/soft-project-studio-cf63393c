@@ -527,11 +527,11 @@ export default function Dynamics365() {
           loading="lazy"
           width={1920}
           height={800}
-          className="absolute inset-0 h-full w-full object-cover opacity-25"
+          className="absolute inset-0 h-full w-full object-cover opacity-40"
           aria-hidden="true"
         />
         <div
-          className="absolute inset-0 bg-[#0a0e1a]/70"
+          className="absolute inset-0 bg-[#0a0e1a]/60"
           aria-hidden="true"
         />
         <div className="relative z-10 mx-auto max-w-5xl text-center">
