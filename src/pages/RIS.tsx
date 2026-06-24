@@ -437,13 +437,13 @@ export default function RIS() {
             ].map((logo) => (
               <div
                 key={logo.name}
-                className="flex h-24 w-full items-center justify-center rounded-2xl border border-border bg-card p-4 shadow-sm transition-shadow hover:shadow-[var(--shadow-brand)]"
+                className="flex h-36 w-full items-center justify-center rounded-2xl border border-border bg-card p-6 shadow-sm transition-shadow hover:shadow-[var(--shadow-brand)]"
               >
                 <img
                   src={logo.src}
                   alt={`${logo.name} logo`}
                   loading="lazy"
-                  className="max-h-full max-w-full object-contain"
+                  className="max-h-24 w-full object-contain"
                 />
               </div>
             ))}
