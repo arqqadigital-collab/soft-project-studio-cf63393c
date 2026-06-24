@@ -429,17 +429,29 @@ export default function Dynamics365() {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true, margin: "-60px" }}
                 transition={{ duration: 0.5 }}
-                className="rounded-2xl border border-border bg-card p-7 transition-all hover:-translate-y-1 hover:shadow-[var(--shadow-brand)]"
+                className="group overflow-hidden rounded-2xl border border-border bg-card transition-all hover:-translate-y-1 hover:shadow-[var(--shadow-brand)]"
               >
-                <div className="flex items-baseline gap-4">
-                  <span className="text-3xl font-bold" style={{ color: "var(--brand-blue)" }}>
-                    {u.n}
-                  </span>
-                  <h3 className="text-lg font-bold leading-tight" style={{ color: "var(--brand-dark)" }}>
-                    {u.title}
-                  </h3>
+                <div className="relative aspect-[16/9] overflow-hidden">
+                  <img
+                    src={u.image}
+                    alt={u.alt}
+                    loading="lazy"
+                    width={1024}
+                    height={576}
+                    className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
+                  />
                 </div>
-                <p className="mt-3 text-sm leading-relaxed text-muted-foreground">{u.body}</p>
+                <div className="p-7">
+                  <div className="flex items-baseline gap-4">
+                    <span className="text-3xl font-bold" style={{ color: "var(--brand-blue)" }}>
+                      {u.n}
+                    </span>
+                    <h3 className="text-lg font-bold leading-tight" style={{ color: "var(--brand-dark)" }}>
+                      {u.title}
+                    </h3>
+                  </div>
+                  <p className="mt-3 text-sm leading-relaxed text-muted-foreground">{u.body}</p>
+                </div>
               </motion.div>
             ))}
           </div>
