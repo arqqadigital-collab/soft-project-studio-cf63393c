@@ -24,6 +24,10 @@ import {
 } from "lucide-react";
 import { Footer } from "@/components/Footer";
 import { CtaSection } from "@/components/CtaSection";
+import useCase1Asset from "@/assets/dynamics/use-case-1.jpg.asset.json";
+import useCase2Asset from "@/assets/dynamics/use-case-2.jpg.asset.json";
+import useCase3Asset from "@/assets/dynamics/use-case-3.jpg.asset.json";
+import useCase4Asset from "@/assets/dynamics/use-case-4.jpg.asset.json";
 
 const services = [
   {
