@@ -111,21 +111,29 @@ const useCases = [
     n: "01",
     title: "Multi-Entity Financial Management",
     body: "Centralized financial operations across multiple companies, branches, or operational entities with standardized reporting, approval governance, and consolidated visibility.",
+    image: useCase1Asset.url,
+    alt: "Multi-entity financial consolidation",
   },
   {
     n: "02",
     title: "Procurement & Approval Workflow Automation",
     body: "Automated procurement approvals based on department structure, budget thresholds, operational hierarchy, and compliance policies.",
+    image: useCase2Asset.url,
+    alt: "Procurement and approval workflow automation",
   },
   {
     n: "03",
     title: "Executive Power BI Reporting Layer",
     body: "Centralized operational and financial dashboards providing leadership teams with real-time visibility into KPIs, operational performance, and enterprise metrics.",
+    image: useCase3Asset.url,
+    alt: "Executive Power BI reporting dashboard",
   },
   {
     n: "04",
     title: "Cross-System ERP Integration",
     body: "Integration between Microsoft Dynamics and external operational systems including banking platforms, logistics providers, healthcare systems, and enterprise applications.",
+    image: useCase4Asset.url,
+    alt: "Cross-system ERP integration",
   },
 ];
 
