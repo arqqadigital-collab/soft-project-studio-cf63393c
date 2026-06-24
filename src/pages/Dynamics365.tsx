@@ -217,11 +217,20 @@ export default function Dynamics365() {
       {/* HERO */}
       <main className="relative min-h-[90vh] w-full overflow-hidden bg-background pt-20">
         <div className="absolute inset-0">
+          <video
+            autoPlay
+            loop
+            muted
+            playsInline
+            preload="auto"
+            className="absolute inset-0 h-full w-full object-cover"
+            src={heroVideo.url}
+          />
           <div
             className="absolute inset-0"
             style={{
               background:
-                "radial-gradient(1200px 600px at 20% 10%, rgba(56,189,248,0.18), transparent 60%), radial-gradient(900px 500px at 85% 30%, rgba(99,102,241,0.18), transparent 60%), linear-gradient(180deg, #050b18 0%, #07142b 60%, #050b18 100%)",
+                "linear-gradient(180deg, rgba(5,11,24,0.78) 0%, rgba(7,20,43,0.65) 60%, rgba(5,11,24,0.88) 100%)",
             }}
           />
         </div>
