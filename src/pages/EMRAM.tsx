@@ -21,6 +21,20 @@ import {
 } from "lucide-react";
 import { Footer } from "@/components/Footer";
 import { CtaSection } from "@/components/CtaSection";
+import emramHeroVideo from "@/assets/emram/emram-hero.mp4.asset.json";
+import emramP1 from "@/assets/emram/problem/p1.jpg.asset.json";
+import emramP2 from "@/assets/emram/problem/p2.jpg.asset.json";
+import emramP3 from "@/assets/emram/problem/p3.jpg.asset.json";
+import emramP4 from "@/assets/emram/problem/p4.jpg.asset.json";
+import emramP5 from "@/assets/emram/problem/p5.jpg.asset.json";
+import emramP6 from "@/assets/emram/problem/p6.jpg.asset.json";
+import emramJ1 from "@/assets/emram/journey/j1.jpg.asset.json";
+import emramJ2 from "@/assets/emram/journey/j2.jpg.asset.json";
+import emramJ3 from "@/assets/emram/journey/j3.jpg.asset.json";
+import emramJ4 from "@/assets/emram/journey/j4.jpg.asset.json";
+import emramJ5 from "@/assets/emram/journey/j5.jpg.asset.json";
+import emramJ6 from "@/assets/emram/journey/j6.jpg.asset.json";
+import emramJ7 from "@/assets/emram/journey/j7.jpg.asset.json";
 
 const features = [
   { icon: ClipboardList, title: "EMRAM Baseline Assessment", body: "Rigorous baseline assessment of your current EMRAM position — clinical systems, integration architecture, workflow digitization, data quality, closed-loop safety and adoption — scored against validated HIMSS EMRAM methodology with a prioritized gap roadmap." },
@@ -34,13 +48,13 @@ const features = [
 ];
 
 const journey = [
-  { icon: ClipboardList, title: "Baseline Assessment", body: "We assess your current EMRAM position across all criteria. You receive a current-state score, a gap analysis and a prioritized roadmap." },
-  { icon: Users, title: "Roadmap Agreement", body: "Leadership reviews and approves the roadmap. Resources, timelines and governance structures are agreed. The transformation program begins." },
-  { icon: GitBranch, title: "Technology & Integration", body: "Missing systems are implemented. Integration gaps are closed. Closed-loop medication safety, CDS and electronic documentation are built to EMRAM specification." },
-  { icon: Workflow, title: "Clinical Adoption", body: "Workflows are redesigned, staff are trained, adoption is measured and managed. EMRAM operational standards are embedded in daily clinical practice." },
-  { icon: Sparkles, title: "AI Readiness Foundation", body: "Data quality, governance and infrastructure are built to support clinical AI. The readiness assessment confirms readiness for Stage 7 AI-powered analytics." },
-  { icon: BadgeCheck, title: "Validation & Certification", body: "Pre-validation mock assessment is conducted, gaps are closed and the formal HIMSS validation is supported from preparation through on-site assessment." },
-  { icon: Target, title: "Sustained Excellence", body: "Post-validation operational support ensures EMRAM standards are maintained. AI capabilities are progressively deployed on the mature digital foundation." },
+  { icon: ClipboardList, image: emramJ1.url, title: "Baseline Assessment", body: "We assess your current EMRAM position across all criteria. You receive a current-state score, a gap analysis and a prioritized roadmap." },
+  { icon: Users, image: emramJ2.url, title: "Roadmap Agreement", body: "Leadership reviews and approves the roadmap. Resources, timelines and governance structures are agreed. The transformation program begins." },
+  { icon: GitBranch, image: emramJ3.url, title: "Technology & Integration", body: "Missing systems are implemented. Integration gaps are closed. Closed-loop medication safety, CDS and electronic documentation are built to EMRAM specification." },
+  { icon: Workflow, image: emramJ4.url, title: "Clinical Adoption", body: "Workflows are redesigned, staff are trained, adoption is measured and managed. EMRAM operational standards are embedded in daily clinical practice." },
+  { icon: Sparkles, image: emramJ5.url, title: "AI Readiness Foundation", body: "Data quality, governance and infrastructure are built to support clinical AI. The readiness assessment confirms readiness for Stage 7 AI-powered analytics." },
+  { icon: BadgeCheck, image: emramJ6.url, title: "Validation & Certification", body: "Pre-validation mock assessment is conducted, gaps are closed and the formal HIMSS validation is supported from preparation through on-site assessment." },
+  { icon: Target, image: emramJ7.url, title: "Sustained Excellence", body: "Post-validation operational support ensures EMRAM standards are maintained. AI capabilities are progressively deployed on the mature digital foundation." },
 ];
 
 const stats = [
@@ -51,12 +65,12 @@ const stats = [
 ];
 
 const problemCards = [
-  { icon: Database, title: "Fragmented Clinical Data", body: "Most hospitals enter the EMRAM journey with fragmented, inconsistent or uncleaned data that cannot be trusted in clinical practice — let alone power AI." },
-  { icon: Users, title: "Clinical Transformation Gap", body: "IT teams understand the technical requirements but lack the clinical transformation expertise to drive the workflow changes Stage 6 and Stage 7 demand." },
-  { icon: Activity, title: "No Framework for Progress", body: "Leadership invests in digital transformation without a clear framework for measuring progress, demonstrating value or maintaining operational standards." },
-  { icon: Workflow, title: "Workflow Adoption Underestimated", body: "EMRAM is not purely technical — it requires clinical leadership engagement, staff behavior change and sustained organizational commitment most programs underestimate." },
-  { icon: Pill, title: "Closed-Loop Medication Complexity", body: "ePrescribing through pharmacy verification, dispensing cabinet integration and barcode-verified administration is the requirement hospitals find most challenging." },
-  { icon: Brain, title: "AI Readiness Is Not a Certificate", body: "Stage 7 opens the door to clinical AI — but data quality, governance frameworks, validation processes and AI literacy must be built systematically." },
+  { image: emramP1.url, title: "Fragmented Clinical Data", body: "Most hospitals enter the EMRAM journey with fragmented, inconsistent or uncleaned data that cannot be trusted in clinical practice — let alone power AI." },
+  { image: emramP2.url, title: "Clinical Transformation Gap", body: "IT teams understand the technical requirements but lack the clinical transformation expertise to drive the workflow changes Stage 6 and Stage 7 demand." },
+  { image: emramP3.url, title: "No Framework for Progress", body: "Leadership invests in digital transformation without a clear framework for measuring progress, demonstrating value or maintaining operational standards." },
+  { image: emramP4.url, title: "Workflow Adoption Underestimated", body: "EMRAM is not purely technical — it requires clinical leadership engagement, staff behavior change and sustained organizational commitment most programs underestimate." },
+  { image: emramP5.url, title: "Closed-Loop Medication Complexity", body: "ePrescribing through pharmacy verification, dispensing cabinet integration and barcode-verified administration is the requirement hospitals find most challenging." },
+  { image: emramP6.url, title: "AI Readiness Is Not a Certificate", body: "Stage 7 opens the door to clinical AI — but data quality, governance frameworks, validation processes and AI literacy must be built systematically." },
 ];
 
 function ExpandingJourney({ steps }: { steps: typeof journey }) {
@@ -77,26 +91,19 @@ function ExpandingJourney({ steps }: { steps: typeof journey }) {
             style={{ flexBasis: 0, minWidth: 0 }}
           >
             <div
-              className="absolute inset-0"
-              style={{
-                background: `linear-gradient(135deg, #0a1f3a 0%, #102a4d 50%, #0a1f3a 100%)`,
-              }}
+              className="absolute inset-0 bg-cover bg-center bg-no-repeat transition-transform duration-700 group-hover:scale-105"
+              style={{ backgroundImage: `url(${step.image})` }}
               aria-hidden="true"
             />
-            <div
-              className="absolute inset-0 opacity-40"
-              style={{ background: "var(--gradient-brand)", mixBlendMode: "overlay" }}
-              aria-hidden="true"
-            />
-            <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(5,12,24,0.25)_0%,rgba(5,12,24,0.6)_60%,rgba(5,12,24,0.9)_100%)]" aria-hidden="true" />
-            <div className={`relative flex h-full min-h-[320px] flex-col ${isActive ? "p-7" : "p-4"}`}>
+            <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(5,12,24,0.35)_0%,rgba(5,12,24,0.72)_48%,rgba(5,12,24,0.94)_100%)]" aria-hidden="true" />
+            <div className={`relative flex h-full min-h-[320px] flex-col ${isActive ? "p-6" : "p-3"}`}>
               <div
-                className="flex h-14 w-14 items-center justify-center rounded-2xl text-white shadow-[var(--shadow-brand)]"
+                className="flex h-11 w-11 items-center justify-center rounded-xl text-white shadow-[var(--shadow-brand)]"
                 style={{ background: "var(--gradient-brand)" }}
               >
-                <Icon className="h-7 w-7" />
+                <Icon className="h-5 w-5" />
               </div>
-              <div className="mt-6 flex h-[calc(100%-3.5rem)] flex-col">
+              <div className="mt-5 flex h-[calc(100%-2.75rem)] flex-col">
                 <motion.div
                   animate={{ opacity: isActive ? 1 : 0 }}
                   transition={{ duration: 0.3, delay: isActive ? 0.25 : 0 }}
@@ -104,16 +111,16 @@ function ExpandingJourney({ steps }: { steps: typeof journey }) {
                 >
                   {isActive && (
                     <>
-                      <div className="text-xs font-bold uppercase tracking-[0.2em] text-white/70">Stage {i + 1}</div>
-                      <h3 className="mt-2 text-2xl font-bold text-white md:text-3xl">{step.title}</h3>
-                      <p className="mt-4 max-w-md text-base leading-relaxed text-white/85">{step.body}</p>
+                      <div className="text-[10px] font-bold uppercase tracking-[0.2em] text-white/70">Stage {i + 1}</div>
+                      <h3 className="mt-2 text-lg font-bold leading-tight text-white md:text-xl">{step.title}</h3>
+                      <p className="mt-3 max-w-md text-xs leading-relaxed text-white/85 md:text-sm">{step.body}</p>
                     </>
                   )}
                 </motion.div>
                 {!isActive && (
                   <div className="mt-auto">
-                    <div className="text-[10px] font-bold uppercase tracking-[0.2em] text-white/65">Stage {i + 1}</div>
-                    <h3 className="mt-2 text-sm font-semibold leading-snug text-white md:text-base">{step.title}</h3>
+                    <div className="text-[9px] font-bold uppercase tracking-[0.2em] text-white/65">Stage {i + 1}</div>
+                    <h3 className="mt-1.5 text-xs font-semibold leading-snug text-white md:text-sm">{step.title}</h3>
                   </div>
                 )}
               </div>
@@ -187,13 +194,16 @@ export default function EMRAM() {
       {/* HERO */}
       <main className="relative min-h-[90vh] w-full overflow-hidden bg-background pt-20">
         <div className="absolute inset-0">
-          <div
-            className="absolute inset-0"
-            style={{
-              background:
-                "radial-gradient(60% 80% at 20% 10%, rgba(56,189,248,0.18), transparent 60%), radial-gradient(50% 60% at 80% 90%, rgba(99,102,241,0.18), transparent 60%), linear-gradient(180deg, #050b18 0%, #07142b 60%, #050b18 100%)",
-            }}
+          <video
+            className="absolute inset-0 h-full w-full object-cover"
+            src={emramHeroVideo.url}
+            autoPlay
+            muted
+            loop
+            playsInline
+            aria-hidden="true"
           />
+          <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(5,11,24,0.7)_0%,rgba(7,20,43,0.78)_60%,rgba(5,11,24,0.9)_100%)]" />
         </div>
 
         <div className="relative z-10 flex min-h-[90vh] flex-col">
@@ -204,20 +214,12 @@ export default function EMRAM() {
               transition={{ duration: 0.8 }}
               className="mx-auto flex max-w-5xl flex-col items-center text-center"
             >
-              <span className="mb-6 inline-flex items-center gap-2 rounded-full border border-white/15 bg-white/5 px-3 py-1.5 text-xs font-semibold uppercase tracking-wider text-white/80 backdrop-blur">
-                <Sparkles className="h-3.5 w-3.5" /> EMRAM Roadmap & AI Readiness
-              </span>
               <h1 className="text-3xl font-bold leading-[1.1] tracking-tight text-white md:text-5xl lg:text-6xl">
                 Your Path to EMRAM Stage 7 —{" "}
                 <span className="bg-clip-text text-transparent" style={{ backgroundImage: "var(--gradient-brand)" }}>
                   and the AI Capabilities That Come With It.
                 </span>
               </h1>
-              <p className="mt-8 max-w-3xl text-base leading-relaxed text-white/80 md:text-lg">
-                Strategy, technology and implementation support to advance through every EMRAM stage — and emerge at
-                Stage 7 genuinely ready for AI-powered clinical decision support, predictive analytics and population
-                health management.
-              </p>
 
               <div className="mt-9 flex flex-col items-center gap-3 sm:flex-row">
                 <a
@@ -264,11 +266,12 @@ export default function EMRAM() {
             </span>
           </h2>
           <p className="mx-auto mt-8 max-w-3xl text-base leading-relaxed text-muted-foreground md:text-lg">
-            EMRAM Stage 7 signals to patients, payers, regulators and partners that your organization has achieved a
-            fully paperless, closed-loop, analytically capable clinical environment. Most hospitals are not on a
-            structured path to get there. Secreta EMRAM Roadmap & AI Readiness gives your organization the strategy,
-            the technology and the implementation support to advance through every stage — and to emerge at Stage 7
-            genuinely ready for clinical AI.
+            EMRAM Stage 7 is the global gold standard for hospital digital maturity. It signals to patients, payers,
+            regulators, and partners that your organization has achieved a fully paperless, closed-loop, analytically
+            capable clinical environment. But most hospitals are not on a structured path to get there. Secreta EMRAM
+            Roadmap & AI Readiness gives your organization the strategy, the technology, and the implementation support
+            to advance through every EMRAM stage — and to emerge at Stage 7 genuinely ready for AI-powered clinical
+            decision support, predictive analytics, and population health management.
           </p>
         </div>
       </section>
@@ -291,30 +294,21 @@ export default function EMRAM() {
           <div className="mt-8 flex flex-1 items-center overflow-hidden pb-16 md:mt-10 md:pb-24">
             <motion.div style={{ x: problemX }} className="flex items-stretch gap-6 px-6 md:gap-8 md:px-12">
               {problemCards.map((card, i) => {
-                const Icon = card.icon;
                 return (
                   <article
                     key={card.title}
                     className="flex w-[82vw] shrink-0 flex-col overflow-hidden rounded-[2rem] bg-[#0f1424] shadow-2xl ring-1 ring-white/10 md:w-[440px] lg:w-[480px]"
                   >
-                    <div
-                      className="relative flex h-[190px] w-full items-center justify-center overflow-hidden md:h-[210px]"
-                      style={{
-                        background:
-                          "linear-gradient(135deg, #0a1f3a 0%, #102a4d 50%, #0a1f3a 100%)",
-                      }}
-                    >
-                      <div
-                        className="absolute inset-0 opacity-40"
-                        style={{ background: "var(--gradient-brand)", mixBlendMode: "overlay" }}
+                    <div className="relative h-[190px] w-full overflow-hidden md:h-[210px]">
+                      <img
+                        src={card.image}
+                        alt={card.title}
+                        loading="lazy"
+                        width={800}
+                        height={600}
+                        className="h-full w-full object-cover"
                       />
-                      <div
-                        className="relative flex h-20 w-20 items-center justify-center rounded-2xl text-white shadow-[var(--shadow-brand)]"
-                        style={{ background: "var(--gradient-brand)" }}
-                      >
-                        <Icon className="h-10 w-10" />
-                      </div>
-                      <div className="absolute inset-0 bg-gradient-to-t from-[#0f1424] via-[#0f1424]/20 to-transparent" />
+                      <div className="absolute inset-0 bg-gradient-to-t from-[#0f1424] via-[#0f1424]/30 to-transparent" />
                     </div>
                     <div className="flex flex-1 flex-col p-6 md:p-7">
                       <span className="text-xs font-semibold uppercase tracking-[0.3em] text-red-300">
