@@ -83,11 +83,15 @@ function ExpandingJourney({ steps }: { steps: typeof journey }) {
             onClick={() => setActive(i)}
             animate={{ flexGrow: isActive ? 4 : 1 }}
             transition={{ duration: 0.55, ease: [0.4, 0, 0.2, 1] }}
-            className="group relative cursor-pointer overflow-hidden rounded-3xl border border-border md:h-full"
-            style={{ flexBasis: 0, minWidth: 0, background: "linear-gradient(135deg, #0a1428 0%, #0f1f3a 100%)" }}
+            className={`group relative cursor-pointer overflow-hidden rounded-3xl border border-border md:h-full`}
+            style={{ flexBasis: 0, minWidth: 0 }}
           >
-            <div className="absolute inset-0 opacity-30" style={{ background: "var(--gradient-brand)" }} aria-hidden="true" />
-            <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(5,12,24,0.38)_0%,rgba(5,12,24,0.72)_50%,rgba(5,12,24,0.95)_100%)]" aria-hidden="true" />
+            <div
+              className="absolute inset-0 bg-cover bg-center bg-no-repeat transition-transform duration-700 group-hover:scale-105"
+              style={{ backgroundImage: `url(${step.image})` }}
+              aria-hidden="true"
+            />
+            <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(5,12,24,0.35)_0%,rgba(5,12,24,0.72)_48%,rgba(5,12,24,0.94)_100%)]" aria-hidden="true" />
             <div className={`relative flex h-full min-h-[320px] flex-col ${isActive ? "p-7" : "p-4"}`}>
               <div
                 className="flex h-14 w-14 items-center justify-center rounded-2xl text-white shadow-[var(--shadow-brand)]"
