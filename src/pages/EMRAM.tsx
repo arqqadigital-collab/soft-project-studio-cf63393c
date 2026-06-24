@@ -22,6 +22,7 @@ import {
 import { Footer } from "@/components/Footer";
 import { CtaSection } from "@/components/CtaSection";
 import emramHeroVideo from "@/assets/emram/emram-hero.mp4.asset.json";
+import emramCtaVideo from "@/assets/emram/emram-cta.mp4.asset.json";
 import emramP1 from "@/assets/emram/problem/p1.jpg.asset.json";
 import emramP2 from "@/assets/emram/problem/p2.jpg.asset.json";
 import emramP3 from "@/assets/emram/problem/p3.jpg.asset.json";
@@ -237,11 +238,11 @@ export default function EMRAM() {
                 </a>
               </div>
 
-              <div className="mt-10 flex flex-wrap items-center justify-center gap-2">
+              <div className="mt-10 flex w-full flex-nowrap items-center justify-center gap-2 overflow-x-auto whitespace-nowrap px-2 [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
                 {trustChips.map((c) => (
                   <span
                     key={c}
-                    className="rounded-full border border-white/15 bg-white/5 px-3 py-1.5 text-xs text-white/80 backdrop-blur"
+                    className="shrink-0 rounded-full border border-white/15 bg-white/5 px-3 py-1.5 text-[11px] text-white/80 backdrop-blur md:text-xs"
                   >
                     {c}
                   </span>
@@ -537,13 +538,16 @@ export default function EMRAM() {
         className="relative overflow-hidden px-6 py-24 md:px-12"
         style={{ backgroundColor: "#091628" }}
       >
-        <div
-          className="absolute inset-0"
-          style={{
-            background:
-              "radial-gradient(60% 80% at 20% 20%, rgba(56,189,248,0.18), transparent 60%), radial-gradient(50% 60% at 80% 80%, rgba(99,102,241,0.18), transparent 60%)",
-          }}
+        <video
+          className="absolute inset-0 h-full w-full object-cover"
+          src={emramCtaVideo.url}
+          autoPlay
+          muted
+          loop
+          playsInline
+          aria-hidden="true"
         />
+        <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(9,22,40,0.78)_0%,rgba(9,22,40,0.85)_100%)]" />
         <div className="relative mx-auto max-w-4xl text-center">
           <h2 className="text-3xl font-bold tracking-tight text-white md:text-5xl">
             EMRAM Stage 7 Is Not the Finish Line.{" "}
