@@ -24,6 +24,10 @@ import {
 } from "lucide-react";
 import { Footer } from "@/components/Footer";
 import { CtaSection } from "@/components/CtaSection";
+import useCase1Asset from "@/assets/dynamics/use-case-1.jpg.asset.json";
+import useCase2Asset from "@/assets/dynamics/use-case-2.jpg.asset.json";
+import useCase3Asset from "@/assets/dynamics/use-case-3.jpg.asset.json";
+import useCase4Asset from "@/assets/dynamics/use-case-4.jpg.asset.json";
 
 const services = [
   {
@@ -107,21 +111,29 @@ const useCases = [
     n: "01",
     title: "Multi-Entity Financial Management",
     body: "Centralized financial operations across multiple companies, branches, or operational entities with standardized reporting, approval governance, and consolidated visibility.",
+    image: useCase1Asset.url,
+    alt: "Multi-entity financial consolidation",
   },
   {
     n: "02",
     title: "Procurement & Approval Workflow Automation",
     body: "Automated procurement approvals based on department structure, budget thresholds, operational hierarchy, and compliance policies.",
+    image: useCase2Asset.url,
+    alt: "Procurement and approval workflow automation",
   },
   {
     n: "03",
     title: "Executive Power BI Reporting Layer",
     body: "Centralized operational and financial dashboards providing leadership teams with real-time visibility into KPIs, operational performance, and enterprise metrics.",
+    image: useCase3Asset.url,
+    alt: "Executive Power BI reporting dashboard",
   },
   {
     n: "04",
     title: "Cross-System ERP Integration",
     body: "Integration between Microsoft Dynamics and external operational systems including banking platforms, logistics providers, healthcare systems, and enterprise applications.",
+    image: useCase4Asset.url,
+    alt: "Cross-system ERP integration",
   },
 ];
 
@@ -248,9 +260,16 @@ export default function Dynamics365() {
       </main>
 
       {/* INTRODUCTION */}
-      <section className="relative z-20 -mt-12 rounded-t-[2.5rem] bg-background px-6 py-20 shadow-[0_-20px_60px_-20px_rgba(0,0,0,0.4)] md:px-12 md:py-28">
+      <section className="relative z-20 -mt-12 rounded-t-[2.5rem] bg-[#0a0e1a] px-6 py-20 shadow-[0_-20px_60px_-20px_rgba(0,0,0,0.4)] md:px-12 md:py-28">
         <div className="mx-auto max-w-4xl text-center">
-          <p className="text-base leading-relaxed text-muted-foreground md:text-lg">
+          <h2 className="text-3xl font-bold leading-[1.1] tracking-tight text-white md:text-4xl lg:text-5xl">
+            Microsoft Dynamics 365{" "}
+            <span className="bg-clip-text text-transparent" style={{ backgroundImage: "var(--gradient-brand)" }}>
+              Implementation, Integration & Customization
+            </span>
+          </h2>
+
+          <p className="mt-6 text-base leading-relaxed text-white/70 md:text-lg">
             SBS implements, customizes, and integrates Microsoft Dynamics 365 environments structured around how you
             operate — delivering end-to-end value across finance, operations, and analytics.
           </p>
@@ -262,28 +281,16 @@ export default function Dynamics365() {
               "Custom workflows, approvals & process automation",
               "Power BI reporting architecture & executive dashboards",
             ].map((line) => (
-              <div key={line} className="flex items-start gap-3 rounded-xl border border-border bg-card p-4">
+              <div key={line} className="flex items-start gap-3 rounded-xl border border-white/10 bg-white/[0.03] p-4">
                 <CheckCircle2 className="mt-0.5 h-5 w-5 shrink-0 text-[var(--brand-blue)]" />
-                <span className="text-sm font-medium text-foreground">{line}</span>
+                <span className="text-sm font-medium text-white/90">{line}</span>
               </div>
             ))}
           </div>
 
-          <p className="mt-10 text-sm text-muted-foreground">
+          <p className="mt-10 text-sm text-white/60">
             Trusted by growing organizations across healthcare, distribution, professional services, and enterprise operations.
           </p>
-
-          <div className="mt-10 flex flex-col items-center justify-center gap-4 sm:flex-row sm:gap-10">
-            <div className="text-center">
-              <p className="text-sm font-semibold uppercase tracking-wider text-muted-foreground">Microsoft Partner status</p>
-              <p className="mt-1 text-2xl font-bold" style={{ color: "var(--brand-dark)" }}>Gold / Certified</p>
-            </div>
-            <div className="hidden h-10 w-px bg-border sm:block" />
-            <div className="text-center">
-              <p className="text-sm font-semibold uppercase tracking-wider text-muted-foreground">Years of implementation experience</p>
-              <p className="mt-1 text-2xl font-bold" style={{ color: "var(--brand-dark)" }}>10+</p>
-            </div>
-          </div>
         </div>
       </section>
 
@@ -422,17 +429,29 @@ export default function Dynamics365() {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true, margin: "-60px" }}
                 transition={{ duration: 0.5 }}
-                className="rounded-2xl border border-border bg-card p-7 transition-all hover:-translate-y-1 hover:shadow-[var(--shadow-brand)]"
+                className="group overflow-hidden rounded-2xl border border-border bg-card transition-all hover:-translate-y-1 hover:shadow-[var(--shadow-brand)]"
               >
-                <div className="flex items-baseline gap-4">
-                  <span className="text-3xl font-bold" style={{ color: "var(--brand-blue)" }}>
-                    {u.n}
-                  </span>
-                  <h3 className="text-lg font-bold leading-tight" style={{ color: "var(--brand-dark)" }}>
-                    {u.title}
-                  </h3>
+                <div className="relative aspect-[16/9] overflow-hidden">
+                  <img
+                    src={u.image}
+                    alt={u.alt}
+                    loading="lazy"
+                    width={1024}
+                    height={576}
+                    className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
+                  />
                 </div>
-                <p className="mt-3 text-sm leading-relaxed text-muted-foreground">{u.body}</p>
+                <div className="p-7">
+                  <div className="flex items-baseline gap-4">
+                    <span className="text-3xl font-bold" style={{ color: "var(--brand-blue)" }}>
+                      {u.n}
+                    </span>
+                    <h3 className="text-lg font-bold leading-tight" style={{ color: "var(--brand-dark)" }}>
+                      {u.title}
+                    </h3>
+                  </div>
+                  <p className="mt-3 text-sm leading-relaxed text-muted-foreground">{u.body}</p>
+                </div>
               </motion.div>
             ))}
           </div>
