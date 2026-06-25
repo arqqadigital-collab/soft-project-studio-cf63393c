@@ -26,7 +26,10 @@ export default function Index() {
 
   return (
     <>
-      <main ref={heroRef} className="pt-20 relative h-screen w-full overflow-hidden bg-background">
+      <main
+        ref={heroRef}
+        className="pt-20 relative h-screen w-full overflow-hidden bg-background"
+      >
         <motion.video
           style={{ y: bgY }}
           className="absolute inset-0 -top-[10%] h-[120%] w-full object-cover"
@@ -42,6 +45,7 @@ export default function Index() {
           style={{ y: contentY, opacity: contentOpacity }}
           className="relative z-10 flex h-full flex-col"
         >
+
           <section className="flex flex-1 flex-col items-center justify-center px-6 text-center">
             <h1 className="max-w-3xl text-3xl font-bold leading-[1.1] tracking-tight md:text-5xl lg:text-6xl">
               <span className="text-white">Transforming Complexity</span>

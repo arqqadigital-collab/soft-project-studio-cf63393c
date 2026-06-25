@@ -24,12 +24,12 @@ import {
 } from "lucide-react";
 import { Footer } from "@/components/Footer";
 import { CtaSection } from "@/components/CtaSection";
-import useCase1Asset from "@/assets/dynamics/use-case-1.jpg";
-import useCase2Asset from "@/assets/dynamics/use-case-2.jpg";
-import useCase3Asset from "@/assets/dynamics/use-case-3.jpg";
-import useCase4Asset from "@/assets/dynamics/use-case-4.jpg";
-import patternBg from "@/assets/dynamics/dynamics-pattern.jpg";
-import heroVideo from "@/assets/dynamics/dynamics-hero-bg.mp4";
+import useCase1Asset from "@/assets/dynamics/use-case-1.jpg.asset.json";
+import useCase2Asset from "@/assets/dynamics/use-case-2.jpg.asset.json";
+import useCase3Asset from "@/assets/dynamics/use-case-3.jpg.asset.json";
+import useCase4Asset from "@/assets/dynamics/use-case-4.jpg.asset.json";
+import patternBg from "@/assets/dynamics/dynamics-pattern.jpg.asset.json";
+import heroVideo from "@/assets/dynamics/dynamics-hero-bg.mp4.asset.json";
 
 const services = [
   {
@@ -113,28 +113,28 @@ const useCases = [
     n: "01",
     title: "Multi-Entity Financial Management",
     body: "Centralized financial operations across multiple companies, branches, or operational entities with standardized reporting, approval governance, and consolidated visibility.",
-    image: useCase1Asset,
+    image: useCase1Asset.url,
     alt: "Multi-entity financial consolidation",
   },
   {
     n: "02",
     title: "Procurement & Approval Workflow Automation",
     body: "Automated procurement approvals based on department structure, budget thresholds, operational hierarchy, and compliance policies.",
-    image: useCase2Asset,
+    image: useCase2Asset.url,
     alt: "Procurement and approval workflow automation",
   },
   {
     n: "03",
     title: "Executive Power BI Reporting Layer",
     body: "Centralized operational and financial dashboards providing leadership teams with real-time visibility into KPIs, operational performance, and enterprise metrics.",
-    image: useCase3Asset,
+    image: useCase3Asset.url,
     alt: "Executive Power BI reporting dashboard",
   },
   {
     n: "04",
     title: "Cross-System ERP Integration",
     body: "Integration between Microsoft Dynamics and external operational systems including banking platforms, logistics providers, healthcare systems, and enterprise applications.",
-    image: useCase4Asset,
+    image: useCase4Asset.url,
     alt: "Cross-system ERP integration",
   },
 ];
@@ -145,48 +145,28 @@ const audiences = [
     role: "Operations Directors",
     headline: "Execution consistency across departments",
     body: "Standardized workflows and centralized operational visibility reduce dependency on manual coordination and improve execution consistency across locations and business units.",
-    outcomes: [
-      "Reduced bottlenecks",
-      "Faster workflow execution",
-      "Cross-functional visibility",
-      "Lower manual process dependency",
-    ],
+    outcomes: ["Reduced bottlenecks", "Faster workflow execution", "Cross-functional visibility", "Lower manual process dependency"],
   },
   {
     icon: Wallet,
     role: "CFOs & Finance Leaders",
     headline: "Financial control and audit readiness",
     body: "Integrated financial operations improve reporting accuracy, consolidation speed, compliance readiness, and cost visibility — replacing fragmented finance tooling with a governed D365 environment.",
-    outcomes: [
-      "Faster consolidation",
-      "Improved audit readiness",
-      "Reduced reconciliation effort",
-      "Better cost visibility",
-    ],
+    outcomes: ["Faster consolidation", "Improved audit readiness", "Reduced reconciliation effort", "Better cost visibility"],
   },
   {
     icon: Cpu,
     role: "CIOs & Transformation Leaders",
     headline: "A scalable enterprise technology foundation",
     body: "Dynamics 365 creates a unified operational platform capable of supporting automation, integration, and long-term digital transformation — without rebuilding from scratch at each growth stage.",
-    outcomes: [
-      "Unified systems",
-      "Reduced legacy dependency",
-      "Improved data governance",
-      "Scalable architecture",
-    ],
+    outcomes: ["Unified systems", "Reduced legacy dependency", "Improved data governance", "Scalable architecture"],
   },
   {
     icon: Crown,
     role: "Enterprise Leadership",
     headline: "Operational agility and investment protection",
     body: "Well-structured D365 environments improve organizational agility and long-term scalability while protecting enterprise technology investments from the cost of repeated ERP transitions.",
-    outcomes: [
-      "Operational alignment",
-      "Increased scalability",
-      "Better decision infrastructure",
-      "Reduced fragmentation",
-    ],
+    outcomes: ["Operational alignment", "Increased scalability", "Better decision infrastructure", "Reduced fragmentation"],
   },
 ];
 
@@ -197,6 +177,7 @@ const discoveryItems = [
   "Architecture recommendation",
   "Implementation roadmap",
 ];
+
 
 function AnimatedNumber({ value }: { value: string }) {
   const ref = useRef<HTMLSpanElement>(null);
@@ -243,8 +224,8 @@ export default function Dynamics365() {
             playsInline
             preload="auto"
             className="absolute inset-0 h-full w-full object-cover"
-            src={heroVideo}
-            poster={patternBg}
+            src={heroVideo.url}
+            poster={patternBg.url}
           />
           <div
             className="absolute inset-0"
@@ -265,10 +246,7 @@ export default function Dynamics365() {
             >
               <h1 className="text-3xl font-bold leading-[1.1] tracking-tight text-white md:text-5xl lg:text-6xl">
                 Standardized where beneficial.{" "}
-                <span
-                  className="bg-clip-text text-transparent"
-                  style={{ backgroundImage: "var(--gradient-brand)" }}
-                >
+                <span className="bg-clip-text text-transparent" style={{ backgroundImage: "var(--gradient-brand)" }}>
                   Engineered where it matters.
                 </span>
               </h1>
@@ -298,18 +276,14 @@ export default function Dynamics365() {
         <div className="mx-auto max-w-4xl text-center">
           <h2 className="text-3xl font-bold leading-[1.1] tracking-tight text-white md:text-4xl lg:text-5xl">
             Microsoft Dynamics 365{" "}
-            <span
-              className="bg-clip-text text-transparent"
-              style={{ backgroundImage: "var(--gradient-brand)" }}
-            >
+            <span className="bg-clip-text text-transparent" style={{ backgroundImage: "var(--gradient-brand)" }}>
               Implementation, Integration & Customization
             </span>
           </h2>
 
           <p className="mt-6 text-base leading-relaxed text-white/70 md:text-lg">
-            SBS implements, customizes, and integrates Microsoft Dynamics 365 environments
-            structured around how you operate — delivering end-to-end value across finance,
-            operations, and analytics.
+            SBS implements, customizes, and integrates Microsoft Dynamics 365 environments structured around how you
+            operate — delivering end-to-end value across finance, operations, and analytics.
           </p>
 
           <div className="mt-10 grid grid-cols-1 gap-4 text-left sm:grid-cols-2">
@@ -319,10 +293,7 @@ export default function Dynamics365() {
               "Custom workflows, approvals & process automation",
               "Power BI reporting architecture & executive dashboards",
             ].map((line) => (
-              <div
-                key={line}
-                className="flex items-start gap-3 rounded-xl border border-white/10 bg-white/[0.03] p-4"
-              >
+              <div key={line} className="flex items-start gap-3 rounded-xl border border-white/10 bg-white/[0.03] p-4">
                 <CheckCircle2 className="mt-0.5 h-5 w-5 shrink-0 text-[var(--brand-blue)]" />
                 <span className="text-sm font-medium text-white/90">{line}</span>
               </div>
@@ -330,33 +301,21 @@ export default function Dynamics365() {
           </div>
 
           <p className="mt-10 text-sm text-white/60">
-            Trusted by growing organizations across healthcare, distribution, professional services,
-            and enterprise operations.
+            Trusted by growing organizations across healthcare, distribution, professional services, and enterprise operations.
           </p>
         </div>
       </section>
 
       {/* WHAT WE DELIVER */}
-      <section
-        id="services"
-        className="relative z-20 -mt-12 rounded-t-[2.5rem] bg-background px-6 py-24 shadow-[0_-20px_60px_-20px_rgba(0,0,0,0.4)] md:px-12 md:py-32"
-      >
+      <section id="services" className="relative z-20 -mt-12 rounded-t-[2.5rem] bg-background px-6 py-24 shadow-[0_-20px_60px_-20px_rgba(0,0,0,0.4)] md:px-12 md:py-32">
         <div className="mx-auto max-w-6xl">
           <div className="text-center">
-            <p
-              className="text-sm font-semibold uppercase tracking-[0.25em]"
-              style={{ color: "var(--brand-blue)" }}
-            >
+            <p className="text-sm font-semibold uppercase tracking-[0.25em]" style={{ color: "var(--brand-blue)" }}>
               What We Deliver
             </p>
             <h2 className="mt-6 text-4xl font-bold leading-[1.1] tracking-tight md:text-5xl">
-              <span style={{ color: "var(--brand-dark)" }}>
-                Enterprise Microsoft Dynamics services across
-              </span>{" "}
-              <span
-                className="bg-clip-text text-transparent"
-                style={{ backgroundImage: "var(--gradient-brand)" }}
-              >
+              <span style={{ color: "var(--brand-dark)" }}>Enterprise Microsoft Dynamics services across</span>{" "}
+              <span className="bg-clip-text text-transparent" style={{ backgroundImage: "var(--gradient-brand)" }}>
                 implementation, integration, and operational transformation.
               </span>
             </h2>
@@ -384,10 +343,7 @@ export default function Dynamics365() {
                   >
                     <Icon className="h-5 w-5" />
                   </div>
-                  <h3
-                    className="mt-5 text-lg font-bold leading-tight"
-                    style={{ color: "var(--brand-dark)" }}
-                  >
+                  <h3 className="mt-5 text-lg font-bold leading-tight" style={{ color: "var(--brand-dark)" }}>
                     {s.title}
                   </h3>
                   <p className="mt-3 text-sm leading-relaxed text-muted-foreground">{s.body}</p>
@@ -417,17 +373,14 @@ export default function Dynamics365() {
             </p>
             <h2 className="mt-6 text-4xl font-bold leading-[1.1] tracking-tight text-white md:text-5xl">
               How we scope, architect, and deliver{" "}
-              <span
-                className="bg-clip-text text-transparent"
-                style={{ backgroundImage: "var(--gradient-brand)" }}
-              >
+              <span className="bg-clip-text text-transparent" style={{ backgroundImage: "var(--gradient-brand)" }}>
                 Microsoft Dynamics environments.
               </span>
             </h2>
             <p className="mx-auto mt-6 max-w-3xl text-base leading-relaxed text-white/70 md:text-lg">
-              ERP failures are rarely software failures. They result from unclear scope, weak
-              governance, and implementations that treat go-live as the finish line. Our five-phase
-              framework is designed against those outcomes.
+              ERP failures are rarely software failures. They result from unclear scope, weak governance,
+              and implementations that treat go-live as the finish line. Our five-phase framework is
+              designed against those outcomes.
             </p>
           </div>
 
@@ -452,12 +405,8 @@ export default function Dynamics365() {
                   </div>
                   <div>
                     <h3 className="text-xl font-bold text-white md:text-2xl">{p.title}</h3>
-                    <p className="mt-3 text-sm leading-relaxed text-white/75 md:text-base">
-                      {p.body}
-                    </p>
-                    <p className="mt-4 text-xs font-medium uppercase tracking-wider text-white/55">
-                      {p.meta}
-                    </p>
+                    <p className="mt-3 text-sm leading-relaxed text-white/75 md:text-base">{p.body}</p>
+                    <p className="mt-4 text-xs font-medium uppercase tracking-wider text-white/55">{p.meta}</p>
                   </div>
                 </motion.div>
               );
@@ -470,18 +419,12 @@ export default function Dynamics365() {
       <section className="relative bg-background px-6 py-24 md:px-12 md:py-32">
         <div className="mx-auto max-w-6xl">
           <div className="text-center">
-            <p
-              className="text-sm font-semibold uppercase tracking-[0.25em]"
-              style={{ color: "var(--brand-blue)" }}
-            >
+            <p className="text-sm font-semibold uppercase tracking-[0.25em]" style={{ color: "var(--brand-blue)" }}>
               Enterprise Use Cases
             </p>
             <h2 className="mt-6 text-4xl font-bold leading-[1.1] tracking-tight md:text-5xl">
               <span style={{ color: "var(--brand-dark)" }}>What enterprises actually build</span>{" "}
-              <span
-                className="bg-clip-text text-transparent"
-                style={{ backgroundImage: "var(--gradient-brand)" }}
-              >
+              <span className="bg-clip-text text-transparent" style={{ backgroundImage: "var(--gradient-brand)" }}>
                 with Dynamics 365.
               </span>
             </h2>
@@ -515,10 +458,7 @@ export default function Dynamics365() {
                     <span className="text-2xl font-bold" style={{ color: "var(--brand-blue)" }}>
                       {u.n}
                     </span>
-                    <h3
-                      className="text-base font-bold leading-tight"
-                      style={{ color: "var(--brand-dark)" }}
-                    >
+                    <h3 className="text-base font-bold leading-tight" style={{ color: "var(--brand-dark)" }}>
                       {u.title}
                     </h3>
                   </div>
@@ -534,24 +474,17 @@ export default function Dynamics365() {
       <section className="relative bg-[#f6f7fb] px-6 py-24 md:px-12 md:py-32">
         <div className="mx-auto max-w-6xl">
           <div className="text-center">
-            <p
-              className="text-sm font-semibold uppercase tracking-[0.25em]"
-              style={{ color: "var(--brand-blue)" }}
-            >
+            <p className="text-sm font-semibold uppercase tracking-[0.25em]" style={{ color: "var(--brand-blue)" }}>
               Who We Serve
             </p>
             <h2 className="mt-6 text-4xl font-bold leading-[1.1] tracking-tight md:text-5xl">
               <span style={{ color: "var(--brand-dark)" }}>Built for the leaders who</span>{" "}
-              <span
-                className="bg-clip-text text-transparent"
-                style={{ backgroundImage: "var(--gradient-brand)" }}
-              >
+              <span className="bg-clip-text text-transparent" style={{ backgroundImage: "var(--gradient-brand)" }}>
                 own enterprise operations.
               </span>
             </h2>
             <p className="mx-auto mt-6 max-w-3xl text-base leading-relaxed text-muted-foreground md:text-lg">
-              Different roles carry different operational stakes in a D365 program. We structure our
-              delivery around all of them.
+              Different roles carry different operational stakes in a D365 program. We structure our delivery around all of them.
             </p>
           </div>
 
@@ -600,7 +533,7 @@ export default function Dynamics365() {
       {/* STANDARD VS STRATEGIC */}
       <section className="relative overflow-hidden bg-[#0a0e1a] px-6 py-24 md:px-12 md:py-32">
         <img
-          src={patternBg}
+          src={patternBg.url}
           alt=""
           loading="lazy"
           width={1920}
@@ -608,25 +541,25 @@ export default function Dynamics365() {
           className="absolute inset-0 h-full w-full object-cover opacity-40"
           aria-hidden="true"
         />
-        <div className="absolute inset-0 bg-[#0a0e1a]/60" aria-hidden="true" />
+        <div
+          className="absolute inset-0 bg-[#0a0e1a]/60"
+          aria-hidden="true"
+        />
         <div className="relative z-10 mx-auto max-w-5xl text-center">
           <h2 className="text-3xl font-bold leading-[1.15] tracking-tight text-white md:text-4xl lg:text-5xl">
             Standard D365 covers the operational baseline.{" "}
-            <span
-              className="bg-clip-text text-transparent"
-              style={{ backgroundImage: "var(--gradient-brand)" }}
-            >
+            <span className="bg-clip-text text-transparent" style={{ backgroundImage: "var(--gradient-brand)" }}>
               Strategic implementation aligns it with how you actually work.
             </span>
           </h2>
           <p className="mx-auto mt-8 max-w-3xl text-base leading-relaxed text-white/75 md:text-lg">
-            Out-of-the-box Dynamics 365 handles the standard. It does not handle your approval
-            governance, your multi-entity reporting structure, your integration contracts with
-            legacy systems, or the operational logic that defines how your enterprise runs.
+            Out-of-the-box Dynamics 365 handles the standard. It does not handle your approval governance,
+            your multi-entity reporting structure, your integration contracts with legacy systems, or the
+            operational logic that defines how your enterprise runs.
           </p>
           <p className="mx-auto mt-5 max-w-3xl text-base leading-relaxed text-white/75 md:text-lg">
-            SBS builds that layer — structured around your operational requirements, governed
-            through a defined implementation process, and maintained for long-term scalability.
+            SBS builds that layer — structured around your operational requirements, governed through a
+            defined implementation process, and maintained for long-term scalability.
           </p>
         </div>
       </section>
@@ -635,25 +568,19 @@ export default function Dynamics365() {
       <section id="contact" className="relative bg-background px-6 py-24 md:px-12 md:py-32">
         <div className="mx-auto grid max-w-6xl grid-cols-1 gap-12 md:grid-cols-2 md:items-center">
           <div>
-            <p
-              className="text-sm font-semibold uppercase tracking-[0.25em]"
-              style={{ color: "var(--brand-blue)" }}
-            >
+            <p className="text-sm font-semibold uppercase tracking-[0.25em]" style={{ color: "var(--brand-blue)" }}>
               Discovery Session
             </p>
             <h2 className="mt-6 text-4xl font-bold leading-[1.1] tracking-tight md:text-5xl">
               <span style={{ color: "var(--brand-dark)" }}>What does your D365 program</span>{" "}
-              <span
-                className="bg-clip-text text-transparent"
-                style={{ backgroundImage: "var(--gradient-brand)" }}
-              >
+              <span className="bg-clip-text text-transparent" style={{ backgroundImage: "var(--gradient-brand)" }}>
                 actually require?
               </span>
             </h2>
             <p className="mt-6 text-base leading-relaxed text-muted-foreground md:text-lg">
-              A structured discovery session — covering your workflows, operational dependencies,
-              reporting requirements, and implementation priorities — produces a documented
-              assessment and D365 architecture recommendation before any commitment is made.
+              A structured discovery session — covering your workflows, operational dependencies, reporting
+              requirements, and implementation priorities — produces a documented assessment and D365
+              architecture recommendation before any commitment is made.
             </p>
             <a
               href="#cta"

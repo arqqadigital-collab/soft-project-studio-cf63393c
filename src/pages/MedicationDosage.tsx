@@ -28,165 +28,55 @@ import journeyVerify from "@/assets/medication/journey/verify.jpg";
 import journeyDispense from "@/assets/medication/journey/dispense.jpg";
 import journeyAdminister from "@/assets/medication/journey/administer.jpg";
 import journeyDocument from "@/assets/medication/journey/document.jpg";
-import bgStepsLight from "@/assets/bg-steps-light.png";
-import ctaVideo from "@/assets/medication/cta-video.mp4";
-import heroVideo from "@/assets/medication/hero-video.mp4";
+import bgStepsLight from "@/assets/bg-steps-light.png.asset.json";
+import ctaVideo from "@/assets/medication/cta-video.mp4.asset.json";
+import heroVideo from "@/assets/medication/hero-video.mp4.asset.json";
 import { Footer } from "@/components/Footer";
 import { CtaSection } from "@/components/CtaSection";
 
 const features = [
-  {
-    icon: Stethoscope,
-    title: "Electronic Prescribing with Clinical Decision Support",
-    body: "Physicians prescribe digitally with real-time clinical decision support running in the background. Drug-drug interaction checks, allergy cross-referencing, duplicate therapy alerts, and contraindication warnings fire at the point of prescribing — before the order is placed, not after. Alerts are tiered by severity so clinicians see what matters without alert fatigue.",
-  },
-  {
-    icon: Pill,
-    title: "Weight- and Age-Based Dosage Calculation Engine",
-    body: "For pediatric, neonatal, and renally impaired patients, dosing errors are most dangerous and most common. Our built-in calculation engine pulls the patient's current weight, age, and renal function from the clinical record and computes the correct dose range automatically. Prescribers see the recommended dose alongside safe minimum and maximum thresholds — every time.",
-  },
-  {
-    icon: ClipboardCheck,
-    title: "Pharmacy Order Verification & Dispensing Queues",
-    body: "Every electronic prescription lands directly in the pharmacy queue. Pharmacists review, clinically verify, and approve orders from a single organized screen — with patient history, current medication list, and interaction summaries always visible. Dispensing labels are generated automatically. Priority and urgent orders are surfaced to the top of the queue.",
-  },
-  {
-    icon: ScanLine,
-    title: "Medication Administration Records with Barcode Scanning",
-    body: "Nurses access a live, always-current eMAR at the bedside. Before administering any medication, they scan the patient wristband and the medication barcode. The system confirms the five rights — right patient, right drug, right dose, right route, right time — and flags any mismatch before administration occurs. Every administration is timestamped and logged automatically.",
-  },
-  {
-    icon: Lock,
-    title: "Controlled Substance Tracking & Reconciliation",
-    body: "Track every controlled substance from receipt to administration to waste. Tamper-evident digital logs record who accessed what, when, and how much was used or discarded. End-of-shift reconciliation is guided by the system, with discrepancy alerts escalating automatically to pharmacy supervisors. Diversion detection logic flags statistical anomalies for review.",
-  },
-  {
-    icon: Boxes,
-    title: "Real-Time Pharmacy Inventory & Stock Visibility",
-    body: "Pharmacists and ward managers see live stock levels across every dispensing location — central pharmacy, satellite pharmacies, automated dispensing cabinets, and ward stocks. Low-stock alerts trigger reorder workflows before shortages occur. Expiry tracking prevents expired medications from reaching patients.",
-  },
-  {
-    icon: RefreshCcw,
-    title: "Medication Reconciliation at Care Transitions",
-    body: "When a patient is admitted, transferred, or discharged, the system generates a complete reconciliation view — comparing home medications, inpatient orders, and discharge prescriptions side by side. Clinicians can identify, resolve, and document discrepancies in a structured workflow that reduces post-discharge adverse drug events.",
-  },
+  { icon: Stethoscope, title: "Electronic Prescribing with Clinical Decision Support", body: "Physicians prescribe digitally with real-time clinical decision support running in the background. Drug-drug interaction checks, allergy cross-referencing, duplicate therapy alerts, and contraindication warnings fire at the point of prescribing — before the order is placed, not after. Alerts are tiered by severity so clinicians see what matters without alert fatigue." },
+  { icon: Pill, title: "Weight- and Age-Based Dosage Calculation Engine", body: "For pediatric, neonatal, and renally impaired patients, dosing errors are most dangerous and most common. Our built-in calculation engine pulls the patient's current weight, age, and renal function from the clinical record and computes the correct dose range automatically. Prescribers see the recommended dose alongside safe minimum and maximum thresholds — every time." },
+  { icon: ClipboardCheck, title: "Pharmacy Order Verification & Dispensing Queues", body: "Every electronic prescription lands directly in the pharmacy queue. Pharmacists review, clinically verify, and approve orders from a single organized screen — with patient history, current medication list, and interaction summaries always visible. Dispensing labels are generated automatically. Priority and urgent orders are surfaced to the top of the queue." },
+  { icon: ScanLine, title: "Medication Administration Records with Barcode Scanning", body: "Nurses access a live, always-current eMAR at the bedside. Before administering any medication, they scan the patient wristband and the medication barcode. The system confirms the five rights — right patient, right drug, right dose, right route, right time — and flags any mismatch before administration occurs. Every administration is timestamped and logged automatically." },
+  { icon: Lock, title: "Controlled Substance Tracking & Reconciliation", body: "Track every controlled substance from receipt to administration to waste. Tamper-evident digital logs record who accessed what, when, and how much was used or discarded. End-of-shift reconciliation is guided by the system, with discrepancy alerts escalating automatically to pharmacy supervisors. Diversion detection logic flags statistical anomalies for review." },
+  { icon: Boxes, title: "Real-Time Pharmacy Inventory & Stock Visibility", body: "Pharmacists and ward managers see live stock levels across every dispensing location — central pharmacy, satellite pharmacies, automated dispensing cabinets, and ward stocks. Low-stock alerts trigger reorder workflows before shortages occur. Expiry tracking prevents expired medications from reaching patients." },
+  { icon: RefreshCcw, title: "Medication Reconciliation at Care Transitions", body: "When a patient is admitted, transferred, or discharged, the system generates a complete reconciliation view — comparing home medications, inpatient orders, and discharge prescriptions side by side. Clinicians can identify, resolve, and document discrepancies in a structured workflow that reduces post-discharge adverse drug events." },
 ];
 
 const journey = [
-  {
-    icon: FileText,
-    title: "Prescribe",
-    image: journeyPrescribe,
-    body: "The physician opens the patient record and enters a medication order. Clinical decision support checks for allergies, interactions, and dose appropriateness in real time. The order is placed only when it is safe to proceed.",
-  },
-  {
-    icon: ClipboardCheck,
-    title: "Verify",
-    image: journeyVerify,
-    body: "The prescription arrives instantly in the pharmacy queue. The pharmacist reviews the order in clinical context, approves it, and prepares the medication. Dispensing labels are printed automatically with all required identifiers.",
-  },
-  {
-    icon: Boxes,
-    title: "Dispense",
-    image: journeyDispense,
-    body: "The medication is dispensed from the correct location — central pharmacy, automated cabinet, or ward stock — with every movement logged against the patient order. Controlled substances require dual verification.",
-  },
-  {
-    icon: Syringe,
-    title: "Administer",
-    image: journeyAdminister,
-    body: "The nurse scans the patient wristband and the medication barcode at the bedside. The system confirms a match against the live eMAR and gives a green light for administration. Any mismatch stops the process and triggers an alert.",
-  },
-  {
-    icon: FileCheck,
-    title: "Document & Review",
-    image: journeyDocument,
-    body: "Administration is recorded automatically. Missed doses, refusals, and partial doses are flagged for clinical review. Pharmacists and physicians see the complete medication administration history in real time.",
-  },
+  { icon: FileText, title: "Prescribe", image: journeyPrescribe, body: "The physician opens the patient record and enters a medication order. Clinical decision support checks for allergies, interactions, and dose appropriateness in real time. The order is placed only when it is safe to proceed." },
+  { icon: ClipboardCheck, title: "Verify", image: journeyVerify, body: "The prescription arrives instantly in the pharmacy queue. The pharmacist reviews the order in clinical context, approves it, and prepares the medication. Dispensing labels are printed automatically with all required identifiers." },
+  { icon: Boxes, title: "Dispense", image: journeyDispense, body: "The medication is dispensed from the correct location — central pharmacy, automated cabinet, or ward stock — with every movement logged against the patient order. Controlled substances require dual verification." },
+  { icon: Syringe, title: "Administer", image: journeyAdminister, body: "The nurse scans the patient wristband and the medication barcode at the bedside. The system confirms a match against the live eMAR and gives a green light for administration. Any mismatch stops the process and triggers an alert." },
+  { icon: FileCheck, title: "Document & Review", image: journeyDocument, body: "Administration is recorded automatically. Missed doses, refusals, and partial doses are flagged for clinical review. Pharmacists and physicians see the complete medication administration history in real time." },
 ];
 
 const stats = [
-  {
-    value: "87%",
-    label: "Reduction in medication administration errors after eMAR and barcode scanning go-live",
-  },
+  { value: "87%", label: "Reduction in medication administration errors after eMAR and barcode scanning go-live" },
   { value: "100%", label: "Of controlled substance transactions logged with full audit trail" },
-  {
-    value: "92%",
-    label:
-      "Of drug interaction alerts resolved at the prescribing stage — before the order is placed",
-  },
-  {
-    value: "40%",
-    label: "Reduction in time spent on end-of-shift controlled substance reconciliation",
-  },
-  {
-    value: "3×",
-    label: "Faster pharmacy order processing with digital queues and automated label generation",
-  },
-  {
-    value: "0",
-    label: "Missed allergy alerts reported across all client sites post-implementation",
-  },
+  { value: "92%", label: "Of drug interaction alerts resolved at the prescribing stage — before the order is placed" },
+  { value: "40%", label: "Reduction in time spent on end-of-shift controlled substance reconciliation" },
+  { value: "3×", label: "Faster pharmacy order processing with digital queues and automated label generation" },
+  { value: "0", label: "Missed allergy alerts reported across all client sites post-implementation" },
 ];
 
 const problemCards = [
-  {
-    title: "Prescribing Without Allergy Awareness",
-    image: problemAllergy,
-    body: "A physician prescribes a drug without knowing the patient is allergic. Cross-reactive drug families are missed, and the patient is exposed to a preventable adverse reaction.",
-  },
-  {
-    title: "Outdated Paper MARs",
-    image: problemPaper,
-    body: "A nurse administers the wrong dose because the paper MAR was updated after she printed it. What she holds in her hand is already out of date — and the patient pays the price.",
-  },
-  {
-    title: "Missed Drug Interactions",
-    image: problemInteraction,
-    body: "A pharmacist misses a dangerous interaction because two prescribers are using separate systems. The warning never fires, and a harmful combination reaches the patient.",
-  },
-  {
-    title: "Unaccounted Controlled Substances",
-    image: problemControlled,
-    body: "A controlled substance goes unaccounted for because reconciliation is done manually at end of shift. Paper logs are incomplete, and diversion goes undetected.",
-  },
-  {
-    title: "Weight-Based Dosing Errors",
-    image: problemPediatric,
-    body: "A child receives an adult dose because weight-based calculation was done on a pocket calculator. A decimal place error, a unit conversion mistake — both can be fatal in pediatric care.",
-  },
+  { title: "Prescribing Without Allergy Awareness", image: problemAllergy, body: "A physician prescribes a drug without knowing the patient is allergic. Cross-reactive drug families are missed, and the patient is exposed to a preventable adverse reaction." },
+  { title: "Outdated Paper MARs", image: problemPaper, body: "A nurse administers the wrong dose because the paper MAR was updated after she printed it. What she holds in her hand is already out of date — and the patient pays the price." },
+  { title: "Missed Drug Interactions", image: problemInteraction, body: "A pharmacist misses a dangerous interaction because two prescribers are using separate systems. The warning never fires, and a harmful combination reaches the patient." },
+  { title: "Unaccounted Controlled Substances", image: problemControlled, body: "A controlled substance goes unaccounted for because reconciliation is done manually at end of shift. Paper logs are incomplete, and diversion goes undetected." },
+  { title: "Weight-Based Dosing Errors", image: problemPediatric, body: "A child receives an adult dose because weight-based calculation was done on a pocket calculator. A decimal place error, a unit conversion mistake — both can be fatal in pediatric care." },
 ];
 
 const faqs = [
-  {
-    q: "How does the system handle drug allergy checking?",
-    a: "Allergy information is pulled directly from the patient's clinical record. When a prescriber selects a medication, the system cross-references it against the full allergy list — including cross-reactive drug families — and displays a graded alert if any match is found. The prescriber must document a clinical justification to proceed past a high-severity alert.",
-  },
-  {
-    q: "Can clinical decision support rules be customized?",
-    a: "Yes. Your pharmacy and clinical informatics team can configure interaction thresholds, alert severity tiers, custom dosing protocols, and formulary restrictions. Customization does not require vendor involvement after initial setup.",
-  },
-  {
-    q: "Does the system work with automated dispensing cabinets?",
-    a: "Yes. Secreta integrates with leading ADC systems including Omnicell and Pyxis. Dispensing cabinet transactions sync automatically with the patient medication record and pharmacy inventory in real time.",
-  },
-  {
-    q: "How does the pediatric dosing engine get patient weight?",
-    a: "Weight is pulled automatically from the patient's clinical record at the time of prescribing. If no current weight is recorded, the system prompts the prescriber to enter or confirm one before the dose calculation is displayed. Manual override is available with mandatory documentation.",
-  },
-  {
-    q: "What happens if a nurse scans a wrong medication at the bedside?",
-    a: "The barcode scan triggers an immediate mismatch alert on the eMAR screen. The administration is blocked and the nurse is shown what the correct medication should be. The event is logged automatically for pharmacy and clinical review.",
-  },
-  {
-    q: "How is controlled substance diversion detected?",
-    a: "The system tracks statistical patterns in controlled substance access and waste across users, shifts, and locations. When a user's behavior deviates significantly from peer benchmarks — for example, consistently higher waste rates or access outside normal patterns — a confidential alert is generated for the pharmacy director.",
-  },
-  {
-    q: "How long does implementation take?",
-    a: "Most hospitals complete full implementation in 4 to 8 weeks. Complex multi-site deployments with multiple HIS integrations may require additional time. A dedicated implementation specialist is assigned to every account, and training is delivered on-site and virtually.",
-  },
+  { q: "How does the system handle drug allergy checking?", a: "Allergy information is pulled directly from the patient's clinical record. When a prescriber selects a medication, the system cross-references it against the full allergy list — including cross-reactive drug families — and displays a graded alert if any match is found. The prescriber must document a clinical justification to proceed past a high-severity alert." },
+  { q: "Can clinical decision support rules be customized?", a: "Yes. Your pharmacy and clinical informatics team can configure interaction thresholds, alert severity tiers, custom dosing protocols, and formulary restrictions. Customization does not require vendor involvement after initial setup." },
+  { q: "Does the system work with automated dispensing cabinets?", a: "Yes. Secreta integrates with leading ADC systems including Omnicell and Pyxis. Dispensing cabinet transactions sync automatically with the patient medication record and pharmacy inventory in real time." },
+  { q: "How does the pediatric dosing engine get patient weight?", a: "Weight is pulled automatically from the patient's clinical record at the time of prescribing. If no current weight is recorded, the system prompts the prescriber to enter or confirm one before the dose calculation is displayed. Manual override is available with mandatory documentation." },
+  { q: "What happens if a nurse scans a wrong medication at the bedside?", a: "The barcode scan triggers an immediate mismatch alert on the eMAR screen. The administration is blocked and the nurse is shown what the correct medication should be. The event is logged automatically for pharmacy and clinical review." },
+  { q: "How is controlled substance diversion detected?", a: "The system tracks statistical patterns in controlled substance access and waste across users, shifts, and locations. When a user's behavior deviates significantly from peer benchmarks — for example, consistently higher waste rates or access outside normal patterns — a confidential alert is generated for the pharmacy director." },
+  { q: "How long does implementation take?", a: "Most hospitals complete full implementation in 4 to 8 weeks. Complex multi-site deployments with multiple HIS integrations may require additional time. A dedicated implementation specialist is assigned to every account, and training is delivered on-site and virtually." },
 ];
 
 const trustChips = [
@@ -252,10 +142,7 @@ function ExpandingJourney({ steps }: { steps: typeof journey }) {
               style={{ backgroundImage: `url(${step.image})` }}
               aria-hidden="true"
             />
-            <div
-              className="absolute inset-0 bg-[linear-gradient(180deg,rgba(5,12,24,0.35)_0%,rgba(5,12,24,0.72)_48%,rgba(5,12,24,0.94)_100%)]"
-              aria-hidden="true"
-            />
+            <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(5,12,24,0.35)_0%,rgba(5,12,24,0.72)_48%,rgba(5,12,24,0.94)_100%)]" aria-hidden="true" />
             <div className="relative flex h-full min-h-[320px] flex-col p-7">
               <div
                 className="flex h-14 w-14 items-center justify-center rounded-2xl text-white shadow-[var(--shadow-brand)]"
@@ -275,12 +162,8 @@ function ExpandingJourney({ steps }: { steps: typeof journey }) {
                       <div className="text-xs font-bold uppercase tracking-[0.2em] text-white/70">
                         Step {i + 1}
                       </div>
-                      <h3 className="mt-2 text-2xl font-bold text-white md:text-3xl">
-                        {step.title}
-                      </h3>
-                      <p className="mt-4 max-w-md text-base leading-relaxed text-white/85">
-                        {step.body}
-                      </p>
+                      <h3 className="mt-2 text-2xl font-bold text-white md:text-3xl">{step.title}</h3>
+                      <p className="mt-4 max-w-md text-base leading-relaxed text-white/85">{step.body}</p>
                     </>
                   )}
                 </motion.div>
@@ -323,7 +206,7 @@ export default function MedicationDosage() {
             loop
             playsInline
             className="absolute inset-0 h-full w-full object-cover"
-            src={heroVideo}
+            src={heroVideo.url}
           />
           <div
             className="absolute inset-0"
@@ -335,6 +218,7 @@ export default function MedicationDosage() {
         </div>
 
         <div className="relative z-10 flex min-h-[90vh] flex-col">
+
           <section className="flex flex-1 items-center justify-center px-6 pb-28 pt-4 md:px-12">
             <motion.div
               initial={{ opacity: 0, y: 30 }}
@@ -344,10 +228,7 @@ export default function MedicationDosage() {
             >
               <h1 className="whitespace-nowrap text-2xl font-bold leading-[1.1] tracking-tight text-white sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl">
                 Every Dose Precise.{" "}
-                <span
-                  className="bg-clip-text text-transparent"
-                  style={{ backgroundImage: "var(--gradient-brand)" }}
-                >
+                <span className="bg-clip-text text-transparent" style={{ backgroundImage: "var(--gradient-brand)" }}>
                   Every Patient Protected.
                 </span>
               </h1>
@@ -386,26 +267,17 @@ export default function MedicationDosage() {
       {/* INTRO */}
       <section className="relative z-20 -mt-12 rounded-t-[2.5rem] bg-background px-6 py-24 shadow-[0_-20px_60px_-20px_rgba(0,0,0,0.4)] md:px-12 md:py-32">
         <div className="mx-auto max-w-4xl text-center">
-          <p
-            className="text-sm font-semibold uppercase tracking-[0.25em]"
-            style={{ color: "var(--brand-blue)" }}
-          >
+          <p className="text-sm font-semibold uppercase tracking-[0.25em]" style={{ color: "var(--brand-blue)" }}>
             Built for Medication Management
           </p>
           <h2 className="mt-6 text-3xl font-bold leading-[1.15] tracking-tight md:text-4xl lg:text-5xl">
             <span style={{ color: "var(--brand-dark)" }}>A Closed-Loop System for the </span>
-            <span
-              className="bg-clip-text text-transparent"
-              style={{ backgroundImage: "var(--gradient-brand)" }}
-            >
+            <span className="bg-clip-text text-transparent" style={{ backgroundImage: "var(--gradient-brand)" }}>
               Full Medication Lifecycle.
             </span>
           </h2>
           <p className="mx-auto mt-8 max-w-3xl text-base leading-relaxed text-muted-foreground md:text-lg">
-            Eliminate medication errors and streamline pharmaceutical workflows across every ward
-            and department. Our system gives clinicians, pharmacists, and nurses a unified platform
-            to prescribe, verify, dispense, and administer with confidence — closing the gaps where
-            errors happen, and patients get hurt.
+            Eliminate medication errors and streamline pharmaceutical workflows across every ward and department. Our system gives clinicians, pharmacists, and nurses a unified platform to prescribe, verify, dispense, and administer with confidence — closing the gaps where errors happen, and patients get hurt.
           </p>
         </div>
       </section>
@@ -420,10 +292,7 @@ export default function MedicationDosage() {
             </span>
             <h2 className="mt-5 max-w-5xl text-3xl font-bold leading-[1.1] tracking-tight text-white md:text-4xl lg:text-[2.5rem]">
               Medication Errors Are the Most Preventable Patient Safety Crisis in Healthcare.{" "}
-              <span
-                className="bg-clip-text text-transparent"
-                style={{ backgroundImage: "var(--gradient-brand)" }}
-              >
+              <span className="bg-clip-text text-transparent" style={{ backgroundImage: "var(--gradient-brand)" }}>
                 They Happen Every Day.
               </span>
             </h2>
@@ -431,10 +300,7 @@ export default function MedicationDosage() {
 
           {/* Horizontally scrolling cards */}
           <div className="mt-6 flex flex-1 items-center overflow-hidden md:mt-8">
-            <motion.div
-              style={{ x: problemX }}
-              className="flex items-stretch gap-6 px-6 md:gap-8 md:px-12"
-            >
+            <motion.div style={{ x: problemX }} className="flex items-stretch gap-6 px-6 md:gap-8 md:px-12">
               {problemCards.map((card, i) => (
                 <article
                   key={i}
@@ -456,7 +322,9 @@ export default function MedicationDosage() {
                     <h3 className="mt-3 text-xl font-bold leading-tight text-white md:text-2xl">
                       {card.title}
                     </h3>
-                    <p className="mt-3 text-sm leading-relaxed text-white/75">{card.body}</p>
+                    <p className="mt-3 text-sm leading-relaxed text-white/75">
+                      {card.body}
+                    </p>
                   </div>
                 </article>
               ))}
@@ -479,8 +347,7 @@ export default function MedicationDosage() {
               A Closed-Loop Medication System That Protects Patients at Every Step
             </h2>
             <p className="mt-5 text-base leading-relaxed text-foreground/70 md:text-lg">
-              From the prescriber's screen to the patient's bedside, every handoff in the medication
-              process is validated, documented, and traceable. No gaps. No guesswork. No exceptions.
+              From the prescriber's screen to the patient's bedside, every handoff in the medication process is validated, documented, and traceable. No gaps. No guesswork. No exceptions.
             </p>
           </div>
 
@@ -516,7 +383,7 @@ export default function MedicationDosage() {
       <section
         className="relative px-6 py-24 md:px-12"
         style={{
-          backgroundImage: `url(${bgStepsLight})`,
+          backgroundImage: `url(${bgStepsLight.url})`,
           backgroundSize: "cover",
           backgroundPosition: "center",
           backgroundAttachment: "fixed",
@@ -537,10 +404,7 @@ export default function MedicationDosage() {
       </section>
 
       {/* METRICS */}
-      <section
-        className="relative overflow-hidden px-6 py-24 md:px-12"
-        style={{ backgroundColor: "#091628" }}
-      >
+      <section className="relative overflow-hidden px-6 py-24 md:px-12" style={{ backgroundColor: "#091628" }}>
         <div
           className="absolute -left-32 top-1/2 h-96 w-96 -translate-y-1/2 rounded-full opacity-20 blur-3xl"
           style={{ background: "var(--gradient-brand)" }}
@@ -548,19 +412,14 @@ export default function MedicationDosage() {
         />
         <div className="relative mx-auto max-w-6xl">
           <div className="mx-auto max-w-3xl text-center">
-            <span className="text-xs font-semibold uppercase tracking-[0.3em] text-white/60">
-              Outcomes
-            </span>
+            <span className="text-xs font-semibold uppercase tracking-[0.3em] text-white/60">Outcomes</span>
             <h2 className="mt-4 text-3xl font-bold tracking-tight text-white md:text-5xl">
               Safety Outcomes Measured Across Our Client Network
             </h2>
           </div>
           <div className="mt-14 grid gap-6 md:grid-cols-2 lg:grid-cols-3">
             {stats.map((s) => (
-              <div
-                key={s.label}
-                className="rounded-2xl border border-white/10 bg-white/5 p-8 backdrop-blur"
-              >
+              <div key={s.label} className="rounded-2xl border border-white/10 bg-white/5 p-8 backdrop-blur">
                 <div
                   className="bg-clip-text text-4xl font-bold tracking-tight text-transparent md:text-5xl"
                   style={{ backgroundImage: "var(--gradient-brand)" }}
@@ -572,8 +431,7 @@ export default function MedicationDosage() {
             ))}
           </div>
           <p className="mx-auto mt-12 max-w-3xl text-center text-sm text-white/70 md:text-base">
-            Zero missed allergy alerts reported across all client sites post-implementation. 3×
-            faster pharmacy order turnaround with digital queues.
+            Zero missed allergy alerts reported across all client sites post-implementation. 3× faster pharmacy order turnaround with digital queues.
           </p>
         </div>
       </section>
@@ -588,10 +446,7 @@ export default function MedicationDosage() {
             One Platform That Connects Your Entire Medication Ecosystem
           </h2>
           <p className="mx-auto mt-6 max-w-3xl text-base leading-relaxed text-foreground/70 md:text-lg">
-            Secreta Medication Management integrates with your EMR, HIS, laboratory systems, and
-            automated dispensing cabinets to create a seamless closed-loop environment. Lab results
-            flow in to support real-time dose adjustment. Pharmacy data syncs with clinical records
-            automatically.
+            Secreta Medication Management integrates with your EMR, HIS, laboratory systems, and automated dispensing cabinets to create a seamless closed-loop environment. Lab results flow in to support real-time dose adjustment. Pharmacy data syncs with clinical records automatically.
           </p>
           <div className="mt-10 flex flex-nowrap items-center gap-3 overflow-x-auto pb-2 md:justify-center md:overflow-visible">
             {[
@@ -629,9 +484,7 @@ export default function MedicationDosage() {
             <span className="inline-flex items-center gap-2 rounded-full bg-[color:var(--brand-blue)]/10 px-3 py-1.5 text-xs font-semibold uppercase tracking-wider text-[color:var(--brand-blue)]">
               <ShieldCheck className="h-3.5 w-3.5" /> FAQ
             </span>
-            <h2 className="mt-5 text-3xl font-bold tracking-tight text-foreground md:text-5xl">
-              Common Questions
-            </h2>
+            <h2 className="mt-5 text-3xl font-bold tracking-tight text-foreground md:text-5xl">Common Questions</h2>
           </div>
 
           <div className="mt-12 space-y-4">
@@ -652,9 +505,7 @@ export default function MedicationDosage() {
                     +
                   </span>
                 </summary>
-                <p className="mt-4 pl-8 text-sm leading-relaxed text-foreground/75 md:text-base">
-                  {f.a}
-                </p>
+                <p className="mt-4 pl-8 text-sm leading-relaxed text-foreground/75 md:text-base">{f.a}</p>
               </details>
             ))}
           </div>
@@ -668,7 +519,7 @@ export default function MedicationDosage() {
         style={{ backgroundColor: "#091628" }}
       >
         <video
-          src={ctaVideo}
+          src={ctaVideo.url}
           autoPlay
           muted
           loop
@@ -686,18 +537,12 @@ export default function MedicationDosage() {
         <div className="relative mx-auto max-w-4xl text-center">
           <h2 className="text-3xl font-bold tracking-tight text-white md:text-5xl">
             Patient Safety Begins{" "}
-            <span
-              className="bg-clip-text text-transparent"
-              style={{ backgroundImage: "var(--gradient-brand)" }}
-            >
+            <span className="bg-clip-text text-transparent" style={{ backgroundImage: "var(--gradient-brand)" }}>
               Before the First Dose Is Given.
             </span>
           </h2>
           <p className="mt-8 text-lg leading-relaxed text-white/85">
-            Every medication your team administers carries the weight of a patient's trust. Give
-            your clinicians, pharmacists, and nurses the system that matches that responsibility —
-            with the decision support, barcode verification, and audit trails that leave nothing to
-            chance.
+            Every medication your team administers carries the weight of a patient's trust. Give your clinicians, pharmacists, and nurses the system that matches that responsibility — with the decision support, barcode verification, and audit trails that leave nothing to chance.
           </p>
 
           <div className="mt-12 flex flex-col items-center justify-center gap-4 sm:flex-row">
