@@ -41,10 +41,7 @@ export function SuccessStoriesSection() {
       {/* Header */}
       <div className="mx-auto flex max-w-6xl flex-col items-center text-center">
         <div className="inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-5 py-2">
-          <span
-            className="h-2 w-2 rounded-full"
-            style={{ background: "var(--brand-green)" }}
-          />
+          <span className="h-2 w-2 rounded-full" style={{ background: "var(--brand-green)" }} />
           <span className="text-xs font-semibold uppercase tracking-[0.2em] text-white/70">
             Success Stories
           </span>
@@ -102,10 +99,7 @@ export function SuccessStoriesSection() {
 
               <div className="mt-6 border-t border-white/10 pt-5">
                 <div className="text-base font-bold text-white">{story.name}</div>
-                <div
-                  className="mt-1 text-sm font-semibold"
-                  style={{ color: "var(--brand-green)" }}
-                >
+                <div className="mt-1 text-sm font-semibold" style={{ color: "var(--brand-green)" }}>
                   {story.company}
                 </div>
               </div>

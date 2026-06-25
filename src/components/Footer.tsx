@@ -34,10 +34,7 @@ const columns: { title: string; links: FooterLink[] }[] = [
 
 export function Footer() {
   return (
-    <footer
-      className="px-6 py-16 md:px-12 md:py-20"
-      style={{ background: "var(--brand-blue)" }}
-    >
+    <footer className="px-6 py-16 md:px-12 md:py-20" style={{ background: "var(--brand-blue)" }}>
       <div className="mx-auto max-w-6xl">
         <div className="grid gap-12 md:grid-cols-2 lg:grid-cols-4">
           {/* Brand */}

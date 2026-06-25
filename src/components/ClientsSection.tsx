@@ -54,8 +54,7 @@ export function ClientsSection() {
       <div
         className="marquee-pause group relative mt-16 overflow-hidden"
         style={{
-          maskImage:
-            "linear-gradient(to right, transparent, black 10%, black 90%, transparent)",
+          maskImage: "linear-gradient(to right, transparent, black 10%, black 90%, transparent)",
           WebkitMaskImage:
             "linear-gradient(to right, transparent, black 10%, black 90%, transparent)",
         }}

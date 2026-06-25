@@ -162,9 +162,7 @@ export function ServicesSection() {
                             transition={{
                               duration: 0.5,
                               ease: "easeOut",
-                              delay:
-                                0.2 +
-                                (arr.slice(0, wi).join(" ").length + ci) * 0.03,
+                              delay: 0.2 + (arr.slice(0, wi).join(" ").length + ci) * 0.03,
                             }}
                           >
                             {char}

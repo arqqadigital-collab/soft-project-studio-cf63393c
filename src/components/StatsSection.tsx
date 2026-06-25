@@ -75,7 +75,10 @@ export function StatsSection() {
         aria-hidden
       />
 
-      <motion.div style={{ y: contentY, opacity: contentOpacity }} className="mx-auto max-w-6xl px-6 will-change-transform">
+      <motion.div
+        style={{ y: contentY, opacity: contentOpacity }}
+        className="mx-auto max-w-6xl px-6 will-change-transform"
+      >
         <div className="text-center">
           <p
             className="text-sm font-semibold uppercase tracking-[0.25em]"
@@ -106,9 +109,7 @@ export function StatsSection() {
                 transition={{ duration: 0.6, delay: i * 0.15 }}
                 className="p-10 text-center"
               >
-                <div
-                  className="mx-auto flex h-14 w-14 items-center justify-center rounded-2xl bg-white shadow-lg"
-                >
+                <div className="mx-auto flex h-14 w-14 items-center justify-center rounded-2xl bg-white shadow-lg">
                   <Icon className="h-6 w-6" style={{ color: "var(--brand-blue)" }} />
                 </div>
 

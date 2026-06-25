@@ -50,13 +50,15 @@ export function PartnersSection() {
       <div
         className="marquee-pause group relative mt-16 overflow-hidden"
         style={{
-          maskImage:
-            "linear-gradient(to right, transparent, black 10%, black 90%, transparent)",
+          maskImage: "linear-gradient(to right, transparent, black 10%, black 90%, transparent)",
           WebkitMaskImage:
             "linear-gradient(to right, transparent, black 10%, black 90%, transparent)",
         }}
       >
-        <div className="flex w-max animate-marquee gap-16 md:gap-24" style={{ animationDirection: "reverse" }}>
+        <div
+          className="flex w-max animate-marquee gap-16 md:gap-24"
+          style={{ animationDirection: "reverse" }}
+        >
           {loop.map((logo, i) => (
             <div
               key={i}

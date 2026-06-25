@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Send, Star } from "lucide-react";
 import ctaVideo from "@/assets/cta-testimonial.mov";
@@ -43,14 +43,13 @@ export function CtaSection() {
     message: "",
   });
 
-  // Auto-advance testimonials
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  // simple interval via effect
-  // (kept intentionally minimal)
-  if (typeof window !== "undefined") {
-    // setup once
-    (window as unknown as { __ctaInit?: boolean }).__ctaInit;
-  }
+  useEffect(() => {
+    const timer = window.setInterval(() => {
+      setActive((current) => (current + 1) % testimonials.length);
+    }, 6000);
+
+    return () => window.clearInterval(timer);
+  }, []);
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -233,10 +232,7 @@ export function CtaSection() {
                   className="h-1.5 rounded-full transition-all"
                   style={{
                     width: i === active ? 40 : 24,
-                    background:
-                      i === active
-                        ? "var(--brand-green)"
-                        : "rgba(255,255,255,0.25)",
+                    background: i === active ? "var(--brand-green)" : "rgba(255,255,255,0.25)",
                   }}
                 />
               ))}

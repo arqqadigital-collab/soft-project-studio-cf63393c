@@ -5,11 +5,7 @@ export function Header() {
   return (
     <header className="fixed left-0 right-0 top-0 z-50 flex items-center justify-between border-b border-white/5 bg-[var(--brand-dark)]/80 px-6 py-4 backdrop-blur-md md:px-12">
       <a href="/">
-        <img
-          src={logo}
-          alt="SBS — Superior Business Solutions"
-          className="h-12 w-auto md:h-14"
-        />
+        <img src={logo} alt="SBS — Superior Business Solutions" className="h-12 w-auto md:h-14" />
       </a>
 
       <MainNav />

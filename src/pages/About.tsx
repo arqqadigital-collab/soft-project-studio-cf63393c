@@ -1,16 +1,46 @@
 import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
-import { ArrowRight, Target, Eye, Sparkles, Building2, Layers, Stethoscope, Handshake, Rocket } from "lucide-react";
+import {
+  ArrowRight,
+  Target,
+  Eye,
+  Sparkles,
+  Building2,
+  Layers,
+  Stethoscope,
+  Handshake,
+  Rocket,
+} from "lucide-react";
 import aboutHeroVideo from "@/assets/about-hero.mp4";
 import { Footer } from "@/components/Footer";
 import { CtaSection } from "@/components/CtaSection";
 
 const journey = [
-  { icon: Building2, title: "Foundation", body: "SBS was established to help organisations solve operational challenges through smart, scalable technology solutions." },
-  { icon: Layers, title: "Expansion", body: "We evolved into a full-service provider, delivering ERP implementation, system integration, and process automation across industries." },
-  { icon: Stethoscope, title: "Healthcare Focus", body: "SBS expanded into healthcare, providing solutions such as HIS, EMR, PACS, and RCM systems, strengthening our industry specialisation." },
-  { icon: Handshake, title: "Strategic Partnerships", body: "Collaborations with platforms like Odoo and Microsoft Dynamics 365 enabled us to deliver enterprise-grade, flexible solutions." },
-  { icon: Rocket, title: "Today", body: "We continue to drive digital transformation through integrated systems, automation, and data-driven solutions that help organisations scale and innovate." },
+  {
+    icon: Building2,
+    title: "Foundation",
+    body: "SBS was established to help organisations solve operational challenges through smart, scalable technology solutions.",
+  },
+  {
+    icon: Layers,
+    title: "Expansion",
+    body: "We evolved into a full-service provider, delivering ERP implementation, system integration, and process automation across industries.",
+  },
+  {
+    icon: Stethoscope,
+    title: "Healthcare Focus",
+    body: "SBS expanded into healthcare, providing solutions such as HIS, EMR, PACS, and RCM systems, strengthening our industry specialisation.",
+  },
+  {
+    icon: Handshake,
+    title: "Strategic Partnerships",
+    body: "Collaborations with platforms like Odoo and Microsoft Dynamics 365 enabled us to deliver enterprise-grade, flexible solutions.",
+  },
+  {
+    icon: Rocket,
+    title: "Today",
+    body: "We continue to drive digital transformation through integrated systems, automation, and data-driven solutions that help organisations scale and innovate.",
+  },
 ];
 
 export default function About() {
@@ -30,7 +60,6 @@ export default function About() {
         </div>
 
         <div className="relative z-10 flex min-h-[90vh] flex-col">
-
           <section className="flex flex-1 items-center justify-center px-6 pb-32 pt-4 md:px-12">
             <motion.div
               initial={{ opacity: 0, y: 30 }}
@@ -52,8 +81,8 @@ export default function About() {
               </h1>
               <p className="mt-6 max-w-2xl text-base leading-relaxed text-white/85 md:text-lg">
                 By combining ERP expertise, healthcare system integration, and enterprise
-                consulting, SBS helps organisations transform fragmented processes into
-                connected, intelligent ecosystems.
+                consulting, SBS helps organisations transform fragmented processes into connected,
+                intelligent ecosystems.
               </p>
             </motion.div>
           </section>
@@ -72,8 +101,16 @@ export default function About() {
 
           <div className="mt-16 grid gap-8 md:grid-cols-2">
             {[
-              { icon: Target, title: "Our Mission", body: "To help organisations leverage technology as a strategic asset, enabling operational excellence, automation, and data-driven growth." },
-              { icon: Eye, title: "Our Vision", body: "To become a leading regional provider of integrated enterprise and healthcare technology solutions, empowering organisations with scalable, intelligent systems." },
+              {
+                icon: Target,
+                title: "Our Mission",
+                body: "To help organisations leverage technology as a strategic asset, enabling operational excellence, automation, and data-driven growth.",
+              },
+              {
+                icon: Eye,
+                title: "Our Vision",
+                body: "To become a leading regional provider of integrated enterprise and healthcare technology solutions, empowering organisations with scalable, intelligent systems.",
+              },
             ].map((item, i) => (
               <motion.div
                 key={item.title}
@@ -189,8 +226,8 @@ export default function About() {
 
           <div className="mt-12 inline-flex flex-col items-center gap-6">
             <p className="max-w-2xl text-base font-medium text-white/90 md:text-lg">
-              Looking to modernize your operations with smarter technology solutions? Connect
-              with SBS to explore how our expertise can support your organization's digital
+              Looking to modernize your operations with smarter technology solutions? Connect with
+              SBS to explore how our expertise can support your organization's digital
               transformation journey.
             </p>
             <Link
