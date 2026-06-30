@@ -15,7 +15,10 @@ import {
   Wallet,
   Cpu,
   Crown,
+  Crown,
+  Plus,
 } from "lucide-react";
+import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
 import { Footer } from "@/components/Footer";
 import { CtaSection } from "@/components/CtaSection";
 import heroImg from "@/assets/zoho/hero.jpg";
