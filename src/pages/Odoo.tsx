@@ -342,7 +342,10 @@ export default function Odoo() {
       <section className="relative bg-[#0a0e1a] px-6 py-24 md:px-12 md:py-32">
         <div className="mx-auto max-w-6xl">
           <div className="text-center">
-            <h2 className="text-4xl font-bold leading-[1.1] tracking-tight text-white md:text-5xl">
+            <p className="text-sm font-semibold uppercase tracking-[0.25em] text-[var(--brand-blue)]">
+              What We Build
+            </p>
+            <h2 className="mt-6 text-4xl font-bold leading-[1.1] tracking-tight text-white md:text-5xl">
               Six development disciplines.{" "}
               <span className="bg-clip-text text-transparent" style={{ backgroundImage: "var(--gradient-brand)" }}>
                 One coherent technical team.
