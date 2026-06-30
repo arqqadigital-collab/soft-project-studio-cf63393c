@@ -546,13 +546,12 @@ export default function Odoo() {
       <section className="relative overflow-hidden bg-[#0a0e1a] px-6 py-24 md:px-12 md:py-32">
         <div className="absolute inset-0 bg-gradient-to-br from-[#0a0e1a] via-[#0d1322] to-[#0a0e1a]" aria-hidden="true" />
         <div className="relative z-10 mx-auto max-w-5xl text-center">
-          <p className="mx-auto max-w-3xl text-2xl font-bold leading-relaxed text-white md:text-3xl lg:text-4xl">
-            The objective is not customization for its own sake.
-          </p>
-          <div className="mx-auto mt-8 h-px w-24 bg-white/20" aria-hidden="true" />
-          <p className="mx-auto mt-8 max-w-3xl text-base leading-relaxed text-white/75 md:text-lg">
-            The objective is to create an ERP environment that supports how your organization operates today — while remaining scalable for how it will operate tomorrow.
-          </p>
+          <h2 className="text-3xl font-bold leading-[1.15] tracking-tight text-white md:text-4xl lg:text-5xl">
+            The objective is not customization for its own sake.{" "}
+            <span className="bg-clip-text text-transparent" style={{ backgroundImage: "var(--gradient-brand)" }}>
+              The objective is to create an ERP environment that supports how your organization operates today — while remaining scalable for how it will operate tomorrow.
+            </span>
+          </h2>
         </div>
       </section>
 
