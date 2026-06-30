@@ -543,15 +543,19 @@ export default function Odoo() {
       </section>
 
       {/* ERP OBJECTIVE */}
-      <section className="relative overflow-hidden bg-[#0a0e1a] px-6 py-24 md:px-12 md:py-32">
+      <section className="relative overflow-hidden bg-[#0a0e1a] px-6 py-32 md:px-12 md:py-48">
         <div className="absolute inset-0 bg-gradient-to-br from-[#0a0e1a] via-[#0d1322] to-[#0a0e1a]" aria-hidden="true" />
         <div className="relative z-10 mx-auto max-w-5xl text-center">
-          <h2 className="text-3xl font-bold leading-[1.15] tracking-tight text-white md:text-4xl lg:text-5xl">
-            The objective is not customization for its own sake.{" "}
-            <span className="bg-clip-text text-transparent" style={{ backgroundImage: "var(--gradient-brand)" }}>
-              The objective is to create an ERP environment that supports how your organization operates today — while remaining scalable for how it will operate tomorrow.
-            </span>
-          </h2>
+          <ScrollRevealText
+            className="text-3xl font-bold leading-[1.15] tracking-tight md:text-4xl lg:text-5xl"
+            segments={[
+              { text: "The objective is not customization for its own sake. " },
+              {
+                text: "The objective is to create an ERP environment that supports how your organization operates today — while remaining scalable for how it will operate tomorrow.",
+                gradient: true,
+              },
+            ]}
+          />
         </div>
       </section>
 
