@@ -378,7 +378,7 @@ export default function Zoho() {
             </p>
           </div>
 
-          <div className="mt-14 grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-4">
+          <div className="mt-14 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4">
             {useCases.map((u) => (
               <motion.div
                 key={u.n}
@@ -386,33 +386,36 @@ export default function Zoho() {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true, margin: "-60px" }}
                 transition={{ duration: 0.5 }}
-                className="flex flex-col overflow-hidden rounded-2xl border border-border bg-card shadow-sm"
+                className="group flex flex-col overflow-hidden rounded-2xl border border-border bg-card transition-all hover:-translate-y-1 hover:shadow-[var(--shadow-brand)]"
               >
-                <div className="relative h-44 w-full overflow-hidden">
-                  <img src={u.image} alt={u.title} className="h-full w-full object-cover" loading="lazy" width={1024} height={1024} />
-                  <div className="absolute inset-0 bg-gradient-to-t from-card via-transparent to-transparent" />
-                  <span className="absolute left-4 top-4 rounded-full bg-foreground/80 px-3 py-1 text-xs font-bold text-primary-foreground backdrop-blur">
-                    {u.n}
-                  </span>
+                <div className="relative aspect-[16/10] overflow-hidden">
+                  <img
+                    src={u.image}
+                    alt={u.title}
+                    loading="lazy"
+                    width={1024}
+                    height={640}
+                    className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
+                  />
                 </div>
                 <div className="flex flex-1 flex-col p-6">
-                  <h3 className="text-base font-bold text-foreground">{u.title}</h3>
+                  <div className="flex items-baseline gap-3">
+                    <span className="text-2xl font-bold" style={{ color: "var(--brand-blue)" }}>
+                      {u.n}
+                    </span>
+                    <h3 className="text-base font-bold leading-tight" style={{ color: "var(--brand-dark)" }}>
+                      {u.title}
+                    </h3>
+                  </div>
                   <p className="mt-3 text-xs leading-relaxed text-muted-foreground">{u.body}</p>
-                  <p className="mt-4 text-[10px] font-semibold uppercase tracking-wider text-[var(--brand-blue)]">
-                    Business impact
+                  <p className="mt-5 text-[11px] font-semibold uppercase tracking-wider text-[var(--brand-blue)]">
+                    {u.impacts.join(" · ")}
                   </p>
-                  <ul className="mt-2 space-y-1.5">
-                    {u.impacts.map((i) => (
-                      <li key={i} className="flex items-start gap-2 text-xs text-muted-foreground">
-                        <CheckCircle2 className="mt-0.5 h-3.5 w-3.5 flex-shrink-0 text-[var(--brand-blue)]" />
-                        {i}
-                      </li>
-                    ))}
-                  </ul>
                 </div>
               </motion.div>
             ))}
           </div>
+
         </div>
       </section>
 
