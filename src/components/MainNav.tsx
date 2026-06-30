@@ -88,7 +88,7 @@ const menus: Menu[] = [
         items: [
           { label: "Microsoft Dynamics 365 Business Central", to: "/erp/dynamics-365" },
           { label: "Odoo", to: "/erp/odoo" },
-          { label: "Zoho", href: "#" },
+          { label: "Zoho", to: "/erp/zoho" },
         ],
       },
       {
