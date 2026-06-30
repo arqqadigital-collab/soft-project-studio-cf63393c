@@ -19,12 +19,12 @@ import {
 } from "lucide-react";
 import { Footer } from "@/components/Footer";
 import { CtaSection } from "@/components/CtaSection";
-import heroBg from "@/assets/odoo/hero-bg.jpg";
 import patternBg from "@/assets/odoo/pattern.jpg";
 import useCase1 from "@/assets/odoo/use-case-1.jpg";
 import useCase2 from "@/assets/odoo/use-case-2.jpg";
 import useCase3 from "@/assets/odoo/use-case-3.jpg";
 import useCase4 from "@/assets/odoo/use-case-4.jpg";
+import heroVideo from "@/assets/odoo/odoo-hero.mp4.asset.json";
 
 const services = [
   {
@@ -183,12 +183,12 @@ export default function Odoo() {
       {/* HERO */}
       <main className="relative min-h-[90vh] w-full overflow-hidden bg-background pt-20">
         <div className="absolute inset-0">
-          <img
-            src={heroBg}
-            alt=""
-            aria-hidden="true"
-            width={1920}
-            height={1080}
+          <video
+            src={heroVideo.url}
+            autoPlay
+            loop
+            muted
+            playsInline
             className="absolute inset-0 h-full w-full object-cover"
           />
           <div
@@ -239,12 +239,15 @@ export default function Odoo() {
       <section className="relative z-20 -mt-12 rounded-t-[2.5rem] bg-[#0a0e1a] px-6 py-20 shadow-[0_-20px_60px_-20px_rgba(0,0,0,0.4)] md:px-12 md:py-28">
         <div className="mx-auto max-w-6xl">
           <div className="text-center">
-            <p className="text-sm font-semibold uppercase tracking-[0.25em] text-[var(--brand-blue)]">
-              What We Build
-            </p>
-            <h2 className="mx-auto mt-6 max-w-4xl text-3xl font-bold leading-[1.1] tracking-tight text-white md:text-4xl lg:text-5xl">
-              SBS designs and delivers custom Odoo modules, extends standard functionality, and builds integrations so Odoo supports your operating model—not the other way around.
+            <h2 className="mx-auto max-w-4xl text-3xl font-bold leading-[1.15] tracking-tight text-white md:text-4xl lg:text-5xl">
+              Custom Odoo, built around{" "}
+              <span className="bg-clip-text text-transparent" style={{ backgroundImage: "var(--gradient-brand)" }}>
+                how your business actually operates.
+              </span>
             </h2>
+            <p className="mx-auto mt-6 max-w-3xl text-base leading-relaxed text-white/70 md:text-lg">
+              SBS designs and delivers custom Odoo modules, extends standard functionality, and builds integrations so Odoo supports your operating model—not the other way around.
+            </p>
           </div>
 
           <div className="mt-12 grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-4">
@@ -256,9 +259,10 @@ export default function Odoo() {
             ].map((item) => (
               <div
                 key={item}
-                className="rounded-2xl border border-white/10 bg-white/[0.03] p-6 text-sm font-medium leading-snug text-white/90"
+                className="flex items-start gap-3 rounded-2xl border border-white/10 bg-white/[0.03] p-6"
               >
-                {item}
+                <CheckCircle2 className="mt-0.5 h-5 w-5 flex-shrink-0 text-[var(--brand-blue)]" />
+                <p className="text-sm leading-relaxed text-white/80">{item}</p>
               </div>
             ))}
           </div>
@@ -338,7 +342,10 @@ export default function Odoo() {
       <section className="relative bg-[#0a0e1a] px-6 py-24 md:px-12 md:py-32">
         <div className="mx-auto max-w-6xl">
           <div className="text-center">
-            <h2 className="text-4xl font-bold leading-[1.1] tracking-tight text-white md:text-5xl">
+            <p className="text-sm font-semibold uppercase tracking-[0.25em] text-[var(--brand-blue)]">
+              What We Build
+            </p>
+            <h2 className="mt-6 text-4xl font-bold leading-[1.1] tracking-tight text-white md:text-5xl">
               Six development disciplines.{" "}
               <span className="bg-clip-text text-transparent" style={{ backgroundImage: "var(--gradient-brand)" }}>
                 One coherent technical team.
