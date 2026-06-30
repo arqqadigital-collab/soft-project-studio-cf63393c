@@ -29,37 +29,37 @@ import useCase4 from "@/assets/odoo/use-case-4.jpg";
 const services = [
   {
     icon: Layers,
-    title: "Custom Module Development",
+    title: "Custom module development",
     body: "Purpose-built Odoo modules for business processes that standard modules do not cover. Developed to OCA standards so they survive version upgrades without rewriting.",
     chips: ["OCA standards", "Ground-up modules", "Upgrade-safe", "Python · XML"],
   },
   {
     icon: Workflow,
-    title: "Core Module Extension",
+    title: "Core module extension",
     body: "Extending Odoo's standard modules — accounting, inventory, HR, sales — without modifying core code. Inheritance-based customizations that stay upgradable and maintainable.",
     chips: ["Inheritance model", "No core edits", "Accounting · HR", "Inventory · Sales"],
   },
   {
     icon: Network,
-    title: "API & Integration Development",
+    title: "API & integration development",
     body: "Custom REST endpoints, webhook handlers, and integration middleware connecting Odoo to SAP, Oracle, payment gateways, logistics platforms, and proprietary internal systems.",
     chips: ["REST APIs", "Webhooks", "SAP · Oracle", "Middleware"],
   },
   {
     icon: BarChart3,
-    title: "Reporting & BI Customization",
+    title: "Reporting & BI customization",
     body: "Custom Odoo reports, financial statement formats, and operational dashboards — built on QWeb and connected to external BI tools via structured data exports or API.",
     chips: ["QWeb reports", "Financial statements", "Dashboards", "BI exports"],
   },
   {
     icon: Wrench,
-    title: "UI/UX & Portal Customization",
+    title: "UI/UX & portal customization",
     body: "Custom Odoo web portals, customer-facing views, and back-office interface modifications — using OWL components and Odoo's frontend framework to maintain upgrade compatibility.",
     chips: ["OWL components", "Custom portals", "Back-office UI", "Frontend framework"],
   },
   {
     icon: DatabaseZap,
-    title: "Performance & Scalability Engineering",
+    title: "Performance & scalability engineering",
     body: "Query optimisation, caching strategies, background job architecture, and database indexing for Odoo deployments handling high transaction volumes or large data sets.",
     chips: ["Query optimization", "Caching", "Background jobs", "DB indexing"],
   },
@@ -208,19 +208,12 @@ export default function Odoo() {
               transition={{ duration: 0.8 }}
               className="mx-auto flex max-w-5xl flex-col items-center text-center"
             >
-              <p className="mb-4 text-xs font-semibold uppercase tracking-[0.3em] text-white/70">
-                Odoo Development and Customization
-              </p>
               <h1 className="text-3xl font-bold leading-[1.1] tracking-tight text-white md:text-5xl lg:text-6xl">
                 Odoo engineered for your enterprise.{" "}
                 <span className="bg-clip-text text-transparent" style={{ backgroundImage: "var(--gradient-brand)" }}>
                   Configured where possible. Customized where it matters.
                 </span>
               </h1>
-              <p className="mt-6 max-w-3xl text-base leading-relaxed text-white/80 md:text-lg">
-                SBS designs and delivers custom Odoo modules, extends standard functionality, and builds
-                integrations so Odoo supports your operating model — not the other way around.
-              </p>
 
               <div className="mt-9 flex flex-col items-center gap-3 sm:flex-row">
                 <a
@@ -237,22 +230,6 @@ export default function Odoo() {
                   View capabilities
                 </a>
               </div>
-
-              <div className="mt-10 flex flex-wrap items-center justify-center gap-2 text-xs text-white/75">
-                {[
-                  "Custom modules from ground up",
-                  "Upgradable core extensions",
-                  "Third-party API integration",
-                  "High-volume performance",
-                ].map((c) => (
-                  <span
-                    key={c}
-                    className="rounded-full border border-white/20 bg-white/5 px-3 py-1.5 backdrop-blur"
-                  >
-                    {c}
-                  </span>
-                ))}
-              </div>
             </motion.div>
           </section>
         </div>
@@ -260,25 +237,46 @@ export default function Odoo() {
 
       {/* INTRODUCTION */}
       <section className="relative z-20 -mt-12 rounded-t-[2.5rem] bg-[#0a0e1a] px-6 py-20 shadow-[0_-20px_60px_-20px_rgba(0,0,0,0.4)] md:px-12 md:py-28">
-        <div className="mx-auto max-w-4xl text-center">
-          <p className="text-sm font-semibold uppercase tracking-[0.25em] text-[var(--brand-blue)]">
-            What We Build
-          </p>
-          <h2 className="mt-6 text-3xl font-bold leading-[1.1] tracking-tight text-white md:text-4xl lg:text-5xl">
-            Six development disciplines.{" "}
-            <span className="bg-clip-text text-transparent" style={{ backgroundImage: "var(--gradient-brand)" }}>
-              One coherent technical team.
+        <div className="mx-auto max-w-6xl">
+          <div className="text-center">
+            <p className="text-sm font-semibold uppercase tracking-[0.25em] text-[var(--brand-blue)]">
+              What We Build
+            </p>
+            <h2 className="mx-auto mt-6 max-w-4xl text-3xl font-bold leading-[1.1] tracking-tight text-white md:text-4xl lg:text-5xl">
+              SBS designs and delivers custom Odoo modules, extends standard functionality, and builds integrations so Odoo supports your operating model—not the other way around.
+            </h2>
+          </div>
+
+          <div className="mt-12 grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-4">
+            {[
+              "Custom module development from ground up",
+              "Core Odoo extension without breaking upgradability",
+              "Third-party API & system integration",
+              "Performance optimization for high-volume operations",
+            ].map((item) => (
+              <div
+                key={item}
+                className="rounded-2xl border border-white/10 bg-white/[0.03] p-6 text-sm font-medium leading-snug text-white/90"
+              >
+                {item}
+              </div>
+            ))}
+          </div>
+
+          <div className="mt-12 flex flex-col items-center gap-4 text-center sm:flex-row sm:justify-center">
+            <p className="text-sm text-white/60">
+              Trusted by growing organizations across healthcare, distribution, professional services, and enterprise operations.
+            </p>
+          </div>
+
+          <div className="mt-8 flex flex-wrap items-center justify-center gap-4">
+            <span className="rounded-full border border-white/10 bg-white/[0.03] px-5 py-2 text-sm font-semibold text-white/80">
+              Odoo Partner status
             </span>
-          </h2>
-
-          <p className="mt-6 text-base leading-relaxed text-white/70 md:text-lg">
-            Every engagement is scoped, architected, and delivered by developers with deep Odoo framework
-            knowledge — not generalist teams learning the platform on your project.
-          </p>
-
-          <p className="mt-8 text-sm text-white/60">
-            Trusted by growing organizations across healthcare, distribution, professional services, and enterprise operations.
-          </p>
+            <span className="rounded-full border border-white/10 bg-white/[0.03] px-5 py-2 text-sm font-semibold text-white/80">
+              Years of implementation experience
+            </span>
+          </div>
         </div>
       </section>
 
@@ -332,6 +330,64 @@ export default function Odoo() {
                 </motion.div>
               );
             })}
+          </div>
+        </div>
+      </section>
+
+      {/* SIX DEVELOPMENT DISCIPLINES */}
+      <section className="relative bg-[#0a0e1a] px-6 py-24 md:px-12 md:py-32">
+        <div className="mx-auto max-w-6xl">
+          <div className="text-center">
+            <h2 className="text-4xl font-bold leading-[1.1] tracking-tight text-white md:text-5xl">
+              Six development disciplines.{" "}
+              <span className="bg-clip-text text-transparent" style={{ backgroundImage: "var(--gradient-brand)" }}>
+                One coherent technical team.
+              </span>
+            </h2>
+            <p className="mx-auto mt-6 max-w-3xl text-base leading-relaxed text-white/70 md:text-lg">
+              Every engagement is scoped, architected, and delivered by developers with deep Odoo framework knowledge — not generalist teams learning the platform on your project.
+            </p>
+          </div>
+
+          <div className="mt-14 grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-3">
+            {[
+              {
+                title: "Custom module development",
+                body: "Purpose-built Odoo modules for business processes that standard modules do not cover. Developed to OCA standards so they survive version upgrades without rewriting.",
+              },
+              {
+                title: "Core module extension",
+                body: "Extending Odoo's standard modules — accounting, inventory, HR, sales — without modifying core code. Inheritance-based customizations that stay upgradable and maintainable.",
+              },
+              {
+                title: "API & integration development",
+                body: "Custom REST endpoints, webhook handlers, and integration middleware connecting Odoo to SAP, Oracle, payment gateways, logistics platforms, and proprietary internal systems.",
+              },
+              {
+                title: "Reporting & BI customization",
+                body: "Custom Odoo reports, financial statement formats, and operational dashboards — built on QWeb and connected to external BI tools via structured data exports or API.",
+              },
+              {
+                title: "UI/UX & portal customization",
+                body: "Custom Odoo web portals, customer-facing views, and back-office interface modifications — using OWL components and Odoo's frontend framework to maintain upgrade compatibility.",
+              },
+              {
+                title: "Performance & scalability engineering",
+                body: "Query optimisation, caching strategies, background job architecture, and database indexing for Odoo deployments handling high transaction volumes or large data sets.",
+              },
+            ].map((d, i) => (
+              <motion.div
+                key={d.title}
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, margin: "-60px" }}
+                transition={{ duration: 0.5, delay: i * 0.05 }}
+                className="rounded-2xl border border-white/10 bg-white/[0.03] p-7"
+              >
+                <h3 className="text-lg font-bold text-white">{d.title}</h3>
+                <p className="mt-3 text-sm leading-relaxed text-white/75">{d.body}</p>
+              </motion.div>
+            ))}
           </div>
         </div>
       </section>
