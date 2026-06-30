@@ -16,6 +16,7 @@ import EMRAM from "./pages/EMRAM";
 import Dynamics365 from "./pages/Dynamics365";
 import Odoo from "./pages/Odoo";
 import Zoho from "./pages/Zoho";
+import Manufacturing from "./pages/Manufacturing";
 
 function NotFound() {
   return (
@@ -60,6 +61,7 @@ export default function App() {
         <Route path="/erp/dynamics-365" element={<Dynamics365 />} />
         <Route path="/erp/odoo" element={<Odoo />} />
         <Route path="/erp/zoho" element={<Zoho />} />
+        <Route path="/erp/manufacturing" element={<Manufacturing />} />
         <Route path="*" element={<NotFound />} />
       </Routes>
     </>
