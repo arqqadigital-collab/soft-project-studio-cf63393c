@@ -355,26 +355,19 @@ export default function Zoho() {
       </section>
 
       {/* USE CASES */}
-      <section
-        className="relative px-6 py-24 md:px-12 md:py-32"
-        style={{
-          backgroundImage: `linear-gradient(rgba(10,14,26,0.92), rgba(10,14,26,0.96)), url(${patternBg})`,
-          backgroundSize: "cover",
-          backgroundPosition: "center",
-        }}
-      >
+      <section className="relative bg-background px-6 py-24 md:px-12 md:py-32">
         <div className="mx-auto max-w-7xl">
           <div className="text-center">
             <p className="text-sm font-semibold uppercase tracking-[0.25em] text-[var(--brand-blue)]">
               Enterprise Use Cases
             </p>
-            <h2 className="mt-6 text-3xl font-bold leading-[1.1] tracking-tight text-white md:text-4xl lg:text-5xl">
+            <h2 className="mt-6 text-3xl font-bold leading-[1.1] tracking-tight text-foreground md:text-4xl lg:text-5xl">
               How organizations use Zoho to centralize operations,{" "}
               <span className="bg-clip-text text-transparent" style={{ backgroundImage: "var(--gradient-brand)" }}>
                 automate workflows, and improve visibility.
               </span>
             </h2>
-            <p className="mx-auto mt-6 max-w-3xl text-base leading-relaxed text-white/70">
+            <p className="mx-auto mt-6 max-w-3xl text-base leading-relaxed text-muted-foreground">
               Representative examples of operational improvements enabled through Zoho implementation and customization.
             </p>
           </div>
@@ -387,24 +380,24 @@ export default function Zoho() {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true, margin: "-60px" }}
                 transition={{ duration: 0.5 }}
-                className="flex flex-col overflow-hidden rounded-2xl border border-white/10 bg-white/[0.04] backdrop-blur"
+                className="flex flex-col overflow-hidden rounded-2xl border border-border bg-card shadow-sm"
               >
                 <div className="relative h-44 w-full overflow-hidden">
                   <img src={u.image} alt={u.title} className="h-full w-full object-cover" loading="lazy" width={1024} height={1024} />
-                  <div className="absolute inset-0 bg-gradient-to-t from-[#0a0e1a] via-transparent to-transparent" />
-                  <span className="absolute left-4 top-4 rounded-full bg-black/50 px-3 py-1 text-xs font-bold text-white backdrop-blur">
+                  <div className="absolute inset-0 bg-gradient-to-t from-card via-transparent to-transparent" />
+                  <span className="absolute left-4 top-4 rounded-full bg-foreground/80 px-3 py-1 text-xs font-bold text-primary-foreground backdrop-blur">
                     {u.n}
                   </span>
                 </div>
                 <div className="flex flex-1 flex-col p-6">
-                  <h3 className="text-base font-bold text-white">{u.title}</h3>
-                  <p className="mt-3 text-xs leading-relaxed text-white/70">{u.body}</p>
+                  <h3 className="text-base font-bold text-foreground">{u.title}</h3>
+                  <p className="mt-3 text-xs leading-relaxed text-muted-foreground">{u.body}</p>
                   <p className="mt-4 text-[10px] font-semibold uppercase tracking-wider text-[var(--brand-blue)]">
                     Business impact
                   </p>
                   <ul className="mt-2 space-y-1.5">
                     {u.impacts.map((i) => (
-                      <li key={i} className="flex items-start gap-2 text-xs text-white/75">
+                      <li key={i} className="flex items-start gap-2 text-xs text-muted-foreground">
                         <CheckCircle2 className="mt-0.5 h-3.5 w-3.5 flex-shrink-0 text-[var(--brand-blue)]" />
                         {i}
                       </li>
@@ -466,7 +459,7 @@ export default function Zoho() {
           <h2 className="text-3xl font-bold leading-[1.15] tracking-tight md:text-4xl lg:text-5xl">
             <span className="text-white">The objective is not to implement software for its own sake.</span>{" "}
             <span className="bg-clip-text text-transparent" style={{ backgroundImage: "var(--gradient-brand)" }}>
-              It is to create a connected operational environment where workflows, approvals, reporting, customer management, and internal processes operate together with greater visibility, efficiency, and scalability.
+              The objective is to create a connected operational environment where workflows, approvals, reporting, customer management, and internal processes operate together with greater visibility, efficiency, and scalability.
             </span>
           </h2>
           <p className="mx-auto mt-10 max-w-2xl text-base leading-relaxed text-white/70">
