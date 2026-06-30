@@ -490,35 +490,45 @@ export default function Zoho() {
       </section>
 
       {/* FAQ */}
-      <section className="relative bg-background px-6 py-24 md:px-12 md:py-32">
+      <section className="relative bg-[#eff7fb] px-6 py-24 md:px-12 md:py-32">
         <div className="mx-auto max-w-4xl">
           <div className="text-center">
-            <p className="text-sm font-semibold uppercase tracking-[0.25em]" style={{ color: "var(--brand-blue)" }}>
-              FAQ
-            </p>
-            <h2 className="mt-6 text-3xl font-bold leading-[1.1] tracking-tight md:text-4xl">
-              <span style={{ color: "var(--brand-dark)" }}>What enterprise buyers</span>{" "}
-              <span className="bg-clip-text text-transparent" style={{ backgroundImage: "var(--gradient-brand)" }}>
-                usually ask.
-              </span>
+            <div className="inline-flex items-center gap-2 rounded-full border border-[var(--brand-blue)]/20 bg-white px-5 py-2 shadow-sm">
+              <ShieldCheck className="h-4 w-4 text-[var(--brand-blue)]" />
+              <span className="text-xs font-bold uppercase tracking-[0.2em] text-[var(--brand-blue)]">FAQ</span>
+            </div>
+            <h2 className="mt-8 text-4xl font-bold leading-[1.05] tracking-tight md:text-6xl" style={{ color: "var(--brand-dark)" }}>
+              Common Questions
             </h2>
           </div>
 
-          <div className="mt-12 space-y-4">
-            {faqs.map((f) => (
-              <div
+          <Accordion type="single" collapsible className="mt-12 space-y-4">
+            {faqs.map((f, i) => (
+              <AccordionItem
                 key={f.q}
-                className="rounded-2xl border border-border bg-card p-6 md:p-7"
+                value={`item-${i}`}
+                className="overflow-hidden rounded-2xl border border-[var(--brand-blue)]/10 bg-white shadow-sm transition-shadow data-[state=open]:shadow-md"
               >
-                <h3 className="text-base font-bold md:text-lg" style={{ color: "var(--brand-dark)" }}>
-                  {f.q}
-                </h3>
-                <p className="mt-3 text-sm leading-relaxed text-muted-foreground">{f.a}</p>
-              </div>
+                <AccordionTrigger className="group px-6 py-5 hover:no-underline md:px-8 md:py-6 [&>svg]:hidden">
+                  <div className="flex flex-1 items-center gap-4 text-left">
+                    <CheckCircle2 className="h-5 w-5 flex-shrink-0 text-[var(--brand-blue)]" />
+                    <span className="text-base font-bold md:text-lg" style={{ color: "var(--brand-dark)" }}>
+                      {f.q}
+                    </span>
+                  </div>
+                  <span className="ml-4 flex h-8 w-8 flex-shrink-0 items-center justify-center rounded-full border border-border bg-white text-muted-foreground transition-transform group-data-[state=open]:rotate-45">
+                    <Plus className="h-4 w-4" />
+                  </span>
+                </AccordionTrigger>
+                <AccordionContent className="px-6 pb-6 md:px-8 md:pb-7">
+                  <div className="pl-9 text-sm leading-relaxed text-muted-foreground">{f.a}</div>
+                </AccordionContent>
+              </AccordionItem>
             ))}
-          </div>
+          </Accordion>
         </div>
       </section>
+
 
       <CtaSection />
       <Footer />
