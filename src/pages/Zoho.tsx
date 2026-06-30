@@ -15,7 +15,6 @@ import {
   Wallet,
   Cpu,
   Crown,
-  Crown,
   Plus,
 } from "lucide-react";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
