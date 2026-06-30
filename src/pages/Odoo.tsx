@@ -29,37 +29,37 @@ import useCase4 from "@/assets/odoo/use-case-4.jpg";
 const services = [
   {
     icon: Layers,
-    title: "Custom Module Development",
+    title: "Custom module development",
     body: "Purpose-built Odoo modules for business processes that standard modules do not cover. Developed to OCA standards so they survive version upgrades without rewriting.",
     chips: ["OCA standards", "Ground-up modules", "Upgrade-safe", "Python · XML"],
   },
   {
     icon: Workflow,
-    title: "Core Module Extension",
+    title: "Core module extension",
     body: "Extending Odoo's standard modules — accounting, inventory, HR, sales — without modifying core code. Inheritance-based customizations that stay upgradable and maintainable.",
     chips: ["Inheritance model", "No core edits", "Accounting · HR", "Inventory · Sales"],
   },
   {
     icon: Network,
-    title: "API & Integration Development",
+    title: "API & integration development",
     body: "Custom REST endpoints, webhook handlers, and integration middleware connecting Odoo to SAP, Oracle, payment gateways, logistics platforms, and proprietary internal systems.",
     chips: ["REST APIs", "Webhooks", "SAP · Oracle", "Middleware"],
   },
   {
     icon: BarChart3,
-    title: "Reporting & BI Customization",
+    title: "Reporting & BI customization",
     body: "Custom Odoo reports, financial statement formats, and operational dashboards — built on QWeb and connected to external BI tools via structured data exports or API.",
     chips: ["QWeb reports", "Financial statements", "Dashboards", "BI exports"],
   },
   {
     icon: Wrench,
-    title: "UI/UX & Portal Customization",
+    title: "UI/UX & portal customization",
     body: "Custom Odoo web portals, customer-facing views, and back-office interface modifications — using OWL components and Odoo's frontend framework to maintain upgrade compatibility.",
     chips: ["OWL components", "Custom portals", "Back-office UI", "Frontend framework"],
   },
   {
     icon: DatabaseZap,
-    title: "Performance & Scalability Engineering",
+    title: "Performance & scalability engineering",
     body: "Query optimisation, caching strategies, background job architecture, and database indexing for Odoo deployments handling high transaction volumes or large data sets.",
     chips: ["Query optimization", "Caching", "Background jobs", "DB indexing"],
   },
