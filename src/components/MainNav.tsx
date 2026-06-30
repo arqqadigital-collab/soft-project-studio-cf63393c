@@ -87,7 +87,7 @@ const menus: Menu[] = [
         description: "Enterprise resource planning suites",
         items: [
           { label: "Microsoft Dynamics 365 Business Central", to: "/erp/dynamics-365" },
-          { label: "Odoo", href: "#" },
+          { label: "Odoo", to: "/erp/odoo" },
           { label: "Zoho", href: "#" },
         ],
       },
