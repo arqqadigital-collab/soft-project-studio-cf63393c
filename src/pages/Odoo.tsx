@@ -289,14 +289,17 @@ export default function Odoo() {
         <div className="mx-auto max-w-6xl">
           <div className="text-center">
             <p className="text-sm font-semibold uppercase tracking-[0.25em]" style={{ color: "var(--brand-blue)" }}>
-              Development Disciplines
+              What We Build
             </p>
             <h2 className="mt-6 text-4xl font-bold leading-[1.1] tracking-tight md:text-5xl">
-              <span style={{ color: "var(--brand-dark)" }}>Engineering Odoo to fit</span>{" "}
+              <span style={{ color: "var(--brand-dark)" }}>Six development disciplines.</span>{" "}
               <span className="bg-clip-text text-transparent" style={{ backgroundImage: "var(--gradient-brand)" }}>
-                how your enterprise actually operates.
+                One coherent technical team.
               </span>
             </h2>
+            <p className="mx-auto mt-6 max-w-3xl text-base leading-relaxed text-muted-foreground md:text-lg">
+              Every engagement is scoped, architected, and delivered by developers with deep Odoo framework knowledge — not generalist teams learning the platform on your project.
+            </p>
           </div>
 
           <div className="mt-14 grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
@@ -334,67 +337,6 @@ export default function Odoo() {
                 </motion.div>
               );
             })}
-          </div>
-        </div>
-      </section>
-
-      {/* SIX DEVELOPMENT DISCIPLINES */}
-      <section className="relative bg-[#0a0e1a] px-6 py-24 md:px-12 md:py-32">
-        <div className="mx-auto max-w-6xl">
-          <div className="text-center">
-            <p className="text-sm font-semibold uppercase tracking-[0.25em] text-[var(--brand-blue)]">
-              What We Build
-            </p>
-            <h2 className="mt-6 text-4xl font-bold leading-[1.1] tracking-tight text-white md:text-5xl">
-              Six development disciplines.{" "}
-              <span className="bg-clip-text text-transparent" style={{ backgroundImage: "var(--gradient-brand)" }}>
-                One coherent technical team.
-              </span>
-            </h2>
-            <p className="mx-auto mt-6 max-w-3xl text-base leading-relaxed text-white/70 md:text-lg">
-              Every engagement is scoped, architected, and delivered by developers with deep Odoo framework knowledge — not generalist teams learning the platform on your project.
-            </p>
-          </div>
-
-          <div className="mt-14 grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-3">
-            {[
-              {
-                title: "Custom module development",
-                body: "Purpose-built Odoo modules for business processes that standard modules do not cover. Developed to OCA standards so they survive version upgrades without rewriting.",
-              },
-              {
-                title: "Core module extension",
-                body: "Extending Odoo's standard modules — accounting, inventory, HR, sales — without modifying core code. Inheritance-based customizations that stay upgradable and maintainable.",
-              },
-              {
-                title: "API & integration development",
-                body: "Custom REST endpoints, webhook handlers, and integration middleware connecting Odoo to SAP, Oracle, payment gateways, logistics platforms, and proprietary internal systems.",
-              },
-              {
-                title: "Reporting & BI customization",
-                body: "Custom Odoo reports, financial statement formats, and operational dashboards — built on QWeb and connected to external BI tools via structured data exports or API.",
-              },
-              {
-                title: "UI/UX & portal customization",
-                body: "Custom Odoo web portals, customer-facing views, and back-office interface modifications — using OWL components and Odoo's frontend framework to maintain upgrade compatibility.",
-              },
-              {
-                title: "Performance & scalability engineering",
-                body: "Query optimisation, caching strategies, background job architecture, and database indexing for Odoo deployments handling high transaction volumes or large data sets.",
-              },
-            ].map((d, i) => (
-              <motion.div
-                key={d.title}
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true, margin: "-60px" }}
-                transition={{ duration: 0.5, delay: i * 0.05 }}
-                className="rounded-2xl border border-white/10 bg-white/[0.03] p-7"
-              >
-                <h3 className="text-lg font-bold text-white">{d.title}</h3>
-                <p className="mt-3 text-sm leading-relaxed text-white/75">{d.body}</p>
-              </motion.div>
-            ))}
           </div>
         </div>
       </section>
@@ -597,6 +539,20 @@ export default function Odoo() {
               );
             })}
           </div>
+        </div>
+      </section>
+
+      {/* ERP OBJECTIVE */}
+      <section className="relative overflow-hidden bg-[#0a0e1a] px-6 py-24 md:px-12 md:py-32">
+        <div className="absolute inset-0 bg-gradient-to-br from-[#0a0e1a] via-[#0d1322] to-[#0a0e1a]" aria-hidden="true" />
+        <div className="relative z-10 mx-auto max-w-5xl text-center">
+          <p className="mx-auto max-w-3xl text-2xl font-bold leading-relaxed text-white md:text-3xl lg:text-4xl">
+            The objective is not customization for its own sake.
+          </p>
+          <div className="mx-auto mt-8 h-px w-24 bg-white/20" aria-hidden="true" />
+          <p className="mx-auto mt-8 max-w-3xl text-base leading-relaxed text-white/75 md:text-lg">
+            The objective is to create an ERP environment that supports how your organization operates today — while remaining scalable for how it will operate tomorrow.
+          </p>
         </div>
       </section>
 
