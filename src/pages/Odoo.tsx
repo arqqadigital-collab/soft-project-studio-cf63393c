@@ -19,12 +19,12 @@ import {
 } from "lucide-react";
 import { Footer } from "@/components/Footer";
 import { CtaSection } from "@/components/CtaSection";
-import heroBg from "@/assets/odoo/hero-bg.jpg";
 import patternBg from "@/assets/odoo/pattern.jpg";
 import useCase1 from "@/assets/odoo/use-case-1.jpg";
 import useCase2 from "@/assets/odoo/use-case-2.jpg";
 import useCase3 from "@/assets/odoo/use-case-3.jpg";
 import useCase4 from "@/assets/odoo/use-case-4.jpg";
+import heroVideo from "@/assets/odoo/odoo-hero.mp4.asset.json";
 
 const services = [
   {
