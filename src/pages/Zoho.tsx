@@ -19,7 +19,6 @@ import {
 import { Footer } from "@/components/Footer";
 import { CtaSection } from "@/components/CtaSection";
 import heroImg from "@/assets/zoho/hero.jpg";
-import patternBg from "@/assets/zoho/pattern.jpg";
 import useCase1 from "@/assets/zoho/use-case-1.jpg";
 import useCase2 from "@/assets/zoho/use-case-2.jpg";
 import useCase3 from "@/assets/zoho/use-case-3.jpg";
