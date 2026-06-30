@@ -95,7 +95,7 @@ const menus: Menu[] = [
         label: "Business Verticals (ERP)",
         description: "Industry-tailored ERP solutions",
         items: [
-          { label: "Manufacturing & Trading", href: "#" },
+          { label: "Manufacturing & Trading", to: "/erp/manufacturing" },
           { label: "Logistics & Distribution", href: "#" },
           { label: "Retail & E-commerce", href: "#" },
           { label: "Education & Research", href: "#" },
