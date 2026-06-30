@@ -15,7 +15,9 @@ import {
   Wallet,
   Cpu,
   Crown,
+  Plus,
 } from "lucide-react";
+import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
 import { Footer } from "@/components/Footer";
 import { CtaSection } from "@/components/CtaSection";
 import heroImg from "@/assets/zoho/hero.jpg";
@@ -221,42 +223,49 @@ export default function Zoho() {
       </main>
 
       {/* OVERVIEW CHECKLIST */}
-      <section className="relative z-20 -mt-12 rounded-t-[2.5rem] bg-[#0a0e1a] px-6 py-20 shadow-[0_-20px_60px_-20px_rgba(0,0,0,0.4)] md:px-12 md:py-24">
+      <section className="relative z-20 -mt-12 rounded-t-[2.5rem] bg-[#0a0e1a] px-6 py-20 shadow-[0_-20px_60px_-20px_rgba(0,0,0,0.4)] md:px-12 md:py-28">
         <div className="mx-auto max-w-6xl">
-          <div className="grid grid-cols-1 gap-12 lg:grid-cols-2">
-            <div>
-              <p className="text-lg leading-relaxed text-white/90 md:text-xl">
-                When your CRM, finance, and ops tools don't talk to each other, your team fills the gaps manually. SBS rebuilds those workflows inside Zoho — designed around how your business actually operates, not how the platform defaults.
-              </p>
-            </div>
-            <div className="grid grid-cols-1 gap-4">
-              {heroChecks.map((item) => (
-                <div
-                  key={item}
-                  className="flex items-start gap-3 rounded-2xl border border-white/10 bg-white/[0.03] p-6"
-                >
-                  <CheckCircle2 className="mt-0.5 h-5 w-5 flex-shrink-0 text-[var(--brand-blue)]" />
-                  <p className="text-sm leading-relaxed text-white/80">{item}</p>
-                </div>
-              ))}
-            </div>
+          <div className="text-center">
+            <h2 className="mx-auto max-w-4xl text-3xl font-bold leading-[1.15] tracking-tight text-white md:text-4xl lg:text-5xl">
+              Zoho rebuilt around{" "}
+              <span className="bg-clip-text text-transparent" style={{ backgroundImage: "var(--gradient-brand)" }}>
+                how your business actually operates.
+              </span>
+            </h2>
+            <p className="mx-auto mt-6 max-w-3xl text-base leading-relaxed text-white/70 md:text-lg">
+              When your CRM, finance, and ops tools don't talk to each other, your team fills the gaps manually. SBS rebuilds those workflows inside Zoho — designed around how your business actually operates, not how the platform defaults.
+            </p>
           </div>
 
-          <div className="mt-14 flex flex-col items-center gap-4 border-t border-white/10 pt-8 sm:flex-row sm:justify-between">
-            <p className="text-sm text-white/70">
+          <div className="mt-12 grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-4">
+            {heroChecks.map((item) => (
+              <div
+                key={item}
+                className="flex items-start gap-3 rounded-2xl border border-white/10 bg-white/[0.03] p-6"
+              >
+                <CheckCircle2 className="mt-0.5 h-5 w-5 flex-shrink-0 text-[var(--brand-blue)]" />
+                <p className="text-sm leading-relaxed text-white/80">{item}</p>
+              </div>
+            ))}
+          </div>
+
+          <div className="mt-12 text-center">
+            <p className="text-sm text-white/60">
               Trusted by growing organizations across healthcare, distribution, professional services, and enterprise operations.
             </p>
-            <div className="flex flex-wrap justify-center gap-3">
-              <span className="rounded-full border border-white/10 bg-white/[0.05] px-4 py-2 text-xs font-semibold text-white/80">
-                Zoho Partner status
-              </span>
-              <span className="rounded-full border border-white/10 bg-white/[0.05] px-4 py-2 text-xs font-semibold text-white/80">
-                Years of implementation experience
-              </span>
-            </div>
+          </div>
+
+          <div className="mt-8 flex flex-wrap items-center justify-center gap-4">
+            <span className="rounded-full border border-white/10 bg-white/[0.03] px-5 py-2 text-sm font-semibold text-white/80">
+              Zoho Partner status
+            </span>
+            <span className="rounded-full border border-white/10 bg-white/[0.03] px-5 py-2 text-sm font-semibold text-white/80">
+              Years of implementation experience
+            </span>
           </div>
         </div>
       </section>
+
 
       {/* THE PROBLEM */}
       <section className="relative z-20 bg-background px-6 py-24 md:px-12 md:py-32">
@@ -371,7 +380,7 @@ export default function Zoho() {
             </p>
           </div>
 
-          <div className="mt-14 grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-4">
+          <div className="mt-14 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4">
             {useCases.map((u) => (
               <motion.div
                 key={u.n}
@@ -379,33 +388,36 @@ export default function Zoho() {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true, margin: "-60px" }}
                 transition={{ duration: 0.5 }}
-                className="flex flex-col overflow-hidden rounded-2xl border border-border bg-card shadow-sm"
+                className="group flex flex-col overflow-hidden rounded-2xl border border-border bg-card transition-all hover:-translate-y-1 hover:shadow-[var(--shadow-brand)]"
               >
-                <div className="relative h-44 w-full overflow-hidden">
-                  <img src={u.image} alt={u.title} className="h-full w-full object-cover" loading="lazy" width={1024} height={1024} />
-                  <div className="absolute inset-0 bg-gradient-to-t from-card via-transparent to-transparent" />
-                  <span className="absolute left-4 top-4 rounded-full bg-foreground/80 px-3 py-1 text-xs font-bold text-primary-foreground backdrop-blur">
-                    {u.n}
-                  </span>
+                <div className="relative aspect-[16/10] overflow-hidden">
+                  <img
+                    src={u.image}
+                    alt={u.title}
+                    loading="lazy"
+                    width={1024}
+                    height={640}
+                    className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
+                  />
                 </div>
                 <div className="flex flex-1 flex-col p-6">
-                  <h3 className="text-base font-bold text-foreground">{u.title}</h3>
+                  <div className="flex items-baseline gap-3">
+                    <span className="text-2xl font-bold" style={{ color: "var(--brand-blue)" }}>
+                      {u.n}
+                    </span>
+                    <h3 className="text-base font-bold leading-tight" style={{ color: "var(--brand-dark)" }}>
+                      {u.title}
+                    </h3>
+                  </div>
                   <p className="mt-3 text-xs leading-relaxed text-muted-foreground">{u.body}</p>
-                  <p className="mt-4 text-[10px] font-semibold uppercase tracking-wider text-[var(--brand-blue)]">
-                    Business impact
+                  <p className="mt-5 text-[11px] font-semibold uppercase tracking-wider text-[var(--brand-blue)]">
+                    {u.impacts.join(" · ")}
                   </p>
-                  <ul className="mt-2 space-y-1.5">
-                    {u.impacts.map((i) => (
-                      <li key={i} className="flex items-start gap-2 text-xs text-muted-foreground">
-                        <CheckCircle2 className="mt-0.5 h-3.5 w-3.5 flex-shrink-0 text-[var(--brand-blue)]" />
-                        {i}
-                      </li>
-                    ))}
-                  </ul>
                 </div>
               </motion.div>
             ))}
           </div>
+
         </div>
       </section>
 
@@ -480,35 +492,45 @@ export default function Zoho() {
       </section>
 
       {/* FAQ */}
-      <section className="relative bg-background px-6 py-24 md:px-12 md:py-32">
+      <section className="relative bg-[#eff7fb] px-6 py-24 md:px-12 md:py-32">
         <div className="mx-auto max-w-4xl">
           <div className="text-center">
-            <p className="text-sm font-semibold uppercase tracking-[0.25em]" style={{ color: "var(--brand-blue)" }}>
-              FAQ
-            </p>
-            <h2 className="mt-6 text-3xl font-bold leading-[1.1] tracking-tight md:text-4xl">
-              <span style={{ color: "var(--brand-dark)" }}>What enterprise buyers</span>{" "}
-              <span className="bg-clip-text text-transparent" style={{ backgroundImage: "var(--gradient-brand)" }}>
-                usually ask.
-              </span>
+            <div className="inline-flex items-center gap-2 rounded-full border border-[var(--brand-blue)]/20 bg-white px-5 py-2 shadow-sm">
+              <ShieldCheck className="h-4 w-4 text-[var(--brand-blue)]" />
+              <span className="text-xs font-bold uppercase tracking-[0.2em] text-[var(--brand-blue)]">FAQ</span>
+            </div>
+            <h2 className="mt-8 text-4xl font-bold leading-[1.05] tracking-tight md:text-6xl" style={{ color: "var(--brand-dark)" }}>
+              Common Questions
             </h2>
           </div>
 
-          <div className="mt-12 space-y-4">
-            {faqs.map((f) => (
-              <div
+          <Accordion type="single" collapsible className="mt-12 space-y-4">
+            {faqs.map((f, i) => (
+              <AccordionItem
                 key={f.q}
-                className="rounded-2xl border border-border bg-card p-6 md:p-7"
+                value={`item-${i}`}
+                className="overflow-hidden rounded-2xl border border-[var(--brand-blue)]/10 bg-white shadow-sm transition-shadow data-[state=open]:shadow-md"
               >
-                <h3 className="text-base font-bold md:text-lg" style={{ color: "var(--brand-dark)" }}>
-                  {f.q}
-                </h3>
-                <p className="mt-3 text-sm leading-relaxed text-muted-foreground">{f.a}</p>
-              </div>
+                <AccordionTrigger className="group px-6 py-5 hover:no-underline md:px-8 md:py-6 [&>svg]:hidden">
+                  <div className="flex flex-1 items-center gap-4 text-left">
+                    <CheckCircle2 className="h-5 w-5 flex-shrink-0 text-[var(--brand-blue)]" />
+                    <span className="text-base font-bold md:text-lg" style={{ color: "var(--brand-dark)" }}>
+                      {f.q}
+                    </span>
+                  </div>
+                  <span className="ml-4 flex h-8 w-8 flex-shrink-0 items-center justify-center rounded-full border border-border bg-white text-muted-foreground transition-transform group-data-[state=open]:rotate-45">
+                    <Plus className="h-4 w-4" />
+                  </span>
+                </AccordionTrigger>
+                <AccordionContent className="px-6 pb-6 md:px-8 md:pb-7">
+                  <div className="pl-9 text-sm leading-relaxed text-muted-foreground">{f.a}</div>
+                </AccordionContent>
+              </AccordionItem>
             ))}
-          </div>
+          </Accordion>
         </div>
       </section>
+
 
       <CtaSection />
       <Footer />
