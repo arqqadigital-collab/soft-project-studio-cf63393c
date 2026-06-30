@@ -462,15 +462,35 @@ export default function Manufacturing() {
         </div>
       </section>
 
-      {/* CTA */}
-      <CtaSection
-        eyebrow="Manufacturing ERP"
-        title="Build a manufacturing system that matches your production reality."
-        description="If your production system depends on spreadsheets, delayed updates, or disconnected planning tools — it is not a system. It is fragmentation. SBS helps you rebuild manufacturing control inside a unified ERP environment."
-        primaryLabel="Request a manufacturing ERP assessment"
-        secondaryLabel="Talk to an ERP consultant"
-      />
+      {/* CALL TO ACTION BANNER */}
+      <section className="relative overflow-hidden bg-[#0a0e1a] px-6 py-24 md:px-12 md:py-32">
+        <div className="absolute inset-0 opacity-30">
+          <img src={heroImg} alt="" className="h-full w-full object-cover" />
+          <div className="absolute inset-0 bg-[#0a0e1a]/80" />
+        </div>
+        <div className="relative mx-auto max-w-4xl text-center">
+          <h2 className="text-4xl font-bold leading-[1.1] tracking-tight text-white md:text-5xl lg:text-6xl">
+            Build a manufacturing system that{" "}
+            <span className="bg-clip-text text-transparent" style={{ backgroundImage: "var(--gradient-brand)" }}>
+              matches your production reality.
+            </span>
+          </h2>
+          <p className="mx-auto mt-6 max-w-2xl text-base leading-relaxed text-white/75 md:text-lg">
+            If your production system depends on spreadsheets, delayed updates, or disconnected planning tools — it is not a system. It is fragmentation. SBS helps you rebuild manufacturing control inside a unified ERP environment.
+          </p>
+          <div className="mt-9 flex flex-col items-center justify-center gap-3 sm:flex-row">
+            <a
+              href="#contact"
+              className="inline-flex items-center gap-2 rounded-full px-8 py-4 text-sm font-semibold text-white shadow-[var(--shadow-brand)] transition-transform hover:scale-105"
+              style={{ background: "var(--gradient-brand)" }}
+            >
+              Request a manufacturing ERP assessment <ArrowRight className="h-4 w-4" />
+            </a>
+          </div>
+        </div>
+      </section>
 
+      <CtaSection />
       <Footer />
     </>
   );
