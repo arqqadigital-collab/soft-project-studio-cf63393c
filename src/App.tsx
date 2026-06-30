@@ -14,6 +14,7 @@ import AIImaging from "./pages/AIImaging";
 import UAECompliance from "./pages/UAECompliance";
 import EMRAM from "./pages/EMRAM";
 import Dynamics365 from "./pages/Dynamics365";
+import Odoo from "./pages/Odoo";
 
 function NotFound() {
   return (
@@ -56,6 +57,7 @@ export default function App() {
         <Route path="/healthcare/uae-compliance" element={<UAECompliance />} />
         <Route path="/healthcare/emram" element={<EMRAM />} />
         <Route path="/erp/dynamics-365" element={<Dynamics365 />} />
+        <Route path="/erp/odoo" element={<Odoo />} />
         <Route path="*" element={<NotFound />} />
       </Routes>
     </>
