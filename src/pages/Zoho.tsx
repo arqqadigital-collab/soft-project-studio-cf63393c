@@ -20,7 +20,7 @@ import {
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
 import { Footer } from "@/components/Footer";
 import { CtaSection } from "@/components/CtaSection";
-import heroImg from "@/assets/zoho/hero.jpg";
+import heroVideo from "@/assets/zoho/zoho-hero.mp4.asset.json";
 import useCase1 from "@/assets/zoho/use-case-1.jpg";
 import useCase2 from "@/assets/zoho/use-case-2.jpg";
 import useCase3 from "@/assets/zoho/use-case-3.jpg";
@@ -173,9 +173,12 @@ export default function Zoho() {
       {/* HERO */}
       <main className="relative min-h-[90vh] w-full overflow-hidden bg-background pt-20">
         <div className="absolute inset-0">
-          <img
-            src={heroImg}
-            alt="Zoho implementation partner"
+          <video
+            src={heroVideo.url}
+            autoPlay
+            loop
+            muted
+            playsInline
             className="absolute inset-0 h-full w-full object-cover"
           />
           <div
