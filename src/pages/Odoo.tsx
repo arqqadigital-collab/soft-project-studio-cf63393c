@@ -183,12 +183,12 @@ export default function Odoo() {
       {/* HERO */}
       <main className="relative min-h-[90vh] w-full overflow-hidden bg-background pt-20">
         <div className="absolute inset-0">
-          <img
-            src={heroBg}
-            alt=""
-            aria-hidden="true"
-            width={1920}
-            height={1080}
+          <video
+            src={heroVideo.url}
+            autoPlay
+            loop
+            muted
+            playsInline
             className="absolute inset-0 h-full w-full object-cover"
           />
           <div
