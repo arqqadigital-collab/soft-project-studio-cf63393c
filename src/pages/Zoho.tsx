@@ -27,9 +27,9 @@ import useCase4 from "@/assets/zoho/use-case-4.jpg";
 
 const heroChecks = [
   "Redesign workflows before configuring software.",
-  "Align sales, finance, operations, and reporting into one operational structure.",
+  "Align sales, finance, operations, and reporting environments into one operational structure.",
   "Focus on user adoption, not technical completion.",
-  "Design systems for organizational growth and operational governance.",
+  "Design system for organizational growth, reporting maturity, and operational governance.",
 ];
 
 const problems = [
@@ -194,18 +194,12 @@ export default function Zoho() {
               transition={{ duration: 0.8 }}
               className="mx-auto flex max-w-5xl flex-col items-center text-center"
             >
-              <p className="text-xs font-semibold uppercase tracking-[0.3em] text-[var(--brand-blue)]">
-                Zoho Implementation Partner
-              </p>
               <h1 className="mt-6 text-3xl font-bold leading-[1.1] tracking-tight text-white md:text-5xl lg:text-6xl">
                 Zoho implementation built around your operations —{" "}
                 <span className="bg-clip-text text-transparent" style={{ backgroundImage: "var(--gradient-brand)" }}>
                   not generic templates.
                 </span>
               </h1>
-              <p className="mx-auto mt-6 max-w-3xl text-base text-white/75 md:text-lg">
-                Do your operations run on workarounds? They shouldn't have to. When your CRM, finance, and ops tools don't talk to each other, your team fills the gaps manually. SBS rebuilds those workflows inside Zoho — designed around how your business actually operates.
-              </p>
 
               <div className="mt-9 flex flex-col items-center gap-3 sm:flex-row">
                 <a
@@ -222,18 +216,6 @@ export default function Zoho() {
                   See how we work
                 </a>
               </div>
-
-              <div className="mt-10 flex flex-wrap items-center justify-center gap-3">
-                <span className="rounded-full border border-white/10 bg-white/[0.05] px-4 py-2 text-xs font-semibold text-white/80">
-                  Zoho Partner status
-                </span>
-                <span className="rounded-full border border-white/10 bg-white/[0.05] px-4 py-2 text-xs font-semibold text-white/80">
-                  Years of implementation experience
-                </span>
-                <span className="rounded-full border border-white/10 bg-white/[0.05] px-4 py-2 text-xs font-semibold text-white/80">
-                  Healthcare · Distribution · Professional Services
-                </span>
-              </div>
             </motion.div>
           </section>
         </div>
@@ -242,25 +224,37 @@ export default function Zoho() {
       {/* OVERVIEW CHECKLIST */}
       <section className="relative z-20 -mt-12 rounded-t-[2.5rem] bg-[#0a0e1a] px-6 py-20 shadow-[0_-20px_60px_-20px_rgba(0,0,0,0.4)] md:px-12 md:py-24">
         <div className="mx-auto max-w-6xl">
-          <div className="text-center">
-            <h2 className="mx-auto max-w-4xl text-3xl font-bold leading-[1.15] tracking-tight text-white md:text-4xl lg:text-5xl">
-              An implementation approach that{" "}
-              <span className="bg-clip-text text-transparent" style={{ backgroundImage: "var(--gradient-brand)" }}>
-                puts operations first.
-              </span>
-            </h2>
+          <div className="grid grid-cols-1 gap-12 lg:grid-cols-2">
+            <div>
+              <p className="text-lg leading-relaxed text-white/90 md:text-xl">
+                When your CRM, finance, and ops tools don't talk to each other, your team fills the gaps manually. SBS rebuilds those workflows inside Zoho — designed around how your business actually operates, not how the platform defaults.
+              </p>
+            </div>
+            <div className="grid grid-cols-1 gap-4">
+              {heroChecks.map((item) => (
+                <div
+                  key={item}
+                  className="flex items-start gap-3 rounded-2xl border border-white/10 bg-white/[0.03] p-6"
+                >
+                  <CheckCircle2 className="mt-0.5 h-5 w-5 flex-shrink-0 text-[var(--brand-blue)]" />
+                  <p className="text-sm leading-relaxed text-white/80">{item}</p>
+                </div>
+              ))}
+            </div>
           </div>
 
-          <div className="mt-12 grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-4">
-            {heroChecks.map((item) => (
-              <div
-                key={item}
-                className="flex items-start gap-3 rounded-2xl border border-white/10 bg-white/[0.03] p-6"
-              >
-                <CheckCircle2 className="mt-0.5 h-5 w-5 flex-shrink-0 text-[var(--brand-blue)]" />
-                <p className="text-sm leading-relaxed text-white/80">{item}</p>
-              </div>
-            ))}
+          <div className="mt-14 flex flex-col items-center gap-4 border-t border-white/10 pt-8 sm:flex-row sm:justify-between">
+            <p className="text-sm text-white/70">
+              Trusted by growing organizations across healthcare, distribution, professional services, and enterprise operations.
+            </p>
+            <div className="flex flex-wrap justify-center gap-3">
+              <span className="rounded-full border border-white/10 bg-white/[0.05] px-4 py-2 text-xs font-semibold text-white/80">
+                Zoho Partner status
+              </span>
+              <span className="rounded-full border border-white/10 bg-white/[0.05] px-4 py-2 text-xs font-semibold text-white/80">
+                Years of implementation experience
+              </span>
+            </div>
           </div>
         </div>
       </section>
