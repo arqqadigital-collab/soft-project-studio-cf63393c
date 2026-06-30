@@ -208,19 +208,12 @@ export default function Odoo() {
               transition={{ duration: 0.8 }}
               className="mx-auto flex max-w-5xl flex-col items-center text-center"
             >
-              <p className="mb-4 text-xs font-semibold uppercase tracking-[0.3em] text-white/70">
-                Odoo Development and Customization
-              </p>
               <h1 className="text-3xl font-bold leading-[1.1] tracking-tight text-white md:text-5xl lg:text-6xl">
                 Odoo engineered for your enterprise.{" "}
                 <span className="bg-clip-text text-transparent" style={{ backgroundImage: "var(--gradient-brand)" }}>
                   Configured where possible. Customized where it matters.
                 </span>
               </h1>
-              <p className="mt-6 max-w-3xl text-base leading-relaxed text-white/80 md:text-lg">
-                SBS designs and delivers custom Odoo modules, extends standard functionality, and builds
-                integrations so Odoo supports your operating model — not the other way around.
-              </p>
 
               <div className="mt-9 flex flex-col items-center gap-3 sm:flex-row">
                 <a
@@ -236,22 +229,6 @@ export default function Odoo() {
                 >
                   View capabilities
                 </a>
-              </div>
-
-              <div className="mt-10 flex flex-wrap items-center justify-center gap-2 text-xs text-white/75">
-                {[
-                  "Custom modules from ground up",
-                  "Upgradable core extensions",
-                  "Third-party API integration",
-                  "High-volume performance",
-                ].map((c) => (
-                  <span
-                    key={c}
-                    className="rounded-full border border-white/20 bg-white/5 px-3 py-1.5 backdrop-blur"
-                  >
-                    {c}
-                  </span>
-                ))}
               </div>
             </motion.div>
           </section>
