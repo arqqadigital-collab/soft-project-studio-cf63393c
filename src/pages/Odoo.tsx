@@ -25,6 +25,7 @@ import useCase2 from "@/assets/odoo/use-case-2.jpg";
 import useCase3 from "@/assets/odoo/use-case-3.jpg";
 import useCase4 from "@/assets/odoo/use-case-4.jpg";
 import heroVideo from "@/assets/odoo/odoo-hero.mp4.asset.json";
+import { ScrollRevealText } from "@/components/ScrollRevealText";
 
 const services = [
   {
