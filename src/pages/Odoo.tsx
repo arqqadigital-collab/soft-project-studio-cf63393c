@@ -237,25 +237,46 @@ export default function Odoo() {
 
       {/* INTRODUCTION */}
       <section className="relative z-20 -mt-12 rounded-t-[2.5rem] bg-[#0a0e1a] px-6 py-20 shadow-[0_-20px_60px_-20px_rgba(0,0,0,0.4)] md:px-12 md:py-28">
-        <div className="mx-auto max-w-4xl text-center">
-          <p className="text-sm font-semibold uppercase tracking-[0.25em] text-[var(--brand-blue)]">
-            What We Build
-          </p>
-          <h2 className="mt-6 text-3xl font-bold leading-[1.1] tracking-tight text-white md:text-4xl lg:text-5xl">
-            Six development disciplines.{" "}
-            <span className="bg-clip-text text-transparent" style={{ backgroundImage: "var(--gradient-brand)" }}>
-              One coherent technical team.
+        <div className="mx-auto max-w-6xl">
+          <div className="text-center">
+            <p className="text-sm font-semibold uppercase tracking-[0.25em] text-[var(--brand-blue)]">
+              What We Build
+            </p>
+            <h2 className="mx-auto mt-6 max-w-4xl text-3xl font-bold leading-[1.1] tracking-tight text-white md:text-4xl lg:text-5xl">
+              SBS designs and delivers custom Odoo modules, extends standard functionality, and builds integrations so Odoo supports your operating model—not the other way around.
+            </h2>
+          </div>
+
+          <div className="mt-12 grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-4">
+            {[
+              "Custom module development from ground up",
+              "Core Odoo extension without breaking upgradability",
+              "Third-party API & system integration",
+              "Performance optimization for high-volume operations",
+            ].map((item) => (
+              <div
+                key={item}
+                className="rounded-2xl border border-white/10 bg-white/[0.03] p-6 text-sm font-medium leading-snug text-white/90"
+              >
+                {item}
+              </div>
+            ))}
+          </div>
+
+          <div className="mt-12 flex flex-col items-center gap-4 text-center sm:flex-row sm:justify-center">
+            <p className="text-sm text-white/60">
+              Trusted by growing organizations across healthcare, distribution, professional services, and enterprise operations.
+            </p>
+          </div>
+
+          <div className="mt-8 flex flex-wrap items-center justify-center gap-4">
+            <span className="rounded-full border border-white/10 bg-white/[0.03] px-5 py-2 text-sm font-semibold text-white/80">
+              Odoo Partner status
             </span>
-          </h2>
-
-          <p className="mt-6 text-base leading-relaxed text-white/70 md:text-lg">
-            Every engagement is scoped, architected, and delivered by developers with deep Odoo framework
-            knowledge — not generalist teams learning the platform on your project.
-          </p>
-
-          <p className="mt-8 text-sm text-white/60">
-            Trusted by growing organizations across healthcare, distribution, professional services, and enterprise operations.
-          </p>
+            <span className="rounded-full border border-white/10 bg-white/[0.03] px-5 py-2 text-sm font-semibold text-white/80">
+              Years of implementation experience
+            </span>
+          </div>
         </div>
       </section>
 
