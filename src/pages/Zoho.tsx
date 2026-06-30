@@ -466,14 +466,16 @@ export default function Zoho() {
 
       {/* OBJECTIVE DARK */}
       <section className="relative bg-[#0a0e1a] px-6 py-24 md:px-12 md:py-32">
-        <div className="mx-auto max-w-4xl text-center">
+        <div className="mx-auto max-w-5xl text-center">
           <h2 className="text-3xl font-bold leading-[1.15] tracking-tight md:text-4xl lg:text-5xl">
-            <span className="text-white">The objective is not to implement software for its own sake.</span>{" "}
+            <span className="text-white">The objective is not to implement software for its own sake.</span>
+          </h2>
+          <p className="mx-auto mt-8 max-w-4xl text-2xl font-bold leading-[1.25] tracking-tight md:text-3xl lg:text-4xl">
             <span className="bg-clip-text text-transparent" style={{ backgroundImage: "var(--gradient-brand)" }}>
               The objective is to create a connected operational environment where workflows, approvals, reporting, customer management, and internal processes operate together with greater visibility, efficiency, and scalability.
             </span>
-          </h2>
-          <p className="mx-auto mt-10 max-w-2xl text-base leading-relaxed text-white/70">
+          </p>
+          <p className="mx-auto mt-10 max-w-3xl text-base leading-relaxed text-white/70">
             A 60-minute discovery session maps your current workflows, surfaces automation opportunities, and defines the right implementation approach — before any commitment is made.
           </p>
           <div className="mt-8 flex justify-center">
