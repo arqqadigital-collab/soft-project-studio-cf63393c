@@ -1,6 +1,7 @@
 import { motion } from "framer-motion";
 import { Clock, ArrowRight, Calendar } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { Footer } from "@/components/Footer";
 
 const fadeInUp = {
   hidden: { opacity: 0, y: 30 },
