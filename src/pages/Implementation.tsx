@@ -265,26 +265,26 @@ function MethodologyTimeline() {
 
   return (
     <div ref={sectionRef} className="relative" style={{ height: "250vh" }}>
-      <section className="sticky top-0 h-screen overflow-hidden bg-background px-6 py-10 md:px-12 md:py-12">
+      <section className="sticky top-0 h-screen overflow-hidden bg-background px-6 pt-24 pb-6 sm:px-8 sm:pt-28 sm:pb-8 lg:px-12 lg:pt-32 lg:pb-10">
         <div className="relative mx-auto flex h-full max-w-7xl flex-col">
           <div className="text-center">
             <p className="text-xs font-semibold uppercase tracking-[0.25em] text-[var(--brand-blue)]">
               How We Deliver
             </p>
-            <h2 className="mt-2 text-2xl font-bold leading-tight tracking-tight text-foreground md:text-3xl">
+            <h2 className="mt-2 text-2xl font-bold leading-tight tracking-tight text-foreground sm:text-3xl lg:text-4xl">
               A Proven Methodology.{" "}
               <span className="bg-clip-text text-transparent" style={{ backgroundImage: "var(--gradient-brand)" }}>
                 Relentless Attention to Detail.
               </span>
             </h2>
-            <p className="mx-auto mt-2 max-w-3xl text-sm leading-snug text-muted-foreground">
-              Successful implementation is not about technology alone. It's about people, process, and technology working in harmony. SBS follows a structured, five-phase delivery methodology refined across hundreds of projects and dozens of industries.
+            <p className="mx-auto mt-2 max-w-2xl text-sm leading-relaxed text-muted-foreground sm:mt-4 sm:text-base">
+              Successful implementation is not about technology alone. It's about people, process, and technology working in harmony.
             </p>
           </div>
 
-          <div className="relative mt-4 flex-1 md:mt-6">
+          <div className="relative mt-6 flex-1 sm:mt-10 lg:mt-12">
             {/* Horizontal timeline line */}
-            <div className="pointer-events-none absolute left-0 right-0 top-[48px] h-px bg-gradient-to-r from-transparent via-foreground/20 to-transparent" />
+            <div className="pointer-events-none absolute left-0 right-0 top-[44px] h-px bg-gradient-to-r from-transparent via-foreground/20 to-transparent sm:top-[48px]" />
 
             <motion.div
               ref={trackRef}
@@ -300,23 +300,23 @@ function MethodologyTimeline() {
                     whileInView={{ opacity: 1, y: 0 }}
                     viewport={{ once: true, margin: "-60px" }}
                     transition={{ duration: 0.5, delay: i * 0.08 }}
-                    className="group relative w-[280px] shrink-0 px-4 md:w-[300px]"
+                    className="group relative w-[260px] shrink-0 px-3 sm:w-[280px] sm:px-4 md:w-[300px]"
                   >
                     {/* Phase label above line */}
-                    <div className="flex h-[28px] items-end justify-center">
+                    <div className="flex h-[24px] items-end justify-center sm:h-[28px]">
                       <p className="text-xs font-semibold tracking-wide text-muted-foreground transition-colors group-hover:text-foreground">
                         Phase {p.n}
                       </p>
                     </div>
 
                     {/* Dot on the line */}
-                    <div className="relative flex h-8 items-center justify-center">
-                      <div className="relative z-10 flex h-3.5 w-3.5 items-center justify-center rounded-full bg-foreground/60 transition-all group-hover:scale-110 group-hover:bg-foreground" />
+                    <div className="relative flex h-7 items-center justify-center sm:h-8">
+                      <div className="relative z-10 flex h-3 w-3 items-center justify-center rounded-full bg-foreground/60 transition-all group-hover:scale-110 group-hover:bg-foreground sm:h-3.5 sm:w-3.5" />
                     </div>
 
                     {/* Content below */}
                     <div className="mt-1 text-center">
-                      <div className="mx-auto mb-2 flex h-9 w-9 items-center justify-center rounded-lg text-primary-foreground shadow-[var(--shadow-brand)]" style={{ background: "var(--gradient-brand)" }}>
+                      <div className="mx-auto mb-2 flex h-8 w-8 items-center justify-center rounded-lg text-primary-foreground shadow-[var(--shadow-brand)] sm:h-9 sm:w-9" style={{ background: "var(--gradient-brand)" }}>
                         <Icon className="h-4 w-4" />
                       </div>
                       <p className="text-xs font-bold uppercase tracking-[0.2em] text-foreground">
