@@ -20,6 +20,7 @@ import Manufacturing from "./pages/Manufacturing";
 import Logistics from "./pages/Logistics";
 import Cybersecurity from "./pages/Cybersecurity";
 import Consulting from "./pages/Consulting";
+import Implementation from "./pages/Implementation";
 
 function NotFound() {
   return (
@@ -68,6 +69,7 @@ export default function App() {
         <Route path="/erp/logistics" element={<Logistics />} />
         <Route path="/services/cybersecurity" element={<Cybersecurity />} />
         <Route path="/services/consulting" element={<Consulting />} />
+        <Route path="/services/implementation" element={<Implementation />} />
         <Route path="*" element={<NotFound />} />
       </Routes>
     </>
