@@ -343,59 +343,8 @@ export default function Implementation() {
         </div>
       </section>
 
-      {/* METHODOLOGY / 5 PHASES */}
-      <section className="relative bg-background px-6 py-24 md:px-12 md:py-32">
-        <div className="mx-auto max-w-6xl">
-          <div className="text-center">
-            <p className="text-sm font-semibold uppercase tracking-[0.25em]" style={{ color: "var(--brand-blue)" }}>
-              How We Deliver
-            </p>
-            <h2 className="mt-6 text-4xl font-bold leading-[1.1] tracking-tight md:text-5xl">
-              <span style={{ color: "var(--brand-dark)" }}>A Proven Methodology.</span>{" "}
-              <span className="bg-clip-text text-transparent" style={{ backgroundImage: "var(--gradient-brand)" }}>
-                Relentless Attention to Detail.
-              </span>
-            </h2>
-            <p className="mx-auto mt-6 max-w-3xl text-base leading-relaxed text-muted-foreground md:text-lg">
-              Successful implementation is not about technology alone. It's about people, process, and technology working in harmony. SBS follows a structured, five-phase delivery methodology refined across hundreds of projects and dozens of industries.
-            </p>
-          </div>
-
-          <div className="mt-14 grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-5">
-            {phases.map((p) => {
-              const Icon = p.icon;
-              return (
-                <motion.div
-                  key={p.n}
-                  initial={{ opacity: 0, y: 20 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true, margin: "-60px" }}
-                  transition={{ duration: 0.5 }}
-                  whileHover={{ y: -8 }}
-                  className="group relative overflow-hidden rounded-3xl border border-border bg-card p-6 transition-all duration-300 hover:border-transparent hover:shadow-[0_20px_50px_-15px_rgba(56,189,248,0.35)]"
-                >
-                  <div
-                    className="pointer-events-none absolute inset-0 opacity-0 transition-opacity duration-500 group-hover:opacity-100"
-                    style={{ background: "linear-gradient(135deg, rgba(56,189,248,0.08), rgba(74,222,128,0.08))" }}
-                  />
-                  <div className="relative">
-                    <div
-                      className="flex h-12 w-12 items-center justify-center rounded-2xl text-white shadow-[var(--shadow-brand)] transition-transform duration-500 group-hover:scale-110 group-hover:-rotate-6"
-                      style={{ background: "var(--gradient-brand)" }}
-                    >
-                      <Icon className="h-5 w-5" />
-                    </div>
-                    <p className="mt-5 text-xs font-semibold uppercase tracking-[0.2em]" style={{ color: "var(--brand-blue)" }}>
-                      Phase {p.n} — {p.label}
-                    </p>
-                    <p className="mt-3 text-sm leading-relaxed text-muted-foreground">{p.body}</p>
-                  </div>
-                </motion.div>
-              );
-            })}
-          </div>
-        </div>
-      </section>
+      {/* METHODOLOGY / 5 PHASES — HORIZONTAL TIMELINE */}
+      <MethodologyTimeline />
 
       {/* SERVICES */}
       <section className="relative bg-[#0a0e1a] px-6 py-24 md:px-12 md:py-32">
