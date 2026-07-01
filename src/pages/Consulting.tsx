@@ -356,18 +356,25 @@ export default function Consulting() {
                   whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true, margin: "-60px" }}
                   transition={{ duration: 0.5 }}
-                  className="rounded-3xl border border-border bg-card p-7"
+                  whileHover={{ y: -8 }}
+                  className="group relative overflow-hidden rounded-3xl border border-border bg-card p-7 transition-all duration-300 hover:border-transparent hover:shadow-[0_20px_50px_-15px_rgba(56,189,248,0.35)]"
                 >
                   <div
-                    className="flex h-14 w-14 items-center justify-center rounded-2xl text-white shadow-[var(--shadow-brand)]"
-                    style={{ background: "var(--gradient-brand)" }}
-                  >
-                    <Icon className="h-6 w-6" />
+                    className="pointer-events-none absolute inset-0 opacity-0 transition-opacity duration-500 group-hover:opacity-100"
+                    style={{ background: "linear-gradient(135deg, rgba(56,189,248,0.08), rgba(74,222,128,0.08))" }}
+                  />
+                  <div className="relative">
+                    <div
+                      className="flex h-14 w-14 items-center justify-center rounded-2xl text-white shadow-[var(--shadow-brand)] transition-transform duration-500 group-hover:scale-110 group-hover:-rotate-6"
+                      style={{ background: "var(--gradient-brand)" }}
+                    >
+                      <Icon className="h-6 w-6" />
+                    </div>
+                    <p className="mt-6 text-xs font-semibold uppercase tracking-[0.25em]" style={{ color: "var(--brand-blue)" }}>
+                      {p.n} — {p.label}
+                    </p>
+                    <p className="mt-3 text-sm leading-relaxed text-muted-foreground">{p.body}</p>
                   </div>
-                  <p className="mt-6 text-xs font-semibold uppercase tracking-[0.25em]" style={{ color: "var(--brand-blue)" }}>
-                    {p.n} — {p.label}
-                  </p>
-                  <p className="mt-3 text-sm leading-relaxed text-muted-foreground">{p.body}</p>
                 </motion.div>
               );
             })}
