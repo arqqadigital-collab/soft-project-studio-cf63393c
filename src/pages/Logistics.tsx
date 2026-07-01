@@ -316,21 +316,24 @@ export default function Logistics() {
       <section className="relative z-20 -mt-12 rounded-t-[2.5rem] bg-background px-6 py-24 shadow-[0_-20px_60px_-20px_rgba(0,0,0,0.4)] md:px-12 md:py-32">
         <div className="mx-auto max-w-6xl">
           <div className="text-center">
-            <p className="text-sm font-semibold uppercase tracking-[0.25em]" style={{ color: "var(--brand-blue)" }}>
-              SBS Logistics ERP Approach
-            </p>
-            <h2 className="mt-6 text-4xl font-bold leading-[1.1] tracking-tight md:text-5xl">
-              <span style={{ color: "var(--brand-dark)" }}>A live supply chain</span>{" "}
+            <h2 className="text-4xl font-bold leading-[1.1] tracking-tight md:text-5xl">
+              <span style={{ color: "var(--brand-dark)" }}>SBS Logistics</span>{" "}
               <span className="bg-clip-text text-transparent" style={{ backgroundImage: "var(--gradient-brand)" }}>
-                control tower.
+                ERP Approach.
               </span>
             </h2>
             <p className="mx-auto mt-6 max-w-3xl text-base leading-relaxed text-muted-foreground md:text-lg">
-              Every item is traceable. Every movement is visible. Every decision is data-driven.
+              SBS builds logistics ERP systems that function as a live supply chain control tower.
             </p>
           </div>
 
-          <div className="mt-14 grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-5">
+          <div className="mt-6 text-center">
+            <p className="text-sm font-semibold uppercase tracking-[0.25em]" style={{ color: "var(--brand-blue)" }}>
+              We focus on
+            </p>
+          </div>
+
+          <div className="mt-6 grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-5">
             {approach.map((item) => {
               const Icon = item.icon;
               return (
@@ -348,6 +351,15 @@ export default function Logistics() {
                 </div>
               );
             })}
+          </div>
+
+          <div className="mt-12 rounded-2xl border border-border bg-card p-8 text-center md:p-10">
+            <p className="text-sm font-semibold uppercase tracking-[0.25em]" style={{ color: "var(--brand-blue)" }}>
+              The goal is simple
+            </p>
+            <p className="mx-auto mt-4 max-w-3xl text-lg font-medium leading-relaxed text-foreground md:text-xl">
+              every item is traceable, every movement is visible, every decision is data-driven.
+            </p>
           </div>
         </div>
       </section>
