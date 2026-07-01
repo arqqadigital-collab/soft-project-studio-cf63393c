@@ -273,7 +273,7 @@ export default function Manufacturing() {
         <div className="grid min-h-[600px] grid-cols-1 md:grid-cols-2">
           {/* Text */}
           <div className="flex items-center px-6 py-20 md:px-12 md:py-28">
-          <div className="mx-auto max-w-xl">
+            <div className="mx-auto max-w-xl">
               <h3 className="text-3xl font-bold leading-tight text-foreground md:text-4xl">
                 Where Traditional Systems Fail Manufacturing Companies
               </h3>
