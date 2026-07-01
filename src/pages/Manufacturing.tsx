@@ -13,7 +13,18 @@ import {
   Workflow,
   Rocket,
   TrendingUp,
+  Cpu,
+  RefreshCw,
+  DollarSign,
+  Network,
+  ShieldCheck,
+  Zap,
+  Recycle,
+  LineChart,
+  Eye,
+  Target,
 } from "lucide-react";
+import traditionalFailImg from "@/assets/manufacturing/traditional-fail.jpg";
 import { Footer } from "@/components/Footer";
 import { CtaSection } from "@/components/CtaSection";
 import heroImg from "@/assets/manufacturing/hero.jpg";
@@ -58,11 +69,11 @@ const failures = [
 ];
 
 const approach = [
-  "Production-first system architecture",
-  "Real-time material and inventory synchronization",
-  "Cost-aware manufacturing workflows",
-  "End-to-end traceability across production cycles",
-  "Integration between planning, execution, and finance",
+  { icon: Cpu, text: "Production-first system architecture" },
+  { icon: RefreshCw, text: "Real-time material and inventory synchronization" },
+  { icon: DollarSign, text: "Cost-aware manufacturing workflows" },
+  { icon: Network, text: "End-to-end traceability across production cycles" },
+  { icon: ShieldCheck, text: "Integration between planning, execution, and finance" },
 ];
 
 const capabilities = [
@@ -141,11 +152,11 @@ const useCases = [
 ];
 
 const impact = [
-  "Reduced production delays through real-time planning",
-  "Improved material utilization and reduced waste",
-  "Accurate cost tracking per production cycle",
-  "Increased shop floor visibility and accountability",
-  "Better demand-to-production alignment",
+  { icon: Zap, text: "Reduced production delays through real-time planning" },
+  { icon: Recycle, text: "Improved material utilization and reduced waste" },
+  { icon: LineChart, text: "Accurate cost tracking per production cycle" },
+  { icon: Eye, text: "Increased shop floor visibility and accountability" },
+  { icon: Target, text: "Better demand-to-production alignment" },
 ];
 
 const implementation = [
@@ -260,24 +271,36 @@ export default function Manufacturing() {
       {/* WHERE TRADITIONAL SYSTEMS FAIL */}
       <section className="relative bg-[#0a0e1a] px-6 py-20 md:px-12 md:py-28">
         <div className="mx-auto max-w-6xl">
-          <div className="rounded-3xl border border-white/10 bg-white/[0.04] p-8 md:p-12">
-            <h3 className="text-2xl font-bold leading-tight text-white md:text-3xl">
-              Where Traditional Systems Fail Manufacturing Companies
-            </h3>
-            <p className="mt-4 text-sm leading-relaxed text-white/65 md:text-base">
-              Generic ERP systems typically fail because they do not reflect how manufacturing actually works:
-            </p>
-            <ul className="mt-8 grid grid-cols-1 gap-3 md:grid-cols-2">
-              {failures.map((f) => (
-                <li key={f} className="flex items-start gap-3 text-sm text-white/80">
-                  <span className="mt-2 h-1.5 w-1.5 flex-shrink-0 rounded-full bg-[var(--brand-blue)]" />
-                  {f}
-                </li>
-              ))}
-            </ul>
-            <p className="mt-8 text-sm leading-relaxed text-white/65 md:text-base">
-              Manufacturing requires continuous synchronization between planning and execution—not periodic reporting.
-            </p>
+          <div className="grid grid-cols-1 items-center gap-10 rounded-3xl border border-white/10 bg-white/[0.04] p-8 md:grid-cols-2 md:p-12">
+            <div>
+              <h3 className="text-2xl font-bold leading-tight text-white md:text-3xl">
+                Where Traditional Systems Fail Manufacturing Companies
+              </h3>
+              <p className="mt-4 text-sm leading-relaxed text-white/65 md:text-base">
+                Generic ERP systems typically fail because they do not reflect how manufacturing actually works:
+              </p>
+              <ul className="mt-6 space-y-3">
+                {failures.map((f) => (
+                  <li key={f} className="flex items-start gap-3 text-sm text-white/80">
+                    <span className="mt-2 h-1.5 w-1.5 flex-shrink-0 rounded-full bg-[var(--brand-blue)]" />
+                    {f}
+                  </li>
+                ))}
+              </ul>
+              <p className="mt-6 text-sm leading-relaxed text-white/65 md:text-base">
+                Manufacturing requires continuous synchronization between planning and execution—not periodic reporting.
+              </p>
+            </div>
+            <div className="relative aspect-square overflow-hidden rounded-2xl border border-white/10">
+              <img
+                src={traditionalFailImg}
+                alt="Disconnected manufacturing systems"
+                loading="lazy"
+                width={1024}
+                height={1024}
+                className="h-full w-full object-cover"
+              />
+            </div>
           </div>
         </div>
       </section>
@@ -301,15 +324,27 @@ export default function Manufacturing() {
           </div>
 
           <div className="mt-14 grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-5">
-            {approach.map((item) => (
-              <div key={item} className="flex flex-col gap-3 rounded-2xl border border-border bg-card p-6">
-                <CheckCircle2 className="h-6 w-6 text-[var(--brand-blue)]" />
-                <p className="text-sm font-medium leading-relaxed text-foreground/85">{item}</p>
-              </div>
-            ))}
+            {approach.map((item) => {
+              const Icon = item.icon;
+              return (
+                <div
+                  key={item.text}
+                  className="flex flex-col items-center gap-4 rounded-2xl border border-border bg-card p-6 text-center"
+                >
+                  <div
+                    className="flex h-14 w-14 items-center justify-center rounded-2xl text-white shadow-[var(--shadow-brand)]"
+                    style={{ background: "var(--gradient-brand)" }}
+                  >
+                    <Icon className="h-6 w-6" />
+                  </div>
+                  <p className="text-sm font-medium leading-relaxed text-foreground/85">{item.text}</p>
+                </div>
+              );
+            })}
           </div>
         </div>
       </section>
+
 
       {/* CORE CAPABILITIES */}
       <section id="capabilities" className="relative bg-[#0a0e1a] px-6 py-24 md:px-12 md:py-32">
@@ -426,14 +461,26 @@ export default function Manufacturing() {
               </span>
             </h2>
           </div>
-          <div className="mt-14 grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3">
-            {impact.map((i) => (
-              <div key={i} className="flex items-start gap-3 rounded-2xl border border-white/10 bg-white/[0.03] p-6">
-                <CheckCircle2 className="mt-0.5 h-5 w-5 flex-shrink-0 text-[var(--brand-blue)]" />
-                <p className="text-sm leading-relaxed text-white/85">{i}</p>
-              </div>
-            ))}
+          <div className="mt-14 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
+            {impact.map((i) => {
+              const Icon = i.icon;
+              return (
+                <div
+                  key={i.text}
+                  className="flex flex-col items-start gap-5 rounded-2xl border border-white/10 bg-white/[0.03] p-7"
+                >
+                  <div
+                    className="flex h-14 w-14 items-center justify-center rounded-2xl text-white shadow-[var(--shadow-brand)]"
+                    style={{ background: "var(--gradient-brand)" }}
+                  >
+                    <Icon className="h-6 w-6" />
+                  </div>
+                  <p className="text-base leading-relaxed text-white/85">{i.text}</p>
+                </div>
+              );
+            })}
           </div>
+
         </div>
       </section>
 
