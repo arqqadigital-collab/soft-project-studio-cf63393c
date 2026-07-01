@@ -17,6 +17,7 @@ import Dynamics365 from "./pages/Dynamics365";
 import Odoo from "./pages/Odoo";
 import Zoho from "./pages/Zoho";
 import Manufacturing from "./pages/Manufacturing";
+import Logistics from "./pages/Logistics";
 
 function NotFound() {
   return (
@@ -62,6 +63,7 @@ export default function App() {
         <Route path="/erp/odoo" element={<Odoo />} />
         <Route path="/erp/zoho" element={<Zoho />} />
         <Route path="/erp/manufacturing" element={<Manufacturing />} />
+        <Route path="/erp/logistics" element={<Logistics />} />
         <Route path="*" element={<NotFound />} />
       </Routes>
     </>
