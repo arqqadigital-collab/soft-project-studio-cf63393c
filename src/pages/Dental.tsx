@@ -67,6 +67,14 @@ const accountingLogos = [
   { name: "Network International", src: imgAcctNetwork.url },
   { name: "Telr", src: imgAcctTelr.url },
 ];
+import imgInsDha from "@/assets/dental/insurance/dha.png.asset.json";
+import imgInsDoh from "@/assets/dental/insurance/doh.png.asset.json";
+import imgInsNphies from "@/assets/dental/insurance/nphies.png.asset.json";
+const insuranceLogos = [
+  { name: "Dubai Health Authority", src: imgInsDha.url },
+  { name: "Department of Health Abu Dhabi", src: imgInsDoh.url },
+  { name: "NPHIES", src: imgInsNphies.url },
+];
 import treatmentPlanApproval from "@/assets/dental/journey/treatment-plan-approval.png.asset.json";
 import treatmentDeliveredDocumented from "@/assets/dental/journey/treatment-delivered-documented.png.asset.json";
 import claimPaymentRecallSet from "@/assets/dental/journey/claim-payment-recall-set.png.asset.json";
@@ -490,15 +498,9 @@ export default function Dental() {
               { title: "Digital Imaging", logos: digitalImagingLogos },
               { title: "Intraoral Cameras", logos: intraoralLogos },
               { title: "Accounting & Payments", logos: accountingLogos },
-              {
-                title: "Insurance Payers",
-                items: ["DHA Dubai", "DOH Abu Dhabi", "NPHIES KSA", "GCC Payers", "Custom EDI", "REST API"],
-              },
+              { title: "Insurance Payers", logos: insuranceLogos },
             ].map((g) => {
-              const cells: Array<{ name: string; src?: string }> = g.logos
-                ? g.logos.slice(0, 6)
-                : (g.items ?? []).slice(0, 6).map((n) => ({ name: n }));
-              if (!g.logos) while (cells.length < 6) cells.push({ name: "" });
+              const cells: Array<{ name: string; src?: string }> = g.logos.slice(0, 6);
               return (
                 <div key={g.title}>
                   <h3 className="text-xl font-semibold tracking-tight text-foreground md:text-2xl">
