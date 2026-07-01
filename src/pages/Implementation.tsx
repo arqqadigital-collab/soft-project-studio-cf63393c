@@ -265,7 +265,7 @@ function MethodologyTimeline() {
 
   return (
     <div ref={sectionRef} className="relative" style={{ height: "250vh" }}>
-      <section className="sticky top-20 h-[calc(100vh-5rem)] overflow-hidden bg-background px-6 pt-10 pb-6 sm:px-8 sm:pt-12 sm:pb-8 lg:px-12 lg:pt-16 lg:pb-10">
+      <section className="sticky top-0 h-screen overflow-hidden bg-background px-6 pt-24 pb-6 sm:px-8 sm:pt-28 sm:pb-8 lg:px-12 lg:pt-32 lg:pb-10">
         <div className="relative mx-auto flex h-full max-w-7xl flex-col">
           <div className="text-center">
             <p className="text-xs font-semibold uppercase tracking-[0.25em] text-[var(--brand-blue)]">
