@@ -22,6 +22,7 @@ import Cybersecurity from "./pages/Cybersecurity";
 import Consulting from "./pages/Consulting";
 import Implementation from "./pages/Implementation";
 import StaffAug from "./pages/StaffAug";
+import Blog from "./pages/Blog";
 
 function NotFound() {
   return (
@@ -72,6 +73,7 @@ export default function App() {
         <Route path="/services/consulting" element={<Consulting />} />
         <Route path="/services/implementation" element={<Implementation />} />
         <Route path="/services/staff-aug" element={<StaffAug />} />
+        <Route path="/blog" element={<Blog />} />
         <Route path="*" element={<NotFound />} />
       </Routes>
     </>
