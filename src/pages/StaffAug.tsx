@@ -31,6 +31,7 @@ const s1 = s1Asset.url;
 const s4 = s4Asset.url;
 import s5 from "@/assets/staffaug/s5.jpg";
 import s6 from "@/assets/staffaug/s6.jpg";
+import cloudServicesAsset from "@/assets/staffaug/cloud-services.jpg.asset.json";
 import s7 from "@/assets/staffaug/s7.jpg";
 import s8 from "@/assets/staffaug/s8.jpg";
 import ctaBg from "@/assets/staffaug/cta.jpg";
@@ -174,7 +175,7 @@ const services = [
       "Backup and disaster recovery management",
       "Platform updates and release management",
     ],
-    image: s7,
+    image: cloudServicesAsset.url,
   },
   {
     n: "08",
