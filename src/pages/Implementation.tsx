@@ -241,124 +241,111 @@ const faqs = [
 ];
 
 function MethodologyTimeline() {
-  const scrollerRef = useRef<HTMLDivElement>(null);
+  const sectionRef = useRef<HTMLDivElement>(null);
+  const trackRef = useRef<HTMLDivElement>(null);
+  const [trackWidth, setTrackWidth] = useState(0);
 
-  const scrollBy = (dir: 1 | -1) => {
-    const el = scrollerRef.current;
-    if (!el) return;
-    const amount = Math.min(el.clientWidth * 0.8, 520);
-    el.scrollBy({ left: dir * amount, behavior: "smooth" });
-  };
+  const { scrollYProgress } = useScroll({
+    target: sectionRef,
+    offset: ["start start", "end end"],
+  });
+
+  useEffect(() => {
+    const update = () => {
+      if (trackRef.current) {
+        setTrackWidth(trackRef.current.scrollWidth - trackRef.current.clientWidth);
+      }
+    };
+    update();
+    window.addEventListener("resize", update);
+    return () => window.removeEventListener("resize", update);
+  }, []);
+
+  const x = useTransform(scrollYProgress, [0, 1], [0, -trackWidth]);
 
   return (
-    <section className="relative overflow-hidden bg-[#0a1128] px-6 py-24 md:px-12 md:py-32">
-      <div
-        className="pointer-events-none absolute inset-0 opacity-[0.06]"
-        style={{
-          backgroundImage:
-            "radial-gradient(circle at 20% 20%, #38bdf8 0, transparent 40%), radial-gradient(circle at 80% 70%, #4ade80 0, transparent 40%)",
-        }}
-      />
-      <h2
-        aria-hidden
-        className="pointer-events-none absolute left-1/2 top-6 -translate-x-1/2 whitespace-nowrap text-[110px] font-extrabold uppercase tracking-widest text-white/[0.04] md:text-[180px]"
-      >
-        Methodology
-      </h2>
+    <div ref={sectionRef} className="relative" style={{ height: "250vh" }}>
+      <section className="sticky top-0 h-screen overflow-hidden bg-[#0a1128] px-6 py-24 md:px-12 md:py-32">
+        <div
+          className="pointer-events-none absolute inset-0 opacity-[0.06]"
+          style={{
+            backgroundImage:
+              "radial-gradient(circle at 20% 20%, #38bdf8 0, transparent 40%), radial-gradient(circle at 80% 70%, #4ade80 0, transparent 40%)",
+          }}
+        />
+        <h2
+          aria-hidden
+          className="pointer-events-none absolute left-1/2 top-6 -translate-x-1/2 whitespace-nowrap text-[110px] font-extrabold uppercase tracking-widest text-white/[0.04] md:text-[180px]"
+        >
+          Methodology
+        </h2>
 
-      <div className="relative mx-auto max-w-7xl">
-        <div className="text-center">
-          <p className="text-sm font-semibold uppercase tracking-[0.25em] text-[var(--brand-blue)]">
-            How We Deliver
-          </p>
-          <h2 className="mt-6 text-4xl font-bold leading-[1.1] tracking-tight text-white md:text-5xl">
-            A Proven Methodology.{" "}
-            <span className="bg-clip-text text-transparent" style={{ backgroundImage: "var(--gradient-brand)" }}>
-              Relentless Attention to Detail.
-            </span>
-          </h2>
-          <p className="mx-auto mt-6 max-w-3xl text-base leading-relaxed text-white/70 md:text-lg">
-            Successful implementation is not about technology alone. It's about people, process, and technology working in harmony. SBS follows a structured, five-phase delivery methodology refined across hundreds of projects and dozens of industries.
-          </p>
-        </div>
+        <div className="relative mx-auto flex h-full max-w-7xl flex-col">
+          <div className="text-center">
+            <p className="text-sm font-semibold uppercase tracking-[0.25em] text-[var(--brand-blue)]">
+              How We Deliver
+            </p>
+            <h2 className="mt-6 text-4xl font-bold leading-[1.1] tracking-tight text-white md:text-5xl">
+              A Proven Methodology.{" "}
+              <span className="bg-clip-text text-transparent" style={{ backgroundImage: "var(--gradient-brand)" }}>
+                Relentless Attention to Detail.
+              </span>
+            </h2>
+            <p className="mx-auto mt-6 max-w-3xl text-base leading-relaxed text-white/70 md:text-lg">
+              Successful implementation is not about technology alone. It's about people, process, and technology working in harmony. SBS follows a structured, five-phase delivery methodology refined across hundreds of projects and dozens of industries.
+            </p>
+          </div>
 
-        <div className="relative mt-16">
-          {/* Horizontal timeline line */}
-          <div className="pointer-events-none absolute left-0 right-0 top-[92px] h-px bg-gradient-to-r from-transparent via-white/25 to-transparent" />
+          <div className="relative mt-16 flex-1">
+            {/* Horizontal timeline line */}
+            <div className="pointer-events-none absolute left-0 right-0 top-[92px] h-px bg-gradient-to-r from-transparent via-white/25 to-transparent" />
 
-          <div
-            ref={scrollerRef}
-            className="scrollbar-hide -mx-6 flex snap-x snap-mandatory gap-0 overflow-x-auto px-6 pb-6 md:-mx-12 md:px-12"
-          >
-            {phases.map((p, i) => {
-              const Icon = p.icon;
-              const active = i === 1;
-              return (
-                <motion.div
-                  key={p.n}
-                  initial={{ opacity: 0, y: 20 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true, margin: "-60px" }}
-                  transition={{ duration: 0.5, delay: i * 0.08 }}
-                  className="group relative w-[300px] shrink-0 snap-start px-6 md:w-[340px]"
-                >
-                  {/* Phase label above line */}
-                  <div className="flex h-[64px] items-end justify-center">
-                    <p
-                      className={`text-lg font-semibold tracking-wide transition-colors ${
-                        active ? "text-[#f472b6]" : "text-white/70 group-hover:text-white"
-                      }`}
-                    >
-                      Phase {p.n}
-                    </p>
-                  </div>
-
-                  {/* Dot on the line */}
-                  <div className="relative flex h-14 items-center justify-center">
-                    <div
-                      className={`relative z-10 flex h-5 w-5 items-center justify-center rounded-full transition-all ${
-                        active
-                          ? "bg-[#f472b6] shadow-[0_0_0_6px_rgba(244,114,182,0.2)]"
-                          : "bg-white/80 group-hover:bg-white"
-                      }`}
-                    />
-                  </div>
-
-                  {/* Content below */}
-                  <div className="mt-2 text-center">
-                    <div className="mx-auto mb-4 flex h-11 w-11 items-center justify-center rounded-xl text-white shadow-[var(--shadow-brand)]" style={{ background: "var(--gradient-brand)" }}>
-                      <Icon className="h-5 w-5" />
+            <motion.div
+              ref={trackRef}
+              style={{ x }}
+              className="flex h-full items-start gap-0 pt-2"
+            >
+              {phases.map((p, i) => {
+                const Icon = p.icon;
+                return (
+                  <motion.div
+                    key={p.n}
+                    initial={{ opacity: 0, y: 20 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    viewport={{ once: true, margin: "-60px" }}
+                    transition={{ duration: 0.5, delay: i * 0.08 }}
+                    className="group relative w-[300px] shrink-0 px-6 md:w-[340px]"
+                  >
+                    {/* Phase label above line */}
+                    <div className="flex h-[64px] items-end justify-center">
+                      <p className="text-lg font-semibold tracking-wide text-white/70 transition-colors group-hover:text-white">
+                        Phase {p.n}
+                      </p>
                     </div>
-                    <p className="text-sm font-bold uppercase tracking-[0.2em] text-white">
-                      {p.label}
-                    </p>
-                    <p className="mt-4 text-sm leading-relaxed text-white/65">{p.body}</p>
-                  </div>
-                </motion.div>
-              );
-            })}
-          </div>
 
-          {/* Nav buttons */}
-          <div className="mt-8 flex items-center justify-center gap-4">
-            <button
-              onClick={() => scrollBy(-1)}
-              aria-label="Previous phase"
-              className="flex h-12 w-12 items-center justify-center rounded-full border border-white/25 text-white/80 transition-all hover:border-white hover:bg-white/10 hover:text-white"
-            >
-              <ChevronLeft className="h-5 w-5" />
-            </button>
-            <button
-              onClick={() => scrollBy(1)}
-              aria-label="Next phase"
-              className="flex h-12 w-12 items-center justify-center rounded-full border border-white/25 text-white/80 transition-all hover:border-white hover:bg-white/10 hover:text-white"
-            >
-              <ChevronRight className="h-5 w-5" />
-            </button>
+                    {/* Dot on the line */}
+                    <div className="relative flex h-14 items-center justify-center">
+                      <div className="relative z-10 flex h-5 w-5 items-center justify-center rounded-full bg-white/80 transition-all group-hover:scale-110 group-hover:bg-white" />
+                    </div>
+
+                    {/* Content below */}
+                    <div className="mt-2 text-center">
+                      <div className="mx-auto mb-4 flex h-11 w-11 items-center justify-center rounded-xl text-white shadow-[var(--shadow-brand)]" style={{ background: "var(--gradient-brand)" }}>
+                        <Icon className="h-5 w-5" />
+                      </div>
+                      <p className="text-sm font-bold uppercase tracking-[0.2em] text-white">
+                        {p.label}
+                      </p>
+                      <p className="mt-4 text-sm leading-relaxed text-white/65">{p.body}</p>
+                    </div>
+                  </motion.div>
+                );
+              })}
+            </motion.div>
           </div>
         </div>
-      </div>
-    </section>
+      </section>
+    </div>
   );
 }
 
