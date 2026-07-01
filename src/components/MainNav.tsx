@@ -128,9 +128,9 @@ const menus: Menu[] = [
         label: "Resources",
         description: "Insights and updates",
         items: [
-          { label: "Blog", to: "/blog" },
-          { label: "Case Studies", href: "#" },
-          { label: "Events & Webinars", href: "#" },
+        { label: "Blog", to: "/blog" },
+        { label: "Case Studies", to: "/case-studies" },
+        { label: "Events & Webinars", href: "#" },
         ],
       },
     ],

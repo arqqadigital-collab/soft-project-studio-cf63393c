@@ -23,6 +23,7 @@ import Consulting from "./pages/Consulting";
 import Implementation from "./pages/Implementation";
 import StaffAug from "./pages/StaffAug";
 import Blog from "./pages/Blog";
+import CaseStudies from "./pages/CaseStudies";
 
 function NotFound() {
   return (
@@ -74,6 +75,7 @@ export default function App() {
         <Route path="/services/implementation" element={<Implementation />} />
         <Route path="/services/staff-aug" element={<StaffAug />} />
         <Route path="/blog" element={<Blog />} />
+        <Route path="/case-studies" element={<CaseStudies />} />
         <Route path="*" element={<NotFound />} />
       </Routes>
     </>
