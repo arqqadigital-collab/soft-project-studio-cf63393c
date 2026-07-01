@@ -500,10 +500,7 @@ export default function Dental() {
               { title: "Accounting & Payments", logos: accountingLogos },
               { title: "Insurance Payers", logos: insuranceLogos },
             ].map((g) => {
-              const cells: Array<{ name: string; src?: string }> = g.logos
-                ? g.logos.slice(0, 6)
-                : (g.items ?? []).slice(0, 6).map((n) => ({ name: n }));
-              if (!g.logos) while (cells.length < 6) cells.push({ name: "" });
+              const cells: Array<{ name: string; src?: string }> = g.logos.slice(0, 6);
               return (
                 <div key={g.title}>
                   <h3 className="text-xl font-semibold tracking-tight text-foreground md:text-2xl">
