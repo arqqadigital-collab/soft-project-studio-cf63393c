@@ -498,15 +498,7 @@ export default function Dental() {
               const cells: Array<{ name: string; src?: string }> = g.logos
                 ? g.logos.slice(0, 6)
                 : (g.items ?? []).slice(0, 6).map((n) => ({ name: n }));
-              {
-                title: "Insurance Payers",
-                items: ["DHA Dubai", "DOH Abu Dhabi", "NPHIES KSA", "GCC Payers", "Custom EDI", "REST API"],
-              },
-            ].map((g) => {
-              const cells: Array<{ name: string; src?: string }> = g.logos
-                ? g.logos.slice(0, 6)
-                : (g.items ?? []).slice(0, 6).map((n) => ({ name: n }));
-              while (cells.length < 6) cells.push({ name: "" });
+              if (!g.logos) while (cells.length < 6) cells.push({ name: "" });
               return (
                 <div key={g.title}>
                   <h3 className="text-xl font-semibold tracking-tight text-foreground md:text-2xl">
