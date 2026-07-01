@@ -67,6 +67,14 @@ const accountingLogos = [
   { name: "Network International", src: imgAcctNetwork.url },
   { name: "Telr", src: imgAcctTelr.url },
 ];
+import imgInsDha from "@/assets/dental/insurance/dha.png.asset.json";
+import imgInsDoh from "@/assets/dental/insurance/doh.png.asset.json";
+import imgInsNphies from "@/assets/dental/insurance/nphies.png.asset.json";
+const insuranceLogos = [
+  { name: "Dubai Health Authority", src: imgInsDha.url },
+  { name: "Department of Health Abu Dhabi", src: imgInsDoh.url },
+  { name: "NPHIES", src: imgInsNphies.url },
+];
 import treatmentPlanApproval from "@/assets/dental/journey/treatment-plan-approval.png.asset.json";
 import treatmentDeliveredDocumented from "@/assets/dental/journey/treatment-delivered-documented.png.asset.json";
 import claimPaymentRecallSet from "@/assets/dental/journey/claim-payment-recall-set.png.asset.json";
