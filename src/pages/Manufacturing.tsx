@@ -24,7 +24,7 @@ import {
   Eye,
   Target,
 } from "lucide-react";
-import traditionalFailImg from "@/assets/manufacturing/traditional-fail.png";
+import traditionalFailImg from "@/assets/manufacturing/traditional-fail.jpg";
 import { Footer } from "@/components/Footer";
 import { CtaSection } from "@/components/CtaSection";
 import heroImg from "@/assets/manufacturing/hero.jpg";
