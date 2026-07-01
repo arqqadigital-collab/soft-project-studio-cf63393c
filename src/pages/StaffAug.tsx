@@ -31,7 +31,7 @@ const s1 = managedItInfrastructureAsset.url;
 const s4 = s4Asset.url;
 import s5 from "@/assets/staffaug/s5.jpg";
 import s6 from "@/assets/staffaug/s6.jpg";
-import cloudServicesAsset from "@/assets/staffaug/cloud-services.jpg.asset.json";
+import cloudServicesAsset from "@/assets/staffaug/managed-cloud-services.png.asset.json";
 import s7 from "@/assets/staffaug/s7.jpg";
 import s8 from "@/assets/staffaug/s8.jpg";
 import ctaBg from "@/assets/staffaug/cta.jpg";
