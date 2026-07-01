@@ -471,62 +471,52 @@ export default function Dental() {
             </p>
           </div>
 
-          <div className="mt-14 grid gap-5 md:grid-cols-2 lg:grid-cols-3">
-            {integrationGroups.map((g) => (
-              <div key={g.title} className="rounded-2xl border border-border bg-card p-6">
-                <h3 className="text-sm font-bold uppercase tracking-wider text-[color:var(--brand-blue)]">
-                  {g.title}
-                </h3>
-                {g.title === "Digital Imaging" ? (
-                  <div className="mt-4 flex flex-wrap items-center justify-center gap-3">
-                    {digitalImagingLogos.map((l) => (
-                      <img
-                        key={l.name}
-                        src={l.src}
-                        alt={`${l.name} logo`}
-                        loading="lazy"
-                        className="max-h-24 w-auto max-w-[160px] object-contain"
-                      />
+          <div className="mt-16 grid gap-x-16 gap-y-14 md:grid-cols-2">
+            {[
+              { title: "Digital Imaging", logos: digitalImagingLogos },
+              { title: "Intraoral Cameras", logos: intraoralLogos },
+              {
+                title: "Accounting & Payments",
+                items: ["Xero", "QuickBooks", "Sage", "Stripe", "Network International", "Telr"],
+              },
+              {
+                title: "Insurance Payers",
+                items: ["DHA Dubai", "DOH Abu Dhabi", "NPHIES KSA", "GCC Payers", "Custom EDI", "REST API"],
+              },
+            ].map((g) => {
+              const cells: Array<{ name: string; src?: string }> = g.logos
+                ? g.logos.slice(0, 6)
+                : (g.items ?? []).slice(0, 6).map((n) => ({ name: n }));
+              while (cells.length < 6) cells.push({ name: "" });
+              return (
+                <div key={g.title}>
+                  <h3 className="text-xl font-semibold tracking-tight text-foreground md:text-2xl">
+                    {g.title}
+                  </h3>
+                  <div className="mt-6 grid grid-cols-3 gap-4">
+                    {cells.map((c, i) => (
+                      <div
+                        key={i}
+                        className="flex aspect-square items-center justify-center rounded-2xl border border-border bg-card p-3 transition hover:border-[color:var(--brand-blue)]/40 hover:shadow-sm"
+                      >
+                        {c.src ? (
+                          <img
+                            src={c.src}
+                            alt={`${c.name} logo`}
+                            loading="lazy"
+                            className="max-h-full max-w-full object-contain"
+                          />
+                        ) : c.name ? (
+                          <span className="text-center text-[11px] font-medium leading-tight text-foreground/70 md:text-xs">
+                            {c.name}
+                          </span>
+                        ) : null}
+                      </div>
                     ))}
                   </div>
-                ) : g.title === "Intraoral Cameras" ? (
-                  <div className="mt-5 flex flex-col items-center gap-4">
-                    <div className="flex items-center justify-center gap-4">
-                      <img
-                        src={intraoralLogos[0].src}
-                        alt={`${intraoralLogos[0].name} logo`}
-                        loading="lazy"
-                        className="h-10 w-auto max-w-[120px] object-contain"
-                      />
-                      <div className="h-8 w-px border-l border-dashed border-border/70" />
-                      <img
-                        src={intraoralLogos[1].src}
-                        alt={`${intraoralLogos[1].name} logo`}
-                        loading="lazy"
-                        className="h-10 w-auto max-w-[120px] object-contain"
-                      />
-                    </div>
-                    <div className="flex items-center justify-center">
-                      <img
-                        src={intraoralLogos[2].src}
-                        alt={`${intraoralLogos[2].name} logo`}
-                        loading="lazy"
-                        className="h-10 w-auto max-w-[120px] object-contain"
-                      />
-                    </div>
-                  </div>
-                ) : (
-                  <ul className="mt-4 space-y-2">
-                    {g.items.map((it) => (
-                      <li key={it} className="flex items-start gap-2 text-sm text-foreground/75">
-                        <CheckCircle2 className="mt-0.5 h-4 w-4 shrink-0 text-[color:var(--brand-blue)]" />
-                        {it}
-                      </li>
-                    ))}
-                  </ul>
-                )}
-              </div>
-            ))}
+                </div>
+              );
+            })}
           </div>
         </div>
       </section>
