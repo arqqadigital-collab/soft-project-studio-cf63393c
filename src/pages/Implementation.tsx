@@ -265,26 +265,26 @@ function MethodologyTimeline() {
 
   return (
     <div ref={sectionRef} className="relative" style={{ height: "250vh" }}>
-      <section className="sticky top-0 h-screen overflow-hidden bg-background px-6 py-16 md:px-12 md:py-20">
+      <section className="sticky top-0 h-screen overflow-hidden bg-background px-6 py-10 md:px-12 md:py-12">
         <div className="relative mx-auto flex h-full max-w-7xl flex-col">
           <div className="text-center">
-            <p className="text-sm font-semibold uppercase tracking-[0.25em] text-[var(--brand-blue)]">
+            <p className="text-xs font-semibold uppercase tracking-[0.25em] text-[var(--brand-blue)]">
               How We Deliver
             </p>
-            <h2 className="mt-3 text-3xl font-bold leading-[1.15] tracking-tight text-foreground md:text-4xl">
+            <h2 className="mt-2 text-2xl font-bold leading-tight tracking-tight text-foreground md:text-3xl">
               A Proven Methodology.{" "}
               <span className="bg-clip-text text-transparent" style={{ backgroundImage: "var(--gradient-brand)" }}>
                 Relentless Attention to Detail.
               </span>
             </h2>
-            <p className="mx-auto mt-3 max-w-3xl text-sm leading-relaxed text-muted-foreground md:text-base">
+            <p className="mx-auto mt-2 max-w-3xl text-sm leading-snug text-muted-foreground">
               Successful implementation is not about technology alone. It's about people, process, and technology working in harmony. SBS follows a structured, five-phase delivery methodology refined across hundreds of projects and dozens of industries.
             </p>
           </div>
 
-          <div className="relative mt-8 flex-1 md:mt-12">
+          <div className="relative mt-4 flex-1 md:mt-6">
             {/* Horizontal timeline line */}
-            <div className="pointer-events-none absolute left-0 right-0 top-[64px] h-px bg-gradient-to-r from-transparent via-foreground/20 to-transparent" />
+            <div className="pointer-events-none absolute left-0 right-0 top-[48px] h-px bg-gradient-to-r from-transparent via-foreground/20 to-transparent" />
 
             <motion.div
               ref={trackRef}
@@ -300,29 +300,29 @@ function MethodologyTimeline() {
                     whileInView={{ opacity: 1, y: 0 }}
                     viewport={{ once: true, margin: "-60px" }}
                     transition={{ duration: 0.5, delay: i * 0.08 }}
-                    className="group relative w-[280px] shrink-0 px-4 md:w-[320px]"
+                    className="group relative w-[280px] shrink-0 px-4 md:w-[300px]"
                   >
                     {/* Phase label above line */}
-                    <div className="flex h-[40px] items-end justify-center">
-                      <p className="text-sm font-semibold tracking-wide text-muted-foreground transition-colors group-hover:text-foreground">
+                    <div className="flex h-[28px] items-end justify-center">
+                      <p className="text-xs font-semibold tracking-wide text-muted-foreground transition-colors group-hover:text-foreground">
                         Phase {p.n}
                       </p>
                     </div>
 
                     {/* Dot on the line */}
-                    <div className="relative flex h-10 items-center justify-center">
-                      <div className="relative z-10 flex h-4 w-4 items-center justify-center rounded-full bg-foreground/70 transition-all group-hover:scale-110 group-hover:bg-foreground" />
+                    <div className="relative flex h-8 items-center justify-center">
+                      <div className="relative z-10 flex h-3.5 w-3.5 items-center justify-center rounded-full bg-foreground/60 transition-all group-hover:scale-110 group-hover:bg-foreground" />
                     </div>
 
                     {/* Content below */}
-                    <div className="mt-2 text-center">
-                      <div className="mx-auto mb-3 flex h-10 w-10 items-center justify-center rounded-xl text-primary-foreground shadow-[var(--shadow-brand)]" style={{ background: "var(--gradient-brand)" }}>
-                        <Icon className="h-5 w-5" />
+                    <div className="mt-1 text-center">
+                      <div className="mx-auto mb-2 flex h-9 w-9 items-center justify-center rounded-lg text-primary-foreground shadow-[var(--shadow-brand)]" style={{ background: "var(--gradient-brand)" }}>
+                        <Icon className="h-4 w-4" />
                       </div>
                       <p className="text-xs font-bold uppercase tracking-[0.2em] text-foreground">
                         {p.label}
                       </p>
-                      <p className="mt-2 text-xs leading-relaxed text-muted-foreground md:text-sm">{p.body}</p>
+                      <p className="mt-1 text-xs leading-snug text-muted-foreground">{p.body}</p>
                     </div>
                   </motion.div>
                 );
