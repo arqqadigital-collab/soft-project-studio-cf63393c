@@ -265,7 +265,7 @@ function MethodologyTimeline() {
 
   return (
     <div ref={sectionRef} className="relative" style={{ height: "250vh" }}>
-      <section className="sticky top-0 h-screen overflow-hidden bg-background px-6 pt-16 pb-6 sm:pt-20 sm:pb-8 lg:pt-24 lg:pb-10">
+      <section className="sticky top-20 h-[calc(100vh-5rem)] overflow-hidden bg-background px-6 pt-10 pb-6 sm:px-8 sm:pt-12 sm:pb-8 lg:px-12 lg:pt-16 lg:pb-10">
         <div className="relative mx-auto flex h-full max-w-7xl flex-col">
           <div className="text-center">
             <p className="text-xs font-semibold uppercase tracking-[0.25em] text-[var(--brand-blue)]">
@@ -282,7 +282,7 @@ function MethodologyTimeline() {
             </p>
           </div>
 
-          <div className="relative mt-6 flex-1 sm:mt-10 lg:mt-14">
+          <div className="relative mt-6 flex-1 sm:mt-10 lg:mt-12">
             {/* Horizontal timeline line */}
             <div className="pointer-events-none absolute left-0 right-0 top-[44px] h-px bg-gradient-to-r from-transparent via-foreground/20 to-transparent sm:top-[48px]" />
 
