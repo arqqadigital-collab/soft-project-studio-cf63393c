@@ -205,6 +205,51 @@ const stats: { prefix?: string; value: number; decimals?: number; suffix: string
   { value: 100, suffix: "+", l: "Certified Security Professionals" },
 ];
 
+function Counter({ to, decimals = 0, start }: { to: number; decimals?: number; start: boolean }) {
+  const [val, setVal] = useState(0);
+  useEffect(() => {
+    if (!start) return;
+    const duration = 1800;
+    const t0 = performance.now();
+    let raf = 0;
+    const tick = (now: number) => {
+      const p = Math.min((now - t0) / duration, 1);
+      const eased = 1 - Math.pow(1 - p, 3);
+      setVal(to * eased);
+      if (p < 1) raf = requestAnimationFrame(tick);
+    };
+    raf = requestAnimationFrame(tick);
+    return () => cancelAnimationFrame(raf);
+  }, [to, start]);
+  return <>{val.toFixed(decimals)}</>;
+}
+
+function StatsCounter() {
+  const ref = useRef<HTMLDivElement>(null);
+  const inView = useInView(ref, { once: true, amount: 0.3 });
+  return (
+    <div ref={ref} className="mt-12 grid grid-cols-2 gap-8 md:grid-cols-5">
+      {stats.map((s) => (
+        <div key={s.l} className="text-center">
+          <div
+            className="text-4xl font-bold md:text-5xl"
+            style={{
+              background: "var(--gradient-brand)",
+              WebkitBackgroundClip: "text",
+              WebkitTextFillColor: "transparent",
+            }}
+          >
+            {s.prefix ?? ""}
+            <Counter to={s.value} decimals={s.decimals ?? 0} start={inView} />
+            {s.suffix}
+          </div>
+          <div className="mt-3 text-xs leading-snug text-white/70">{s.l}</div>
+        </div>
+      ))}
+    </div>
+  );
+}
+
 const faqs = [
   {
     q: "How do we get started with SBS cybersecurity services?",
