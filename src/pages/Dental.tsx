@@ -45,6 +45,14 @@ const digitalImagingLogos = [
   { name: "Apteryx", src: imgApteryx.url },
   { name: "Acteon", src: imgActeon.url },
 ];
+import imgIntraApteryx from "@/assets/dental/intraoral/apteryx.png.asset.json";
+import imgIntraDexis from "@/assets/dental/intraoral/dexis.png.asset.json";
+import imgIntraSchick from "@/assets/dental/intraoral/schick.png.asset.json";
+const intraoralLogos = [
+  { name: "DEXIS", src: imgIntraDexis.url },
+  { name: "Schick by Sirona", src: imgIntraSchick.url },
+  { name: "Apteryx XVWeb", src: imgIntraApteryx.url },
+];
 import treatmentPlanApproval from "@/assets/dental/journey/treatment-plan-approval.png.asset.json";
 import treatmentDeliveredDocumented from "@/assets/dental/journey/treatment-delivered-documented.png.asset.json";
 import claimPaymentRecallSet from "@/assets/dental/journey/claim-payment-recall-set.png.asset.json";
