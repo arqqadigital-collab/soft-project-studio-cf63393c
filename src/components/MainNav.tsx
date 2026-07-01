@@ -106,7 +106,7 @@ const menus: Menu[] = [
   {
     label: "Services",
     items: [
-      { label: "Cybersecurity", href: "#", description: "Protect your digital estate" },
+      { label: "Cybersecurity", to: "/services/cybersecurity", description: "Protect your digital estate" },
       { label: "Consulting", href: "#", description: "Strategy and advisory" },
       { label: "Implementation & Integration", href: "#", description: "Deploy and integrate" },
       { label: "Staff Aug & Managed Services", href: "#", description: "Talent and managed ops" },
