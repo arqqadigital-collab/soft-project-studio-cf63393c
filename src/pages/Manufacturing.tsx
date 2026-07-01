@@ -25,13 +25,28 @@ import uc2 from "@/assets/manufacturing/uc-2.jpg";
 import uc3 from "@/assets/manufacturing/uc-3.jpg";
 import uc4 from "@/assets/manufacturing/uc-4.jpg";
 
-const breakdowns = [
-  "Production plans that change without inventory visibility",
-  "Raw materials arriving too late or overstocked",
-  "Work orders managed manually across departments",
-  "BOM changes not reflected in real-time",
-  "Costing calculated after production, not during it",
-  "No live view of shop floor performance",
+const problems = [
+  {
+    n: "01",
+    label: "RISK",
+    title: "Disconnected Planning",
+    body: "Production plans change without inventory visibility. Raw materials arrive too late or overstocked, and procurement never sees what production actually needs.",
+    image: p1,
+  },
+  {
+    n: "02",
+    label: "RISK",
+    title: "Manual Work Orders",
+    body: "Work orders are managed manually across departments. BOM changes are not reflected in real time, so engineering updates never reach the shop floor.",
+    image: p2,
+  },
+  {
+    n: "03",
+    label: "RISK",
+    title: "Invisible Costing",
+    body: "Costing is calculated after production, not during it. No live view of shop floor performance means decisions are made on delayed, incomplete reports.",
+    image: p3,
+  },
 ];
 
 const failures = [
