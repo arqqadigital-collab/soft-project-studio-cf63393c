@@ -263,8 +263,10 @@ function MethodologyTimeline() {
 
   const x = useTransform(scrollYProgress, [0, 1], [0, -trackWidth]);
 
+  const sectionHeight = trackWidth > 0 ? `calc(100vh + ${trackWidth}px)` : "150vh";
+
   return (
-    <div ref={sectionRef} className="relative bg-background" style={{ height: "185vh" }}>
+    <div ref={sectionRef} className="relative bg-background" style={{ height: sectionHeight }}>
       <section className="sticky top-0 h-screen overflow-hidden bg-background px-6 pb-8 pt-24 sm:px-8 sm:pb-10 sm:pt-28 lg:px-12 lg:pb-12 lg:pt-32">
         <div className="relative mx-auto flex h-full max-w-7xl flex-col">
           <div className="mx-auto max-w-4xl text-center">
