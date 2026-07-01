@@ -265,24 +265,24 @@ function MethodologyTimeline() {
 
   return (
     <div ref={sectionRef} className="relative" style={{ height: "250vh" }}>
-      <section className="sticky top-0 h-screen overflow-hidden bg-background px-6 py-10 md:px-12 md:py-12">
+      <section className="sticky top-0 h-screen overflow-hidden bg-background px-6 pt-20 pb-8 md:px-12 md:pt-24 md:pb-10">
         <div className="relative mx-auto flex h-full max-w-7xl flex-col">
           <div className="text-center">
             <p className="text-xs font-semibold uppercase tracking-[0.25em] text-[var(--brand-blue)]">
               How We Deliver
             </p>
-            <h2 className="mt-2 text-2xl font-bold leading-tight tracking-tight text-foreground md:text-3xl">
+            <h2 className="mt-3 text-3xl font-bold leading-tight tracking-tight text-foreground md:text-4xl">
               A Proven Methodology.{" "}
               <span className="bg-clip-text text-transparent" style={{ backgroundImage: "var(--gradient-brand)" }}>
                 Relentless Attention to Detail.
               </span>
             </h2>
-            <p className="mx-auto mt-2 max-w-3xl text-sm leading-snug text-muted-foreground">
-              Successful implementation is not about technology alone. It's about people, process, and technology working in harmony. SBS follows a structured, five-phase delivery methodology refined across hundreds of projects and dozens of industries.
+            <p className="mx-auto mt-4 max-w-2xl text-base leading-relaxed text-muted-foreground">
+              Successful implementation is not about technology alone. It's about people, process, and technology working in harmony.
             </p>
           </div>
 
-          <div className="relative mt-4 flex-1 md:mt-6">
+          <div className="relative mt-10 flex-1 md:mt-14">
             {/* Horizontal timeline line */}
             <div className="pointer-events-none absolute left-0 right-0 top-[48px] h-px bg-gradient-to-r from-transparent via-foreground/20 to-transparent" />
 
