@@ -5,6 +5,7 @@ import healthcare from "@/assets/service-healthcare-compliance.png";
 import erp from "@/assets/service-erp.png";
 import ai from "@/assets/service-ai-healthcare.png";
 import staff from "@/assets/service-staff.png";
+import staffAsset from "@/assets/service-staff-new.png.asset.json";
 import integration from "@/assets/service-integration.png";
 
 type Service = {
@@ -41,7 +42,7 @@ const services: Service[] = [
     title: "Staff Augmentation & Managed Services",
     description:
       "Scale your teams rapidly with specialized IT professionals and comprehensive managed support solutions.",
-    image: staff,
+    image: staffAsset.url,
   },
   {
     number: "Service 05",
