@@ -17,6 +17,9 @@ import {
 import { Footer } from "@/components/Footer";
 import { CtaSection } from "@/components/CtaSection";
 import heroImg from "@/assets/manufacturing/hero.jpg";
+import p1 from "@/assets/manufacturing/problem-p1.jpg";
+import p2 from "@/assets/manufacturing/problem-p2.jpg";
+import p3 from "@/assets/manufacturing/problem-p3.jpg";
 import uc1 from "@/assets/manufacturing/uc-1.jpg";
 import uc2 from "@/assets/manufacturing/uc-2.jpg";
 import uc3 from "@/assets/manufacturing/uc-3.jpg";
