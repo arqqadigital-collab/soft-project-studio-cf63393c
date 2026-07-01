@@ -152,11 +152,11 @@ const useCases = [
 ];
 
 const impact = [
-  "Reduced production delays through real-time planning",
-  "Improved material utilization and reduced waste",
-  "Accurate cost tracking per production cycle",
-  "Increased shop floor visibility and accountability",
-  "Better demand-to-production alignment",
+  { icon: Zap, text: "Reduced production delays through real-time planning" },
+  { icon: Recycle, text: "Improved material utilization and reduced waste" },
+  { icon: LineChart, text: "Accurate cost tracking per production cycle" },
+  { icon: Eye, text: "Increased shop floor visibility and accountability" },
+  { icon: Target, text: "Better demand-to-production alignment" },
 ];
 
 const implementation = [
