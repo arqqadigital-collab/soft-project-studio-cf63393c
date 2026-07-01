@@ -1,9 +1,7 @@
-import { motion, useInView } from "framer-motion";
+import { motion, useInView, useScroll, useTransform } from "framer-motion";
 import { useEffect, useRef, useState } from "react";
 import {
   ArrowRight,
-  ChevronLeft,
-  ChevronRight,
   Rocket,
   AlertTriangle,
   Search,
