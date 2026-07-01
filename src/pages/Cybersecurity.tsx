@@ -196,12 +196,12 @@ const why = [
   { icon: BarChart3, title: "Business-Aligned Security", body: "We speak both security and business. Solutions that protect your organization without impeding productivity or user experience." },
 ];
 
-const stats = [
-  { v: "500+", l: "Security Assessments Conducted" },
-  { v: "99.9%", l: "SOC Uptime SLA" },
-  { v: "<30 Min", l: "Avg. Incident Response Initiation" },
-  { v: "15+", l: "Compliance Frameworks Supported" },
-  { v: "100+", l: "Certified Security Professionals" },
+const stats: { prefix?: string; value: number; decimals?: number; suffix: string; l: string }[] = [
+  { value: 500, suffix: "+", l: "Security Assessments Conducted" },
+  { value: 99.9, decimals: 1, suffix: "%", l: "SOC Uptime SLA" },
+  { prefix: "<", value: 30, suffix: " Min", l: "Avg. Incident Response Initiation" },
+  { value: 15, suffix: "+", l: "Compliance Frameworks Supported" },
+  { value: 100, suffix: "+", l: "Certified Security Professionals" },
 ];
 
 const faqs = [
