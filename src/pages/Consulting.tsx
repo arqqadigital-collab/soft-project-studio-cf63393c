@@ -302,18 +302,23 @@ export default function Consulting() {
 
           <div className="mx-auto mt-12 grid max-w-5xl grid-cols-1 gap-4 md:grid-cols-2">
             {problems.map((p, i) => (
-              <div
+              <motion.div
                 key={p}
-                className="flex items-center gap-4 rounded-2xl border border-white/10 bg-white/[0.03] p-5 transition-colors hover:border-white/20"
+                initial={{ opacity: 0, y: 24 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, margin: "-60px" }}
+                transition={{ duration: 0.5, delay: i * 0.08, ease: "easeOut" }}
+                whileHover={{ y: -4 }}
+                className="group flex items-center gap-4 rounded-2xl border border-white/10 bg-white/[0.03] p-5 transition-all duration-300 hover:border-white/25 hover:bg-white/[0.06] hover:shadow-[0_10px_40px_-15px_rgba(56,189,248,0.35)]"
               >
                 <div
-                  className="flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-xl text-sm font-bold text-white"
+                  className="flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-xl text-sm font-bold text-white transition-transform duration-300 group-hover:scale-110 group-hover:rotate-3"
                   style={{ background: "var(--gradient-brand)" }}
                 >
                   {String(i + 1).padStart(2, "0")}
                 </div>
                 <p className="text-sm leading-relaxed text-white/85">{p}</p>
-              </div>
+              </motion.div>
             ))}
           </div>
 
