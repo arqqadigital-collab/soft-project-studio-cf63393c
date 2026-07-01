@@ -311,6 +311,7 @@ export default function Blog() {
           </motion.div>
         </div>
       </section>
+      <Footer />
     </main>
   );
 }
