@@ -502,23 +502,7 @@ export default function Cybersecurity() {
               Numbers That Speak for Themselves.
             </h2>
           </div>
-          <div className="mt-12 grid grid-cols-2 gap-6 md:grid-cols-5">
-            {stats.map((s) => (
-              <div key={s.l} className="rounded-2xl border border-white/10 bg-white/[0.03] p-6 text-center">
-                <div
-                  className="text-3xl font-bold md:text-4xl"
-                  style={{
-                    background: "var(--gradient-brand)",
-                    WebkitBackgroundClip: "text",
-                    WebkitTextFillColor: "transparent",
-                  }}
-                >
-                  {s.v}
-                </div>
-                <div className="mt-2 text-xs leading-snug text-white/70">{s.l}</div>
-              </div>
-            ))}
-          </div>
+          <StatsCounter />
         </div>
       </section>
 
