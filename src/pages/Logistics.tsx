@@ -353,7 +353,7 @@ export default function Logistics() {
             })}
           </div>
 
-          <div className="mt-12 rounded-2xl border border-border bg-card p-8 text-center md:p-10">
+          <div className="mt-12 text-center">
             <p className="text-sm font-semibold uppercase tracking-[0.25em]" style={{ color: "var(--brand-blue)" }}>
               The goal is simple
             </p>
