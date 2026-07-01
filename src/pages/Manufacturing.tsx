@@ -69,11 +69,11 @@ const failures = [
 ];
 
 const approach = [
-  "Production-first system architecture",
-  "Real-time material and inventory synchronization",
-  "Cost-aware manufacturing workflows",
-  "End-to-end traceability across production cycles",
-  "Integration between planning, execution, and finance",
+  { icon: Cpu, text: "Production-first system architecture" },
+  { icon: RefreshCw, text: "Real-time material and inventory synchronization" },
+  { icon: DollarSign, text: "Cost-aware manufacturing workflows" },
+  { icon: Network, text: "End-to-end traceability across production cycles" },
+  { icon: ShieldCheck, text: "Integration between planning, execution, and finance" },
 ];
 
 const capabilities = [
