@@ -501,6 +501,7 @@ export default function Dental() {
               { title: "Insurance Payers", logos: insuranceLogos },
             ].map((g) => {
               const cells: Array<{ name: string; src?: string }> = g.logos.slice(0, 6);
+              const shrinkLogo = ["Intraoral Cameras", "Accounting & Payments", "Insurance Payers"].includes(g.title);
               return (
                 <div key={g.title}>
                   <h3 className="text-xl font-semibold tracking-tight text-foreground md:text-2xl">
@@ -517,7 +518,7 @@ export default function Dental() {
                             src={c.src}
                             alt={`${c.name} logo`}
                             loading="lazy"
-                            className="max-h-full max-w-full object-contain"
+                            className={`object-contain ${shrinkLogo ? "max-h-[80%] max-w-[80%]" : "max-h-full max-w-full"}`}
                           />
                         ) : c.name ? (
                           <span className="text-center text-[11px] font-medium leading-tight text-foreground/70 md:text-xs">
