@@ -1,4 +1,5 @@
-import { motion } from "framer-motion";
+import { motion, useInView } from "framer-motion";
+import { useEffect, useRef, useState } from "react";
 import {
   ArrowRight,
   ShieldCheck,
@@ -196,13 +197,58 @@ const why = [
   { icon: BarChart3, title: "Business-Aligned Security", body: "We speak both security and business. Solutions that protect your organization without impeding productivity or user experience." },
 ];
 
-const stats = [
-  { v: "500+", l: "Security Assessments Conducted" },
-  { v: "99.9%", l: "SOC Uptime SLA" },
-  { v: "<30 Min", l: "Avg. Incident Response Initiation" },
-  { v: "15+", l: "Compliance Frameworks Supported" },
-  { v: "100+", l: "Certified Security Professionals" },
+const stats: { prefix?: string; value: number; decimals?: number; suffix: string; l: string }[] = [
+  { value: 500, suffix: "+", l: "Security Assessments Conducted" },
+  { value: 99.9, decimals: 1, suffix: "%", l: "SOC Uptime SLA" },
+  { prefix: "<", value: 30, suffix: " Min", l: "Avg. Incident Response Initiation" },
+  { value: 15, suffix: "+", l: "Compliance Frameworks Supported" },
+  { value: 100, suffix: "+", l: "Certified Security Professionals" },
 ];
+
+function Counter({ to, decimals = 0, start }: { to: number; decimals?: number; start: boolean }) {
+  const [val, setVal] = useState(0);
+  useEffect(() => {
+    if (!start) return;
+    const duration = 1800;
+    const t0 = performance.now();
+    let raf = 0;
+    const tick = (now: number) => {
+      const p = Math.min((now - t0) / duration, 1);
+      const eased = 1 - Math.pow(1 - p, 3);
+      setVal(to * eased);
+      if (p < 1) raf = requestAnimationFrame(tick);
+    };
+    raf = requestAnimationFrame(tick);
+    return () => cancelAnimationFrame(raf);
+  }, [to, start]);
+  return <>{val.toFixed(decimals)}</>;
+}
+
+function StatsCounter() {
+  const ref = useRef<HTMLDivElement>(null);
+  const inView = useInView(ref, { once: true, amount: 0.3 });
+  return (
+    <div ref={ref} className="mt-12 grid grid-cols-2 gap-8 md:grid-cols-5">
+      {stats.map((s) => (
+        <div key={s.l} className="text-center">
+          <div
+            className="text-4xl font-bold md:text-5xl"
+            style={{
+              background: "var(--gradient-brand)",
+              WebkitBackgroundClip: "text",
+              WebkitTextFillColor: "transparent",
+            }}
+          >
+            {s.prefix ?? ""}
+            <Counter to={s.value} decimals={s.decimals ?? 0} start={inView} />
+            {s.suffix}
+          </div>
+          <div className="mt-3 text-xs leading-snug text-white/70">{s.l}</div>
+        </div>
+      ))}
+    </div>
+  );
+}
 
 const faqs = [
   {
@@ -501,23 +547,7 @@ export default function Cybersecurity() {
               Numbers That Speak for Themselves.
             </h2>
           </div>
-          <div className="mt-12 grid grid-cols-2 gap-6 md:grid-cols-5">
-            {stats.map((s) => (
-              <div key={s.l} className="rounded-2xl border border-white/10 bg-white/[0.03] p-6 text-center">
-                <div
-                  className="text-3xl font-bold md:text-4xl"
-                  style={{
-                    background: "var(--gradient-brand)",
-                    WebkitBackgroundClip: "text",
-                    WebkitTextFillColor: "transparent",
-                  }}
-                >
-                  {s.v}
-                </div>
-                <div className="mt-2 text-xs leading-snug text-white/70">{s.l}</div>
-              </div>
-            ))}
-          </div>
+          <StatsCounter />
         </div>
       </section>
 
