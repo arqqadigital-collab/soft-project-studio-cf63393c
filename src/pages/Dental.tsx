@@ -490,16 +490,30 @@ export default function Dental() {
                     ))}
                   </div>
                 ) : g.title === "Intraoral Cameras" ? (
-                  <div className="mt-4 flex flex-wrap items-center justify-center gap-3">
-                    {intraoralLogos.map((l) => (
+                  <div className="mt-5 flex flex-col items-center gap-4">
+                    <div className="flex items-center justify-center gap-4">
                       <img
-                        key={l.name}
-                        src={l.src}
-                        alt={`${l.name} logo`}
+                        src={intraoralLogos[0].src}
+                        alt={`${intraoralLogos[0].name} logo`}
                         loading="lazy"
-                        className="max-h-24 w-auto max-w-[160px] object-contain"
+                        className="h-10 w-auto max-w-[120px] object-contain"
                       />
-                    ))}
+                      <div className="h-8 w-px border-l border-dashed border-border/70" />
+                      <img
+                        src={intraoralLogos[1].src}
+                        alt={`${intraoralLogos[1].name} logo`}
+                        loading="lazy"
+                        className="h-10 w-auto max-w-[120px] object-contain"
+                      />
+                    </div>
+                    <div className="flex items-center justify-center">
+                      <img
+                        src={intraoralLogos[2].src}
+                        alt={`${intraoralLogos[2].name} logo`}
+                        loading="lazy"
+                        className="h-10 w-auto max-w-[120px] object-contain"
+                      />
+                    </div>
                   </div>
                 ) : (
                   <ul className="mt-4 space-y-2">
