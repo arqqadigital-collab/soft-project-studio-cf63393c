@@ -169,7 +169,7 @@ function MegaPanel({ menu }: { menu: Menu }) {
 
   if (!hasRightPanel) {
     return (
-      <div className="grid grid-cols-2 gap-2 p-4">
+      <div className="grid grid-cols-1 gap-2 p-4">
         {menu.items.map((item) => (
           <LeafLink
             key={item.label}
@@ -269,7 +269,7 @@ export function MainNav() {
     <nav className="hidden items-center gap-8 lg:flex">
       {menus.map((menu) => {
         const hasRightPanel = menu.items.some((i) => i.items && i.items.length > 0);
-        const width = hasRightPanel ? "w-[640px]" : "w-[520px]";
+        const width = hasRightPanel ? "w-[640px]" : "w-[360px]";
         return (
           <div key={menu.label} className="group relative">
             <button
