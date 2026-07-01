@@ -96,7 +96,7 @@ const menus: Menu[] = [
         description: "Industry-tailored ERP solutions",
         items: [
           { label: "Manufacturing & Trading", to: "/erp/manufacturing" },
-          { label: "Logistics & Distribution", href: "#" },
+          { label: "Logistics & Distribution", to: "/erp/logistics" },
           { label: "Retail & E-commerce", href: "#" },
           { label: "Education & Research", href: "#" },
         ],
