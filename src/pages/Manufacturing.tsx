@@ -24,7 +24,7 @@ import {
   Eye,
   Target,
 } from "lucide-react";
-import traditionalFailImg from "@/assets/manufacturing/traditional-fail.jpg";
+import traditionalFailImg from "@/assets/manufacturing/traditional-fail.png";
 import { Footer } from "@/components/Footer";
 import { CtaSection } from "@/components/CtaSection";
 import heroImg from "@/assets/manufacturing/hero.jpg";
@@ -269,38 +269,41 @@ export default function Manufacturing() {
       </section>
 
       {/* WHERE TRADITIONAL SYSTEMS FAIL */}
-      <section className="relative bg-[#0a0e1a] px-6 py-20 md:px-12 md:py-28">
-        <div className="mx-auto max-w-6xl">
-          <div className="grid grid-cols-1 items-center gap-10 rounded-3xl border border-white/10 bg-white/[0.04] p-8 md:grid-cols-2 md:p-12">
-            <div>
-              <h3 className="text-2xl font-bold leading-tight text-white md:text-3xl">
+      <section className="relative bg-background">
+        <div className="grid min-h-[600px] grid-cols-1 md:grid-cols-2">
+          {/* Text */}
+          <div className="flex items-center px-6 py-20 md:px-12 md:py-28">
+          <div className="mx-auto max-w-xl">
+              <h3 className="text-3xl font-bold leading-tight text-foreground md:text-4xl">
                 Where Traditional Systems Fail Manufacturing Companies
               </h3>
-              <p className="mt-4 text-sm leading-relaxed text-white/65 md:text-base">
+              <p className="mt-5 text-base leading-relaxed text-muted-foreground">
                 Generic ERP systems typically fail because they do not reflect how manufacturing actually works:
               </p>
               <ul className="mt-6 space-y-3">
                 {failures.map((f) => (
-                  <li key={f} className="flex items-start gap-3 text-sm text-white/80">
-                    <span className="mt-2 h-1.5 w-1.5 flex-shrink-0 rounded-full bg-[var(--brand-blue)]" />
+                  <li key={f} className="flex items-start gap-3 text-sm text-foreground/80">
+                    <span className="mt-2 h-1.5 w-1.5 flex-shrink-0 rounded-full" style={{ backgroundColor: "var(--brand-blue)" }} />
                     {f}
                   </li>
                 ))}
               </ul>
-              <p className="mt-6 text-sm leading-relaxed text-white/65 md:text-base">
+              <p className="mt-6 text-base leading-relaxed text-muted-foreground">
                 Manufacturing requires continuous synchronization between planning and execution—not periodic reporting.
               </p>
             </div>
-            <div className="relative aspect-square overflow-hidden rounded-2xl border border-white/10">
-              <img
-                src={traditionalFailImg}
-                alt="Disconnected manufacturing systems"
-                loading="lazy"
-                width={1024}
-                height={1024}
-                className="h-full w-full object-cover"
-              />
-            </div>
+          </div>
+
+          {/* Image — full height */}
+          <div className="relative h-80 min-h-full md:h-auto">
+            <img
+              src={traditionalFailImg}
+              alt="Disconnected manufacturing systems"
+              loading="lazy"
+              width={1024}
+              height={1024}
+              className="absolute inset-0 h-full w-full object-cover"
+            />
           </div>
         </div>
       </section>
