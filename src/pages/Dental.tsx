@@ -53,6 +53,20 @@ const intraoralLogos = [
   { name: "Schick by Sirona", src: imgIntraSchick.url },
   { name: "Apteryx XVWeb", src: imgIntraApteryx.url },
 ];
+import imgAcctXero from "@/assets/dental/accounting/xero.png.asset.json";
+import imgAcctQb from "@/assets/dental/accounting/quickbooks.png.asset.json";
+import imgAcctSage from "@/assets/dental/accounting/sage.png.asset.json";
+import imgAcctStripe from "@/assets/dental/accounting/stripe.png.asset.json";
+import imgAcctNetwork from "@/assets/dental/accounting/network.png.asset.json";
+import imgAcctTelr from "@/assets/dental/accounting/telr.png.asset.json";
+const accountingLogos = [
+  { name: "Xero", src: imgAcctXero.url },
+  { name: "QuickBooks", src: imgAcctQb.url },
+  { name: "Sage", src: imgAcctSage.url },
+  { name: "Stripe", src: imgAcctStripe.url },
+  { name: "Network International", src: imgAcctNetwork.url },
+  { name: "Telr", src: imgAcctTelr.url },
+];
 import treatmentPlanApproval from "@/assets/dental/journey/treatment-plan-approval.png.asset.json";
 import treatmentDeliveredDocumented from "@/assets/dental/journey/treatment-delivered-documented.png.asset.json";
 import claimPaymentRecallSet from "@/assets/dental/journey/claim-payment-recall-set.png.asset.json";
@@ -475,10 +489,7 @@ export default function Dental() {
             {[
               { title: "Digital Imaging", logos: digitalImagingLogos },
               { title: "Intraoral Cameras", logos: intraoralLogos },
-              {
-                title: "Accounting & Payments",
-                items: ["Xero", "QuickBooks", "Sage", "Stripe", "Network International", "Telr"],
-              },
+              { title: "Accounting & Payments", logos: accountingLogos },
               {
                 title: "Insurance Payers",
                 items: ["DHA Dubai", "DOH Abu Dhabi", "NPHIES KSA", "GCC Payers", "Custom EDI", "REST API"],
@@ -487,7 +498,7 @@ export default function Dental() {
               const cells: Array<{ name: string; src?: string }> = g.logos
                 ? g.logos.slice(0, 6)
                 : (g.items ?? []).slice(0, 6).map((n) => ({ name: n }));
-              while (cells.length < 6) cells.push({ name: "" });
+              if (!g.logos) while (cells.length < 6) cells.push({ name: "" });
               return (
                 <div key={g.title}>
                   <h3 className="text-xl font-semibold tracking-tight text-foreground md:text-2xl">
