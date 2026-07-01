@@ -23,7 +23,7 @@ import {
 import { Footer } from "@/components/Footer";
 import { CtaSection } from "@/components/CtaSection";
 import heroImg from "@/assets/staffaug/hero.jpg";
-import managedItInfrastructureAsset from "@/assets/staffaug/managed-it-infra.jpg.asset.json";
+import managedItInfrastructureAsset from "@/assets/staffaug/managed-it-new.jpg.asset.json";
 import s2 from "@/assets/staffaug/s2.jpg";
 import s3 from "@/assets/staffaug/s3.jpg";
 import s4Asset from "@/assets/staffaug/s4-new.jpg.asset.json";
