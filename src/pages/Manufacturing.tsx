@@ -461,14 +461,26 @@ export default function Manufacturing() {
               </span>
             </h2>
           </div>
-          <div className="mt-14 grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3">
-            {impact.map((i) => (
-              <div key={i} className="flex items-start gap-3 rounded-2xl border border-white/10 bg-white/[0.03] p-6">
-                <CheckCircle2 className="mt-0.5 h-5 w-5 flex-shrink-0 text-[var(--brand-blue)]" />
-                <p className="text-sm leading-relaxed text-white/85">{i}</p>
-              </div>
-            ))}
+          <div className="mt-14 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
+            {impact.map((i) => {
+              const Icon = i.icon;
+              return (
+                <div
+                  key={i.text}
+                  className="flex flex-col items-start gap-5 rounded-2xl border border-white/10 bg-white/[0.03] p-7"
+                >
+                  <div
+                    className="flex h-14 w-14 items-center justify-center rounded-2xl text-white shadow-[var(--shadow-brand)]"
+                    style={{ background: "var(--gradient-brand)" }}
+                  >
+                    <Icon className="h-6 w-6" />
+                  </div>
+                  <p className="text-base leading-relaxed text-white/85">{i.text}</p>
+                </div>
+              );
+            })}
           </div>
+
         </div>
       </section>
 
