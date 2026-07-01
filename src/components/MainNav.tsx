@@ -109,7 +109,7 @@ const menus: Menu[] = [
       { label: "Cybersecurity", to: "/services/cybersecurity", description: "Protect your digital estate" },
       { label: "Consulting", to: "/services/consulting", description: "Strategy and advisory" },
       { label: "Implementation & Integration", to: "/services/implementation", description: "Deploy and integrate" },
-      { label: "Staff Aug & Managed Services", href: "#", description: "Talent and managed ops" },
+      { label: "Staff Aug & Managed Services", to: "/services/staff-aug", description: "Talent and managed ops" },
       { label: "Learning & Knowledge", href: "#", description: "Enablement and training" },
     ],
   },
