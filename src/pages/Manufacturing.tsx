@@ -210,15 +210,17 @@ export default function Manufacturing() {
         </div>
       </main>
 
-      {/* BREAKDOWN + FAILURES */}
+      {/* THE PROBLEM */}
       <section className="relative z-20 -mt-12 rounded-t-[2.5rem] bg-[#0a0e1a] px-6 py-20 shadow-[0_-20px_60px_-20px_rgba(0,0,0,0.4)] md:px-12 md:py-28">
         <div className="mx-auto max-w-6xl">
           <div className="text-center">
-            <p className="text-sm font-semibold uppercase tracking-[0.25em] text-[var(--brand-blue)]">The Problem</p>
+            <span className="inline-flex items-center gap-2 rounded-full border border-red-400/25 bg-red-500/10 px-4 py-1.5 text-xs font-semibold uppercase tracking-wider text-red-400">
+              <AlertTriangle className="h-3.5 w-3.5" /> THE PROBLEM
+            </span>
             <h2 className="mx-auto mt-6 max-w-4xl text-3xl font-bold leading-[1.15] tracking-tight text-white md:text-4xl lg:text-5xl">
-              When manufacturing operations{" "}
+              A Disconnected Factory Is a{" "}
               <span className="bg-clip-text text-transparent" style={{ backgroundImage: "var(--gradient-brand)" }}>
-                start breaking down.
+                Dangerous Factory.
               </span>
             </h2>
             <p className="mx-auto mt-6 max-w-3xl text-base leading-relaxed text-white/70 md:text-lg">
@@ -226,21 +228,44 @@ export default function Manufacturing() {
             </p>
           </div>
 
-          <div className="mt-14 grid grid-cols-1 gap-5 md:grid-cols-2 lg:grid-cols-3">
-            {breakdowns.map((item) => (
-              <div key={item} className="flex items-start gap-3 rounded-2xl border border-white/10 bg-white/[0.03] p-6">
-                <AlertTriangle className="mt-0.5 h-5 w-5 flex-shrink-0 text-[var(--brand-blue)]" />
-                <p className="text-sm leading-relaxed text-white/85">{item}</p>
+          <div className="mt-14 grid grid-cols-1 gap-6 md:grid-cols-3">
+            {problems.map((p) => (
+              <div
+                key={p.n}
+                className="group overflow-hidden rounded-3xl border border-white/10 bg-white/[0.03] transition-all hover:-translate-y-1 hover:border-white/20"
+              >
+                <div className="relative aspect-[16/9] overflow-hidden">
+                  <img
+                    src={p.image}
+                    alt={p.title}
+                    loading="lazy"
+                    width={1024}
+                    height={576}
+                    className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
+                  />
+                </div>
+                <div className="p-6">
+                  <p className="text-xs font-semibold uppercase tracking-[0.25em] text-red-400">
+                    {p.n} — {p.label}
+                  </p>
+                  <h3 className="mt-3 text-xl font-bold text-white">{p.title}</h3>
+                  <p className="mt-3 text-sm leading-relaxed text-white/70">{p.body}</p>
+                </div>
               </div>
             ))}
           </div>
+        </div>
+      </section>
 
-          <div className="mt-16 rounded-3xl border border-white/10 bg-white/[0.04] p-8 md:p-12">
+      {/* WHERE TRADITIONAL SYSTEMS FAIL */}
+      <section className="relative bg-[#0a0e1a] px-6 py-20 md:px-12 md:py-28">
+        <div className="mx-auto max-w-6xl">
+          <div className="rounded-3xl border border-white/10 bg-white/[0.04] p-8 md:p-12">
             <h3 className="text-2xl font-bold leading-tight text-white md:text-3xl">
-              Where traditional systems fail manufacturing companies
+              Where Traditional Systems Fail Manufacturing Companies
             </h3>
             <p className="mt-4 text-sm leading-relaxed text-white/65 md:text-base">
-              Generic ERP systems typically fail because they do not reflect how manufacturing actually works. Manufacturing requires continuous synchronization between planning and execution — not periodic reporting.
+              Generic ERP systems typically fail because they do not reflect how manufacturing actually works:
             </p>
             <ul className="mt-8 grid grid-cols-1 gap-3 md:grid-cols-2">
               {failures.map((f) => (
@@ -250,6 +275,9 @@ export default function Manufacturing() {
                 </li>
               ))}
             </ul>
+            <p className="mt-8 text-sm leading-relaxed text-white/65 md:text-base">
+              Manufacturing requires continuous synchronization between planning and execution—not periodic reporting.
+            </p>
           </div>
         </div>
       </section>
