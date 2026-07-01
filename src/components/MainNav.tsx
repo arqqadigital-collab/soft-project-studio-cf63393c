@@ -106,51 +106,11 @@ const menus: Menu[] = [
   {
     label: "Services",
     items: [
-      {
-        label: "Cybersecurity",
-        description: "Protect your digital estate",
-        items: [
-          { label: "Identity & Access Management", href: "#" },
-          { label: "Network & Endpoint Security", href: "#" },
-          { label: "Data Protection & Compliance", href: "#" },
-          { label: "Healthcare Cybersecurity", href: "#" },
-        ],
-      },
-      {
-        label: "Consulting",
-        description: "Strategy and advisory",
-        items: [
-          { label: "Healthcare IT Consulting", href: "#" },
-          { label: "ERP Consulting", href: "#" },
-          { label: "Digital Transformation", href: "#" },
-        ],
-      },
-      {
-        label: "Implementation & Integration",
-        description: "Deploy and integrate",
-        items: [
-          { label: "Integration & Interoperability Services", href: "#" },
-          { label: "Data Migration", href: "#" },
-        ],
-      },
-      {
-        label: "Staff Aug & Managed Services",
-        description: "Talent and managed ops",
-        items: [
-          { label: "Healthcare IT Professionals", href: "#" },
-          { label: "EMR Specialists (Epic/Cerner/InterSystems)", href: "#" },
-          { label: "Managed IT Services", href: "#" },
-          { label: "ERP & Tech Talent", href: "#" },
-        ],
-      },
-      {
-        label: "Learning & Knowledge",
-        description: "Enablement and training",
-        items: [
-          { label: "Totara LMS", href: "#" },
-          { label: "EndNote Reference Management", href: "#" },
-        ],
-      },
+      { label: "Cybersecurity", href: "#", description: "Protect your digital estate" },
+      { label: "Consulting", href: "#", description: "Strategy and advisory" },
+      { label: "Implementation & Integration", href: "#", description: "Deploy and integrate" },
+      { label: "Staff Aug & Managed Services", href: "#", description: "Talent and managed ops" },
+      { label: "Learning & Knowledge", href: "#", description: "Enablement and training" },
     ],
   },
   {
@@ -209,7 +169,7 @@ function MegaPanel({ menu }: { menu: Menu }) {
 
   if (!hasRightPanel) {
     return (
-      <div className="grid grid-cols-2 gap-2 p-4">
+      <div className="grid grid-cols-1 gap-2 p-4">
         {menu.items.map((item) => (
           <LeafLink
             key={item.label}
@@ -309,7 +269,7 @@ export function MainNav() {
     <nav className="hidden items-center gap-8 lg:flex">
       {menus.map((menu) => {
         const hasRightPanel = menu.items.some((i) => i.items && i.items.length > 0);
-        const width = hasRightPanel ? "w-[640px]" : "w-[520px]";
+        const width = hasRightPanel ? "w-[640px]" : "w-[360px]";
         return (
           <div key={menu.label} className="group relative">
             <button
