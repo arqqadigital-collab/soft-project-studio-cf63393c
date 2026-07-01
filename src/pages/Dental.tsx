@@ -53,6 +53,20 @@ const intraoralLogos = [
   { name: "Schick by Sirona", src: imgIntraSchick.url },
   { name: "Apteryx XVWeb", src: imgIntraApteryx.url },
 ];
+import imgAcctXero from "@/assets/dental/accounting/xero.png.asset.json";
+import imgAcctQb from "@/assets/dental/accounting/quickbooks.png.asset.json";
+import imgAcctSage from "@/assets/dental/accounting/sage.png.asset.json";
+import imgAcctStripe from "@/assets/dental/accounting/stripe.png.asset.json";
+import imgAcctNetwork from "@/assets/dental/accounting/network.png.asset.json";
+import imgAcctTelr from "@/assets/dental/accounting/telr.png.asset.json";
+const accountingLogos = [
+  { name: "Xero", src: imgAcctXero.url },
+  { name: "QuickBooks", src: imgAcctQb.url },
+  { name: "Sage", src: imgAcctSage.url },
+  { name: "Stripe", src: imgAcctStripe.url },
+  { name: "Network International", src: imgAcctNetwork.url },
+  { name: "Telr", src: imgAcctTelr.url },
+];
 import treatmentPlanApproval from "@/assets/dental/journey/treatment-plan-approval.png.asset.json";
 import treatmentDeliveredDocumented from "@/assets/dental/journey/treatment-delivered-documented.png.asset.json";
 import claimPaymentRecallSet from "@/assets/dental/journey/claim-payment-recall-set.png.asset.json";
