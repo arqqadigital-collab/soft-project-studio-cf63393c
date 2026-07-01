@@ -264,32 +264,32 @@ function MethodologyTimeline() {
   const x = useTransform(scrollYProgress, [0, 1], [0, -trackWidth]);
 
   return (
-    <div ref={sectionRef} className="relative" style={{ height: "250vh" }}>
-      <section className="sticky top-0 h-screen overflow-hidden bg-background px-6 pt-24 pb-6 sm:px-8 sm:pt-28 sm:pb-8 lg:px-12 lg:pt-32 lg:pb-10">
-        <div className="relative mx-auto flex h-full max-w-7xl flex-col">
-          <div className="text-center">
+    <div ref={sectionRef} className="relative bg-background" style={{ height: "185vh" }}>
+      <section className="sticky top-20 h-[calc(100vh-5rem)] overflow-hidden bg-background px-6 py-10 sm:px-8 sm:py-12 lg:px-12 lg:py-14">
+        <div className="relative mx-auto flex h-full max-w-7xl flex-col justify-center">
+          <div className="mx-auto max-w-4xl text-center">
             <p className="text-xs font-semibold uppercase tracking-[0.25em] text-[var(--brand-blue)]">
               How We Deliver
             </p>
-            <h2 className="mt-2 text-2xl font-bold leading-tight tracking-tight text-foreground sm:text-3xl lg:text-4xl">
+            <h2 className="mt-3 text-3xl font-bold leading-tight tracking-tight text-foreground sm:text-4xl lg:text-5xl">
               A Proven Methodology.{" "}
               <span className="bg-clip-text text-transparent" style={{ backgroundImage: "var(--gradient-brand)" }}>
                 Relentless Attention to Detail.
               </span>
             </h2>
-            <p className="mx-auto mt-2 max-w-2xl text-sm leading-relaxed text-muted-foreground sm:mt-4 sm:text-base">
+            <p className="mx-auto mt-4 max-w-2xl text-base leading-relaxed text-muted-foreground sm:text-lg">
               Successful implementation is not about technology alone. It's about people, process, and technology working in harmony.
             </p>
           </div>
 
-          <div className="relative mt-6 flex-1 sm:mt-10 lg:mt-12">
+          <div className="relative mt-12 min-h-[260px] sm:mt-14 lg:mt-16">
             {/* Horizontal timeline line */}
             <div className="pointer-events-none absolute left-0 right-0 top-[44px] h-px bg-gradient-to-r from-transparent via-foreground/20 to-transparent sm:top-[48px]" />
 
             <motion.div
               ref={trackRef}
               style={{ x }}
-              className="flex h-full items-start gap-0"
+              className="flex items-start gap-0"
             >
               {phases.map((p, i) => {
                 const Icon = p.icon;
@@ -300,7 +300,7 @@ function MethodologyTimeline() {
                     whileInView={{ opacity: 1, y: 0 }}
                     viewport={{ once: true, margin: "-60px" }}
                     transition={{ duration: 0.5, delay: i * 0.08 }}
-                    className="group relative w-[260px] shrink-0 px-3 sm:w-[280px] sm:px-4 md:w-[300px]"
+                    className="group relative w-[300px] shrink-0 px-5 sm:w-[340px] sm:px-6 lg:w-[380px]"
                   >
                     {/* Phase label above line */}
                     <div className="flex h-[24px] items-end justify-center sm:h-[28px]">
@@ -315,14 +315,14 @@ function MethodologyTimeline() {
                     </div>
 
                     {/* Content below */}
-                    <div className="mt-1 text-center">
-                      <div className="mx-auto mb-2 flex h-8 w-8 items-center justify-center rounded-lg text-primary-foreground shadow-[var(--shadow-brand)] sm:h-9 sm:w-9" style={{ background: "var(--gradient-brand)" }}>
-                        <Icon className="h-4 w-4" />
+                    <div className="mt-3 text-center">
+                      <div className="mx-auto mb-3 flex h-10 w-10 items-center justify-center rounded-lg text-primary-foreground shadow-[var(--shadow-brand)]" style={{ background: "var(--gradient-brand)" }}>
+                        <Icon className="h-5 w-5" />
                       </div>
-                      <p className="text-xs font-bold uppercase tracking-[0.2em] text-foreground">
+                      <p className="text-sm font-bold uppercase tracking-[0.16em] text-foreground">
                         {p.label}
                       </p>
-                      <p className="mt-1 text-xs leading-snug text-muted-foreground">{p.body}</p>
+                      <p className="mt-2 text-sm leading-relaxed text-muted-foreground">{p.body}</p>
                     </div>
                   </motion.div>
                 );
