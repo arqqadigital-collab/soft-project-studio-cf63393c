@@ -498,10 +498,7 @@ export default function Dental() {
               { title: "Digital Imaging", logos: digitalImagingLogos },
               { title: "Intraoral Cameras", logos: intraoralLogos },
               { title: "Accounting & Payments", logos: accountingLogos },
-              {
-                title: "Insurance Payers",
-                items: ["DHA Dubai", "DOH Abu Dhabi", "NPHIES KSA", "GCC Payers", "Custom EDI", "REST API"],
-              },
+              { title: "Insurance Payers", logos: insuranceLogos },
             ].map((g) => {
               const cells: Array<{ name: string; src?: string }> = g.logos
                 ? g.logos.slice(0, 6)
