@@ -79,14 +79,20 @@ export default function Contact() {
   return (
     <main className="bg-background">
       {/* Hero */}
-      <section
-        className="relative overflow-hidden px-6 pb-16 pt-32 md:px-12 md:pb-24 md:pt-40"
-        style={{
-          background:
-            "linear-gradient(135deg, var(--brand-dark) 0%, color-mix(in oklab, var(--brand-blue) 60%, var(--brand-dark)) 100%)",
-        }}
-      >
-        <div className="mx-auto max-w-6xl text-center text-white">
+      <section className="relative overflow-hidden px-6 pb-16 pt-32 md:px-12 md:pb-24 md:pt-40">
+        <img
+          src={contactHero.url}
+          alt="Person typing on a laptop"
+          className="absolute inset-0 h-full w-full object-cover"
+        />
+        <div
+          className="absolute inset-0"
+          style={{
+            background:
+              "linear-gradient(135deg, color-mix(in oklab, var(--brand-dark) 82%, transparent) 0%, color-mix(in oklab, var(--brand-blue) 55%, var(--brand-dark) 45%) 100%)",
+          }}
+        />
+        <div className="relative mx-auto max-w-6xl text-center text-white">
           <p
             className="text-sm font-semibold uppercase tracking-[0.25em]"
             style={{ color: "var(--brand-green)" }}
@@ -102,6 +108,7 @@ export default function Contact() {
           </p>
         </div>
       </section>
+
 
       {/* Form Section */}
       <section className="px-6 py-20 md:px-12 md:py-28">
