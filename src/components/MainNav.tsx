@@ -291,13 +291,13 @@ export function MainNav() {
       })}
 
       {simpleLinks.map((link) => (
-        <a
+        <Link
           key={link}
-          href="#"
+          to="/contact"
           className="text-sm font-medium text-white/80 transition-colors hover:text-white"
         >
           {link}
-        </a>
+        </Link>
       ))}
     </nav>
   );
