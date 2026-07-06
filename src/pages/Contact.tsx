@@ -24,7 +24,7 @@ const offices = [
     phone: "+1 (407) 3735356",
     email: "sbs@sbs-me.com",
     image:
-      "https://images.unsplash.com/photo-1554043008-5b3fe2df7451?auto=format&fit=crop&w=800&q=70",
+      "https://images.unsplash.com/photo-1602940659805-770d1b3b9911?auto=format&fit=crop&w=800&q=70",
   },
   {
     city: "Dubai, UAE",
@@ -40,7 +40,7 @@ const offices = [
     phone: "+974 4426 7499",
     email: "sbs@sbs-me.com",
     image:
-      "https://images.unsplash.com/photo-1518990708879-b53d70ec38da?auto=format&fit=crop&w=800&q=70",
+      "https://images.unsplash.com/photo-1563296291-1cfcaad86e6d?auto=format&fit=crop&w=800&q=70",
   },
   {
     city: "Saudi Arabia",
@@ -56,8 +56,9 @@ const offices = [
     phone: "+2 (02) 24725260",
     email: "sbs@sbs-me.com",
     image:
-      "https://images.unsplash.com/photo-1539650116574-75c0c6d73f6e?auto=format&fit=crop&w=800&q=70",
+      "https://images.unsplash.com/photo-1572252009286-268acec5ca0a?auto=format&fit=crop&w=800&q=70",
   },
+
 ];
 
 export default function Contact() {
