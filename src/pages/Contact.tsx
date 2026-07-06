@@ -1,8 +1,8 @@
 import { useState } from "react";
 import { Send, MapPin, Phone, Mail } from "lucide-react";
-import { CtaSection } from "@/components/CtaSection";
 import { Footer } from "@/components/Footer";
 import contactHero from "@/assets/contact/contact-hero.jpg.asset.json";
+import qatarImage from "@/assets/contact/qatar.jpg.asset.json";
 
 
 const inquiryAreas = [
@@ -39,8 +39,7 @@ const offices = [
     address: "1st Floor, Al-Jaidah Square Building, Airport Road, PO Box 55743, Doha, Qatar",
     phone: "+974 4426 7499",
     email: "sbs@sbs-me.com",
-    image:
-      "https://images.unsplash.com/photo-1563296291-1cfcaad86e6d?auto=format&fit=crop&w=800&q=70",
+    image: qatarImage.url,
   },
   {
     city: "Saudi Arabia",
@@ -287,7 +286,7 @@ export default function Contact() {
         </div>
       </section>
 
-      <CtaSection />
+      
       <Footer />
     </main>
   );
