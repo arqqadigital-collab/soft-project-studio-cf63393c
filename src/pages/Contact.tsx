@@ -2,6 +2,8 @@ import { useState } from "react";
 import { Send, MapPin, Phone, Mail } from "lucide-react";
 import { CtaSection } from "@/components/CtaSection";
 import { Footer } from "@/components/Footer";
+import contactHero from "@/assets/contact/contact-hero.jpg.asset.json";
+
 
 const inquiryAreas = [
   "Dynamics 365 Business Central",
@@ -22,7 +24,7 @@ const offices = [
     phone: "+1 (407) 3735356",
     email: "sbs@sbs-me.com",
     image:
-      "https://images.unsplash.com/photo-1554043008-5b3fe2df7451?auto=format&fit=crop&w=800&q=70",
+      "https://images.unsplash.com/photo-1602940659805-770d1b3b9911?auto=format&fit=crop&w=800&q=70",
   },
   {
     city: "Dubai, UAE",
@@ -38,7 +40,7 @@ const offices = [
     phone: "+974 4426 7499",
     email: "sbs@sbs-me.com",
     image:
-      "https://images.unsplash.com/photo-1518990708879-b53d70ec38da?auto=format&fit=crop&w=800&q=70",
+      "https://images.unsplash.com/photo-1563296291-1cfcaad86e6d?auto=format&fit=crop&w=800&q=70",
   },
   {
     city: "Saudi Arabia",
@@ -54,8 +56,9 @@ const offices = [
     phone: "+2 (02) 24725260",
     email: "sbs@sbs-me.com",
     image:
-      "https://images.unsplash.com/photo-1539650116574-75c0c6d73f6e?auto=format&fit=crop&w=800&q=70",
+      "https://images.unsplash.com/photo-1572252009286-268acec5ca0a?auto=format&fit=crop&w=800&q=70",
   },
+
 ];
 
 export default function Contact() {
@@ -76,14 +79,20 @@ export default function Contact() {
   return (
     <main className="bg-background">
       {/* Hero */}
-      <section
-        className="relative overflow-hidden px-6 pb-16 pt-32 md:px-12 md:pb-24 md:pt-40"
-        style={{
-          background:
-            "linear-gradient(135deg, var(--brand-dark) 0%, color-mix(in oklab, var(--brand-blue) 60%, var(--brand-dark)) 100%)",
-        }}
-      >
-        <div className="mx-auto max-w-6xl text-center text-white">
+      <section className="relative overflow-hidden px-6 pb-16 pt-32 md:px-12 md:pb-24 md:pt-40">
+        <img
+          src={contactHero.url}
+          alt="Person typing on a laptop"
+          className="absolute inset-0 h-full w-full object-cover"
+        />
+        <div
+          className="absolute inset-0"
+          style={{
+            background:
+              "linear-gradient(135deg, color-mix(in oklab, var(--brand-dark) 82%, transparent) 0%, color-mix(in oklab, var(--brand-blue) 55%, var(--brand-dark) 45%) 100%)",
+          }}
+        />
+        <div className="relative mx-auto max-w-6xl text-center text-white">
           <p
             className="text-sm font-semibold uppercase tracking-[0.25em]"
             style={{ color: "var(--brand-green)" }}
@@ -99,6 +108,7 @@ export default function Contact() {
           </p>
         </div>
       </section>
+
 
       {/* Form Section */}
       <section className="px-6 py-20 md:px-12 md:py-28">
@@ -197,7 +207,7 @@ export default function Contact() {
           </form>
 
           {/* Quick contact info */}
-          <div className="flex flex-col justify-center gap-6">
+          <div className="flex flex-col justify-start gap-6">
             <InfoCard
               icon={<Mail className="h-5 w-5" />}
               title="Email us"
