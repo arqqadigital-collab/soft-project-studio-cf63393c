@@ -207,7 +207,7 @@ export default function Contact() {
           </form>
 
           {/* Quick contact info */}
-          <div className="flex flex-col justify-center gap-6">
+          <div className="flex flex-col justify-start gap-6">
             <InfoCard
               icon={<Mail className="h-5 w-5" />}
               title="Email us"
