@@ -2,6 +2,7 @@ import { useState } from "react";
 import { Send, MapPin, Phone, Mail } from "lucide-react";
 import { Footer } from "@/components/Footer";
 import contactHero from "@/assets/contact/contact-hero.jpg.asset.json";
+import qatarImage from "@/assets/contact/qatar.jpg.asset.json";
 
 
 const inquiryAreas = [
