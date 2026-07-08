@@ -77,7 +77,9 @@ export default function App() {
         <Route path="/services/implementation" element={<Implementation />} />
         <Route path="/services/staff-aug" element={<StaffAug />} />
         <Route path="/blog" element={<Blog />} />
+        <Route path="/blog/:slug" element={<ArticleDetail />} />
         <Route path="/case-studies" element={<CaseStudies />} />
+        <Route path="/case-studies/:slug" element={<ArticleDetail />} />
         <Route path="/contact" element={<Contact />} />
         <Route path="*" element={<NotFound />} />
       </Routes>
