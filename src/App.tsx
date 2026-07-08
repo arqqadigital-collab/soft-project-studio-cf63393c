@@ -25,6 +25,7 @@ import StaffAug from "./pages/StaffAug";
 import Blog from "./pages/Blog";
 import CaseStudies from "./pages/CaseStudies";
 import Contact from "./pages/Contact";
+import ArticleDetail from "./pages/ArticleDetail";
 
 function NotFound() {
   return (
