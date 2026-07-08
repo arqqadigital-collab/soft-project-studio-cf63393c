@@ -1,7 +1,11 @@
 import { motion } from "framer-motion";
 import { Clock, ArrowRight, Calendar } from "lucide-react";
+import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Footer } from "@/components/Footer";
+
+const slugify = (s: string) =>
+  s.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "");
 
 const fadeInUp = {
   hidden: { opacity: 0, y: 30 },
@@ -222,9 +226,11 @@ export default function Blog() {
                   <CardMeta readTime={featuredPost.readTime} date={featuredPost.date} />
                 </div>
                 <div className="mt-8">
-                  <Button className="group/btn inline-flex items-center gap-2">
-                    Read Article
-                    <ArrowRight className="h-4 w-4 transition-transform group-hover/btn:translate-x-1" />
+                  <Button asChild className="group/btn inline-flex items-center gap-2">
+                    <Link to={`/blog/${slugify(featuredPost.title)}`}>
+                      Read Article
+                      <ArrowRight className="h-4 w-4 transition-transform group-hover/btn:translate-x-1" />
+                    </Link>
                   </Button>
                 </div>
               </div>
@@ -255,23 +261,25 @@ export default function Blog() {
                 whileInView="visible"
                 viewport={{ once: true, amount: 0.2 }}
               >
-                <CoverPlaceholder className="aspect-[16/10] w-full" />
-                <div className="flex flex-1 flex-col p-6">
-                  <span
-                    className="w-fit rounded-full px-3 py-1 text-xs font-semibold uppercase tracking-wider"
-                    style={{ color: "var(--brand-blue)", background: "oklch(0.62 0.13 230 / 0.1)" }}
-                  >
-                    {post.category}
-                  </span>
-                  <h3 className="mt-4 text-xl font-semibold leading-snug text-card-foreground transition-colors group-hover:text-[var(--brand-blue)]">
-                    {post.title}
-                  </h3>
-                  <p className="mt-3 flex-1 text-sm text-muted-foreground">{post.excerpt}</p>
-                  <div className="mt-6 flex flex-wrap items-center justify-between gap-4 border-t border-border pt-5">
-                    <AuthorBadge author={post.author} />
-                    <CardMeta readTime={post.readTime} date={post.date} />
+                <Link to={`/blog/${slugify(post.title)}`} className="flex flex-1 flex-col">
+                  <CoverPlaceholder className="aspect-[16/10] w-full" />
+                  <div className="flex flex-1 flex-col p-6">
+                    <span
+                      className="w-fit rounded-full px-3 py-1 text-xs font-semibold uppercase tracking-wider"
+                      style={{ color: "var(--brand-blue)", background: "oklch(0.62 0.13 230 / 0.1)" }}
+                    >
+                      {post.category}
+                    </span>
+                    <h3 className="mt-4 text-xl font-semibold leading-snug text-card-foreground transition-colors group-hover:text-[var(--brand-blue)]">
+                      {post.title}
+                    </h3>
+                    <p className="mt-3 flex-1 text-sm text-muted-foreground">{post.excerpt}</p>
+                    <div className="mt-6 flex flex-wrap items-center justify-between gap-4 border-t border-border pt-5">
+                      <AuthorBadge author={post.author} />
+                      <CardMeta readTime={post.readTime} date={post.date} />
+                    </div>
                   </div>
-                </div>
+                </Link>
               </motion.article>
             ))}
           </div>

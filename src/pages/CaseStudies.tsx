@@ -1,6 +1,10 @@
 import { motion } from "framer-motion";
 import { ArrowRight } from "lucide-react";
+import { Link } from "react-router-dom";
 import { Footer } from "@/components/Footer";
+
+const slugify = (s: string) =>
+  s.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "");
 
 const fadeInUp = {
   hidden: { opacity: 0, y: 30 },
@@ -152,14 +156,14 @@ export default function CaseStudies() {
                     {study.title}
                   </h3>
                   <p className="mt-3 text-sm text-muted-foreground md:text-base">{study.excerpt}</p>
-                  <a
-                    href="#"
+                  <Link
+                    to={`/case-studies/${slugify(study.title)}`}
                     className="mt-4 inline-flex items-center gap-2 text-sm font-semibold transition-colors"
                     style={{ color: "var(--brand-blue)" }}
                   >
                     See more
                     <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
-                  </a>
+                  </Link>
                 </div>
                 <CoverPlaceholder className="aspect-[16/9] w-full" />
               </motion.article>
