@@ -42,6 +42,7 @@ export default function ArticleDetail() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5 }}
+            className="text-left"
           >
             <Link
               to={backHref}
@@ -68,7 +69,7 @@ export default function ArticleDetail() {
               </span>
             </div>
 
-            <h1 className="mt-5 text-3xl font-bold leading-tight tracking-tight text-foreground md:text-4xl lg:text-5xl">
+            <h1 className="mt-5 text-left text-3xl font-bold leading-tight tracking-tight text-foreground md:text-4xl lg:text-5xl">
               {title}
             </h1>
           </motion.div>
@@ -89,7 +90,7 @@ export default function ArticleDetail() {
 
       <article className="py-16 md:py-20">
         <div className="mx-auto max-w-3xl px-6">
-          <div className="space-y-10 text-base leading-relaxed text-foreground md:text-lg">
+          <div className="space-y-10 text-left text-base leading-relaxed text-foreground md:text-lg">
             <div>
               <p className="text-muted-foreground">
                 Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor
@@ -101,7 +102,7 @@ export default function ArticleDetail() {
             </div>
 
             <div>
-              <h2 className="mb-4 text-2xl font-bold text-foreground md:text-3xl">
+              <h2 className="mb-4 text-left text-2xl font-bold text-foreground md:text-3xl">
                 Understanding the Core Concepts
               </h2>
               <p className="text-muted-foreground">
@@ -113,12 +114,12 @@ export default function ArticleDetail() {
             </div>
 
             <div>
-              <p className="mb-4 text-muted-foreground">
+              <p className="mb-4 text-left text-muted-foreground">
                 Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia
                 consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt. Key benefits
                 include:
               </p>
-              <ul className="ml-6 list-disc space-y-2 text-muted-foreground">
+              <ul className="ml-6 list-disc space-y-2 text-left text-muted-foreground">
                 <li>Improved operational efficiency across teams and workflows</li>
                 <li>Streamlined data management with real-time visibility</li>
                 <li>Enhanced compliance with regional and international standards</li>
@@ -128,12 +129,12 @@ export default function ArticleDetail() {
             </div>
 
             <div>
-              <p className="mb-4 text-muted-foreground">
+              <p className="mb-4 text-left text-muted-foreground">
                 Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet, consectetur,
                 adipisci velit, sed quia non numquam eius modi tempora incidunt ut labore et dolore
                 magnam aliquam quaerat voluptatem. Consider the following best practices:
               </p>
-              <ul className="ml-6 list-disc space-y-2 text-muted-foreground">
+              <ul className="ml-6 list-disc space-y-2 text-left text-muted-foreground">
                 <li>Start with a clear discovery and requirements-gathering phase</li>
                 <li>Engage stakeholders early and communicate progress transparently</li>
                 <li>Adopt an iterative delivery model with measurable milestones</li>
