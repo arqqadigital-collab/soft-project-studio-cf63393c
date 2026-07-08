@@ -120,7 +120,7 @@ export default function Contact() {
 
 
       {/* Form Section */}
-      <section className="px-6 py-20 md:px-12 md:py-28">
+      <section id="contact-form" className="px-6 py-20 md:px-12 md:py-28">
         <div className="mx-auto grid max-w-6xl gap-10 lg:grid-cols-[1.1fr_1fr]">
           <form
             onSubmit={handleSubmit}
