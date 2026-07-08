@@ -105,6 +105,16 @@ export default function Contact() {
             Have a project in mind or need expert advice? Reach out and one of our specialists will
             get back to you within 24 hours.
           </p>
+          <div className="mt-8 flex justify-center">
+            <a
+              href="#contact-form"
+              className="inline-flex items-center gap-3 rounded-full px-8 py-4 text-sm font-semibold text-white shadow-[var(--shadow-brand)] transition-transform hover:scale-105"
+              style={{ background: "var(--gradient-brand)" }}
+            >
+              Request a Consultation
+              <Send className="h-4 w-4" />
+            </a>
+          </div>
         </div>
       </section>
 
