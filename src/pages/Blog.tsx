@@ -261,23 +261,25 @@ export default function Blog() {
                 whileInView="visible"
                 viewport={{ once: true, amount: 0.2 }}
               >
-                <CoverPlaceholder className="aspect-[16/10] w-full" />
-                <div className="flex flex-1 flex-col p-6">
-                  <span
-                    className="w-fit rounded-full px-3 py-1 text-xs font-semibold uppercase tracking-wider"
-                    style={{ color: "var(--brand-blue)", background: "oklch(0.62 0.13 230 / 0.1)" }}
-                  >
-                    {post.category}
-                  </span>
-                  <h3 className="mt-4 text-xl font-semibold leading-snug text-card-foreground transition-colors group-hover:text-[var(--brand-blue)]">
-                    {post.title}
-                  </h3>
-                  <p className="mt-3 flex-1 text-sm text-muted-foreground">{post.excerpt}</p>
-                  <div className="mt-6 flex flex-wrap items-center justify-between gap-4 border-t border-border pt-5">
-                    <AuthorBadge author={post.author} />
-                    <CardMeta readTime={post.readTime} date={post.date} />
+                <Link to={`/blog/${slugify(post.title)}`} className="flex flex-1 flex-col">
+                  <CoverPlaceholder className="aspect-[16/10] w-full" />
+                  <div className="flex flex-1 flex-col p-6">
+                    <span
+                      className="w-fit rounded-full px-3 py-1 text-xs font-semibold uppercase tracking-wider"
+                      style={{ color: "var(--brand-blue)", background: "oklch(0.62 0.13 230 / 0.1)" }}
+                    >
+                      {post.category}
+                    </span>
+                    <h3 className="mt-4 text-xl font-semibold leading-snug text-card-foreground transition-colors group-hover:text-[var(--brand-blue)]">
+                      {post.title}
+                    </h3>
+                    <p className="mt-3 flex-1 text-sm text-muted-foreground">{post.excerpt}</p>
+                    <div className="mt-6 flex flex-wrap items-center justify-between gap-4 border-t border-border pt-5">
+                      <AuthorBadge author={post.author} />
+                      <CardMeta readTime={post.readTime} date={post.date} />
+                    </div>
                   </div>
-                </div>
+                </Link>
               </motion.article>
             ))}
           </div>
