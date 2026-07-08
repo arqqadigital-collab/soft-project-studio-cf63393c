@@ -226,9 +226,11 @@ export default function Blog() {
                   <CardMeta readTime={featuredPost.readTime} date={featuredPost.date} />
                 </div>
                 <div className="mt-8">
-                  <Button className="group/btn inline-flex items-center gap-2">
-                    Read Article
-                    <ArrowRight className="h-4 w-4 transition-transform group-hover/btn:translate-x-1" />
+                  <Button asChild className="group/btn inline-flex items-center gap-2">
+                    <Link to={`/blog/${slugify(featuredPost.title)}`}>
+                      Read Article
+                      <ArrowRight className="h-4 w-4 transition-transform group-hover/btn:translate-x-1" />
+                    </Link>
                   </Button>
                 </div>
               </div>
