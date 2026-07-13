@@ -77,7 +77,7 @@ export function ProcessSection() {
   const x = useTransform(scrollYProgress, [0, 1], [0, -maxScroll]);
 
   return (
-    <section ref={ref} className="relative bg-background" style={{ height: "300vh" }}>
+    <section ref={ref} className="relative bg-background overflow-x-clip" style={{ height: "300vh" }}>
       <div className="sticky top-0 flex h-screen flex-col overflow-hidden">
         {/* Header */}
         <div className="mx-auto w-full max-w-7xl px-6 pt-16 md:pt-20">

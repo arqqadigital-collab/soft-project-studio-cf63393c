@@ -1,14 +1,21 @@
-## Problem
-The last card leaves empty space on the right because the horizontal translate is a fixed `-66.6667%` (assumes 3 equal viewport-wide cards), but cards are actually fixed-pixel widths (`w-[560px]` on lg, `w-[500px]` on md). So the transform overshoots or undershoots the real track width, leaving the visible gap in the screenshot.
+## Issues
+1. **Page-level horizontal overflow** — the whole site shows a bottom horizontal scrollbar. The `ProcessSection` cards track (`px-6 md:px-12` + fixed-width cards) extends past the viewport, and the sticky viewport uses `overflow-hidden` but the outer section still contributes to page width in some browsers. Additionally, no global guard prevents any child from causing body-level horizontal scroll.
+2. **Card shadows** — each process card uses `shadow-xl`, visible as a soft drop shadow around the rounded cards.
 
 ## Fix
-Make the translate distance dynamic based on the real rendered width of the cards track vs. the viewport container, so the last card always lands flush against the right edge.
 
-### Steps in `src/components/ProcessSection.tsx`
-1. Add refs to the sticky viewport container and the motion cards track.
-2. Measure `track.scrollWidth - container.clientWidth` on mount and on resize (ResizeObserver).
-3. Replace the percentage-based `useTransform` with a pixel-based one: `x = useTransform(scrollYProgress, [0, 1], [0, -maxScroll])`.
-4. Keep everything else (scrollbar-hide, layout, motion) unchanged.
+### `src/components/ProcessSection.tsx`
+- Remove `shadow-xl` from the `<article>` card className.
+- Ensure the outer `<section>` clips horizontally: add `overflow-x-clip` (or `overflow-hidden`) to the section wrapper so it can never contribute to page-level horizontal scroll.
 
-## Why this approach
-Percentage transforms only work when card widths are also percentage/viewport based. Since the design uses fixed pixel card widths for a consistent look, measuring the actual overflow is the correct, responsive fix — no more trailing gap at any breakpoint.
+### `src/styles.css` (global safety net)
+- Add:
+  ```css
+  html, body { overflow-x: clip; }
+  ```
+  This prevents any stray wide element anywhere on the site from creating a page-level horizontal scrollbar, while still allowing intentional vertical scroll and internal horizontal scroll containers (like the process track) to work.
+
+## Why
+- `overflow-x: clip` on `html, body` is the modern, side-effect-free way to kill accidental page-wide horizontal scroll (unlike `overflow: hidden` which can break `position: sticky`).
+- Clipping the section as well provides defense-in-depth so the sticky horizontal scroll effect never leaks outward.
+- Removing `shadow-xl` matches the flat look requested.
