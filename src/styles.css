@@ -150,11 +150,8 @@
     background-color: var(--color-background);
     color: var(--color-foreground);
   }
-}
-    background-color: var(--color-background);
-    color: var(--color-foreground);
-  }
-}
+
+
 
 @keyframes marquee {
   from { transform: translateX(0); }
