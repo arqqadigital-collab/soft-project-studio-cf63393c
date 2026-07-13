@@ -77,7 +77,7 @@ export function ProcessSection() {
   const x = useTransform(scrollYProgress, [0, 1], [0, -maxScroll]);
 
   return (
-    <section ref={ref} className="relative bg-background" style={{ height: "300vh" }}>
+    <section ref={ref} className="relative bg-background overflow-x-clip" style={{ height: "300vh" }}>
       <div className="sticky top-0 flex h-screen flex-col overflow-hidden">
         {/* Header */}
         <div className="mx-auto w-full max-w-7xl px-6 pt-16 md:pt-20">
@@ -121,7 +121,7 @@ export function ProcessSection() {
             {cards.map((card, i) => (
               <article
                 key={i}
-                className="relative flex h-[55vh] w-[78vw] shrink-0 overflow-hidden rounded-[2rem] shadow-xl md:w-[500px] lg:w-[560px]"
+                className="relative flex h-[55vh] w-[78vw] shrink-0 overflow-hidden rounded-[2rem] md:w-[500px] lg:w-[560px]"
               >
                 <video
                   className="absolute inset-0 h-full w-full object-cover"
