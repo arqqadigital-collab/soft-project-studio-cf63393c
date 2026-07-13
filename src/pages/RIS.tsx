@@ -28,12 +28,12 @@ import risJourney2 from "@/assets/ris/journey-2.jpg";
 import risJourney3 from "@/assets/ris/journey-3.jpg";
 import risJourney4 from "@/assets/ris/journey-4.jpg";
 import risJourney5 from "@/assets/ris/journey-5.jpg";
-import philipsLogo from "@/assets/ris/integrations/philips.png.asset.json";
-import iheLogo from "@/assets/ris/integrations/ihe.png.asset.json";
-import epicLogo from "@/assets/ris/integrations/epic.png.asset.json";
-import dicomLogo from "@/assets/ris/integrations/dicom.png.asset.json";
-import cernerLogo from "@/assets/ris/integrations/cerner.png.asset.json";
-import agfaLogo from "@/assets/ris/integrations/agfa.png.asset.json";
+import philipsLogo from "@/assets/ris/integrations/philips.png"
+import iheLogo from "@/assets/ris/integrations/ihe.png"
+import epicLogo from "@/assets/ris/integrations/epic.png"
+import dicomLogo from "@/assets/ris/integrations/dicom.png"
+import cernerLogo from "@/assets/ris/integrations/cerner.png"
+import agfaLogo from "@/assets/ris/integrations/agfa.png"
 
 import { Footer } from "@/components/Footer";
 import { CtaSection } from "@/components/CtaSection";
@@ -428,12 +428,12 @@ export default function RIS() {
           </p>
           <div className="mt-12 grid grid-cols-6 gap-4">
             {[
-              { src: philipsLogo.url, name: "Philips" },
-              { src: iheLogo.url, name: "IHE International" },
-              { src: epicLogo.url, name: "Epic" },
-              { src: dicomLogo.url, name: "DICOM" },
-              { src: cernerLogo.url, name: "Cerner" },
-              { src: agfaLogo.url, name: "AGFA" },
+              { src: philipsLogo, name: "Philips" },
+              { src: iheLogo, name: "IHE International" },
+              { src: epicLogo, name: "Epic" },
+              { src: dicomLogo, name: "DICOM" },
+              { src: cernerLogo, name: "Cerner" },
+              { src: agfaLogo, name: "AGFA" },
             ].map((logo) => (
               <div
                 key={logo.name}

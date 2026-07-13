@@ -31,13 +31,13 @@ import {
 } from "lucide-react";
 import hisHeroVideo from "@/assets/his-hero.mp4.asset.json";
 import hisCtaVideo from "@/assets/his-cta.mp4.asset.json";
-import bgStepsLight from "@/assets/bg-steps-light.png.asset.json";
-import registrationStep from "@/assets/his-journey/registration.png.asset.json";
-import outpatientConsultationStep from "@/assets/his-journey/outpatient-consultation.png.asset.json";
-import admissionStep from "@/assets/his-journey/admission.png.asset.json";
-import inpatientCareStep from "@/assets/his-journey/inpatient-care.png.asset.json";
-import dischargeStep from "@/assets/his-journey/discharge.png.asset.json";
-import billingSettlementStep from "@/assets/his-journey/billing-settlement.png.asset.json";
+import bgStepsLight from "@/assets/bg-steps-light.png"
+import registrationStep from "@/assets/his-journey/registration.png"
+import outpatientConsultationStep from "@/assets/his-journey/outpatient-consultation.png"
+import admissionStep from "@/assets/his-journey/admission.png"
+import inpatientCareStep from "@/assets/his-journey/inpatient-care.png"
+import dischargeStep from "@/assets/his-journey/discharge.png"
+import billingSettlementStep from "@/assets/his-journey/billing-settlement.png"
 
 import { Footer } from "@/components/Footer";
 import { CtaSection } from "@/components/CtaSection";
@@ -58,12 +58,12 @@ const features = [
 ];
 
 const journey = [
-  { icon: UserPlus, title: "Registration", image: registrationStep.url, body: "Patient registered with verified identity and complete demographics. A unique master record is created or retrieved. Duplicate detection prevents fragmented histories." },
-  { icon: CalendarCheck, title: "Outpatient Consultation", image: outpatientConsultationStep.url, body: "Appointment conducted with full clinical history visible. The physician documents, orders, prescribes and refers — all in one screen, all in one workflow." },
-  { icon: BedDouble, title: "Admission", image: admissionStep.url, body: "If admission is required, the patient moves from outpatient directly into inpatient workflow. Bed assignment, assessment, reconciliation and nursing documentation begin immediately." },
-  { icon: HeartPulse, title: "Inpatient Care", image: inpatientCareStep.url, body: "Every clinical event — rounds, assessments, investigations, procedures, medications, transfers — is documented in the unified record with continuous decision support." },
-  { icon: FileText, title: "Discharge", image: dischargeStep.url, body: "Discharge planning begins at admission. The summary is generated from structured data. Medications are reconciled and follow-up appointments booked through the patient portal." },
-  { icon: Receipt, title: "Billing & Settlement", image: billingSettlementStep.url, body: "All clinical activity is captured automatically. Bills are generated from the clinical record, claims submitted electronically and payment reconciled — closing the financial and clinical record together." },
+  { icon: UserPlus, title: "Registration", image: registrationStep, body: "Patient registered with verified identity and complete demographics. A unique master record is created or retrieved. Duplicate detection prevents fragmented histories." },
+  { icon: CalendarCheck, title: "Outpatient Consultation", image: outpatientConsultationStep, body: "Appointment conducted with full clinical history visible. The physician documents, orders, prescribes and refers — all in one screen, all in one workflow." },
+  { icon: BedDouble, title: "Admission", image: admissionStep, body: "If admission is required, the patient moves from outpatient directly into inpatient workflow. Bed assignment, assessment, reconciliation and nursing documentation begin immediately." },
+  { icon: HeartPulse, title: "Inpatient Care", image: inpatientCareStep, body: "Every clinical event — rounds, assessments, investigations, procedures, medications, transfers — is documented in the unified record with continuous decision support." },
+  { icon: FileText, title: "Discharge", image: dischargeStep, body: "Discharge planning begins at admission. The summary is generated from structured data. Medications are reconciled and follow-up appointments booked through the patient portal." },
+  { icon: Receipt, title: "Billing & Settlement", image: billingSettlementStep, body: "All clinical activity is captured automatically. Bills are generated from the clinical record, claims submitted electronically and payment reconciled — closing the financial and clinical record together." },
 ];
 
 const stats = [
@@ -75,24 +75,24 @@ const stats = [
   { value: "100%", label: "Of HIS clients pursuing EMRAM Stage 6 achieved it within their target timeline" },
 ];
 
-import nphiesLogo from "@/assets/logos/nphies.png.asset.json";
-import malaffiLogo from "@/assets/logos/malaffi.png.asset.json";
-import riayatiLogo from "@/assets/logos/riayati.png.asset.json";
-import zatcaLogo from "@/assets/logos/zatca.png.asset.json";
-import emiratesIdLogo from "@/assets/logos/emirates-id.png.asset.json";
-import absherLogo from "@/assets/logos/absher.png.asset.json";
-import nhraLogo from "@/assets/logos/nhra.png.asset.json";
-import wasfatyLogo from "@/assets/logos/wasfaty.png.asset.json";
+import nphiesLogo from "@/assets/logos/nphies.png"
+import malaffiLogo from "@/assets/logos/malaffi.png"
+import riayatiLogo from "@/assets/logos/riayati.png"
+import zatcaLogo from "@/assets/logos/zatca.png"
+import emiratesIdLogo from "@/assets/logos/emirates-id.png"
+import absherLogo from "@/assets/logos/absher.png"
+import nhraLogo from "@/assets/logos/nhra.png"
+import wasfatyLogo from "@/assets/logos/wasfaty.png"
 
 const nationalPlatforms = [
-  { name: "NPHIES", logo: nphiesLogo.url },
-  { name: "Malaffi", logo: malaffiLogo.url },
-  { name: "Riayati", logo: riayatiLogo.url },
-  { name: "ZATCA Fatoora", logo: zatcaLogo.url },
-  { name: "UAE Emirates ID", logo: emiratesIdLogo.url },
-  { name: "Saudi Absher", logo: absherLogo.url },
-  { name: "Bahrain NHRA", logo: nhraLogo.url },
-  { name: "Wasfaty", logo: wasfatyLogo.url },
+  { name: "NPHIES", logo: nphiesLogo },
+  { name: "Malaffi", logo: malaffiLogo },
+  { name: "Riayati", logo: riayatiLogo },
+  { name: "ZATCA Fatoora", logo: zatcaLogo },
+  { name: "UAE Emirates ID", logo: emiratesIdLogo },
+  { name: "Saudi Absher", logo: absherLogo },
+  { name: "Bahrain NHRA", logo: nhraLogo },
+  { name: "Wasfaty", logo: wasfatyLogo },
 ];
 
 const faqs = [
@@ -513,7 +513,7 @@ export default function HIS() {
       <section
         className="relative px-6 py-24 md:px-12"
         style={{
-          backgroundImage: `url(${bgStepsLight.url})`,
+          backgroundImage: `url(${bgStepsLight})`,
           backgroundSize: "cover",
           backgroundPosition: "center",
           backgroundAttachment: "fixed",

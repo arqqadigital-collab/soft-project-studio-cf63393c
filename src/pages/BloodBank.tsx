@@ -17,13 +17,13 @@ import {
   HeartPulse,
   Workflow,
 } from "lucide-react";
-import heroVideo from "@/assets/blood-bank/hero-video.mp4.asset.json";
+import heroVideo from "@/assets/blood-bank/hero-video.mp4"
 import ctaVideo from "@/assets/blood-bank/cta-video.mp4.asset.json";
-import bgStepsLight from "@/assets/bg-steps-light.png.asset.json";
-import aabbLogo from "@/assets/bloodbank/integrations/aabb.png.asset.json";
-import fdaLogo from "@/assets/bloodbank/integrations/fda.png.asset.json";
-import iccbbaLogo from "@/assets/bloodbank/integrations/iccbba.png.asset.json";
-import iso15189Logo from "@/assets/bloodbank/integrations/iso15189.png.asset.json";
+import bgStepsLight from "@/assets/bg-steps-light.png"
+import aabbLogo from "@/assets/bloodbank/integrations/aabb.png"
+import fdaLogo from "@/assets/bloodbank/integrations/fda.png"
+import iccbbaLogo from "@/assets/bloodbank/integrations/iccbba.png"
+import iso15189Logo from "@/assets/bloodbank/integrations/iso15189.png"
 import problemMislabeled from "@/assets/blood-bank/problems/mislabeled.jpg";
 import problemExpired from "@/assets/blood-bank/problems/expired.jpg";
 import problemPaper from "@/assets/blood-bank/problems/paper.jpg";
@@ -202,7 +202,7 @@ export default function BloodBank() {
       <main className="pt-20 relative min-h-[90vh] w-full overflow-hidden bg-background">
         <div className="absolute inset-0">
           <video
-            src={heroVideo.url}
+            src={heroVideo}
             autoPlay
             muted
             loop
@@ -391,7 +391,7 @@ export default function BloodBank() {
       <section
         className="relative px-6 py-24 md:px-12"
         style={{
-          backgroundImage: `url(${bgStepsLight.url})`,
+          backgroundImage: `url(${bgStepsLight})`,
           backgroundSize: "cover",
           backgroundPosition: "center",
           backgroundAttachment: "fixed",
@@ -461,10 +461,10 @@ export default function BloodBank() {
           </p>
           <div className="mt-10 flex flex-wrap items-center justify-center gap-4">
             {[
-              { src: aabbLogo.url, alt: "AABB Accredited" },
-              { src: fdaLogo.url, alt: "FDA 21 CFR Part 11 Compliance" },
-              { src: iccbbaLogo.url, alt: "ICCBBA ISBT 128" },
-              { src: iso15189Logo.url, alt: "ISO 15189 Accreditation" },
+              { src: aabbLogo, alt: "AABB Accredited" },
+              { src: fdaLogo, alt: "FDA 21 CFR Part 11 Compliance" },
+              { src: iccbbaLogo, alt: "ICCBBA ISBT 128" },
+              { src: iso15189Logo, alt: "ISO 15189 Accreditation" },
             ].map((logo) => (
               <img
                 key={logo.alt}

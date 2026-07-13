@@ -24,11 +24,11 @@ import {
 } from "lucide-react";
 import { Footer } from "@/components/Footer";
 import { CtaSection } from "@/components/CtaSection";
-import useCase1Asset from "@/assets/dynamics/use-case-1.jpg.asset.json";
-import useCase2Asset from "@/assets/dynamics/use-case-2.jpg.asset.json";
-import useCase3Asset from "@/assets/dynamics/use-case-3.jpg.asset.json";
-import useCase4Asset from "@/assets/dynamics/use-case-4.jpg.asset.json";
-import patternBg from "@/assets/dynamics/dynamics-pattern.jpg.asset.json";
+import useCase1Asset from "@/assets/dynamics/use-case-1.jpg"
+import useCase2Asset from "@/assets/dynamics/use-case-2.jpg"
+import useCase3Asset from "@/assets/dynamics/use-case-3.jpg"
+import useCase4Asset from "@/assets/dynamics/use-case-4.jpg"
+import patternBg from "@/assets/dynamics/dynamics-pattern.jpg"
 import heroVideo from "@/assets/dynamics/dynamics-hero-bg.mp4.asset.json";
 
 const services = [
@@ -113,28 +113,28 @@ const useCases = [
     n: "01",
     title: "Multi-Entity Financial Management",
     body: "Centralized financial operations across multiple companies, branches, or operational entities with standardized reporting, approval governance, and consolidated visibility.",
-    image: useCase1Asset.url,
+    image: useCase1Asset,
     alt: "Multi-entity financial consolidation",
   },
   {
     n: "02",
     title: "Procurement & Approval Workflow Automation",
     body: "Automated procurement approvals based on department structure, budget thresholds, operational hierarchy, and compliance policies.",
-    image: useCase2Asset.url,
+    image: useCase2Asset,
     alt: "Procurement and approval workflow automation",
   },
   {
     n: "03",
     title: "Executive Power BI Reporting Layer",
     body: "Centralized operational and financial dashboards providing leadership teams with real-time visibility into KPIs, operational performance, and enterprise metrics.",
-    image: useCase3Asset.url,
+    image: useCase3Asset,
     alt: "Executive Power BI reporting dashboard",
   },
   {
     n: "04",
     title: "Cross-System ERP Integration",
     body: "Integration between Microsoft Dynamics and external operational systems including banking platforms, logistics providers, healthcare systems, and enterprise applications.",
-    image: useCase4Asset.url,
+    image: useCase4Asset,
     alt: "Cross-system ERP integration",
   },
 ];
@@ -225,7 +225,7 @@ export default function Dynamics365() {
             preload="auto"
             className="absolute inset-0 h-full w-full object-cover"
             src={heroVideo.url}
-            poster={patternBg.url}
+            poster={patternBg}
           />
           <div
             className="absolute inset-0"
@@ -533,7 +533,7 @@ export default function Dynamics365() {
       {/* STANDARD VS STRATEGIC */}
       <section className="relative overflow-hidden bg-[#0a0e1a] px-6 py-24 md:px-12 md:py-32">
         <img
-          src={patternBg.url}
+          src={patternBg}
           alt=""
           loading="lazy"
           width={1920}

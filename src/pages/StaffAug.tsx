@@ -23,15 +23,15 @@ import {
 import { Footer } from "@/components/Footer";
 import { CtaSection } from "@/components/CtaSection";
 import heroImg from "@/assets/staffaug/hero.jpg";
-import managedItInfrastructureAsset from "@/assets/staffaug/managed-it-new.jpg.asset.json";
+import managedItInfrastructureAsset from "@/assets/staffaug/managed-it-new.jpg"
 import s2 from "@/assets/staffaug/s2.jpg";
 import s3 from "@/assets/staffaug/s3.jpg";
-import s4Asset from "@/assets/staffaug/s4-new.jpg.asset.json";
-const s1 = managedItInfrastructureAsset.url;
-const s4 = s4Asset.url;
+import s4Asset from "@/assets/staffaug/s4-new.jpg"
+const s1 = managedItInfrastructureAsset;
+const s4 = s4Asset;
 import s5 from "@/assets/staffaug/s5.jpg";
 import s6 from "@/assets/staffaug/s6.jpg";
-import cloudServicesAsset from "@/assets/staffaug/managed-cloud-services.png.asset.json";
+import cloudServicesAsset from "@/assets/staffaug/managed-cloud-services.png"
 import s7 from "@/assets/staffaug/s7.jpg";
 import s8 from "@/assets/staffaug/s8.jpg";
 import ctaBg from "@/assets/staffaug/cta.jpg";
@@ -175,7 +175,7 @@ const services = [
       "Backup and disaster recovery management",
       "Platform updates and release management",
     ],
-    image: cloudServicesAsset.url,
+    image: cloudServicesAsset,
   },
   {
     n: "08",

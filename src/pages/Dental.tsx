@@ -25,59 +25,59 @@ import problem3 from "@/assets/dental/problem-3.jpg";
 import problem4 from "@/assets/dental/problem-4.jpg";
 import problem5 from "@/assets/dental/problem-5.jpg";
 import problem6 from "@/assets/dental/problem-6.jpg";
-import preVisitOnlineBooking from "@/assets/dental/journey/pre-visit-online-booking.png.asset.json";
-import checkInReception from "@/assets/dental/journey/check-in-reception.png.asset.json";
-import examinationCharting from "@/assets/dental/journey/examination-charting.png.asset.json";
-import imgVatech from "@/assets/dental/integrations/vatech.png.asset.json";
-import imgRomexis from "@/assets/dental/integrations/romexis.png.asset.json";
-import imgPlanetDds from "@/assets/dental/integrations/planet-dds.png.asset.json";
-import imgDentsply from "@/assets/dental/integrations/dentsply-sirona.png.asset.json";
-import imgCarestream from "@/assets/dental/integrations/carestream.png.asset.json";
-import imgApteryx from "@/assets/dental/integrations/apteryx.png.asset.json";
-import imgActeon from "@/assets/dental/integrations/acteon.png.asset.json";
+import preVisitOnlineBooking from "@/assets/dental/journey/pre-visit-online-booking.png"
+import checkInReception from "@/assets/dental/journey/check-in-reception.png"
+import examinationCharting from "@/assets/dental/journey/examination-charting.png"
+import imgVatech from "@/assets/dental/integrations/vatech.png"
+import imgRomexis from "@/assets/dental/integrations/romexis.png"
+import imgPlanetDds from "@/assets/dental/integrations/planet-dds.png"
+import imgDentsply from "@/assets/dental/integrations/dentsply-sirona.png"
+import imgCarestream from "@/assets/dental/integrations/carestream.png"
+import imgApteryx from "@/assets/dental/integrations/apteryx.png"
+import imgActeon from "@/assets/dental/integrations/acteon.png"
 
 const digitalImagingLogos = [
-  { name: "Vatech", src: imgVatech.url },
-  { name: "Romexis", src: imgRomexis.url },
-  { name: "Planet DDS", src: imgPlanetDds.url },
-  { name: "Dentsply Sirona", src: imgDentsply.url },
-  { name: "Carestream Dental", src: imgCarestream.url },
-  { name: "Apteryx", src: imgApteryx.url },
-  { name: "Acteon", src: imgActeon.url },
+  { name: "Vatech", src: imgVatech },
+  { name: "Romexis", src: imgRomexis },
+  { name: "Planet DDS", src: imgPlanetDds },
+  { name: "Dentsply Sirona", src: imgDentsply },
+  { name: "Carestream Dental", src: imgCarestream },
+  { name: "Apteryx", src: imgApteryx },
+  { name: "Acteon", src: imgActeon },
 ];
-import imgIntraApteryx from "@/assets/dental/intraoral/apteryx.png.asset.json";
-import imgIntraDexis from "@/assets/dental/intraoral/dexis.png.asset.json";
-import imgIntraSchick from "@/assets/dental/intraoral/schick.png.asset.json";
+import imgIntraApteryx from "@/assets/dental/intraoral/apteryx.png"
+import imgIntraDexis from "@/assets/dental/intraoral/dexis.png"
+import imgIntraSchick from "@/assets/dental/intraoral/schick.png"
 const intraoralLogos = [
-  { name: "DEXIS", src: imgIntraDexis.url },
-  { name: "Schick by Sirona", src: imgIntraSchick.url },
-  { name: "Apteryx XVWeb", src: imgIntraApteryx.url },
+  { name: "DEXIS", src: imgIntraDexis },
+  { name: "Schick by Sirona", src: imgIntraSchick },
+  { name: "Apteryx XVWeb", src: imgIntraApteryx },
 ];
-import imgAcctXero from "@/assets/dental/accounting/xero.png.asset.json";
-import imgAcctQb from "@/assets/dental/accounting/quickbooks.png.asset.json";
-import imgAcctSage from "@/assets/dental/accounting/sage.png.asset.json";
-import imgAcctStripe from "@/assets/dental/accounting/stripe.png.asset.json";
-import imgAcctNetwork from "@/assets/dental/accounting/network.png.asset.json";
-import imgAcctTelr from "@/assets/dental/accounting/telr.png.asset.json";
+import imgAcctXero from "@/assets/dental/accounting/xero.png"
+import imgAcctQb from "@/assets/dental/accounting/quickbooks.png"
+import imgAcctSage from "@/assets/dental/accounting/sage.png"
+import imgAcctStripe from "@/assets/dental/accounting/stripe.png"
+import imgAcctNetwork from "@/assets/dental/accounting/network.png"
+import imgAcctTelr from "@/assets/dental/accounting/telr.png"
 const accountingLogos = [
-  { name: "Xero", src: imgAcctXero.url },
-  { name: "QuickBooks", src: imgAcctQb.url },
-  { name: "Sage", src: imgAcctSage.url },
-  { name: "Stripe", src: imgAcctStripe.url },
-  { name: "Network International", src: imgAcctNetwork.url },
-  { name: "Telr", src: imgAcctTelr.url },
+  { name: "Xero", src: imgAcctXero },
+  { name: "QuickBooks", src: imgAcctQb },
+  { name: "Sage", src: imgAcctSage },
+  { name: "Stripe", src: imgAcctStripe },
+  { name: "Network International", src: imgAcctNetwork },
+  { name: "Telr", src: imgAcctTelr },
 ];
-import imgInsDha from "@/assets/dental/insurance/dha.png.asset.json";
-import imgInsDoh from "@/assets/dental/insurance/doh.png.asset.json";
-import imgInsNphies from "@/assets/dental/insurance/nphies.png.asset.json";
+import imgInsDha from "@/assets/dental/insurance/dha.png"
+import imgInsDoh from "@/assets/dental/insurance/doh.png"
+import imgInsNphies from "@/assets/dental/insurance/nphies.png"
 const insuranceLogos = [
-  { name: "Dubai Health Authority", src: imgInsDha.url },
-  { name: "Department of Health Abu Dhabi", src: imgInsDoh.url },
-  { name: "NPHIES", src: imgInsNphies.url },
+  { name: "Dubai Health Authority", src: imgInsDha },
+  { name: "Department of Health Abu Dhabi", src: imgInsDoh },
+  { name: "NPHIES", src: imgInsNphies },
 ];
-import treatmentPlanApproval from "@/assets/dental/journey/treatment-plan-approval.png.asset.json";
-import treatmentDeliveredDocumented from "@/assets/dental/journey/treatment-delivered-documented.png.asset.json";
-import claimPaymentRecallSet from "@/assets/dental/journey/claim-payment-recall-set.png.asset.json";
+import treatmentPlanApproval from "@/assets/dental/journey/treatment-plan-approval.png"
+import treatmentDeliveredDocumented from "@/assets/dental/journey/treatment-delivered-documented.png"
+import claimPaymentRecallSet from "@/assets/dental/journey/claim-payment-recall-set.png"
 import { Footer } from "@/components/Footer";
 import { CtaSection } from "@/components/CtaSection";
 import dentalCtaVideo from "@/assets/dental/dental-cta.mp4.asset.json";
@@ -139,12 +139,12 @@ const features = [
 ];
 
 const journey = [
-  { icon: ClipboardList, title: "Pre-Visit & Online Booking", image: preVisitOnlineBooking.url, body: "Patient books online or via reception. Digital medical history, consent, and registration forms are sent and completed before arrival." },
-  { icon: Users, title: "Check-In & Reception", image: checkInReception.url, body: "Patient checks in at reception or self-service kiosk. The record opens with full history, outstanding plan items, recalls, medical alerts, and insurance visible to the team." },
-  { icon: Smile, title: "Examination & Charting", image: examinationCharting.url, body: "Dentist conducts the exam with the digital chart on the chairside screen. Radiographs auto-appear in the record. Clinical photos attach to the relevant teeth." },
-  { icon: FileSignature, title: "Treatment Plan & Approval", image: treatmentPlanApproval.url, body: "A plan is built from the findings. Costs calculate automatically. The patient reviews, asks questions, and approves digitally — a copy is sent immediately." },
-  { icon: CheckCircle2, title: "Treatment Delivered & Documented", image: treatmentDeliveredDocumented.url, body: "Completed procedures are marked on the chart. Structured templates and voice input speed up notes. Post-op instructions are delivered digitally. Charges post automatically." },
-  { icon: Receipt, title: "Claim, Payment & Recall Set", image: claimPaymentRecallSet.url, body: "Insurance claims submitted electronically. Payment processed and receipted. The patient's next recall is scheduled, reminders set, and they leave with a complete record." },
+  { icon: ClipboardList, title: "Pre-Visit & Online Booking", image: preVisitOnlineBooking, body: "Patient books online or via reception. Digital medical history, consent, and registration forms are sent and completed before arrival." },
+  { icon: Users, title: "Check-In & Reception", image: checkInReception, body: "Patient checks in at reception or self-service kiosk. The record opens with full history, outstanding plan items, recalls, medical alerts, and insurance visible to the team." },
+  { icon: Smile, title: "Examination & Charting", image: examinationCharting, body: "Dentist conducts the exam with the digital chart on the chairside screen. Radiographs auto-appear in the record. Clinical photos attach to the relevant teeth." },
+  { icon: FileSignature, title: "Treatment Plan & Approval", image: treatmentPlanApproval, body: "A plan is built from the findings. Costs calculate automatically. The patient reviews, asks questions, and approves digitally — a copy is sent immediately." },
+  { icon: CheckCircle2, title: "Treatment Delivered & Documented", image: treatmentDeliveredDocumented, body: "Completed procedures are marked on the chart. Structured templates and voice input speed up notes. Post-op instructions are delivered digitally. Charges post automatically." },
+  { icon: Receipt, title: "Claim, Payment & Recall Set", image: claimPaymentRecallSet, body: "Insurance claims submitted electronically. Payment processed and receipted. The patient's next recall is scheduled, reminders set, and they leave with a complete record." },
 ];
 
 const stats = [
