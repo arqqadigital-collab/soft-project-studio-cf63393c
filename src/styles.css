@@ -138,11 +138,19 @@
 }
 
 @layer base {
+  html, body {
+    overflow-x: clip;
+  }
+
   * {
     border-color: var(--color-border);
   }
 
   body {
+    background-color: var(--color-background);
+    color: var(--color-foreground);
+  }
+}
     background-color: var(--color-background);
     color: var(--color-foreground);
   }
