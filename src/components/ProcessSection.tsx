@@ -47,13 +47,34 @@ const cards: Card[] = [
 
 export function ProcessSection() {
   const ref = useRef<HTMLDivElement>(null);
+  const viewportRef = useRef<HTMLDivElement>(null);
+  const trackRef = useRef<HTMLDivElement>(null);
+  const [maxScroll, setMaxScroll] = useState(0);
+
   const { scrollYProgress } = useScroll({
     target: ref,
     offset: ["start start", "end end"],
   });
 
-  // Translate horizontally: show 3 cards across the scrolled distance
-  const x = useTransform(scrollYProgress, [0, 1], ["0%", "-66.6667%"]);
+  useEffect(() => {
+    const measure = () => {
+      const track = trackRef.current;
+      const viewport = viewportRef.current;
+      if (!track || !viewport) return;
+      setMaxScroll(Math.max(0, track.scrollWidth - viewport.clientWidth));
+    };
+    measure();
+    const ro = new ResizeObserver(measure);
+    if (trackRef.current) ro.observe(trackRef.current);
+    if (viewportRef.current) ro.observe(viewportRef.current);
+    window.addEventListener("resize", measure);
+    return () => {
+      ro.disconnect();
+      window.removeEventListener("resize", measure);
+    };
+  }, []);
+
+  const x = useTransform(scrollYProgress, [0, 1], [0, -maxScroll]);
 
   return (
     <section ref={ref} className="relative bg-background" style={{ height: "300vh" }}>
