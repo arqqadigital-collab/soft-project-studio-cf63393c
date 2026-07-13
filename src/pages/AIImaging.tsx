@@ -39,6 +39,7 @@ import problemRural from "@/assets/ai-imaging/problems/rural.jpg";
 import bgStepsLight from "@/assets/bg-steps-light.png"
 import { Footer } from "@/components/Footer";
 
+import { useHorizontalScroll } from "@/hooks/use-horizontal-scroll";
 const features = [
   { icon: Layers, title: "AI-Powered Image Analysis Across All Modalities", body: "Deploy validated deep learning models across CT, MRI, plain X-ray, ultrasound, mammography, and digital pathology whole slide images. Every analysis result is presented as a structured finding with confidence scores, annotated regions of interest, and comparison against prior studies — not as a black box." },
   { icon: Activity, title: "Chest X-Ray AI — Triage & Detection", body: "Automatically analyze every chest radiograph for pneumonia, pleural effusion, pneumothorax, cardiomegaly, consolidation, atelectasis, pulmonary nodules, and rib fractures. Critical findings are escalated to the top of the worklist with the AI annotation visible before the radiologist opens the image." },
@@ -199,11 +200,7 @@ function ExpandingJourney({ steps }: { steps: typeof journey }) {
 
 export default function AIImaging() {
   const problemRef = useRef<HTMLDivElement>(null);
-  const { scrollYProgress: problemProgress } = useScroll({
-    target: problemRef,
-    offset: ["start start", "end end"],
-  });
-  const problemX = useTransform(problemProgress, [0.15, 0.82], ["0%", "-80%"]);
+  const { viewportRef: problemViewportRef, trackRef: problemTrackRef, x: problemX } = useHorizontalScroll(problemRef, [0.15, 0.82]);
 
   return (
     <>
@@ -306,8 +303,8 @@ export default function AIImaging() {
             </h2>
           </div>
 
-          <div className="mt-6 flex flex-1 items-center overflow-hidden md:mt-8">
-            <motion.div style={{ x: problemX }} className="flex items-stretch gap-6 px-6 md:gap-8 md:px-12">
+          <div ref={problemViewportRef} className="mt-6 flex flex-1 items-center overflow-hidden md:mt-8 scrollbar-hide">
+            <motion.div ref={problemTrackRef} style={{ x: problemX }} className="flex items-stretch gap-6 px-6 md:gap-8 md:px-12">
               {problemCards.map((card, i) => (
                 <article
                   key={i}

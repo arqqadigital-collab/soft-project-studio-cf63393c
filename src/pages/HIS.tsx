@@ -42,6 +42,7 @@ import billingSettlementStep from "@/assets/his-journey/billing-settlement.png"
 import { Footer } from "@/components/Footer";
 import { CtaSection } from "@/components/CtaSection";
 
+import { useHorizontalScroll } from "@/hooks/use-horizontal-scroll";
 const features = [
   { icon: UserPlus, title: "Patient Registration & Master Patient Index", body: "Capture complete demographics, identity verification, insurance and consent at first registration. A Master Patient Index ensures every patient has one unique record across your facility — eliminating duplicates and merging fragmented histories. Biometric identity verification is available at registration and every subsequent point of care." },
   { icon: CalendarCheck, title: "Outpatient & Appointment Management", body: "Manage the full outpatient cycle — booking, scheduling, waiting lists, check-in, consultation documentation and post-consultation workflow. No-show management, recall scheduling and referral tracking are integrated into the same workflow." },
@@ -314,12 +315,7 @@ export default function HIS() {
   }));
 
   const problemRef = useRef<HTMLDivElement>(null);
-  const { scrollYProgress: problemProgress } = useScroll({
-    target: problemRef,
-    offset: ["start start", "end end"],
-  });
-  // vertical breathing room before horizontal scroll, and a settle pause at the end
-  const problemX = useTransform(problemProgress, [0.15, 0.82], ["0%", "-83.3333%"]);
+  const { viewportRef: problemViewportRef, trackRef: problemTrackRef, x: problemX } = useHorizontalScroll(problemRef, [0.15, 0.82]);
 
   return (
     <>
@@ -426,8 +422,8 @@ export default function HIS() {
           </div>
 
           {/* Horizontally scrolling cards */}
-          <div className="mt-10 flex flex-1 items-center overflow-hidden md:mt-12">
-            <motion.div style={{ x: problemX }} className="flex items-stretch gap-6 px-6 md:gap-8 md:px-12">
+          <div ref={problemViewportRef} className="mt-10 flex flex-1 items-center overflow-hidden md:mt-12 scrollbar-hide">
+            <motion.div ref={problemTrackRef} style={{ x: problemX }} className="flex items-stretch gap-6 px-6 md:gap-8 md:px-12">
               {problemCards.map((card, i) => (
                 <article
                   key={i}

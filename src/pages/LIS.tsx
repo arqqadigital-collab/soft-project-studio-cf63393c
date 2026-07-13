@@ -32,6 +32,7 @@ import lisJourney4 from "@/assets/lis/journey-4.jpg";
 import { Footer } from "@/components/Footer";
 import { CtaSection } from "@/components/CtaSection";
 
+import { useHorizontalScroll } from "@/hooks/use-horizontal-scroll";
 const features = [
   { icon: FlaskConical, title: "Sample Management", body: "Track every specimen from collection to disposal with barcode scanning, real-time location updates, and automated rejection flags for compromised samples." },
   { icon: ClipboardCheck, title: "Result Entry & Validation", body: "Enter, review, and authorize results through configurable validation rules. Flag abnormal values automatically and route critical results to the right clinician instantly." },
@@ -171,11 +172,7 @@ function AnimatedStat({ value }: { value: string }) {
 
 export default function LIS() {
   const problemRef = useRef<HTMLDivElement>(null);
-  const { scrollYProgress: problemProgress } = useScroll({
-    target: problemRef,
-    offset: ["start start", "end end"],
-  });
-  const problemX = useTransform(problemProgress, [0.15, 0.82], ["0%", "-75%"]);
+  const { viewportRef: problemViewportRef, trackRef: problemTrackRef, x: problemX } = useHorizontalScroll(problemRef, [0.15, 0.82]);
 
   return (
     <>
@@ -279,8 +276,8 @@ export default function LIS() {
             </p>
           </div>
 
-          <div className="mt-8 flex flex-1 items-center overflow-hidden pb-16 md:mt-10 md:pb-24">
-            <motion.div style={{ x: problemX }} className="flex items-stretch gap-6 px-6 md:gap-8 md:px-12">
+          <div ref={problemViewportRef} className="mt-8 flex flex-1 items-center overflow-hidden pb-16 md:mt-10 md:pb-24 scrollbar-hide">
+            <motion.div ref={problemTrackRef} style={{ x: problemX }} className="flex items-stretch gap-6 px-6 md:gap-8 md:px-12">
               {problemCards.map((card, i) => (
                 <article
                   key={card.title}

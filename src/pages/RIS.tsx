@@ -38,6 +38,7 @@ import agfaLogo from "@/assets/ris/integrations/agfa.png"
 import { Footer } from "@/components/Footer";
 import { CtaSection } from "@/components/CtaSection";
 
+import { useHorizontalScroll } from "@/hooks/use-horizontal-scroll";
 const features = [
   { icon: CalendarClock, title: "Order Management & Scheduling", body: "Receive imaging orders directly from your HIS or EMR. Schedule patients against modality availability, technologist assignments, and room capacity. Eliminate double bookings with real-time calendar logic and automated patient notifications." },
   { icon: ScanLine, title: "DICOM Image Linking & Viewer", body: "Automatically link acquired images to their corresponding orders and patient records. Launch your PACS viewer directly from within the RIS with a single click — no hunting through separate systems." },
@@ -180,11 +181,7 @@ function AnimatedStat({ value }: { value: string }) {
 
 export default function RIS() {
   const problemRef = useRef<HTMLDivElement>(null);
-  const { scrollYProgress: problemProgress } = useScroll({
-    target: problemRef,
-    offset: ["start start", "end end"],
-  });
-  const problemX = useTransform(problemProgress, [0.15, 0.82], ["0%", "-80%"]);
+  const { viewportRef: problemViewportRef, trackRef: problemTrackRef, x: problemX } = useHorizontalScroll(problemRef, [0.15, 0.82]);
 
   return (
     <>
@@ -284,8 +281,8 @@ export default function RIS() {
             </p>
           </div>
 
-          <div className="mt-8 flex flex-1 items-center overflow-hidden pb-16 md:mt-10 md:pb-24">
-            <motion.div style={{ x: problemX }} className="flex items-stretch gap-6 px-6 md:gap-8 md:px-12">
+          <div ref={problemViewportRef} className="mt-8 flex flex-1 items-center overflow-hidden pb-16 md:mt-10 md:pb-24 scrollbar-hide">
+            <motion.div ref={problemTrackRef} style={{ x: problemX }} className="flex items-stretch gap-6 px-6 md:gap-8 md:px-12">
               {problemCards.map((card, i) => (
                 <article
                   key={card.title}
