@@ -121,7 +121,7 @@ export function ProcessSection() {
             {cards.map((card, i) => (
               <article
                 key={i}
-                className="relative flex h-[55vh] w-[78vw] shrink-0 overflow-hidden rounded-[2rem] shadow-xl md:w-[500px] lg:w-[560px]"
+                className="relative flex h-[55vh] w-[78vw] shrink-0 overflow-hidden rounded-[2rem] md:w-[500px] lg:w-[560px]"
               >
                 <video
                   className="absolute inset-0 h-full w-full object-cover"
