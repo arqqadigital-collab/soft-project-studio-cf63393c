@@ -289,7 +289,7 @@ export default function RIS() {
               {problemCards.map((card, i) => (
                 <article
                   key={card.title}
-                  className="flex w-[82vw] shrink-0 flex-col overflow-hidden rounded-[2rem] bg-[#0f1424] shadow-2xl ring-1 ring-white/10 md:w-[420px] lg:w-[460px]"
+                  className="flex w-[82vw] shrink-0 flex-col overflow-hidden rounded-[2rem] bg-[#0f1424] md:w-[420px] lg:w-[460px]"
                 >
                   <div className="relative h-[170px] w-full shrink-0 overflow-hidden md:h-[190px]">
                     <img
