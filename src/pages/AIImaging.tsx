@@ -25,7 +25,7 @@ import {
   FileCheck,
   Sparkles,
 } from "lucide-react";
-import heroVideo from "@/assets/ai-imaging/hero-video.mp4.asset.json";
+import heroVideo from "@/assets/ai-imaging/hero-video.mp4"
 import journeyAcquire from "@/assets/ai-imaging/journey/acquire.jpg";
 import journeyAnalyze from "@/assets/ai-imaging/journey/analyze.jpg";
 import journeyPrioritize from "@/assets/ai-imaging/journey/prioritize.jpg";
@@ -36,7 +36,7 @@ import problemSubtle from "@/assets/ai-imaging/problems/subtle.jpg";
 import problemWorklist from "@/assets/ai-imaging/problems/worklist.jpg";
 import problemIncidental from "@/assets/ai-imaging/problems/incidental.jpg";
 import problemRural from "@/assets/ai-imaging/problems/rural.jpg";
-import bgStepsLight from "@/assets/bg-steps-light.png.asset.json";
+import bgStepsLight from "@/assets/bg-steps-light.png"
 import { Footer } from "@/components/Footer";
 
 const features = [
@@ -211,7 +211,7 @@ export default function AIImaging() {
       <main className="pt-20 relative min-h-[90vh] w-full overflow-hidden bg-background">
         <div className="absolute inset-0">
           <video
-            src={heroVideo.url}
+            src={heroVideo}
             autoPlay
             loop
             muted
@@ -391,7 +391,7 @@ export default function AIImaging() {
       <section
         className="relative px-6 py-24 md:px-12"
         style={{
-          backgroundImage: `url(${bgStepsLight.url})`,
+          backgroundImage: `url(${bgStepsLight})`,
           backgroundSize: "cover",
           backgroundPosition: "center",
           backgroundAttachment: "fixed",
@@ -550,7 +550,7 @@ export default function AIImaging() {
         style={{ backgroundColor: "#091628" }}
       >
         <img
-          src={heroVideo.url}
+          src={heroVideo}
           alt=""
           className="absolute inset-0 h-full w-full object-cover opacity-40"
           aria-hidden="true"

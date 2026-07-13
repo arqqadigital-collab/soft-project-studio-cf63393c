@@ -1,8 +1,8 @@
 import { useState } from "react";
 import { Send, MapPin, Phone, Mail } from "lucide-react";
 import { Footer } from "@/components/Footer";
-import contactHero from "@/assets/contact/contact-hero.jpg.asset.json";
-import qatarImage from "@/assets/contact/qatar.jpg.asset.json";
+import contactHero from "@/assets/contact/contact-hero.jpg"
+import qatarImage from "@/assets/contact/qatar.jpg"
 
 
 const inquiryAreas = [
@@ -39,7 +39,7 @@ const offices = [
     address: "1st Floor, Al-Jaidah Square Building, Airport Road, PO Box 55743, Doha, Qatar",
     phone: "+974 4426 7499",
     email: "sbs@sbs-me.com",
-    image: qatarImage.url,
+    image: qatarImage,
   },
   {
     city: "Saudi Arabia",
@@ -80,7 +80,7 @@ export default function Contact() {
       {/* Hero */}
       <section className="relative overflow-hidden px-6 pb-16 pt-32 md:px-12 md:pb-24 md:pt-40">
         <img
-          src={contactHero.url}
+          src={contactHero}
           alt="Person typing on a laptop"
           className="absolute inset-0 h-full w-full object-cover"
         />

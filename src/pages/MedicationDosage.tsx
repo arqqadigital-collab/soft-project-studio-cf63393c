@@ -28,7 +28,7 @@ import journeyVerify from "@/assets/medication/journey/verify.jpg";
 import journeyDispense from "@/assets/medication/journey/dispense.jpg";
 import journeyAdminister from "@/assets/medication/journey/administer.jpg";
 import journeyDocument from "@/assets/medication/journey/document.jpg";
-import bgStepsLight from "@/assets/bg-steps-light.png.asset.json";
+import bgStepsLight from "@/assets/bg-steps-light.png"
 import ctaVideo from "@/assets/medication/cta-video.mp4.asset.json";
 import heroVideo from "@/assets/medication/hero-video.mp4.asset.json";
 import { Footer } from "@/components/Footer";
@@ -383,7 +383,7 @@ export default function MedicationDosage() {
       <section
         className="relative px-6 py-24 md:px-12"
         style={{
-          backgroundImage: `url(${bgStepsLight.url})`,
+          backgroundImage: `url(${bgStepsLight})`,
           backgroundSize: "cover",
           backgroundPosition: "center",
           backgroundAttachment: "fixed",

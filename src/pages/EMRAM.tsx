@@ -23,19 +23,19 @@ import { Footer } from "@/components/Footer";
 import { CtaSection } from "@/components/CtaSection";
 import emramHeroVideo from "@/assets/emram/emram-hero.mp4.asset.json";
 import emramCtaVideo from "@/assets/emram/emram-cta.mp4.asset.json";
-import emramP1 from "@/assets/emram/problem/p1.jpg.asset.json";
-import emramP2 from "@/assets/emram/problem/p2.jpg.asset.json";
-import emramP3 from "@/assets/emram/problem/p3.jpg.asset.json";
-import emramP4 from "@/assets/emram/problem/p4.jpg.asset.json";
-import emramP5 from "@/assets/emram/problem/p5.jpg.asset.json";
-import emramP6 from "@/assets/emram/problem/p6.jpg.asset.json";
-import emramJ1 from "@/assets/emram/journey/j1.jpg.asset.json";
-import emramJ2 from "@/assets/emram/journey/j2.jpg.asset.json";
-import emramJ3 from "@/assets/emram/journey/j3.jpg.asset.json";
-import emramJ4 from "@/assets/emram/journey/j4.jpg.asset.json";
-import emramJ5 from "@/assets/emram/journey/j5.jpg.asset.json";
-import emramJ6 from "@/assets/emram/journey/j6.jpg.asset.json";
-import emramJ7 from "@/assets/emram/journey/j7.jpg.asset.json";
+import emramP1 from "@/assets/emram/problem/p1.jpg"
+import emramP2 from "@/assets/emram/problem/p2.jpg"
+import emramP3 from "@/assets/emram/problem/p3.jpg"
+import emramP4 from "@/assets/emram/problem/p4.jpg"
+import emramP5 from "@/assets/emram/problem/p5.jpg"
+import emramP6 from "@/assets/emram/problem/p6.jpg"
+import emramJ1 from "@/assets/emram/journey/j1.jpg"
+import emramJ2 from "@/assets/emram/journey/j2.jpg"
+import emramJ3 from "@/assets/emram/journey/j3.jpg"
+import emramJ4 from "@/assets/emram/journey/j4.jpg"
+import emramJ5 from "@/assets/emram/journey/j5.jpg"
+import emramJ6 from "@/assets/emram/journey/j6.jpg"
+import emramJ7 from "@/assets/emram/journey/j7.jpg"
 
 const features = [
   { icon: ClipboardList, title: "EMRAM Baseline Assessment", body: "Rigorous baseline assessment of your current EMRAM position — clinical systems, integration architecture, workflow digitization, data quality, closed-loop safety and adoption — scored against validated HIMSS EMRAM methodology with a prioritized gap roadmap." },
@@ -49,13 +49,13 @@ const features = [
 ];
 
 const journey = [
-  { icon: ClipboardList, image: emramJ1.url, title: "Baseline Assessment", body: "We assess your current EMRAM position across all criteria. You receive a current-state score, a gap analysis and a prioritized roadmap." },
-  { icon: Users, image: emramJ2.url, title: "Roadmap Agreement", body: "Leadership reviews and approves the roadmap. Resources, timelines and governance structures are agreed. The transformation program begins." },
-  { icon: GitBranch, image: emramJ3.url, title: "Technology & Integration", body: "Missing systems are implemented. Integration gaps are closed. Closed-loop medication safety, CDS and electronic documentation are built to EMRAM specification." },
-  { icon: Workflow, image: emramJ4.url, title: "Clinical Adoption", body: "Workflows are redesigned, staff are trained, adoption is measured and managed. EMRAM operational standards are embedded in daily clinical practice." },
-  { icon: Sparkles, image: emramJ5.url, title: "AI Readiness Foundation", body: "Data quality, governance and infrastructure are built to support clinical AI. The readiness assessment confirms readiness for Stage 7 AI-powered analytics." },
-  { icon: BadgeCheck, image: emramJ6.url, title: "Validation & Certification", body: "Pre-validation mock assessment is conducted, gaps are closed and the formal HIMSS validation is supported from preparation through on-site assessment." },
-  { icon: Target, image: emramJ7.url, title: "Sustained Excellence", body: "Post-validation operational support ensures EMRAM standards are maintained. AI capabilities are progressively deployed on the mature digital foundation." },
+  { icon: ClipboardList, image: emramJ1, title: "Baseline Assessment", body: "We assess your current EMRAM position across all criteria. You receive a current-state score, a gap analysis and a prioritized roadmap." },
+  { icon: Users, image: emramJ2, title: "Roadmap Agreement", body: "Leadership reviews and approves the roadmap. Resources, timelines and governance structures are agreed. The transformation program begins." },
+  { icon: GitBranch, image: emramJ3, title: "Technology & Integration", body: "Missing systems are implemented. Integration gaps are closed. Closed-loop medication safety, CDS and electronic documentation are built to EMRAM specification." },
+  { icon: Workflow, image: emramJ4, title: "Clinical Adoption", body: "Workflows are redesigned, staff are trained, adoption is measured and managed. EMRAM operational standards are embedded in daily clinical practice." },
+  { icon: Sparkles, image: emramJ5, title: "AI Readiness Foundation", body: "Data quality, governance and infrastructure are built to support clinical AI. The readiness assessment confirms readiness for Stage 7 AI-powered analytics." },
+  { icon: BadgeCheck, image: emramJ6, title: "Validation & Certification", body: "Pre-validation mock assessment is conducted, gaps are closed and the formal HIMSS validation is supported from preparation through on-site assessment." },
+  { icon: Target, image: emramJ7, title: "Sustained Excellence", body: "Post-validation operational support ensures EMRAM standards are maintained. AI capabilities are progressively deployed on the mature digital foundation." },
 ];
 
 const stats = [
@@ -66,12 +66,12 @@ const stats = [
 ];
 
 const problemCards = [
-  { image: emramP1.url, title: "Fragmented Clinical Data", body: "Most hospitals enter the EMRAM journey with fragmented, inconsistent or uncleaned data that cannot be trusted in clinical practice — let alone power AI." },
-  { image: emramP2.url, title: "Clinical Transformation Gap", body: "IT teams understand the technical requirements but lack the clinical transformation expertise to drive the workflow changes Stage 6 and Stage 7 demand." },
-  { image: emramP3.url, title: "No Framework for Progress", body: "Leadership invests in digital transformation without a clear framework for measuring progress, demonstrating value or maintaining operational standards." },
-  { image: emramP4.url, title: "Workflow Adoption Underestimated", body: "EMRAM is not purely technical — it requires clinical leadership engagement, staff behavior change and sustained organizational commitment most programs underestimate." },
-  { image: emramP5.url, title: "Closed-Loop Medication Complexity", body: "ePrescribing through pharmacy verification, dispensing cabinet integration and barcode-verified administration is the requirement hospitals find most challenging." },
-  { image: emramP6.url, title: "AI Readiness Is Not a Certificate", body: "Stage 7 opens the door to clinical AI — but data quality, governance frameworks, validation processes and AI literacy must be built systematically." },
+  { image: emramP1, title: "Fragmented Clinical Data", body: "Most hospitals enter the EMRAM journey with fragmented, inconsistent or uncleaned data that cannot be trusted in clinical practice — let alone power AI." },
+  { image: emramP2, title: "Clinical Transformation Gap", body: "IT teams understand the technical requirements but lack the clinical transformation expertise to drive the workflow changes Stage 6 and Stage 7 demand." },
+  { image: emramP3, title: "No Framework for Progress", body: "Leadership invests in digital transformation without a clear framework for measuring progress, demonstrating value or maintaining operational standards." },
+  { image: emramP4, title: "Workflow Adoption Underestimated", body: "EMRAM is not purely technical — it requires clinical leadership engagement, staff behavior change and sustained organizational commitment most programs underestimate." },
+  { image: emramP5, title: "Closed-Loop Medication Complexity", body: "ePrescribing through pharmacy verification, dispensing cabinet integration and barcode-verified administration is the requirement hospitals find most challenging." },
+  { image: emramP6, title: "AI Readiness Is Not a Certificate", body: "Stage 7 opens the door to clinical AI — but data quality, governance frameworks, validation processes and AI literacy must be built systematically." },
 ];
 
 function ExpandingJourney({ steps }: { steps: typeof journey }) {

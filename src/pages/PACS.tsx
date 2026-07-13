@@ -37,7 +37,7 @@ import journeyRetrieve from "@/assets/pacs/journey/retrieve.jpg";
 import journeyReport from "@/assets/pacs/journey/report.jpg";
 import journeyDeliver from "@/assets/pacs/journey/deliver.jpg";
 import heroImage from "@/assets/pacs/hero.jpg";
-import bgStepsLight from "@/assets/bg-steps-light.png.asset.json";
+import bgStepsLight from "@/assets/bg-steps-light.png"
 import { Footer } from "@/components/Footer";
 import { CtaSection } from "@/components/CtaSection";
 
@@ -387,7 +387,7 @@ export default function PACS() {
       <section
         className="relative px-6 py-24 md:px-12"
         style={{
-          backgroundImage: `url(${bgStepsLight.url})`,
+          backgroundImage: `url(${bgStepsLight})`,
           backgroundSize: "cover",
           backgroundPosition: "center",
           backgroundAttachment: "fixed",
