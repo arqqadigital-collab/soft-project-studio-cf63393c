@@ -95,7 +95,7 @@ export function ProcessSection() {
         </div>
 
         {/* Horizontal scrolling cards */}
-        <div className="mt-10 flex flex-1 items-center overflow-hidden">
+        <div className="mt-10 flex flex-1 items-center overflow-hidden scrollbar-hide">
           <motion.div style={{ x }} className="flex gap-6 px-6 md:gap-8 md:px-12">
             {cards.map((card, i) => (
               <article
