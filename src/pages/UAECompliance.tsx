@@ -34,6 +34,7 @@ import journey3 from "@/assets/uae-compliance/journey/j3.jpg"
 import journey4 from "@/assets/uae-compliance/journey/j4.jpg"
 import uaeCtaVideo from "@/assets/uae-compliance/uae-cta.mp4.asset.json";
 
+import { useHorizontalScroll } from "@/hooks/use-horizontal-scroll";
 const features = [
   { icon: Building2, title: "UAE DHA Compliance — Dubai", body: "Full alignment with Dubai Health Authority regulations. Compliant eClaims submission, DHA-formatted clinical documentation, integration with Dubai HIE, and practitioner licensing verification." },
   { icon: Hospital, title: "UAE DOH Compliance — Abu Dhabi", body: "Full DOH compliance with Malaffi integration, Thiqa/Daman payer workflows, prior authorization through DOH-certified pathways, and JAWDA quality reporting." },
@@ -181,11 +182,7 @@ function AnimatedStat({ value }: { value: string }) {
 
 export default function UAECompliance() {
   const problemRef = useRef<HTMLDivElement>(null);
-  const { scrollYProgress: problemProgress } = useScroll({
-    target: problemRef,
-    offset: ["start start", "end end"],
-  });
-  const problemX = useTransform(problemProgress, [0.15, 0.82], ["0%", "-78%"]);
+  const { viewportRef: problemViewportRef, trackRef: problemTrackRef, x: problemX } = useHorizontalScroll(problemRef, [0.15, 0.82]);
 
   return (
     <>
@@ -280,8 +277,8 @@ export default function UAECompliance() {
             </h2>
           </div>
 
-          <div className="mt-8 flex flex-1 items-center overflow-hidden pb-16 md:mt-10 md:pb-24">
-            <motion.div style={{ x: problemX }} className="flex items-stretch gap-6 px-6 md:gap-8 md:px-12">
+          <div ref={problemViewportRef} className="mt-8 flex flex-1 items-center overflow-hidden pb-16 md:mt-10 md:pb-24 scrollbar-hide">
+            <motion.div ref={problemTrackRef} style={{ x: problemX }} className="flex items-stretch gap-6 px-6 md:gap-8 md:px-12">
               {problemCards.map((card, i) => (
                 <article
                   key={card.title}

@@ -37,6 +37,7 @@ import journeyTransfusion from "@/assets/blood-bank/journey/transfusion.jpg";
 import { Footer } from "@/components/Footer";
 import { CtaSection } from "@/components/CtaSection";
 
+import { useHorizontalScroll } from "@/hooks/use-horizontal-scroll";
 const features = [
   { icon: UserCheck, title: "Donor Registration & Eligibility Screening", body: "Build comprehensive donor profiles with full medical history, travel records, medication flags, and deferral tracking. Automated eligibility checks against configurable screening criteria ensure no ineligible donor proceeds to collection. Permanent and temporary deferrals are logged and enforced system-wide." },
   { icon: Droplets, title: "Collection & Component Processing", body: "Record whole blood and apheresis collections with full lot traceability. Document component preparation — packed red cells, platelets, fresh frozen plasma, cryoprecipitate — with processing timestamps, technologist assignments, and quality checks at every step." },
@@ -190,11 +191,7 @@ function ExpandingJourney({ steps }: { steps: typeof journey }) {
 
 export default function BloodBank() {
   const problemRef = useRef<HTMLDivElement>(null);
-  const { scrollYProgress: problemProgress } = useScroll({
-    target: problemRef,
-    offset: ["start start", "end end"],
-  });
-  const problemX = useTransform(problemProgress, [0.15, 0.82], ["0%", "-80%"]);
+  const { viewportRef: problemViewportRef, trackRef: problemTrackRef, x: problemX } = useHorizontalScroll(problemRef, [0.15, 0.82]);
 
   return (
     <>
@@ -306,8 +303,8 @@ export default function BloodBank() {
           </div>
 
           {/* Horizontally scrolling cards */}
-          <div className="mt-6 flex flex-1 items-center overflow-hidden md:mt-8">
-            <motion.div style={{ x: problemX }} className="flex items-stretch gap-6 px-6 md:gap-8 md:px-12">
+          <div ref={problemViewportRef} className="mt-6 flex flex-1 items-center overflow-hidden md:mt-8 scrollbar-hide">
+            <motion.div ref={problemTrackRef} style={{ x: problemX }} className="flex items-stretch gap-6 px-6 md:gap-8 md:px-12">
               {problemCards.map((card, i) => (
                 <article
                   key={i}

@@ -36,6 +36,7 @@ import rcmJourney6 from "@/assets/rcm/journey-6.jpg";
 import { Footer } from "@/components/Footer";
 import { CtaSection } from "@/components/CtaSection";
 
+import { useHorizontalScroll } from "@/hooks/use-horizontal-scroll";
 const features = [
   { icon: UserCheck, title: "Registration & Eligibility Verification", body: "Capture complete demographics and verify insurance eligibility in real time against the payer's active policy database. Lapsed coverage, exclusions, and pending authorizations are flagged at the front door — not weeks later when claims are denied." },
   { icon: FileCheck2, title: "Prior Authorization Management", body: "Authorization requests are generated automatically from clinical orders. Status is visible to clinical and admin teams in real time. Expired authorizations trigger renewal alerts before service delivery. Claims are never submitted without a valid authorization." },
@@ -186,11 +187,7 @@ function AnimatedStat({ value }: { value: string }) {
 
 export default function RCM() {
   const problemRef = useRef<HTMLDivElement>(null);
-  const { scrollYProgress: problemProgress } = useScroll({
-    target: problemRef,
-    offset: ["start start", "end end"],
-  });
-  const problemX = useTransform(problemProgress, [0.15, 0.82], ["0%", "-80%"]);
+  const { viewportRef: problemViewportRef, trackRef: problemTrackRef, x: problemX } = useHorizontalScroll(problemRef, [0.15, 0.82]);
 
   return (
     <>
@@ -293,8 +290,8 @@ export default function RCM() {
             </p>
           </div>
 
-          <div className="mt-8 flex flex-1 items-center overflow-hidden pb-16 md:mt-10 md:pb-24">
-            <motion.div style={{ x: problemX }} className="flex items-stretch gap-6 px-6 md:gap-8 md:px-12">
+          <div ref={problemViewportRef} className="mt-8 flex flex-1 items-center overflow-hidden pb-16 md:mt-10 md:pb-24 scrollbar-hide">
+            <motion.div ref={problemTrackRef} style={{ x: problemX }} className="flex items-stretch gap-6 px-6 md:gap-8 md:px-12">
               {problemCards.map((card, i) => (
                 <article
                   key={card.title}

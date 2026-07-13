@@ -41,6 +41,7 @@ import bgStepsLight from "@/assets/bg-steps-light.png"
 import { Footer } from "@/components/Footer";
 import { CtaSection } from "@/components/CtaSection";
 
+import { useHorizontalScroll } from "@/hooks/use-horizontal-scroll";
 const features = [
   { icon: Layers, title: "Universal DICOM Image Acquisition & Storage", body: "Receive, store, and manage DICOM images from every modality — CT, MRI, X-ray, fluoroscopy, mammography, tomosynthesis, ultrasound, nuclear medicine, PET-CT, dental, and interventional. Non-DICOM clinical imaging from endoscopy, dermatology, ophthalmology, and pathology is supported through conversion or native storage with full metadata preservation." },
   { icon: HardDrive, title: "Zero-Loss Archival Architecture", body: "Redundant, geographically distributed storage with no single point of failure. Automatic tiering moves active studies to high-speed primary storage and migrates long-term archives to cost-efficient deep storage — without manual intervention or performance compromise on current studies." },
@@ -199,11 +200,7 @@ function ExpandingJourney({ steps }: { steps: typeof journey }) {
 
 export default function PACS() {
   const problemRef = useRef<HTMLDivElement>(null);
-  const { scrollYProgress: problemProgress } = useScroll({
-    target: problemRef,
-    offset: ["start start", "end end"],
-  });
-  const problemX = useTransform(problemProgress, [0.15, 0.82], ["0%", "-80%"]);
+  const { viewportRef: problemViewportRef, trackRef: problemTrackRef, x: problemX } = useHorizontalScroll(problemRef, [0.15, 0.82]);
 
   return (
     <>
@@ -303,8 +300,8 @@ export default function PACS() {
             </h2>
           </div>
 
-          <div className="mt-6 flex flex-1 items-center overflow-hidden md:mt-8">
-            <motion.div style={{ x: problemX }} className="flex items-stretch gap-6 px-6 md:gap-8 md:px-12">
+          <div ref={problemViewportRef} className="mt-6 flex flex-1 items-center overflow-hidden md:mt-8 scrollbar-hide">
+            <motion.div ref={problemTrackRef} style={{ x: problemX }} className="flex items-stretch gap-6 px-6 md:gap-8 md:px-12">
               {problemCards.map((card, i) => (
                 <article
                   key={i}

@@ -34,6 +34,7 @@ import heroVideo from "@/assets/medication/hero-video.mp4.asset.json";
 import { Footer } from "@/components/Footer";
 import { CtaSection } from "@/components/CtaSection";
 
+import { useHorizontalScroll } from "@/hooks/use-horizontal-scroll";
 const features = [
   { icon: Stethoscope, title: "Electronic Prescribing with Clinical Decision Support", body: "Physicians prescribe digitally with real-time clinical decision support running in the background. Drug-drug interaction checks, allergy cross-referencing, duplicate therapy alerts, and contraindication warnings fire at the point of prescribing — before the order is placed, not after. Alerts are tiered by severity so clinicians see what matters without alert fatigue." },
   { icon: Pill, title: "Weight- and Age-Based Dosage Calculation Engine", body: "For pediatric, neonatal, and renally impaired patients, dosing errors are most dangerous and most common. Our built-in calculation engine pulls the patient's current weight, age, and renal function from the clinical record and computes the correct dose range automatically. Prescribers see the recommended dose alongside safe minimum and maximum thresholds — every time." },
@@ -189,11 +190,7 @@ function ExpandingJourney({ steps }: { steps: typeof journey }) {
 
 export default function MedicationDosage() {
   const problemRef = useRef<HTMLDivElement>(null);
-  const { scrollYProgress: problemProgress } = useScroll({
-    target: problemRef,
-    offset: ["start start", "end end"],
-  });
-  const problemX = useTransform(problemProgress, [0.15, 0.82], ["0%", "-80%"]);
+  const { viewportRef: problemViewportRef, trackRef: problemTrackRef, x: problemX } = useHorizontalScroll(problemRef, [0.15, 0.82]);
 
   return (
     <>
@@ -299,8 +296,8 @@ export default function MedicationDosage() {
           </div>
 
           {/* Horizontally scrolling cards */}
-          <div className="mt-6 flex flex-1 items-center overflow-hidden md:mt-8">
-            <motion.div style={{ x: problemX }} className="flex items-stretch gap-6 px-6 md:gap-8 md:px-12">
+          <div ref={problemViewportRef} className="mt-6 flex flex-1 items-center overflow-hidden md:mt-8 scrollbar-hide">
+            <motion.div ref={problemTrackRef} style={{ x: problemX }} className="flex items-stretch gap-6 px-6 md:gap-8 md:px-12">
               {problemCards.map((card, i) => (
                 <article
                   key={i}

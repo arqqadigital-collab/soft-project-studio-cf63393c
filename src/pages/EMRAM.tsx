@@ -23,6 +23,7 @@ import { Footer } from "@/components/Footer";
 import { CtaSection } from "@/components/CtaSection";
 import emramHeroVideo from "@/assets/emram/emram-hero.mp4.asset.json";
 import emramCtaVideo from "@/assets/emram/emram-cta.mp4.asset.json";
+import { useHorizontalScroll } from "@/hooks/use-horizontal-scroll";
 import emramP1 from "@/assets/emram/problem/p1.jpg"
 import emramP2 from "@/assets/emram/problem/p2.jpg"
 import emramP3 from "@/assets/emram/problem/p3.jpg"
@@ -184,11 +185,7 @@ function AnimatedStat({ value }: { value: string }) {
 
 export default function EMRAM() {
   const problemRef = useRef<HTMLDivElement>(null);
-  const { scrollYProgress: problemProgress } = useScroll({
-    target: problemRef,
-    offset: ["start start", "end end"],
-  });
-  const problemX = useTransform(problemProgress, [0.15, 0.82], ["0%", "-78%"]);
+  const { viewportRef: problemViewportRef, trackRef: problemTrackRef, x: problemX } = useHorizontalScroll(problemRef, [0.15, 0.82]);
 
   return (
     <>
@@ -292,8 +289,8 @@ export default function EMRAM() {
             </h2>
           </div>
 
-          <div className="mt-8 flex flex-1 items-center overflow-hidden pb-16 md:mt-10 md:pb-24">
-            <motion.div style={{ x: problemX }} className="flex items-stretch gap-6 px-6 md:gap-8 md:px-12">
+          <div ref={problemViewportRef} className="mt-8 flex flex-1 items-center overflow-hidden pb-16 md:mt-10 md:pb-24 scrollbar-hide">
+            <motion.div ref={problemTrackRef} style={{ x: problemX }} className="flex items-stretch gap-6 px-6 md:gap-8 md:px-12">
               {problemCards.map((card, i) => {
                 return (
                   <article
