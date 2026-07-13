@@ -1,5 +1,10 @@
-import { Routes, Route, Link } from "react-router-dom";
+import { Routes, Route, Link, useLocation } from "react-router-dom";
 import { Header } from "@/components/Header";
+import { AuthProvider } from "@/hooks/use-auth";
+import { ProtectedRoute } from "@/components/ProtectedRoute";
+import Login from "./pages/Login";
+import Dashboard from "./pages/Dashboard";
+import AdminRedirect from "./pages/AdminRedirect";
 import Index from "./pages/Index";
 import About from "./pages/About";
 import HIS from "./pages/HIS";
@@ -50,9 +55,16 @@ function NotFound() {
 }
 
 export default function App() {
+  const location = useLocation();
+  const hideHeader =
+    location.pathname === "/login" ||
+    location.pathname === "/admin" ||
+    location.pathname === "/dashboard" ||
+    location.pathname.startsWith("/dashboard/");
+
   return (
-    <>
-      <Header />
+    <AuthProvider>
+      {!hideHeader && <Header />}
       <Routes>
         <Route path="/" element={<Index />} />
         <Route path="/about" element={<About />} />
@@ -81,8 +93,18 @@ export default function App() {
         <Route path="/case-studies" element={<CaseStudies />} />
         <Route path="/case-studies/:slug" element={<ArticleDetail />} />
         <Route path="/contact" element={<Contact />} />
+        <Route path="/login" element={<Login />} />
+        <Route path="/admin" element={<AdminRedirect />} />
+        <Route
+          path="/dashboard/*"
+          element={
+            <ProtectedRoute>
+              <Dashboard />
+            </ProtectedRoute>
+          }
+        />
         <Route path="*" element={<NotFound />} />
       </Routes>
-    </>
+    </AuthProvider>
   );
 }
