@@ -311,7 +311,7 @@ export default function AIImaging() {
               {problemCards.map((card, i) => (
                 <article
                   key={i}
-                  className="flex w-[82vw] shrink-0 flex-col overflow-hidden rounded-[2rem] bg-[#0f1424] shadow-2xl ring-1 ring-white/10 md:w-[440px] lg:w-[480px]"
+                  className="flex w-[82vw] shrink-0 flex-col overflow-hidden rounded-[2rem] bg-[#0f1424] md:w-[440px] lg:w-[480px]"
                 >
                   <div className="aspect-[16/9] w-full overflow-hidden bg-black/40">
                     <img

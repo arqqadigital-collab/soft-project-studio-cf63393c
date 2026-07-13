@@ -308,7 +308,7 @@ export default function PACS() {
               {problemCards.map((card, i) => (
                 <article
                   key={i}
-                  className="flex w-[82vw] shrink-0 flex-col overflow-hidden rounded-[2rem] bg-[#0f1424] shadow-2xl ring-1 ring-white/10 md:w-[440px] lg:w-[480px]"
+                  className="flex w-[82vw] shrink-0 flex-col overflow-hidden rounded-[2rem] bg-[#0f1424] md:w-[440px] lg:w-[480px]"
                 >
                   <div className="relative h-[190px] w-full overflow-hidden md:h-[210px]">
                     <img
