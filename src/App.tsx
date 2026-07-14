@@ -29,6 +29,8 @@ import Dynamics365 from "./pages/Dynamics365";
 import Odoo from "./pages/Odoo";
 import Zoho from "./pages/Zoho";
 import Manufacturing from "./pages/Manufacturing";
+import Retail from "./pages/Retail";
+import Education from "./pages/Education";
 import Logistics from "./pages/Logistics";
 import Cybersecurity from "./pages/Cybersecurity";
 import Consulting from "./pages/Consulting";
@@ -97,6 +99,8 @@ export default function App() {
         <Route path="/erp/odoo" element={<Odoo />} />
         <Route path="/erp/zoho" element={<Zoho />} />
         <Route path="/erp/manufacturing" element={<Manufacturing />} />
+        <Route path="/erp/retail" element={<Retail />} />
+        <Route path="/erp/education" element={<Education />} />
         <Route path="/erp/logistics" element={<Logistics />} />
         <Route path="/services/cybersecurity" element={<Cybersecurity />} />
         <Route path="/services/consulting" element={<Consulting />} />

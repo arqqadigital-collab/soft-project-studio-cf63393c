@@ -97,8 +97,8 @@ const menus: Menu[] = [
         items: [
           { label: "Manufacturing & Trading", to: "/erp/manufacturing" },
           { label: "Logistics & Distribution", to: "/erp/logistics" },
-          { label: "Retail & E-commerce", href: "#" },
-          { label: "Education & Research", href: "#" },
+          { label: "Retail & E-commerce", to: "/erp/retail" },
+          { label: "Education & Research", to: "/erp/education" },
         ],
       },
     ],
