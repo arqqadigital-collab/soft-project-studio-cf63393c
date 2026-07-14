@@ -77,6 +77,8 @@ export default function App() {
         <Route path="/healthcare/clinic" element={<ClinicManagement />} />
         <Route path="/healthcare/emergency" element={<EmergencyDepartment />} />
         <Route path="/healthcare/physiotherapy" element={<Physiotherapy />} />
+        <Route path="/healthcare/telemedicine" element={<Telemedicine />} />
+        <Route path="/healthcare/operations" element={<HospitalOperations />} />
         <Route path="/healthcare/dental" element={<Dental />} />
         <Route path="/healthcare/lis" element={<LIS />} />
         <Route path="/healthcare/ris" element={<RIS />} />
