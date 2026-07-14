@@ -22,6 +22,7 @@ import MedicationDosage from "./pages/MedicationDosage";
 import PACS from "./pages/PACS";
 import AIImaging from "./pages/AIImaging";
 import UAECompliance from "./pages/UAECompliance";
+import KSACompliance from "./pages/KSACompliance";
 import EMRAM from "./pages/EMRAM";
 import Dynamics365 from "./pages/Dynamics365";
 import Odoo from "./pages/Odoo";
@@ -88,6 +89,7 @@ export default function App() {
         <Route path="/healthcare/pacs" element={<PACS />} />
         <Route path="/healthcare/ai-imaging" element={<AIImaging />} />
         <Route path="/healthcare/uae-compliance" element={<UAECompliance />} />
+        <Route path="/healthcare/ksa-compliance" element={<KSACompliance />} />
         <Route path="/healthcare/emram" element={<EMRAM />} />
         <Route path="/erp/dynamics-365" element={<Dynamics365 />} />
         <Route path="/erp/odoo" element={<Odoo />} />
