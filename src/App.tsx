@@ -39,6 +39,7 @@ import Implementation from "./pages/Implementation";
 import StaffAug from "./pages/StaffAug";
 import Learning from "./pages/Learning";
 import Blog from "./pages/Blog";
+import Events from "./pages/Events";
 import CaseStudies from "./pages/CaseStudies";
 import Contact from "./pages/Contact";
 import ArticleDetail from "./pages/ArticleDetail";
@@ -112,6 +113,7 @@ export default function App() {
         <Route path="/services/learning" element={<Learning />} />
         <Route path="/blog" element={<Blog />} />
         <Route path="/blog/:slug" element={<ArticleDetail />} />
+        <Route path="/events" element={<Events />} />
         <Route path="/case-studies" element={<CaseStudies />} />
         <Route path="/case-studies/:slug" element={<ArticleDetail />} />
         <Route path="/contact" element={<Contact />} />

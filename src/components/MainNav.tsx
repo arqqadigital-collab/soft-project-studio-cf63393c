@@ -130,7 +130,7 @@ const menus: Menu[] = [
         items: [
         { label: "Blog", to: "/blog" },
         { label: "Case Studies", to: "/case-studies" },
-        { label: "Events & Webinars", href: "#" },
+        { label: "Events & Webinars", to: "/events" },
         ],
       },
     ],
