@@ -36,6 +36,7 @@ import Cybersecurity from "./pages/Cybersecurity";
 import Consulting from "./pages/Consulting";
 import Implementation from "./pages/Implementation";
 import StaffAug from "./pages/StaffAug";
+import Learning from "./pages/Learning";
 import Blog from "./pages/Blog";
 import CaseStudies from "./pages/CaseStudies";
 import Contact from "./pages/Contact";
@@ -106,6 +107,7 @@ export default function App() {
         <Route path="/services/consulting" element={<Consulting />} />
         <Route path="/services/implementation" element={<Implementation />} />
         <Route path="/services/staff-aug" element={<StaffAug />} />
+        <Route path="/services/learning" element={<Learning />} />
         <Route path="/blog" element={<Blog />} />
         <Route path="/blog/:slug" element={<ArticleDetail />} />
         <Route path="/case-studies" element={<CaseStudies />} />
