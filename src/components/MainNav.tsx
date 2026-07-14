@@ -59,7 +59,7 @@ const menus: Menu[] = [
         label: "Healthcare AI",
         description: "Clinical AI and readiness",
         items: [
-          { label: "Clinical AI & Documentation", href: "#" },
+          { label: "Clinical AI & Documentation", to: "/healthcare/clinical-ai" },
           { label: "EMRAM Roadmap & AI Readiness", to: "/healthcare/emram" },
         ],
       },
