@@ -11,6 +11,8 @@ import HIS from "./pages/HIS";
 import ClinicManagement from "./pages/ClinicManagement";
 import EmergencyDepartment from "./pages/EmergencyDepartment";
 import Physiotherapy from "./pages/Physiotherapy";
+import Telemedicine from "./pages/Telemedicine";
+import HospitalOperations from "./pages/HospitalOperations";
 import Dental from "./pages/Dental";
 import LIS from "./pages/LIS";
 import RIS from "./pages/RIS";
