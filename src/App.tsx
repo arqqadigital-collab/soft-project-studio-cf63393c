@@ -7,6 +7,7 @@ import Dashboard from "./pages/Dashboard";
 import AdminRedirect from "./pages/AdminRedirect";
 import Index from "./pages/Index";
 import About from "./pages/About";
+import Careers from "./pages/Careers";
 import HIS from "./pages/HIS";
 import ClinicManagement from "./pages/ClinicManagement";
 import EmergencyDepartment from "./pages/EmergencyDepartment";
@@ -78,6 +79,7 @@ export default function App() {
       <Routes>
         <Route path="/" element={<Index />} />
         <Route path="/about" element={<About />} />
+        <Route path="/careers" element={<Careers />} />
         <Route path="/healthcare/his" element={<HIS />} />
         <Route path="/healthcare/clinic" element={<ClinicManagement />} />
         <Route path="/healthcare/emergency" element={<EmergencyDepartment />} />
