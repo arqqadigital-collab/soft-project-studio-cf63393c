@@ -35,8 +35,8 @@ const menus: Menu[] = [
         items: [
           { label: "Blood Bank & Donor Management", to: "/healthcare/blood-bank" },
           { label: "Medication & Dosage Management", to: "/healthcare/medication-dosage" },
-          { label: "Telemedicine & Virtual Care", href: "#" },
-          { label: "Hospital Operations & RTLS", href: "#" },
+          { label: "Telemedicine & Virtual Care", to: "/healthcare/telemedicine" },
+          { label: "Hospital Operations & RTLS", to: "/healthcare/operations" },
         ],
       },
       {
