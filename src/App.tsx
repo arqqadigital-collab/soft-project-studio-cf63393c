@@ -89,6 +89,7 @@ export default function App() {
         <Route path="/healthcare/pacs" element={<PACS />} />
         <Route path="/healthcare/ai-imaging" element={<AIImaging />} />
         <Route path="/healthcare/uae-compliance" element={<UAECompliance />} />
+        <Route path="/healthcare/ksa-compliance" element={<KSACompliance />} />
         <Route path="/healthcare/emram" element={<EMRAM />} />
         <Route path="/erp/dynamics-365" element={<Dynamics365 />} />
         <Route path="/erp/odoo" element={<Odoo />} />
