@@ -29,6 +29,8 @@ import Dynamics365 from "./pages/Dynamics365";
 import Odoo from "./pages/Odoo";
 import Zoho from "./pages/Zoho";
 import Manufacturing from "./pages/Manufacturing";
+import Retail from "./pages/Retail";
+import Education from "./pages/Education";
 import Logistics from "./pages/Logistics";
 import Cybersecurity from "./pages/Cybersecurity";
 import Consulting from "./pages/Consulting";
