@@ -196,15 +196,24 @@ function ExpandingJourney({ steps }: { steps: typeof journey }) {
   );
 }
 
+import nphiesLogo from "@/assets/logos/nphies.png";
+import malaffiLogo from "@/assets/logos/malaffi.png";
+import riayatiLogo from "@/assets/logos/riayati.png";
+import zatcaLogo from "@/assets/logos/zatca.png";
+import emiratesIdLogo from "@/assets/logos/emirates-id.png";
+import absherLogo from "@/assets/logos/absher.png";
+import nhraLogo from "@/assets/logos/nhra.png";
+import wasfatyLogo from "@/assets/logos/wasfaty.png";
+
 const integrations = [
-  { name: "Google Calendar" },
-  { name: "Outlook 365" },
-  { name: "WhatsApp Business" },
-  { name: "Stripe" },
-  { name: "Tap Payments" },
-  { name: "Zoom Telehealth" },
-  { name: "Mailchimp" },
-  { name: "QuickBooks" },
+  { name: "NPHIES", logo: nphiesLogo },
+  { name: "Malaffi", logo: malaffiLogo },
+  { name: "Riayati", logo: riayatiLogo },
+  { name: "ZATCA Fatoora", logo: zatcaLogo },
+  { name: "UAE Emirates ID", logo: emiratesIdLogo },
+  { name: "Saudi Absher", logo: absherLogo },
+  { name: "Bahrain NHRA", logo: nhraLogo },
+  { name: "Wasfaty", logo: wasfatyLogo },
 ];
 
 function LogoSlider({ platforms }: { platforms: typeof integrations }) {
@@ -261,9 +270,9 @@ function LogoSlider({ platforms }: { platforms: typeof integrations }) {
             className="flex w-[180px] shrink-0 flex-col items-center justify-center gap-3 rounded-2xl border border-border bg-white p-6 shadow-sm transition-shadow hover:shadow-md"
           >
             <div className="flex h-20 w-full items-center justify-center">
-              <span className="text-center text-sm font-bold text-foreground/80">{p.name}</span>
+              <img src={p.logo} alt={`${p.name} logo`} className="max-h-full max-w-full object-contain" loading="lazy" />
             </div>
-            <span className="text-center text-xs font-medium text-foreground/60">Integration</span>
+            <span className="text-center text-xs font-medium text-foreground/70">{p.name}</span>
           </div>
         ))}
       </div>
