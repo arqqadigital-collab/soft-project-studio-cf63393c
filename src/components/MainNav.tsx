@@ -121,7 +121,7 @@ const menus: Menu[] = [
         description: "Our story and mission",
         items: [
           { label: "About Us", to: "/about" },
-          { label: "Careers", href: "#" },
+          { label: "Careers", to: "/careers" },
         ],
       },
       {
