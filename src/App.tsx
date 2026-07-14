@@ -99,6 +99,8 @@ export default function App() {
         <Route path="/erp/odoo" element={<Odoo />} />
         <Route path="/erp/zoho" element={<Zoho />} />
         <Route path="/erp/manufacturing" element={<Manufacturing />} />
+        <Route path="/erp/retail" element={<Retail />} />
+        <Route path="/erp/education" element={<Education />} />
         <Route path="/erp/logistics" element={<Logistics />} />
         <Route path="/services/cybersecurity" element={<Cybersecurity />} />
         <Route path="/services/consulting" element={<Consulting />} />
