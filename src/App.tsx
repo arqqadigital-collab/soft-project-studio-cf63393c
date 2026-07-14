@@ -8,6 +8,7 @@ import AdminRedirect from "./pages/AdminRedirect";
 import Index from "./pages/Index";
 import About from "./pages/About";
 import HIS from "./pages/HIS";
+import ClinicManagement from "./pages/ClinicManagement";
 import Dental from "./pages/Dental";
 import LIS from "./pages/LIS";
 import RIS from "./pages/RIS";
@@ -69,6 +70,7 @@ export default function App() {
         <Route path="/" element={<Index />} />
         <Route path="/about" element={<About />} />
         <Route path="/healthcare/his" element={<HIS />} />
+        <Route path="/healthcare/clinic" element={<ClinicManagement />} />
         <Route path="/healthcare/dental" element={<Dental />} />
         <Route path="/healthcare/lis" element={<LIS />} />
         <Route path="/healthcare/ris" element={<RIS />} />
