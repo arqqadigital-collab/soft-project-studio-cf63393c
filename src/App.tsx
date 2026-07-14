@@ -9,6 +9,8 @@ import Index from "./pages/Index";
 import About from "./pages/About";
 import HIS from "./pages/HIS";
 import ClinicManagement from "./pages/ClinicManagement";
+import EmergencyDepartment from "./pages/EmergencyDepartment";
+import Physiotherapy from "./pages/Physiotherapy";
 import Dental from "./pages/Dental";
 import LIS from "./pages/LIS";
 import RIS from "./pages/RIS";
