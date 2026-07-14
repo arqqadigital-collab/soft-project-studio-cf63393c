@@ -196,15 +196,24 @@ function ExpandingJourney({ steps }: { steps: typeof journey }) {
   );
 }
 
+import nphiesLogo from "@/assets/logos/nphies.png";
+import malaffiLogo from "@/assets/logos/malaffi.png";
+import riayatiLogo from "@/assets/logos/riayati.png";
+import zatcaLogo from "@/assets/logos/zatca.png";
+import emiratesIdLogo from "@/assets/logos/emirates-id.png";
+import absherLogo from "@/assets/logos/absher.png";
+import nhraLogo from "@/assets/logos/nhra.png";
+import wasfatyLogo from "@/assets/logos/wasfaty.png";
+
 const integrations = [
-  { name: "Google Calendar" },
-  { name: "Outlook 365" },
-  { name: "WhatsApp Business" },
-  { name: "Stripe" },
-  { name: "Tap Payments" },
-  { name: "Zoom Telehealth" },
-  { name: "Mailchimp" },
-  { name: "QuickBooks" },
+  { name: "NPHIES", logo: nphiesLogo },
+  { name: "Malaffi", logo: malaffiLogo },
+  { name: "Riayati", logo: riayatiLogo },
+  { name: "ZATCA Fatoora", logo: zatcaLogo },
+  { name: "UAE Emirates ID", logo: emiratesIdLogo },
+  { name: "Saudi Absher", logo: absherLogo },
+  { name: "Bahrain NHRA", logo: nhraLogo },
+  { name: "Wasfaty", logo: wasfatyLogo },
 ];
 
 function LogoSlider({ platforms }: { platforms: typeof integrations }) {
