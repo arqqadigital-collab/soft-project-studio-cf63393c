@@ -270,9 +270,9 @@ function LogoSlider({ platforms }: { platforms: typeof integrations }) {
             className="flex w-[180px] shrink-0 flex-col items-center justify-center gap-3 rounded-2xl border border-border bg-white p-6 shadow-sm transition-shadow hover:shadow-md"
           >
             <div className="flex h-20 w-full items-center justify-center">
-              <span className="text-center text-sm font-bold text-foreground/80">{p.name}</span>
+              <img src={p.logo} alt={`${p.name} logo`} className="max-h-full max-w-full object-contain" loading="lazy" />
             </div>
-            <span className="text-center text-xs font-medium text-foreground/60">Integration</span>
+            <span className="text-center text-xs font-medium text-foreground/70">{p.name}</span>
           </div>
         ))}
       </div>
