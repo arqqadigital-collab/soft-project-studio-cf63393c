@@ -501,7 +501,7 @@ export default function HIS() {
           <p className="mt-10 text-center text-sm font-semibold uppercase tracking-[0.18em] text-foreground/55">
             {(integrations as any).sliderLabel ?? "National Platforms"}
           </p>
-          <LogoSlider platforms={integrations.items as Platform[]} />
+          <LogoSlider platforms={integrations.items as unknown as Platform[]} />
         </div>
       </section>
 
