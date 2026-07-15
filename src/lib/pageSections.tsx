@@ -268,19 +268,33 @@ function StatsEdit({ data, onChange }: { data: SectionData; onChange: (n: Sectio
 }
 
 function FeaturesRender({ data }: { data: SectionData }) {
+  const isDark = data.bgColor && /^#(0|1|2)/i.test(data.bgColor);
+  const cardCls = isDark
+    ? "rounded-2xl border border-white/10 bg-white/5 p-6 shadow-sm backdrop-blur"
+    : "rounded-2xl border border-border bg-background p-6 shadow-sm";
   return (
     <section className={data.bgColor ? "py-20" : "bg-muted/40 py-20"} style={sectionStyle(data)}>
       <Container>
+        {data.eyebrow && (
+          <div className="mb-3 text-xs font-bold uppercase tracking-[0.2em] opacity-70">{data.eyebrow}</div>
+        )}
         {data.heading && <h2 className="text-3xl font-bold md:text-4xl">{data.heading}</h2>}
         {data.subheading && <p className="mt-3 max-w-3xl text-lg opacity-80">{data.subheading}</p>}
+        {data.body && <p className="mt-3 max-w-3xl text-base opacity-80">{data.body}</p>}
         <div className="mt-12 grid gap-6 md:grid-cols-2 lg:grid-cols-3">
           {(data.items ?? []).map((f: any, i: number) => (
-            <div key={i} className="rounded-2xl border border-border bg-background p-6 shadow-sm" style={data.textColor ? { color: data.textColor } : undefined}>
-              <div className="flex h-11 w-11 items-center justify-center rounded-xl" style={{ background: data.accentColor ? `${data.accentColor}20` : "hsl(var(--primary)/0.1)", color: data.accentColor || "hsl(var(--primary))" }}>
-                <IconByName name={f.icon} className="h-5 w-5" />
-              </div>
-              <h3 className="mt-4 text-lg font-semibold">{f.title}</h3>
-              <p className="mt-2 text-sm leading-relaxed opacity-80">{f.description}</p>
+            <div key={i} className={`${cardCls} overflow-hidden`} style={data.textColor ? { color: data.textColor } : undefined}>
+              {f.image ? (
+                <div className="-mx-6 -mt-6 mb-5 aspect-[16/10] overflow-hidden">
+                  <img src={f.image} alt={f.title ?? ""} className="h-full w-full object-cover" loading="lazy" />
+                </div>
+              ) : (
+                <div className="flex h-11 w-11 items-center justify-center rounded-xl" style={{ background: data.accentColor ? `${data.accentColor}20` : "hsl(var(--primary)/0.1)", color: data.accentColor || "hsl(var(--primary))" }}>
+                  <IconByName name={f.icon} className="h-5 w-5" />
+                </div>
+              )}
+              <h3 className={`${f.image ? "" : "mt-4"} text-lg font-semibold`}>{f.title}</h3>
+              <p className="mt-2 text-sm leading-relaxed opacity-80">{f.description ?? f.body}</p>
             </div>
           ))}
         </div>
@@ -294,16 +308,18 @@ function FeaturesEdit({ data, onChange }: { data: SectionData; onChange: (n: Sec
   const p = (patch: Partial<SectionData>) => onChange({ ...data, ...patch });
   return (
     <div className="space-y-3">
+      <Field label="Eyebrow (optional)"><Input value={data.eyebrow ?? ""} onChange={(e) => p({ eyebrow: e.target.value })} /></Field>
       <Field label="Heading"><Input value={data.heading ?? ""} onChange={(e) => p({ heading: e.target.value })} /></Field>
       <Field label="Sub-heading"><Textarea value={data.subheading ?? ""} rows={2} onChange={(e) => p({ subheading: e.target.value })} /></Field>
       <ListEditor
         label="Cards"
         items={data.items ?? []}
-        empty={{ icon: "Sparkles", title: "", description: "" }}
+        empty={{ icon: "Sparkles", title: "", description: "", image: "" }}
         onChange={(items) => p({ items })}
         renderItem={(it: any, patch) => (
           <>
-            <Field label="Icon (lucide name)"><Input value={it.icon ?? ""} onChange={(e) => patch({ icon: e.target.value })} /></Field>
+            <MediaField label="Image (optional — replaces icon)" value={it.image ?? ""} onChange={(url) => patch({ image: url })} accept="image" />
+            <Field label="Icon (lucide name, used if no image)"><Input value={it.icon ?? ""} onChange={(e) => patch({ icon: e.target.value })} /></Field>
             <Field label="Title"><Input value={it.title ?? ""} onChange={(e) => patch({ title: e.target.value })} /></Field>
             <Field label="Description"><Textarea value={it.description ?? ""} rows={2} onChange={(e) => patch({ description: e.target.value })} /></Field>
           </>
