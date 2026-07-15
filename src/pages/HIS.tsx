@@ -459,8 +459,10 @@ export default function HIS() {
           <ExpandingJourney steps={journey.items as unknown as JourneyStep[]} />
         </div>
       </section>
+      )}
 
       {/* METRICS */}
+      {v.Outcomes && (
       <section className="relative overflow-hidden px-6 py-24 md:px-12" style={{ backgroundColor: "#091628" }}>
         <div
           className="absolute -left-32 top-1/2 h-96 w-96 -translate-y-1/2 rounded-full opacity-20 blur-3xl"
