@@ -366,9 +366,9 @@ function MediaEdit({ data, onChange }: { data: SectionData; onChange: (n: Sectio
 
 function LogosRender({ data }: { data: SectionData }) {
   return (
-    <section className="bg-muted/40 py-16">
+    <section className={data.bgColor ? "py-16" : "bg-muted/40 py-16"} style={sectionStyle(data)}>
       <Container>
-        {data.heading && <h2 className="text-center text-xl font-semibold text-foreground">{data.heading}</h2>}
+        {data.heading && <h2 className="text-center text-xl font-semibold">{data.heading}</h2>}
         <div className="mt-10 grid grid-cols-2 gap-6 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6">
           {(data.items ?? []).map((l: any, i: number) => (
             <div key={i} className="flex h-20 items-center justify-center rounded-xl bg-background p-4">
@@ -380,6 +380,7 @@ function LogosRender({ data }: { data: SectionData }) {
     </section>
   );
 }
+
 
 function LogosEdit({ data, onChange }: { data: SectionData; onChange: (n: SectionData) => void }) {
   const p = (patch: Partial<SectionData>) => onChange({ ...data, ...patch });
