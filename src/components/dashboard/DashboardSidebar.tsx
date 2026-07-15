@@ -1,15 +1,15 @@
 import { NavLink, useLocation } from "react-router-dom";
 import {
   LayoutDashboard,
-  FileText,
   FileStack,
-  Image,
-  Tags,
-  Users,
-  Search,
-  BarChart3,
+  Image as ImageIcon,
+  Menu as MenuIcon,
+  PanelsTopLeft,
   Settings,
-  User as UserIcon,
+  Newspaper,
+  BookMarked,
+  CalendarDays,
+  Shield,
 } from "lucide-react";
 import {
   Sidebar,
@@ -24,29 +24,57 @@ import {
 } from "@/components/ui/sidebar";
 import { useRoles } from "@/hooks/use-role";
 
-const items = [
-  { title: "Dashboard", url: "/dashboard", icon: LayoutDashboard, exact: true, allow: null },
-  { title: "Posts", url: "/dashboard/posts", icon: FileText, allow: null },
-  { title: "Pages", url: "/dashboard/pages", icon: FileStack, allow: ["admin", "editor"] as const },
-  { title: "Media", url: "/dashboard/media", icon: Image, allow: null },
-  { title: "Categories & Tags", url: "/dashboard/taxonomy", icon: Tags, allow: ["admin", "editor", "author"] as const },
-  { title: "Users", url: "/dashboard/users", icon: Users, allow: ["admin"] as const },
-  { title: "SEO", url: "/dashboard/seo", icon: Search, allow: ["admin", "editor"] as const },
-  { title: "Analytics", url: "/dashboard/analytics", icon: BarChart3, allow: ["admin", "editor"] as const },
-  { title: "Settings", url: "/dashboard/settings", icon: Settings, allow: ["admin"] as const },
-  { title: "Profile", url: "/dashboard/profile", icon: UserIcon, allow: null },
+type Item = {
+  title: string;
+  url: string;
+  icon: React.ComponentType<{ className?: string }>;
+  exact?: boolean;
+  allow?: readonly ("admin" | "editor" | "author" | "subscriber")[] | null;
+};
+
+const groups: { label: string; items: Item[] }[] = [
+  {
+    label: "Content",
+    items: [
+      { title: "Dashboard", url: "/dashboard", icon: LayoutDashboard, exact: true },
+      { title: "Pages", url: "/dashboard/pages", icon: FileStack, allow: ["admin", "editor"] },
+      { title: "Menus", url: "/dashboard/menus", icon: MenuIcon, allow: ["admin", "editor"] },
+      { title: "Header & Footer", url: "/dashboard/header-footer", icon: PanelsTopLeft, allow: ["admin", "editor"] },
+      { title: "Site Settings", url: "/dashboard/settings", icon: Settings, allow: ["admin"] },
+      { title: "Media Library", url: "/dashboard/media", icon: ImageIcon },
+    ],
+  },
+  {
+    label: "Post Types",
+    items: [
+      { title: "Blogs", url: "/dashboard/posts", icon: Newspaper },
+      { title: "Case Studies", url: "/dashboard/case-studies", icon: BookMarked, allow: ["admin", "editor", "author"] },
+      { title: "Events & Webinars", url: "/dashboard/events", icon: CalendarDays, allow: ["admin", "editor", "author"] },
+    ],
+  },
+  {
+    label: "Administration",
+    items: [
+      { title: "Admin", url: "/dashboard/users", icon: Shield, allow: ["admin"] },
+    ],
+  },
 ];
 
 export function DashboardSidebar() {
   const { pathname } = useLocation();
   const { roles } = useRoles();
 
-  const visible = items.filter(
-    (i) => !i.allow || i.allow.some((r) => roles.includes(r as any)),
-  );
-
   const isActive = (url: string, exact?: boolean) =>
     exact ? pathname === url : pathname === url || pathname.startsWith(url + "/");
+
+  const visibleGroups = groups
+    .map((g) => ({
+      ...g,
+      items: g.items.filter(
+        (i) => !i.allow || i.allow.some((r) => roles.includes(r as any)),
+      ),
+    }))
+    .filter((g) => g.items.length > 0);
 
   return (
     <Sidebar collapsible="icon">
@@ -59,27 +87,29 @@ export function DashboardSidebar() {
         </NavLink>
       </SidebarHeader>
       <SidebarContent>
-        <SidebarGroup>
-          <SidebarGroupLabel>Content</SidebarGroupLabel>
-          <SidebarGroupContent>
-            <SidebarMenu>
-              {visible.map((item) => (
-                <SidebarMenuItem key={item.url}>
-                  <SidebarMenuButton
-                    asChild
-                    isActive={isActive(item.url, item.exact)}
-                    tooltip={item.title}
-                  >
-                    <NavLink to={item.url} end={item.exact}>
-                      <item.icon className="h-4 w-4" />
-                      <span>{item.title}</span>
-                    </NavLink>
-                  </SidebarMenuButton>
-                </SidebarMenuItem>
-              ))}
-            </SidebarMenu>
-          </SidebarGroupContent>
-        </SidebarGroup>
+        {visibleGroups.map((g) => (
+          <SidebarGroup key={g.label}>
+            <SidebarGroupLabel>{g.label}</SidebarGroupLabel>
+            <SidebarGroupContent>
+              <SidebarMenu>
+                {g.items.map((item) => (
+                  <SidebarMenuItem key={item.url}>
+                    <SidebarMenuButton
+                      asChild
+                      isActive={isActive(item.url, item.exact)}
+                      tooltip={item.title}
+                    >
+                      <NavLink to={item.url} end={item.exact}>
+                        <item.icon className="h-4 w-4" />
+                        <span>{item.title}</span>
+                      </NavLink>
+                    </SidebarMenuButton>
+                  </SidebarMenuItem>
+                ))}
+              </SidebarMenu>
+            </SidebarGroupContent>
+          </SidebarGroup>
+        ))}
       </SidebarContent>
     </Sidebar>
   );

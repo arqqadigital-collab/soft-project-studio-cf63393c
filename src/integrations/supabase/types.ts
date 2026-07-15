@@ -44,6 +44,66 @@ export type Database = {
         }
         Relationships: []
       }
+      case_studies: {
+        Row: {
+          author_id: string | null
+          challenge: string | null
+          client_name: string | null
+          cover_image_url: string | null
+          created_at: string
+          gallery: Json
+          id: string
+          industry: string | null
+          published_at: string | null
+          results: string | null
+          slug: string
+          solution: string | null
+          status: Database["public"]["Enums"]["post_status"]
+          summary: string | null
+          tags: string[]
+          title: string
+          updated_at: string
+        }
+        Insert: {
+          author_id?: string | null
+          challenge?: string | null
+          client_name?: string | null
+          cover_image_url?: string | null
+          created_at?: string
+          gallery?: Json
+          id?: string
+          industry?: string | null
+          published_at?: string | null
+          results?: string | null
+          slug: string
+          solution?: string | null
+          status?: Database["public"]["Enums"]["post_status"]
+          summary?: string | null
+          tags?: string[]
+          title: string
+          updated_at?: string
+        }
+        Update: {
+          author_id?: string | null
+          challenge?: string | null
+          client_name?: string | null
+          cover_image_url?: string | null
+          created_at?: string
+          gallery?: Json
+          id?: string
+          industry?: string | null
+          published_at?: string | null
+          results?: string | null
+          slug?: string
+          solution?: string | null
+          status?: Database["public"]["Enums"]["post_status"]
+          summary?: string | null
+          tags?: string[]
+          title?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
       categories: {
         Row: {
           created_at: string
@@ -106,6 +166,111 @@ export type Database = {
           entity_type?: string
           id?: string
           snapshot?: Json
+        }
+        Relationships: []
+      }
+      events: {
+        Row: {
+          author_id: string | null
+          cover_image_url: string | null
+          created_at: string
+          description: string | null
+          ends_at: string | null
+          event_type: Database["public"]["Enums"]["event_type"]
+          id: string
+          location: string | null
+          published_at: string | null
+          registration_url: string | null
+          slug: string
+          starts_at: string | null
+          status: Database["public"]["Enums"]["post_status"]
+          title: string
+          updated_at: string
+          virtual_link: string | null
+        }
+        Insert: {
+          author_id?: string | null
+          cover_image_url?: string | null
+          created_at?: string
+          description?: string | null
+          ends_at?: string | null
+          event_type?: Database["public"]["Enums"]["event_type"]
+          id?: string
+          location?: string | null
+          published_at?: string | null
+          registration_url?: string | null
+          slug: string
+          starts_at?: string | null
+          status?: Database["public"]["Enums"]["post_status"]
+          title: string
+          updated_at?: string
+          virtual_link?: string | null
+        }
+        Update: {
+          author_id?: string | null
+          cover_image_url?: string | null
+          created_at?: string
+          description?: string | null
+          ends_at?: string | null
+          event_type?: Database["public"]["Enums"]["event_type"]
+          id?: string
+          location?: string | null
+          published_at?: string | null
+          registration_url?: string | null
+          slug?: string
+          starts_at?: string | null
+          status?: Database["public"]["Enums"]["post_status"]
+          title?: string
+          updated_at?: string
+          virtual_link?: string | null
+        }
+        Relationships: []
+      }
+      header_footer_settings: {
+        Row: {
+          created_at: string
+          footer_columns: Json
+          footer_copyright: string | null
+          footer_logo_url: string | null
+          footer_social: Json
+          footer_tagline: string | null
+          header_cta_label: string | null
+          header_cta_url: string | null
+          header_logo_url: string | null
+          header_show_menus: boolean
+          id: string
+          singleton: boolean
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          footer_columns?: Json
+          footer_copyright?: string | null
+          footer_logo_url?: string | null
+          footer_social?: Json
+          footer_tagline?: string | null
+          header_cta_label?: string | null
+          header_cta_url?: string | null
+          header_logo_url?: string | null
+          header_show_menus?: boolean
+          id?: string
+          singleton?: boolean
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          footer_columns?: Json
+          footer_copyright?: string | null
+          footer_logo_url?: string | null
+          footer_social?: Json
+          footer_tagline?: string | null
+          header_cta_label?: string | null
+          header_cta_url?: string | null
+          header_logo_url?: string | null
+          header_show_menus?: boolean
+          id?: string
+          singleton?: boolean
+          updated_at?: string
         }
         Relationships: []
       }
@@ -764,6 +929,7 @@ export type Database = {
     }
     Enums: {
       app_role: "admin" | "editor" | "author" | "subscriber"
+      event_type: "webinar" | "conference" | "workshop" | "meetup" | "other"
       page_status: "draft" | "published" | "trashed"
       page_template: "default" | "full-width" | "landing"
       post_status: "draft" | "published" | "scheduled" | "trashed"
@@ -897,6 +1063,7 @@ export const Constants = {
   public: {
     Enums: {
       app_role: ["admin", "editor", "author", "subscriber"],
+      event_type: ["webinar", "conference", "workshop", "meetup", "other"],
       page_status: ["draft", "published", "trashed"],
       page_template: ["default", "full-width", "landing"],
       post_status: ["draft", "published", "scheduled", "trashed"],
