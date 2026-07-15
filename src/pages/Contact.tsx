@@ -1,64 +1,26 @@
-import { useState } from "react";
-import { Send, MapPin, Phone, Mail } from "lucide-react";
+import { useMemo, useState } from "react";
+import { Send, MapPin, Phone, Mail, type LucideIcon } from "lucide-react";
+import { useQuery } from "@tanstack/react-query";
+import { z } from "zod";
+import { toast } from "sonner";
 import { Footer } from "@/components/Footer";
-import contactHero from "@/assets/contact/contact-hero.jpg"
-import qatarImage from "@/assets/contact/qatar.jpg"
+import { supabase } from "@/integrations/supabase/client";
+import contactHero from "@/assets/contact/contact-hero.jpg";
 
+const ICONS: Record<string, LucideIcon> = {
+  mail: Mail,
+  phone: Phone,
+  "map-pin": MapPin,
+};
 
-const inquiryAreas = [
-  "Dynamics 365 Business Central",
-  "Odoo",
-  "Zoho",
-  "Healthcare Solutions",
-  "Cybersecurity",
-  "Consulting",
-  "Implementation & Integration",
-  "Staff Augmentation",
-  "Other",
-];
-
-const offices = [
-  {
-    city: "Florida, USA",
-    address: "6900 Tavistock Lakes Blvd, Suite 400, Orlando, Florida 32827, USA",
-    phone: "+1 (407) 3735356",
-    email: "sbs@sbs-me.com",
-    image:
-      "https://images.unsplash.com/photo-1602940659805-770d1b3b9911?auto=format&fit=crop&w=800&q=70",
-  },
-  {
-    city: "Dubai, UAE",
-    address: "Office 1205, Jumeirah Bay Tower X3, Cluster X, Jumeirah Lake Towers.",
-    phone: "(+971) 044277705",
-    email: "sbs@sbs-me.com",
-    image:
-      "https://images.unsplash.com/photo-1512453979798-5ea266f8880c?auto=format&fit=crop&w=800&q=70",
-  },
-  {
-    city: "Qatar",
-    address: "1st Floor, Al-Jaidah Square Building, Airport Road, PO Box 55743, Doha, Qatar",
-    phone: "+974 4426 7499",
-    email: "sbs@sbs-me.com",
-    image: qatarImage,
-  },
-  {
-    city: "Saudi Arabia",
-    address: "6143 – Al Arid Dist. Unit No.1, Riyadh 13342 – 2901, Kingdom of Saudi Arabia",
-    phone: "+966 11 503 0522",
-    email: "sbs@sbs-me.com",
-    image:
-      "https://images.unsplash.com/photo-1586724237569-f3d0c1dee8c6?auto=format&fit=crop&w=800&q=70",
-  },
-  {
-    city: "Cairo, Egypt",
-    address: "6 AL-Horya St. 9th area, Block No. 16, Nasr City, Cairo, Egypt",
-    phone: "+2 (02) 24725260",
-    email: "sbs@sbs-me.com",
-    image:
-      "https://images.unsplash.com/photo-1572252009286-268acec5ca0a?auto=format&fit=crop&w=800&q=70",
-  },
-
-];
+const submissionSchema = z.object({
+  name: z.string().trim().min(1, "Name is required").max(100),
+  email: z.string().trim().email("Invalid email").max(255),
+  phone: z.string().trim().min(1, "Phone is required").max(30),
+  area: z.string().trim().min(1, "Please select an area"),
+  message: z.string().trim().max(1000).optional().default(""),
+  consent: z.literal(true, { errorMap: () => ({ message: "Consent required" }) }),
+});
 
 export default function Contact() {
   const [form, setForm] = useState({
@@ -69,19 +31,93 @@ export default function Contact() {
     message: "",
     consent: false,
   });
+  const [submitting, setSubmitting] = useState(false);
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const pageQ = useQuery({
+    queryKey: ["contact_page_public"],
+    queryFn: async () => {
+      const { data, error } = await supabase
+        .from("contact_page")
+        .select("*")
+        .eq("singleton", true)
+        .maybeSingle();
+      if (error) throw error;
+      return data;
+    },
+  });
+
+  const officesQ = useQuery({
+    queryKey: ["contact_offices_public"],
+    queryFn: async () => {
+      const { data, error } = await supabase
+        .from("contact_offices")
+        .select("*")
+        .order("position", { ascending: true });
+      if (error) throw error;
+      return data ?? [];
+    },
+  });
+
+  const areasQ = useQuery({
+    queryKey: ["contact_areas_public"],
+    queryFn: async () => {
+      const { data, error } = await supabase
+        .from("contact_inquiry_areas")
+        .select("*")
+        .eq("is_active", true)
+        .order("position", { ascending: true });
+      if (error) throw error;
+      return data ?? [];
+    },
+  });
+
+  const page = pageQ.data;
+  const offices = officesQ.data ?? [];
+  const areas = areasQ.data ?? [];
+
+  const quickInfo = useMemo(() => {
+    const raw = (page?.quick_info as unknown) as
+      | Array<{ icon?: string; title?: string; value?: string; subtitle?: string }>
+      | null
+      | undefined;
+    return Array.isArray(raw) ? raw : [];
+  }, [page]);
+
+  async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
-    setForm({ name: "", email: "", phone: "", area: "", message: "", consent: false });
-  };
+    const parsed = submissionSchema.safeParse(form);
+    if (!parsed.success) {
+      toast.error(parsed.error.errors[0]?.message ?? "Please fix form errors");
+      return;
+    }
+    setSubmitting(true);
+    try {
+      const { error } = await supabase.from("contact_submissions").insert({
+        name: parsed.data.name,
+        email: parsed.data.email,
+        phone: parsed.data.phone,
+        area: parsed.data.area,
+        message: parsed.data.message ?? "",
+        consent: parsed.data.consent,
+        user_agent: typeof navigator !== "undefined" ? navigator.userAgent : null,
+      });
+      if (error) throw error;
+      toast.success("Thanks! We'll get back to you within one business day.");
+      setForm({ name: "", email: "", phone: "", area: "", message: "", consent: false });
+    } catch (err: any) {
+      toast.error(err.message || "Failed to send. Please try again.");
+    } finally {
+      setSubmitting(false);
+    }
+  }
 
   return (
     <main className="bg-background">
       {/* Hero */}
       <section className="relative overflow-hidden px-6 pb-16 pt-32 md:px-12 md:pb-24 md:pt-40">
         <img
-          src={contactHero}
-          alt="Person typing on a laptop"
+          src={page?.hero_background_url || contactHero}
+          alt="Contact background"
           className="absolute inset-0 h-full w-full object-cover"
         />
         <div
@@ -96,39 +132,41 @@ export default function Contact() {
             className="text-sm font-semibold uppercase tracking-[0.25em]"
             style={{ color: "var(--brand-green)" }}
           >
-            Contact Us
+            {page?.hero_eyebrow ?? "Contact Us"}
           </p>
           <h1 className="mt-6 text-4xl font-bold leading-[1.1] tracking-tight md:text-5xl lg:text-6xl">
-            Let's Build Something Together
+            {page?.hero_headline ?? "Let's Build Something Together"}
           </h1>
-          <p className="mx-auto mt-6 max-w-2xl text-base text-white/80 md:text-lg">
-            Have a project in mind or need expert advice? Reach out and one of our specialists will
-            get back to you within 24 hours.
-          </p>
+          {page?.hero_subheadline && (
+            <p className="mx-auto mt-6 max-w-2xl text-base text-white/80 md:text-lg">
+              {page.hero_subheadline}
+            </p>
+          )}
           <div className="mt-8 flex justify-center">
             <a
-              href="#contact-form"
+              href={page?.hero_cta_href || "#contact-form"}
               className="inline-flex items-center gap-3 rounded-full px-8 py-4 text-sm font-semibold text-white shadow-[var(--shadow-brand)] transition-transform hover:scale-105"
               style={{ background: "var(--gradient-brand)" }}
             >
-              Request a Consultation
+              {page?.hero_cta_label ?? "Request a Consultation"}
               <Send className="h-4 w-4" />
             </a>
           </div>
         </div>
       </section>
 
-
-      {/* Form Section */}
+      {/* Form */}
       <section id="contact-form" className="px-6 py-20 md:px-12 md:py-28">
         <div className="mx-auto grid max-w-6xl gap-10 lg:grid-cols-[1.1fr_1fr]">
           <form
             onSubmit={handleSubmit}
             className="rounded-3xl border border-border bg-card p-8 shadow-xl md:p-10"
           >
-            <h2 className="text-2xl font-bold text-foreground md:text-3xl">Send us a message</h2>
+            <h2 className="text-2xl font-bold text-foreground md:text-3xl">
+              {page?.form_heading ?? "Send us a message"}
+            </h2>
             <p className="mt-2 text-sm text-muted-foreground">
-              Fields marked <span style={{ color: "var(--brand-green)" }}>*</span> are required.
+              {page?.form_subheading ?? "Fields marked * are required."}
             </p>
 
             <div className="mt-8 space-y-5">
@@ -173,9 +211,9 @@ export default function Contact() {
                   className="w-full appearance-none rounded-xl border border-border bg-background px-4 py-3 text-sm text-foreground outline-none transition focus:border-[var(--brand-blue)]"
                 >
                   <option value="">Select an area...</option>
-                  {inquiryAreas.map((a) => (
-                    <option key={a} value={a}>
-                      {a}
+                  {areas.map((a) => (
+                    <option key={a.id} value={a.label}>
+                      {a.label}
                     </option>
                   ))}
                 </select>
@@ -207,34 +245,29 @@ export default function Contact() {
 
             <button
               type="submit"
-              className="mt-8 inline-flex items-center gap-3 rounded-full px-8 py-4 text-sm font-semibold text-white shadow-[var(--shadow-brand)] transition-transform hover:scale-105"
+              disabled={submitting}
+              className="mt-8 inline-flex items-center gap-3 rounded-full px-8 py-4 text-sm font-semibold text-white shadow-[var(--shadow-brand)] transition-transform hover:scale-105 disabled:opacity-60"
               style={{ background: "var(--gradient-brand)" }}
             >
-              Contact Us
+              {submitting ? "Sending…" : (page?.form_submit_label ?? "Contact Us")}
               <Send className="h-4 w-4" />
             </button>
           </form>
 
-          {/* Quick contact info */}
+          {/* Quick info */}
           <div className="flex flex-col justify-start gap-6">
-            <InfoCard
-              icon={<Mail className="h-5 w-5" />}
-              title="Email us"
-              value="sbs@sbs-me.com"
-              subtitle="We reply within one business day."
-            />
-            <InfoCard
-              icon={<Phone className="h-5 w-5" />}
-              title="Talk to sales"
-              value="+971 044 277 705"
-              subtitle="Sun–Thu, 9:00 AM – 6:00 PM GST"
-            />
-            <InfoCard
-              icon={<MapPin className="h-5 w-5" />}
-              title="Head office"
-              value="Dubai, UAE"
-              subtitle="Jumeirah Lake Towers, Cluster X"
-            />
+            {quickInfo.map((c, i) => {
+              const Icon = ICONS[c.icon ?? ""] ?? Mail;
+              return (
+                <InfoCard
+                  key={i}
+                  icon={<Icon className="h-5 w-5" />}
+                  title={c.title ?? ""}
+                  value={c.value ?? ""}
+                  subtitle={c.subtitle ?? ""}
+                />
+              );
+            })}
           </div>
         </div>
       </section>
@@ -245,50 +278,61 @@ export default function Contact() {
         style={{ background: "var(--brand-dark)" }}
       >
         <div className="mx-auto max-w-6xl">
-          <h2 className="text-3xl font-bold text-white md:text-5xl">Our Offices</h2>
+          <h2 className="text-3xl font-bold text-white md:text-5xl">
+            {page?.offices_heading ?? "Our Offices"}
+          </h2>
           <p className="mt-4 max-w-2xl text-base text-white/70">
-            A global presence with local expertise. Visit us at any of our regional offices.
+            {page?.offices_subheading ??
+              "A global presence with local expertise. Visit us at any of our regional offices."}
           </p>
 
           <div className="mt-12 grid gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5">
             {offices.map((o) => (
               <div
-                key={o.city}
+                key={o.id}
                 className="overflow-hidden rounded-2xl bg-white/5 ring-1 ring-white/10 backdrop-blur"
               >
-                <div className="aspect-[4/3] w-full overflow-hidden">
-                  <img
-                    src={o.image}
-                    alt={o.city}
-                    loading="lazy"
-                    className="h-full w-full object-cover"
-                  />
-                </div>
+                {o.image_url && (
+                  <div className="aspect-[4/3] w-full overflow-hidden">
+                    <img
+                      src={o.image_url}
+                      alt={o.city}
+                      loading="lazy"
+                      className="h-full w-full object-cover"
+                    />
+                  </div>
+                )}
                 <div className="space-y-4 p-5">
                   <h3 className="text-lg font-bold text-white">{o.city}</h3>
-                  <div className="flex items-start gap-2 text-sm text-white/80">
-                    <MapPin
-                      className="mt-0.5 h-4 w-4 shrink-0"
-                      style={{ color: "var(--brand-green)" }}
-                    />
-                    <span>{o.address}</span>
-                  </div>
-                  <div className="flex items-center gap-2 text-sm text-white/80">
-                    <Phone
-                      className="h-4 w-4 shrink-0"
-                      style={{ color: "var(--brand-green)" }}
-                    />
-                    <span>{o.phone}</span>
-                  </div>
-                  <div className="flex items-center gap-2 text-sm text-white/80">
-                    <Mail
-                      className="h-4 w-4 shrink-0"
-                      style={{ color: "var(--brand-green)" }}
-                    />
-                    <a href={`mailto:${o.email}`} className="hover:text-white">
-                      {o.email}
-                    </a>
-                  </div>
+                  {o.address && (
+                    <div className="flex items-start gap-2 text-sm text-white/80">
+                      <MapPin
+                        className="mt-0.5 h-4 w-4 shrink-0"
+                        style={{ color: "var(--brand-green)" }}
+                      />
+                      <span>{o.address}</span>
+                    </div>
+                  )}
+                  {o.phone && (
+                    <div className="flex items-center gap-2 text-sm text-white/80">
+                      <Phone
+                        className="h-4 w-4 shrink-0"
+                        style={{ color: "var(--brand-green)" }}
+                      />
+                      <span>{o.phone}</span>
+                    </div>
+                  )}
+                  {o.email && (
+                    <div className="flex items-center gap-2 text-sm text-white/80">
+                      <Mail
+                        className="h-4 w-4 shrink-0"
+                        style={{ color: "var(--brand-green)" }}
+                      />
+                      <a href={`mailto:${o.email}`} className="hover:text-white">
+                        {o.email}
+                      </a>
+                    </div>
+                  )}
                 </div>
               </div>
             ))}
@@ -296,7 +340,6 @@ export default function Contact() {
         </div>
       </section>
 
-      
       <Footer />
     </main>
   );
