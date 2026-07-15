@@ -17,7 +17,7 @@ type Row = { id: string; kind: SectionKind; position: number; is_visible: boolea
 
 export function PageBuilder({ pageId }: { pageId: string }) {
   const qc = useQueryClient();
-  const [expanded, setExpanded] = useState<Record<string, boolean>>({});
+  const [activeTab, setActiveTab] = useState<string | undefined>(undefined);
 
   const q = useQuery({
     queryKey: ["page-sections", pageId],
