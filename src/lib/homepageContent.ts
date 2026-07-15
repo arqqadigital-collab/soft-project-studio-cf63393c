@@ -59,22 +59,16 @@ export const DEFAULTS = {
     cards: [
       {
         title: "Power Your Business with Scalable ERP Ecosystems",
-        description: "Our ERP Ecosystem features top-tier platforms including Odoo ERP Solutions, Microsoft Dynamics 365 (Business Central & CE), and Zoho Business Applications.",
-        bullets: ["ERP implementation & customization", "Financial & operational automation"],
         video_url: process1,
         link_href: "#",
       },
       {
         title: "Smarter Care Through Connected Health Technology",
-        description: "Enhance patient care and streamline operations with our advanced healthcare technology solutions. We integrate data securely to provide actionable insights.",
-        bullets: ["Comprehensive Electronic Health Records", "Secure Telemedicine Platforms", "Predictive Analytics for Patient Care"],
         video_url: process2,
         link_href: "#",
       },
       {
         title: "Expert Support That Powers Successful Transformation",
-        description: "Leverage our specialized expertise and regional compliance knowledge to ensure your transformation projects are delivered securely, efficiently, and to the highest standards.",
-        bullets: ["AI Healthcare Transformation Consulting", "Compliance with DHA, DoH, ADHICS", "Staff Augmentation & Managed Services", "Implementation and Integration services"],
         video_url: process3,
         link_href: "#",
       },
