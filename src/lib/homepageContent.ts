@@ -210,3 +210,19 @@ export function useSectionContent<K extends SectionKey>(key: K): SectionContent<
   });
   return merge(DEFAULTS[key] as any, data ?? {});
 }
+
+export function useHomepageVisibility() {
+  const { data } = useQuery({
+    queryKey: ["homepage-sections-visibility"],
+    queryFn: async () => {
+      const { data, error } = await supabase
+        .from("homepage_sections")
+        .select("section_key, is_visible");
+      if (error) throw error;
+      return data as { section_key: SectionKey; is_visible: boolean }[];
+    },
+  });
+  const map: Partial<Record<SectionKey, boolean>> = {};
+  (data ?? []).forEach((r) => { map[r.section_key] = r.is_visible; });
+  return (key: SectionKey) => map[key] !== false; // default visible
+}
