@@ -50,12 +50,16 @@ export default function PageEditor() {
   const { id } = useParams();
   const isNew = !id || id === "new";
   const navigate = useNavigate();
+  const [searchParams] = useSearchParams();
   const { user } = useAuth();
   const qc = useQueryClient();
 
   const [pageId, setPageId] = useState<string | null>(isNew ? null : id!);
   const [previewToken, setPreviewToken] = useState<string | null>(null);
-  const [form, setForm] = useState<PageForm>(EMPTY);
+  const [form, setForm] = useState<PageForm>(() => {
+    const s = searchParams.get("section");
+    return s ? { ...EMPTY, section_id: s } : EMPTY;
+  });
   const [slugTouched, setSlugTouched] = useState(false);
   const [saving, setSaving] = useState(false);
   const [lastSavedAt, setLastSavedAt] = useState<Date | null>(null);
@@ -68,6 +72,19 @@ export default function PageEditor() {
       const { data, error } = await supabase.from("pages").select("id, title").order("title");
       if (error) throw error;
       return data;
+    },
+  });
+
+  const navTree = useQuery({
+    queryKey: ["nav-sections-flat"],
+    queryFn: async () => {
+      const [g, s] = await Promise.all([
+        supabase.from("nav_groups").select("id,label,position").order("position"),
+        supabase.from("nav_sections").select("id,group_id,label,position").order("position"),
+      ]);
+      if (g.error) throw g.error;
+      if (s.error) throw s.error;
+      return { groups: g.data ?? [], sections: s.data ?? [] };
     },
   });
 
@@ -88,6 +105,8 @@ export default function PageEditor() {
         title: d.title, slug: d.slug, content: d.content ?? "",
         featured_image_url: d.featured_image_url ?? "",
         status: d.status, template: d.template, parent_id: d.parent_id,
+        section_id: d.section_id ?? null,
+        nav_label: d.nav_label ?? "",
       });
       setPreviewToken(d.preview_token ?? null);
       setSlugTouched(true);
