@@ -17,6 +17,7 @@ import {
 } from "@/components/ui/select";
 import { Badge } from "@/components/ui/badge";
 import { RichTextEditor } from "@/components/dashboard/RichTextEditor";
+import { MediaPickerDialog } from "@/components/dashboard/MediaPickerDialog";
 
 type Status = "draft" | "published" | "scheduled" | "trashed";
 
