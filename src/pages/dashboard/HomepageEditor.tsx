@@ -112,6 +112,7 @@ export default function HomepageEditor() {
     if (data) {
       const d: any = data;
       setRowId(d.id);
+      setHeroVisible(d.is_visible !== false);
       setForm({
         heading_line1: d.heading_line1 ?? "",
         heading_line2: d.heading_line2 ?? "",
