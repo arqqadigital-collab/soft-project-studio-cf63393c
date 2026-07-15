@@ -18,6 +18,7 @@ import { RichTextEditor } from "@/components/dashboard/RichTextEditor";
 import { MediaPickerDialog } from "@/components/dashboard/MediaPickerDialog";
 import { SeoEditor } from "@/components/dashboard/SeoEditor";
 import { RevisionsPanel } from "@/components/dashboard/RevisionsPanel";
+import { PageBuilder } from "@/components/dashboard/PageBuilder";
 
 type Status = "draft" | "published" | "trashed";
 type Template = "default" | "full-width" | "landing";
