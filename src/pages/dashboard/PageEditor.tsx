@@ -123,10 +123,11 @@ export default function PageEditor() {
     try {
       let pid = pageId;
       if (!pid) {
-        const { data, error } = await supabase.from("pages").insert(payload).select("id").single();
+        const { data, error } = await supabase.from("pages").insert(payload).select("id, preview_token").single();
         if (error) throw error;
         pid = data.id;
         setPageId(pid);
+        setPreviewToken(data.preview_token ?? null);
         window.history.replaceState(null, "", `/dashboard/pages/${pid}`);
       } else {
         const { error } = await supabase.from("pages").update(payload).eq("id", pid);
