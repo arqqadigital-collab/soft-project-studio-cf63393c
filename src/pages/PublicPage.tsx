@@ -22,6 +22,8 @@ type SeoMeta = {
   meta_description: string | null;
   og_image_url: string | null;
   canonical_url: string | null;
+  noindex: boolean | null;
+  nofollow: boolean | null;
 };
 
 export default function PublicPage() {
