@@ -335,8 +335,10 @@ export default function HIS() {
           </p>
         </div>
       </section>
+      )}
 
       {/* PROBLEM — horizontal scroll on dark */}
+      {v["The Problem"] && (
       <section ref={problemRef} className="relative bg-[#0a0e1a]" style={{ height: "320vh" }}>
         <div className="sticky top-0 flex min-h-screen flex-col overflow-hidden pb-12 md:pb-16">
           <div className="mx-auto w-full max-w-7xl px-6 pt-14 md:px-12 md:pt-16">
