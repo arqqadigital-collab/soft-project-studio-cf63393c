@@ -37,7 +37,7 @@ export function SectionPreview({
             <RefreshCw className="h-4 w-4" />
           </Button>
           <Button asChild variant="ghost" size="sm" title="Open in new tab">
-            <a href={src} target="_blank" rel="noreferrer">
+            <a href={openSrc} target="_blank" rel="noreferrer">
               <ExternalLink className="h-4 w-4" />
             </a>
           </Button>
