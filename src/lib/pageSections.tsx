@@ -375,6 +375,7 @@ function CtaEdit({ data, onChange }: { data: SectionData; onChange: (n: SectionD
   const p = (patch: Partial<SectionData>) => onChange({ ...data, ...patch });
   return (
     <div className="space-y-3">
+      <Field label="Eyebrow (optional)"><Input value={data.eyebrow ?? ""} onChange={(e) => p({ eyebrow: e.target.value })} /></Field>
       <Field label="Headline"><Input value={data.headline ?? ""} onChange={(e) => p({ headline: e.target.value })} /></Field>
       <Field label="Headline accent (gradient part, optional)"><Input value={data.headlineAccent ?? ""} onChange={(e) => p({ headlineAccent: e.target.value })} /></Field>
       <Field label="Body"><Textarea value={data.body ?? ""} rows={3} onChange={(e) => p({ body: e.target.value })} /></Field>
