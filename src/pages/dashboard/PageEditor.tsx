@@ -291,7 +291,35 @@ export default function PageEditor() {
                 </Select>
               </div>
               <div className="space-y-1.5">
-                <Label className="text-xs">Parent</Label>
+                <Label className="text-xs">Nav section</Label>
+                <Select
+                  value={form.section_id ?? "none"}
+                  onValueChange={(v) => patch("section_id", v === "none" ? null : v)}
+                >
+                  <SelectTrigger><SelectValue placeholder="Unassigned" /></SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="none">Unassigned</SelectItem>
+                    {(navTree.data?.groups ?? []).map((g) => (
+                      <SelectGroupSections
+                        key={g.id}
+                        group={g}
+                        sections={(navTree.data?.sections ?? []).filter((s) => s.group_id === g.id)}
+                      />
+                    ))}
+                  </SelectContent>
+                </Select>
+                <p className="text-xs text-muted-foreground">Where this page appears in the mega menu.</p>
+              </div>
+              <div className="space-y-1.5">
+                <Label className="text-xs">Nav label (optional)</Label>
+                <Input
+                  value={form.nav_label}
+                  onChange={(e) => patch("nav_label", e.target.value)}
+                  placeholder="Short label shown in the menu"
+                />
+              </div>
+              <div className="space-y-1.5">
+                <Label className="text-xs">Parent page</Label>
                 <Select value={form.parent_id ?? "none"} onValueChange={(v) => patch("parent_id", v === "none" ? null : v)}>
                   <SelectTrigger><SelectValue placeholder="No parent" /></SelectTrigger>
                   <SelectContent>
