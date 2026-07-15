@@ -20,6 +20,7 @@ import CaseStudiesList from "./dashboard/CaseStudiesList";
 import CaseStudyEditor from "./dashboard/CaseStudyEditor";
 import EventsList from "./dashboard/EventsList";
 import EventEditor from "./dashboard/EventEditor";
+import ContactEditor from "./dashboard/ContactEditor";
 import { RoleGate } from "@/components/dashboard/RoleGate";
 
 export default function Dashboard() {
