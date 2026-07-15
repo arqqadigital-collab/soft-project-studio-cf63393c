@@ -7,6 +7,7 @@ export type SeoHeadProps = {
   ogImage?: string | null;
   ogType?: "website" | "article";
   noindex?: boolean;
+  nofollow?: boolean;
   jsonLd?: Record<string, unknown> | Record<string, unknown>[];
 };
 
@@ -17,18 +18,24 @@ export function SeoHead({
   ogImage,
   ogType = "website",
   noindex,
+  nofollow,
   jsonLd,
 }: SeoHeadProps) {
   const url =
     canonical ??
     (typeof window !== "undefined" ? window.location.href : undefined);
 
+  const robotsParts: string[] = [];
+  if (noindex) robotsParts.push("noindex"); else robotsParts.push("index");
+  if (nofollow) robotsParts.push("nofollow"); else robotsParts.push("follow");
+  const robots = robotsParts.join(", ");
+
   return (
     <Helmet>
       <title>{title}</title>
       {description && <meta name="description" content={description} />}
       {url && <link rel="canonical" href={url} />}
-      {noindex && <meta name="robots" content="noindex, nofollow" />}
+      <meta name="robots" content={robots} />
 
       <meta property="og:type" content={ogType} />
       <meta property="og:title" content={title} />
