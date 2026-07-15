@@ -119,34 +119,63 @@ function HeroRender({ data }: { data: SectionData }) {
   const style = sectionStyle(data);
   const bgClass = data.bgColor ? "" : "bg-[var(--brand-dark)]";
   const txtClass = data.textColor ? "" : "text-white";
+  const align = data.align === "center" ? "items-center text-center" : "items-start text-left";
   return (
     <section className={`relative overflow-hidden ${bgClass} ${txtClass}`} style={style}>
       {isVideo && (
         <video
           src={data.mediaUrl}
           autoPlay muted loop playsInline
-          className="absolute inset-0 h-full w-full object-cover opacity-40"
+          className="absolute inset-0 h-full w-full object-cover"
         />
       )}
       {!isVideo && data.mediaUrl && (
-        <img src={data.mediaUrl} alt="" className="absolute inset-0 h-full w-full object-cover opacity-40" />
+        <img src={data.mediaUrl} alt="" className="absolute inset-0 h-full w-full object-cover" />
       )}
-      <div className="absolute inset-0 bg-gradient-to-b from-black/40 via-black/20 to-black/70" />
+      <div className="absolute inset-0 bg-gradient-to-b from-black/75 via-black/60 to-black/85" />
       <Container className="relative py-28 md:py-40">
-        {data.eyebrow && (
-          <div className="text-xs font-bold uppercase tracking-[0.2em] opacity-70">{data.eyebrow}</div>
-        )}
-        <h1 className="mt-4 text-4xl font-bold tracking-tight md:text-6xl">{data.headline}</h1>
-        {data.subheadline && (
-          <p className="mt-6 max-w-2xl text-lg opacity-90">{data.subheadline}</p>
-        )}
-        {data.ctaLabel && (
-          <div className="mt-8">
-            <Button asChild size="lg" style={data.accentColor ? { background: data.accentColor, color: "#fff" } : undefined}>
-              <Link to={data.ctaHref || "#"}>{data.ctaLabel}</Link>
-            </Button>
-          </div>
-        )}
+        <div className={`mx-auto flex max-w-5xl flex-col ${align}`}>
+          {data.eyebrow && (
+            <div className="text-xs font-bold uppercase tracking-[0.2em] opacity-70">{data.eyebrow}</div>
+          )}
+          <h1 className="mt-4 text-3xl font-bold leading-[1.1] tracking-tight md:text-5xl lg:text-6xl">
+            {data.headline}
+            {data.headlineAccent && (
+              <>
+                {" "}
+                <span className="bg-clip-text text-transparent" style={{ backgroundImage: data.accentColor ? `linear-gradient(90deg, ${data.accentColor}, ${data.accentColor})` : "var(--gradient-brand)" }}>
+                  {data.headlineAccent}
+                </span>
+              </>
+            )}
+          </h1>
+          {data.subheadline && (
+            <p className="mt-6 max-w-2xl text-lg opacity-90">{data.subheadline}</p>
+          )}
+          {(data.ctaLabel || data.ctaLabel2) && (
+            <div className="mt-9 flex flex-col gap-3 sm:flex-row">
+              {data.ctaLabel && (
+                <Button asChild size="lg" className="rounded-full" style={data.accentColor ? { background: data.accentColor, color: "#fff" } : { backgroundImage: "var(--gradient-brand)" }}>
+                  <Link to={data.ctaHref || "#"}>{data.ctaLabel}</Link>
+                </Button>
+              )}
+              {data.ctaLabel2 && (
+                <Button asChild size="lg" variant="outline" className="rounded-full border-white/30 bg-white/5 text-white backdrop-blur hover:bg-white/15">
+                  <Link to={data.ctaHref2 || "#"}>{data.ctaLabel2}</Link>
+                </Button>
+              )}
+            </div>
+          )}
+          {Array.isArray(data.chips) && data.chips.length > 0 && (
+            <div className="mt-10 flex flex-wrap items-center gap-2">
+              {data.chips.map((c: string, i: number) => (
+                <span key={i} className="rounded-full border border-white/15 bg-white/5 px-3 py-1.5 text-xs opacity-80 backdrop-blur">
+                  {c}
+                </span>
+              ))}
+            </div>
+          )}
+        </div>
       </Container>
     </section>
   );
@@ -155,15 +184,36 @@ function HeroRender({ data }: { data: SectionData }) {
 
 function HeroEdit({ data, onChange }: { data: SectionData; onChange: (n: SectionData) => void }) {
   const p = (patch: Partial<SectionData>) => onChange({ ...data, ...patch });
+  const chipsStr = Array.isArray(data.chips) ? data.chips.join(", ") : (data.chips ?? "");
   return (
     <div className="space-y-3">
       <Field label="Eyebrow"><Input value={data.eyebrow ?? ""} onChange={(e) => p({ eyebrow: e.target.value })} /></Field>
       <Field label="Headline"><Input value={data.headline ?? ""} onChange={(e) => p({ headline: e.target.value })} /></Field>
+      <Field label="Headline accent (gradient part, optional)"><Input value={data.headlineAccent ?? ""} onChange={(e) => p({ headlineAccent: e.target.value })} /></Field>
       <Field label="Sub-headline"><Textarea value={data.subheadline ?? ""} rows={3} onChange={(e) => p({ subheadline: e.target.value })} /></Field>
       <div className="grid grid-cols-2 gap-3">
-        <Field label="CTA label"><Input value={data.ctaLabel ?? ""} onChange={(e) => p({ ctaLabel: e.target.value })} /></Field>
-        <Field label="CTA link"><Input value={data.ctaHref ?? ""} onChange={(e) => p({ ctaHref: e.target.value })} /></Field>
+        <Field label="Primary CTA label"><Input value={data.ctaLabel ?? ""} onChange={(e) => p({ ctaLabel: e.target.value })} /></Field>
+        <Field label="Primary CTA link"><Input value={data.ctaHref ?? ""} onChange={(e) => p({ ctaHref: e.target.value })} /></Field>
+        <Field label="Secondary CTA label"><Input value={data.ctaLabel2 ?? ""} onChange={(e) => p({ ctaLabel2: e.target.value })} /></Field>
+        <Field label="Secondary CTA link"><Input value={data.ctaHref2 ?? ""} onChange={(e) => p({ ctaHref2: e.target.value })} /></Field>
       </div>
+      <Field label="Trust chips (comma-separated)">
+        <Input
+          value={chipsStr}
+          onChange={(e) => p({ chips: e.target.value.split(",").map((s) => s.trim()).filter(Boolean) })}
+          placeholder="300+ Hospitals, HL7 FHIR & DICOM Native, Cloud & On-Premise"
+        />
+      </Field>
+      <Field label="Alignment">
+        <select
+          value={data.align ?? "center"}
+          onChange={(e) => p({ align: e.target.value })}
+          className="h-9 w-full rounded-md border border-input bg-background px-3 text-sm"
+        >
+          <option value="center">Center</option>
+          <option value="left">Left</option>
+        </select>
+      </Field>
       <MediaField
         label="Background media"
         value={data.mediaUrl ?? ""}
@@ -174,6 +224,7 @@ function HeroEdit({ data, onChange }: { data: SectionData; onChange: (n: Section
     </div>
   );
 }
+
 
 
 function StatsRender({ data }: { data: SectionData }) {
