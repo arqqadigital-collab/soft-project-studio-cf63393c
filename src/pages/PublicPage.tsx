@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Link, useParams } from "react-router-dom";
+import { Link, useParams, useNavigate } from "react-router-dom";
 import { ArrowLeft } from "lucide-react";
 import { Footer } from "@/components/Footer";
 import { supabase } from "@/integrations/supabase/client";
@@ -22,10 +22,13 @@ type SeoMeta = {
   meta_description: string | null;
   og_image_url: string | null;
   canonical_url: string | null;
+  noindex: boolean | null;
+  nofollow: boolean | null;
 };
 
 export default function PublicPage() {
   const { slug = "" } = useParams<{ slug: string }>();
+  const navigate = useNavigate();
   const [page, setPage] = useState<PageDetail | null>(null);
   const [seo, setSeo] = useState<SeoMeta | null>(null);
   const [loading, setLoading] = useState(true);
@@ -44,6 +47,16 @@ export default function PublicPage() {
         .maybeSingle();
       if (cancelled) return;
       if (error || !data) {
+        const { data: redirect } = await supabase
+          .from("slug_redirects")
+          .select("new_slug")
+          .eq("entity_type", "page")
+          .eq("old_slug", slug)
+          .maybeSingle();
+        if (redirect?.new_slug && !cancelled) {
+          navigate(`/p/${redirect.new_slug}`, { replace: true });
+          return;
+        }
         setNotFound(true);
         setLoading(false);
         return;
@@ -53,7 +66,7 @@ export default function PublicPage() {
 
       const { data: seoRow } = await supabase
         .from("seo_meta")
-        .select("meta_title,meta_description,og_image_url,canonical_url")
+        .select("meta_title,meta_description,og_image_url,canonical_url,noindex,nofollow")
         .eq("entity_type", "page")
         .eq("entity_id", p.id)
         .maybeSingle();
@@ -65,7 +78,7 @@ export default function PublicPage() {
     return () => {
       cancelled = true;
     };
-  }, [slug]);
+  }, [slug, navigate]);
 
   if (loading) {
     return (
@@ -111,6 +124,8 @@ export default function PublicPage() {
         canonical={canonical}
         ogImage={ogImage}
         ogType="website"
+        noindex={!!seo?.noindex}
+        nofollow={!!seo?.nofollow}
       />
 
       <section className={isLanding ? "pt-24" : "pt-32 md:pt-40"}>

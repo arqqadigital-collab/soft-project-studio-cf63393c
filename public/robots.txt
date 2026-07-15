@@ -1,0 +1,8 @@
+User-agent: *
+Allow: /
+Disallow: /dashboard
+Disallow: /admin
+Disallow: /login
+Disallow: /preview/
+
+Sitemap: https://pahfisskacgnxiphyrrh.supabase.co/functions/v1/sitemap

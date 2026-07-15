@@ -13,6 +13,7 @@ type Settings = {
   id?: string;
   site_title: string | null;
   site_description: string | null;
+  site_url: string | null;
   site_logo_url: string | null;
   favicon_url: string | null;
   default_meta_title: string | null;
@@ -22,6 +23,7 @@ type Settings = {
 const EMPTY: Settings = {
   site_title: "",
   site_description: "",
+  site_url: "",
   site_logo_url: "",
   favicon_url: "",
   default_meta_title: "",
@@ -90,6 +92,17 @@ export default function SettingsPage() {
           <div className="space-y-2">
             <Label>Site description</Label>
             <Textarea rows={3} value={form.site_description ?? ""} onChange={(e) => update({ site_description: e.target.value })} />
+          </div>
+          <div className="space-y-2">
+            <Label>Site URL</Label>
+            <Input
+              value={form.site_url ?? ""}
+              onChange={(e) => update({ site_url: e.target.value })}
+              placeholder="https://example.com"
+            />
+            <p className="text-xs text-muted-foreground">
+              Used in sitemap.xml and RSS to emit absolute URLs. No trailing slash.
+            </p>
           </div>
         </CardContent>
       </Card>

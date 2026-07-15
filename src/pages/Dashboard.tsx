@@ -2,7 +2,7 @@ import { Routes, Route, Navigate } from "react-router-dom";
 import DashboardLayout from "./dashboard/DashboardLayout";
 import DashboardHome from "./dashboard/DashboardHome";
 import Profile from "./dashboard/Profile";
-import Placeholder from "./dashboard/Placeholder";
+
 import PostsList from "./dashboard/PostsList";
 import PostEditor from "./dashboard/PostEditor";
 import PagesList from "./dashboard/PagesList";
@@ -12,6 +12,7 @@ import Taxonomy from "./dashboard/Taxonomy";
 import Users from "./dashboard/Users";
 import Analytics from "./dashboard/Analytics";
 import SettingsPage from "./dashboard/Settings";
+import SeoDashboard from "./dashboard/SeoDashboard";
 import { RoleGate } from "@/components/dashboard/RoleGate";
 
 export default function Dashboard() {
@@ -49,7 +50,7 @@ export default function Dashboard() {
         />
         <Route
           path="seo"
-          element={<RoleGate allow={["admin", "editor"]}><Placeholder title="SEO" description="Per-page SEO lives inside the post/page editor." /></RoleGate>}
+          element={<RoleGate allow={["admin", "editor"]}><SeoDashboard /></RoleGate>}
         />
         <Route
           path="analytics"

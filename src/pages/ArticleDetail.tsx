@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import { ArrowLeft, Calendar, Clock } from "lucide-react";
-import { Link, useParams } from "react-router-dom";
+import { Link, useParams, useNavigate } from "react-router-dom";
 import { format } from "date-fns";
 import { Footer } from "@/components/Footer";
 import { supabase } from "@/integrations/supabase/client";
@@ -26,6 +26,8 @@ type SeoMeta = {
   meta_description: string | null;
   og_image_url: string | null;
   canonical_url: string | null;
+  noindex: boolean | null;
+  nofollow: boolean | null;
 };
 
 function CoverPlaceholder({ className }: { className?: string }) {
@@ -48,6 +50,7 @@ function readTimeFor(content: string | null) {
 
 export default function ArticleDetail() {
   const params = useParams<{ slug: string }>();
+  const navigate = useNavigate();
   const slug = params.slug ?? "";
   const [post, setPost] = useState<PostDetail | null>(null);
   const [seo, setSeo] = useState<SeoMeta | null>(null);
@@ -69,6 +72,17 @@ export default function ArticleDetail() {
         .maybeSingle();
       if (cancelled) return;
       if (error || !data) {
+        // Try slug redirect
+        const { data: redirect } = await supabase
+          .from("slug_redirects")
+          .select("new_slug")
+          .eq("entity_type", "post")
+          .eq("old_slug", slug)
+          .maybeSingle();
+        if (redirect?.new_slug && !cancelled) {
+          navigate(`/blog/${redirect.new_slug}`, { replace: true });
+          return;
+        }
         setNotFound(true);
         setLoading(false);
         return;
@@ -78,7 +92,7 @@ export default function ArticleDetail() {
 
       const { data: seoRow } = await supabase
         .from("seo_meta")
-        .select("meta_title,meta_description,og_image_url,canonical_url")
+        .select("meta_title,meta_description,og_image_url,canonical_url,noindex,nofollow")
         .eq("entity_type", "post")
         .eq("entity_id", p.id)
         .maybeSingle();
@@ -90,7 +104,7 @@ export default function ArticleDetail() {
     return () => {
       cancelled = true;
     };
-  }, [slug]);
+  }, [slug, navigate]);
 
   if (loading) {
     return (
@@ -133,6 +147,8 @@ export default function ArticleDetail() {
         canonical={canonical}
         ogImage={ogImage}
         ogType="article"
+        noindex={!!seo?.noindex}
+        nofollow={!!seo?.nofollow}
         jsonLd={{
           "@context": "https://schema.org",
           "@type": "Article",

@@ -7,6 +7,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
+import { Switch } from "@/components/ui/switch";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { MediaPickerDialog } from "@/components/dashboard/MediaPickerDialog";
 
@@ -26,6 +27,8 @@ interface SeoForm {
   og_image_url: string;
   canonical_url: string;
   focus_keyword: string;
+  noindex: boolean;
+  nofollow: boolean;
 }
 
 const EMPTY: SeoForm = {
@@ -34,6 +37,8 @@ const EMPTY: SeoForm = {
   og_image_url: "",
   canonical_url: "",
   focus_keyword: "",
+  noindex: false,
+  nofollow: false,
 };
 
 export function SeoEditor({
@@ -74,6 +79,8 @@ export function SeoEditor({
         og_image_url: d.og_image_url ?? "",
         canonical_url: d.canonical_url ?? "",
         focus_keyword: d.focus_keyword ?? "",
+        noindex: !!d.noindex,
+        nofollow: !!d.nofollow,
       });
     } else if (existing.isFetched) {
       setRowId(null);
@@ -100,6 +107,8 @@ export function SeoEditor({
         og_image_url: form.og_image_url || null,
         canonical_url: form.canonical_url || null,
         focus_keyword: form.focus_keyword || null,
+        noindex: form.noindex,
+        nofollow: form.nofollow,
       } as any;
       if (rowId) {
         const { error } = await supabase.from("seo_meta").update(payload).eq("id", rowId);
@@ -200,6 +209,25 @@ export function SeoEditor({
               </Button>
             )}
           </div>
+
+          <div className="space-y-2 rounded-md border p-3">
+            <p className="text-xs font-medium">Search engine indexing</p>
+            <div className="flex items-center justify-between gap-3">
+              <div>
+                <Label className="text-xs">Hide from search engines (noindex)</Label>
+                <p className="text-[11px] text-muted-foreground">Prevents Google and others from listing this page.</p>
+              </div>
+              <Switch checked={form.noindex} onCheckedChange={(v) => patch("noindex", v)} />
+            </div>
+            <div className="flex items-center justify-between gap-3">
+              <div>
+                <Label className="text-xs">Don't follow links (nofollow)</Label>
+                <p className="text-[11px] text-muted-foreground">Tells crawlers not to follow outbound links from this page.</p>
+              </div>
+              <Switch checked={form.nofollow} onCheckedChange={(v) => patch("nofollow", v)} />
+            </div>
+          </div>
+
           <Button onClick={save} disabled={saving}>
             <Save className="mr-1 h-4 w-4" /> Save SEO
           </Button>
