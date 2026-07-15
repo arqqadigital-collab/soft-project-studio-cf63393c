@@ -218,6 +218,16 @@ function SectionEditForm({
   const images = useMemo(() => collectImages(draft), [draft]);
   return (
     <div className="space-y-4">
+      <div className="rounded-md border border-border bg-muted/30 p-3">
+        <label className="text-xs font-medium text-muted-foreground">Section name (dashboard label)</label>
+        <input
+          type="text"
+          value={draft.section_name ?? ""}
+          onChange={(e) => setDraft({ ...draft, section_name: e.target.value })}
+          placeholder={def.label}
+          className="mt-1 w-full rounded border border-border bg-background px-2 py-1 text-sm"
+        />
+      </div>
       <div className="grid gap-4 lg:grid-cols-2">
         <div className="space-y-4">
           <Edit data={draft} onChange={setDraft} />
