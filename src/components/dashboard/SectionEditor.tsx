@@ -9,6 +9,7 @@ import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { MediaPickerDialog } from "@/components/dashboard/MediaPickerDialog";
+import { SectionPreview } from "@/components/dashboard/SectionPreview";
 import { DEFAULTS, type SectionKey } from "@/lib/homepageContent";
 
 const LABELS: Record<SectionKey, string> = {
