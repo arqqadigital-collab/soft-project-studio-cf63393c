@@ -43,6 +43,7 @@ import Events from "./pages/Events";
 import CaseStudies from "./pages/CaseStudies";
 import Contact from "./pages/Contact";
 import ArticleDetail from "./pages/ArticleDetail";
+import PublicPage from "./pages/PublicPage";
 
 function NotFound() {
   return (
@@ -115,7 +116,7 @@ export default function App() {
         <Route path="/blog/:slug" element={<ArticleDetail />} />
         <Route path="/events" element={<Events />} />
         <Route path="/case-studies" element={<CaseStudies />} />
-        <Route path="/case-studies/:slug" element={<ArticleDetail />} />
+        <Route path="/p/:slug" element={<PublicPage />} />
         <Route path="/contact" element={<Contact />} />
         <Route path="/login" element={<Login />} />
         <Route path="/admin" element={<AdminRedirect />} />
