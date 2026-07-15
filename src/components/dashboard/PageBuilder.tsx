@@ -228,7 +228,6 @@ function SectionEditForm({
   const [draft, setDraft] = useState(initial);
   const dirty = useMemo(() => JSON.stringify(draft) !== JSON.stringify(initial), [draft, initial]);
   const Edit = def.Edit;
-  const Render = def.Render;
   const images = useMemo(() => collectImages(draft), [draft]);
   return (
     <div className="space-y-4">
@@ -242,39 +241,21 @@ function SectionEditForm({
           className="mt-1 w-full rounded border border-border bg-background px-2 py-1 text-sm"
         />
       </div>
-      <div className="grid gap-4 lg:grid-cols-2">
-        <div className="space-y-4">
-          <Edit data={draft} onChange={setDraft} />
-        </div>
-        <div className="space-y-3">
-          <div className="rounded-md border border-border">
-            <div className="border-b border-border px-3 py-2 text-xs font-medium text-muted-foreground">
-              Live preview
-            </div>
-            <div className="max-h-[520px] overflow-auto bg-background">
-              <div className="origin-top-left scale-[0.6]" style={{ width: "166.67%" }}>
-                <Render data={draft} />
-              </div>
-            </div>
+      <Edit data={draft} onChange={setDraft} />
+      {images.length > 0 && (
+        <div className="rounded-md border border-border">
+          <div className="border-b border-border px-3 py-2 text-xs font-medium text-muted-foreground">
+            Images used in this section ({images.length})
           </div>
-          <div className="rounded-md border border-border">
-            <div className="border-b border-border px-3 py-2 text-xs font-medium text-muted-foreground">
-              Images used ({images.length})
-            </div>
-            {images.length === 0 ? (
-              <div className="px-3 py-4 text-xs text-muted-foreground">No images in this section.</div>
-            ) : (
-              <div className="grid grid-cols-3 gap-2 p-3">
-                {images.map((u) => (
-                  <a key={u} href={u} target="_blank" rel="noreferrer" className="block">
-                    <img src={u} alt="" className="h-20 w-full rounded border object-cover" />
-                  </a>
-                ))}
-              </div>
-            )}
+          <div className="grid grid-cols-4 gap-2 p-3 sm:grid-cols-6 lg:grid-cols-8">
+            {images.map((u) => (
+              <a key={u} href={u} target="_blank" rel="noreferrer" className="block">
+                <img src={u} alt="" className="h-16 w-full rounded border object-cover" />
+              </a>
+            ))}
           </div>
         </div>
-      </div>
+      )}
       <div className="flex justify-end gap-2 border-t border-border pt-3">
         <Button variant="outline" size="sm" onClick={() => setDraft(initial)} disabled={!dirty}>Reset</Button>
         <Button size="sm" onClick={() => onSave(draft)} disabled={!dirty}>Save section</Button>

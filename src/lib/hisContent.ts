@@ -180,7 +180,7 @@ export const HIS_DEFAULTS = {
 
 export type HISContent = {
   [K in HISSectionKey]: typeof HIS_DEFAULTS[K] & Record<string, any>;
-};
+} & { _visible: Record<HISSectionKey, boolean> };
 
 const HIS_PAGE_SLUG = "his";
 
@@ -200,7 +200,9 @@ function merge<T>(base: T, over: any): T {
 /**
  * Fetches all page_sections for the HIS page and returns a fully-merged
  * content object keyed by section_name, with HIS_DEFAULTS as the fallback
- * for any field the builder hasn't populated.
+ * for any field the builder hasn't populated. `_visible` reflects the
+ * `is_visible` column so the page can hide sections that the dashboard
+ * has toggled off.
  */
 export function useHISContent(): HISContent {
   const { data } = useQuery({
@@ -212,32 +214,40 @@ export function useHISContent(): HISContent {
         .eq("slug", HIS_PAGE_SLUG)
         .maybeSingle();
       if (pageErr) throw pageErr;
-      if (!page?.id) return {} as Record<string, any>;
+      if (!page?.id) return { byName: {}, visibleByName: {} } as {
+        byName: Record<string, any>;
+        visibleByName: Record<string, boolean>;
+      };
 
       const { data: sections, error: secErr } = await supabase
         .from("page_sections")
-        .select("data, position")
+        .select("data, position, is_visible")
         .eq("page_id", page.id)
         .order("position");
       if (secErr) throw secErr;
 
       const byName: Record<string, any> = {};
+      const visibleByName: Record<string, boolean> = {};
       for (const row of sections ?? []) {
         const d = (row.data ?? {}) as any;
         const name = d.section_name;
         if (typeof name === "string" && name.length > 0) {
           byName[name] = d;
+          visibleByName[name] = row.is_visible !== false;
         }
       }
-      return byName;
+      return { byName, visibleByName };
     },
     staleTime: 30_000,
   });
 
-  const overrides = data ?? {};
-  const merged: any = {};
+  const overrides = data?.byName ?? {};
+  const visibility = data?.visibleByName ?? {};
+  const merged: any = { _visible: {} as Record<HISSectionKey, boolean> };
   for (const key of Object.keys(HIS_DEFAULTS) as HISSectionKey[]) {
     merged[key] = merge(HIS_DEFAULTS[key] as any, overrides[key] ?? {});
+    // Default to visible when the row isn't in the DB yet.
+    merged._visible[key] = visibility[key] ?? true;
   }
   return merged as HISContent;
 }

@@ -551,17 +551,41 @@ function Field({ label, children }: { label: string; children: React.ReactNode }
   );
 }
 
+// Real brand colors used across the site (approximate hex of the OKLCH
+// tokens defined in src/styles.css: --brand-blue, --brand-green, --brand-dark,
+// --background). These are the ONLY colors editors should pick from so
+// section backgrounds stay on-brand.
+const BRAND_SWATCHES: { label: string; value: string }[] = [
+  { label: "Brand blue", value: "#2b8fce" },
+  { label: "Brand green", value: "#4bc16b" },
+  { label: "Brand dark", value: "#101a33" },
+  { label: "Page background", value: "#fafcfc" },
+  { label: "White", value: "#ffffff" },
+  { label: "Transparent", value: "" },
+];
+
 function ColorInput({ value, onChange }: { value: string; onChange: (v: string) => void }) {
+  const norm = (value ?? "").toLowerCase();
   return (
-    <div className="flex items-center gap-2">
-      <input
-        type="color"
-        value={value || "#000000"}
-        onChange={(e) => onChange(e.target.value)}
-        className="h-9 w-12 cursor-pointer rounded border border-border bg-transparent p-0"
-      />
-      <Input value={value ?? ""} onChange={(e) => onChange(e.target.value)} placeholder="#0b0f19 or transparent" />
-      {value && <Button size="sm" variant="ghost" onClick={() => onChange("")}>Clear</Button>}
+    <div className="flex flex-wrap items-center gap-1.5">
+      {BRAND_SWATCHES.map((s) => {
+        const isActive = norm === s.value.toLowerCase();
+        const isTransparent = s.value === "";
+        return (
+          <button
+            key={s.label}
+            type="button"
+            title={s.label}
+            onClick={() => onChange(s.value)}
+            className={`h-8 w-8 rounded-md border transition-transform hover:scale-110 ${
+              isActive ? "ring-2 ring-offset-2 ring-foreground" : "border-border"
+            } ${isTransparent ? "bg-[conic-gradient(from_45deg,#ddd_25%,#fff_25%_50%,#ddd_50%_75%,#fff_75%)] bg-[length:8px_8px]" : ""}`}
+            style={isTransparent ? undefined : { background: s.value }}
+            aria-label={s.label}
+          />
+        );
+      })}
+      <span className="ml-2 text-xs text-muted-foreground">{value || "transparent"}</span>
     </div>
   );
 }

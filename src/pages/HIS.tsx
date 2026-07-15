@@ -233,6 +233,7 @@ function LogoSlider({ platforms }: { platforms: Platform[] }) {
 
 export default function HIS() {
   const content = useHISContent();
+  const v = content._visible;
   const hero = content.Hero;
   const intro = content.Introduction;
   const problem = content["The Problem"];
@@ -255,6 +256,7 @@ export default function HIS() {
   return (
     <>
       {/* HERO */}
+      {v.Hero && (
       <main className="pt-20 relative min-h-[90vh] w-full overflow-hidden bg-background">
         <div className="absolute inset-0">
           <video src={hero.mediaUrl} autoPlay muted loop playsInline className="h-full w-full object-cover" />
@@ -306,8 +308,10 @@ export default function HIS() {
           </section>
         </div>
       </main>
+      )}
 
       {/* INTRO */}
+      {v.Introduction && (
       <section className="relative z-20 -mt-12 rounded-t-[2.5rem] bg-background px-6 py-24 shadow-[0_-20px_60px_-20px_rgba(0,0,0,0.4)] md:px-12 md:py-32">
         <div className="mx-auto max-w-5xl text-center">
           <p
@@ -331,8 +335,10 @@ export default function HIS() {
           </p>
         </div>
       </section>
+      )}
 
       {/* PROBLEM — horizontal scroll on dark */}
+      {v["The Problem"] && (
       <section ref={problemRef} className="relative bg-[#0a0e1a]" style={{ height: "320vh" }}>
         <div className="sticky top-0 flex min-h-screen flex-col overflow-hidden pb-12 md:pb-16">
           <div className="mx-auto w-full max-w-7xl px-6 pt-14 md:px-12 md:pt-16">
@@ -380,8 +386,10 @@ export default function HIS() {
           </div>
         </div>
       </section>
+      )}
 
       {/* SOLUTION / FEATURES */}
+      {v["The Platform"] && (
       <section
         className="px-6 py-24 md:px-12"
         style={{ background: "color-mix(in oklab, var(--brand-blue) 4%, var(--background))" }}
@@ -425,8 +433,10 @@ export default function HIS() {
           </div>
         </div>
       </section>
+      )}
 
       {/* HOW IT WORKS */}
+      {v["Patient Journey"] && (
       <section
         className="relative px-6 py-24 md:px-12"
         style={{
@@ -449,8 +459,10 @@ export default function HIS() {
           <ExpandingJourney steps={journey.items as unknown as JourneyStep[]} />
         </div>
       </section>
+      )}
 
       {/* METRICS */}
+      {v.Outcomes && (
       <section className="relative overflow-hidden px-6 py-24 md:px-12" style={{ backgroundColor: "#091628" }}>
         <div
           className="absolute -left-32 top-1/2 h-96 w-96 -translate-y-1/2 rounded-full opacity-20 blur-3xl"
@@ -482,8 +494,10 @@ export default function HIS() {
           </div>
         </div>
       </section>
+      )}
 
       {/* INTEGRATIONS */}
+      {v.Integrations && (
       <section className="px-6 py-24 md:px-12">
         <div className="mx-auto max-w-6xl">
           <div className="mx-auto max-w-3xl text-center">
@@ -504,8 +518,10 @@ export default function HIS() {
           <LogoSlider platforms={integrations.items as unknown as Platform[]} />
         </div>
       </section>
+      )}
 
       {/* FAQ */}
+      {v.FAQ && (
       <section
         className="px-6 py-24 md:px-12"
         style={{ background: "color-mix(in oklab, var(--brand-blue) 4%, var(--background))" }}
@@ -542,8 +558,10 @@ export default function HIS() {
           </div>
         </div>
       </section>
+      )}
 
       {/* FINAL CTA */}
+      {v["Final CTA"] && (
       <section id="contact" className="relative overflow-hidden px-6 py-24 md:px-12" style={{ backgroundColor: "#091628" }}>
         <div className="absolute inset-0">
           <video
@@ -598,6 +616,9 @@ export default function HIS() {
           )}
         </div>
       </section>
+      )}
+
+
 
       <CtaSection />
       <Footer />
