@@ -13,6 +13,7 @@ import Users from "./dashboard/Users";
 import Analytics from "./dashboard/Analytics";
 import SettingsPage from "./dashboard/Settings";
 import SeoDashboard from "./dashboard/SeoDashboard";
+import HomepageEditor from "./dashboard/HomepageEditor";
 import { RoleGate } from "@/components/dashboard/RoleGate";
 
 export default function Dashboard() {
@@ -20,6 +21,10 @@ export default function Dashboard() {
     <Routes>
       <Route element={<DashboardLayout />}>
         <Route index element={<DashboardHome />} />
+        <Route
+          path="homepage"
+          element={<RoleGate allow={["admin", "editor"]}><HomepageEditor /></RoleGate>}
+        />
         <Route path="posts" element={<PostsList />} />
         <Route path="posts/new" element={<PostEditor />} />
         <Route path="posts/:id" element={<PostEditor />} />

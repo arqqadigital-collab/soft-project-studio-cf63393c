@@ -3,6 +3,7 @@ import {
   LayoutDashboard,
   FileText,
   FileStack,
+  Home,
   Image,
   Tags,
   Users,
@@ -26,6 +27,7 @@ import { useRoles } from "@/hooks/use-role";
 
 const items = [
   { title: "Dashboard", url: "/dashboard", icon: LayoutDashboard, exact: true, allow: null },
+  { title: "Homepage", url: "/dashboard/homepage", icon: Home, allow: ["admin", "editor"] as const },
   { title: "Posts", url: "/dashboard/posts", icon: FileText, allow: null },
   { title: "Pages", url: "/dashboard/pages", icon: FileStack, allow: ["admin", "editor"] as const },
   { title: "Media", url: "/dashboard/media", icon: Image, allow: null },
