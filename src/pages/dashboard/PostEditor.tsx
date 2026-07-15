@@ -55,6 +55,7 @@ export default function PostEditor() {
   const qc = useQueryClient();
 
   const [postId, setPostId] = useState<string | null>(isNew ? null : id!);
+  const [previewToken, setPreviewToken] = useState<string | null>(null);
   const [form, setForm] = useState<PostForm>(EMPTY);
   const [slugTouched, setSlugTouched] = useState(false);
   const [saving, setSaving] = useState(false);
