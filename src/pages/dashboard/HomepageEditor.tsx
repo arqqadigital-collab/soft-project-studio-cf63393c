@@ -212,7 +212,12 @@ export default function HomepageEditor() {
             </TabsContent>
           ))}
           <TabsContent value="hero" className="mt-3">
-      <div className="grid gap-4 lg:grid-cols-[1fr_340px]">
+      <div className="mb-3 flex justify-end">
+        <Button variant="outline" size="sm" onClick={() => setHeroVisible((v) => !v)}>
+          {heroVisible ? <><Eye className="mr-1 h-4 w-4" /> Hero visible</> : <><EyeOff className="mr-1 h-4 w-4" /> Hero hidden</>}
+        </Button>
+      </div>
+      <div className={`grid gap-4 lg:grid-cols-[1fr_340px] ${heroVisible ? "" : "opacity-60"}`}>
         <div className="space-y-4">
           <Card>
             <CardHeader className="pb-3"><CardTitle className="text-sm">Text content</CardTitle></CardHeader>
