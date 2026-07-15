@@ -1,6 +1,5 @@
 import { useEffect, useState } from "react";
 import { useParams, useSearchParams, Link } from "react-router-dom";
-import { supabase } from "@/integrations/supabase/client";
 import { SeoHead } from "@/components/SeoHead";
 
 type Kind = "post" | "page";
@@ -22,28 +21,19 @@ export default function PublicPreview() {
         setLoading(false);
         return;
       }
-      const { data: res, error: err } = await supabase.functions.invoke("preview-content", {
-        method: "GET" as any,
-        body: undefined,
-        // We use query params — invoke supports it via headers only; use fetch fallback:
-      } as any);
-      // Fallback: call the function URL directly with query params
-      if (err || !res) {
-        try {
-          const url = `${import.meta.env.VITE_SUPABASE_URL}/functions/v1/preview-content?type=${kind}&id=${id}&token=${encodeURIComponent(token)}`;
-          const resp = await fetch(url, {
-            headers: { apikey: import.meta.env.VITE_SUPABASE_PUBLISHABLE_KEY },
-          });
-          const json = await resp.json();
-          if (!resp.ok) throw new Error(json.error || "Preview unavailable");
-          if (!cancelled) setData(json.data);
-        } catch (e: any) {
-          if (!cancelled) setError(e.message);
-        }
-      } else {
-        setData((res as any).data);
+      try {
+        const base = import.meta.env.VITE_SUPABASE_URL as string;
+        const key = import.meta.env.VITE_SUPABASE_PUBLISHABLE_KEY as string;
+        const url = `${base}/functions/v1/preview-content?type=${kind}&id=${id}&token=${encodeURIComponent(token)}`;
+        const resp = await fetch(url, { headers: { apikey: key, Authorization: `Bearer ${key}` } });
+        const json = await resp.json();
+        if (!resp.ok) throw new Error(json.error || "Preview unavailable");
+        if (!cancelled) setData(json.data);
+      } catch (e: any) {
+        if (!cancelled) setError(e.message);
+      } finally {
+        if (!cancelled) setLoading(false);
       }
-      if (!cancelled) setLoading(false);
     }
     run();
     return () => {
