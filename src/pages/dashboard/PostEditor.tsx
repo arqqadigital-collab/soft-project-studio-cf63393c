@@ -379,6 +379,16 @@ export default function PostEditor() {
               )}
             </CardContent>
           </Card>
+
+          <RevisionsPanel
+            entityType="post"
+            entityId={postId}
+            restorableFields={["title", "content", "excerpt", "featured_image_url"]}
+            onRestore={(snap) => {
+              setForm((f) => ({ ...f, ...snap }));
+              dirtyRef.current = true;
+            }}
+          />
         </aside>
       </div>
 
