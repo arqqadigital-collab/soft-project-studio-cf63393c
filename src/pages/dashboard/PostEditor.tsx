@@ -103,6 +103,7 @@ export default function PostEditor() {
         published_at: d.published_at,
         tags: (d.post_tags ?? []).map((pt: any) => pt.tags?.name).filter(Boolean),
       });
+      setPreviewToken(d.preview_token ?? null);
       setSlugTouched(true);
       dirtyRef.current = false;
     }
