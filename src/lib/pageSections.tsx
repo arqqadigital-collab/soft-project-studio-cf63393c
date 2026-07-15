@@ -334,18 +334,19 @@ function RichTextEdit({ data, onChange }: { data: SectionData; onChange: (n: Sec
 
 function MediaRender({ data }: { data: SectionData }) {
   return (
-    <section className="bg-background py-16">
+    <section className={data.bgColor ? "py-16" : "bg-background py-16"} style={sectionStyle(data)}>
       <Container>
         {data.mediaKind === "video" ? (
           <video src={data.mediaUrl} controls className="w-full rounded-2xl" />
         ) : (
           <img src={data.mediaUrl} alt={data.alt ?? ""} className="w-full rounded-2xl" />
         )}
-        {data.caption && <p className="mt-3 text-center text-sm text-muted-foreground">{data.caption}</p>}
+        {data.caption && <p className="mt-3 text-center text-sm opacity-80">{data.caption}</p>}
       </Container>
     </section>
   );
 }
+
 
 function MediaEdit({ data, onChange }: { data: SectionData; onChange: (n: SectionData) => void }) {
   const p = (patch: Partial<SectionData>) => onChange({ ...data, ...patch });
