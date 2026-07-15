@@ -107,6 +107,8 @@ export function SeoEditor({
         og_image_url: form.og_image_url || null,
         canonical_url: form.canonical_url || null,
         focus_keyword: form.focus_keyword || null,
+        noindex: form.noindex,
+        nofollow: form.nofollow,
       } as any;
       if (rowId) {
         const { error } = await supabase.from("seo_meta").update(payload).eq("id", rowId);
