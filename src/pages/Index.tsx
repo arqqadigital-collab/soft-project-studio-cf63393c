@@ -114,6 +114,7 @@ export default function Index() {
         noindex={!!seo?.noindex}
         nofollow={!!seo?.nofollow}
       />
+      {heroVisible && (
       <main
         ref={heroRef}
         className="pt-20 relative h-screen w-full overflow-hidden bg-background"
@@ -178,7 +179,9 @@ export default function Index() {
           </section>
         </motion.div>
       </main>
+      )}
 
+      {heroVisible && (
       <div
         aria-hidden
         className="relative z-20 -mt-32 h-32 w-full"
