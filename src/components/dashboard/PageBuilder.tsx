@@ -117,54 +117,67 @@ export function PageBuilder({ pageId }: { pageId: string }) {
           </CardContent>
         </Card>
       ) : (
-        <div className="space-y-3">
+        <Tabs
+          value={activeTab ?? rows[0].id}
+          onValueChange={setActiveTab}
+          className="w-full"
+        >
+          <TabsList className="flex h-auto w-full flex-wrap justify-start gap-1 bg-muted p-1">
+            {rows.map((row) => {
+              const def = SECTION_REGISTRY[row.kind];
+              if (!def) return null;
+              return (
+                <TabsTrigger
+                  key={row.id}
+                  value={row.id}
+                  className={`data-[state=active]:bg-background ${row.is_visible ? "" : "opacity-60"}`}
+                >
+                  {sectionDisplayName(row, def.label)}
+                </TabsTrigger>
+              );
+            })}
+          </TabsList>
+
           {rows.map((row, i) => {
             const def = SECTION_REGISTRY[row.kind];
             if (!def) return null;
-            const isOpen = !!expanded[row.id];
             return (
-              <Card key={row.id} className={row.is_visible ? "" : "opacity-60"}>
-                <CardHeader className="flex flex-row items-center gap-2 space-y-0 py-3">
-                  <button
-                    onClick={() => setExpanded((s) => ({ ...s, [row.id]: !s[row.id] }))}
-                    className="text-muted-foreground hover:text-foreground"
-                  >
-                    {isOpen ? <ChevronDown className="h-4 w-4" /> : <ChevronRight className="h-4 w-4" />}
-                  </button>
-                  <CardTitle className="text-sm">
-                    {sectionDisplayName(row, def.label)}
-                    <span className="ml-2 text-xs font-normal uppercase tracking-wider text-muted-foreground/70">
-                      {def.label}
-                    </span>
-                  </CardTitle>
-                  <div className="ml-auto flex items-center gap-1">
-                    <Button size="icon" variant="ghost" className="h-7 w-7" onClick={() => move(i, -1)} disabled={i === 0} title="Move up">
-                      <ArrowUp className="h-4 w-4" />
-                    </Button>
-                    <Button size="icon" variant="ghost" className="h-7 w-7" onClick={() => move(i, 1)} disabled={i === rows.length - 1} title="Move down">
-                      <ArrowDown className="h-4 w-4" />
-                    </Button>
-                    <Button size="icon" variant="ghost" className="h-7 w-7" onClick={() => toggleVisible(row.id, row.is_visible)} title={row.is_visible ? "Hide" : "Show"}>
-                      {row.is_visible ? <Eye className="h-4 w-4" /> : <EyeOff className="h-4 w-4" />}
-                    </Button>
-                    <Button size="icon" variant="ghost" className="h-7 w-7" onClick={() => remove(row.id)} title="Delete">
-                      <Trash2 className="h-4 w-4 text-destructive" />
-                    </Button>
-                  </div>
-                </CardHeader>
-                {isOpen && (
-                  <CardContent>
+              <TabsContent key={row.id} value={row.id} className="mt-4">
+                <Card className={row.is_visible ? "" : "opacity-60"}>
+                  <CardContent className="space-y-4 pt-6">
+                    <div className="flex flex-wrap items-center gap-2 border-b border-border pb-3">
+                      <div className="text-sm font-semibold">
+                        {sectionDisplayName(row, def.label)}
+                        <span className="ml-2 text-xs font-normal uppercase tracking-wider text-muted-foreground/70">
+                          {def.label}
+                        </span>
+                      </div>
+                      <div className="ml-auto flex items-center gap-1">
+                        <Button size="icon" variant="ghost" className="h-7 w-7" onClick={() => move(i, -1)} disabled={i === 0} title="Move left">
+                          <ArrowUp className="h-4 w-4 -rotate-90" />
+                        </Button>
+                        <Button size="icon" variant="ghost" className="h-7 w-7" onClick={() => move(i, 1)} disabled={i === rows.length - 1} title="Move right">
+                          <ArrowDown className="h-4 w-4 -rotate-90" />
+                        </Button>
+                        <Button size="icon" variant="ghost" className="h-7 w-7" onClick={() => toggleVisible(row.id, row.is_visible)} title={row.is_visible ? "Hide" : "Show"}>
+                          {row.is_visible ? <Eye className="h-4 w-4" /> : <EyeOff className="h-4 w-4" />}
+                        </Button>
+                        <Button size="icon" variant="ghost" className="h-7 w-7" onClick={() => remove(row.id)} title="Delete">
+                          <Trash2 className="h-4 w-4 text-destructive" />
+                        </Button>
+                      </div>
+                    </div>
                     <SectionEditForm
                       initial={row.data ?? {}}
                       onSave={(next) => updateData(row.id, next)}
                       def={def}
                     />
                   </CardContent>
-                )}
-              </Card>
+                </Card>
+              </TabsContent>
             );
           })}
-        </div>
+        </Tabs>
       )}
     </div>
   );
