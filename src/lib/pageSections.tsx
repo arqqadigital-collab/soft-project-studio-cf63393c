@@ -53,7 +53,7 @@ function MediaField({
 
 // ---- Types ----
 export type SectionKind =
-  | "hero" | "features" | "stats" | "cta" | "richtext" | "media" | "logos" | "faq";
+  | "hero" | "features" | "stats" | "cta" | "media" | "logos" | "faq";
 
 export type SectionData = Record<string, any>;
 
@@ -456,11 +456,6 @@ export const SECTION_REGISTRY: Record<SectionKind, SectionDef> = {
     kind: "cta", label: "Call to action", description: "Bold banner with primary/secondary buttons.",
     defaultData: { headline: "Ready to start?", body: "", primaryLabel: "Contact us", primaryHref: "/contact", secondaryLabel: "", secondaryHref: "" },
     Render: CtaRender, Edit: CtaEdit,
-  },
-  richtext: {
-    kind: "richtext", label: "Rich text", description: "Free HTML content block.",
-    defaultData: { html: "<p>Write here...</p>" },
-    Render: RichTextRender, Edit: RichTextEdit,
   },
   media: {
     kind: "media", label: "Media", description: "Standalone image or video with caption.",
