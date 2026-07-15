@@ -2,85 +2,73 @@ import { useEffect, useMemo, useRef, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { toast } from "sonner";
-import { ArrowLeft, Save, Send, ExternalLink, Image as ImageIcon } from "lucide-react";
+import { ArrowLeft, Save, Send, Image as ImageIcon } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/hooks/use-auth";
 import { toSlug } from "@/lib/slug";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { Textarea } from "@/components/ui/textarea";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import {
   Select, SelectContent, SelectItem, SelectTrigger, SelectValue,
 } from "@/components/ui/select";
-import { Badge } from "@/components/ui/badge";
 import { RichTextEditor } from "@/components/dashboard/RichTextEditor";
 import { MediaPickerDialog } from "@/components/dashboard/MediaPickerDialog";
 
-type Status = "draft" | "published" | "scheduled" | "trashed";
+type Status = "draft" | "published" | "trashed";
+type Template = "default" | "full-width" | "landing";
 
-interface PostForm {
+interface PageForm {
   title: string;
   slug: string;
   content: string;
-  excerpt: string;
   featured_image_url: string;
   status: Status;
-  category_id: string | null;
-  published_at: string | null; // ISO
-  tags: string[]; // tag names (creatable)
+  template: Template;
+  parent_id: string | null;
 }
 
-const EMPTY: PostForm = {
+const EMPTY: PageForm = {
   title: "",
   slug: "",
   content: "",
-  excerpt: "",
   featured_image_url: "",
   status: "draft",
-  category_id: null,
-  published_at: null,
-  tags: [],
+  template: "default",
+  parent_id: null,
 };
 
-export default function PostEditor() {
+export default function PageEditor() {
   const { id } = useParams();
   const isNew = !id || id === "new";
   const navigate = useNavigate();
   const { user } = useAuth();
   const qc = useQueryClient();
 
-  const [postId, setPostId] = useState<string | null>(isNew ? null : id!);
-  const [form, setForm] = useState<PostForm>(EMPTY);
+  const [pageId, setPageId] = useState<string | null>(isNew ? null : id!);
+  const [form, setForm] = useState<PageForm>(EMPTY);
   const [slugTouched, setSlugTouched] = useState(false);
   const [saving, setSaving] = useState(false);
   const [lastSavedAt, setLastSavedAt] = useState<Date | null>(null);
-  const [tagInput, setTagInput] = useState("");
   const [pickerOpen, setPickerOpen] = useState(false);
   const dirtyRef = useRef(false);
 
-  // Load categories
-  const categories = useQuery({
-    queryKey: ["categories-all"],
+  const otherPages = useQuery({
+    queryKey: ["pages-parents"],
     queryFn: async () => {
-      const { data, error } = await supabase.from("categories").select("id, name").order("name");
+      const { data, error } = await supabase.from("pages").select("id, title").order("title");
       if (error) throw error;
       return data;
     },
   });
 
-  // Load existing post
   const existing = useQuery({
-    queryKey: ["post", postId],
-    enabled: !!postId,
+    queryKey: ["page", pageId],
+    enabled: !!pageId,
     queryFn: async () => {
-      const { data, error } = await supabase
-        .from("posts")
-        .select("*, post_tags(tag_id, tags(name))")
-        .eq("id", postId!)
-        .maybeSingle();
+      const { data, error } = await supabase.from("pages").select("*").eq("id", pageId!).maybeSingle();
       if (error) throw error;
       return data;
     },
@@ -90,89 +78,61 @@ export default function PostEditor() {
     if (existing.data) {
       const d: any = existing.data;
       setForm({
-        title: d.title ?? "",
-        slug: d.slug ?? "",
-        content: d.content ?? "",
-        excerpt: d.excerpt ?? "",
+        title: d.title, slug: d.slug, content: d.content ?? "",
         featured_image_url: d.featured_image_url ?? "",
-        status: d.status,
-        category_id: d.category_id,
-        published_at: d.published_at,
-        tags: (d.post_tags ?? []).map((pt: any) => pt.tags?.name).filter(Boolean),
+        status: d.status, template: d.template, parent_id: d.parent_id,
       });
       setSlugTouched(true);
       dirtyRef.current = false;
     }
   }, [existing.data]);
 
-  function patch<K extends keyof PostForm>(key: K, value: PostForm[K]) {
+  function patch<K extends keyof PageForm>(key: K, value: PageForm[K]) {
     setForm((f) => ({ ...f, [key]: value }));
     dirtyRef.current = true;
   }
 
-  // Auto-slug from title until user edits slug manually
   useEffect(() => {
-    if (!slugTouched) {
-      setForm((f) => ({ ...f, slug: toSlug(f.title) }));
-    }
+    if (!slugTouched) setForm((f) => ({ ...f, slug: toSlug(f.title) }));
   }, [form.title, slugTouched]);
 
-  const canPublish = useMemo(() => form.title.trim().length > 0 && form.slug.trim().length > 0, [form]);
-
-  async function upsertTagsAndLink(pid: string, names: string[]) {
-    // Remove all links then re-create to keep logic simple
-    await supabase.from("post_tags").delete().eq("post_id", pid);
-    if (!names.length) return;
-    const clean = Array.from(new Set(names.map((n) => n.trim()).filter(Boolean)));
-    // upsert tags one at a time to avoid slug collisions
-    const tagRows: { id: string }[] = [];
-    for (const name of clean) {
-      const slug = toSlug(name);
-      const { data: existingTag } = await supabase.from("tags").select("id").eq("slug", slug).maybeSingle();
-      if (existingTag) { tagRows.push({ id: existingTag.id }); continue; }
-      const { data: created, error } = await supabase.from("tags").insert({ name, slug }).select("id").single();
-      if (error) throw error;
-      tagRows.push({ id: created.id });
-    }
-    await supabase.from("post_tags").insert(tagRows.map((t) => ({ post_id: pid, tag_id: t.id })));
-  }
+  const canPublish = useMemo(() => form.title.trim().length > 0, [form]);
+  const parentChoices = useMemo(
+    () => (otherPages.data ?? []).filter((p) => p.id !== pageId),
+    [otherPages.data, pageId],
+  );
 
   async function save(opts?: { silent?: boolean; overrideStatus?: Status }) {
     if (!user) return;
-    if (!form.title.trim()) {
-      if (!opts?.silent) toast.error("Title is required");
-      return;
-    }
+    if (!form.title.trim()) { if (!opts?.silent) toast.error("Title is required"); return; }
     setSaving(true);
     const payload: any = {
       title: form.title,
       slug: form.slug || toSlug(form.title),
       content: form.content,
-      excerpt: form.excerpt || null,
       featured_image_url: form.featured_image_url || null,
       status: opts?.overrideStatus ?? form.status,
-      category_id: form.category_id || null,
-      published_at: form.published_at,
+      template: form.template,
+      parent_id: form.parent_id,
       author_id: user.id,
     };
     try {
-      let pid = postId;
+      let pid = pageId;
       if (!pid) {
-        const { data, error } = await supabase.from("posts").insert(payload).select("id").single();
+        const { data, error } = await supabase.from("pages").insert(payload).select("id").single();
         if (error) throw error;
         pid = data.id;
-        setPostId(pid);
-        window.history.replaceState(null, "", `/dashboard/posts/${pid}`);
+        setPageId(pid);
+        window.history.replaceState(null, "", `/dashboard/pages/${pid}`);
       } else {
-        const { error } = await supabase.from("posts").update(payload).eq("id", pid);
+        const { error } = await supabase.from("pages").update(payload).eq("id", pid);
         if (error) throw error;
       }
-      await upsertTagsAndLink(pid!, form.tags);
       if (opts?.overrideStatus) patch("status", opts.overrideStatus);
       dirtyRef.current = false;
       setLastSavedAt(new Date());
-      qc.invalidateQueries({ queryKey: ["posts"] });
-      qc.invalidateQueries({ queryKey: ["post", pid] });
+      qc.invalidateQueries({ queryKey: ["pages"] });
+      qc.invalidateQueries({ queryKey: ["page", pid] });
       if (!opts?.silent) toast.success("Saved");
     } catch (e: any) {
       if (!opts?.silent) toast.error(e.message || "Save failed");
@@ -181,7 +141,6 @@ export default function PostEditor() {
     }
   }
 
-  // Autosave every 30s if dirty and we have a title
   useEffect(() => {
     const t = setInterval(() => {
       if (dirtyRef.current && form.title.trim()) save({ silent: true });
@@ -190,31 +149,14 @@ export default function PostEditor() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [form]);
 
-  function addTag(name: string) {
-    const n = name.trim();
-    if (!n || form.tags.includes(n)) return;
-    patch("tags", [...form.tags, n]);
-  }
-
   return (
     <div className="mx-auto max-w-6xl space-y-4">
       <div className="flex flex-wrap items-center justify-between gap-3">
-        <Button variant="ghost" size="sm" onClick={() => navigate("/dashboard/posts")}>
+        <Button variant="ghost" size="sm" onClick={() => navigate("/dashboard/pages")}>
           <ArrowLeft className="mr-1 h-4 w-4" /> Back
         </Button>
         <div className="flex items-center gap-2">
-          {lastSavedAt && (
-            <span className="text-xs text-muted-foreground">
-              Saved {lastSavedAt.toLocaleTimeString()}
-            </span>
-          )}
-          {form.status === "published" && form.slug && (
-            <Button asChild variant="outline" size="sm">
-              <a href={`/blog/${form.slug}`} target="_blank" rel="noreferrer">
-                <ExternalLink className="mr-1 h-4 w-4" /> Preview
-              </a>
-            </Button>
-          )}
+          {lastSavedAt && <span className="text-xs text-muted-foreground">Saved {lastSavedAt.toLocaleTimeString()}</span>}
           <Button variant="outline" size="sm" onClick={() => save()} disabled={saving}>
             <Save className="mr-1 h-4 w-4" /> Save Draft
           </Button>
@@ -231,11 +173,11 @@ export default function PostEditor() {
               <Input
                 value={form.title}
                 onChange={(e) => patch("title", e.target.value)}
-                placeholder="Post title"
+                placeholder="Page title"
                 className="border-none px-0 text-2xl font-semibold shadow-none focus-visible:ring-0"
               />
               <div className="flex items-center gap-2 text-sm text-muted-foreground">
-                <span>/blog/</span>
+                <span>/p/</span>
                 <Input
                   value={form.slug}
                   onChange={(e) => { setSlugTouched(true); patch("slug", toSlug(e.target.value)); }}
@@ -248,19 +190,10 @@ export default function PostEditor() {
           <Tabs defaultValue="content">
             <TabsList>
               <TabsTrigger value="content">Content</TabsTrigger>
-              <TabsTrigger value="excerpt">Excerpt</TabsTrigger>
               <TabsTrigger value="seo">SEO</TabsTrigger>
             </TabsList>
             <TabsContent value="content" className="mt-3">
               <RichTextEditor value={form.content} onChange={(html) => patch("content", html)} />
-            </TabsContent>
-            <TabsContent value="excerpt" className="mt-3">
-              <Textarea
-                rows={5}
-                value={form.excerpt}
-                onChange={(e) => patch("excerpt", e.target.value)}
-                placeholder="Optional summary shown in post lists…"
-              />
             </TabsContent>
             <TabsContent value="seo" className="mt-3">
               <Card><CardContent className="pt-6 text-sm text-muted-foreground">SEO editor arrives in Phase 5.</CardContent></Card>
@@ -279,60 +212,37 @@ export default function PostEditor() {
                   <SelectContent>
                     <SelectItem value="draft">Draft</SelectItem>
                     <SelectItem value="published">Published</SelectItem>
-                    <SelectItem value="scheduled">Scheduled</SelectItem>
                     <SelectItem value="trashed">Trashed</SelectItem>
                   </SelectContent>
                 </Select>
               </div>
+            </CardContent>
+          </Card>
+
+          <Card>
+            <CardHeader className="pb-3"><CardTitle className="text-sm">Structure</CardTitle></CardHeader>
+            <CardContent className="space-y-3">
               <div className="space-y-1.5">
-                <Label className="text-xs">Publish date</Label>
-                <Input
-                  type="datetime-local"
-                  value={form.published_at ? form.published_at.slice(0, 16) : ""}
-                  onChange={(e) => patch("published_at", e.target.value ? new Date(e.target.value).toISOString() : null)}
-                />
+                <Label className="text-xs">Template</Label>
+                <Select value={form.template} onValueChange={(v) => patch("template", v as Template)}>
+                  <SelectTrigger><SelectValue /></SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="default">Default</SelectItem>
+                    <SelectItem value="full-width">Full width</SelectItem>
+                    <SelectItem value="landing">Landing</SelectItem>
+                  </SelectContent>
+                </Select>
               </div>
-            </CardContent>
-          </Card>
-
-          <Card>
-            <CardHeader className="pb-3"><CardTitle className="text-sm">Category</CardTitle></CardHeader>
-            <CardContent>
-              <Select value={form.category_id ?? "none"} onValueChange={(v) => patch("category_id", v === "none" ? null : v)}>
-                <SelectTrigger><SelectValue placeholder="Uncategorized" /></SelectTrigger>
-                <SelectContent>
-                  <SelectItem value="none">Uncategorized</SelectItem>
-                  {categories.data?.map((c) => (
-                    <SelectItem key={c.id} value={c.id}>{c.name}</SelectItem>
-                  ))}
-                </SelectContent>
-              </Select>
-            </CardContent>
-          </Card>
-
-          <Card>
-            <CardHeader className="pb-3"><CardTitle className="text-sm">Tags</CardTitle></CardHeader>
-            <CardContent className="space-y-2">
-              <div className="flex flex-wrap gap-1">
-                {form.tags.map((t) => (
-                  <Badge key={t} variant="secondary" className="cursor-pointer" onClick={() => patch("tags", form.tags.filter((x) => x !== t))}>
-                    {t} ×
-                  </Badge>
-                ))}
-                {form.tags.length === 0 && <span className="text-xs text-muted-foreground">No tags yet</span>}
+              <div className="space-y-1.5">
+                <Label className="text-xs">Parent</Label>
+                <Select value={form.parent_id ?? "none"} onValueChange={(v) => patch("parent_id", v === "none" ? null : v)}>
+                  <SelectTrigger><SelectValue placeholder="No parent" /></SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="none">No parent (top-level)</SelectItem>
+                    {parentChoices.map((p) => <SelectItem key={p.id} value={p.id}>{p.title}</SelectItem>)}
+                  </SelectContent>
+                </Select>
               </div>
-              <Input
-                value={tagInput}
-                placeholder="Type a tag and press Enter"
-                onChange={(e) => setTagInput(e.target.value)}
-                onKeyDown={(e) => {
-                  if (e.key === "Enter" || e.key === ",") {
-                    e.preventDefault();
-                    addTag(tagInput);
-                    setTagInput("");
-                  }
-                }}
-              />
             </CardContent>
           </Card>
 

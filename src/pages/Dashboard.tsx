@@ -5,6 +5,9 @@ import Profile from "./dashboard/Profile";
 import Placeholder from "./dashboard/Placeholder";
 import PostsList from "./dashboard/PostsList";
 import PostEditor from "./dashboard/PostEditor";
+import PagesList from "./dashboard/PagesList";
+import PageEditor from "./dashboard/PageEditor";
+import MediaLibrary from "./dashboard/MediaLibrary";
 import { RoleGate } from "@/components/dashboard/RoleGate";
 
 export default function Dashboard() {
@@ -17,21 +20,17 @@ export default function Dashboard() {
         <Route path="posts/:id" element={<PostEditor />} />
         <Route
           path="pages"
-          element={
-            <RoleGate allow={["admin", "editor"]}>
-              <Placeholder title="Pages" description="Pages manager arrives in Phase 4." />
-            </RoleGate>
-          }
+          element={<RoleGate allow={["admin", "editor"]}><PagesList /></RoleGate>}
         />
         <Route
           path="pages/new"
-          element={<RoleGate allow={["admin", "editor"]}><Placeholder title="New Page" /></RoleGate>}
+          element={<RoleGate allow={["admin", "editor"]}><PageEditor /></RoleGate>}
         />
         <Route
           path="pages/:id"
-          element={<RoleGate allow={["admin", "editor"]}><Placeholder title="Edit Page" /></RoleGate>}
+          element={<RoleGate allow={["admin", "editor"]}><PageEditor /></RoleGate>}
         />
-        <Route path="media" element={<Placeholder title="Media Library" description="Ships in Phase 4." />} />
+        <Route path="media" element={<MediaLibrary />} />
         <Route
           path="taxonomy"
           element={
