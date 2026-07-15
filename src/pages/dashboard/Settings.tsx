@@ -28,6 +28,8 @@ const EMPTY: Settings = {
   default_meta_description: "",
 };
 
+type PickerTarget = "logo" | "favicon" | null;
+
 export default function SettingsPage() {
   const qc = useQueryClient();
   const [form, setForm] = useState<Settings>(EMPTY);
