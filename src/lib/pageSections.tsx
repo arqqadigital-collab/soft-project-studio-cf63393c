@@ -315,29 +315,40 @@ function FeaturesEdit({ data, onChange }: { data: SectionData; onChange: (n: Sec
 }
 
 function CtaRender({ data }: { data: SectionData }) {
-  const bgClass = data.bgColor ? "" : "bg-[var(--brand-dark)]";
-  const txtClass = data.textColor ? "" : "text-white";
+  const hasCustomBg = !!data.bgColor;
+  const bgClass = hasCustomBg ? "" : "bg-[var(--brand-dark)]";
+  const txtClass = data.textColor ? "" : (hasCustomBg ? "" : "text-white");
+  const hasMedia = !!data.mediaUrl;
+  const isVideo = hasMedia && data.mediaKind === "video";
   return (
     <section className={`relative overflow-hidden py-20 ${bgClass} ${txtClass}`} style={sectionStyle(data)}>
-      {data.mediaUrl && (
+      {isVideo && (
         <video src={data.mediaUrl} autoPlay muted loop playsInline className="absolute inset-0 h-full w-full object-cover opacity-30" />
       )}
-      <div className="absolute inset-0 bg-gradient-to-r from-black/60 to-black/30" />
+      {hasMedia && !isVideo && (
+        <img src={data.mediaUrl} alt="" className="absolute inset-0 h-full w-full object-cover opacity-30" />
+      )}
+      {hasMedia && <div className="absolute inset-0 bg-gradient-to-r from-black/60 to-black/30" />}
       <Container className="relative">
+        {data.eyebrow && (
+          <div className="mb-4 text-xs font-bold uppercase tracking-[0.2em] opacity-70">{data.eyebrow}</div>
+        )}
         <h2 className="text-3xl font-bold md:text-4xl">{data.headline}</h2>
-        {data.body && <p className="mt-3 max-w-2xl opacity-90">{data.body}</p>}
-        <div className="mt-8 flex flex-wrap gap-3">
-          {data.primaryLabel && (
-            <Button asChild size="lg" style={data.accentColor ? { background: data.accentColor, color: "#fff" } : undefined}>
-              <Link to={data.primaryHref || "#"}>{data.primaryLabel}</Link>
-            </Button>
-          )}
-          {data.secondaryLabel && (
-            <Button asChild size="lg" variant="outline" className="border-white/40 bg-transparent text-white hover:bg-white/10">
-              <Link to={data.secondaryHref || "#"}>{data.secondaryLabel}</Link>
-            </Button>
-          )}
-        </div>
+        {data.body && <p className="mt-4 max-w-3xl text-base leading-relaxed opacity-90">{data.body}</p>}
+        {(data.primaryLabel || data.secondaryLabel) && (
+          <div className="mt-8 flex flex-wrap gap-3">
+            {data.primaryLabel && (
+              <Button asChild size="lg" style={data.accentColor ? { background: data.accentColor, color: "#fff" } : undefined}>
+                <Link to={data.primaryHref || "#"}>{data.primaryLabel}</Link>
+              </Button>
+            )}
+            {data.secondaryLabel && (
+              <Button asChild size="lg" variant="outline" className={hasCustomBg ? "" : "border-white/40 bg-transparent text-white hover:bg-white/10"}>
+                <Link to={data.secondaryHref || "#"}>{data.secondaryLabel}</Link>
+              </Button>
+            )}
+          </div>
+        )}
       </Container>
     </section>
   );
