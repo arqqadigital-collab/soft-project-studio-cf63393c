@@ -323,6 +323,47 @@ export type Database = {
           },
         ]
       }
+      page_sections: {
+        Row: {
+          created_at: string
+          data: Json
+          id: string
+          is_visible: boolean
+          kind: string
+          page_id: string
+          position: number
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          data?: Json
+          id?: string
+          is_visible?: boolean
+          kind: string
+          page_id: string
+          position?: number
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          data?: Json
+          id?: string
+          is_visible?: boolean
+          kind?: string
+          page_id?: string
+          position?: number
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "page_sections_page_id_fkey"
+            columns: ["page_id"]
+            isOneToOne: false
+            referencedRelation: "pages"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       page_views: {
         Row: {
           entity_id: string
