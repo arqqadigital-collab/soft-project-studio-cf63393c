@@ -1,57 +1,62 @@
-# Nav-Driven Pages & Mega Menu
+# Page Builder — Pattern + HIS Pilot
 
-Rebuild the Pages area so it mirrors the site's mega-menu structure, and make the public header render from that same data.
+Reusable section-based editor for every page. Ship the framework this turn and use **Hospital Information System (HIS)** as the pilot page. Once you approve, we roll the same setup to the other 40+ pages.
 
-## Data model (new tables)
+## Data model
 
-Three-level tree:
+New table `page_sections`:
 
-```text
-nav_groups (HealthCare, ERP & Business, Services, Company)
-   └─ nav_sections (Hospital & Clinical Systems, Specialized Clinical Modules, …)
-         └─ pages (Hospital Information System, Clinic Management, …)
-```
+- `id` uuid
+- `page_id` uuid → `pages` (cascade)
+- `kind` text — which section component to render (`hero`, `features`, `stats`, `cta`, `richtext`, `media`, `logos`, `faq`)
+- `position` int
+- `is_visible` bool
+- `data` jsonb — the section's editable fields (title, subtitle, image, items, etc.)
+- standard timestamps
 
-New tables:
+Public read; admin/editor write. Standard GRANTs + RLS.
 
-- `nav_groups` — `id, label, slug, position, is_visible`
-- `nav_sections` — `id, group_id → nav_groups, label, description, position, is_visible`
-- `pages` — add `section_id → nav_sections (nullable)`, `nav_label` (short label for menu), `position`
+## Section registry
 
-All three: admin/editor write, public read. Standard GRANTs + RLS.
+`src/lib/pageSections.tsx` — a single registry mapping `kind` → { label, defaultData, Render, Edit }.
 
-## Dashboard: Pages workspace
+Initial kinds (covers 90% of the existing static pages):
 
-Replace the flat `PagesList` with a two-pane manager at `/dashboard/pages`:
+- **hero** — eyebrow, headline, subheadline, media (image or video), CTA
+- **features** — heading, subheading, list of feature cards `{ icon, title, description }`
+- **stats** — heading, list of stats `{ label, value, suffix }`
+- **richtext** — free HTML/markdown block (uses existing RichTextEditor)
+- **media** — image or video with caption
+- **logos** — heading + logo grid
+- **cta** — headline, body, primary/secondary buttons, background media
+- **faq** — heading + list of `{ q, a }`
 
-- Left tree
-  - Groups (collapsible), each with its Sections, each with its Pages.
-  - Inline actions per row: rename, add child, delete, drag-handle for reorder.
-  - Buttons: **+ Group**, **+ Section** (inside a group), **+ Page** (inside a section).
-- Right pane
-  - Selecting a page opens the existing `PageEditor` inline (or navigates to `/dashboard/pages/:id`).
-  - Selecting a group/section shows a small form: label, description, visibility, position.
+Each section pulls colors, fonts, and spacing from existing design tokens so pages stay on-brand.
 
-Seed the current 4 groups + their sections from `MainNav.tsx` on first migration so the tree isn't empty. User can then edit freely.
+## Dashboard editor
 
-## Public header (MainNav)
+New `src/pages/dashboard/PageBuilder.tsx` (or extend `PageEditor` with a "Builder" tab):
 
-Rewrite `MainNav.tsx` to fetch groups → sections → pages from Supabase (single query, cached with React Query). Same visual mega-menu layout as today; hidden groups/sections/pages are skipped. Falls back to the hardcoded menu while loading.
+- Top: page title, slug, status, nav section (already existing).
+- New **Builder** tab: vertical list of sections with drag-handle, reorder up/down, hide/show, delete, and an "Add section" button that opens a picker with the registry.
+- Each section row expands into its form (`Edit` component from the registry) — same MediaPicker used elsewhere for images/videos.
+- Live preview iframe alongside (same pattern as `SectionPreview` used in `HomepageEditor`).
 
-Page URLs continue to use each page's existing `slug` (`/{slug}`), so already-created routes keep working.
+## Public rendering
 
-## Sidebar entry
+New `src/components/PageRenderer.tsx` — fetches the page's sections and renders each via the registry's `Render`. The `PublicPage` route uses this whenever the page has any `page_sections` rows; otherwise it falls back to the existing rich-text content.
 
-`Pages` sidebar item stays; it now points to the new tree manager. `New Page` quick action prompts for the target section.
+## Pilot: HIS
 
-## Out of scope
+- Import the current `src/pages/HIS.tsx` content into `page_sections` rows for the HIS page (hero + a few features/stats/cta) so the dashboard immediately shows the real page structure.
+- Swap the `/healthcare/his` route to render via `PageRenderer`. The visual output should match today's static HIS closely.
 
-- No changes to Posts, Media, SEO, Settings.
-- No change to public page routing/rendering — only how pages are grouped and how the menu is built.
-- Reordering uses simple up/down buttons first; drag-and-drop can come later.
+## Rollout after approval (not this turn)
 
-## Files touched
+Repeat the same seed step for each remaining static page: read its JSX, translate to section rows, swap its route to `PageRenderer`. Delete the static file once verified. Straightforward per-page work.
 
-- Migration: create `nav_groups`, `nav_sections`, alter `pages`, seed data.
-- New: `src/pages/dashboard/PagesManager.tsx`, `src/components/dashboard/NavTree.tsx`.
-- Edited: `src/pages/dashboard/PagesList.tsx` (replaced by manager route), `src/components/MainNav.tsx` (data-driven), `src/pages/dashboard/PageEditor.tsx` (add section picker).
+## Files this turn
+
+- Migration: create `page_sections`, seed HIS.
+- New: `src/lib/pageSections.tsx`, `src/components/PageRenderer.tsx`, `src/components/dashboard/PageBuilder.tsx`.
+- Edited: `src/pages/dashboard/PageEditor.tsx` (add Builder tab), `src/pages/PublicPage.tsx` (use renderer), route for `/healthcare/his`.
