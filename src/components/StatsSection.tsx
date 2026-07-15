@@ -46,7 +46,7 @@ export function StatsSection() {
   const contentOpacity = useTransform(scrollYProgress, [0, 0.3, 0.7, 1], [0, 1, 1, 0.3]);
 
   return (
-    <section ref={sectionRef} className="relative overflow-hidden py-24 md:py-32">
+    <section id="section-stats" ref={sectionRef} className="relative overflow-hidden py-24 md:py-32">
       <motion.div style={{ y: bgY, scale: bgScale, backgroundImage: `url(${statsBg})` }} className="absolute inset-0 -z-10 bg-cover bg-center will-change-transform" aria-hidden />
       <div className="absolute inset-0 -z-10" style={{ background: "linear-gradient(180deg, rgba(8,15,35,0.85) 0%, rgba(8,15,35,0.7) 50%, rgba(8,15,35,0.9) 100%)" }} aria-hidden />
 

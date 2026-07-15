@@ -5,7 +5,7 @@ export function ClientsSection() {
   const loop = [...c.logos, ...c.logos];
 
   return (
-    <section className="bg-background py-24 md:py-32">
+    <section id="section-clients" className="bg-background py-24 md:py-32">
       <div className="mx-auto max-w-5xl px-6 text-center">
         <p className="text-sm font-semibold uppercase tracking-[0.25em]" style={{ color: "var(--brand-blue)" }}>{c.kicker}</p>
         <h2 className="mt-6 text-4xl font-bold leading-[1.1] tracking-tight md:text-5xl lg:text-6xl">

@@ -16,7 +16,7 @@ export function ExpertiseSection() {
   const opacity = useTransform(scrollYProgress, [0, 0.2, 1], [0.2, 1, 1]);
 
   return (
-    <section ref={ref} className="bg-background py-24 md:py-32">
+    <section id="section-expertise" ref={ref} className="bg-background py-24 md:py-32">
       <div className="mx-auto max-w-5xl px-6 text-center">
         <p className="text-sm font-semibold uppercase tracking-[0.25em]" style={{ color: "var(--brand-blue)" }}>
           {c.kicker}

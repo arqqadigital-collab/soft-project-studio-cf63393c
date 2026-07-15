@@ -13,7 +13,7 @@ export function ServicesSection() {
   const prev = () => setActive((i) => (i - 1 + services.length) % services.length);
 
   return (
-    <section className="bg-background py-24 md:py-32">
+    <section id="section-services" className="bg-background py-24 md:py-32">
       <div className="mx-auto max-w-7xl px-6">
         <motion.div className="text-center" initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true, amount: 0.4 }} transition={{ duration: 0.6 }}>
           <p className="text-sm font-semibold uppercase tracking-[0.25em]" style={{ color: "var(--brand-blue)" }}>{c.kicker}</p>

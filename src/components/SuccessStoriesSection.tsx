@@ -5,7 +5,7 @@ import { useSectionContent } from "@/lib/homepageContent";
 export function SuccessStoriesSection() {
   const c = useSectionContent("success_stories");
   return (
-    <section className="relative overflow-hidden bg-[#0a1628] px-6 py-24 md:px-12 md:py-32">
+    <section id="section-success_stories" className="relative overflow-hidden bg-[#0a1628] px-6 py-24 md:px-12 md:py-32">
       <div className="mx-auto flex max-w-6xl flex-col items-center text-center">
         <div className="inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-5 py-2">
           <span className="h-2 w-2 rounded-full" style={{ background: "var(--brand-green)" }} />
