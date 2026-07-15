@@ -233,6 +233,7 @@ function LogoSlider({ platforms }: { platforms: Platform[] }) {
 
 export default function HIS() {
   const content = useHISContent();
+  const v = content._visible;
   const hero = content.Hero;
   const intro = content.Introduction;
   const problem = content["The Problem"];
@@ -255,6 +256,7 @@ export default function HIS() {
   return (
     <>
       {/* HERO */}
+      {v.Hero && (
       <main className="pt-20 relative min-h-[90vh] w-full overflow-hidden bg-background">
         <div className="absolute inset-0">
           <video src={hero.mediaUrl} autoPlay muted loop playsInline className="h-full w-full object-cover" />
