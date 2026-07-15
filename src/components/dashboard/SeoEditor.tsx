@@ -209,6 +209,25 @@ export function SeoEditor({
               </Button>
             )}
           </div>
+
+          <div className="space-y-2 rounded-md border p-3">
+            <p className="text-xs font-medium">Search engine indexing</p>
+            <div className="flex items-center justify-between gap-3">
+              <div>
+                <Label className="text-xs">Hide from search engines (noindex)</Label>
+                <p className="text-[11px] text-muted-foreground">Prevents Google and others from listing this page.</p>
+              </div>
+              <Switch checked={form.noindex} onCheckedChange={(v) => patch("noindex", v)} />
+            </div>
+            <div className="flex items-center justify-between gap-3">
+              <div>
+                <Label className="text-xs">Don't follow links (nofollow)</Label>
+                <p className="text-[11px] text-muted-foreground">Tells crawlers not to follow outbound links from this page.</p>
+              </div>
+              <Switch checked={form.nofollow} onCheckedChange={(v) => patch("nofollow", v)} />
+            </div>
+          </div>
+
           <Button onClick={save} disabled={saving}>
             <Save className="mr-1 h-4 w-4" /> Save SEO
           </Button>
