@@ -229,12 +229,21 @@ export function SectionEditor({ sectionKey }: { sectionKey: SectionKey }) {
           </Button>
         </div>
       </div>
-      <Card>
-        <CardHeader className="pb-3"><CardTitle className="text-sm">{LABELS[sectionKey]}</CardTitle></CardHeader>
-        <CardContent>
-          <ObjectFields obj={content} onChange={setContent} />
-        </CardContent>
-      </Card>
+      <div className="grid gap-4 lg:grid-cols-[minmax(0,1fr)_minmax(0,520px)]">
+        <Card>
+          <CardHeader className="pb-3"><CardTitle className="text-sm">{LABELS[sectionKey]}</CardTitle></CardHeader>
+          <CardContent>
+            <ObjectFields obj={content} onChange={setContent} />
+          </CardContent>
+        </Card>
+        <div className="lg:sticky lg:top-4 lg:self-start">
+          <SectionPreview
+            anchor={`section-${sectionKey}`}
+            reloadKey={previewKey}
+            title={`${LABELS[sectionKey]} — live preview`}
+          />
+        </div>
+      </div>
     </div>
   );
 }
