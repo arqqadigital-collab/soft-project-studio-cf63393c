@@ -14,6 +14,12 @@ import Analytics from "./dashboard/Analytics";
 import SettingsPage from "./dashboard/Settings";
 import SeoDashboard from "./dashboard/SeoDashboard";
 import HomepageEditor from "./dashboard/HomepageEditor";
+import MenusManager from "./dashboard/MenusManager";
+import HeaderFooterEditor from "./dashboard/HeaderFooterEditor";
+import CaseStudiesList from "./dashboard/CaseStudiesList";
+import CaseStudyEditor from "./dashboard/CaseStudyEditor";
+import EventsList from "./dashboard/EventsList";
+import EventEditor from "./dashboard/EventEditor";
 import { RoleGate } from "@/components/dashboard/RoleGate";
 
 export default function Dashboard() {
@@ -39,6 +45,38 @@ export default function Dashboard() {
         <Route
           path="pages/:id"
           element={<RoleGate allow={["admin", "editor"]}><PageEditor /></RoleGate>}
+        />
+        <Route
+          path="menus"
+          element={<RoleGate allow={["admin", "editor"]}><MenusManager /></RoleGate>}
+        />
+        <Route
+          path="header-footer"
+          element={<RoleGate allow={["admin", "editor"]}><HeaderFooterEditor /></RoleGate>}
+        />
+        <Route
+          path="case-studies"
+          element={<RoleGate allow={["admin", "editor", "author"]}><CaseStudiesList /></RoleGate>}
+        />
+        <Route
+          path="case-studies/new"
+          element={<RoleGate allow={["admin", "editor", "author"]}><CaseStudyEditor /></RoleGate>}
+        />
+        <Route
+          path="case-studies/:id"
+          element={<RoleGate allow={["admin", "editor", "author"]}><CaseStudyEditor /></RoleGate>}
+        />
+        <Route
+          path="events"
+          element={<RoleGate allow={["admin", "editor", "author"]}><EventsList /></RoleGate>}
+        />
+        <Route
+          path="events/new"
+          element={<RoleGate allow={["admin", "editor", "author"]}><EventEditor /></RoleGate>}
+        />
+        <Route
+          path="events/:id"
+          element={<RoleGate allow={["admin", "editor", "author"]}><EventEditor /></RoleGate>}
         />
         <Route path="media" element={<MediaLibrary />} />
         <Route
