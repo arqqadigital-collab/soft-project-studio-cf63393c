@@ -1,12 +1,55 @@
-import { lazy, Suspense } from "react";
+import { useState } from "react";
 import * as Icons from "lucide-react";
 import { Link } from "react-router-dom";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
-import { Trash2, Plus } from "lucide-react";
-import { MediaField } from "@/components/dashboard/SectionEditor";
+import { Trash2, Plus, Image as ImageIcon } from "lucide-react";
+import { MediaPickerDialog } from "@/components/dashboard/MediaPickerDialog";
+
+function MediaField({
+  label, value, onChange, accept,
+}: {
+  label: string;
+  value: string;
+  onChange: (url: string, kind?: string) => void;
+  accept?: "image" | "video" | "image|video";
+}) {
+  const [open, setOpen] = useState(false);
+  const isVideo = /\.(mp4|webm|mov)$/i.test(value);
+  return (
+    <div className="space-y-1.5">
+      <Label className="text-xs">{label}</Label>
+      <div className="flex items-center gap-3">
+        {value ? (
+          isVideo ? (
+            <video src={value} className="h-14 w-24 rounded border object-cover" muted autoPlay loop playsInline />
+          ) : (
+            <img src={value} alt="" className="h-14 w-24 rounded border object-cover" />
+          )
+        ) : (
+          <div className="flex h-14 w-24 items-center justify-center rounded border bg-muted text-muted-foreground">
+            <ImageIcon className="h-4 w-4" />
+          </div>
+        )}
+        <div className="flex gap-2">
+          <Button size="sm" variant="outline" onClick={() => setOpen(true)}>Choose</Button>
+          {value && <Button size="sm" variant="ghost" onClick={() => onChange("")}>Clear</Button>}
+        </div>
+      </div>
+      <MediaPickerDialog
+        open={open}
+        onOpenChange={setOpen}
+        onPick={(m: any) => {
+          const kind = m.file_type?.startsWith("video") ? "video" : "image";
+          onChange(m.file_url, kind);
+        }}
+      />
+    </div>
+  );
+}
+
 
 // ---- Types ----
 export type SectionKind =
