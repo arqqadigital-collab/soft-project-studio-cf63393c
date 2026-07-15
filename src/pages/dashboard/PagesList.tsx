@@ -338,34 +338,37 @@ function EditDialog({
   const isNew = !("id" in target) || !target.id;
 
   async function save() {
+    if (!target) return;
+    const t = target;
+    const existingId = "id" in t ? t.id : undefined;
     setBusy(true);
     try {
-      if (isGroup) {
+      if (t.kind === "group") {
         const label: string = form.label?.trim();
         if (!label) return toast.error("Label required");
         const slug: string = (form.slug || toSlug(label)) as string;
-        if (target.id) {
-          const { error } = await supabase.from("nav_groups").update({ label, slug }).eq("id", target.id);
+        if (existingId) {
+          const { error } = await supabase.from("nav_groups").update({ label, slug }).eq("id", existingId);
           if (error) throw error;
         } else {
           const nextPos = groups.length;
           const { error } = await supabase.from("nav_groups").insert({ label, slug, position: nextPos });
           if (error) throw error;
         }
-      } else if (isSection) {
+      } else if (t.kind === "section") {
         const label: string = form.label?.trim();
         if (!label) return toast.error("Label required");
         const payload = {
           label,
           description: form.description || null,
           href: form.href || null,
-          group_id: (target as any).group_id,
+          group_id: t.group_id,
         };
-        if (target.id) {
-          const { error } = await supabase.from("nav_sections").update(payload).eq("id", target.id);
+        if (existingId) {
+          const { error } = await supabase.from("nav_sections").update(payload).eq("id", existingId);
           if (error) throw error;
         } else {
-          const g = groups.find((x) => x.id === (target as any).group_id);
+          const g = groups.find((x) => x.id === t.group_id);
           const nextPos = g?.sections.length ?? 0;
           const { error } = await supabase.from("nav_sections").insert({ ...payload, position: nextPos });
           if (error) throw error;
