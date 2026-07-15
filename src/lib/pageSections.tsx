@@ -435,6 +435,51 @@ function Field({ label, children }: { label: string; children: React.ReactNode }
   );
 }
 
+function ColorInput({ value, onChange }: { value: string; onChange: (v: string) => void }) {
+  return (
+    <div className="flex items-center gap-2">
+      <input
+        type="color"
+        value={value || "#000000"}
+        onChange={(e) => onChange(e.target.value)}
+        className="h-9 w-12 cursor-pointer rounded border border-border bg-transparent p-0"
+      />
+      <Input value={value ?? ""} onChange={(e) => onChange(e.target.value)} placeholder="#0b0f19 or transparent" />
+      {value && <Button size="sm" variant="ghost" onClick={() => onChange("")}>Clear</Button>}
+    </div>
+  );
+}
+
+export function ColorFields({
+  data, onChange, showAccent = false,
+}: {
+  data: SectionData;
+  onChange: (n: SectionData) => void;
+  showAccent?: boolean;
+}) {
+  const p = (patch: Partial<SectionData>) => onChange({ ...data, ...patch });
+  return (
+    <div className="mt-3 rounded-md border border-dashed border-border p-3">
+      <div className="mb-2 text-xs font-medium text-muted-foreground">Colors</div>
+      <div className="grid gap-3 md:grid-cols-2">
+        <Field label="Background"><ColorInput value={data.bgColor ?? ""} onChange={(v) => p({ bgColor: v })} /></Field>
+        <Field label="Text"><ColorInput value={data.textColor ?? ""} onChange={(v) => p({ textColor: v })} /></Field>
+        {showAccent && (
+          <Field label="Accent"><ColorInput value={data.accentColor ?? ""} onChange={(v) => p({ accentColor: v })} /></Field>
+        )}
+      </div>
+    </div>
+  );
+}
+
+export function sectionStyle(data: SectionData): React.CSSProperties {
+  const s: React.CSSProperties = {};
+  if (data.bgColor) s.background = data.bgColor;
+  if (data.textColor) s.color = data.textColor;
+  return s;
+}
+
+
 // ---- Registry ----
 export const SECTION_REGISTRY: Record<SectionKind, SectionDef> = {
   hero: {
