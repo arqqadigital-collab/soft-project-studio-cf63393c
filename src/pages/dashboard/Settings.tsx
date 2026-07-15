@@ -33,6 +33,7 @@ type PickerTarget = "logo" | "favicon" | null;
 export default function SettingsPage() {
   const qc = useQueryClient();
   const [form, setForm] = useState<Settings>(EMPTY);
+  const [picker, setPicker] = useState<PickerTarget>(null);
 
   const q = useQuery({
     queryKey: ["site-settings"],
@@ -102,9 +103,7 @@ export default function SettingsPage() {
               <img src={form.site_logo_url} alt="Logo" className="h-16 rounded border bg-muted p-2 object-contain" />
             ) : null}
             <div className="flex gap-2">
-              <MediaPickerDialog onSelect={(m) => update({ site_logo_url: m.file_url })}>
-                <Button variant="outline" type="button">Choose logo</Button>
-              </MediaPickerDialog>
+              <Button variant="outline" type="button" onClick={() => setPicker("logo")}>Choose logo</Button>
               {form.site_logo_url ? (
                 <Button variant="ghost" type="button" onClick={() => update({ site_logo_url: null })}>Remove</Button>
               ) : null}
@@ -116,9 +115,7 @@ export default function SettingsPage() {
               <img src={form.favicon_url} alt="Favicon" className="h-12 w-12 rounded border bg-muted p-1 object-contain" />
             ) : null}
             <div className="flex gap-2">
-              <MediaPickerDialog onSelect={(m) => update({ favicon_url: m.file_url })}>
-                <Button variant="outline" type="button">Choose favicon</Button>
-              </MediaPickerDialog>
+              <Button variant="outline" type="button" onClick={() => setPicker("favicon")}>Choose favicon</Button>
               {form.favicon_url ? (
                 <Button variant="ghost" type="button" onClick={() => update({ favicon_url: null })}>Remove</Button>
               ) : null}
