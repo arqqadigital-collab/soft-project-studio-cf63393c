@@ -1,11 +1,11 @@
 import { useRef, useEffect, useState } from "react";
 import { motion, useInView, animate } from "framer-motion";
-const problem1 = "/src/assets/his/problem-1.jpg";
-const problem2 = "/src/assets/his/problem-2.jpg";
-const problem3 = "/src/assets/his/problem-3.jpg";
-const problem4 = "/src/assets/his/problem-4.jpg";
-const problem5 = "/src/assets/his/problem-5.jpg";
-const problem6 = "/src/assets/his/problem-6.jpg";
+const problem1 = "/__l5e/assets-v1/8aa55298-4da9-4ee3-8d9f-a89ba8a6ff90/problem-1.jpg";
+const problem2 = "/__l5e/assets-v1/51946d15-a111-429c-80d7-d8663c796275/problem-2.jpg";
+const problem3 = "/__l5e/assets-v1/534c4e41-9ac7-464e-8f50-7a8d610993cb/problem-3.jpg";
+const problem4 = "/__l5e/assets-v1/b3154571-d893-454f-8b99-66114d6018b1/problem-4.jpg";
+const problem5 = "/__l5e/assets-v1/6279f557-dda2-4426-9c9e-ff5a17730a39/problem-5.jpg";
+const problem6 = "/__l5e/assets-v1/764097ac-3766-49f5-a789-d00dce50931d/problem-6.jpg";
 const ArrowRight = "ArrowRight";
 const ChevronLeft = "ChevronLeft";
 const ChevronRight = "ChevronRight";
@@ -30,25 +30,25 @@ const Siren = "Siren";
 const hisHeroVideo = "/__l5e/assets-v1/25b00197-4b5c-4720-962f-41679f2291d8/his-hero.mp4";
 const hisCtaVideo = "/__l5e/assets-v1/9120cf10-5388-45f0-8a51-be221f388b8e/his-cta.mp4";
 const bgStepsLight = "/src/assets/bg-steps-light.png";
-const registrationStep = "/src/assets/his-journey/registration.png";
-const outpatientConsultationStep = "/src/assets/his-journey/outpatient-consultation.png";
-const admissionStep = "/src/assets/his-journey/admission.png";
-const inpatientCareStep = "/src/assets/his-journey/inpatient-care.png";
-const dischargeStep = "/src/assets/his-journey/discharge.png";
-const billingSettlementStep = "/src/assets/his-journey/billing-settlement.png";
+const registrationStep = "/__l5e/assets-v1/9b204a6f-db9c-4133-a6eb-15eca768ceb3/registration.png";
+const outpatientConsultationStep = "/__l5e/assets-v1/df0a4801-35ec-43cc-b91a-8afd7d18d87a/outpatient-consultation.png";
+const admissionStep = "/__l5e/assets-v1/95be5d7e-8938-4c57-af4f-b2deed311f28/admission.png";
+const inpatientCareStep = "/__l5e/assets-v1/5121b67c-e78c-44e4-a5ce-6117ed678bdd/inpatient-care.png";
+const dischargeStep = "/__l5e/assets-v1/b08fb25e-d345-45ce-b1bf-d03ddf6f4fe1/discharge.png";
+const billingSettlementStep = "/__l5e/assets-v1/e88c24b9-9aa9-4c27-8a72-481b4bcbd6bb/billing-settlement.png";
 import { Footer } from "@/components/Footer";
 import { CtaSection } from "@/components/CtaSection";
 
 import { useHorizontalScroll } from "@/hooks/use-horizontal-scroll";
 
-const nphiesLogo = "/src/assets/logos/nphies.png";
-const malaffiLogo = "/src/assets/logos/malaffi.png";
-const riayatiLogo = "/src/assets/logos/riayati.png";
-const zatcaLogo = "/src/assets/logos/zatca.png";
-const emiratesIdLogo = "/src/assets/logos/emirates-id.png";
-const absherLogo = "/src/assets/logos/absher.png";
-const nhraLogo = "/src/assets/logos/nhra.png";
-const wasfatyLogo = "/src/assets/logos/wasfaty.png";
+const nphiesLogo = "/__l5e/assets-v1/f7be7270-ba96-4b8a-9107-8475c101305e/nphies.png";
+const malaffiLogo = "/__l5e/assets-v1/005a22a5-f83c-4eed-b35c-35bf37aeb794/malaffi.png";
+const riayatiLogo = "/__l5e/assets-v1/61e2f773-39a2-42b8-ae34-59374d368a8c/riayati.png";
+const zatcaLogo = "/__l5e/assets-v1/f631ac53-0ef2-48c7-8f5a-60d7e28f14d1/zatca.png";
+const emiratesIdLogo = "/__l5e/assets-v1/90320287-0c6b-4621-a2fb-a512e1402eb2/emirates-id.png";
+const absherLogo = "/__l5e/assets-v1/9e0e65ec-bae5-497a-acd8-ca7ead7a41a2/absher.png";
+const nhraLogo = "/__l5e/assets-v1/20d67669-28a8-4607-88f6-318f30fb4bf8/nhra.png";
+const wasfatyLogo = "/__l5e/assets-v1/3a747971-5e20-4c49-89fc-b745fb0727f2/wasfaty.png";
 const features = [
   { icon: Siren, title: "Pre-Hospital & Ambulance Alerts", body: "Receive advance notification from EMS with patient vitals, ETA and chief complaint — so the resuscitation bay, team and equipment are ready before the ambulance doors open." },
   { icon: ClipboardList, title: "Triage & Acuity Scoring", body: "Structured triage with ESI, CTAS or MTS scoring at the point of arrival. Acuity is visible on the department board immediately so the sickest patients are seen first — every time." },

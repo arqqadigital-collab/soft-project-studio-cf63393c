@@ -17,22 +17,22 @@ const UserCog = "UserCog";
 const ChevronDown = "ChevronDown";
 const CheckCircle2 = "CheckCircle2";
 const dentalHeroVideo = "/__l5e/assets-v1/82d54afc-2b48-48a1-95ee-b5b3e576d517/dental-hero.mp4";
-const problem1 = "/src/assets/dental/problem-1.jpg";
-const problem2 = "/src/assets/dental/problem-2.jpg";
-const problem3 = "/src/assets/dental/problem-3.jpg";
-const problem4 = "/src/assets/dental/problem-4.jpg";
-const problem5 = "/src/assets/dental/problem-5.jpg";
-const problem6 = "/src/assets/dental/problem-6.jpg";
-const preVisitOnlineBooking = "/src/assets/dental/journey/pre-visit-online-booking.png";
-const checkInReception = "/src/assets/dental/journey/check-in-reception.png";
-const examinationCharting = "/src/assets/dental/journey/examination-charting.png";
-const imgVatech = "/src/assets/dental/integrations/vatech.png";
-const imgRomexis = "/src/assets/dental/integrations/romexis.png";
-const imgPlanetDds = "/src/assets/dental/integrations/planet-dds.png";
-const imgDentsply = "/src/assets/dental/integrations/dentsply-sirona.png";
-const imgCarestream = "/src/assets/dental/integrations/carestream.png";
-const imgApteryx = "/src/assets/dental/integrations/apteryx.png";
-const imgActeon = "/src/assets/dental/integrations/acteon.png";
+const problem1 = "/__l5e/assets-v1/e1da53bd-ee1e-4bb2-aad8-4beae6fb61b5/problem-1.jpg";
+const problem2 = "/__l5e/assets-v1/e702775b-504c-4652-9dfb-d1d4019a65db/problem-2.jpg";
+const problem3 = "/__l5e/assets-v1/80d4bc5e-ee3a-45fd-bfe7-452176da8f58/problem-3.jpg";
+const problem4 = "/__l5e/assets-v1/6a2649c0-b122-463a-a745-9291060eb2b8/problem-4.jpg";
+const problem5 = "/__l5e/assets-v1/2489c275-222a-4335-b921-6f02c4998524/problem-5.jpg";
+const problem6 = "/__l5e/assets-v1/36f79531-7121-4754-a912-3ea50258d80d/problem-6.jpg";
+const preVisitOnlineBooking = "/__l5e/assets-v1/2259a6a3-a80f-44e8-a5b9-2e66f6586323/pre-visit-online-booking.png";
+const checkInReception = "/__l5e/assets-v1/cb24dcea-b777-4949-86ec-72ef2064c142/check-in-reception.png";
+const examinationCharting = "/__l5e/assets-v1/ceb8b363-692f-4beb-b7e0-41a36860f7cf/examination-charting.png";
+const imgVatech = "/__l5e/assets-v1/0f102bbd-d96d-4ab7-934e-f1b5276de9d5/vatech.png";
+const imgRomexis = "/__l5e/assets-v1/853184a9-19f0-447b-9a2a-fa70bfc66078/romexis.png";
+const imgPlanetDds = "/__l5e/assets-v1/769facef-f2a9-412f-893a-e9f87898d112/planet-dds.png";
+const imgDentsply = "/__l5e/assets-v1/a24c1a75-c6ce-428b-8558-8e33acb2afde/dentsply-sirona.png";
+const imgCarestream = "/__l5e/assets-v1/ed72e0e6-c158-4ab8-9dc0-eadbff72d285/carestream.png";
+const imgApteryx = "/__l5e/assets-v1/169b7312-de2e-4689-95f5-ed2107f70535/apteryx.png";
+const imgActeon = "/__l5e/assets-v1/37a83af0-3cd4-41a7-a3cc-bec6c4afa7f1/acteon.png";
 const digitalImagingLogos = [
   { name: "Vatech", src: imgVatech },
   { name: "Romexis", src: imgRomexis },
@@ -42,20 +42,20 @@ const digitalImagingLogos = [
   { name: "Apteryx", src: imgApteryx },
   { name: "Acteon", src: imgActeon },
 ];
-const imgIntraApteryx = "/src/assets/dental/intraoral/apteryx.png";
-const imgIntraDexis = "/src/assets/dental/intraoral/dexis.png";
-const imgIntraSchick = "/src/assets/dental/intraoral/schick.png";
+const imgIntraApteryx = "/__l5e/assets-v1/1672b2ff-a36f-4797-940e-da4f11d8b2b9/apteryx.png";
+const imgIntraDexis = "/__l5e/assets-v1/2740e014-6b01-4391-bd89-14b9e2da9147/dexis.png";
+const imgIntraSchick = "/__l5e/assets-v1/1b44ea4c-2403-41c9-afa2-a60f1b819b15/schick.png";
 const intraoralLogos = [
   { name: "DEXIS", src: imgIntraDexis },
   { name: "Schick by Sirona", src: imgIntraSchick },
   { name: "Apteryx XVWeb", src: imgIntraApteryx },
 ];
-const imgAcctXero = "/src/assets/dental/accounting/xero.png";
-const imgAcctQb = "/src/assets/dental/accounting/quickbooks.png";
-const imgAcctSage = "/src/assets/dental/accounting/sage.png";
-const imgAcctStripe = "/src/assets/dental/accounting/stripe.png";
-const imgAcctNetwork = "/src/assets/dental/accounting/network.png";
-const imgAcctTelr = "/src/assets/dental/accounting/telr.png";
+const imgAcctXero = "/__l5e/assets-v1/e8792fbb-8180-432a-88c0-b9c720ab6b6a/xero.png";
+const imgAcctQb = "/__l5e/assets-v1/9f771e33-524d-498a-aef1-7e02bec994ef/quickbooks.png";
+const imgAcctSage = "/__l5e/assets-v1/ce967f82-a8af-4a5a-806f-431e7ba40034/sage.png";
+const imgAcctStripe = "/__l5e/assets-v1/35924409-c0c3-4829-a919-e15d51efd8b8/stripe.png";
+const imgAcctNetwork = "/__l5e/assets-v1/4d072e53-2b0d-4d0f-80f9-7f8436515295/network.png";
+const imgAcctTelr = "/__l5e/assets-v1/b1795079-b439-4838-afca-9cef0dcda155/telr.png";
 const accountingLogos = [
   { name: "Xero", src: imgAcctXero },
   { name: "QuickBooks", src: imgAcctQb },
@@ -64,17 +64,17 @@ const accountingLogos = [
   { name: "Network International", src: imgAcctNetwork },
   { name: "Telr", src: imgAcctTelr },
 ];
-const imgInsDha = "/src/assets/dental/insurance/dha.png";
-const imgInsDoh = "/src/assets/dental/insurance/doh.png";
-const imgInsNphies = "/src/assets/dental/insurance/nphies.png";
+const imgInsDha = "/__l5e/assets-v1/d709666f-ee59-400c-af01-51c6a6e540e9/dha.png";
+const imgInsDoh = "/__l5e/assets-v1/73af128a-129c-47eb-a564-5303818dae98/doh.png";
+const imgInsNphies = "/__l5e/assets-v1/0cf53abe-8abb-4627-8ed4-1e1479bd082b/nphies.png";
 const insuranceLogos = [
   { name: "Dubai Health Authority", src: imgInsDha },
   { name: "Department of Health Abu Dhabi", src: imgInsDoh },
   { name: "NPHIES", src: imgInsNphies },
 ];
-const treatmentPlanApproval = "/src/assets/dental/journey/treatment-plan-approval.png";
-const treatmentDeliveredDocumented = "/src/assets/dental/journey/treatment-delivered-documented.png";
-const claimPaymentRecallSet = "/src/assets/dental/journey/claim-payment-recall-set.png";
+const treatmentPlanApproval = "/__l5e/assets-v1/5ab813b3-17c9-47db-a24f-e511dab7cd2e/treatment-plan-approval.png";
+const treatmentDeliveredDocumented = "/__l5e/assets-v1/4c23a198-76fa-4833-8b64-c362cce51d8b/treatment-delivered-documented.png";
+const claimPaymentRecallSet = "/__l5e/assets-v1/552bb48d-7b0a-495d-851b-4cf677b850ab/claim-payment-recall-set.png";
 import { Footer } from "@/components/Footer";
 import { CtaSection } from "@/components/CtaSection";
 const dentalCtaVideo = "/__l5e/assets-v1/54de54d2-cc03-4382-871f-892c81816f12/dental-cta.mp4";
