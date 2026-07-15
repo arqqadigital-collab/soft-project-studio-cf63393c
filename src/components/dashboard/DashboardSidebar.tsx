@@ -10,6 +10,7 @@ import {
   BookMarked,
   CalendarDays,
   Shield,
+  MessageSquare,
 } from "lucide-react";
 import {
   Sidebar,
