@@ -14,7 +14,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import {
   Select, SelectContent, SelectItem, SelectTrigger, SelectValue, SelectGroup, SelectLabel,
 } from "@/components/ui/select";
-import { RichTextEditor } from "@/components/dashboard/RichTextEditor";
+
 import { MediaPickerDialog } from "@/components/dashboard/MediaPickerDialog";
 import { SeoEditor } from "@/components/dashboard/SeoEditor";
 import { RevisionsPanel } from "@/components/dashboard/RevisionsPanel";
@@ -243,7 +243,6 @@ export default function PageEditor() {
           <Tabs defaultValue="builder">
             <TabsList>
               <TabsTrigger value="builder">Builder</TabsTrigger>
-              <TabsTrigger value="content">Rich text</TabsTrigger>
               <TabsTrigger value="seo">SEO</TabsTrigger>
             </TabsList>
             <TabsContent value="builder" className="mt-3">
@@ -254,12 +253,6 @@ export default function PageEditor() {
                   Save the page first (title + draft) to start adding sections.
                 </div>
               )}
-            </TabsContent>
-            <TabsContent value="content" className="mt-3">
-              <RichTextEditor value={form.content} onChange={(html) => patch("content", html)} />
-              <p className="mt-2 text-xs text-muted-foreground">
-                Only used when this page has no builder sections.
-              </p>
             </TabsContent>
             <TabsContent value="seo" className="mt-3">
               <SeoEditor

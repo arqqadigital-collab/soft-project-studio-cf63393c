@@ -116,8 +116,11 @@ function Container({ children, className = "" }: { children: React.ReactNode; cl
 
 function HeroRender({ data }: { data: SectionData }) {
   const isVideo = data.mediaKind === "video" && data.mediaUrl;
+  const style = sectionStyle(data);
+  const bgClass = data.bgColor ? "" : "bg-[var(--brand-dark)]";
+  const txtClass = data.textColor ? "" : "text-white";
   return (
-    <section className="relative overflow-hidden bg-[var(--brand-dark)] text-white">
+    <section className={`relative overflow-hidden ${bgClass} ${txtClass}`} style={style}>
       {isVideo && (
         <video
           src={data.mediaUrl}
@@ -131,15 +134,15 @@ function HeroRender({ data }: { data: SectionData }) {
       <div className="absolute inset-0 bg-gradient-to-b from-black/40 via-black/20 to-black/70" />
       <Container className="relative py-28 md:py-40">
         {data.eyebrow && (
-          <div className="text-xs font-bold uppercase tracking-[0.2em] text-white/70">{data.eyebrow}</div>
+          <div className="text-xs font-bold uppercase tracking-[0.2em] opacity-70">{data.eyebrow}</div>
         )}
         <h1 className="mt-4 text-4xl font-bold tracking-tight md:text-6xl">{data.headline}</h1>
         {data.subheadline && (
-          <p className="mt-6 max-w-2xl text-lg text-white/85">{data.subheadline}</p>
+          <p className="mt-6 max-w-2xl text-lg opacity-90">{data.subheadline}</p>
         )}
         {data.ctaLabel && (
           <div className="mt-8">
-            <Button asChild size="lg">
+            <Button asChild size="lg" style={data.accentColor ? { background: data.accentColor, color: "#fff" } : undefined}>
               <Link to={data.ctaHref || "#"}>{data.ctaLabel}</Link>
             </Button>
           </div>
@@ -148,6 +151,7 @@ function HeroRender({ data }: { data: SectionData }) {
     </section>
   );
 }
+
 
 function HeroEdit({ data, onChange }: { data: SectionData; onChange: (n: SectionData) => void }) {
   const p = (patch: Partial<SectionData>) => onChange({ ...data, ...patch });
@@ -166,20 +170,22 @@ function HeroEdit({ data, onChange }: { data: SectionData; onChange: (n: Section
         onChange={(url, kind) => p({ mediaUrl: url, mediaKind: kind === "video" ? "video" : "image" })}
         accept="image|video"
       />
+      <ColorFields data={data} onChange={onChange} showAccent />
     </div>
   );
 }
 
+
 function StatsRender({ data }: { data: SectionData }) {
   return (
-    <section className="bg-background py-20">
+    <section className={data.bgColor ? "py-20" : "bg-background py-20"} style={sectionStyle(data)}>
       <Container>
-        {data.heading && <h2 className="text-3xl font-bold text-foreground md:text-4xl">{data.heading}</h2>}
+        {data.heading && <h2 className="text-3xl font-bold md:text-4xl">{data.heading}</h2>}
         <div className="mt-10 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
           {(data.items ?? []).map((s: any, i: number) => (
-            <div key={i} className="rounded-2xl border border-border bg-card p-6">
-              <div className="text-3xl font-bold text-primary md:text-4xl">{s.value}</div>
-              <div className="mt-2 text-sm text-muted-foreground">{s.label}</div>
+            <div key={i} className="rounded-2xl border border-border bg-card p-6" style={data.textColor ? { color: data.textColor } : undefined}>
+              <div className="text-3xl font-bold md:text-4xl" style={{ color: data.accentColor || "hsl(var(--primary))" }}>{s.value}</div>
+              <div className="mt-2 text-sm opacity-80">{s.label}</div>
             </div>
           ))}
         </div>
@@ -205,24 +211,25 @@ function StatsEdit({ data, onChange }: { data: SectionData; onChange: (n: Sectio
           </>
         )}
       />
+      <ColorFields data={data} onChange={onChange} showAccent />
     </div>
   );
 }
 
 function FeaturesRender({ data }: { data: SectionData }) {
   return (
-    <section className="bg-muted/40 py-20">
+    <section className={data.bgColor ? "py-20" : "bg-muted/40 py-20"} style={sectionStyle(data)}>
       <Container>
-        {data.heading && <h2 className="text-3xl font-bold text-foreground md:text-4xl">{data.heading}</h2>}
-        {data.subheading && <p className="mt-3 max-w-3xl text-lg text-muted-foreground">{data.subheading}</p>}
+        {data.heading && <h2 className="text-3xl font-bold md:text-4xl">{data.heading}</h2>}
+        {data.subheading && <p className="mt-3 max-w-3xl text-lg opacity-80">{data.subheading}</p>}
         <div className="mt-12 grid gap-6 md:grid-cols-2 lg:grid-cols-3">
           {(data.items ?? []).map((f: any, i: number) => (
-            <div key={i} className="rounded-2xl border border-border bg-background p-6 shadow-sm">
-              <div className="flex h-11 w-11 items-center justify-center rounded-xl bg-primary/10 text-primary">
+            <div key={i} className="rounded-2xl border border-border bg-background p-6 shadow-sm" style={data.textColor ? { color: data.textColor } : undefined}>
+              <div className="flex h-11 w-11 items-center justify-center rounded-xl" style={{ background: data.accentColor ? `${data.accentColor}20` : "hsl(var(--primary)/0.1)", color: data.accentColor || "hsl(var(--primary))" }}>
                 <IconByName name={f.icon} className="h-5 w-5" />
               </div>
-              <h3 className="mt-4 text-lg font-semibold text-foreground">{f.title}</h3>
-              <p className="mt-2 text-sm leading-relaxed text-muted-foreground">{f.description}</p>
+              <h3 className="mt-4 text-lg font-semibold">{f.title}</h3>
+              <p className="mt-2 text-sm leading-relaxed opacity-80">{f.description}</p>
             </div>
           ))}
         </div>
@@ -230,6 +237,7 @@ function FeaturesRender({ data }: { data: SectionData }) {
     </section>
   );
 }
+
 
 function FeaturesEdit({ data, onChange }: { data: SectionData; onChange: (n: SectionData) => void }) {
   const p = (patch: Partial<SectionData>) => onChange({ ...data, ...patch });
@@ -250,23 +258,28 @@ function FeaturesEdit({ data, onChange }: { data: SectionData; onChange: (n: Sec
           </>
         )}
       />
+      <ColorFields data={data} onChange={onChange} showAccent />
     </div>
   );
 }
 
 function CtaRender({ data }: { data: SectionData }) {
+  const bgClass = data.bgColor ? "" : "bg-[var(--brand-dark)]";
+  const txtClass = data.textColor ? "" : "text-white";
   return (
-    <section className="relative overflow-hidden bg-[var(--brand-dark)] py-20 text-white">
+    <section className={`relative overflow-hidden py-20 ${bgClass} ${txtClass}`} style={sectionStyle(data)}>
       {data.mediaUrl && (
         <video src={data.mediaUrl} autoPlay muted loop playsInline className="absolute inset-0 h-full w-full object-cover opacity-30" />
       )}
       <div className="absolute inset-0 bg-gradient-to-r from-black/60 to-black/30" />
       <Container className="relative">
         <h2 className="text-3xl font-bold md:text-4xl">{data.headline}</h2>
-        {data.body && <p className="mt-3 max-w-2xl text-white/85">{data.body}</p>}
+        {data.body && <p className="mt-3 max-w-2xl opacity-90">{data.body}</p>}
         <div className="mt-8 flex flex-wrap gap-3">
           {data.primaryLabel && (
-            <Button asChild size="lg"><Link to={data.primaryHref || "#"}>{data.primaryLabel}</Link></Button>
+            <Button asChild size="lg" style={data.accentColor ? { background: data.accentColor, color: "#fff" } : undefined}>
+              <Link to={data.primaryHref || "#"}>{data.primaryLabel}</Link>
+            </Button>
           )}
           {data.secondaryLabel && (
             <Button asChild size="lg" variant="outline" className="border-white/40 bg-transparent text-white hover:bg-white/10">
@@ -278,6 +291,7 @@ function CtaRender({ data }: { data: SectionData }) {
     </section>
   );
 }
+
 
 function CtaEdit({ data, onChange }: { data: SectionData; onChange: (n: SectionData) => void }) {
   const p = (patch: Partial<SectionData>) => onChange({ ...data, ...patch });
@@ -292,6 +306,7 @@ function CtaEdit({ data, onChange }: { data: SectionData; onChange: (n: SectionD
         <Field label="Secondary link"><Input value={data.secondaryHref ?? ""} onChange={(e) => p({ secondaryHref: e.target.value })} /></Field>
       </div>
       <MediaField label="Background media" value={data.mediaUrl ?? ""} onChange={(url) => p({ mediaUrl: url })} accept="image|video" />
+      <ColorFields data={data} onChange={onChange} showAccent />
     </div>
   );
 }
@@ -319,18 +334,19 @@ function RichTextEdit({ data, onChange }: { data: SectionData; onChange: (n: Sec
 
 function MediaRender({ data }: { data: SectionData }) {
   return (
-    <section className="bg-background py-16">
+    <section className={data.bgColor ? "py-16" : "bg-background py-16"} style={sectionStyle(data)}>
       <Container>
         {data.mediaKind === "video" ? (
           <video src={data.mediaUrl} controls className="w-full rounded-2xl" />
         ) : (
           <img src={data.mediaUrl} alt={data.alt ?? ""} className="w-full rounded-2xl" />
         )}
-        {data.caption && <p className="mt-3 text-center text-sm text-muted-foreground">{data.caption}</p>}
+        {data.caption && <p className="mt-3 text-center text-sm opacity-80">{data.caption}</p>}
       </Container>
     </section>
   );
 }
+
 
 function MediaEdit({ data, onChange }: { data: SectionData; onChange: (n: SectionData) => void }) {
   const p = (patch: Partial<SectionData>) => onChange({ ...data, ...patch });
@@ -343,15 +359,16 @@ function MediaEdit({ data, onChange }: { data: SectionData; onChange: (n: Sectio
         accept="image|video"
       />
       <Field label="Caption"><Input value={data.caption ?? ""} onChange={(e) => p({ caption: e.target.value })} /></Field>
+      <ColorFields data={data} onChange={onChange} />
     </div>
   );
 }
 
 function LogosRender({ data }: { data: SectionData }) {
   return (
-    <section className="bg-muted/40 py-16">
+    <section className={data.bgColor ? "py-16" : "bg-muted/40 py-16"} style={sectionStyle(data)}>
       <Container>
-        {data.heading && <h2 className="text-center text-xl font-semibold text-foreground">{data.heading}</h2>}
+        {data.heading && <h2 className="text-center text-xl font-semibold">{data.heading}</h2>}
         <div className="mt-10 grid grid-cols-2 gap-6 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6">
           {(data.items ?? []).map((l: any, i: number) => (
             <div key={i} className="flex h-20 items-center justify-center rounded-xl bg-background p-4">
@@ -363,6 +380,7 @@ function LogosRender({ data }: { data: SectionData }) {
     </section>
   );
 }
+
 
 function LogosEdit({ data, onChange }: { data: SectionData; onChange: (n: SectionData) => void }) {
   const p = (patch: Partial<SectionData>) => onChange({ ...data, ...patch });
@@ -381,22 +399,23 @@ function LogosEdit({ data, onChange }: { data: SectionData; onChange: (n: Sectio
           </>
         )}
       />
+      <ColorFields data={data} onChange={onChange} />
     </div>
   );
 }
 
 function FaqRender({ data }: { data: SectionData }) {
   return (
-    <section className="bg-background py-20">
+    <section className={data.bgColor ? "py-20" : "bg-background py-20"} style={sectionStyle(data)}>
       <Container>
-        {data.heading && <h2 className="text-3xl font-bold text-foreground md:text-4xl">{data.heading}</h2>}
+        {data.heading && <h2 className="text-3xl font-bold md:text-4xl">{data.heading}</h2>}
         <div className="mt-8 divide-y divide-border rounded-2xl border border-border">
           {(data.items ?? []).map((f: any, i: number) => (
             <details key={i} className="group p-6">
-              <summary className="cursor-pointer list-none text-base font-semibold text-foreground marker:hidden">
+              <summary className="cursor-pointer list-none text-base font-semibold marker:hidden">
                 {f.q}
               </summary>
-              <p className="mt-3 text-sm leading-relaxed text-muted-foreground">{f.a}</p>
+              <p className="mt-3 text-sm leading-relaxed opacity-80">{f.a}</p>
             </details>
           ))}
         </div>
@@ -404,6 +423,7 @@ function FaqRender({ data }: { data: SectionData }) {
     </section>
   );
 }
+
 
 function FaqEdit({ data, onChange }: { data: SectionData; onChange: (n: SectionData) => void }) {
   const p = (patch: Partial<SectionData>) => onChange({ ...data, ...patch });
@@ -422,6 +442,7 @@ function FaqEdit({ data, onChange }: { data: SectionData; onChange: (n: SectionD
           </>
         )}
       />
+      <ColorFields data={data} onChange={onChange} />
     </div>
   );
 }
@@ -434,6 +455,51 @@ function Field({ label, children }: { label: string; children: React.ReactNode }
     </div>
   );
 }
+
+function ColorInput({ value, onChange }: { value: string; onChange: (v: string) => void }) {
+  return (
+    <div className="flex items-center gap-2">
+      <input
+        type="color"
+        value={value || "#000000"}
+        onChange={(e) => onChange(e.target.value)}
+        className="h-9 w-12 cursor-pointer rounded border border-border bg-transparent p-0"
+      />
+      <Input value={value ?? ""} onChange={(e) => onChange(e.target.value)} placeholder="#0b0f19 or transparent" />
+      {value && <Button size="sm" variant="ghost" onClick={() => onChange("")}>Clear</Button>}
+    </div>
+  );
+}
+
+export function ColorFields({
+  data, onChange, showAccent = false,
+}: {
+  data: SectionData;
+  onChange: (n: SectionData) => void;
+  showAccent?: boolean;
+}) {
+  const p = (patch: Partial<SectionData>) => onChange({ ...data, ...patch });
+  return (
+    <div className="mt-3 rounded-md border border-dashed border-border p-3">
+      <div className="mb-2 text-xs font-medium text-muted-foreground">Colors</div>
+      <div className="grid gap-3 md:grid-cols-2">
+        <Field label="Background"><ColorInput value={data.bgColor ?? ""} onChange={(v) => p({ bgColor: v })} /></Field>
+        <Field label="Text"><ColorInput value={data.textColor ?? ""} onChange={(v) => p({ textColor: v })} /></Field>
+        {showAccent && (
+          <Field label="Accent"><ColorInput value={data.accentColor ?? ""} onChange={(v) => p({ accentColor: v })} /></Field>
+        )}
+      </div>
+    </div>
+  );
+}
+
+export function sectionStyle(data: SectionData): React.CSSProperties {
+  const s: React.CSSProperties = {};
+  if (data.bgColor) s.background = data.bgColor;
+  if (data.textColor) s.color = data.textColor;
+  return s;
+}
+
 
 // ---- Registry ----
 export const SECTION_REGISTRY: Record<SectionKind, SectionDef> = {
