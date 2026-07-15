@@ -162,6 +162,7 @@ export default function PageEditor() {
       dirtyRef.current = false;
       setLastSavedAt(new Date());
       qc.invalidateQueries({ queryKey: ["pages"] });
+      qc.invalidateQueries({ queryKey: ["nav-tree"] });
       qc.invalidateQueries({ queryKey: ["page", pid] });
       if (!opts?.silent) toast.success("Saved");
     } catch (e: any) {
