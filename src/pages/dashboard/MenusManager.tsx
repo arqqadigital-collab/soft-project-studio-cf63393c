@@ -77,13 +77,13 @@ export default function MenusManager() {
     refresh();
   }
 
-  async function updateGroup(id: string, patch: Record<string, any>) {
+  async function updateGroup(id: string, patch: Partial<{ label: string; slug: string; position: number; is_visible: boolean }>) {
     const { error } = await supabase.from("nav_groups").update(patch).eq("id", id);
     if (error) return toast.error(error.message);
     refresh();
   }
 
-  async function updateSection(id: string, patch: Record<string, any>) {
+  async function updateSection(id: string, patch: Partial<{ label: string; description: string | null; href: string | null; position: number; is_visible: boolean }>) {
     const { error } = await supabase.from("nav_sections").update(patch).eq("id", id);
     if (error) return toast.error(error.message);
     refresh();
