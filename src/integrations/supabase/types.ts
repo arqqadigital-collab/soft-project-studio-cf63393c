@@ -14,6 +14,36 @@ export type Database = {
   }
   public: {
     Tables: {
+      admin_audit_log: {
+        Row: {
+          action: string
+          actor_id: string | null
+          created_at: string
+          id: string
+          ip: string | null
+          metadata: Json | null
+          target_user_id: string | null
+        }
+        Insert: {
+          action: string
+          actor_id?: string | null
+          created_at?: string
+          id?: string
+          ip?: string | null
+          metadata?: Json | null
+          target_user_id?: string | null
+        }
+        Update: {
+          action?: string
+          actor_id?: string | null
+          created_at?: string
+          id?: string
+          ip?: string | null
+          metadata?: Json | null
+          target_user_id?: string | null
+        }
+        Relationships: []
+      }
       categories: {
         Row: {
           created_at: string
@@ -51,6 +81,33 @@ export type Database = {
             referencedColumns: ["id"]
           },
         ]
+      }
+      content_revisions: {
+        Row: {
+          created_at: string
+          editor_id: string | null
+          entity_id: string
+          entity_type: string
+          id: string
+          snapshot: Json
+        }
+        Insert: {
+          created_at?: string
+          editor_id?: string | null
+          entity_id: string
+          entity_type: string
+          id?: string
+          snapshot: Json
+        }
+        Update: {
+          created_at?: string
+          editor_id?: string | null
+          entity_id?: string
+          entity_type?: string
+          id?: string
+          snapshot?: Json
+        }
+        Relationships: []
       }
       media: {
         Row: {
@@ -103,6 +160,8 @@ export type Database = {
           id: string
           referrer: string | null
           viewed_at: string
+          viewed_day: string
+          viewer_hash: string | null
         }
         Insert: {
           entity_id: string
@@ -110,6 +169,8 @@ export type Database = {
           id?: string
           referrer?: string | null
           viewed_at?: string
+          viewed_day?: string
+          viewer_hash?: string | null
         }
         Update: {
           entity_id?: string
@@ -117,6 +178,8 @@ export type Database = {
           id?: string
           referrer?: string | null
           viewed_at?: string
+          viewed_day?: string
+          viewer_hash?: string | null
         }
         Relationships: []
       }
@@ -128,6 +191,7 @@ export type Database = {
           featured_image_url: string | null
           id: string
           parent_id: string | null
+          preview_token: string
           slug: string
           status: Database["public"]["Enums"]["page_status"]
           template: Database["public"]["Enums"]["page_template"]
@@ -141,6 +205,7 @@ export type Database = {
           featured_image_url?: string | null
           id?: string
           parent_id?: string | null
+          preview_token?: string
           slug: string
           status?: Database["public"]["Enums"]["page_status"]
           template?: Database["public"]["Enums"]["page_template"]
@@ -154,6 +219,7 @@ export type Database = {
           featured_image_url?: string | null
           id?: string
           parent_id?: string | null
+          preview_token?: string
           slug?: string
           status?: Database["public"]["Enums"]["page_status"]
           template?: Database["public"]["Enums"]["page_template"]
@@ -216,6 +282,7 @@ export type Database = {
           excerpt: string | null
           featured_image_url: string | null
           id: string
+          preview_token: string
           published_at: string | null
           slug: string
           status: Database["public"]["Enums"]["post_status"]
@@ -230,6 +297,7 @@ export type Database = {
           excerpt?: string | null
           featured_image_url?: string | null
           id?: string
+          preview_token?: string
           published_at?: string | null
           slug: string
           status?: Database["public"]["Enums"]["post_status"]
@@ -244,6 +312,7 @@ export type Database = {
           excerpt?: string | null
           featured_image_url?: string | null
           id?: string
+          preview_token?: string
           published_at?: string | null
           slug?: string
           status?: Database["public"]["Enums"]["post_status"]
