@@ -147,6 +147,8 @@ export default function ArticleDetail() {
         canonical={canonical}
         ogImage={ogImage}
         ogType="article"
+        noindex={!!seo?.noindex}
+        nofollow={!!seo?.nofollow}
         jsonLd={{
           "@context": "https://schema.org",
           "@type": "Article",
