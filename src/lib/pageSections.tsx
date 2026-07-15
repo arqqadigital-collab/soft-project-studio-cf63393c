@@ -164,15 +164,28 @@ function HeroEdit({ data, onChange }: { data: SectionData; onChange: (n: Section
         <Field label="CTA label"><Input value={data.ctaLabel ?? ""} onChange={(e) => p({ ctaLabel: e.target.value })} /></Field>
         <Field label="CTA link"><Input value={data.ctaHref ?? ""} onChange={(e) => p({ ctaHref: e.target.value })} /></Field>
       </div>
+function HeroEdit({ data, onChange }: { data: SectionData; onChange: (n: SectionData) => void }) {
+  const p = (patch: Partial<SectionData>) => onChange({ ...data, ...patch });
+  return (
+    <div className="space-y-3">
+      <Field label="Eyebrow"><Input value={data.eyebrow ?? ""} onChange={(e) => p({ eyebrow: e.target.value })} /></Field>
+      <Field label="Headline"><Input value={data.headline ?? ""} onChange={(e) => p({ headline: e.target.value })} /></Field>
+      <Field label="Sub-headline"><Textarea value={data.subheadline ?? ""} rows={3} onChange={(e) => p({ subheadline: e.target.value })} /></Field>
+      <div className="grid grid-cols-2 gap-3">
+        <Field label="CTA label"><Input value={data.ctaLabel ?? ""} onChange={(e) => p({ ctaLabel: e.target.value })} /></Field>
+        <Field label="CTA link"><Input value={data.ctaHref ?? ""} onChange={(e) => p({ ctaHref: e.target.value })} /></Field>
+      </div>
       <MediaField
         label="Background media"
         value={data.mediaUrl ?? ""}
         onChange={(url, kind) => p({ mediaUrl: url, mediaKind: kind === "video" ? "video" : "image" })}
         accept="image|video"
       />
+      <ColorFields data={data} onChange={onChange} showAccent />
     </div>
   );
 }
+
 
 function StatsRender({ data }: { data: SectionData }) {
   return (
