@@ -50,6 +50,7 @@ export default function PageEditor() {
   const qc = useQueryClient();
 
   const [pageId, setPageId] = useState<string | null>(isNew ? null : id!);
+  const [previewToken, setPreviewToken] = useState<string | null>(null);
   const [form, setForm] = useState<PageForm>(EMPTY);
   const [slugTouched, setSlugTouched] = useState(false);
   const [saving, setSaving] = useState(false);
