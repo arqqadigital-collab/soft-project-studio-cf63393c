@@ -376,14 +376,17 @@ function CtaEdit({ data, onChange }: { data: SectionData; onChange: (n: SectionD
   return (
     <div className="space-y-3">
       <Field label="Headline"><Input value={data.headline ?? ""} onChange={(e) => p({ headline: e.target.value })} /></Field>
-      <Field label="Body"><Textarea value={data.body ?? ""} rows={2} onChange={(e) => p({ body: e.target.value })} /></Field>
+      <Field label="Headline accent (gradient part, optional)"><Input value={data.headlineAccent ?? ""} onChange={(e) => p({ headlineAccent: e.target.value })} /></Field>
+      <Field label="Body"><Textarea value={data.body ?? ""} rows={3} onChange={(e) => p({ body: e.target.value })} /></Field>
+      <Field label="Body (second paragraph, optional)"><Textarea value={data.body2 ?? ""} rows={3} onChange={(e) => p({ body2: e.target.value })} /></Field>
       <div className="grid grid-cols-2 gap-3">
         <Field label="Primary label"><Input value={data.primaryLabel ?? ""} onChange={(e) => p({ primaryLabel: e.target.value })} /></Field>
         <Field label="Primary link"><Input value={data.primaryHref ?? ""} onChange={(e) => p({ primaryHref: e.target.value })} /></Field>
         <Field label="Secondary label"><Input value={data.secondaryLabel ?? ""} onChange={(e) => p({ secondaryLabel: e.target.value })} /></Field>
         <Field label="Secondary link"><Input value={data.secondaryHref ?? ""} onChange={(e) => p({ secondaryHref: e.target.value })} /></Field>
       </div>
-      <MediaField label="Background media" value={data.mediaUrl ?? ""} onChange={(url) => p({ mediaUrl: url })} accept="image|video" />
+      <Field label="Footnote (small italic text below buttons, optional)"><Textarea value={data.footnote ?? ""} rows={2} onChange={(e) => p({ footnote: e.target.value })} /></Field>
+      <MediaField label="Background media (image or video)" value={data.mediaUrl ?? ""} onChange={(url, kind) => p({ mediaUrl: url, mediaKind: kind === "video" ? "video" : "image" })} accept="image|video" />
       <ColorFields data={data} onChange={onChange} showAccent />
     </div>
   );
