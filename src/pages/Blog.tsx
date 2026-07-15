@@ -147,6 +147,14 @@ export default function Blog() {
         description="Thought leadership, industry trends, and practical guidance for healthcare, ERP, and technology leaders."
         ogType="website"
       />
+      <Helmet>
+        <link
+          rel="alternate"
+          type="application/rss+xml"
+          title="Blog RSS"
+          href={`${import.meta.env.VITE_SUPABASE_URL}/functions/v1/rss`}
+        />
+      </Helmet>
 
       {/* Hero */}
       <section className="relative overflow-hidden bg-background pb-16 pt-32 md:pb-24 md:pt-40">
