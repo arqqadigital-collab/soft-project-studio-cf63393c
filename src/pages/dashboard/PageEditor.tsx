@@ -30,6 +30,8 @@ interface PageForm {
   status: Status;
   template: Template;
   parent_id: string | null;
+  section_id: string | null;
+  nav_label: string;
 }
 
 const EMPTY: PageForm = {
@@ -40,6 +42,8 @@ const EMPTY: PageForm = {
   status: "draft",
   template: "default",
   parent_id: null,
+  section_id: null,
+  nav_label: "",
 };
 
 export default function PageEditor() {
