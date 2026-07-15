@@ -93,6 +93,17 @@ export default function SettingsPage() {
             <Label>Site description</Label>
             <Textarea rows={3} value={form.site_description ?? ""} onChange={(e) => update({ site_description: e.target.value })} />
           </div>
+          <div className="space-y-2">
+            <Label>Site URL</Label>
+            <Input
+              value={form.site_url ?? ""}
+              onChange={(e) => update({ site_url: e.target.value })}
+              placeholder="https://example.com"
+            />
+            <p className="text-xs text-muted-foreground">
+              Used in sitemap.xml and RSS to emit absolute URLs. No trailing slash.
+            </p>
+          </div>
         </CardContent>
       </Card>
 
