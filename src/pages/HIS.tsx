@@ -386,8 +386,10 @@ export default function HIS() {
           </div>
         </div>
       </section>
+      )}
 
       {/* SOLUTION / FEATURES */}
+      {v["The Platform"] && (
       <section
         className="px-6 py-24 md:px-12"
         style={{ background: "color-mix(in oklab, var(--brand-blue) 4%, var(--background))" }}
