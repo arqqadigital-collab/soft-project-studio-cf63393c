@@ -1,0 +1,143 @@
+import { useEffect, useState } from "react";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { supabase } from "@/integrations/supabase/client";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { Textarea } from "@/components/ui/textarea";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { MediaPickerDialog } from "@/components/dashboard/MediaPickerDialog";
+import { toast } from "sonner";
+
+type Settings = {
+  id?: string;
+  site_title: string | null;
+  site_description: string | null;
+  site_logo_url: string | null;
+  favicon_url: string | null;
+  default_meta_title: string | null;
+  default_meta_description: string | null;
+};
+
+const EMPTY: Settings = {
+  site_title: "",
+  site_description: "",
+  site_logo_url: "",
+  favicon_url: "",
+  default_meta_title: "",
+  default_meta_description: "",
+};
+
+export default function SettingsPage() {
+  const qc = useQueryClient();
+  const [form, setForm] = useState<Settings>(EMPTY);
+
+  const q = useQuery({
+    queryKey: ["site-settings"],
+    queryFn: async () => {
+      const { data, error } = await supabase.from("site_settings").select("*").maybeSingle();
+      if (error) throw error;
+      return data;
+    },
+  });
+
+  useEffect(() => {
+    if (q.data) setForm({ ...EMPTY, ...q.data });
+  }, [q.data]);
+
+  const save = useMutation({
+    mutationFn: async () => {
+      const payload = { ...form, singleton: true };
+      if (q.data?.id) {
+        const { error } = await supabase.from("site_settings").update(payload).eq("id", q.data.id);
+        if (error) throw error;
+      } else {
+        const { error } = await supabase.from("site_settings").insert(payload);
+        if (error) throw error;
+      }
+    },
+    onSuccess: () => {
+      toast.success("Settings saved");
+      qc.invalidateQueries({ queryKey: ["site-settings"] });
+    },
+    onError: (e: any) => toast.error(e.message),
+  });
+
+  const update = (patch: Partial<Settings>) => setForm((f) => ({ ...f, ...patch }));
+
+  return (
+    <div className="space-y-6">
+      <div className="flex items-center justify-between">
+        <div>
+          <h1 className="text-2xl font-semibold">Settings</h1>
+          <p className="text-sm text-muted-foreground">Site-wide configuration.</p>
+        </div>
+        <Button onClick={() => save.mutate()} disabled={save.isPending}>
+          {save.isPending ? "Saving…" : "Save changes"}
+        </Button>
+      </div>
+
+      <Card>
+        <CardHeader><CardTitle>General</CardTitle></CardHeader>
+        <CardContent className="space-y-4">
+          <div className="space-y-2">
+            <Label>Site title</Label>
+            <Input value={form.site_title ?? ""} onChange={(e) => update({ site_title: e.target.value })} />
+          </div>
+          <div className="space-y-2">
+            <Label>Site description</Label>
+            <Textarea rows={3} value={form.site_description ?? ""} onChange={(e) => update({ site_description: e.target.value })} />
+          </div>
+        </CardContent>
+      </Card>
+
+      <Card>
+        <CardHeader><CardTitle>Branding</CardTitle></CardHeader>
+        <CardContent className="grid gap-4 sm:grid-cols-2">
+          <div className="space-y-2">
+            <Label>Logo</Label>
+            {form.site_logo_url ? (
+              <img src={form.site_logo_url} alt="Logo" className="h-16 rounded border bg-muted p-2 object-contain" />
+            ) : null}
+            <div className="flex gap-2">
+              <MediaPickerDialog onSelect={(m) => update({ site_logo_url: m.file_url })}>
+                <Button variant="outline" type="button">Choose logo</Button>
+              </MediaPickerDialog>
+              {form.site_logo_url ? (
+                <Button variant="ghost" type="button" onClick={() => update({ site_logo_url: null })}>Remove</Button>
+              ) : null}
+            </div>
+          </div>
+          <div className="space-y-2">
+            <Label>Favicon</Label>
+            {form.favicon_url ? (
+              <img src={form.favicon_url} alt="Favicon" className="h-12 w-12 rounded border bg-muted p-1 object-contain" />
+            ) : null}
+            <div className="flex gap-2">
+              <MediaPickerDialog onSelect={(m) => update({ favicon_url: m.file_url })}>
+                <Button variant="outline" type="button">Choose favicon</Button>
+              </MediaPickerDialog>
+              {form.favicon_url ? (
+                <Button variant="ghost" type="button" onClick={() => update({ favicon_url: null })}>Remove</Button>
+              ) : null}
+            </div>
+          </div>
+        </CardContent>
+      </Card>
+
+      <Card>
+        <CardHeader><CardTitle>Default SEO</CardTitle></CardHeader>
+        <CardContent className="space-y-4">
+          <div className="space-y-2">
+            <Label>Default meta title</Label>
+            <Input value={form.default_meta_title ?? ""} onChange={(e) => update({ default_meta_title: e.target.value })} />
+          </div>
+          <div className="space-y-2">
+            <Label>Default meta description</Label>
+            <Textarea rows={3} value={form.default_meta_description ?? ""} onChange={(e) => update({ default_meta_description: e.target.value })} />
+          </div>
+        </CardContent>
+      </Card>
+    </div>
+  );
+}
