@@ -124,6 +124,8 @@ export default function PublicPage() {
         canonical={canonical}
         ogImage={ogImage}
         ogType="website"
+        noindex={!!seo?.noindex}
+        nofollow={!!seo?.nofollow}
       />
 
       <section className={isLanding ? "pt-24" : "pt-32 md:pt-40"}>
