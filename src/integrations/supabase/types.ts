@@ -184,6 +184,27 @@ export type Database = {
         }
         Relationships: []
       }
+      homepage_sections: {
+        Row: {
+          content: Json
+          section_key: string
+          updated_at: string
+          updated_by: string | null
+        }
+        Insert: {
+          content?: Json
+          section_key: string
+          updated_at?: string
+          updated_by?: string | null
+        }
+        Update: {
+          content?: Json
+          section_key?: string
+          updated_at?: string
+          updated_by?: string | null
+        }
+        Relationships: []
+      }
       media: {
         Row: {
           alt_text: string | null
