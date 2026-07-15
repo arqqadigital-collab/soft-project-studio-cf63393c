@@ -1,10 +1,11 @@
 import { Link } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
-import { FileText, FileStack, Image, Users, Plus } from "lucide-react";
+import { FileText, FileStack, Image, Users, Plus, Tags, Eye } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { formatDistanceToNow } from "date-fns";
+import { getBuiltinMedia } from "@/lib/builtinMedia";
 
 function StatCard({ label, value, icon: Icon }: { label: string; value: number | string; icon: any }) {
   return (
