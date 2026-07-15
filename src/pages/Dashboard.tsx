@@ -12,6 +12,7 @@ import Taxonomy from "./dashboard/Taxonomy";
 import Users from "./dashboard/Users";
 import Analytics from "./dashboard/Analytics";
 import SettingsPage from "./dashboard/Settings";
+import SeoDashboard from "./dashboard/SeoDashboard";
 import { RoleGate } from "@/components/dashboard/RoleGate";
 
 export default function Dashboard() {
