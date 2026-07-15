@@ -249,8 +249,7 @@ export default function Dental() {
   const problemRef = useRef<HTMLDivElement>(null);
   const { viewportRef: problemViewportRef, trackRef: problemTrackRef, x: problemX } = useHorizontalScroll(problemRef, [0.15, 0.82]);
 
-  ;(globalThis as any).__PAGE_LOCALS_Dental = { problemRef: (typeof problemRef !== 'undefined' ? problemRef : undefined) };
-return (
+  return (
     <>
       {/* HERO */}
       <main className="pt-20 relative min-h-[90vh] w-full overflow-hidden bg-[var(--brand-dark)]">
@@ -604,5 +603,4 @@ return (
   );
 }
 
-export const __TOP = { digitalImagingLogos: (typeof digitalImagingLogos !== 'undefined' ? digitalImagingLogos : undefined), intraoralLogos: (typeof intraoralLogos !== 'undefined' ? intraoralLogos : undefined), accountingLogos: (typeof accountingLogos !== 'undefined' ? accountingLogos : undefined), insuranceLogos: (typeof insuranceLogos !== 'undefined' ? insuranceLogos : undefined), problems: (typeof problems !== 'undefined' ? problems : undefined), features: (typeof features !== 'undefined' ? features : undefined), journey: (typeof journey !== 'undefined' ? journey : undefined), stats: (typeof stats !== 'undefined' ? stats : undefined), integrationGroups: (typeof integrationGroups !== 'undefined' ? integrationGroups : undefined), faqs: (typeof faqs !== 'undefined' ? faqs : undefined) };
-
+export const __EXTRACTED = { digitalImagingLogos: (typeof digitalImagingLogos !== 'undefined' ? digitalImagingLogos : undefined), intraoralLogos: (typeof intraoralLogos !== 'undefined' ? intraoralLogos : undefined), accountingLogos: (typeof accountingLogos !== 'undefined' ? accountingLogos : undefined), insuranceLogos: (typeof insuranceLogos !== 'undefined' ? insuranceLogos : undefined), problems: (typeof problems !== 'undefined' ? problems : undefined), features: (typeof features !== 'undefined' ? features : undefined), journey: (typeof journey !== 'undefined' ? journey : undefined), stats: (typeof stats !== 'undefined' ? stats : undefined), integrationGroups: (typeof integrationGroups !== 'undefined' ? integrationGroups : undefined), faqs: (typeof faqs !== 'undefined' ? faqs : undefined) };
