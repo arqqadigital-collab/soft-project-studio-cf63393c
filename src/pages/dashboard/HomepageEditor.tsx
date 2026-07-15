@@ -14,6 +14,10 @@ import {
 import { Slider } from "@/components/ui/slider";
 import { MediaPickerDialog } from "@/components/dashboard/MediaPickerDialog";
 
+type Size = "sm" | "md" | "lg" | "xl";
+type Align = "left" | "center" | "right";
+type VPos = "top" | "center" | "bottom";
+
 interface HeroForm {
   heading_line1: string;
   heading_line2: string;
@@ -23,6 +27,16 @@ interface HeroForm {
   background_url: string;
   background_type: "video" | "image";
   overlay_opacity: number;
+  heading_line1_color: string;
+  heading_line2_from: string;
+  heading_line2_to: string;
+  subheadline_color: string;
+  cta_bg_from: string;
+  cta_bg_to: string;
+  cta_text_color: string;
+  heading_size: Size;
+  text_align: Align;
+  vertical_position: VPos;
 }
 
 const EMPTY: HeroForm = {
@@ -34,7 +48,38 @@ const EMPTY: HeroForm = {
   background_url: "",
   background_type: "video",
   overlay_opacity: 0.6,
+  heading_line1_color: "#ffffff",
+  heading_line2_from: "#3b82f6",
+  heading_line2_to: "#22d3ee",
+  subheadline_color: "#e5e7ebcc",
+  cta_bg_from: "#3b82f6",
+  cta_bg_to: "#22d3ee",
+  cta_text_color: "#ffffff",
+  heading_size: "lg",
+  text_align: "center",
+  vertical_position: "center",
 };
+
+function ColorField({
+  label, value, onChange,
+}: { label: string; value: string; onChange: (v: string) => void }) {
+  // <input type=color> only accepts #rrggbb — strip alpha for the picker but keep it in the text box
+  const hex6 = /^#[0-9a-fA-F]{6}$/.test(value) ? value : value.slice(0, 7);
+  return (
+    <div className="space-y-1.5">
+      <Label className="text-xs">{label}</Label>
+      <div className="flex items-center gap-2">
+        <input
+          type="color"
+          value={hex6}
+          onChange={(e) => onChange(e.target.value)}
+          className="h-9 w-12 shrink-0 cursor-pointer rounded-md border border-input bg-transparent"
+        />
+        <Input value={value} onChange={(e) => onChange(e.target.value)} className="h-9" />
+      </div>
+    </div>
+  );
+}
 
 export default function HomepageEditor() {
   const qc = useQueryClient();
@@ -69,6 +114,16 @@ export default function HomepageEditor() {
         background_url: d.background_url ?? "",
         background_type: (d.background_type ?? "video") as "video" | "image",
         overlay_opacity: Number(d.overlay_opacity ?? 0.6),
+        heading_line1_color: d.heading_line1_color ?? "#ffffff",
+        heading_line2_from: d.heading_line2_from ?? "#3b82f6",
+        heading_line2_to: d.heading_line2_to ?? "#22d3ee",
+        subheadline_color: d.subheadline_color ?? "#e5e7ebcc",
+        cta_bg_from: d.cta_bg_from ?? "#3b82f6",
+        cta_bg_to: d.cta_bg_to ?? "#22d3ee",
+        cta_text_color: d.cta_text_color ?? "#ffffff",
+        heading_size: (d.heading_size ?? "lg") as Size,
+        text_align: (d.text_align ?? "center") as Align,
+        vertical_position: (d.vertical_position ?? "center") as VPos,
       });
     }
   }, [data]);
@@ -84,14 +139,8 @@ export default function HomepageEditor() {
       const { error } = await supabase
         .from("homepage_hero")
         .update({
-          heading_line1: form.heading_line1,
-          heading_line2: form.heading_line2,
-          subheadline: form.subheadline,
-          cta_label: form.cta_label,
-          cta_href: form.cta_href,
+          ...form,
           background_url: form.background_url || null,
-          background_type: form.background_type,
-          overlay_opacity: form.overlay_opacity,
         })
         .eq("id", rowId);
       if (error) throw error;
@@ -126,13 +175,13 @@ export default function HomepageEditor() {
         </div>
       </div>
 
-      <div className="grid gap-4 lg:grid-cols-[1fr_320px]">
+      <div className="grid gap-4 lg:grid-cols-[1fr_340px]">
         <div className="space-y-4">
           <Card>
-            <CardHeader className="pb-3"><CardTitle className="text-sm">Headline</CardTitle></CardHeader>
+            <CardHeader className="pb-3"><CardTitle className="text-sm">Text content</CardTitle></CardHeader>
             <CardContent className="space-y-3">
               <div className="space-y-1.5">
-                <Label className="text-xs">Line 1 (white)</Label>
+                <Label className="text-xs">Line 1</Label>
                 <Input value={form.heading_line1} onChange={(e) => patch("heading_line1", e.target.value)} />
               </div>
               <div className="space-y-1.5">
@@ -141,11 +190,60 @@ export default function HomepageEditor() {
               </div>
               <div className="space-y-1.5">
                 <Label className="text-xs">Subheadline</Label>
-                <Textarea
-                  value={form.subheadline}
-                  onChange={(e) => patch("subheadline", e.target.value)}
-                  rows={3}
-                />
+                <Textarea value={form.subheadline} onChange={(e) => patch("subheadline", e.target.value)} rows={3} />
+              </div>
+            </CardContent>
+          </Card>
+
+          <Card>
+            <CardHeader className="pb-3"><CardTitle className="text-sm">Colors</CardTitle></CardHeader>
+            <CardContent className="grid gap-3 sm:grid-cols-2">
+              <ColorField label="Line 1 color" value={form.heading_line1_color} onChange={(v) => patch("heading_line1_color", v)} />
+              <ColorField label="Subheadline color" value={form.subheadline_color} onChange={(v) => patch("subheadline_color", v)} />
+              <ColorField label="Line 2 gradient start" value={form.heading_line2_from} onChange={(v) => patch("heading_line2_from", v)} />
+              <ColorField label="Line 2 gradient end" value={form.heading_line2_to} onChange={(v) => patch("heading_line2_to", v)} />
+              <ColorField label="Button gradient start" value={form.cta_bg_from} onChange={(v) => patch("cta_bg_from", v)} />
+              <ColorField label="Button gradient end" value={form.cta_bg_to} onChange={(v) => patch("cta_bg_to", v)} />
+              <ColorField label="Button text color" value={form.cta_text_color} onChange={(v) => patch("cta_text_color", v)} />
+            </CardContent>
+          </Card>
+
+          <Card>
+            <CardHeader className="pb-3"><CardTitle className="text-sm">Size & position</CardTitle></CardHeader>
+            <CardContent className="grid gap-3 sm:grid-cols-3">
+              <div className="space-y-1.5">
+                <Label className="text-xs">Heading size</Label>
+                <Select value={form.heading_size} onValueChange={(v) => patch("heading_size", v as Size)}>
+                  <SelectTrigger><SelectValue /></SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="sm">Small</SelectItem>
+                    <SelectItem value="md">Medium</SelectItem>
+                    <SelectItem value="lg">Large</SelectItem>
+                    <SelectItem value="xl">Extra large</SelectItem>
+                  </SelectContent>
+                </Select>
+              </div>
+              <div className="space-y-1.5">
+                <Label className="text-xs">Text alignment</Label>
+                <Select value={form.text_align} onValueChange={(v) => patch("text_align", v as Align)}>
+                  <SelectTrigger><SelectValue /></SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="left">Left</SelectItem>
+                    <SelectItem value="center">Center</SelectItem>
+                    <SelectItem value="right">Right</SelectItem>
+                  </SelectContent>
+                </Select>
+              </div>
+              <div className="space-y-1.5">
+                <Label className="text-xs">Vertical position</Label>
+                <Select value={form.vertical_position} onValueChange={(v) => patch("vertical_position", v as VPos)}>
+                  <SelectTrigger><SelectValue /></SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="top">Top</SelectItem>
+                    <SelectItem value="center">Center</SelectItem>
+                    <SelectItem value="bottom">Bottom</SelectItem>
+                  </SelectContent>
+                </Select>
               </div>
             </CardContent>
           </Card>
@@ -171,10 +269,7 @@ export default function HomepageEditor() {
             <CardContent className="space-y-3">
               <div className="space-y-1.5">
                 <Label className="text-xs">Type</Label>
-                <Select
-                  value={form.background_type}
-                  onValueChange={(v) => patch("background_type", v as "video" | "image")}
-                >
+                <Select value={form.background_type} onValueChange={(v) => patch("background_type", v as "video" | "image")}>
                   <SelectTrigger><SelectValue /></SelectTrigger>
                   <SelectContent>
                     <SelectItem value="video">Video</SelectItem>
@@ -196,9 +291,7 @@ export default function HomepageEditor() {
                 </>
               ) : (
                 <>
-                  <p className="text-xs text-muted-foreground">
-                    Leave empty to use the built-in default video.
-                  </p>
+                  <p className="text-xs text-muted-foreground">Leave empty to use the built-in default video.</p>
                   <Button variant="outline" size="sm" onClick={() => setPickerOpen(true)} className="w-full">
                     <ImageIcon className="mr-1 h-4 w-4" /> Choose from library
                   </Button>
