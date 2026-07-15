@@ -174,6 +174,11 @@ function sectionSummary(row: Row) {
   return d.headline || d.heading || d.title || "";
 }
 
+function sectionDisplayName(row: Row, fallback: string) {
+  const d = row.data ?? {};
+  return d.section_name || d.eyebrow || d.heading || d.headline || d.title || fallback;
+}
+
 function collectImages(data: any): string[] {
   const out = new Set<string>();
   const walk = (v: any) => {
