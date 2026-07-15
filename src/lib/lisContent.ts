@@ -100,10 +100,21 @@ export const LIS_DEFAULTS = {
   Integrations: {
     eyebrow: "Integrations",
     heading: "Connects With Your Existing Systems",
-    body:
+    subheading:
       "Works seamlessly with your HIS, EMR, PACS, and billing platforms. Pre-built connectors for Epic, Cerner, " +
       "Meditech, and all major HL7-compatible systems. Open API available for custom integrations.",
-    tags: ["HIS", "EMR", "PACS", "Billing", "Epic", "Cerner", "Meditech", "HL7 v2", "FHIR", "REST API"] as string[],
+    items: [
+      { title: "HIS" },
+      { title: "EMR" },
+      { title: "PACS" },
+      { title: "Billing" },
+      { title: "Epic" },
+      { title: "Cerner" },
+      { title: "Meditech" },
+      { title: "HL7 v2" },
+      { title: "FHIR" },
+      { title: "REST API" },
+    ] as Array<{ title: string }>,
   },
   FAQ: {
     eyebrow: "FAQ",
