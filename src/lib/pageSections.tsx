@@ -178,14 +178,14 @@ function HeroEdit({ data, onChange }: { data: SectionData; onChange: (n: Section
 
 function StatsRender({ data }: { data: SectionData }) {
   return (
-    <section className="bg-background py-20">
+    <section className={data.bgColor ? "py-20" : "bg-background py-20"} style={sectionStyle(data)}>
       <Container>
-        {data.heading && <h2 className="text-3xl font-bold text-foreground md:text-4xl">{data.heading}</h2>}
+        {data.heading && <h2 className="text-3xl font-bold md:text-4xl">{data.heading}</h2>}
         <div className="mt-10 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
           {(data.items ?? []).map((s: any, i: number) => (
-            <div key={i} className="rounded-2xl border border-border bg-card p-6">
-              <div className="text-3xl font-bold text-primary md:text-4xl">{s.value}</div>
-              <div className="mt-2 text-sm text-muted-foreground">{s.label}</div>
+            <div key={i} className="rounded-2xl border border-border bg-card p-6" style={data.textColor ? { color: data.textColor } : undefined}>
+              <div className="text-3xl font-bold md:text-4xl" style={{ color: data.accentColor || "hsl(var(--primary))" }}>{s.value}</div>
+              <div className="mt-2 text-sm opacity-80">{s.label}</div>
             </div>
           ))}
         </div>
