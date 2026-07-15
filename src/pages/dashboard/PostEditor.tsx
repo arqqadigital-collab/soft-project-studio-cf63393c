@@ -216,8 +216,22 @@ export default function PostEditor() {
           {form.status === "published" && form.slug && (
             <Button asChild variant="outline" size="sm">
               <a href={`/blog/${form.slug}`} target="_blank" rel="noreferrer">
-                <ExternalLink className="mr-1 h-4 w-4" /> Preview
+                <ExternalLink className="mr-1 h-4 w-4" /> View live
               </a>
+            </Button>
+          )}
+          {postId && previewToken && (
+            <Button
+              variant="outline"
+              size="sm"
+              onClick={() => {
+                const url = `${window.location.origin}/preview/post/${postId}?token=${previewToken}`;
+                navigator.clipboard.writeText(url).catch(() => {});
+                window.open(url, "_blank", "noreferrer");
+                toast.success("Preview link copied");
+              }}
+            >
+              <Eye className="mr-1 h-4 w-4" /> Preview draft
             </Button>
           )}
           <Button variant="outline" size="sm" onClick={() => save()} disabled={saving}>
