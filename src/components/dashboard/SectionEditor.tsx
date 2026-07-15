@@ -40,7 +40,7 @@ function MediaField({ value, onChange, label }: { value: string; onChange: (v: s
       </div>
       {value ? (
         isVideo ? (
-          <video src={value} muted className="max-h-24 rounded border" />
+          <video src={value} autoPlay muted loop playsInline className="max-h-24 rounded border bg-black" />
         ) : (
           <img src={value} alt="" className="max-h-24 rounded border object-cover" />
         )
