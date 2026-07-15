@@ -1,0 +1,2 @@
+ALTER TABLE public.homepage_sections ADD COLUMN IF NOT EXISTS is_visible boolean NOT NULL DEFAULT true;
+ALTER TABLE public.homepage_hero ADD COLUMN IF NOT EXISTS is_visible boolean NOT NULL DEFAULT true;

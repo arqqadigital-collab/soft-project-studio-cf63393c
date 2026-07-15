@@ -1,7 +1,7 @@
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { toast } from "sonner";
-import { Save, Plus, Trash2, Image as ImageIcon } from "lucide-react";
+import { Save, Plus, Trash2, Image as ImageIcon, Eye, EyeOff } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -9,7 +9,6 @@ import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { MediaPickerDialog } from "@/components/dashboard/MediaPickerDialog";
-import { SectionPreview } from "@/components/dashboard/SectionPreview";
 import { DEFAULTS, type SectionKey } from "@/lib/homepageContent";
 
 const LABELS: Record<SectionKey, string> = {
@@ -24,8 +23,44 @@ const LABELS: Record<SectionKey, string> = {
   cta: "Call to action",
 };
 
+// Real brand colors used across the site — the ONLY colors editors should pick.
+const BRAND_SWATCHES: { label: string; value: string }[] = [
+  { label: "Brand blue", value: "#2b8fce" },
+  { label: "Brand green", value: "#4bc16b" },
+  { label: "Brand dark", value: "#101a33" },
+  { label: "Page background", value: "#fafcfc" },
+  { label: "White", value: "#ffffff" },
+  { label: "Transparent", value: "" },
+];
+
+export function BrandColorInput({ value, onChange }: { value: string; onChange: (v: string) => void }) {
+  const norm = (value ?? "").toLowerCase();
+  return (
+    <div className="flex flex-wrap items-center gap-1.5">
+      {BRAND_SWATCHES.map((s) => {
+        const isActive = norm === s.value.toLowerCase();
+        const isTransparent = s.value === "";
+        return (
+          <button
+            key={s.label}
+            type="button"
+            title={s.label}
+            onClick={() => onChange(s.value)}
+            className={`h-8 w-8 rounded-md border transition-transform hover:scale-110 ${
+              isActive ? "ring-2 ring-offset-2 ring-foreground" : "border-border"
+            } ${isTransparent ? "bg-[conic-gradient(from_45deg,#ddd_25%,#fff_25%_50%,#ddd_50%_75%,#fff_75%)] bg-[length:8px_8px]" : ""}`}
+            style={isTransparent ? undefined : { background: s.value }}
+            aria-label={s.label}
+          />
+        );
+      })}
+      <span className="ml-2 text-xs text-muted-foreground">{value || "transparent"}</span>
+    </div>
+  );
+}
+
 function isUrlKey(k: string) { return /_url$|^src$|^image$/i.test(k); }
-function isColorKey(k: string) { return /_color$/i.test(k); }
+function isColorKey(k: string) { return /_color$|_from$|_to$/i.test(k); }
 
 function MediaField({ value, onChange, label }: { value: string; onChange: (v: string) => void; label: string }) {
   const [open, setOpen] = useState(false);
@@ -55,14 +90,10 @@ function ScalarField({ k, value, onChange }: { k: string; value: any; onChange: 
   const label = k.replace(/_/g, " ");
   if (isUrlKey(k)) return <MediaField label={label} value={value ?? ""} onChange={onChange} />;
   if (isColorKey(k)) {
-    const hex6 = /^#[0-9a-fA-F]{6}$/.test(value) ? value : "#000000";
     return (
       <div className="space-y-1.5">
         <Label className="text-xs capitalize">{label}</Label>
-        <div className="flex gap-2">
-          <input type="color" value={hex6} onChange={(e) => onChange(e.target.value)} className="h-9 w-12 cursor-pointer rounded border" />
-          <Input value={value ?? ""} onChange={(e) => onChange(e.target.value)} className="h-9" />
-        </div>
+        <BrandColorInput value={value ?? ""} onChange={onChange} />
       </div>
     );
   }
@@ -165,30 +196,45 @@ function ObjectFields({ obj, onChange }: { obj: any; onChange: (v: any) => void 
   );
 }
 
+function collectImages(data: any): string[] {
+  const out = new Set<string>();
+  const walk = (v: any) => {
+    if (!v) return;
+    if (typeof v === "string") {
+      if (/^(https?:|\/|data:image)/.test(v) && /\.(png|jpe?g|gif|webp|svg|avif)(\?|$)/i.test(v)) out.add(v);
+      return;
+    }
+    if (Array.isArray(v)) return v.forEach(walk);
+    if (typeof v === "object") for (const k of Object.keys(v)) walk(v[k]);
+  };
+  walk(data);
+  return Array.from(out);
+}
+
 export function SectionEditor({ sectionKey }: { sectionKey: SectionKey }) {
   const qc = useQueryClient();
   const [content, setContent] = useState<any>(DEFAULTS[sectionKey]);
+  const [visible, setVisible] = useState(true);
   const [saving, setSaving] = useState(false);
-  const [previewKey, setPreviewKey] = useState(0);
 
   const { data, isLoading } = useQuery({
     queryKey: ["homepage-section-edit", sectionKey],
     queryFn: async () => {
       const { data, error } = await supabase
         .from("homepage_sections")
-        .select("content")
+        .select("content, is_visible")
         .eq("section_key", sectionKey)
         .maybeSingle();
       if (error) throw error;
-      return (data?.content ?? {}) as any;
+      return data;
     },
   });
 
   useEffect(() => {
-    if (data !== undefined) {
-      // Merge stored content over defaults so new fields appear
-      const merged = mergeDeep(structuredClone(DEFAULTS[sectionKey]), data);
+    if (data !== undefined && data !== null) {
+      const merged = mergeDeep(structuredClone(DEFAULTS[sectionKey]), (data as any).content ?? {});
       setContent(merged);
+      setVisible((data as any).is_visible !== false);
     }
   }, [data, sectionKey]);
 
@@ -197,12 +243,12 @@ export function SectionEditor({ sectionKey }: { sectionKey: SectionKey }) {
     try {
       const { error } = await supabase
         .from("homepage_sections")
-        .update({ content })
+        .update({ content, is_visible: visible })
         .eq("section_key", sectionKey);
       if (error) throw error;
       qc.invalidateQueries({ queryKey: ["homepage-section", sectionKey] });
       qc.invalidateQueries({ queryKey: ["homepage-section-edit", sectionKey] });
-      setPreviewKey((k) => k + 1);
+      qc.invalidateQueries({ queryKey: ["homepage-sections-visibility"] });
       toast.success(`${LABELS[sectionKey]} saved`);
     } catch (e: any) {
       toast.error(e.message || "Save failed");
@@ -211,39 +257,61 @@ export function SectionEditor({ sectionKey }: { sectionKey: SectionKey }) {
     }
   }
 
+  async function toggleVisible() {
+    const next = !visible;
+    setVisible(next);
+    const { error } = await supabase
+      .from("homepage_sections")
+      .update({ is_visible: next })
+      .eq("section_key", sectionKey);
+    if (error) { toast.error(error.message); setVisible(!next); return; }
+    qc.invalidateQueries({ queryKey: ["homepage-sections-visibility"] });
+    toast.success(next ? "Section shown" : "Section hidden");
+  }
+
   function resetToDefaults() {
     setContent(structuredClone(DEFAULTS[sectionKey]));
     toast.info("Reset to defaults — click Save to apply");
   }
 
+  const images = useMemo(() => collectImages(content), [content]);
+
   if (isLoading) return <div className="text-sm text-muted-foreground">Loading…</div>;
 
   return (
     <div className="space-y-4">
-      <div className="flex items-center justify-between">
+      <div className="flex flex-wrap items-center justify-between gap-2">
         <div className="text-sm text-muted-foreground">Edit the {LABELS[sectionKey]} section.</div>
         <div className="flex gap-2">
+          <Button variant="outline" size="sm" onClick={toggleVisible}>
+            {visible ? <><Eye className="mr-1 h-4 w-4" /> Visible</> : <><EyeOff className="mr-1 h-4 w-4" /> Hidden</>}
+          </Button>
           <Button variant="outline" size="sm" onClick={resetToDefaults}>Reset defaults</Button>
           <Button size="sm" onClick={save} disabled={saving}>
             <Save className="mr-1 h-4 w-4" /> Save
           </Button>
         </div>
       </div>
-      <div className="grid gap-4 lg:grid-cols-[minmax(0,1fr)_minmax(0,520px)]">
-        <Card>
-          <CardHeader className="pb-3"><CardTitle className="text-sm">{LABELS[sectionKey]}</CardTitle></CardHeader>
-          <CardContent>
-            <ObjectFields obj={content} onChange={setContent} />
-          </CardContent>
-        </Card>
-        <div className="lg:sticky lg:top-4 lg:self-start">
-          <SectionPreview
-            anchor={`section-${sectionKey}`}
-            reloadKey={previewKey}
-            title={`${LABELS[sectionKey]} — live preview`}
-          />
+      <Card className={visible ? "" : "opacity-60"}>
+        <CardHeader className="pb-3"><CardTitle className="text-sm">{LABELS[sectionKey]}</CardTitle></CardHeader>
+        <CardContent>
+          <ObjectFields obj={content} onChange={setContent} />
+        </CardContent>
+      </Card>
+      {images.length > 0 && (
+        <div className="rounded-md border border-border">
+          <div className="border-b border-border px-3 py-2 text-xs font-medium text-muted-foreground">
+            Images used in this section ({images.length})
+          </div>
+          <div className="grid grid-cols-4 gap-2 p-3 sm:grid-cols-6 lg:grid-cols-8">
+            {images.map((u) => (
+              <a key={u} href={u} target="_blank" rel="noreferrer" className="block">
+                <img src={u} alt="" className="h-16 w-full rounded border object-cover" />
+              </a>
+            ))}
+          </div>
         </div>
-      </div>
+      )}
     </div>
   );
 }

@@ -453,6 +453,7 @@ export type Database = {
           heading_line2_to: string
           heading_size: string
           id: string
+          is_visible: boolean
           overlay_opacity: number
           singleton: boolean
           subheadline: string
@@ -477,6 +478,7 @@ export type Database = {
           heading_line2_to?: string
           heading_size?: string
           id?: string
+          is_visible?: boolean
           overlay_opacity?: number
           singleton?: boolean
           subheadline?: string
@@ -501,6 +503,7 @@ export type Database = {
           heading_line2_to?: string
           heading_size?: string
           id?: string
+          is_visible?: boolean
           overlay_opacity?: number
           singleton?: boolean
           subheadline?: string
@@ -514,18 +517,21 @@ export type Database = {
       homepage_sections: {
         Row: {
           content: Json
+          is_visible: boolean
           section_key: string
           updated_at: string
           updated_by: string | null
         }
         Insert: {
           content?: Json
+          is_visible?: boolean
           section_key: string
           updated_at?: string
           updated_by?: string | null
         }
         Update: {
           content?: Json
+          is_visible?: boolean
           section_key?: string
           updated_at?: string
           updated_by?: string | null

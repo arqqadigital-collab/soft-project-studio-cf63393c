@@ -15,6 +15,7 @@ import { SuccessStoriesSection } from "@/components/SuccessStoriesSection";
 import { PartnersSection } from "@/components/PartnersSection";
 import { CtaSection } from "@/components/CtaSection";
 import { Footer } from "@/components/Footer";
+import { useHomepageVisibility } from "@/lib/homepageContent";
 
 const HERO_DEFAULTS = {
   heading_line1: "Transforming Complexity",
@@ -79,7 +80,9 @@ export default function Index() {
     },
   });
 
-  const hero = { ...HERO_DEFAULTS, ...(heroRow ?? {}) } as typeof HERO_DEFAULTS;
+  const hero = { ...HERO_DEFAULTS, ...(heroRow ?? {}) } as typeof HERO_DEFAULTS & { is_visible?: boolean };
+  const heroVisible = (heroRow as any)?.is_visible !== false;
+  const isVisible = useHomepageVisibility();
   const bgSrc = hero.background_url || headerVideo;
   const isVideo = hero.background_url ? hero.background_type === "video" : true;
 
@@ -111,6 +114,7 @@ export default function Index() {
         noindex={!!seo?.noindex}
         nofollow={!!seo?.nofollow}
       />
+      {heroVisible && (
       <main
         ref={heroRef}
         className="pt-20 relative h-screen w-full overflow-hidden bg-background"
@@ -175,7 +179,9 @@ export default function Index() {
           </section>
         </motion.div>
       </main>
+      )}
 
+      {heroVisible && (
       <div
         aria-hidden
         className="relative z-20 -mt-32 h-32 w-full"
@@ -188,17 +194,18 @@ export default function Index() {
           WebkitMaskImage: "linear-gradient(to bottom, transparent 0%, black 60%, black 100%)",
         }}
       />
+      )}
 
       <div className="relative z-20 rounded-t-[2.5rem] bg-background shadow-[0_-20px_60px_-20px_rgba(0,0,0,0.4)]">
-        <ExpertiseSection />
-        <ProcessSection />
-        <ServicesSection />
-        <PromiseSection />
-        <StatsSection />
-        <ClientsSection />
-        <SuccessStoriesSection />
-        <PartnersSection />
-        <CtaSection />
+        {isVisible("expertise") && <ExpertiseSection />}
+        {isVisible("process") && <ProcessSection />}
+        {isVisible("services") && <ServicesSection />}
+        {isVisible("promise") && <PromiseSection />}
+        {isVisible("stats") && <StatsSection />}
+        {isVisible("clients") && <ClientsSection />}
+        {isVisible("success_stories") && <SuccessStoriesSection />}
+        {isVisible("partners") && <PartnersSection />}
+        {isVisible("cta") && <CtaSection />}
       </div>
       <Footer />
     </>

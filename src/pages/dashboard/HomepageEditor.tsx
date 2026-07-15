@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { toast } from "sonner";
-import { Save, Image as ImageIcon, ExternalLink } from "lucide-react";
+import { Save, Image as ImageIcon, ExternalLink, Eye, EyeOff } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -15,8 +15,7 @@ import { Slider } from "@/components/ui/slider";
 import { MediaPickerDialog } from "@/components/dashboard/MediaPickerDialog";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { SeoEditor } from "@/components/dashboard/SeoEditor";
-import { SectionEditor } from "@/components/dashboard/SectionEditor";
-import { SectionPreview } from "@/components/dashboard/SectionPreview";
+import { SectionEditor, BrandColorInput } from "@/components/dashboard/SectionEditor";
 import type { SectionKey } from "@/lib/homepageContent";
 
 const SECTIONS: { key: SectionKey; label: string }[] = [
@@ -80,20 +79,10 @@ const EMPTY: HeroForm = {
 function ColorField({
   label, value, onChange,
 }: { label: string; value: string; onChange: (v: string) => void }) {
-  // <input type=color> only accepts #rrggbb — strip alpha for the picker but keep it in the text box
-  const hex6 = /^#[0-9a-fA-F]{6}$/.test(value) ? value : value.slice(0, 7);
   return (
     <div className="space-y-1.5">
       <Label className="text-xs">{label}</Label>
-      <div className="flex items-center gap-2">
-        <input
-          type="color"
-          value={hex6}
-          onChange={(e) => onChange(e.target.value)}
-          className="h-9 w-12 shrink-0 cursor-pointer rounded-md border border-input bg-transparent"
-        />
-        <Input value={value} onChange={(e) => onChange(e.target.value)} className="h-9" />
-      </div>
+      <BrandColorInput value={value ?? ""} onChange={onChange} />
     </div>
   );
 }
@@ -102,9 +91,9 @@ export default function HomepageEditor() {
   const qc = useQueryClient();
   const [form, setForm] = useState<HeroForm>(EMPTY);
   const [rowId, setRowId] = useState<string | null>(null);
+  const [heroVisible, setHeroVisible] = useState(true);
   const [saving, setSaving] = useState(false);
   const [pickerOpen, setPickerOpen] = useState(false);
-  const [heroPreviewKey, setHeroPreviewKey] = useState(0);
 
   const { data, isLoading } = useQuery({
     queryKey: ["homepage-hero"],
@@ -123,6 +112,7 @@ export default function HomepageEditor() {
     if (data) {
       const d: any = data;
       setRowId(d.id);
+      setHeroVisible(d.is_visible !== false);
       setForm({
         heading_line1: d.heading_line1 ?? "",
         heading_line2: d.heading_line2 ?? "",
@@ -158,13 +148,13 @@ export default function HomepageEditor() {
         .from("homepage_hero")
         .update({
           ...form,
+          is_visible: heroVisible,
           background_url: form.background_url || null,
         })
         .eq("id", rowId);
       if (error) throw error;
       qc.invalidateQueries({ queryKey: ["homepage-hero"] });
       qc.invalidateQueries({ queryKey: ["homepage-hero-public"] });
-      setHeroPreviewKey((k) => k + 1);
       toast.success("Homepage hero updated");
     } catch (e: any) {
       toast.error(e.message || "Save failed");
@@ -222,7 +212,12 @@ export default function HomepageEditor() {
             </TabsContent>
           ))}
           <TabsContent value="hero" className="mt-3">
-      <div className="grid gap-4 lg:grid-cols-[1fr_340px]">
+      <div className="mb-3 flex justify-end">
+        <Button variant="outline" size="sm" onClick={() => setHeroVisible((v) => !v)}>
+          {heroVisible ? <><Eye className="mr-1 h-4 w-4" /> Hero visible</> : <><EyeOff className="mr-1 h-4 w-4" /> Hero hidden</>}
+        </Button>
+      </div>
+      <div className={`grid gap-4 lg:grid-cols-[1fr_340px] ${heroVisible ? "" : "opacity-60"}`}>
         <div className="space-y-4">
           <Card>
             <CardHeader className="pb-3"><CardTitle className="text-sm">Text content</CardTitle></CardHeader>
@@ -366,9 +361,6 @@ export default function HomepageEditor() {
             </CardContent>
           </Card>
         </aside>
-      </div>
-      <div className="mt-4">
-        <SectionPreview reloadKey={heroPreviewKey} title="Hero — live preview" />
       </div>
         </TabsContent>
         </Tabs>
