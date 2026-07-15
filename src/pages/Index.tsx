@@ -194,17 +194,18 @@ export default function Index() {
           WebkitMaskImage: "linear-gradient(to bottom, transparent 0%, black 60%, black 100%)",
         }}
       />
+      )}
 
       <div className="relative z-20 rounded-t-[2.5rem] bg-background shadow-[0_-20px_60px_-20px_rgba(0,0,0,0.4)]">
-        <ExpertiseSection />
-        <ProcessSection />
-        <ServicesSection />
-        <PromiseSection />
-        <StatsSection />
-        <ClientsSection />
-        <SuccessStoriesSection />
-        <PartnersSection />
-        <CtaSection />
+        {isVisible("expertise") && <ExpertiseSection />}
+        {isVisible("process") && <ProcessSection />}
+        {isVisible("services") && <ServicesSection />}
+        {isVisible("promise") && <PromiseSection />}
+        {isVisible("stats") && <StatsSection />}
+        {isVisible("clients") && <ClientsSection />}
+        {isVisible("success_stories") && <SuccessStoriesSection />}
+        {isVisible("partners") && <PartnersSection />}
+        {isVisible("cta") && <CtaSection />}
       </div>
       <Footer />
     </>
