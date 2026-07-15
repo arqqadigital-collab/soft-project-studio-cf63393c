@@ -79,20 +79,10 @@ const EMPTY: HeroForm = {
 function ColorField({
   label, value, onChange,
 }: { label: string; value: string; onChange: (v: string) => void }) {
-  // <input type=color> only accepts #rrggbb — strip alpha for the picker but keep it in the text box
-  const hex6 = /^#[0-9a-fA-F]{6}$/.test(value) ? value : value.slice(0, 7);
   return (
     <div className="space-y-1.5">
       <Label className="text-xs">{label}</Label>
-      <div className="flex items-center gap-2">
-        <input
-          type="color"
-          value={hex6}
-          onChange={(e) => onChange(e.target.value)}
-          className="h-9 w-12 shrink-0 cursor-pointer rounded-md border border-input bg-transparent"
-        />
-        <Input value={value} onChange={(e) => onChange(e.target.value)} className="h-9" />
-      </div>
+      <BrandColorInput value={value ?? ""} onChange={onChange} />
     </div>
   );
 }
