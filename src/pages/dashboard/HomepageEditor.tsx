@@ -357,6 +357,8 @@ export default function HomepageEditor() {
         </aside>
       </div>
         </TabsContent>
+        </Tabs>
+        </TabsContent>
       </Tabs>
 
       <MediaPickerDialog
