@@ -1,6 +1,8 @@
 import { useRef } from "react";
 import { ArrowRight } from "lucide-react";
 import { motion, useScroll, useTransform } from "framer-motion";
+import { useQuery } from "@tanstack/react-query";
+import { supabase } from "@/integrations/supabase/client";
 import headerVideo from "@/assets/header-bg.mp4";
 import { ExpertiseSection } from "@/components/ExpertiseSection";
 import { StatsSection } from "@/components/StatsSection";
@@ -13,6 +15,18 @@ import { PartnersSection } from "@/components/PartnersSection";
 import { CtaSection } from "@/components/CtaSection";
 import { Footer } from "@/components/Footer";
 
+const HERO_DEFAULTS = {
+  heading_line1: "Transforming Complexity",
+  heading_line2: "Into Digital Clarity",
+  subheadline:
+    "End-to-end digital transformation for modern enterprises and healthcare organizations.",
+  cta_label: "Start Your Digital Transformation",
+  cta_href: "/contact",
+  background_url: "",
+  background_type: "video" as "video" | "image",
+  overlay_opacity: 0.6,
+};
+
 export default function Index() {
   const heroRef = useRef<HTMLElement>(null);
   const { scrollYProgress } = useScroll({
@@ -24,22 +38,53 @@ export default function Index() {
   const contentY = useTransform(scrollYProgress, [0, 1], ["0%", "-60%"]);
   const contentOpacity = useTransform(scrollYProgress, [0, 0.8], [1, 0]);
 
+  const { data: heroRow } = useQuery({
+    queryKey: ["homepage-hero-public"],
+    queryFn: async () => {
+      const { data, error } = await supabase
+        .from("homepage_hero")
+        .select("*")
+        .eq("singleton", true)
+        .maybeSingle();
+      if (error) throw error;
+      return data;
+    },
+  });
+
+  const hero = { ...HERO_DEFAULTS, ...(heroRow ?? {}) } as typeof HERO_DEFAULTS;
+  const bgSrc = hero.background_url || headerVideo;
+  const isVideo = hero.background_url ? hero.background_type === "video" : true;
+
   return (
     <>
       <main
         ref={heroRef}
         className="pt-20 relative h-screen w-full overflow-hidden bg-background"
       >
-        <motion.video
-          style={{ y: bgY }}
-          className="absolute inset-0 -top-[10%] h-[120%] w-full object-cover"
-          src={headerVideo}
-          autoPlay
-          muted
-          loop
-          playsInline
+        {isVideo ? (
+          <motion.video
+            key={bgSrc}
+            style={{ y: bgY }}
+            className="absolute inset-0 -top-[10%] h-[120%] w-full object-cover"
+            src={bgSrc}
+            autoPlay
+            muted
+            loop
+            playsInline
+          />
+        ) : (
+          <motion.img
+            key={bgSrc}
+            style={{ y: bgY }}
+            className="absolute inset-0 -top-[10%] h-[120%] w-full object-cover"
+            src={bgSrc}
+            alt=""
+          />
+        )}
+        <div
+          className="absolute inset-0 backdrop-blur-[2px]"
+          style={{ backgroundColor: `rgba(0,0,0,${hero.overlay_opacity})` }}
         />
-        <div className="absolute inset-0 bg-black/60 backdrop-blur-[2px]" />
 
         <motion.div
           style={{ y: contentY, opacity: contentOpacity }}
@@ -48,27 +93,28 @@ export default function Index() {
 
           <section className="flex flex-1 flex-col items-center justify-center px-6 text-center">
             <h1 className="max-w-3xl text-3xl font-bold leading-[1.1] tracking-tight md:text-5xl lg:text-6xl">
-              <span className="text-white">Transforming Complexity</span>
+              <span className="text-white">{hero.heading_line1}</span>
               <br />
               <span
                 className="bg-clip-text text-transparent"
                 style={{ backgroundImage: "var(--gradient-brand)" }}
               >
-                Into Digital Clarity
+                {hero.heading_line2}
               </span>
             </h1>
 
             <p className="mt-6 max-w-2xl text-base text-white/80 md:text-lg">
-              End-to-end digital transformation for modern enterprises and healthcare organizations.
+              {hero.subheadline}
             </p>
 
-            <button
+            <a
+              href={hero.cta_href || "/contact"}
               className="mt-12 inline-flex items-center gap-3 rounded-full px-10 py-5 text-base font-semibold text-white shadow-[var(--shadow-brand)] transition-transform hover:scale-105"
               style={{ background: "var(--gradient-brand)" }}
             >
-              Start Your Digital Transformation
+              {hero.cta_label}
               <ArrowRight className="h-5 w-5" />
-            </button>
+            </a>
           </section>
         </motion.div>
       </main>
