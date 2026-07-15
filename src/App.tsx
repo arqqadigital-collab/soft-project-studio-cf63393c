@@ -44,6 +44,7 @@ import CaseStudies from "./pages/CaseStudies";
 import Contact from "./pages/Contact";
 import ArticleDetail from "./pages/ArticleDetail";
 import PublicPage from "./pages/PublicPage";
+import PublicPreview from "./pages/PublicPreview";
 
 function NotFound() {
   return (
