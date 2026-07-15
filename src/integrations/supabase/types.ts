@@ -109,6 +109,51 @@ export type Database = {
         }
         Relationships: []
       }
+      homepage_hero: {
+        Row: {
+          background_type: string
+          background_url: string | null
+          created_at: string
+          cta_href: string
+          cta_label: string
+          heading_line1: string
+          heading_line2: string
+          id: string
+          overlay_opacity: number
+          singleton: boolean
+          subheadline: string
+          updated_at: string
+        }
+        Insert: {
+          background_type?: string
+          background_url?: string | null
+          created_at?: string
+          cta_href?: string
+          cta_label?: string
+          heading_line1?: string
+          heading_line2?: string
+          id?: string
+          overlay_opacity?: number
+          singleton?: boolean
+          subheadline?: string
+          updated_at?: string
+        }
+        Update: {
+          background_type?: string
+          background_url?: string | null
+          created_at?: string
+          cta_href?: string
+          cta_label?: string
+          heading_line1?: string
+          heading_line2?: string
+          id?: string
+          overlay_opacity?: number
+          singleton?: boolean
+          subheadline?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
       media: {
         Row: {
           alt_text: string | null
