@@ -114,43 +114,73 @@ export type Database = {
           background_type: string
           background_url: string | null
           created_at: string
+          cta_bg_from: string
+          cta_bg_to: string
           cta_href: string
           cta_label: string
+          cta_text_color: string
           heading_line1: string
+          heading_line1_color: string
           heading_line2: string
+          heading_line2_from: string
+          heading_line2_to: string
+          heading_size: string
           id: string
           overlay_opacity: number
           singleton: boolean
           subheadline: string
+          subheadline_color: string
+          text_align: string
           updated_at: string
+          vertical_position: string
         }
         Insert: {
           background_type?: string
           background_url?: string | null
           created_at?: string
+          cta_bg_from?: string
+          cta_bg_to?: string
           cta_href?: string
           cta_label?: string
+          cta_text_color?: string
           heading_line1?: string
+          heading_line1_color?: string
           heading_line2?: string
+          heading_line2_from?: string
+          heading_line2_to?: string
+          heading_size?: string
           id?: string
           overlay_opacity?: number
           singleton?: boolean
           subheadline?: string
+          subheadline_color?: string
+          text_align?: string
           updated_at?: string
+          vertical_position?: string
         }
         Update: {
           background_type?: string
           background_url?: string | null
           created_at?: string
+          cta_bg_from?: string
+          cta_bg_to?: string
           cta_href?: string
           cta_label?: string
+          cta_text_color?: string
           heading_line1?: string
+          heading_line1_color?: string
           heading_line2?: string
+          heading_line2_from?: string
+          heading_line2_to?: string
+          heading_size?: string
           id?: string
           overlay_opacity?: number
           singleton?: boolean
           subheadline?: string
+          subheadline_color?: string
+          text_align?: string
           updated_at?: string
+          vertical_position?: string
         }
         Relationships: []
       }

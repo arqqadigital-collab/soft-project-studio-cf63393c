@@ -25,6 +25,33 @@ const HERO_DEFAULTS = {
   background_url: "",
   background_type: "video" as "video" | "image",
   overlay_opacity: 0.6,
+  heading_line1_color: "#ffffff",
+  heading_line2_from: "#3b82f6",
+  heading_line2_to: "#22d3ee",
+  subheadline_color: "#e5e7ebcc",
+  cta_bg_from: "#3b82f6",
+  cta_bg_to: "#22d3ee",
+  cta_text_color: "#ffffff",
+  heading_size: "lg" as "sm" | "md" | "lg" | "xl",
+  text_align: "center" as "left" | "center" | "right",
+  vertical_position: "center" as "top" | "center" | "bottom",
+};
+
+const HEADING_SIZE_CLASS: Record<"sm" | "md" | "lg" | "xl", string> = {
+  sm: "text-2xl md:text-3xl lg:text-4xl",
+  md: "text-3xl md:text-4xl lg:text-5xl",
+  lg: "text-3xl md:text-5xl lg:text-6xl",
+  xl: "text-4xl md:text-6xl lg:text-7xl",
+};
+const ALIGN_TEXT: Record<"left" | "center" | "right", string> = {
+  left: "text-left items-start",
+  center: "text-center items-center",
+  right: "text-right items-end",
+};
+const VPOS_JUSTIFY: Record<"top" | "center" | "bottom", string> = {
+  top: "justify-start pt-24",
+  center: "justify-center",
+  bottom: "justify-end pb-24",
 };
 
 export default function Index() {
@@ -91,26 +118,29 @@ export default function Index() {
           className="relative z-10 flex h-full flex-col"
         >
 
-          <section className="flex flex-1 flex-col items-center justify-center px-6 text-center">
-            <h1 className="max-w-3xl text-3xl font-bold leading-[1.1] tracking-tight md:text-5xl lg:text-6xl">
-              <span className="text-white">{hero.heading_line1}</span>
+          <section className={`flex flex-1 flex-col ${VPOS_JUSTIFY[hero.vertical_position]} ${ALIGN_TEXT[hero.text_align]} px-6`}>
+            <h1 className={`max-w-3xl font-bold leading-[1.1] tracking-tight ${HEADING_SIZE_CLASS[hero.heading_size]}`}>
+              <span style={{ color: hero.heading_line1_color }}>{hero.heading_line1}</span>
               <br />
               <span
                 className="bg-clip-text text-transparent"
-                style={{ backgroundImage: "var(--gradient-brand)" }}
+                style={{ backgroundImage: `linear-gradient(135deg, ${hero.heading_line2_from}, ${hero.heading_line2_to})` }}
               >
                 {hero.heading_line2}
               </span>
             </h1>
 
-            <p className="mt-6 max-w-2xl text-base text-white/80 md:text-lg">
+            <p className="mt-6 max-w-2xl text-base md:text-lg" style={{ color: hero.subheadline_color }}>
               {hero.subheadline}
             </p>
 
             <a
               href={hero.cta_href || "/contact"}
-              className="mt-12 inline-flex items-center gap-3 rounded-full px-10 py-5 text-base font-semibold text-white shadow-[var(--shadow-brand)] transition-transform hover:scale-105"
-              style={{ background: "var(--gradient-brand)" }}
+              className="mt-12 inline-flex items-center gap-3 rounded-full px-10 py-5 text-base font-semibold shadow-[var(--shadow-brand)] transition-transform hover:scale-105"
+              style={{
+                background: `linear-gradient(135deg, ${hero.cta_bg_from}, ${hero.cta_bg_to})`,
+                color: hero.cta_text_color,
+              }}
             >
               {hero.cta_label}
               <ArrowRight className="h-5 w-5" />
