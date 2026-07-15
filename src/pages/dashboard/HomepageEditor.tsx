@@ -367,6 +367,9 @@ export default function HomepageEditor() {
           </Card>
         </aside>
       </div>
+      <div className="mt-4">
+        <SectionPreview reloadKey={heroPreviewKey} title="Hero — live preview" />
+      </div>
         </TabsContent>
         </Tabs>
         </TabsContent>
