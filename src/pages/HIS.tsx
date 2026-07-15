@@ -518,8 +518,10 @@ export default function HIS() {
           <LogoSlider platforms={integrations.items as unknown as Platform[]} />
         </div>
       </section>
+      )}
 
       {/* FAQ */}
+      {v.FAQ && (
       <section
         className="px-6 py-24 md:px-12"
         style={{ background: "color-mix(in oklab, var(--brand-blue) 4%, var(--background))" }}
