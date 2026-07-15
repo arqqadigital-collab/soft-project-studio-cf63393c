@@ -16,6 +16,7 @@ import { MediaPickerDialog } from "@/components/dashboard/MediaPickerDialog";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { SeoEditor } from "@/components/dashboard/SeoEditor";
 import { SectionEditor } from "@/components/dashboard/SectionEditor";
+import { SectionPreview } from "@/components/dashboard/SectionPreview";
 import type { SectionKey } from "@/lib/homepageContent";
 
 const SECTIONS: { key: SectionKey; label: string }[] = [
