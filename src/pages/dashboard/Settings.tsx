@@ -13,6 +13,7 @@ type Settings = {
   id?: string;
   site_title: string | null;
   site_description: string | null;
+  site_url: string | null;
   site_logo_url: string | null;
   favicon_url: string | null;
   default_meta_title: string | null;
@@ -22,6 +23,7 @@ type Settings = {
 const EMPTY: Settings = {
   site_title: "",
   site_description: "",
+  site_url: "",
   site_logo_url: "",
   favicon_url: "",
   default_meta_title: "",
