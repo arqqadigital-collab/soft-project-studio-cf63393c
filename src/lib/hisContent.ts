@@ -243,17 +243,21 @@ export function useHISContent(): HISContent {
 }
 
 /**
- * Splits an edited headline into (leading, accent) so the accent gradient
- * matches the original design. If the merged headline ends with `accent`,
- * we split there. Otherwise the whole headline renders inside the accent
- * span (safe fallback for arbitrary edits).
+ * Splits an edited headline into (lead, accent) so the accent gradient
+ * matches the original design.
+ * - If `full` ends with `accent`, split there (single-string convention).
+ * - Else, treat `full` and `accent` as two separate pieces joined by a
+ *   space (two-field convention used by the page builder).
+ * - Empty `accent` → whole headline is the lead.
  */
 export function splitAccent(full: string, accent: string): { lead: string; accent: string } {
-  if (!full) return { lead: "", accent: accent ?? "" };
+  if (!full && !accent) return { lead: "", accent: "" };
   if (!accent) return { lead: full, accent: "" };
+  if (!full) return { lead: "", accent };
   if (full === accent) return { lead: "", accent: full };
   if (full.endsWith(accent)) {
     return { lead: full.slice(0, full.length - accent.length).trimEnd() + " ", accent };
   }
-  return { lead: "", accent: full };
+  return { lead: full + " ", accent };
 }
+
