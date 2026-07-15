@@ -3,6 +3,8 @@ import DashboardLayout from "./dashboard/DashboardLayout";
 import DashboardHome from "./dashboard/DashboardHome";
 import Profile from "./dashboard/Profile";
 import Placeholder from "./dashboard/Placeholder";
+import PostsList from "./dashboard/PostsList";
+import PostEditor from "./dashboard/PostEditor";
 import { RoleGate } from "@/components/dashboard/RoleGate";
 
 export default function Dashboard() {
@@ -10,9 +12,9 @@ export default function Dashboard() {
     <Routes>
       <Route element={<DashboardLayout />}>
         <Route index element={<DashboardHome />} />
-        <Route path="posts" element={<Placeholder title="Posts" description="Posts manager arrives in Phase 3." />} />
-        <Route path="posts/new" element={<Placeholder title="New Post" />} />
-        <Route path="posts/:id" element={<Placeholder title="Edit Post" />} />
+        <Route path="posts" element={<PostsList />} />
+        <Route path="posts/new" element={<PostEditor />} />
+        <Route path="posts/:id" element={<PostEditor />} />
         <Route
           path="pages"
           element={
