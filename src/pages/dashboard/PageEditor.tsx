@@ -295,6 +295,16 @@ export default function PageEditor() {
               )}
             </CardContent>
           </Card>
+
+          <RevisionsPanel
+            entityType="page"
+            entityId={pageId}
+            restorableFields={["title", "content", "featured_image_url"]}
+            onRestore={(snap) => {
+              setForm((f) => ({ ...f, ...snap }));
+              dirtyRef.current = true;
+            }}
+          />
         </aside>
       </div>
 
