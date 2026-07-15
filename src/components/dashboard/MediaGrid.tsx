@@ -263,10 +263,14 @@ function MediaDetailsDialog({ media, onOpenChange }: { media: MediaRow | null; o
           </div>
         </div>
         <DialogFooter className="flex justify-between sm:justify-between">
-          <Button variant="destructive" onClick={del}><Trash2 className="mr-1 h-4 w-4" /> Delete</Button>
+          {builtin ? (
+            <span className="text-xs text-muted-foreground">Built-in asset — cannot be deleted</span>
+          ) : (
+            <Button variant="destructive" onClick={del}><Trash2 className="mr-1 h-4 w-4" /> Delete</Button>
+          )}
           <div className="flex gap-2">
             <Button variant="outline" onClick={() => onOpenChange(false)}><X className="mr-1 h-4 w-4" /> Close</Button>
-            <Button onClick={saveAlt} disabled={saving}>{saving ? "Saving…" : "Save"}</Button>
+            <Button onClick={saveAlt} disabled={saving || builtin}>{saving ? "Saving…" : "Save"}</Button>
           </div>
         </DialogFooter>
       </DialogContent>
