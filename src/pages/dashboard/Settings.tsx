@@ -137,6 +137,16 @@ export default function SettingsPage() {
           </div>
         </CardContent>
       </Card>
+
+      <MediaPickerDialog
+        open={picker !== null}
+        onOpenChange={(o) => { if (!o) setPicker(null); }}
+        onPick={(m) => {
+          if (picker === "logo") update({ site_logo_url: m.file_url });
+          if (picker === "favicon") update({ favicon_url: m.file_url });
+          setPicker(null);
+        }}
+      />
     </div>
   );
 }
