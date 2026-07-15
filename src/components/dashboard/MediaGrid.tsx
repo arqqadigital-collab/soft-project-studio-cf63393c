@@ -123,21 +123,25 @@ export function MediaGrid({
         <input {...getInputProps()} />
         {media.isLoading ? (
           <div className="py-8 text-center text-sm text-muted-foreground">Loading…</div>
-        ) : !media.data?.length ? (
+        ) : !combined.length ? (
           <div className="py-8 text-center text-sm text-muted-foreground">
             Drop files here or click Upload above.
           </div>
         ) : (
           <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6">
-            {media.data.map((m) => {
+            {combined.map((m) => {
               const isImg = m.file_type?.startsWith("image/");
+              const builtin = isBuiltinMedia(m);
               return (
                 <button
                   type="button"
                   key={m.id}
                   onClick={() => (onPick ? onPick(m) : setSelected(m))}
-                  className="group overflow-hidden rounded-md border bg-card text-left transition-shadow hover:shadow"
+                  className="group relative overflow-hidden rounded-md border bg-card text-left transition-shadow hover:shadow"
                 >
+                  {builtin && (
+                    <Badge variant="secondary" className="absolute right-1 top-1 z-10 text-[10px]">Built-in</Badge>
+                  )}
                   <div className="flex aspect-square items-center justify-center bg-muted/50">
                     {isImg ? (
                       <img src={m.file_url} alt={m.alt_text ?? ""} className="h-full w-full object-cover" />
