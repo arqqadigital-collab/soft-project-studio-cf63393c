@@ -27,6 +27,8 @@ interface SeoForm {
   og_image_url: string;
   canonical_url: string;
   focus_keyword: string;
+  noindex: boolean;
+  nofollow: boolean;
 }
 
 const EMPTY: SeoForm = {
@@ -35,6 +37,8 @@ const EMPTY: SeoForm = {
   og_image_url: "",
   canonical_url: "",
   focus_keyword: "",
+  noindex: false,
+  nofollow: false,
 };
 
 export function SeoEditor({
