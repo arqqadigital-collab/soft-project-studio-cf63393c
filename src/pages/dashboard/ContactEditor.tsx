@@ -321,7 +321,7 @@ function PageContentTab() {
       <MediaPickerDialog
         open={pickerOpen}
         onOpenChange={setPickerOpen}
-        onPick={(m) => set("hero_background_url", m.url)}
+        onPick={(m) => set("hero_background_url", m.file_url)}
       />
     </div>
   );
@@ -464,7 +464,7 @@ function OfficesTab() {
       <MediaPickerDialog
         open={pickerOpen}
         onOpenChange={setPickerOpen}
-        onPick={(m) => editing && setEditing({ ...editing, image_url: m.url })}
+        onPick={(m) => editing && setEditing({ ...editing, image_url: m.file_url })}
       />
     </div>
   );
