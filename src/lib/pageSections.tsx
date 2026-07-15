@@ -399,6 +399,7 @@ function LogosEdit({ data, onChange }: { data: SectionData; onChange: (n: Sectio
           </>
         )}
       />
+      <ColorFields data={data} onChange={onChange} />
     </div>
   );
 }
