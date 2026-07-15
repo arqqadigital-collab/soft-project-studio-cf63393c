@@ -91,9 +91,9 @@ export default function HomepageEditor() {
   const qc = useQueryClient();
   const [form, setForm] = useState<HeroForm>(EMPTY);
   const [rowId, setRowId] = useState<string | null>(null);
+  const [heroVisible, setHeroVisible] = useState(true);
   const [saving, setSaving] = useState(false);
   const [pickerOpen, setPickerOpen] = useState(false);
-  const [heroPreviewKey, setHeroPreviewKey] = useState(0);
 
   const { data, isLoading } = useQuery({
     queryKey: ["homepage-hero"],
