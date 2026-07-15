@@ -43,6 +43,7 @@ import Events from "./pages/Events";
 import CaseStudies from "./pages/CaseStudies";
 import Contact from "./pages/Contact";
 import ArticleDetail from "./pages/ArticleDetail";
+import PublicPage from "./pages/PublicPage";
 
 function NotFound() {
   return (
