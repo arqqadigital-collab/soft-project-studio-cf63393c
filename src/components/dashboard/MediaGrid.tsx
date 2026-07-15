@@ -13,6 +13,8 @@ import {
   Dialog, DialogContent, DialogFooter, DialogHeader, DialogTitle,
 } from "@/components/ui/dialog";
 import { formatDistanceToNow } from "date-fns";
+import { getBuiltinMedia, isBuiltinMedia } from "@/lib/builtinMedia";
+import { Badge } from "@/components/ui/badge";
 
 // 10-year signed URL (Supabase allows very long expiries on signed URLs).
 const SIGNED_URL_TTL = 60 * 60 * 24 * 365 * 10;
@@ -70,6 +72,19 @@ export function MediaGrid({
     },
   });
 
+  const combined = useMemo(() => {
+    const uploaded = media.data ?? [];
+    let builtins = getBuiltinMedia();
+    if (filterType === "image") {
+      builtins = builtins.filter((m) => m.file_type?.startsWith("image/"));
+    }
+    if (search.trim()) {
+      const s = search.trim().toLowerCase();
+      builtins = builtins.filter((m) => m.file_name.toLowerCase().includes(s));
+    }
+    return [...uploaded, ...builtins];
+  }, [media.data, filterType, search]);
+
   const onDrop = useCallback(async (files: File[]) => {
     if (!user) return;
     setUploading(true);
@@ -108,21 +123,25 @@ export function MediaGrid({
         <input {...getInputProps()} />
         {media.isLoading ? (
           <div className="py-8 text-center text-sm text-muted-foreground">Loading…</div>
-        ) : !media.data?.length ? (
+        ) : !combined.length ? (
           <div className="py-8 text-center text-sm text-muted-foreground">
             Drop files here or click Upload above.
           </div>
         ) : (
           <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6">
-            {media.data.map((m) => {
+            {combined.map((m) => {
               const isImg = m.file_type?.startsWith("image/");
+              const builtin = isBuiltinMedia(m);
               return (
                 <button
                   type="button"
                   key={m.id}
                   onClick={() => (onPick ? onPick(m) : setSelected(m))}
-                  className="group overflow-hidden rounded-md border bg-card text-left transition-shadow hover:shadow"
+                  className="group relative overflow-hidden rounded-md border bg-card text-left transition-shadow hover:shadow"
                 >
+                  {builtin && (
+                    <Badge variant="secondary" className="absolute right-1 top-1 z-10 text-[10px]">Built-in</Badge>
+                  )}
                   <div className="flex aspect-square items-center justify-center bg-muted/50">
                     {isImg ? (
                       <img src={m.file_url} alt={m.alt_text ?? ""} className="h-full w-full object-cover" />
@@ -192,11 +211,17 @@ function MediaDetailsDialog({ media, onOpenChange }: { media: MediaRow | null; o
 
   if (!media) return null;
   const isImg = media.file_type?.startsWith("image/");
+  const builtin = isBuiltinMedia(media);
 
   return (
     <Dialog open={!!media} onOpenChange={onOpenChange}>
       <DialogContent className="max-w-3xl">
-        <DialogHeader><DialogTitle className="truncate">{media.file_name}</DialogTitle></DialogHeader>
+        <DialogHeader>
+          <DialogTitle className="truncate">
+            {media.file_name}
+            {builtin && <Badge variant="secondary" className="ml-2 align-middle text-[10px]">Built-in</Badge>}
+          </DialogTitle>
+        </DialogHeader>
         <div className="grid gap-4 md:grid-cols-[1fr_1fr]">
           <div className="flex items-center justify-center rounded-md border bg-muted/40 p-2">
             {isImg
@@ -238,10 +263,14 @@ function MediaDetailsDialog({ media, onOpenChange }: { media: MediaRow | null; o
           </div>
         </div>
         <DialogFooter className="flex justify-between sm:justify-between">
-          <Button variant="destructive" onClick={del}><Trash2 className="mr-1 h-4 w-4" /> Delete</Button>
+          {builtin ? (
+            <span className="text-xs text-muted-foreground">Built-in asset — cannot be deleted</span>
+          ) : (
+            <Button variant="destructive" onClick={del}><Trash2 className="mr-1 h-4 w-4" /> Delete</Button>
+          )}
           <div className="flex gap-2">
             <Button variant="outline" onClick={() => onOpenChange(false)}><X className="mr-1 h-4 w-4" /> Close</Button>
-            <Button onClick={saveAlt} disabled={saving}>{saving ? "Saving…" : "Save"}</Button>
+            <Button onClick={saveAlt} disabled={saving || builtin}>{saving ? "Saving…" : "Save"}</Button>
           </div>
         </DialogFooter>
       </DialogContent>
