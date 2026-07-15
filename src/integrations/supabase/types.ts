@@ -615,7 +615,7 @@ export type Database = {
       page_status: "draft" | "published" | "trashed"
       page_template: "default" | "full-width" | "landing"
       post_status: "draft" | "published" | "scheduled" | "trashed"
-      seo_entity: "post" | "page"
+      seo_entity: "post" | "page" | "homepage"
       view_entity: "post" | "page"
     }
     CompositeTypes: {
@@ -748,7 +748,7 @@ export const Constants = {
       page_status: ["draft", "published", "trashed"],
       page_template: ["default", "full-width", "landing"],
       post_status: ["draft", "published", "scheduled", "trashed"],
-      seo_entity: ["post", "page"],
+      seo_entity: ["post", "page", "homepage"],
       view_entity: ["post", "page"],
     },
   },

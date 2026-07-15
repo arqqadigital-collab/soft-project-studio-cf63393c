@@ -13,6 +13,8 @@ import {
 } from "@/components/ui/select";
 import { Slider } from "@/components/ui/slider";
 import { MediaPickerDialog } from "@/components/dashboard/MediaPickerDialog";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { SeoEditor } from "@/components/dashboard/SeoEditor";
 
 type Size = "sm" | "md" | "lg" | "xl";
 type Align = "left" | "center" | "right";
@@ -175,6 +177,21 @@ export default function HomepageEditor() {
         </div>
       </div>
 
+      <Tabs defaultValue="content">
+        <TabsList>
+          <TabsTrigger value="content">Content & style</TabsTrigger>
+          <TabsTrigger value="seo">SEO</TabsTrigger>
+        </TabsList>
+        <TabsContent value="seo" className="mt-3">
+          <SeoEditor
+            entityType="homepage"
+            entityId={rowId}
+            fallbackTitle={form.heading_line1 || "Home"}
+            fallbackDescription={form.subheadline}
+            publicUrl="/"
+          />
+        </TabsContent>
+        <TabsContent value="content" className="mt-3">
       <div className="grid gap-4 lg:grid-cols-[1fr_340px]">
         <div className="space-y-4">
           <Card>
@@ -312,6 +329,8 @@ export default function HomepageEditor() {
           </Card>
         </aside>
       </div>
+        </TabsContent>
+      </Tabs>
 
       <MediaPickerDialog
         open={pickerOpen}

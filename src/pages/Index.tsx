@@ -3,6 +3,7 @@ import { ArrowRight } from "lucide-react";
 import { motion, useScroll, useTransform } from "framer-motion";
 import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
+import { SeoHead } from "@/components/SeoHead";
 import headerVideo from "@/assets/header-bg.mp4";
 import { ExpertiseSection } from "@/components/ExpertiseSection";
 import { StatsSection } from "@/components/StatsSection";
@@ -82,8 +83,34 @@ export default function Index() {
   const bgSrc = hero.background_url || headerVideo;
   const isVideo = hero.background_url ? hero.background_type === "video" : true;
 
+  const { data: seo } = useQuery({
+    queryKey: ["seo_meta", "homepage", (heroRow as any)?.id],
+    enabled: !!(heroRow as any)?.id,
+    queryFn: async () => {
+      const { data, error } = await supabase
+        .from("seo_meta")
+        .select("*")
+        .eq("entity_type", "homepage")
+        .eq("entity_id", (heroRow as any).id)
+        .maybeSingle();
+      if (error) throw error;
+      return data as any;
+    },
+  });
+
+  const seoTitle = seo?.meta_title || hero.heading_line1 || "Home";
+  const seoDesc = seo?.meta_description || hero.subheadline;
+
   return (
     <>
+      <SeoHead
+        title={seoTitle}
+        description={seoDesc}
+        canonical={seo?.canonical_url || undefined}
+        ogImage={seo?.og_image_url || undefined}
+        noindex={!!seo?.noindex}
+        nofollow={!!seo?.nofollow}
+      />
       <main
         ref={heroRef}
         className="pt-20 relative h-screen w-full overflow-hidden bg-background"

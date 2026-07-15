@@ -11,7 +11,7 @@ import { Switch } from "@/components/ui/switch";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { MediaPickerDialog } from "@/components/dashboard/MediaPickerDialog";
 
-type EntityType = "post" | "page";
+type EntityType = "post" | "page" | "homepage";
 
 interface Props {
   entityType: EntityType;
