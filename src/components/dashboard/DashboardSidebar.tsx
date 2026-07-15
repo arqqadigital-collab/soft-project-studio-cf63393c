@@ -41,6 +41,7 @@ const groups: { label: string; items: Item[] }[] = [
       { title: "Pages", url: "/dashboard/pages", icon: FileStack, allow: ["admin", "editor"] },
       { title: "Menus", url: "/dashboard/menus", icon: MenuIcon, allow: ["admin", "editor"] },
       { title: "Header & Footer", url: "/dashboard/header-footer", icon: PanelsTopLeft, allow: ["admin", "editor"] },
+      { title: "Contact", url: "/dashboard/contact", icon: MessageSquare, allow: ["admin", "editor"] },
       { title: "Site Settings", url: "/dashboard/settings", icon: Settings, allow: ["admin"] },
       { title: "Media Library", url: "/dashboard/media", icon: ImageIcon },
     ],
