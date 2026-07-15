@@ -406,16 +406,16 @@ function LogosEdit({ data, onChange }: { data: SectionData; onChange: (n: Sectio
 
 function FaqRender({ data }: { data: SectionData }) {
   return (
-    <section className="bg-background py-20">
+    <section className={data.bgColor ? "py-20" : "bg-background py-20"} style={sectionStyle(data)}>
       <Container>
-        {data.heading && <h2 className="text-3xl font-bold text-foreground md:text-4xl">{data.heading}</h2>}
+        {data.heading && <h2 className="text-3xl font-bold md:text-4xl">{data.heading}</h2>}
         <div className="mt-8 divide-y divide-border rounded-2xl border border-border">
           {(data.items ?? []).map((f: any, i: number) => (
             <details key={i} className="group p-6">
-              <summary className="cursor-pointer list-none text-base font-semibold text-foreground marker:hidden">
+              <summary className="cursor-pointer list-none text-base font-semibold marker:hidden">
                 {f.q}
               </summary>
-              <p className="mt-3 text-sm leading-relaxed text-muted-foreground">{f.a}</p>
+              <p className="mt-3 text-sm leading-relaxed opacity-80">{f.a}</p>
             </details>
           ))}
         </div>
@@ -423,6 +423,7 @@ function FaqRender({ data }: { data: SectionData }) {
     </section>
   );
 }
+
 
 function FaqEdit({ data, onChange }: { data: SectionData; onChange: (n: SectionData) => void }) {
   const p = (patch: Partial<SectionData>) => onChange({ ...data, ...patch });
