@@ -308,8 +308,10 @@ export default function HIS() {
           </section>
         </div>
       </main>
+      )}
 
       {/* INTRO */}
+      {v.Introduction && (
       <section className="relative z-20 -mt-12 rounded-t-[2.5rem] bg-background px-6 py-24 shadow-[0_-20px_60px_-20px_rgba(0,0,0,0.4)] md:px-12 md:py-32">
         <div className="mx-auto max-w-5xl text-center">
           <p
