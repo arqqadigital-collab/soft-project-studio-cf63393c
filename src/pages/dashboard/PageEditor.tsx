@@ -299,13 +299,18 @@ export default function PageEditor() {
                   <SelectTrigger><SelectValue placeholder="Unassigned" /></SelectTrigger>
                   <SelectContent>
                     <SelectItem value="none">Unassigned</SelectItem>
-                    {(navTree.data?.groups ?? []).map((g) => (
-                      <SelectGroupSections
-                        key={g.id}
-                        group={g}
-                        sections={(navTree.data?.sections ?? []).filter((s) => s.group_id === g.id)}
-                      />
-                    ))}
+                    {(navTree.data?.groups ?? []).map((g) => {
+                      const secs = (navTree.data?.sections ?? []).filter((s) => s.group_id === g.id);
+                      if (!secs.length) return null;
+                      return (
+                        <SelectGroup key={g.id}>
+                          <SelectLabel>{g.label}</SelectLabel>
+                          {secs.map((s) => (
+                            <SelectItem key={s.id} value={s.id}>{s.label}</SelectItem>
+                          ))}
+                        </SelectGroup>
+                      );
+                    })}
                   </SelectContent>
                 </Select>
                 <p className="text-xs text-muted-foreground">Where this page appears in the mega menu.</p>
