@@ -433,8 +433,10 @@ export default function HIS() {
           </div>
         </div>
       </section>
+      )}
 
       {/* HOW IT WORKS */}
+      {v["Patient Journey"] && (
       <section
         className="relative px-6 py-24 md:px-12"
         style={{
