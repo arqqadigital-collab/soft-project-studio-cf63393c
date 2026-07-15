@@ -18,14 +18,15 @@ export function SectionPreview({
 }) {
   const iframeRef = useRef<HTMLIFrameElement>(null);
   const [tick, setTick] = useState(0);
-  const src = `/?preview=1${anchor ? `#${anchor}` : ""}`;
+  const src = `/?preview=1&_r=${reloadKey}-${tick}${anchor ? `#${anchor}` : ""}`;
+  const openSrc = `/?preview=1${anchor ? `#${anchor}` : ""}`;
 
   useEffect(() => {
-    // When reloadKey or tick changes, reload the iframe and re-scroll.
     const el = iframeRef.current;
     if (!el) return;
     el.src = src;
-  }, [reloadKey, tick, src]);
+  }, [src]);
+
 
   return (
     <Card className="overflow-hidden">
@@ -36,7 +37,7 @@ export function SectionPreview({
             <RefreshCw className="h-4 w-4" />
           </Button>
           <Button asChild variant="ghost" size="sm" title="Open in new tab">
-            <a href={src} target="_blank" rel="noreferrer">
+            <a href={openSrc} target="_blank" rel="noreferrer">
               <ExternalLink className="h-4 w-4" />
             </a>
           </Button>
