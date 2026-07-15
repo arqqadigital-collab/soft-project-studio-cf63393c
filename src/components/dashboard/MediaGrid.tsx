@@ -72,6 +72,19 @@ export function MediaGrid({
     },
   });
 
+  const combined = useMemo(() => {
+    const uploaded = media.data ?? [];
+    let builtins = getBuiltinMedia();
+    if (filterType === "image") {
+      builtins = builtins.filter((m) => m.file_type?.startsWith("image/"));
+    }
+    if (search.trim()) {
+      const s = search.trim().toLowerCase();
+      builtins = builtins.filter((m) => m.file_name.toLowerCase().includes(s));
+    }
+    return [...uploaded, ...builtins];
+  }, [media.data, filterType, search]);
+
   const onDrop = useCallback(async (files: File[]) => {
     if (!user) return;
     setUploading(true);
