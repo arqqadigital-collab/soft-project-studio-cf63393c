@@ -2,7 +2,7 @@ import { useMemo, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { toast } from "sonner";
-import { Plus, Trash2 } from "lucide-react";
+import { Plus, Trash2, Home } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
@@ -112,11 +112,30 @@ export default function PagesList() {
             </TableRow>
           </TableHeader>
           <TableBody>
+            <TableRow className="bg-muted/40">
+              <TableCell></TableCell>
+              <TableCell>
+                <Link to="/dashboard/homepage" className="inline-flex items-center gap-2 font-medium hover:underline">
+                  <Home className="h-4 w-4 text-primary" />
+                  Homepage
+                  <span className="rounded-full bg-primary/10 px-2 py-0.5 text-[10px] font-semibold uppercase tracking-wide text-primary">
+                    Front page
+                  </span>
+                </Link>
+              </TableCell>
+              <TableCell className="text-sm text-muted-foreground">hero</TableCell>
+              <TableCell>
+                <span className="inline-flex rounded-full bg-green-500/15 px-2 py-0.5 text-xs text-green-700 dark:text-green-400">
+                  Published
+                </span>
+              </TableCell>
+              <TableCell className="text-xs text-muted-foreground">Always live at /</TableCell>
+            </TableRow>
             {pages.isLoading ? (
               <TableRow><TableCell colSpan={5} className="py-8 text-center text-sm text-muted-foreground">Loading…</TableCell></TableRow>
             ) : tree.length === 0 ? (
               <TableRow><TableCell colSpan={5} className="py-8 text-center text-sm text-muted-foreground">
-                No pages. <Link to="/dashboard/pages/new" className="text-primary underline">Create one</Link>.
+                No custom pages yet. <Link to="/dashboard/pages/new" className="text-primary underline">Create one</Link>.
               </TableCell></TableRow>
             ) : tree.map(({ row, depth }) => (
               <TableRow key={row.id}>
