@@ -16,6 +16,7 @@ import { MediaPickerDialog } from "@/components/dashboard/MediaPickerDialog";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { SeoEditor } from "@/components/dashboard/SeoEditor";
 import { SectionEditor } from "@/components/dashboard/SectionEditor";
+import { SectionPreview } from "@/components/dashboard/SectionPreview";
 import type { SectionKey } from "@/lib/homepageContent";
 
 const SECTIONS: { key: SectionKey; label: string }[] = [
@@ -103,6 +104,7 @@ export default function HomepageEditor() {
   const [rowId, setRowId] = useState<string | null>(null);
   const [saving, setSaving] = useState(false);
   const [pickerOpen, setPickerOpen] = useState(false);
+  const [heroPreviewKey, setHeroPreviewKey] = useState(0);
 
   const { data, isLoading } = useQuery({
     queryKey: ["homepage-hero"],
@@ -162,6 +164,7 @@ export default function HomepageEditor() {
       if (error) throw error;
       qc.invalidateQueries({ queryKey: ["homepage-hero"] });
       qc.invalidateQueries({ queryKey: ["homepage-hero-public"] });
+      setHeroPreviewKey((k) => k + 1);
       toast.success("Homepage hero updated");
     } catch (e: any) {
       toast.error(e.message || "Save failed");
@@ -324,7 +327,15 @@ export default function HomepageEditor() {
               {form.background_url ? (
                 <>
                   {form.background_type === "video" ? (
-                    <video src={form.background_url} muted className="w-full rounded-md border" />
+                    <video
+                      src={form.background_url}
+                      autoPlay
+                      muted
+                      loop
+                      playsInline
+                      controls
+                      className="w-full rounded-md border bg-black"
+                    />
                   ) : (
                     <img src={form.background_url} alt="" className="w-full rounded-md border" />
                   )}
@@ -355,6 +366,9 @@ export default function HomepageEditor() {
             </CardContent>
           </Card>
         </aside>
+      </div>
+      <div className="mt-4">
+        <SectionPreview reloadKey={heroPreviewKey} title="Hero — live preview" />
       </div>
         </TabsContent>
         </Tabs>

@@ -9,6 +9,7 @@ import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { MediaPickerDialog } from "@/components/dashboard/MediaPickerDialog";
+import { SectionPreview } from "@/components/dashboard/SectionPreview";
 import { DEFAULTS, type SectionKey } from "@/lib/homepageContent";
 
 const LABELS: Record<SectionKey, string> = {
@@ -40,7 +41,7 @@ function MediaField({ value, onChange, label }: { value: string; onChange: (v: s
       </div>
       {value ? (
         isVideo ? (
-          <video src={value} muted className="max-h-24 rounded border" />
+          <video src={value} autoPlay muted loop playsInline className="max-h-24 rounded border bg-black" />
         ) : (
           <img src={value} alt="" className="max-h-24 rounded border object-cover" />
         )
@@ -168,6 +169,7 @@ export function SectionEditor({ sectionKey }: { sectionKey: SectionKey }) {
   const qc = useQueryClient();
   const [content, setContent] = useState<any>(DEFAULTS[sectionKey]);
   const [saving, setSaving] = useState(false);
+  const [previewKey, setPreviewKey] = useState(0);
 
   const { data, isLoading } = useQuery({
     queryKey: ["homepage-section-edit", sectionKey],
@@ -200,6 +202,7 @@ export function SectionEditor({ sectionKey }: { sectionKey: SectionKey }) {
       if (error) throw error;
       qc.invalidateQueries({ queryKey: ["homepage-section", sectionKey] });
       qc.invalidateQueries({ queryKey: ["homepage-section-edit", sectionKey] });
+      setPreviewKey((k) => k + 1);
       toast.success(`${LABELS[sectionKey]} saved`);
     } catch (e: any) {
       toast.error(e.message || "Save failed");
@@ -226,12 +229,21 @@ export function SectionEditor({ sectionKey }: { sectionKey: SectionKey }) {
           </Button>
         </div>
       </div>
-      <Card>
-        <CardHeader className="pb-3"><CardTitle className="text-sm">{LABELS[sectionKey]}</CardTitle></CardHeader>
-        <CardContent>
-          <ObjectFields obj={content} onChange={setContent} />
-        </CardContent>
-      </Card>
+      <div className="grid gap-4 lg:grid-cols-[minmax(0,1fr)_minmax(0,520px)]">
+        <Card>
+          <CardHeader className="pb-3"><CardTitle className="text-sm">{LABELS[sectionKey]}</CardTitle></CardHeader>
+          <CardContent>
+            <ObjectFields obj={content} onChange={setContent} />
+          </CardContent>
+        </Card>
+        <div className="lg:sticky lg:top-4 lg:self-start">
+          <SectionPreview
+            anchor={`section-${sectionKey}`}
+            reloadKey={previewKey}
+            title={`${LABELS[sectionKey]} — live preview`}
+          />
+        </div>
+      </div>
     </div>
   );
 }

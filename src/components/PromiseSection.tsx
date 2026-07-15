@@ -14,7 +14,7 @@ export function PromiseSection() {
   const c = useSectionContent("promise");
 
   return (
-    <section className="bg-background py-24 md:py-32">
+    <section id="section-promise" className="bg-background py-24 md:py-32">
       <div className="mx-auto max-w-7xl px-6">
         <div className="text-center">
           <p className="text-sm font-semibold uppercase tracking-[0.25em]" style={{ color: "var(--brand-blue)" }}>{c.kicker}</p>
