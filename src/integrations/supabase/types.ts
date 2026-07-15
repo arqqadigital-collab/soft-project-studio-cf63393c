@@ -373,6 +373,8 @@ export type Database = {
           id: string
           meta_description: string | null
           meta_title: string | null
+          nofollow: boolean
+          noindex: boolean
           og_image_url: string | null
           updated_at: string
         }
@@ -385,6 +387,8 @@ export type Database = {
           id?: string
           meta_description?: string | null
           meta_title?: string | null
+          nofollow?: boolean
+          noindex?: boolean
           og_image_url?: string | null
           updated_at?: string
         }
@@ -397,6 +401,8 @@ export type Database = {
           id?: string
           meta_description?: string | null
           meta_title?: string | null
+          nofollow?: boolean
+          noindex?: boolean
           og_image_url?: string | null
           updated_at?: string
         }
@@ -413,6 +419,7 @@ export type Database = {
           site_description: string | null
           site_logo_url: string | null
           site_title: string | null
+          site_url: string | null
           updated_at: string
         }
         Insert: {
@@ -425,6 +432,7 @@ export type Database = {
           site_description?: string | null
           site_logo_url?: string | null
           site_title?: string | null
+          site_url?: string | null
           updated_at?: string
         }
         Update: {
@@ -437,7 +445,35 @@ export type Database = {
           site_description?: string | null
           site_logo_url?: string | null
           site_title?: string | null
+          site_url?: string | null
           updated_at?: string
+        }
+        Relationships: []
+      }
+      slug_redirects: {
+        Row: {
+          created_at: string
+          entity_id: string | null
+          entity_type: string
+          id: string
+          new_slug: string
+          old_slug: string
+        }
+        Insert: {
+          created_at?: string
+          entity_id?: string | null
+          entity_type: string
+          id?: string
+          new_slug: string
+          old_slug: string
+        }
+        Update: {
+          created_at?: string
+          entity_id?: string | null
+          entity_type?: string
+          id?: string
+          new_slug?: string
+          old_slug?: string
         }
         Relationships: []
       }
