@@ -1,32 +1,62 @@
-import { useNavigate } from "react-router-dom";
-import { supabase } from "@/integrations/supabase/client";
-import { useAuth } from "@/hooks/use-auth";
+import { Routes, Route, Navigate } from "react-router-dom";
+import DashboardLayout from "./dashboard/DashboardLayout";
+import DashboardHome from "./dashboard/DashboardHome";
+import Profile from "./dashboard/Profile";
+import Placeholder from "./dashboard/Placeholder";
+import { RoleGate } from "@/components/dashboard/RoleGate";
 
 export default function Dashboard() {
-  const { user } = useAuth();
-  const navigate = useNavigate();
-
-  async function handleLogout() {
-    await supabase.auth.signOut();
-    navigate("/login", { replace: true });
-  }
-
   return (
-    <main className="min-h-screen bg-background">
-      <header className="flex items-center justify-between border-b border-border px-6 py-4">
-        <h1 className="text-lg font-semibold text-foreground">Dashboard</h1>
-        <button
-          onClick={handleLogout}
-          className="rounded-md border border-border bg-card px-3 py-1.5 text-sm text-foreground transition-colors hover:bg-muted"
-        >
-          Log out
-        </button>
-      </header>
-      <section className="px-6 py-10">
-        <p className="text-foreground">
-          Dashboard - Logged in as <span className="font-medium">{user?.email}</span>
-        </p>
-      </section>
-    </main>
+    <Routes>
+      <Route element={<DashboardLayout />}>
+        <Route index element={<DashboardHome />} />
+        <Route path="posts" element={<Placeholder title="Posts" description="Posts manager arrives in Phase 3." />} />
+        <Route path="posts/new" element={<Placeholder title="New Post" />} />
+        <Route path="posts/:id" element={<Placeholder title="Edit Post" />} />
+        <Route
+          path="pages"
+          element={
+            <RoleGate allow={["admin", "editor"]}>
+              <Placeholder title="Pages" description="Pages manager arrives in Phase 4." />
+            </RoleGate>
+          }
+        />
+        <Route
+          path="pages/new"
+          element={<RoleGate allow={["admin", "editor"]}><Placeholder title="New Page" /></RoleGate>}
+        />
+        <Route
+          path="pages/:id"
+          element={<RoleGate allow={["admin", "editor"]}><Placeholder title="Edit Page" /></RoleGate>}
+        />
+        <Route path="media" element={<Placeholder title="Media Library" description="Ships in Phase 4." />} />
+        <Route
+          path="taxonomy"
+          element={
+            <RoleGate allow={["admin", "editor", "author"]}>
+              <Placeholder title="Categories & Tags" description="Ships in Phase 5." />
+            </RoleGate>
+          }
+        />
+        <Route
+          path="users"
+          element={<RoleGate allow={["admin"]}><Placeholder title="Users" description="Ships in Phase 6." /></RoleGate>}
+        />
+        <Route
+          path="seo"
+          element={<RoleGate allow={["admin", "editor"]}><Placeholder title="SEO" description="Per-page SEO lives inside the post/page editor. This overview ships in Phase 5." /></RoleGate>}
+        />
+        <Route
+          path="analytics"
+          element={<RoleGate allow={["admin", "editor"]}><Placeholder title="Analytics" description="Ships in Phase 6." /></RoleGate>}
+        />
+        <Route
+          path="settings"
+          element={<RoleGate allow={["admin"]}><Placeholder title="Settings" description="Ships in Phase 6." /></RoleGate>}
+        />
+        <Route path="profile" element={<Profile />} />
+        <Route path="*" element={<Navigate to="/dashboard" replace />} />
+      </Route>
+    </Routes>
   );
 }
