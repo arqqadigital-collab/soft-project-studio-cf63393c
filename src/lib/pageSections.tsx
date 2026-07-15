@@ -359,6 +359,7 @@ function MediaEdit({ data, onChange }: { data: SectionData; onChange: (n: Sectio
         accept="image|video"
       />
       <Field label="Caption"><Input value={data.caption ?? ""} onChange={(e) => p({ caption: e.target.value })} /></Field>
+      <ColorFields data={data} onChange={onChange} />
     </div>
   );
 }
