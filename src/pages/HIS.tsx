@@ -446,7 +446,7 @@ export default function HIS() {
             </h2>
           </div>
 
-          <ExpandingJourney steps={journey.items as JourneyStep[]} />
+          <ExpandingJourney steps={journey.items as unknown as JourneyStep[]} />
         </div>
       </section>
 
