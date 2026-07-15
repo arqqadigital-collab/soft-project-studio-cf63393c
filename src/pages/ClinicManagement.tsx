@@ -56,7 +56,7 @@ function AnimatedStat({ value }: { value: string }) {
   );
 }
 
-function ExpandingJourney({ steps }: { steps: any[] }) {
+function ExpandingJourney({ steps }: { steps: readonly any[] }) {
   const [active, setActive] = useState(0);
   return (
     <div className="mt-14 flex flex-col gap-3 md:flex-row md:gap-4 md:h-[520px]">
@@ -122,7 +122,7 @@ function ExpandingJourney({ steps }: { steps: any[] }) {
   );
 }
 
-function LogoSlider({ platforms }: { platforms: any[] }) {
+function LogoSlider({ platforms }: { platforms: readonly any[] }) {
   const scrollRef = useRef<HTMLDivElement>(null);
   const [canScrollLeft, setCanScrollLeft] = useState(false);
   const [canScrollRight, setCanScrollRight] = useState(true);
