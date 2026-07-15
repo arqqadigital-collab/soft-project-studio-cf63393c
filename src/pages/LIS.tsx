@@ -414,17 +414,17 @@ export default function LIS() {
             <h2 className="mt-5 text-3xl font-bold tracking-tight text-foreground md:text-5xl">
               {integrations.heading}
             </h2>
-            {integrations.body && (
-              <p className="mt-6 text-base leading-relaxed text-foreground/70 md:text-lg">{integrations.body}</p>
+            {integrations.subheading && (
+              <p className="mt-6 text-base leading-relaxed text-foreground/70 md:text-lg">{integrations.subheading}</p>
             )}
-            {integrations.tags?.length ? (
+            {integrations.items?.length ? (
               <div className="mt-10 flex flex-wrap justify-center gap-3">
-                {integrations.tags.map((tag: string) => (
+                {integrations.items.map((tag: any) => (
                   <span
-                    key={tag}
+                    key={tag.title}
                     className="rounded-full border border-border bg-card px-4 py-2 text-sm font-medium text-foreground/80 shadow-sm"
                   >
-                    {tag}
+                    {tag.title}
                   </span>
                 ))}
               </div>
