@@ -118,6 +118,7 @@ export default function App() {
         <Route path="/events" element={<Events />} />
         <Route path="/case-studies" element={<CaseStudies />} />
         <Route path="/p/:slug" element={<PublicPage />} />
+        <Route path="/preview/:kind/:id" element={<PublicPreview />} />
         <Route path="/contact" element={<Contact />} />
         <Route path="/login" element={<Login />} />
         <Route path="/admin" element={<AdminRedirect />} />
