@@ -61,9 +61,14 @@ export default function DashboardHome() {
   return (
     <div className="space-y-6">
       <div className="flex flex-wrap items-center justify-between gap-3">
-        <div>
-          <h1 className="text-2xl font-semibold">Dashboard</h1>
-          <p className="text-sm text-muted-foreground">Welcome back — here's what's happening.</p>
+        <div className="flex items-center gap-3">
+          <span className="inline-flex h-12 w-12 items-center justify-center rounded-xl bg-primary text-primary-foreground text-sm font-bold shadow-sm">
+            CMS
+          </span>
+          <div>
+            <h1 className="text-2xl font-semibold">Dashboard</h1>
+            <p className="text-sm text-muted-foreground">Welcome back — here's what's happening.</p>
+          </div>
         </div>
         <div className="flex gap-2">
           <Button asChild>
@@ -75,11 +80,13 @@ export default function DashboardHome() {
         </div>
       </div>
 
-      <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+      <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-6">
         <StatCard label="Posts" value={counts.data?.posts ?? "—"} icon={FileText} />
         <StatCard label="Pages" value={counts.data?.pages ?? "—"} icon={FileStack} />
         <StatCard label="Users" value={counts.data?.users ?? "—"} icon={Users} />
         <StatCard label="Media" value={counts.data?.media ?? "—"} icon={Image} />
+        <StatCard label="Categories" value={counts.data?.categories ?? "—"} icon={Tags} />
+        <StatCard label="Page views" value={counts.data?.views ?? "—"} icon={Eye} />
       </div>
 
       <Card>
