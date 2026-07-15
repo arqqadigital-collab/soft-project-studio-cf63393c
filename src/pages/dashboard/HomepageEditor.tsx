@@ -15,6 +15,20 @@ import { Slider } from "@/components/ui/slider";
 import { MediaPickerDialog } from "@/components/dashboard/MediaPickerDialog";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { SeoEditor } from "@/components/dashboard/SeoEditor";
+import { SectionEditor } from "@/components/dashboard/SectionEditor";
+import type { SectionKey } from "@/lib/homepageContent";
+
+const SECTIONS: { key: SectionKey; label: string }[] = [
+  { key: "expertise", label: "Expertise" },
+  { key: "process", label: "Process" },
+  { key: "services", label: "Services" },
+  { key: "promise", label: "Promise" },
+  { key: "stats", label: "Stats" },
+  { key: "clients", label: "Clients" },
+  { key: "success_stories", label: "Success Stories" },
+  { key: "partners", label: "Partners" },
+  { key: "cta", label: "Call to action" },
+];
 
 type Size = "sm" | "md" | "lg" | "xl";
 type Align = "left" | "center" | "right";
@@ -177,9 +191,12 @@ export default function HomepageEditor() {
         </div>
       </div>
 
-      <Tabs defaultValue="content">
-        <TabsList>
-          <TabsTrigger value="content">Content & style</TabsTrigger>
+      <Tabs defaultValue="hero">
+        <TabsList className="flex flex-wrap h-auto">
+          <TabsTrigger value="hero">Hero</TabsTrigger>
+          {SECTIONS.map((s) => (
+            <TabsTrigger key={s.key} value={s.key}>{s.label}</TabsTrigger>
+          ))}
           <TabsTrigger value="seo">SEO</TabsTrigger>
         </TabsList>
         <TabsContent value="seo" className="mt-3">
@@ -191,7 +208,12 @@ export default function HomepageEditor() {
             publicUrl="/"
           />
         </TabsContent>
-        <TabsContent value="content" className="mt-3">
+        {SECTIONS.map((s) => (
+          <TabsContent key={s.key} value={s.key} className="mt-3">
+            <SectionEditor sectionKey={s.key} />
+          </TabsContent>
+        ))}
+        <TabsContent value="hero" className="mt-3">
       <div className="grid gap-4 lg:grid-cols-[1fr_340px]">
         <div className="space-y-4">
           <Card>
