@@ -2,7 +2,7 @@ import { Routes, Route, Navigate } from "react-router-dom";
 import DashboardLayout from "./dashboard/DashboardLayout";
 import DashboardHome from "./dashboard/DashboardHome";
 import Profile from "./dashboard/Profile";
-import Placeholder from "./dashboard/Placeholder";
+
 import PostsList from "./dashboard/PostsList";
 import PostEditor from "./dashboard/PostEditor";
 import PagesList from "./dashboard/PagesList";
