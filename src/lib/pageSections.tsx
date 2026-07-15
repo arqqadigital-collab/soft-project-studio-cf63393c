@@ -268,19 +268,33 @@ function StatsEdit({ data, onChange }: { data: SectionData; onChange: (n: Sectio
 }
 
 function FeaturesRender({ data }: { data: SectionData }) {
+  const isDark = data.bgColor && /^#(0|1|2)/i.test(data.bgColor);
+  const cardCls = isDark
+    ? "rounded-2xl border border-white/10 bg-white/5 p-6 shadow-sm backdrop-blur"
+    : "rounded-2xl border border-border bg-background p-6 shadow-sm";
   return (
     <section className={data.bgColor ? "py-20" : "bg-muted/40 py-20"} style={sectionStyle(data)}>
       <Container>
+        {data.eyebrow && (
+          <div className="mb-3 text-xs font-bold uppercase tracking-[0.2em] opacity-70">{data.eyebrow}</div>
+        )}
         {data.heading && <h2 className="text-3xl font-bold md:text-4xl">{data.heading}</h2>}
         {data.subheading && <p className="mt-3 max-w-3xl text-lg opacity-80">{data.subheading}</p>}
+        {data.body && <p className="mt-3 max-w-3xl text-base opacity-80">{data.body}</p>}
         <div className="mt-12 grid gap-6 md:grid-cols-2 lg:grid-cols-3">
           {(data.items ?? []).map((f: any, i: number) => (
-            <div key={i} className="rounded-2xl border border-border bg-background p-6 shadow-sm" style={data.textColor ? { color: data.textColor } : undefined}>
-              <div className="flex h-11 w-11 items-center justify-center rounded-xl" style={{ background: data.accentColor ? `${data.accentColor}20` : "hsl(var(--primary)/0.1)", color: data.accentColor || "hsl(var(--primary))" }}>
-                <IconByName name={f.icon} className="h-5 w-5" />
-              </div>
-              <h3 className="mt-4 text-lg font-semibold">{f.title}</h3>
-              <p className="mt-2 text-sm leading-relaxed opacity-80">{f.description}</p>
+            <div key={i} className={`${cardCls} overflow-hidden`} style={data.textColor ? { color: data.textColor } : undefined}>
+              {f.image ? (
+                <div className="-mx-6 -mt-6 mb-5 aspect-[16/10] overflow-hidden">
+                  <img src={f.image} alt={f.title ?? ""} className="h-full w-full object-cover" loading="lazy" />
+                </div>
+              ) : (
+                <div className="flex h-11 w-11 items-center justify-center rounded-xl" style={{ background: data.accentColor ? `${data.accentColor}20` : "hsl(var(--primary)/0.1)", color: data.accentColor || "hsl(var(--primary))" }}>
+                  <IconByName name={f.icon} className="h-5 w-5" />
+                </div>
+              )}
+              <h3 className={`${f.image ? "" : "mt-4"} text-lg font-semibold`}>{f.title}</h3>
+              <p className="mt-2 text-sm leading-relaxed opacity-80">{f.description ?? f.body}</p>
             </div>
           ))}
         </div>
@@ -294,16 +308,18 @@ function FeaturesEdit({ data, onChange }: { data: SectionData; onChange: (n: Sec
   const p = (patch: Partial<SectionData>) => onChange({ ...data, ...patch });
   return (
     <div className="space-y-3">
+      <Field label="Eyebrow (optional)"><Input value={data.eyebrow ?? ""} onChange={(e) => p({ eyebrow: e.target.value })} /></Field>
       <Field label="Heading"><Input value={data.heading ?? ""} onChange={(e) => p({ heading: e.target.value })} /></Field>
       <Field label="Sub-heading"><Textarea value={data.subheading ?? ""} rows={2} onChange={(e) => p({ subheading: e.target.value })} /></Field>
       <ListEditor
         label="Cards"
         items={data.items ?? []}
-        empty={{ icon: "Sparkles", title: "", description: "" }}
+        empty={{ icon: "Sparkles", title: "", description: "", image: "" }}
         onChange={(items) => p({ items })}
         renderItem={(it: any, patch) => (
           <>
-            <Field label="Icon (lucide name)"><Input value={it.icon ?? ""} onChange={(e) => patch({ icon: e.target.value })} /></Field>
+            <MediaField label="Image (optional — replaces icon)" value={it.image ?? ""} onChange={(url) => patch({ image: url })} accept="image" />
+            <Field label="Icon (lucide name, used if no image)"><Input value={it.icon ?? ""} onChange={(e) => patch({ icon: e.target.value })} /></Field>
             <Field label="Title"><Input value={it.title ?? ""} onChange={(e) => patch({ title: e.target.value })} /></Field>
             <Field label="Description"><Textarea value={it.description ?? ""} rows={2} onChange={(e) => patch({ description: e.target.value })} /></Field>
           </>
@@ -315,29 +331,40 @@ function FeaturesEdit({ data, onChange }: { data: SectionData; onChange: (n: Sec
 }
 
 function CtaRender({ data }: { data: SectionData }) {
-  const bgClass = data.bgColor ? "" : "bg-[var(--brand-dark)]";
-  const txtClass = data.textColor ? "" : "text-white";
+  const hasCustomBg = !!data.bgColor;
+  const bgClass = hasCustomBg ? "" : "bg-[var(--brand-dark)]";
+  const txtClass = data.textColor ? "" : (hasCustomBg ? "" : "text-white");
+  const hasMedia = !!data.mediaUrl;
+  const isVideo = hasMedia && data.mediaKind === "video";
   return (
     <section className={`relative overflow-hidden py-20 ${bgClass} ${txtClass}`} style={sectionStyle(data)}>
-      {data.mediaUrl && (
+      {isVideo && (
         <video src={data.mediaUrl} autoPlay muted loop playsInline className="absolute inset-0 h-full w-full object-cover opacity-30" />
       )}
-      <div className="absolute inset-0 bg-gradient-to-r from-black/60 to-black/30" />
+      {hasMedia && !isVideo && (
+        <img src={data.mediaUrl} alt="" className="absolute inset-0 h-full w-full object-cover opacity-30" />
+      )}
+      {hasMedia && <div className="absolute inset-0 bg-gradient-to-r from-black/60 to-black/30" />}
       <Container className="relative">
+        {data.eyebrow && (
+          <div className="mb-4 text-xs font-bold uppercase tracking-[0.2em] opacity-70">{data.eyebrow}</div>
+        )}
         <h2 className="text-3xl font-bold md:text-4xl">{data.headline}</h2>
-        {data.body && <p className="mt-3 max-w-2xl opacity-90">{data.body}</p>}
-        <div className="mt-8 flex flex-wrap gap-3">
-          {data.primaryLabel && (
-            <Button asChild size="lg" style={data.accentColor ? { background: data.accentColor, color: "#fff" } : undefined}>
-              <Link to={data.primaryHref || "#"}>{data.primaryLabel}</Link>
-            </Button>
-          )}
-          {data.secondaryLabel && (
-            <Button asChild size="lg" variant="outline" className="border-white/40 bg-transparent text-white hover:bg-white/10">
-              <Link to={data.secondaryHref || "#"}>{data.secondaryLabel}</Link>
-            </Button>
-          )}
-        </div>
+        {data.body && <p className="mt-4 max-w-3xl text-base leading-relaxed opacity-90">{data.body}</p>}
+        {(data.primaryLabel || data.secondaryLabel) && (
+          <div className="mt-8 flex flex-wrap gap-3">
+            {data.primaryLabel && (
+              <Button asChild size="lg" style={data.accentColor ? { background: data.accentColor, color: "#fff" } : undefined}>
+                <Link to={data.primaryHref || "#"}>{data.primaryLabel}</Link>
+              </Button>
+            )}
+            {data.secondaryLabel && (
+              <Button asChild size="lg" variant="outline" className={hasCustomBg ? "" : "border-white/40 bg-transparent text-white hover:bg-white/10"}>
+                <Link to={data.secondaryHref || "#"}>{data.secondaryLabel}</Link>
+              </Button>
+            )}
+          </div>
+        )}
       </Container>
     </section>
   );
@@ -416,16 +443,30 @@ function MediaEdit({ data, onChange }: { data: SectionData; onChange: (n: Sectio
 }
 
 function LogosRender({ data }: { data: SectionData }) {
+  const list = (data.items ?? data.logos ?? []) as any[];
   return (
     <section className={data.bgColor ? "py-16" : "bg-muted/40 py-16"} style={sectionStyle(data)}>
       <Container>
-        {data.heading && <h2 className="text-center text-xl font-semibold">{data.heading}</h2>}
-        <div className="mt-10 grid grid-cols-2 gap-6 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6">
-          {(data.items ?? []).map((l: any, i: number) => (
-            <div key={i} className="flex h-20 items-center justify-center rounded-xl bg-background p-4">
-              <img src={l.logo} alt={l.name} className="max-h-full max-w-full object-contain" />
-            </div>
-          ))}
+        {data.eyebrow && (
+          <div className="mb-3 text-center text-xs font-bold uppercase tracking-[0.2em] opacity-70">{data.eyebrow}</div>
+        )}
+        {data.headline && <h2 className="text-center text-3xl font-bold md:text-4xl">{data.headline}</h2>}
+        {data.heading && !data.headline && <h2 className="text-center text-xl font-semibold">{data.heading}</h2>}
+        {data.body && <p className="mx-auto mt-3 max-w-3xl text-center text-base opacity-80">{data.body}</p>}
+        <div className="mt-10 grid grid-cols-2 gap-6 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-4">
+          {list.map((l: any, i: number) => {
+            const src = l.logo || l.url || l.image;
+            return (
+              <div key={i} className="flex h-24 flex-col items-center justify-center gap-2 rounded-xl border border-border bg-white p-4 shadow-sm">
+                {src ? (
+                  <img src={src} alt={l.name ?? ""} className="max-h-12 max-w-full object-contain" loading="lazy" />
+                ) : (
+                  <div className="text-sm font-semibold text-foreground/60">{l.name}</div>
+                )}
+                {src && <span className="text-[11px] font-medium text-foreground/60">{l.name}</span>}
+              </div>
+            );
+          })}
         </div>
       </Container>
     </section>
