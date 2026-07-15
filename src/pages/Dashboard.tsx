@@ -9,6 +9,9 @@ import PagesList from "./dashboard/PagesList";
 import PageEditor from "./dashboard/PageEditor";
 import MediaLibrary from "./dashboard/MediaLibrary";
 import Taxonomy from "./dashboard/Taxonomy";
+import Users from "./dashboard/Users";
+import Analytics from "./dashboard/Analytics";
+import SettingsPage from "./dashboard/Settings";
 import { RoleGate } from "@/components/dashboard/RoleGate";
 
 export default function Dashboard() {
@@ -42,19 +45,19 @@ export default function Dashboard() {
         />
         <Route
           path="users"
-          element={<RoleGate allow={["admin"]}><Placeholder title="Users" description="Ships in Phase 6." /></RoleGate>}
+          element={<RoleGate allow={["admin"]}><Users /></RoleGate>}
         />
         <Route
           path="seo"
-          element={<RoleGate allow={["admin", "editor"]}><Placeholder title="SEO" description="Per-page SEO lives inside the post/page editor. This overview ships in Phase 5." /></RoleGate>}
+          element={<RoleGate allow={["admin", "editor"]}><Placeholder title="SEO" description="Per-page SEO lives inside the post/page editor." /></RoleGate>}
         />
         <Route
           path="analytics"
-          element={<RoleGate allow={["admin", "editor"]}><Placeholder title="Analytics" description="Ships in Phase 6." /></RoleGate>}
+          element={<RoleGate allow={["admin", "editor"]}><Analytics /></RoleGate>}
         />
         <Route
           path="settings"
-          element={<RoleGate allow={["admin"]}><Placeholder title="Settings" description="Ships in Phase 6." /></RoleGate>}
+          element={<RoleGate allow={["admin"]}><SettingsPage /></RoleGate>}
         />
         <Route path="profile" element={<Profile />} />
         <Route path="*" element={<Navigate to="/dashboard" replace />} />
