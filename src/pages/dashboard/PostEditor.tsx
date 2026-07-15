@@ -162,10 +162,11 @@ export default function PostEditor() {
     try {
       let pid = postId;
       if (!pid) {
-        const { data, error } = await supabase.from("posts").insert(payload).select("id").single();
+        const { data, error } = await supabase.from("posts").insert(payload).select("id, preview_token").single();
         if (error) throw error;
         pid = data.id;
         setPostId(pid);
+        setPreviewToken(data.preview_token ?? null);
         window.history.replaceState(null, "", `/dashboard/posts/${pid}`);
       } else {
         const { error } = await supabase.from("posts").update(payload).eq("id", pid);
