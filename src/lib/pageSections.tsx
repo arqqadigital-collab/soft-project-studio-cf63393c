@@ -442,6 +442,7 @@ function FaqEdit({ data, onChange }: { data: SectionData; onChange: (n: SectionD
           </>
         )}
       />
+      <ColorFields data={data} onChange={onChange} />
     </div>
   );
 }
