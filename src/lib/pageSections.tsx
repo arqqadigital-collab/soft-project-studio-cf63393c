@@ -218,18 +218,18 @@ function StatsEdit({ data, onChange }: { data: SectionData; onChange: (n: Sectio
 
 function FeaturesRender({ data }: { data: SectionData }) {
   return (
-    <section className="bg-muted/40 py-20">
+    <section className={data.bgColor ? "py-20" : "bg-muted/40 py-20"} style={sectionStyle(data)}>
       <Container>
-        {data.heading && <h2 className="text-3xl font-bold text-foreground md:text-4xl">{data.heading}</h2>}
-        {data.subheading && <p className="mt-3 max-w-3xl text-lg text-muted-foreground">{data.subheading}</p>}
+        {data.heading && <h2 className="text-3xl font-bold md:text-4xl">{data.heading}</h2>}
+        {data.subheading && <p className="mt-3 max-w-3xl text-lg opacity-80">{data.subheading}</p>}
         <div className="mt-12 grid gap-6 md:grid-cols-2 lg:grid-cols-3">
           {(data.items ?? []).map((f: any, i: number) => (
-            <div key={i} className="rounded-2xl border border-border bg-background p-6 shadow-sm">
-              <div className="flex h-11 w-11 items-center justify-center rounded-xl bg-primary/10 text-primary">
+            <div key={i} className="rounded-2xl border border-border bg-background p-6 shadow-sm" style={data.textColor ? { color: data.textColor } : undefined}>
+              <div className="flex h-11 w-11 items-center justify-center rounded-xl" style={{ background: data.accentColor ? `${data.accentColor}20` : "hsl(var(--primary)/0.1)", color: data.accentColor || "hsl(var(--primary))" }}>
                 <IconByName name={f.icon} className="h-5 w-5" />
               </div>
-              <h3 className="mt-4 text-lg font-semibold text-foreground">{f.title}</h3>
-              <p className="mt-2 text-sm leading-relaxed text-muted-foreground">{f.description}</p>
+              <h3 className="mt-4 text-lg font-semibold">{f.title}</h3>
+              <p className="mt-2 text-sm leading-relaxed opacity-80">{f.description}</p>
             </div>
           ))}
         </div>
@@ -237,6 +237,7 @@ function FeaturesRender({ data }: { data: SectionData }) {
     </section>
   );
 }
+
 
 function FeaturesEdit({ data, onChange }: { data: SectionData; onChange: (n: SectionData) => void }) {
   const p = (patch: Partial<SectionData>) => onChange({ ...data, ...patch });
