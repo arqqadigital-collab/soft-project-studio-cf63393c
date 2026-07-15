@@ -540,6 +540,9 @@ function FaqRender({ data }: { data: SectionData }) {
   return (
     <section className={data.bgColor ? "py-20" : "bg-background py-20"} style={sectionStyle(data)}>
       <Container>
+        {data.eyebrow && (
+          <div className="mb-3 text-xs font-bold uppercase tracking-[0.2em] opacity-70">{data.eyebrow}</div>
+        )}
         {data.heading && <h2 className="text-3xl font-bold md:text-4xl">{data.heading}</h2>}
         <div className="mt-8 divide-y divide-border rounded-2xl border border-border">
           {(data.items ?? []).map((f: any, i: number) => (
@@ -561,6 +564,7 @@ function FaqEdit({ data, onChange }: { data: SectionData; onChange: (n: SectionD
   const p = (patch: Partial<SectionData>) => onChange({ ...data, ...patch });
   return (
     <div className="space-y-3">
+      <Field label="Eyebrow (optional)"><Input value={data.eyebrow ?? ""} onChange={(e) => p({ eyebrow: e.target.value })} /></Field>
       <Field label="Heading"><Input value={data.heading ?? ""} onChange={(e) => p({ heading: e.target.value })} /></Field>
       <ListEditor
         label="Questions"
