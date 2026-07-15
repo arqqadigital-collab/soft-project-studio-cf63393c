@@ -79,6 +79,8 @@ export function SeoEditor({
         og_image_url: d.og_image_url ?? "",
         canonical_url: d.canonical_url ?? "",
         focus_keyword: d.focus_keyword ?? "",
+        noindex: !!d.noindex,
+        nofollow: !!d.nofollow,
       });
     } else if (existing.isFetched) {
       setRowId(null);
