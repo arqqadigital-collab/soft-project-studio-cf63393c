@@ -162,6 +162,27 @@ export default function PageEditor() {
         </Button>
         <div className="flex items-center gap-2">
           {lastSavedAt && <span className="text-xs text-muted-foreground">Saved {lastSavedAt.toLocaleTimeString()}</span>}
+          {form.status === "published" && form.slug && (
+            <Button asChild variant="outline" size="sm">
+              <a href={`/p/${form.slug}`} target="_blank" rel="noreferrer">
+                <ExternalLink className="mr-1 h-4 w-4" /> View live
+              </a>
+            </Button>
+          )}
+          {pageId && previewToken && (
+            <Button
+              variant="outline"
+              size="sm"
+              onClick={() => {
+                const url = `${window.location.origin}/preview/page/${pageId}?token=${previewToken}`;
+                navigator.clipboard.writeText(url).catch(() => {});
+                window.open(url, "_blank", "noreferrer");
+                toast.success("Preview link copied");
+              }}
+            >
+              <Eye className="mr-1 h-4 w-4" /> Preview draft
+            </Button>
+          )}
           <Button variant="outline" size="sm" onClick={() => save()} disabled={saving}>
             <Save className="mr-1 h-4 w-4" /> Save Draft
           </Button>
