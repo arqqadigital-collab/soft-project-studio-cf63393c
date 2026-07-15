@@ -443,16 +443,30 @@ function MediaEdit({ data, onChange }: { data: SectionData; onChange: (n: Sectio
 }
 
 function LogosRender({ data }: { data: SectionData }) {
+  const list = (data.items ?? data.logos ?? []) as any[];
   return (
     <section className={data.bgColor ? "py-16" : "bg-muted/40 py-16"} style={sectionStyle(data)}>
       <Container>
-        {data.heading && <h2 className="text-center text-xl font-semibold">{data.heading}</h2>}
-        <div className="mt-10 grid grid-cols-2 gap-6 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6">
-          {(data.items ?? []).map((l: any, i: number) => (
-            <div key={i} className="flex h-20 items-center justify-center rounded-xl bg-background p-4">
-              <img src={l.logo} alt={l.name} className="max-h-full max-w-full object-contain" />
-            </div>
-          ))}
+        {data.eyebrow && (
+          <div className="mb-3 text-center text-xs font-bold uppercase tracking-[0.2em] opacity-70">{data.eyebrow}</div>
+        )}
+        {data.headline && <h2 className="text-center text-3xl font-bold md:text-4xl">{data.headline}</h2>}
+        {data.heading && !data.headline && <h2 className="text-center text-xl font-semibold">{data.heading}</h2>}
+        {data.body && <p className="mx-auto mt-3 max-w-3xl text-center text-base opacity-80">{data.body}</p>}
+        <div className="mt-10 grid grid-cols-2 gap-6 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-4">
+          {list.map((l: any, i: number) => {
+            const src = l.logo || l.url || l.image;
+            return (
+              <div key={i} className="flex h-24 flex-col items-center justify-center gap-2 rounded-xl border border-border bg-white p-4 shadow-sm">
+                {src ? (
+                  <img src={src} alt={l.name ?? ""} className="max-h-12 max-w-full object-contain" loading="lazy" />
+                ) : (
+                  <div className="text-sm font-semibold text-foreground/60">{l.name}</div>
+                )}
+                {src && <span className="text-[11px] font-medium text-foreground/60">{l.name}</span>}
+              </div>
+            );
+          })}
         </div>
       </Container>
     </section>
