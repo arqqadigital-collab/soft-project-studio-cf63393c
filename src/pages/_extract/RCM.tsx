@@ -185,7 +185,8 @@ export default function RCM() {
   const problemRef = useRef<HTMLDivElement>(null);
   const { viewportRef: problemViewportRef, trackRef: problemTrackRef, x: problemX } = useHorizontalScroll(problemRef, [0.15, 0.82]);
 
-  return (
+  ;(globalThis as any).__PAGE_LOCALS_RCM = { problemRef: (typeof problemRef !== 'undefined' ? problemRef : undefined) };
+return (
     <>
       {/* HERO */}
       <main className="pt-20 relative min-h-[90vh] w-full overflow-hidden bg-background">
@@ -561,4 +562,5 @@ export default function RCM() {
   );
 }
 
-export const __EXTRACTED = { features: (typeof features !== 'undefined' ? features : undefined), journey: (typeof journey !== 'undefined' ? journey : undefined), stats: (typeof stats !== 'undefined' ? stats : undefined), problemCards: (typeof problemCards !== 'undefined' ? problemCards : undefined), faqs: (typeof faqs !== 'undefined' ? faqs : undefined), trustChips: (typeof trustChips !== 'undefined' ? trustChips : undefined) };
+export const __TOP = { features: (typeof features !== 'undefined' ? features : undefined), journey: (typeof journey !== 'undefined' ? journey : undefined), stats: (typeof stats !== 'undefined' ? stats : undefined), problemCards: (typeof problemCards !== 'undefined' ? problemCards : undefined), faqs: (typeof faqs !== 'undefined' ? faqs : undefined), trustChips: (typeof trustChips !== 'undefined' ? trustChips : undefined) };
+

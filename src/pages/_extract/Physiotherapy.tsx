@@ -313,7 +313,8 @@ export default function Physiotherapy() {
   const problemRef = useRef<HTMLDivElement>(null);
   const { viewportRef: problemViewportRef, trackRef: problemTrackRef, x: problemX } = useHorizontalScroll(problemRef, [0.15, 0.82]);
 
-  return (
+  ;(globalThis as any).__PAGE_LOCALS_Physiotherapy = { problemImages: (typeof problemImages !== 'undefined' ? problemImages : undefined), problemTexts: (typeof problemTexts !== 'undefined' ? problemTexts : undefined), problemTitles: (typeof problemTitles !== 'undefined' ? problemTitles : undefined), problemCards: (typeof problemCards !== 'undefined' ? problemCards : undefined), problemRef: (typeof problemRef !== 'undefined' ? problemRef : undefined) };
+return (
     <>
       {/* HERO */}
       <main className="pt-20 relative min-h-[90vh] w-full overflow-hidden bg-background">
@@ -642,4 +643,5 @@ export default function Physiotherapy() {
   );
 }
 
-export const __EXTRACTED = { features: (typeof features !== 'undefined' ? features : undefined), journey: (typeof journey !== 'undefined' ? journey : undefined), stats: (typeof stats !== 'undefined' ? stats : undefined), nationalPlatforms: (typeof nationalPlatforms !== 'undefined' ? nationalPlatforms : undefined), faqs: (typeof faqs !== 'undefined' ? faqs : undefined), trustChips: (typeof trustChips !== 'undefined' ? trustChips : undefined) };
+export const __TOP = { features: (typeof features !== 'undefined' ? features : undefined), journey: (typeof journey !== 'undefined' ? journey : undefined), stats: (typeof stats !== 'undefined' ? stats : undefined), nationalPlatforms: (typeof nationalPlatforms !== 'undefined' ? nationalPlatforms : undefined), faqs: (typeof faqs !== 'undefined' ? faqs : undefined), trustChips: (typeof trustChips !== 'undefined' ? trustChips : undefined) };
+
