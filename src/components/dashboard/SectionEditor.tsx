@@ -202,6 +202,7 @@ export function SectionEditor({ sectionKey }: { sectionKey: SectionKey }) {
       if (error) throw error;
       qc.invalidateQueries({ queryKey: ["homepage-section", sectionKey] });
       qc.invalidateQueries({ queryKey: ["homepage-section-edit", sectionKey] });
+      setPreviewKey((k) => k + 1);
       toast.success(`${LABELS[sectionKey]} saved`);
     } catch (e: any) {
       toast.error(e.message || "Save failed");
