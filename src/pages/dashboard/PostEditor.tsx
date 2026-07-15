@@ -58,6 +58,7 @@ export default function PostEditor() {
   const [saving, setSaving] = useState(false);
   const [lastSavedAt, setLastSavedAt] = useState<Date | null>(null);
   const [tagInput, setTagInput] = useState("");
+  const [pickerOpen, setPickerOpen] = useState(false);
   const dirtyRef = useRef(false);
 
   // Load categories
