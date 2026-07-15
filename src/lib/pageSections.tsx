@@ -306,6 +306,7 @@ function CtaEdit({ data, onChange }: { data: SectionData; onChange: (n: SectionD
         <Field label="Secondary link"><Input value={data.secondaryHref ?? ""} onChange={(e) => p({ secondaryHref: e.target.value })} /></Field>
       </div>
       <MediaField label="Background media" value={data.mediaUrl ?? ""} onChange={(url) => p({ mediaUrl: url })} accept="image|video" />
+      <ColorFields data={data} onChange={onChange} showAccent />
     </div>
   );
 }
