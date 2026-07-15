@@ -211,11 +211,17 @@ function MediaDetailsDialog({ media, onOpenChange }: { media: MediaRow | null; o
 
   if (!media) return null;
   const isImg = media.file_type?.startsWith("image/");
+  const builtin = isBuiltinMedia(media);
 
   return (
     <Dialog open={!!media} onOpenChange={onOpenChange}>
       <DialogContent className="max-w-3xl">
-        <DialogHeader><DialogTitle className="truncate">{media.file_name}</DialogTitle></DialogHeader>
+        <DialogHeader>
+          <DialogTitle className="truncate">
+            {media.file_name}
+            {builtin && <Badge variant="secondary" className="ml-2 align-middle text-[10px]">Built-in</Badge>}
+          </DialogTitle>
+        </DialogHeader>
         <div className="grid gap-4 md:grid-cols-[1fr_1fr]">
           <div className="flex items-center justify-center rounded-md border bg-muted/40 p-2">
             {isImg
