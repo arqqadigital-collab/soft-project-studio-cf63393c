@@ -131,9 +131,9 @@ export function PageBuilder({ pageId }: { pageId: string }) {
                     {isOpen ? <ChevronDown className="h-4 w-4" /> : <ChevronRight className="h-4 w-4" />}
                   </button>
                   <CardTitle className="text-sm">
-                    {def.label}
-                    <span className="ml-2 text-xs font-normal text-muted-foreground">
-                      {sectionSummary(row)}
+                    {sectionDisplayName(row, def.label)}
+                    <span className="ml-2 text-xs font-normal uppercase tracking-wider text-muted-foreground/70">
+                      {def.label}
                     </span>
                   </CardTitle>
                   <div className="ml-auto flex items-center gap-1">
@@ -172,6 +172,11 @@ export function PageBuilder({ pageId }: { pageId: string }) {
 function sectionSummary(row: Row) {
   const d = row.data ?? {};
   return d.headline || d.heading || d.title || "";
+}
+
+function sectionDisplayName(row: Row, fallback: string) {
+  const d = row.data ?? {};
+  return d.section_name || d.eyebrow || d.heading || d.headline || d.title || fallback;
 }
 
 function collectImages(data: any): string[] {
@@ -213,6 +218,16 @@ function SectionEditForm({
   const images = useMemo(() => collectImages(draft), [draft]);
   return (
     <div className="space-y-4">
+      <div className="rounded-md border border-border bg-muted/30 p-3">
+        <label className="text-xs font-medium text-muted-foreground">Section name (dashboard label)</label>
+        <input
+          type="text"
+          value={draft.section_name ?? ""}
+          onChange={(e) => setDraft({ ...draft, section_name: e.target.value })}
+          placeholder={def.label}
+          className="mt-1 w-full rounded border border-border bg-background px-2 py-1 text-sm"
+        />
+      </div>
       <div className="grid gap-4 lg:grid-cols-2">
         <div className="space-y-4">
           <Edit data={draft} onChange={setDraft} />
