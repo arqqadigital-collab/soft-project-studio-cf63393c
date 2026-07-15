@@ -258,6 +258,7 @@ function FeaturesEdit({ data, onChange }: { data: SectionData; onChange: (n: Sec
           </>
         )}
       />
+      <ColorFields data={data} onChange={onChange} showAccent />
     </div>
   );
 }
