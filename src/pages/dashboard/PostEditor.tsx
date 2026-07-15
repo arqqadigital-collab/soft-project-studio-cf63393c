@@ -18,6 +18,7 @@ import {
 import { Badge } from "@/components/ui/badge";
 import { RichTextEditor } from "@/components/dashboard/RichTextEditor";
 import { MediaPickerDialog } from "@/components/dashboard/MediaPickerDialog";
+import { SeoEditor } from "@/components/dashboard/SeoEditor";
 
 type Status = "draft" | "published" | "scheduled" | "trashed";
 
@@ -263,7 +264,13 @@ export default function PostEditor() {
               />
             </TabsContent>
             <TabsContent value="seo" className="mt-3">
-              <Card><CardContent className="pt-6 text-sm text-muted-foreground">SEO editor arrives in Phase 5.</CardContent></Card>
+              <SeoEditor
+                entityType="post"
+                entityId={postId}
+                fallbackTitle={form.title}
+                fallbackDescription={form.excerpt}
+                publicUrl={form.slug ? `/blog/${form.slug}` : ""}
+              />
             </TabsContent>
           </Tabs>
         </div>

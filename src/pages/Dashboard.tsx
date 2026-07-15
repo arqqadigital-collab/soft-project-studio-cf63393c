@@ -8,6 +8,7 @@ import PostEditor from "./dashboard/PostEditor";
 import PagesList from "./dashboard/PagesList";
 import PageEditor from "./dashboard/PageEditor";
 import MediaLibrary from "./dashboard/MediaLibrary";
+import Taxonomy from "./dashboard/Taxonomy";
 import { RoleGate } from "@/components/dashboard/RoleGate";
 
 export default function Dashboard() {
@@ -35,7 +36,7 @@ export default function Dashboard() {
           path="taxonomy"
           element={
             <RoleGate allow={["admin", "editor", "author"]}>
-              <Placeholder title="Categories & Tags" description="Ships in Phase 5." />
+              <Taxonomy />
             </RoleGate>
           }
         />
