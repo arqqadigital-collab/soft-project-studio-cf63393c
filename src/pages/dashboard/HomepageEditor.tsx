@@ -15,6 +15,20 @@ import { Slider } from "@/components/ui/slider";
 import { MediaPickerDialog } from "@/components/dashboard/MediaPickerDialog";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { SeoEditor } from "@/components/dashboard/SeoEditor";
+import { SectionEditor } from "@/components/dashboard/SectionEditor";
+import type { SectionKey } from "@/lib/homepageContent";
+
+const SECTIONS: { key: SectionKey; label: string }[] = [
+  { key: "expertise", label: "Expertise" },
+  { key: "process", label: "Process" },
+  { key: "services", label: "Services" },
+  { key: "promise", label: "Promise" },
+  { key: "stats", label: "Stats" },
+  { key: "clients", label: "Clients" },
+  { key: "success_stories", label: "Success Stories" },
+  { key: "partners", label: "Partners" },
+  { key: "cta", label: "Call to action" },
+];
 
 type Size = "sm" | "md" | "lg" | "xl";
 type Align = "left" | "center" | "right";
