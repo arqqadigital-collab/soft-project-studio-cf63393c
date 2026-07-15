@@ -1,34 +1,31 @@
 import { useRef, useEffect, useState } from "react";
 import { motion, useInView, animate, useScroll, useTransform } from "framer-motion";
-import {
-  ArrowRight,
-  AlertTriangle,
-  CheckCircle2,
-  ShieldCheck,
-  Network,
-  FlaskConical,
-  ClipboardCheck,
-  Microscope,
-  LineChart,
-  FileSearch,
-  Activity,
-  Settings,
-  Link2,
-  Rocket,
-  TrendingUp,
-} from "lucide-react";
-import lisHeroVideo from "@/assets/lis/lis-hero.mp4"
-import lisProblem1 from "@/assets/lis/problem-1.jpg";
-import lisProblem2 from "@/assets/lis/problem-2.jpg";
-import lisProblem3 from "@/assets/lis/problem-3.jpg";
-import lisProblem4 from "@/assets/lis/problem-4.jpg";
-import lisJourney1 from "@/assets/lis/journey-1.jpg";
-import lisJourney2Asset from "@/assets/lis/journey-2.png"
-import lisJourney3Asset from "@/assets/lis/journey-3.png"
+const ArrowRight = "ArrowRight";
+const AlertTriangle = "AlertTriangle";
+const CheckCircle2 = "CheckCircle2";
+const ShieldCheck = "ShieldCheck";
+const Network = "Network";
+const FlaskConical = "FlaskConical";
+const ClipboardCheck = "ClipboardCheck";
+const Microscope = "Microscope";
+const LineChart = "LineChart";
+const FileSearch = "FileSearch";
+const Activity = "Activity";
+const Settings = "Settings";
+const Link2 = "Link2";
+const Rocket = "Rocket";
+const TrendingUp = "TrendingUp";
+const lisHeroVideo = "/__l5e/assets-v1/bfd90e01-60d7-45ad-bb4c-f86dd8389952/lis-hero.mp4";
+const lisProblem1 = "/src/assets/lis/problem-1.jpg";
+const lisProblem2 = "/src/assets/lis/problem-2.jpg";
+const lisProblem3 = "/src/assets/lis/problem-3.jpg";
+const lisProblem4 = "/src/assets/lis/problem-4.jpg";
+const lisJourney1 = "/src/assets/lis/journey-1.jpg";
+const lisJourney2Asset = "/src/assets/lis/journey-2.png";
+const lisJourney3Asset = "/src/assets/lis/journey-3.png";
 const lisJourney2 = lisJourney2Asset;
 const lisJourney3 = lisJourney3Asset;
-import lisJourney4 from "@/assets/lis/journey-4.jpg";
-
+const lisJourney4 = "/src/assets/lis/journey-4.jpg";
 import { Footer } from "@/components/Footer";
 import { CtaSection } from "@/components/CtaSection";
 

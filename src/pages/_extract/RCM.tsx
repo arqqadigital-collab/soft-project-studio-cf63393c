@@ -1,38 +1,34 @@
 import { useRef, useEffect, useState } from "react";
 import { motion, useInView, animate, useScroll, useTransform } from "framer-motion";
-import {
-  ArrowRight,
-  AlertTriangle,
-  CheckCircle2,
-  ShieldCheck,
-  Network,
-  UserCheck,
-  FileCheck2,
-  ClipboardList,
-  FileText,
-  Send,
-  BarChart3,
-  Wallet,
-  Banknote,
-  Receipt,
-  Stethoscope,
-  CreditCard,
-} from "lucide-react";
-import rcmHeroVideo from "@/assets/rcm/rcm-hero.mp4.asset.json";
-import hisVideo from "@/assets/rcm/his-video.mp4.asset.json";
-import rcmProblem1 from "@/assets/rcm/problem-1.jpg";
-
-import rcmProblem3 from "@/assets/rcm/problem-3.jpg";
-import rcmProblem4 from "@/assets/rcm/problem-4.jpg";
-import rcmProblem5 from "@/assets/rcm/problem-5.jpg";
-import rcmProblem2Real from "@/assets/rcm/rcm-problem-2-real.png"
-import rcmJourney1 from "@/assets/rcm/journey-1.jpg";
-import rcmJourney2 from "@/assets/rcm/journey-2.jpg";
-import rcmJourney3 from "@/assets/rcm/journey-3.jpg";
-import rcmJourney4 from "@/assets/rcm/journey-4.jpg";
-import rcmJourney5 from "@/assets/rcm/journey-5.jpg";
-import rcmJourney6 from "@/assets/rcm/journey-6.jpg";
-
+const ArrowRight = "ArrowRight";
+const AlertTriangle = "AlertTriangle";
+const CheckCircle2 = "CheckCircle2";
+const ShieldCheck = "ShieldCheck";
+const Network = "Network";
+const UserCheck = "UserCheck";
+const FileCheck2 = "FileCheck2";
+const ClipboardList = "ClipboardList";
+const FileText = "FileText";
+const Send = "Send";
+const BarChart3 = "BarChart3";
+const Wallet = "Wallet";
+const Banknote = "Banknote";
+const Receipt = "Receipt";
+const Stethoscope = "Stethoscope";
+const CreditCard = "CreditCard";
+const rcmHeroVideo = "/__l5e/assets-v1/6cc85144-98aa-4f72-a1b0-a169ae09f467/rcm-hero.mp4";
+const hisVideo = "/__l5e/assets-v1/e6aa086d-edef-4902-bda6-557da4da669a/his-video.mp4";
+const rcmProblem1 = "/src/assets/rcm/problem-1.jpg";
+const rcmProblem3 = "/src/assets/rcm/problem-3.jpg";
+const rcmProblem4 = "/src/assets/rcm/problem-4.jpg";
+const rcmProblem5 = "/src/assets/rcm/problem-5.jpg";
+const rcmProblem2Real = "/src/assets/rcm/rcm-problem-2-real.png";
+const rcmJourney1 = "/src/assets/rcm/journey-1.jpg";
+const rcmJourney2 = "/src/assets/rcm/journey-2.jpg";
+const rcmJourney3 = "/src/assets/rcm/journey-3.jpg";
+const rcmJourney4 = "/src/assets/rcm/journey-4.jpg";
+const rcmJourney5 = "/src/assets/rcm/journey-5.jpg";
+const rcmJourney6 = "/src/assets/rcm/journey-6.jpg";
 import { Footer } from "@/components/Footer";
 import { CtaSection } from "@/components/CtaSection";
 

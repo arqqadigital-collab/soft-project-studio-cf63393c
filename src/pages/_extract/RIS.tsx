@@ -1,40 +1,37 @@
 import { useRef, useEffect, useState } from "react";
 import { motion, useInView, animate, useScroll, useTransform } from "framer-motion";
-import {
-  ArrowRight,
-  AlertTriangle,
-  CheckCircle2,
-  ShieldCheck,
-  Network,
-  CalendarClock,
-  ScanLine,
-  FileText,
-  ListChecks,
-  UserCheck,
-  BellRing,
-  Inbox,
-  CalendarCheck,
-  ImagePlus,
-  Mic,
-  Send,
-} from "lucide-react";
-import risProblem1 from "@/assets/ris/problem-1.jpg";
-import risProblem2 from "@/assets/ris/problem-2.jpg";
-import risProblem3 from "@/assets/ris/problem-3.jpg";
-import risProblem4 from "@/assets/ris/problem-4.jpg";
-import risProblem5 from "@/assets/ris/problem-5.jpg";
-import risJourney1 from "@/assets/ris/journey-1.jpg";
-import risJourney2 from "@/assets/ris/journey-2.jpg";
-import risJourney3 from "@/assets/ris/journey-3.jpg";
-import risJourney4 from "@/assets/ris/journey-4.jpg";
-import risJourney5 from "@/assets/ris/journey-5.jpg";
-import philipsLogo from "@/assets/ris/integrations/philips.png"
-import iheLogo from "@/assets/ris/integrations/ihe.png"
-import epicLogo from "@/assets/ris/integrations/epic.png"
-import dicomLogo from "@/assets/ris/integrations/dicom.png"
-import cernerLogo from "@/assets/ris/integrations/cerner.png"
-import agfaLogo from "@/assets/ris/integrations/agfa.png"
-
+const ArrowRight = "ArrowRight";
+const AlertTriangle = "AlertTriangle";
+const CheckCircle2 = "CheckCircle2";
+const ShieldCheck = "ShieldCheck";
+const Network = "Network";
+const CalendarClock = "CalendarClock";
+const ScanLine = "ScanLine";
+const FileText = "FileText";
+const ListChecks = "ListChecks";
+const UserCheck = "UserCheck";
+const BellRing = "BellRing";
+const Inbox = "Inbox";
+const CalendarCheck = "CalendarCheck";
+const ImagePlus = "ImagePlus";
+const Mic = "Mic";
+const Send = "Send";
+const risProblem1 = "/src/assets/ris/problem-1.jpg";
+const risProblem2 = "/src/assets/ris/problem-2.jpg";
+const risProblem3 = "/src/assets/ris/problem-3.jpg";
+const risProblem4 = "/src/assets/ris/problem-4.jpg";
+const risProblem5 = "/src/assets/ris/problem-5.jpg";
+const risJourney1 = "/src/assets/ris/journey-1.jpg";
+const risJourney2 = "/src/assets/ris/journey-2.jpg";
+const risJourney3 = "/__l5e/assets-v1/1dbd3aa3-e5c4-435f-af68-9ee6cdfdad38/journey-3.jpg";
+const risJourney4 = "/src/assets/ris/journey-4.jpg";
+const risJourney5 = "/src/assets/ris/journey-5.jpg";
+const philipsLogo = "/src/assets/ris/integrations/philips.png";
+const iheLogo = "/src/assets/ris/integrations/ihe.png";
+const epicLogo = "/src/assets/ris/integrations/epic.png";
+const dicomLogo = "/src/assets/ris/integrations/dicom.png";
+const cernerLogo = "/src/assets/ris/integrations/cerner.png";
+const agfaLogo = "/src/assets/ris/integrations/agfa.png";
 import { Footer } from "@/components/Footer";
 import { CtaSection } from "@/components/CtaSection";
 

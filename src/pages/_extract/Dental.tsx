@@ -1,41 +1,38 @@
 import { useState, useRef, useEffect } from "react";
 import { motion, useScroll, useTransform, useInView, animate } from "framer-motion";
-import {
-  ArrowRight,
-  AlertTriangle,
-  Smile,
-  ClipboardList,
-  CalendarCheck,
-  Scan,
-  BellRing,
-  FileSignature,
-  ShieldCheck,
-  Receipt,
-  Users,
-  Activity,
-  FlaskConical,
-  UserCog,
-  ChevronDown,
-  CheckCircle2,
-} from "lucide-react";
-import dentalHeroVideo from "@/assets/dental/dental-hero.mp4.asset.json";
-import problem1 from "@/assets/dental/problem-1.jpg";
-import problem2 from "@/assets/dental/problem-2.jpg";
-import problem3 from "@/assets/dental/problem-3.jpg";
-import problem4 from "@/assets/dental/problem-4.jpg";
-import problem5 from "@/assets/dental/problem-5.jpg";
-import problem6 from "@/assets/dental/problem-6.jpg";
-import preVisitOnlineBooking from "@/assets/dental/journey/pre-visit-online-booking.png"
-import checkInReception from "@/assets/dental/journey/check-in-reception.png"
-import examinationCharting from "@/assets/dental/journey/examination-charting.png"
-import imgVatech from "@/assets/dental/integrations/vatech.png"
-import imgRomexis from "@/assets/dental/integrations/romexis.png"
-import imgPlanetDds from "@/assets/dental/integrations/planet-dds.png"
-import imgDentsply from "@/assets/dental/integrations/dentsply-sirona.png"
-import imgCarestream from "@/assets/dental/integrations/carestream.png"
-import imgApteryx from "@/assets/dental/integrations/apteryx.png"
-import imgActeon from "@/assets/dental/integrations/acteon.png"
-
+const ArrowRight = "ArrowRight";
+const AlertTriangle = "AlertTriangle";
+const Smile = "Smile";
+const ClipboardList = "ClipboardList";
+const CalendarCheck = "CalendarCheck";
+const Scan = "Scan";
+const BellRing = "BellRing";
+const FileSignature = "FileSignature";
+const ShieldCheck = "ShieldCheck";
+const Receipt = "Receipt";
+const Users = "Users";
+const Activity = "Activity";
+const FlaskConical = "FlaskConical";
+const UserCog = "UserCog";
+const ChevronDown = "ChevronDown";
+const CheckCircle2 = "CheckCircle2";
+const dentalHeroVideo = "/__l5e/assets-v1/82d54afc-2b48-48a1-95ee-b5b3e576d517/dental-hero.mp4";
+const problem1 = "/src/assets/dental/problem-1.jpg";
+const problem2 = "/src/assets/dental/problem-2.jpg";
+const problem3 = "/src/assets/dental/problem-3.jpg";
+const problem4 = "/src/assets/dental/problem-4.jpg";
+const problem5 = "/src/assets/dental/problem-5.jpg";
+const problem6 = "/src/assets/dental/problem-6.jpg";
+const preVisitOnlineBooking = "/src/assets/dental/journey/pre-visit-online-booking.png";
+const checkInReception = "/src/assets/dental/journey/check-in-reception.png";
+const examinationCharting = "/src/assets/dental/journey/examination-charting.png";
+const imgVatech = "/src/assets/dental/integrations/vatech.png";
+const imgRomexis = "/src/assets/dental/integrations/romexis.png";
+const imgPlanetDds = "/src/assets/dental/integrations/planet-dds.png";
+const imgDentsply = "/src/assets/dental/integrations/dentsply-sirona.png";
+const imgCarestream = "/src/assets/dental/integrations/carestream.png";
+const imgApteryx = "/src/assets/dental/integrations/apteryx.png";
+const imgActeon = "/src/assets/dental/integrations/acteon.png";
 const digitalImagingLogos = [
   { name: "Vatech", src: imgVatech },
   { name: "Romexis", src: imgRomexis },
@@ -45,20 +42,20 @@ const digitalImagingLogos = [
   { name: "Apteryx", src: imgApteryx },
   { name: "Acteon", src: imgActeon },
 ];
-import imgIntraApteryx from "@/assets/dental/intraoral/apteryx.png"
-import imgIntraDexis from "@/assets/dental/intraoral/dexis.png"
-import imgIntraSchick from "@/assets/dental/intraoral/schick.png"
+const imgIntraApteryx = "/src/assets/dental/intraoral/apteryx.png";
+const imgIntraDexis = "/src/assets/dental/intraoral/dexis.png";
+const imgIntraSchick = "/src/assets/dental/intraoral/schick.png";
 const intraoralLogos = [
   { name: "DEXIS", src: imgIntraDexis },
   { name: "Schick by Sirona", src: imgIntraSchick },
   { name: "Apteryx XVWeb", src: imgIntraApteryx },
 ];
-import imgAcctXero from "@/assets/dental/accounting/xero.png"
-import imgAcctQb from "@/assets/dental/accounting/quickbooks.png"
-import imgAcctSage from "@/assets/dental/accounting/sage.png"
-import imgAcctStripe from "@/assets/dental/accounting/stripe.png"
-import imgAcctNetwork from "@/assets/dental/accounting/network.png"
-import imgAcctTelr from "@/assets/dental/accounting/telr.png"
+const imgAcctXero = "/src/assets/dental/accounting/xero.png";
+const imgAcctQb = "/src/assets/dental/accounting/quickbooks.png";
+const imgAcctSage = "/src/assets/dental/accounting/sage.png";
+const imgAcctStripe = "/src/assets/dental/accounting/stripe.png";
+const imgAcctNetwork = "/src/assets/dental/accounting/network.png";
+const imgAcctTelr = "/src/assets/dental/accounting/telr.png";
 const accountingLogos = [
   { name: "Xero", src: imgAcctXero },
   { name: "QuickBooks", src: imgAcctQb },
@@ -67,21 +64,20 @@ const accountingLogos = [
   { name: "Network International", src: imgAcctNetwork },
   { name: "Telr", src: imgAcctTelr },
 ];
-import imgInsDha from "@/assets/dental/insurance/dha.png"
-import imgInsDoh from "@/assets/dental/insurance/doh.png"
-import imgInsNphies from "@/assets/dental/insurance/nphies.png"
+const imgInsDha = "/src/assets/dental/insurance/dha.png";
+const imgInsDoh = "/src/assets/dental/insurance/doh.png";
+const imgInsNphies = "/src/assets/dental/insurance/nphies.png";
 const insuranceLogos = [
   { name: "Dubai Health Authority", src: imgInsDha },
   { name: "Department of Health Abu Dhabi", src: imgInsDoh },
   { name: "NPHIES", src: imgInsNphies },
 ];
-import treatmentPlanApproval from "@/assets/dental/journey/treatment-plan-approval.png"
-import treatmentDeliveredDocumented from "@/assets/dental/journey/treatment-delivered-documented.png"
-import claimPaymentRecallSet from "@/assets/dental/journey/claim-payment-recall-set.png"
+const treatmentPlanApproval = "/src/assets/dental/journey/treatment-plan-approval.png";
+const treatmentDeliveredDocumented = "/src/assets/dental/journey/treatment-delivered-documented.png";
+const claimPaymentRecallSet = "/src/assets/dental/journey/claim-payment-recall-set.png";
 import { Footer } from "@/components/Footer";
 import { CtaSection } from "@/components/CtaSection";
-import dentalCtaVideo from "@/assets/dental/dental-cta.mp4.asset.json";
-
+const dentalCtaVideo = "/__l5e/assets-v1/54de54d2-cc03-4382-871f-892c81816f12/dental-cta.mp4";
 import { useHorizontalScroll } from "@/hooks/use-horizontal-scroll";
 function AnimatedStat({ value }: { value: string }) {
   const ref = useRef<HTMLSpanElement>(null);

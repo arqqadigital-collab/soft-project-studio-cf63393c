@@ -1,44 +1,41 @@
 import { useRef, useEffect, useState } from "react";
 import { motion, useScroll, useTransform, useInView, animate } from "framer-motion";
-import problem1 from "@/assets/his/problem-1.jpg";
-import problem2 from "@/assets/his/problem-2.jpg";
-import problem3 from "@/assets/his/problem-3.jpg";
-import problem4 from "@/assets/his/problem-4.jpg";
-import problem5 from "@/assets/his/problem-5.jpg";
-import problem6 from "@/assets/his/problem-6.jpg";
-import {
-  ArrowRight,
-  ChevronLeft,
-  ChevronRight,
-  Sparkles,
-  AlertTriangle,
-  CheckCircle2,
-  UserPlus,
-  CalendarCheck,
-  BedDouble,
-  FileText,
-  ClipboardList,
-  HeartPulse,
-  Pill,
-  FlaskConical,
-  Scan,
-  Stethoscope,
-  Receipt,
-  BarChart3,
-  Workflow,
-  ShieldCheck,
-  Network,
-} from "lucide-react";
-import hisHeroVideo from "@/assets/his-hero.mp4.asset.json";
-import hisCtaVideo from "@/assets/his-cta.mp4.asset.json";
-import bgStepsLight from "@/assets/bg-steps-light.png"
-import registrationStep from "@/assets/his-journey/registration.png"
-import outpatientConsultationStep from "@/assets/his-journey/outpatient-consultation.png"
-import admissionStep from "@/assets/his-journey/admission.png"
-import inpatientCareStep from "@/assets/his-journey/inpatient-care.png"
-import dischargeStep from "@/assets/his-journey/discharge.png"
-import billingSettlementStep from "@/assets/his-journey/billing-settlement.png"
-
+const problem1 = "/src/assets/his/problem-1.jpg";
+const problem2 = "/src/assets/his/problem-2.jpg";
+const problem3 = "/src/assets/his/problem-3.jpg";
+const problem4 = "/src/assets/his/problem-4.jpg";
+const problem5 = "/src/assets/his/problem-5.jpg";
+const problem6 = "/src/assets/his/problem-6.jpg";
+const ArrowRight = "ArrowRight";
+const ChevronLeft = "ChevronLeft";
+const ChevronRight = "ChevronRight";
+const Sparkles = "Sparkles";
+const AlertTriangle = "AlertTriangle";
+const CheckCircle2 = "CheckCircle2";
+const UserPlus = "UserPlus";
+const CalendarCheck = "CalendarCheck";
+const BedDouble = "BedDouble";
+const FileText = "FileText";
+const ClipboardList = "ClipboardList";
+const HeartPulse = "HeartPulse";
+const Pill = "Pill";
+const FlaskConical = "FlaskConical";
+const Scan = "Scan";
+const Stethoscope = "Stethoscope";
+const Receipt = "Receipt";
+const BarChart3 = "BarChart3";
+const Workflow = "Workflow";
+const ShieldCheck = "ShieldCheck";
+const Network = "Network";
+const hisHeroVideo = "/__l5e/assets-v1/25b00197-4b5c-4720-962f-41679f2291d8/his-hero.mp4";
+const hisCtaVideo = "/__l5e/assets-v1/9120cf10-5388-45f0-8a51-be221f388b8e/his-cta.mp4";
+const bgStepsLight = "/src/assets/bg-steps-light.png";
+const registrationStep = "/src/assets/his-journey/registration.png";
+const outpatientConsultationStep = "/src/assets/his-journey/outpatient-consultation.png";
+const admissionStep = "/src/assets/his-journey/admission.png";
+const inpatientCareStep = "/src/assets/his-journey/inpatient-care.png";
+const dischargeStep = "/src/assets/his-journey/discharge.png";
+const billingSettlementStep = "/src/assets/his-journey/billing-settlement.png";
 import { Footer } from "@/components/Footer";
 import { CtaSection } from "@/components/CtaSection";
 
@@ -76,15 +73,14 @@ const stats = [
   { value: "100%", label: "Of HIS clients pursuing EMRAM Stage 6 achieved it within their target timeline" },
 ];
 
-import nphiesLogo from "@/assets/logos/nphies.png"
-import malaffiLogo from "@/assets/logos/malaffi.png"
-import riayatiLogo from "@/assets/logos/riayati.png"
-import zatcaLogo from "@/assets/logos/zatca.png"
-import emiratesIdLogo from "@/assets/logos/emirates-id.png"
-import absherLogo from "@/assets/logos/absher.png"
-import nhraLogo from "@/assets/logos/nhra.png"
-import wasfatyLogo from "@/assets/logos/wasfaty.png"
-
+const nphiesLogo = "/src/assets/logos/nphies.png";
+const malaffiLogo = "/src/assets/logos/malaffi.png";
+const riayatiLogo = "/src/assets/logos/riayati.png";
+const zatcaLogo = "/src/assets/logos/zatca.png";
+const emiratesIdLogo = "/src/assets/logos/emirates-id.png";
+const absherLogo = "/src/assets/logos/absher.png";
+const nhraLogo = "/src/assets/logos/nhra.png";
+const wasfatyLogo = "/src/assets/logos/wasfaty.png";
 const nationalPlatforms = [
   { name: "NPHIES", logo: nphiesLogo },
   { name: "Malaffi", logo: malaffiLogo },
