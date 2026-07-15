@@ -104,6 +104,7 @@ export default function HomepageEditor() {
   const [rowId, setRowId] = useState<string | null>(null);
   const [saving, setSaving] = useState(false);
   const [pickerOpen, setPickerOpen] = useState(false);
+  const [heroPreviewKey, setHeroPreviewKey] = useState(0);
 
   const { data, isLoading } = useQuery({
     queryKey: ["homepage-hero"],
