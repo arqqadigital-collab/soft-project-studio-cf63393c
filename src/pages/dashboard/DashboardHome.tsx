@@ -25,17 +25,22 @@ export default function DashboardHome() {
   const counts = useQuery({
     queryKey: ["dashboard-counts"],
     queryFn: async () => {
-      const [posts, pages, users, media] = await Promise.all([
+      const [posts, pages, users, media, categories, views] = await Promise.all([
         supabase.from("posts").select("id", { count: "exact", head: true }),
         supabase.from("pages").select("id", { count: "exact", head: true }),
         supabase.from("profiles").select("id", { count: "exact", head: true }),
         supabase.from("media").select("id", { count: "exact", head: true }),
+        supabase.from("categories").select("id", { count: "exact", head: true }),
+        supabase.from("page_views").select("id", { count: "exact", head: true }),
       ]);
+      const builtinCount = getBuiltinMedia().length;
       return {
         posts: posts.count ?? 0,
         pages: pages.count ?? 0,
         users: users.count ?? 0,
-        media: media.count ?? 0,
+        media: (media.count ?? 0) + builtinCount,
+        categories: categories.count ?? 0,
+        views: views.count ?? 0,
       };
     },
   });
