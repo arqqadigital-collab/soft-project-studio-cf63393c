@@ -243,7 +243,7 @@ function TermsPanel({ kind, hasExtras }: { kind: Kind; hasExtras: boolean }) {
                           </AlertDialogTrigger>
                           <AlertDialogContent>
                             <AlertDialogHeader>
-                              <AlertDialogTitle>Delete "{r.name}"?</AlertGetTitle />
+                              <AlertDialogTitle>Delete "{r.name}"?</AlertDialogTitle>
                               <AlertDialogDescription>
                                 This can't be undone. Posts will lose this {kind === "categories" ? "category" : "tag"}.
                               </AlertDialogDescription>
