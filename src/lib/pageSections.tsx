@@ -231,7 +231,11 @@ function StatsRender({ data }: { data: SectionData }) {
   return (
     <section className={data.bgColor ? "py-20" : "bg-background py-20"} style={sectionStyle(data)}>
       <Container>
+        {data.eyebrow && (
+          <div className="mb-3 text-xs font-bold uppercase tracking-[0.2em] opacity-70">{data.eyebrow}</div>
+        )}
         {data.heading && <h2 className="text-3xl font-bold md:text-4xl">{data.heading}</h2>}
+        {data.subheading && <p className="mt-3 max-w-3xl text-lg opacity-80">{data.subheading}</p>}
         <div className="mt-10 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
           {(data.items ?? []).map((s: any, i: number) => (
             <div key={i} className="rounded-2xl border border-border bg-card p-6" style={data.textColor ? { color: data.textColor } : undefined}>
@@ -240,6 +244,9 @@ function StatsRender({ data }: { data: SectionData }) {
             </div>
           ))}
         </div>
+        {data.footnote && (
+          <p className="mt-6 text-sm italic opacity-70">{data.footnote}</p>
+        )}
       </Container>
     </section>
   );
@@ -249,7 +256,9 @@ function StatsEdit({ data, onChange }: { data: SectionData; onChange: (n: Sectio
   const p = (patch: Partial<SectionData>) => onChange({ ...data, ...patch });
   return (
     <div className="space-y-3">
+      <Field label="Eyebrow (optional)"><Input value={data.eyebrow ?? ""} onChange={(e) => p({ eyebrow: e.target.value })} /></Field>
       <Field label="Heading"><Input value={data.heading ?? ""} onChange={(e) => p({ heading: e.target.value })} /></Field>
+      <Field label="Sub-heading (optional)"><Textarea value={data.subheading ?? ""} rows={2} onChange={(e) => p({ subheading: e.target.value })} /></Field>
       <ListEditor
         label="Stats"
         items={data.items ?? []}
@@ -262,6 +271,7 @@ function StatsEdit({ data, onChange }: { data: SectionData; onChange: (n: Sectio
           </>
         )}
       />
+      <Field label="Footnote (optional)"><Textarea value={data.footnote ?? ""} rows={2} onChange={(e) => p({ footnote: e.target.value })} /></Field>
       <ColorFields data={data} onChange={onChange} showAccent />
     </div>
   );
