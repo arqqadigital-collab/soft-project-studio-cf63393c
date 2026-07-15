@@ -104,6 +104,10 @@ export default function Dashboard() {
           path="settings"
           element={<RoleGate allow={["admin"]}><SettingsPage /></RoleGate>}
         />
+        <Route
+          path="contact"
+          element={<RoleGate allow={["admin", "editor"]}><ContactEditor /></RoleGate>}
+        />
         <Route path="profile" element={<Profile />} />
         <Route path="*" element={<Navigate to="/dashboard" replace />} />
       </Route>
