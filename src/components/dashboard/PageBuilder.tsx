@@ -10,7 +10,7 @@ import {
 import {
   ChevronDown, ChevronRight, Trash2, ArrowUp, ArrowDown, Eye, EyeOff, Plus,
 } from "lucide-react";
-import { SECTION_REGISTRY, SECTION_KINDS, type SectionKind } from "@/lib/pageSections";
+import { SECTION_REGISTRY, SECTION_KINDS, type SectionKind, type SectionDef } from "@/lib/pageSections";
 
 type Row = { id: string; kind: SectionKind; position: number; is_visible: boolean; data: any };
 
@@ -121,7 +121,6 @@ export function PageBuilder({ pageId }: { pageId: string }) {
             const def = SECTION_REGISTRY[row.kind];
             if (!def) return null;
             const isOpen = !!expanded[row.id];
-            const Edit = def.Edit;
             return (
               <Card key={row.id} className={row.is_visible ? "" : "opacity-60"}>
                 <CardHeader className="flex flex-row items-center gap-2 space-y-0 py-3">
@@ -157,7 +156,7 @@ export function PageBuilder({ pageId }: { pageId: string }) {
                     <SectionEditForm
                       initial={row.data ?? {}}
                       onSave={(next) => updateData(row.id, next)}
-                      Edit={Edit}
+                      def={def}
                     />
                   </CardContent>
                 )}
@@ -175,18 +174,78 @@ function sectionSummary(row: Row) {
   return d.headline || d.heading || d.title || "";
 }
 
+function collectImages(data: any): string[] {
+  const out = new Set<string>();
+  const walk = (v: any) => {
+    if (!v) return;
+    if (typeof v === "string") {
+      if (/^(https?:|\/|data:image)/.test(v) && /\.(png|jpe?g|gif|webp|svg|avif)(\?|$)/i.test(v)) {
+        out.add(v);
+      }
+      return;
+    }
+    if (Array.isArray(v)) return v.forEach(walk);
+    if (typeof v === "object") {
+      for (const k of Object.keys(v)) {
+        if (/(url|logo|image|src|thumb|cover|media)/i.test(k) && typeof v[k] === "string" && v[k]) {
+          out.add(v[k]);
+        } else {
+          walk(v[k]);
+        }
+      }
+    }
+  };
+  walk(data);
+  return Array.from(out).filter((u) => !/\.(mp4|webm|mov)(\?|$)/i.test(u));
+}
+
 function SectionEditForm({
-  initial, onSave, Edit,
+  initial, onSave, def,
 }: {
   initial: any;
   onSave: (next: any) => void;
-  Edit: React.ComponentType<{ data: any; onChange: (n: any) => void }>;
+  def: SectionDef;
 }) {
   const [draft, setDraft] = useState(initial);
   const dirty = useMemo(() => JSON.stringify(draft) !== JSON.stringify(initial), [draft, initial]);
+  const Edit = def.Edit;
+  const Render = def.Render;
+  const images = useMemo(() => collectImages(draft), [draft]);
   return (
     <div className="space-y-4">
-      <Edit data={draft} onChange={setDraft} />
+      <div className="grid gap-4 lg:grid-cols-2">
+        <div className="space-y-4">
+          <Edit data={draft} onChange={setDraft} />
+        </div>
+        <div className="space-y-3">
+          <div className="rounded-md border border-border">
+            <div className="border-b border-border px-3 py-2 text-xs font-medium text-muted-foreground">
+              Live preview
+            </div>
+            <div className="max-h-[520px] overflow-auto bg-background">
+              <div className="origin-top-left scale-[0.6]" style={{ width: "166.67%" }}>
+                <Render data={draft} />
+              </div>
+            </div>
+          </div>
+          <div className="rounded-md border border-border">
+            <div className="border-b border-border px-3 py-2 text-xs font-medium text-muted-foreground">
+              Images used ({images.length})
+            </div>
+            {images.length === 0 ? (
+              <div className="px-3 py-4 text-xs text-muted-foreground">No images in this section.</div>
+            ) : (
+              <div className="grid grid-cols-3 gap-2 p-3">
+                {images.map((u) => (
+                  <a key={u} href={u} target="_blank" rel="noreferrer" className="block">
+                    <img src={u} alt="" className="h-20 w-full rounded border object-cover" />
+                  </a>
+                ))}
+              </div>
+            )}
+          </div>
+        </div>
+      </div>
       <div className="flex justify-end gap-2 border-t border-border pt-3">
         <Button variant="outline" size="sm" onClick={() => setDraft(initial)} disabled={!dirty}>Reset</Button>
         <Button size="sm" onClick={() => onSave(draft)} disabled={!dirty}>Save section</Button>
