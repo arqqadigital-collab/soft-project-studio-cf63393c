@@ -141,6 +141,8 @@ export default function PageEditor() {
       status: opts?.overrideStatus ?? form.status,
       template: form.template,
       parent_id: form.parent_id,
+      section_id: form.section_id,
+      nav_label: form.nav_label || null,
       author_id: user.id,
     };
     try {
