@@ -324,7 +324,15 @@ export default function HomepageEditor() {
               {form.background_url ? (
                 <>
                   {form.background_type === "video" ? (
-                    <video src={form.background_url} muted className="w-full rounded-md border" />
+                    <video
+                      src={form.background_url}
+                      autoPlay
+                      muted
+                      loop
+                      playsInline
+                      controls
+                      className="w-full rounded-md border bg-black"
+                    />
                   ) : (
                     <img src={form.background_url} alt="" className="w-full rounded-md border" />
                   )}
