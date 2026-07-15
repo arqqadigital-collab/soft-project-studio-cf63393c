@@ -211,6 +211,7 @@ function StatsEdit({ data, onChange }: { data: SectionData; onChange: (n: Sectio
           </>
         )}
       />
+      <ColorFields data={data} onChange={onChange} showAccent />
     </div>
   );
 }
