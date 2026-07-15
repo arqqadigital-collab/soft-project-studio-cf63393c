@@ -249,6 +249,80 @@ export type Database = {
           },
         ]
       }
+      nav_groups: {
+        Row: {
+          created_at: string
+          id: string
+          is_visible: boolean
+          label: string
+          position: number
+          slug: string
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          is_visible?: boolean
+          label: string
+          position?: number
+          slug: string
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          is_visible?: boolean
+          label?: string
+          position?: number
+          slug?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      nav_sections: {
+        Row: {
+          created_at: string
+          description: string | null
+          group_id: string
+          href: string | null
+          id: string
+          is_visible: boolean
+          label: string
+          position: number
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          description?: string | null
+          group_id: string
+          href?: string | null
+          id?: string
+          is_visible?: boolean
+          label: string
+          position?: number
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          description?: string | null
+          group_id?: string
+          href?: string | null
+          id?: string
+          is_visible?: boolean
+          label?: string
+          position?: number
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "nav_sections_group_id_fkey"
+            columns: ["group_id"]
+            isOneToOne: false
+            referencedRelation: "nav_groups"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       page_views: {
         Row: {
           entity_id: string
@@ -286,8 +360,11 @@ export type Database = {
           created_at: string
           featured_image_url: string | null
           id: string
+          nav_label: string | null
           parent_id: string | null
+          position: number
           preview_token: string
+          section_id: string | null
           slug: string
           status: Database["public"]["Enums"]["page_status"]
           template: Database["public"]["Enums"]["page_template"]
@@ -300,8 +377,11 @@ export type Database = {
           created_at?: string
           featured_image_url?: string | null
           id?: string
+          nav_label?: string | null
           parent_id?: string | null
+          position?: number
           preview_token?: string
+          section_id?: string | null
           slug: string
           status?: Database["public"]["Enums"]["page_status"]
           template?: Database["public"]["Enums"]["page_template"]
@@ -314,8 +394,11 @@ export type Database = {
           created_at?: string
           featured_image_url?: string | null
           id?: string
+          nav_label?: string | null
           parent_id?: string | null
+          position?: number
           preview_token?: string
+          section_id?: string | null
           slug?: string
           status?: Database["public"]["Enums"]["page_status"]
           template?: Database["public"]["Enums"]["page_template"]
@@ -335,6 +418,13 @@ export type Database = {
             columns: ["parent_id"]
             isOneToOne: false
             referencedRelation: "pages"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "pages_section_id_fkey"
+            columns: ["section_id"]
+            isOneToOne: false
+            referencedRelation: "nav_sections"
             referencedColumns: ["id"]
           },
         ]

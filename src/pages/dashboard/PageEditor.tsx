@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useRef, useState } from "react";
-import { useNavigate, useParams } from "react-router-dom";
+import { useNavigate, useParams, useSearchParams } from "react-router-dom";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { toast } from "sonner";
 import { ArrowLeft, Save, Send, Image as ImageIcon, Eye, ExternalLink } from "lucide-react";
@@ -12,7 +12,7 @@ import { Label } from "@/components/ui/label";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import {
-  Select, SelectContent, SelectItem, SelectTrigger, SelectValue,
+  Select, SelectContent, SelectItem, SelectTrigger, SelectValue, SelectGroup, SelectLabel,
 } from "@/components/ui/select";
 import { RichTextEditor } from "@/components/dashboard/RichTextEditor";
 import { MediaPickerDialog } from "@/components/dashboard/MediaPickerDialog";
@@ -30,6 +30,8 @@ interface PageForm {
   status: Status;
   template: Template;
   parent_id: string | null;
+  section_id: string | null;
+  nav_label: string;
 }
 
 const EMPTY: PageForm = {
@@ -40,18 +42,24 @@ const EMPTY: PageForm = {
   status: "draft",
   template: "default",
   parent_id: null,
+  section_id: null,
+  nav_label: "",
 };
 
 export default function PageEditor() {
   const { id } = useParams();
   const isNew = !id || id === "new";
   const navigate = useNavigate();
+  const [searchParams] = useSearchParams();
   const { user } = useAuth();
   const qc = useQueryClient();
 
   const [pageId, setPageId] = useState<string | null>(isNew ? null : id!);
   const [previewToken, setPreviewToken] = useState<string | null>(null);
-  const [form, setForm] = useState<PageForm>(EMPTY);
+  const [form, setForm] = useState<PageForm>(() => {
+    const s = searchParams.get("section");
+    return s ? { ...EMPTY, section_id: s } : EMPTY;
+  });
   const [slugTouched, setSlugTouched] = useState(false);
   const [saving, setSaving] = useState(false);
   const [lastSavedAt, setLastSavedAt] = useState<Date | null>(null);
@@ -64,6 +72,19 @@ export default function PageEditor() {
       const { data, error } = await supabase.from("pages").select("id, title").order("title");
       if (error) throw error;
       return data;
+    },
+  });
+
+  const navTree = useQuery({
+    queryKey: ["nav-sections-flat"],
+    queryFn: async () => {
+      const [g, s] = await Promise.all([
+        supabase.from("nav_groups").select("id,label,position").order("position"),
+        supabase.from("nav_sections").select("id,group_id,label,position").order("position"),
+      ]);
+      if (g.error) throw g.error;
+      if (s.error) throw s.error;
+      return { groups: g.data ?? [], sections: s.data ?? [] };
     },
   });
 
@@ -84,6 +105,8 @@ export default function PageEditor() {
         title: d.title, slug: d.slug, content: d.content ?? "",
         featured_image_url: d.featured_image_url ?? "",
         status: d.status, template: d.template, parent_id: d.parent_id,
+        section_id: d.section_id ?? null,
+        nav_label: d.nav_label ?? "",
       });
       setPreviewToken(d.preview_token ?? null);
       setSlugTouched(true);
@@ -118,6 +141,8 @@ export default function PageEditor() {
       status: opts?.overrideStatus ?? form.status,
       template: form.template,
       parent_id: form.parent_id,
+      section_id: form.section_id,
+      nav_label: form.nav_label || null,
       author_id: user.id,
     };
     try {
@@ -137,6 +162,7 @@ export default function PageEditor() {
       dirtyRef.current = false;
       setLastSavedAt(new Date());
       qc.invalidateQueries({ queryKey: ["pages"] });
+      qc.invalidateQueries({ queryKey: ["nav-tree"] });
       qc.invalidateQueries({ queryKey: ["page", pid] });
       if (!opts?.silent) toast.success("Saved");
     } catch (e: any) {
@@ -265,7 +291,40 @@ export default function PageEditor() {
                 </Select>
               </div>
               <div className="space-y-1.5">
-                <Label className="text-xs">Parent</Label>
+                <Label className="text-xs">Nav section</Label>
+                <Select
+                  value={form.section_id ?? "none"}
+                  onValueChange={(v) => patch("section_id", v === "none" ? null : v)}
+                >
+                  <SelectTrigger><SelectValue placeholder="Unassigned" /></SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="none">Unassigned</SelectItem>
+                    {(navTree.data?.groups ?? []).map((g) => {
+                      const secs = (navTree.data?.sections ?? []).filter((s) => s.group_id === g.id);
+                      if (!secs.length) return null;
+                      return (
+                        <SelectGroup key={g.id}>
+                          <SelectLabel>{g.label}</SelectLabel>
+                          {secs.map((s) => (
+                            <SelectItem key={s.id} value={s.id}>{s.label}</SelectItem>
+                          ))}
+                        </SelectGroup>
+                      );
+                    })}
+                  </SelectContent>
+                </Select>
+                <p className="text-xs text-muted-foreground">Where this page appears in the mega menu.</p>
+              </div>
+              <div className="space-y-1.5">
+                <Label className="text-xs">Nav label (optional)</Label>
+                <Input
+                  value={form.nav_label}
+                  onChange={(e) => patch("nav_label", e.target.value)}
+                  placeholder="Short label shown in the menu"
+                />
+              </div>
+              <div className="space-y-1.5">
+                <Label className="text-xs">Parent page</Label>
                 <Select value={form.parent_id ?? "none"} onValueChange={(v) => patch("parent_id", v === "none" ? null : v)}>
                   <SelectTrigger><SelectValue placeholder="No parent" /></SelectTrigger>
                   <SelectContent>
