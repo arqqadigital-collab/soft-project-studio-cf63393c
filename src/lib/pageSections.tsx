@@ -116,8 +116,11 @@ function Container({ children, className = "" }: { children: React.ReactNode; cl
 
 function HeroRender({ data }: { data: SectionData }) {
   const isVideo = data.mediaKind === "video" && data.mediaUrl;
+  const style = sectionStyle(data);
+  const bgClass = data.bgColor ? "" : "bg-[var(--brand-dark)]";
+  const txtClass = data.textColor ? "" : "text-white";
   return (
-    <section className="relative overflow-hidden bg-[var(--brand-dark)] text-white">
+    <section className={`relative overflow-hidden ${bgClass} ${txtClass}`} style={style}>
       {isVideo && (
         <video
           src={data.mediaUrl}
@@ -131,15 +134,15 @@ function HeroRender({ data }: { data: SectionData }) {
       <div className="absolute inset-0 bg-gradient-to-b from-black/40 via-black/20 to-black/70" />
       <Container className="relative py-28 md:py-40">
         {data.eyebrow && (
-          <div className="text-xs font-bold uppercase tracking-[0.2em] text-white/70">{data.eyebrow}</div>
+          <div className="text-xs font-bold uppercase tracking-[0.2em] opacity-70">{data.eyebrow}</div>
         )}
         <h1 className="mt-4 text-4xl font-bold tracking-tight md:text-6xl">{data.headline}</h1>
         {data.subheadline && (
-          <p className="mt-6 max-w-2xl text-lg text-white/85">{data.subheadline}</p>
+          <p className="mt-6 max-w-2xl text-lg opacity-90">{data.subheadline}</p>
         )}
         {data.ctaLabel && (
           <div className="mt-8">
-            <Button asChild size="lg">
+            <Button asChild size="lg" style={data.accentColor ? { background: data.accentColor, color: "#fff" } : undefined}>
               <Link to={data.ctaHref || "#"}>{data.ctaLabel}</Link>
             </Button>
           </div>
@@ -148,6 +151,7 @@ function HeroRender({ data }: { data: SectionData }) {
     </section>
   );
 }
+
 
 function HeroEdit({ data, onChange }: { data: SectionData; onChange: (n: SectionData) => void }) {
   const p = (patch: Partial<SectionData>) => onChange({ ...data, ...patch });
