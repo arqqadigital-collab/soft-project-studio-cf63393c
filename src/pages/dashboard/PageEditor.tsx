@@ -239,13 +239,26 @@ export default function PageEditor() {
             </CardContent>
           </Card>
 
-          <Tabs defaultValue="content">
+          <Tabs defaultValue="builder">
             <TabsList>
-              <TabsTrigger value="content">Content</TabsTrigger>
+              <TabsTrigger value="builder">Builder</TabsTrigger>
+              <TabsTrigger value="content">Rich text</TabsTrigger>
               <TabsTrigger value="seo">SEO</TabsTrigger>
             </TabsList>
+            <TabsContent value="builder" className="mt-3">
+              {pageId ? (
+                <PageBuilder pageId={pageId} />
+              ) : (
+                <div className="rounded-md border border-dashed border-border p-6 text-sm text-muted-foreground">
+                  Save the page first (title + draft) to start adding sections.
+                </div>
+              )}
+            </TabsContent>
             <TabsContent value="content" className="mt-3">
               <RichTextEditor value={form.content} onChange={(html) => patch("content", html)} />
+              <p className="mt-2 text-xs text-muted-foreground">
+                Only used when this page has no builder sections.
+              </p>
             </TabsContent>
             <TabsContent value="seo" className="mt-3">
               <SeoEditor
