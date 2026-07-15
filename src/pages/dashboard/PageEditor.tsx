@@ -2,7 +2,7 @@ import { useEffect, useMemo, useRef, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { toast } from "sonner";
-import { ArrowLeft, Save, Send, Image as ImageIcon } from "lucide-react";
+import { ArrowLeft, Save, Send, Image as ImageIcon, Eye, ExternalLink } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/hooks/use-auth";
 import { toSlug } from "@/lib/slug";
@@ -17,6 +17,7 @@ import {
 import { RichTextEditor } from "@/components/dashboard/RichTextEditor";
 import { MediaPickerDialog } from "@/components/dashboard/MediaPickerDialog";
 import { SeoEditor } from "@/components/dashboard/SeoEditor";
+import { RevisionsPanel } from "@/components/dashboard/RevisionsPanel";
 
 type Status = "draft" | "published" | "trashed";
 type Template = "default" | "full-width" | "landing";
@@ -49,6 +50,7 @@ export default function PageEditor() {
   const qc = useQueryClient();
 
   const [pageId, setPageId] = useState<string | null>(isNew ? null : id!);
+  const [previewToken, setPreviewToken] = useState<string | null>(null);
   const [form, setForm] = useState<PageForm>(EMPTY);
   const [slugTouched, setSlugTouched] = useState(false);
   const [saving, setSaving] = useState(false);
@@ -83,6 +85,7 @@ export default function PageEditor() {
         featured_image_url: d.featured_image_url ?? "",
         status: d.status, template: d.template, parent_id: d.parent_id,
       });
+      setPreviewToken(d.preview_token ?? null);
       setSlugTouched(true);
       dirtyRef.current = false;
     }
@@ -120,10 +123,11 @@ export default function PageEditor() {
     try {
       let pid = pageId;
       if (!pid) {
-        const { data, error } = await supabase.from("pages").insert(payload).select("id").single();
+        const { data, error } = await supabase.from("pages").insert(payload).select("id, preview_token").single();
         if (error) throw error;
         pid = data.id;
         setPageId(pid);
+        setPreviewToken(data.preview_token ?? null);
         window.history.replaceState(null, "", `/dashboard/pages/${pid}`);
       } else {
         const { error } = await supabase.from("pages").update(payload).eq("id", pid);
@@ -158,6 +162,27 @@ export default function PageEditor() {
         </Button>
         <div className="flex items-center gap-2">
           {lastSavedAt && <span className="text-xs text-muted-foreground">Saved {lastSavedAt.toLocaleTimeString()}</span>}
+          {form.status === "published" && form.slug && (
+            <Button asChild variant="outline" size="sm">
+              <a href={`/p/${form.slug}`} target="_blank" rel="noreferrer">
+                <ExternalLink className="mr-1 h-4 w-4" /> View live
+              </a>
+            </Button>
+          )}
+          {pageId && previewToken && (
+            <Button
+              variant="outline"
+              size="sm"
+              onClick={() => {
+                const url = `${window.location.origin}/preview/page/${pageId}?token=${previewToken}`;
+                navigator.clipboard.writeText(url).catch(() => {});
+                window.open(url, "_blank", "noreferrer");
+                toast.success("Preview link copied");
+              }}
+            >
+              <Eye className="mr-1 h-4 w-4" /> Preview draft
+            </Button>
+          )}
           <Button variant="outline" size="sm" onClick={() => save()} disabled={saving}>
             <Save className="mr-1 h-4 w-4" /> Save Draft
           </Button>
@@ -270,6 +295,16 @@ export default function PageEditor() {
               )}
             </CardContent>
           </Card>
+
+          <RevisionsPanel
+            entityType="page"
+            entityId={pageId}
+            restorableFields={["title", "content", "featured_image_url"]}
+            onRestore={(snap) => {
+              setForm((f) => ({ ...f, ...snap }));
+              dirtyRef.current = true;
+            }}
+          />
         </aside>
       </div>
 

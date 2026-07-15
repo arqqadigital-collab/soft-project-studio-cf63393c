@@ -2,7 +2,7 @@ import { useEffect, useMemo, useRef, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { toast } from "sonner";
-import { ArrowLeft, Save, Send, ExternalLink, Image as ImageIcon } from "lucide-react";
+import { ArrowLeft, Save, Send, ExternalLink, Image as ImageIcon, Eye } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/hooks/use-auth";
 import { toSlug } from "@/lib/slug";
@@ -19,6 +19,7 @@ import { Badge } from "@/components/ui/badge";
 import { RichTextEditor } from "@/components/dashboard/RichTextEditor";
 import { MediaPickerDialog } from "@/components/dashboard/MediaPickerDialog";
 import { SeoEditor } from "@/components/dashboard/SeoEditor";
+import { RevisionsPanel } from "@/components/dashboard/RevisionsPanel";
 
 type Status = "draft" | "published" | "scheduled" | "trashed";
 
@@ -54,6 +55,7 @@ export default function PostEditor() {
   const qc = useQueryClient();
 
   const [postId, setPostId] = useState<string | null>(isNew ? null : id!);
+  const [previewToken, setPreviewToken] = useState<string | null>(null);
   const [form, setForm] = useState<PostForm>(EMPTY);
   const [slugTouched, setSlugTouched] = useState(false);
   const [saving, setSaving] = useState(false);
@@ -101,6 +103,7 @@ export default function PostEditor() {
         published_at: d.published_at,
         tags: (d.post_tags ?? []).map((pt: any) => pt.tags?.name).filter(Boolean),
       });
+      setPreviewToken(d.preview_token ?? null);
       setSlugTouched(true);
       dirtyRef.current = false;
     }
@@ -159,10 +162,11 @@ export default function PostEditor() {
     try {
       let pid = postId;
       if (!pid) {
-        const { data, error } = await supabase.from("posts").insert(payload).select("id").single();
+        const { data, error } = await supabase.from("posts").insert(payload).select("id, preview_token").single();
         if (error) throw error;
         pid = data.id;
         setPostId(pid);
+        setPreviewToken(data.preview_token ?? null);
         window.history.replaceState(null, "", `/dashboard/posts/${pid}`);
       } else {
         const { error } = await supabase.from("posts").update(payload).eq("id", pid);
@@ -212,8 +216,22 @@ export default function PostEditor() {
           {form.status === "published" && form.slug && (
             <Button asChild variant="outline" size="sm">
               <a href={`/blog/${form.slug}`} target="_blank" rel="noreferrer">
-                <ExternalLink className="mr-1 h-4 w-4" /> Preview
+                <ExternalLink className="mr-1 h-4 w-4" /> View live
               </a>
+            </Button>
+          )}
+          {postId && previewToken && (
+            <Button
+              variant="outline"
+              size="sm"
+              onClick={() => {
+                const url = `${window.location.origin}/preview/post/${postId}?token=${previewToken}`;
+                navigator.clipboard.writeText(url).catch(() => {});
+                window.open(url, "_blank", "noreferrer");
+                toast.success("Preview link copied");
+              }}
+            >
+              <Eye className="mr-1 h-4 w-4" /> Preview draft
             </Button>
           )}
           <Button variant="outline" size="sm" onClick={() => save()} disabled={saving}>
@@ -361,6 +379,16 @@ export default function PostEditor() {
               )}
             </CardContent>
           </Card>
+
+          <RevisionsPanel
+            entityType="post"
+            entityId={postId}
+            restorableFields={["title", "content", "excerpt", "featured_image_url"]}
+            onRestore={(snap) => {
+              setForm((f) => ({ ...f, ...snap }));
+              dirtyRef.current = true;
+            }}
+          />
         </aside>
       </div>
 

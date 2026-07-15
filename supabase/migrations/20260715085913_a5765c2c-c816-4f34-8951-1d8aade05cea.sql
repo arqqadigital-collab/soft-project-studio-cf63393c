@@ -1,0 +1,1 @@
+REVOKE EXECUTE ON FUNCTION public.snapshot_content_revision() FROM PUBLIC, anon, authenticated;
