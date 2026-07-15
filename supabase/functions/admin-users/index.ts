@@ -7,6 +7,23 @@ const ANON = Deno.env.get('SUPABASE_PUBLISHABLE_KEY') ?? Deno.env.get('SUPABASE_
 
 type Action = 'list' | 'invite' | 'set_role' | 'delete';
 
+// Per-admin rate limit for sensitive actions.
+// In-memory (per edge instance) — good enough to blunt bursts and misuse.
+const buckets = new Map<string, { count: number; resetAt: number }>();
+const RATE_LIMIT = 30;
+const WINDOW_MS = 60_000;
+
+function rateLimited(key: string) {
+  const now = Date.now();
+  const b = buckets.get(key);
+  if (!b || b.resetAt < now) {
+    buckets.set(key, { count: 1, resetAt: now + WINDOW_MS });
+    return false;
+  }
+  b.count += 1;
+  return b.count > RATE_LIMIT;
+}
+
 async function requireAdmin(req: Request) {
   const auth = req.headers.get('Authorization') ?? '';
   const token = auth.replace(/^Bearer\s+/i, '');
@@ -22,20 +39,44 @@ async function requireAdmin(req: Request) {
   return { ok: true as const, admin, caller: userRes.user };
 }
 
+function jsonResponse(body: unknown, status = 200) {
+  return new Response(JSON.stringify(body), {
+    status,
+    headers: { ...corsHeaders, 'Content-Type': 'application/json' },
+  });
+}
+
 Deno.serve(async (req) => {
   if (req.method === 'OPTIONS') return new Response('ok', { headers: corsHeaders });
 
   try {
     const gate = await requireAdmin(req);
-    if (!gate.ok) {
-      return new Response(JSON.stringify({ error: gate.error }), {
-        status: gate.status,
-        headers: { ...corsHeaders, 'Content-Type': 'application/json' },
-      });
-    }
+    if (!gate.ok) return jsonResponse({ error: gate.error }, gate.status);
+
     const { admin, caller } = gate;
     const body = await req.json().catch(() => ({}));
     const action: Action = body.action;
+    const ip =
+      req.headers.get('x-forwarded-for')?.split(',')[0].trim() ||
+      req.headers.get('cf-connecting-ip') ||
+      null;
+
+    // Rate limit mutating actions per caller
+    if (action !== 'list') {
+      if (rateLimited(caller.id)) {
+        return jsonResponse({ error: 'Too many requests. Please slow down.' }, 429);
+      }
+    }
+
+    async function logAudit(actionName: string, target_user_id: string | null, metadata: Record<string, unknown>) {
+      await admin.from('admin_audit_log').insert({
+        actor_id: caller.id,
+        action: actionName,
+        target_user_id,
+        metadata,
+        ip,
+      });
+    }
 
     if (action === 'list') {
       const { data: authUsers, error: e1 } = await admin.auth.admin.listUsers({ perPage: 200 });
@@ -61,53 +102,52 @@ Deno.serve(async (req) => {
         avatar_url: profileMap.get(u.id)?.avatar_url ?? null,
         roles: rolesMap.get(u.id) ?? [],
       }));
-      return new Response(JSON.stringify({ users }), {
-        headers: { ...corsHeaders, 'Content-Type': 'application/json' },
-      });
+      return jsonResponse({ users });
     }
 
     if (action === 'invite') {
       const { email, role } = body;
-      if (!email) return new Response(JSON.stringify({ error: 'email required' }), { status: 400, headers: corsHeaders });
+      if (!email || typeof email !== 'string') return jsonResponse({ error: 'email required' }, 400);
       const { data, error } = await admin.auth.admin.inviteUserByEmail(email);
       if (error) throw error;
       if (data.user && role) {
         await admin.from('user_roles').upsert({ user_id: data.user.id, role }, { onConflict: 'user_id,role' });
       }
-      return new Response(JSON.stringify({ user: data.user }), {
-        headers: { ...corsHeaders, 'Content-Type': 'application/json' },
-      });
+      await logAudit('invite', data.user?.id ?? null, { email, role: role ?? null });
+      return jsonResponse({ user: data.user });
     }
 
     if (action === 'set_role') {
       const { user_id, role } = body;
-      if (!user_id || !role) return new Response(JSON.stringify({ error: 'user_id and role required' }), { status: 400, headers: corsHeaders });
-      // Replace all roles with the single new role (simple model)
+      if (!user_id || !role) return jsonResponse({ error: 'user_id and role required' }, 400);
+      const validRoles = ['admin', 'editor', 'author', 'subscriber'];
+      if (!validRoles.includes(role)) return jsonResponse({ error: 'invalid role' }, 400);
+
+      // Capture previous roles for audit trail
+      const { data: prevRoles } = await admin.from('user_roles').select('role').eq('user_id', user_id);
       await admin.from('user_roles').delete().eq('user_id', user_id);
       const { error } = await admin.from('user_roles').insert({ user_id, role });
       if (error) throw error;
-      return new Response(JSON.stringify({ ok: true }), { headers: { ...corsHeaders, 'Content-Type': 'application/json' } });
+      await logAudit('set_role', user_id, {
+        new_role: role,
+        previous_roles: (prevRoles ?? []).map((r: any) => r.role),
+      });
+      return jsonResponse({ ok: true });
     }
 
     if (action === 'delete') {
       const { user_id } = body;
-      if (!user_id) return new Response(JSON.stringify({ error: 'user_id required' }), { status: 400, headers: corsHeaders });
-      if (user_id === caller.id) {
-        return new Response(JSON.stringify({ error: 'Cannot delete yourself' }), { status: 400, headers: corsHeaders });
-      }
+      if (!user_id) return jsonResponse({ error: 'user_id required' }, 400);
+      if (user_id === caller.id) return jsonResponse({ error: 'Cannot delete yourself' }, 400);
+      const { data: targetUser } = await admin.auth.admin.getUserById(user_id);
       const { error } = await admin.auth.admin.deleteUser(user_id);
       if (error) throw error;
-      return new Response(JSON.stringify({ ok: true }), { headers: { ...corsHeaders, 'Content-Type': 'application/json' } });
+      await logAudit('delete', user_id, { email: targetUser?.user?.email ?? null });
+      return jsonResponse({ ok: true });
     }
 
-    return new Response(JSON.stringify({ error: 'Unknown action' }), {
-      status: 400,
-      headers: { ...corsHeaders, 'Content-Type': 'application/json' },
-    });
+    return jsonResponse({ error: 'Unknown action' }, 400);
   } catch (e: any) {
-    return new Response(JSON.stringify({ error: e.message ?? String(e) }), {
-      status: 500,
-      headers: { ...corsHeaders, 'Content-Type': 'application/json' },
-    });
+    return jsonResponse({ error: e.message ?? String(e) }, 500);
   }
 });
