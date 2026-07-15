@@ -494,8 +494,10 @@ export default function HIS() {
           </div>
         </div>
       </section>
+      )}
 
       {/* INTEGRATIONS */}
+      {v.Integrations && (
       <section className="px-6 py-24 md:px-12">
         <div className="mx-auto max-w-6xl">
           <div className="mx-auto max-w-3xl text-center">
