@@ -164,6 +164,7 @@ export default function HomepageEditor() {
       if (error) throw error;
       qc.invalidateQueries({ queryKey: ["homepage-hero"] });
       qc.invalidateQueries({ queryKey: ["homepage-hero-public"] });
+      setHeroPreviewKey((k) => k + 1);
       toast.success("Homepage hero updated");
     } catch (e: any) {
       toast.error(e.message || "Save failed");
