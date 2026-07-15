@@ -13,6 +13,8 @@ import {
   Dialog, DialogContent, DialogFooter, DialogHeader, DialogTitle,
 } from "@/components/ui/dialog";
 import { formatDistanceToNow } from "date-fns";
+import { getBuiltinMedia, isBuiltinMedia } from "@/lib/builtinMedia";
+import { Badge } from "@/components/ui/badge";
 
 // 10-year signed URL (Supabase allows very long expiries on signed URLs).
 const SIGNED_URL_TTL = 60 * 60 * 24 * 365 * 10;
