@@ -340,21 +340,28 @@ export default function PostEditor() {
             <CardHeader className="pb-3"><CardTitle className="text-sm">Featured image</CardTitle></CardHeader>
             <CardContent className="space-y-2">
               {form.featured_image_url ? (
-                <img src={form.featured_image_url} alt="" className="w-full rounded-md border object-cover" />
+                <>
+                  <img src={form.featured_image_url} alt="" className="w-full rounded-md border object-cover" />
+                  <div className="flex gap-2">
+                    <Button variant="outline" size="sm" onClick={() => setPickerOpen(true)}>Change</Button>
+                    <Button variant="ghost" size="sm" onClick={() => patch("featured_image_url", "")}>Remove</Button>
+                  </div>
+                </>
               ) : (
-                <div className="rounded-md border border-dashed p-6 text-center text-xs text-muted-foreground">
-                  Media Library picker arrives in Phase 4
-                </div>
+                <Button variant="outline" size="sm" onClick={() => setPickerOpen(true)} className="w-full">
+                  <ImageIcon className="mr-1 h-4 w-4" /> Choose from library
+                </Button>
               )}
-              <Input
-                value={form.featured_image_url}
-                onChange={(e) => patch("featured_image_url", e.target.value)}
-                placeholder="Or paste image URL"
-              />
             </CardContent>
           </Card>
         </aside>
       </div>
+
+      <MediaPickerDialog
+        open={pickerOpen}
+        onOpenChange={setPickerOpen}
+        onPick={(m) => patch("featured_image_url", m.file_url)}
+      />
     </div>
   );
 }
