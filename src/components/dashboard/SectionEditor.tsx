@@ -170,7 +170,7 @@ function ObjectFields({ obj, onChange }: { obj: any; onChange: (v: any) => void 
                   </div>
                   <ObjectFields
                     obj={item}
-                    onChange={(nv) => { const arr = [...v]; arr[i] = nv; onChange({ ...obj, [k]: nv as any }); }}
+                    onChange={(nv) => { const arr = [...v]; arr[i] = nv; onChange({ ...obj, [k]: arr }); }}
                   />
                 </div>
               ))}
