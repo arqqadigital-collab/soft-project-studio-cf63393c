@@ -80,7 +80,9 @@ export default function Index() {
     },
   });
 
-  const hero = { ...HERO_DEFAULTS, ...(heroRow ?? {}) } as typeof HERO_DEFAULTS;
+  const hero = { ...HERO_DEFAULTS, ...(heroRow ?? {}) } as typeof HERO_DEFAULTS & { is_visible?: boolean };
+  const heroVisible = (heroRow as any)?.is_visible !== false;
+  const isVisible = useHomepageVisibility();
   const bgSrc = hero.background_url || headerVideo;
   const isVideo = hero.background_url ? hero.background_type === "video" : true;
 
