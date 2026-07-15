@@ -113,6 +113,18 @@ export default function PublicPage() {
   const ogImage = seo?.og_image_url || page.featured_image_url || undefined;
   const canonical = seo?.canonical_url || undefined;
 
+  return <RenderedPage page={page} seo={seo} />;
+}
+
+function RenderedPage({ page, seo }: { page: PageDetail; seo: SeoMeta | null }) {
+  const sections = usePageSections(page.id);
+  const hasSections = (sections.data ?? []).length > 0;
+
+  const title = seo?.meta_title || page.title;
+  const description = seo?.meta_description || undefined;
+  const ogImage = seo?.og_image_url || page.featured_image_url || undefined;
+  const canonical = seo?.canonical_url || undefined;
+
   const isLanding = page.template === "landing";
   const isFullWidth = page.template === "full-width";
   const containerClass = isFullWidth || isLanding ? "max-w-none" : "max-w-3xl";
@@ -129,38 +141,43 @@ export default function PublicPage() {
         nofollow={!!seo?.nofollow}
       />
 
-      <section className={isLanding ? "pt-24" : "pt-32 md:pt-40"}>
-        <div className={`mx-auto ${containerClass} px-6`}>
-          {!isLanding && (
-            <h1 className="text-3xl font-bold leading-tight tracking-tight text-foreground md:text-4xl lg:text-5xl">
-              {page.title}
-            </h1>
-          )}
+      {hasSections ? (
+        <PageRenderer pageId={page.id} />
+      ) : (
+        <>
+          <section className={isLanding ? "pt-24" : "pt-32 md:pt-40"}>
+            <div className={`mx-auto ${containerClass} px-6`}>
+              {!isLanding && (
+                <h1 className="text-3xl font-bold leading-tight tracking-tight text-foreground md:text-4xl lg:text-5xl">
+                  {page.title}
+                </h1>
+              )}
+              {page.featured_image_url && !isLanding && (
+                <img
+                  src={page.featured_image_url}
+                  alt={page.title}
+                  className="mt-8 aspect-[16/9] w-full rounded-3xl object-cover"
+                />
+              )}
+            </div>
+          </section>
 
-          {page.featured_image_url && !isLanding && (
-            <img
-              src={page.featured_image_url}
-              alt={page.title}
-              className="mt-8 aspect-[16/9] w-full rounded-3xl object-cover"
-            />
-          )}
-        </div>
-      </section>
+          <article className="py-12 md:py-16">
+            <div className={`mx-auto ${containerClass} px-6`}>
+              {page.content ? (
+                <div
+                  className="prose prose-neutral max-w-none dark:prose-invert prose-headings:font-bold prose-a:text-[var(--brand-blue)]"
+                  dangerouslySetInnerHTML={{ __html: page.content }}
+                />
+              ) : (
+                <p className="text-muted-foreground">No content.</p>
+              )}
+            </div>
+          </article>
+        </>
+      )}
 
-      <article className="py-12 md:py-16">
-        <div className={`mx-auto ${containerClass} px-6`}>
-          {page.content ? (
-            <div
-              className="prose prose-neutral max-w-none dark:prose-invert prose-headings:font-bold prose-a:text-[var(--brand-blue)]"
-              dangerouslySetInnerHTML={{ __html: page.content }}
-            />
-          ) : (
-            <p className="text-muted-foreground">No content.</p>
-          )}
-        </div>
-      </article>
-
-      {!isLanding && <Footer />}
+      <Footer />
     </main>
   );
 }
