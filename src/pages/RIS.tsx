@@ -163,7 +163,7 @@ export default function RIS() {
       {v.Hero && (
         <main className="pt-20 relative min-h-[90vh] w-full overflow-hidden bg-background">
           <div className="absolute inset-0">
-            {hero.mediaKind === "video" ? (
+            {String(hero.mediaKind) === "video" ? (
               <video src={hero.mediaUrl} autoPlay muted loop playsInline className="h-full w-full object-cover" />
             ) : (
               <div className="absolute inset-0 bg-cover bg-center" style={{ backgroundImage: `url(${hero.mediaUrl})` }} />
