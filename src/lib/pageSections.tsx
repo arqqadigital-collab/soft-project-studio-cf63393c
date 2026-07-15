@@ -264,18 +264,22 @@ function FeaturesEdit({ data, onChange }: { data: SectionData; onChange: (n: Sec
 }
 
 function CtaRender({ data }: { data: SectionData }) {
+  const bgClass = data.bgColor ? "" : "bg-[var(--brand-dark)]";
+  const txtClass = data.textColor ? "" : "text-white";
   return (
-    <section className="relative overflow-hidden bg-[var(--brand-dark)] py-20 text-white">
+    <section className={`relative overflow-hidden py-20 ${bgClass} ${txtClass}`} style={sectionStyle(data)}>
       {data.mediaUrl && (
         <video src={data.mediaUrl} autoPlay muted loop playsInline className="absolute inset-0 h-full w-full object-cover opacity-30" />
       )}
       <div className="absolute inset-0 bg-gradient-to-r from-black/60 to-black/30" />
       <Container className="relative">
         <h2 className="text-3xl font-bold md:text-4xl">{data.headline}</h2>
-        {data.body && <p className="mt-3 max-w-2xl text-white/85">{data.body}</p>}
+        {data.body && <p className="mt-3 max-w-2xl opacity-90">{data.body}</p>}
         <div className="mt-8 flex flex-wrap gap-3">
           {data.primaryLabel && (
-            <Button asChild size="lg"><Link to={data.primaryHref || "#"}>{data.primaryLabel}</Link></Button>
+            <Button asChild size="lg" style={data.accentColor ? { background: data.accentColor, color: "#fff" } : undefined}>
+              <Link to={data.primaryHref || "#"}>{data.primaryLabel}</Link>
+            </Button>
           )}
           {data.secondaryLabel && (
             <Button asChild size="lg" variant="outline" className="border-white/40 bg-transparent text-white hover:bg-white/10">
@@ -287,6 +291,7 @@ function CtaRender({ data }: { data: SectionData }) {
     </section>
   );
 }
+
 
 function CtaEdit({ data, onChange }: { data: SectionData; onChange: (n: SectionData) => void }) {
   const p = (patch: Partial<SectionData>) => onChange({ ...data, ...patch });
