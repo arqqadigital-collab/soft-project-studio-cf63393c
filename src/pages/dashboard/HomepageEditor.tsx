@@ -329,6 +329,8 @@ export default function HomepageEditor() {
           </Card>
         </aside>
       </div>
+        </TabsContent>
+      </Tabs>
 
       <MediaPickerDialog
         open={pickerOpen}
