@@ -310,7 +310,9 @@ function FeaturesEdit({ data, onChange }: { data: SectionData; onChange: (n: Sec
     <div className="space-y-3">
       <Field label="Eyebrow (optional)"><Input value={data.eyebrow ?? ""} onChange={(e) => p({ eyebrow: e.target.value })} /></Field>
       <Field label="Heading"><Input value={data.heading ?? ""} onChange={(e) => p({ heading: e.target.value })} /></Field>
+      <Field label="Heading accent (gradient part, optional)"><Input value={data.headingAccent ?? ""} onChange={(e) => p({ headingAccent: e.target.value })} /></Field>
       <Field label="Sub-heading"><Textarea value={data.subheading ?? ""} rows={2} onChange={(e) => p({ subheading: e.target.value })} /></Field>
+      <Field label="Body (optional)"><Textarea value={data.body ?? ""} rows={3} onChange={(e) => p({ body: e.target.value })} /></Field>
       <ListEditor
         label="Cards"
         items={data.items ?? []}
@@ -325,6 +327,30 @@ function FeaturesEdit({ data, onChange }: { data: SectionData; onChange: (n: Sec
           </>
         )}
       />
+      <ListEditor
+        label="Logo groups (optional — used for partner/integration blocks)"
+        items={data.groups ?? []}
+        empty={{ title: "", items: [] as Array<{ name: string; logo: string }> }}
+        onChange={(groups) => p({ groups })}
+        renderItem={(g: any, patch) => (
+          <>
+            <Field label="Group title"><Input value={g.title ?? ""} onChange={(e) => patch({ title: e.target.value })} /></Field>
+            <ListEditor
+              label="Logos"
+              items={g.items ?? []}
+              empty={{ name: "", logo: "" }}
+              onChange={(items) => patch({ items })}
+              renderItem={(it: any, ipatch) => (
+                <>
+                  <Field label="Name"><Input value={it.name ?? ""} onChange={(e) => ipatch({ name: e.target.value })} /></Field>
+                  <MediaField label="Logo" value={it.logo ?? ""} onChange={(url) => ipatch({ logo: url })} accept="image" />
+                </>
+              )}
+            />
+          </>
+        )}
+      />
+      <Field label="Footnote (optional)"><Textarea value={data.footnote ?? ""} rows={2} onChange={(e) => p({ footnote: e.target.value })} /></Field>
       <ColorFields data={data} onChange={onChange} showAccent />
     </div>
   );
