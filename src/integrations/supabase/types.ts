@@ -142,6 +142,168 @@ export type Database = {
           },
         ]
       }
+      contact_inquiry_areas: {
+        Row: {
+          created_at: string
+          id: string
+          is_active: boolean
+          label: string
+          position: number
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          is_active?: boolean
+          label: string
+          position?: number
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          is_active?: boolean
+          label?: string
+          position?: number
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      contact_offices: {
+        Row: {
+          address: string
+          city: string
+          created_at: string
+          email: string
+          id: string
+          image_url: string | null
+          phone: string
+          position: number
+          updated_at: string
+        }
+        Insert: {
+          address?: string
+          city: string
+          created_at?: string
+          email?: string
+          id?: string
+          image_url?: string | null
+          phone?: string
+          position?: number
+          updated_at?: string
+        }
+        Update: {
+          address?: string
+          city?: string
+          created_at?: string
+          email?: string
+          id?: string
+          image_url?: string | null
+          phone?: string
+          position?: number
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      contact_page: {
+        Row: {
+          created_at: string
+          form_heading: string
+          form_subheading: string
+          form_submit_label: string
+          hero_background_url: string | null
+          hero_cta_href: string
+          hero_cta_label: string
+          hero_eyebrow: string
+          hero_headline: string
+          hero_subheadline: string
+          id: string
+          offices_heading: string
+          offices_subheading: string
+          quick_info: Json
+          singleton: boolean
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          form_heading?: string
+          form_subheading?: string
+          form_submit_label?: string
+          hero_background_url?: string | null
+          hero_cta_href?: string
+          hero_cta_label?: string
+          hero_eyebrow?: string
+          hero_headline?: string
+          hero_subheadline?: string
+          id?: string
+          offices_heading?: string
+          offices_subheading?: string
+          quick_info?: Json
+          singleton?: boolean
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          form_heading?: string
+          form_subheading?: string
+          form_submit_label?: string
+          hero_background_url?: string | null
+          hero_cta_href?: string
+          hero_cta_label?: string
+          hero_eyebrow?: string
+          hero_headline?: string
+          hero_subheadline?: string
+          id?: string
+          offices_heading?: string
+          offices_subheading?: string
+          quick_info?: Json
+          singleton?: boolean
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      contact_submissions: {
+        Row: {
+          area: string
+          consent: boolean
+          created_at: string
+          email: string
+          id: string
+          message: string
+          name: string
+          phone: string
+          status: string
+          updated_at: string
+          user_agent: string | null
+        }
+        Insert: {
+          area?: string
+          consent?: boolean
+          created_at?: string
+          email: string
+          id?: string
+          message?: string
+          name: string
+          phone?: string
+          status?: string
+          updated_at?: string
+          user_agent?: string | null
+        }
+        Update: {
+          area?: string
+          consent?: boolean
+          created_at?: string
+          email?: string
+          id?: string
+          message?: string
+          name?: string
+          phone?: string
+          status?: string
+          updated_at?: string
+          user_agent?: string | null
+        }
+        Relationships: []
+      }
       content_revisions: {
         Row: {
           created_at: string
