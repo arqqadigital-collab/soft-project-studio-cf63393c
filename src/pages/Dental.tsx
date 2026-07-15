@@ -347,7 +347,7 @@ export default function Dental() {
                 </p>
               )}
             </div>
-            <ExpandingJourney steps={journey.items ?? []} />
+            <ExpandingJourney steps={[...(journey.items ?? [])]} />
           </div>
         </section>
       )}
