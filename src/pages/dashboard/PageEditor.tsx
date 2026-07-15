@@ -85,6 +85,7 @@ export default function PageEditor() {
         featured_image_url: d.featured_image_url ?? "",
         status: d.status, template: d.template, parent_id: d.parent_id,
       });
+      setPreviewToken(d.preview_token ?? null);
       setSlugTouched(true);
       dirtyRef.current = false;
     }
