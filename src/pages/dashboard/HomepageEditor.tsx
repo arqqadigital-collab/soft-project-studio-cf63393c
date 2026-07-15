@@ -148,13 +148,13 @@ export default function HomepageEditor() {
         .from("homepage_hero")
         .update({
           ...form,
+          is_visible: heroVisible,
           background_url: form.background_url || null,
         })
         .eq("id", rowId);
       if (error) throw error;
       qc.invalidateQueries({ queryKey: ["homepage-hero"] });
       qc.invalidateQueries({ queryKey: ["homepage-hero-public"] });
-      setHeroPreviewKey((k) => k + 1);
       toast.success("Homepage hero updated");
     } catch (e: any) {
       toast.error(e.message || "Save failed");
