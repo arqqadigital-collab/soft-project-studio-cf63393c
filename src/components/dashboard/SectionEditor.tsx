@@ -169,6 +169,7 @@ export function SectionEditor({ sectionKey }: { sectionKey: SectionKey }) {
   const qc = useQueryClient();
   const [content, setContent] = useState<any>(DEFAULTS[sectionKey]);
   const [saving, setSaving] = useState(false);
+  const [previewKey, setPreviewKey] = useState(0);
 
   const { data, isLoading } = useQuery({
     queryKey: ["homepage-section-edit", sectionKey],
