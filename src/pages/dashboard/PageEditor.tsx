@@ -2,7 +2,7 @@ import { useEffect, useMemo, useRef, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { toast } from "sonner";
-import { ArrowLeft, Save, Send, Image as ImageIcon } from "lucide-react";
+import { ArrowLeft, Save, Send, Image as ImageIcon, Eye, ExternalLink } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/hooks/use-auth";
 import { toSlug } from "@/lib/slug";
@@ -17,6 +17,7 @@ import {
 import { RichTextEditor } from "@/components/dashboard/RichTextEditor";
 import { MediaPickerDialog } from "@/components/dashboard/MediaPickerDialog";
 import { SeoEditor } from "@/components/dashboard/SeoEditor";
+import { RevisionsPanel } from "@/components/dashboard/RevisionsPanel";
 
 type Status = "draft" | "published" | "trashed";
 type Template = "default" | "full-width" | "landing";
