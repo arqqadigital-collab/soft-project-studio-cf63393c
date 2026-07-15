@@ -131,9 +131,9 @@ export function PageBuilder({ pageId }: { pageId: string }) {
                     {isOpen ? <ChevronDown className="h-4 w-4" /> : <ChevronRight className="h-4 w-4" />}
                   </button>
                   <CardTitle className="text-sm">
-                    {def.label}
-                    <span className="ml-2 text-xs font-normal text-muted-foreground">
-                      {sectionSummary(row)}
+                    {sectionDisplayName(row, def.label)}
+                    <span className="ml-2 text-xs font-normal uppercase tracking-wider text-muted-foreground/70">
+                      {def.label}
                     </span>
                   </CardTitle>
                   <div className="ml-auto flex items-center gap-1">
