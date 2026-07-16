@@ -1,63 +1,29 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import { ChevronDown, ChevronRight } from "lucide-react";
-import { useNavTree } from "@/lib/navTree";
+import { useMenuTree } from "@/lib/menuTree";
 
-type MenuItem = {
+type Leaf = {
   id: string;
   label: string;
   to?: string;
   href?: string;
-  description?: string;
-  items?: MenuItem[];
 };
-type Menu = { id: string; label: string; items: MenuItem[] };
+type Column = { id: string; label: string; items: Leaf[] };
+type Menu = { id: string; label: string; columns: Column[] };
 
 const simpleLinks = ["Contact"];
 
-// Map dashboard page slugs to their real styled routes when they exist.
-// Add new entries here whenever a page has a dedicated static route.
-const STATIC_ROUTE_BY_SLUG: Record<string, string> = {
-  about: "/about",
-  careers: "/careers",
-  his: "/healthcare/his",
-  clinic: "/healthcare/clinic",
-  emergency: "/healthcare/emergency",
-  physiotherapy: "/healthcare/physiotherapy",
-  telemedicine: "/healthcare/telemedicine",
-  "dental-management-suite": "/healthcare/dental",
-  lis: "/healthcare/lis",
-  ris: "/healthcare/ris",
-  rcm: "/healthcare/rcm",
-  "blood-bank": "/healthcare/blood-bank",
-  "blood-bank-and-donor-management": "/healthcare/blood-bank",
-  "medication-dosage": "/healthcare/medication-dosage",
-  pacs: "/healthcare/pacs",
-  "ai-imaging": "/healthcare/ai-imaging",
-  "uae-compliance": "/healthcare/uae-compliance",
-  "ksa-compliance": "/healthcare/ksa-compliance",
-  emram: "/healthcare/emram",
-  "clinical-ai": "/healthcare/clinical-ai",
-  "dynamics-365": "/erp/dynamics-365",
-  odoo: "/erp/odoo",
-  zoho: "/erp/zoho",
-  manufacturing: "/erp/manufacturing",
-  retail: "/erp/retail",
-  education: "/erp/education",
-  logistics: "/erp/logistics",
-  cybersecurity: "/services/cybersecurity",
-  consulting: "/services/consulting",
-  implementation: "/services/implementation",
-  "staff-aug": "/services/staff-aug",
-  learning: "/services/learning",
-};
+function isExternal(url: string | null | undefined) {
+  return !!url && /^https?:\/\//i.test(url);
+}
 
 function LeafLink({
   item,
   className,
   children,
 }: {
-  item: MenuItem;
+  item: Leaf;
   className: string;
   children: React.ReactNode;
 }) {
@@ -69,7 +35,12 @@ function LeafLink({
     );
   }
   return (
-    <a href={item.href ?? "#"} className={className}>
+    <a
+      href={item.href ?? "#"}
+      target={isExternal(item.href) ? "_blank" : undefined}
+      rel={isExternal(item.href) ? "noreferrer" : undefined}
+      className={className}
+    >
       {children}
     </a>
   );
@@ -77,23 +48,16 @@ function LeafLink({
 
 function MegaPanel({ menu }: { menu: Menu }) {
   const [activeIdx, setActiveIdx] = useState(0);
-  const active = menu.items[activeIdx];
-  const hasRightPanel = menu.items.some((i) => i.items && i.items.length > 0);
+  const active = menu.columns[activeIdx];
+  const hasRightPanel = menu.columns.some((c) => c.items.length > 0);
 
   if (!hasRightPanel) {
     return (
       <div className="grid grid-cols-1 gap-2 p-4">
-        {menu.items.map((item) => (
-          <LeafLink
-            key={item.id}
-            item={item}
-            className="group/leaf flex flex-col gap-1 rounded-xl p-3 transition-colors hover:bg-white/10"
-          >
-            <span className="text-sm font-semibold text-white">{item.label}</span>
-            {item.description && (
-              <span className="text-xs text-white/60">{item.description}</span>
-            )}
-          </LeafLink>
+        {menu.columns.map((c) => (
+          <div key={c.id} className="rounded-xl p-3 text-sm font-semibold text-white/80">
+            {c.label}
+          </div>
         ))}
       </div>
     );
@@ -102,57 +66,34 @@ function MegaPanel({ menu }: { menu: Menu }) {
   return (
     <div className="grid grid-cols-[minmax(280px,1fr)_minmax(320px,1.2fr)]">
       <div className="space-y-1 border-r border-white/10 bg-white/[0.02] p-3">
-        {menu.items.map((item, idx) => {
+        {menu.columns.map((c, idx) => {
           const isActive = idx === activeIdx;
-          const hasChildren = item.items && item.items.length > 0;
-          const content = (
-            <>
+          return (
+            <button
+              key={c.id}
+              type="button"
+              onMouseEnter={() => setActiveIdx(idx)}
+              onFocus={() => setActiveIdx(idx)}
+              className={`flex w-full items-center gap-3 rounded-xl p-3 text-left transition-colors ${
+                isActive ? "bg-white/10" : "hover:bg-white/5"
+              }`}
+            >
               <div className="flex-1">
-                <div className="text-sm font-semibold text-white">{item.label}</div>
-                {item.description && (
-                  <div className="mt-0.5 text-xs text-white/60">{item.description}</div>
-                )}
+                <div className="text-sm font-semibold text-white">{c.label}</div>
               </div>
-              {hasChildren && (
+              {c.items.length > 0 && (
                 <ChevronRight
                   className={`h-4 w-4 shrink-0 transition-colors ${
                     isActive ? "text-white" : "text-white/40"
                   }`}
                 />
               )}
-            </>
-          );
-          const className = `flex w-full items-center gap-3 rounded-xl p-3 text-left transition-colors ${
-            isActive ? "bg-white/10" : "hover:bg-white/5"
-          }`;
-
-          if (hasChildren) {
-            return (
-              <button
-                key={item.id}
-                type="button"
-                onMouseEnter={() => setActiveIdx(idx)}
-                onFocus={() => setActiveIdx(idx)}
-                className={className}
-              >
-                {content}
-              </button>
-            );
-          }
-
-          return (
-            <LeafLink
-              key={item.id}
-              item={item}
-              className={className}
-            >
-              {content}
-            </LeafLink>
+            </button>
           );
         })}
       </div>
-      <div className="p-3" onMouseEnter={() => { /* keep active */ }}>
-        {active.items && active.items.length > 0 ? (
+      <div className="p-3">
+        {active && active.items.length > 0 ? (
           <div className="space-y-1">
             <div className="px-3 pb-2 pt-1 text-xs font-semibold uppercase tracking-wider text-white/40">
               {active.label}
@@ -169,7 +110,7 @@ function MegaPanel({ menu }: { menu: Menu }) {
           </div>
         ) : (
           <div className="flex h-full items-center justify-center px-6 text-center text-sm text-white/50">
-            {active.description}
+            No pages yet
           </div>
         )}
       </div>
@@ -178,52 +119,35 @@ function MegaPanel({ menu }: { menu: Menu }) {
 }
 
 export function MainNav() {
-  const { data: tree = [] } = useNavTree();
-  const menus: Menu[] = tree
-    .filter((group) => group.is_visible)
-    .map((group) => ({
-      id: group.id,
-      label: group.label,
-      items: group.sections
-        .filter((section) => section.is_visible)
-        .map((section) => {
-          const pageItems: MenuItem[] = section.pages
-            .filter((page) => page.status === "published")
-            .map((page) => ({
-              id: `page-${page.id}`,
-              label: page.nav_label || page.title,
-              to: STATIC_ROUTE_BY_SLUG[page.slug] ?? `/p/${page.slug}`,
-              position: page.position,
-            } as MenuItem & { position: number }));
-          const customItems: MenuItem[] = section.customItems
-            .filter((item) => item.is_visible)
-            .map((item) => ({
-              id: `custom-${item.id}`,
-              label: item.label,
-              ...(item.item_type === "external" ? { href: item.url } : { to: item.url }),
-              position: item.position,
-            } as MenuItem & { position: number }));
-          const items = [...pageItems, ...customItems]
-            .sort((a, b) => ((a as MenuItem & { position: number }).position - (b as MenuItem & { position: number }).position));
+  const { data: tree = [] } = useMenuTree();
 
-          return {
-            id: section.id,
-            label: section.label,
-            description: section.description ?? undefined,
-            ...(items.length > 0
-              ? { items }
-              : section.href
-                ? (/^https?:\/\//i.test(section.href) ? { href: section.href } : { to: section.href })
-                : {}),
-          };
-        }),
+  const menus: Menu[] = tree
+    .filter((g) => g.is_visible)
+    .map((g) => ({
+      id: g.id,
+      label: g.label,
+      columns: g.columns
+        .filter((c) => c.is_visible)
+        .map((c) => ({
+          id: c.id,
+          label: c.label,
+          items: c.pages
+            .filter((p) => p.status === "published" && p.route_path)
+            .map<Leaf>((p) => {
+              const route = p.route_path!;
+              const leaf: Leaf = { id: p.id, label: p.nav_label || p.title };
+              if (isExternal(route)) leaf.href = route;
+              else leaf.to = route;
+              return leaf;
+            }),
+        })),
     }))
-    .filter((menu) => menu.items.length > 0);
+    .filter((m) => m.columns.length > 0);
 
   return (
     <nav className="hidden items-center gap-8 lg:flex">
       {menus.map((menu) => {
-        const hasRightPanel = menu.items.some((i) => i.items && i.items.length > 0);
+        const hasRightPanel = menu.columns.some((c) => c.items.length > 0);
         const width = hasRightPanel ? "w-[640px]" : "w-[360px]";
         return (
           <div key={menu.id} className="group relative">
@@ -257,4 +181,3 @@ export function MainNav() {
     </nav>
   );
 }
-

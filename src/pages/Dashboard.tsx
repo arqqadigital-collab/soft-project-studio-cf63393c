@@ -5,7 +5,7 @@ import Profile from "./dashboard/Profile";
 
 import PostsList from "./dashboard/PostsList";
 import PostEditor from "./dashboard/PostEditor";
-import PagesList from "./dashboard/PagesList";
+import PagesAndNavigation from "./dashboard/PagesAndNavigation";
 import PageEditor from "./dashboard/PageEditor";
 import MediaLibrary from "./dashboard/MediaLibrary";
 import Taxonomy from "./dashboard/Taxonomy";
@@ -14,7 +14,6 @@ import Analytics from "./dashboard/Analytics";
 import SettingsPage from "./dashboard/Settings";
 import SeoDashboard from "./dashboard/SeoDashboard";
 import HomepageEditor from "./dashboard/HomepageEditor";
-import MenusManager from "./dashboard/MenusManager";
 import HeaderFooterEditor from "./dashboard/HeaderFooterEditor";
 import CaseStudiesList from "./dashboard/CaseStudiesList";
 import CaseStudyEditor from "./dashboard/CaseStudyEditor";
@@ -38,7 +37,7 @@ export default function Dashboard() {
         <Route path="posts/:id" element={<PostEditor />} />
         <Route
           path="pages"
-          element={<RoleGate allow={["admin", "editor"]}><PagesList /></RoleGate>}
+          element={<RoleGate allow={["admin", "editor"]}><PagesAndNavigation /></RoleGate>}
         />
         <Route
           path="pages/new"
@@ -48,10 +47,8 @@ export default function Dashboard() {
           path="pages/:id"
           element={<RoleGate allow={["admin", "editor"]}><PageEditor /></RoleGate>}
         />
-        <Route
-          path="menus"
-          element={<RoleGate allow={["admin", "editor"]}><MenusManager /></RoleGate>}
-        />
+        {/* Legacy /menus path redirects to the unified screen */}
+        <Route path="menus" element={<Navigate to="/dashboard/pages" replace />} />
         <Route
           path="header-footer"
           element={<RoleGate allow={["admin", "editor"]}><HeaderFooterEditor /></RoleGate>}
