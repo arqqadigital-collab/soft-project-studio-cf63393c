@@ -200,6 +200,7 @@ export default function Events() {
           </motion.div>
         </div>
       </section>
+      )}
 
       {/* Featured event */}
       <section className="bg-background pb-16 md:pb-24">
