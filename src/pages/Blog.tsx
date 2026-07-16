@@ -157,6 +157,7 @@ export default function Blog() {
       </Helmet>
 
       {/* Hero */}
+      {hero?.is_visible !== false && (
       <section className="relative overflow-hidden bg-background pb-16 pt-32 md:pb-24 md:pt-40">
         <div className="mx-auto max-w-7xl px-6">
           <motion.div
@@ -165,18 +166,21 @@ export default function Blog() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, ease: "easeOut" }}
           >
-            <p
-              className="text-sm font-semibold uppercase tracking-[0.2em]"
-              style={{ color: "var(--brand-blue)" }}
-            >
-              Insights & Updates
-            </p>
+            {hero?.eyebrow && (
+              <p
+                className="text-sm font-semibold uppercase tracking-[0.2em]"
+                style={{ color: "var(--brand-blue)" }}
+              >
+                {hero.eyebrow}
+              </p>
+            )}
             <h1 className="mt-5 text-4xl font-bold leading-[1.1] tracking-tight text-foreground md:text-5xl lg:text-6xl">
-              Our <span style={{ color: "var(--brand-blue)" }}>Blog</span>
+              {hero?.title_prefix ?? "Our"}{" "}
+              <span style={{ color: "var(--brand-blue)" }}>{hero?.title_highlight ?? "Blog"}</span>
             </h1>
-            <p className="mt-5 text-lg text-muted-foreground">
-              Thought leadership, industry trends, and practical guidance for healthcare, ERP, and technology leaders.
-            </p>
+            {hero?.description && (
+              <p className="mt-5 text-lg text-muted-foreground">{hero.description}</p>
+            )}
           </motion.div>
 
           {categories.length > 1 && (
