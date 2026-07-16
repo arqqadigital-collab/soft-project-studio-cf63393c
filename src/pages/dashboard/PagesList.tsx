@@ -110,27 +110,6 @@ export default function PagesList() {
           </span>
           <span className="ml-auto text-xs text-muted-foreground">Live at /contact</span>
         </div>
-        <SystemPageRow
-          icon={<Newspaper className="h-4 w-4 text-primary" />}
-          label="Blog"
-          to="/dashboard/list-heros?page=blog"
-          badge="List page"
-          liveAt="/blog"
-        />
-        <SystemPageRow
-          icon={<BookMarked className="h-4 w-4 text-primary" />}
-          label="Case Studies"
-          to="/dashboard/list-heros?page=case-studies"
-          badge="List page"
-          liveAt="/case-studies"
-        />
-        <SystemPageRow
-          icon={<CalendarDays className="h-4 w-4 text-primary" />}
-          label="Events & Webinars"
-          to="/dashboard/list-heros?page=events"
-          badge="List page"
-          liveAt="/events"
-        />
 
         {tree.isLoading ? (
           <div className="p-6 text-sm text-muted-foreground">Loading…</div>
