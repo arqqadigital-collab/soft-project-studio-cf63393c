@@ -36,7 +36,7 @@ export function DashboardTopbar() {
         <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
         <Input placeholder="Search..." className="pl-9" />
       </div>
-      <div className="ml-auto flex items-center gap-2
+      <div className="ml-auto flex items-center gap-2">
         <Button variant="ghost" size="icon" aria-label="Notifications">
           <Bell className="h-4 w-4" />
         </Button>
