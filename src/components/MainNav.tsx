@@ -13,6 +13,8 @@ type MenuItem = {
 };
 type Menu = { id: string; label: string; items: MenuItem[] };
 
+const simpleLinks = ["Contact"];
+
 function LeafLink({
   item,
   className,
@@ -186,26 +188,6 @@ export function MainNav() {
       {menus.map((menu) => {
         const hasRightPanel = menu.items.some((i) => i.items && i.items.length > 0);
         const width = hasRightPanel ? "w-[640px]" : "w-[360px]";
-
-        // Simple top-level link: single section that is a leaf link
-        if (menu.items.length === 1 && !menu.items[0].items) {
-          const only = menu.items[0];
-          const className =
-            "inline-flex items-center gap-1 text-sm font-medium text-white/80 transition-colors hover:text-white";
-          if (only.to) {
-            return (
-              <Link key={menu.id} to={only.to} className={className}>
-                {menu.label}
-              </Link>
-            );
-          }
-          return (
-            <a key={menu.id} href={only.href ?? "#"} className={className}>
-              {menu.label}
-            </a>
-          );
-        }
-
         return (
           <div key={menu.id} className="group relative">
             <button
@@ -226,6 +208,16 @@ export function MainNav() {
         );
       })}
 
+      {simpleLinks.map((link) => (
+        <Link
+          key={link}
+          to="/contact"
+          className="text-sm font-medium text-white/80 transition-colors hover:text-white"
+        >
+          {link}
+        </Link>
+      ))}
     </nav>
   );
 }
+
