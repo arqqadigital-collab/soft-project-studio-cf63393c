@@ -15,6 +15,7 @@ export default function MenusManager() {
   const [openGroups, setOpenGroups] = useState<Record<string, boolean>>({});
   const [assignSectionId, setAssignSectionId] = useState<string | null>(null);
   const [selectedPageId, setSelectedPageId] = useState("");
+  const [selectedPageLabel, setSelectedPageLabel] = useState("");
 
   const groupsQ = useQuery({
     queryKey: ["menus-groups"],
@@ -125,7 +126,9 @@ export default function MenusManager() {
     if (!url) return;
     const item_type = /^https?:\/\//i.test(url) ? "external" : "internal";
     if (item_type === "internal" && !url.startsWith("/")) return toast.error("Internal paths must start with /");
-    const position = itemsQ.data?.filter((item) => item.section_id === sectionId).length ?? 0;
+    const sectionItems = itemsQ.data?.filter((item) => item.section_id === sectionId) ?? [];
+    const sectionPages = pagesQ.data?.filter((page) => page.section_id === sectionId) ?? [];
+    const position = Math.max(-1, ...sectionItems.map((item) => item.position), ...sectionPages.map((page) => page.position)) + 1;
     const { error } = await supabase.from("nav_items").insert({ section_id: sectionId, label, url, item_type, position, is_visible: true });
     if (error) return toast.error(error.message);
     toast.success("Menu item added");
@@ -191,11 +194,15 @@ export default function MenusManager() {
     const sectionPages = pagesQ.data?.filter((page) => page.section_id === assignSectionId) ?? [];
     const sectionItems = itemsQ.data?.filter((item) => item.section_id === assignSectionId) ?? [];
     const position = Math.max(-1, ...sectionPages.map((page) => page.position), ...sectionItems.map((item) => item.position)) + 1;
-    const { error } = await supabase.from("pages").update({ section_id: assignSectionId, position }).eq("id", selectedPageId);
+    const { error } = await supabase
+      .from("pages")
+      .update({ section_id: assignSectionId, position, nav_label: selectedPageLabel.trim() || null })
+      .eq("id", selectedPageId);
     if (error) return toast.error(error.message);
     toast.success("Page added to menu");
     setAssignSectionId(null);
     setSelectedPageId("");
+    setSelectedPageLabel("");
     refresh();
   }
 
@@ -353,12 +360,21 @@ export default function MenusManager() {
           <DialogHeader><DialogTitle>Add existing page</DialogTitle></DialogHeader>
           <div className="space-y-2">
             <Label>Page</Label>
-            <Select value={selectedPageId} onValueChange={setSelectedPageId}>
+            <Select value={selectedPageId} onValueChange={(value) => {
+              setSelectedPageId(value);
+              setSelectedPageLabel(pagesQ.data?.find((page) => page.id === value)?.nav_label ?? "");
+            }}>
               <SelectTrigger><SelectValue placeholder="Choose a page" /></SelectTrigger>
               <SelectContent>
                 {pagesQ.data?.map((page) => <SelectItem key={page.id} value={page.id}>{page.title}{page.section_id ? " (currently assigned)" : ""}</SelectItem>)}
               </SelectContent>
             </Select>
+            <Label>Label override (optional)</Label>
+            <Input
+              value={selectedPageLabel}
+              onChange={(event) => setSelectedPageLabel(event.target.value)}
+              placeholder={pagesQ.data?.find((page) => page.id === selectedPageId)?.title ?? "Use page title"}
+            />
           </div>
           <DialogFooter>
             <Button variant="outline" onClick={() => setAssignSectionId(null)}>Cancel</Button>
