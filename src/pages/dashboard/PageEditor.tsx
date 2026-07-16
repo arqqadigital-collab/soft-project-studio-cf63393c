@@ -259,7 +259,7 @@ export default function PageEditor() {
                 entityType="page"
                 entityId={pageId}
                 fallbackTitle={form.title}
-                publicUrl={form.slug ? `/p/${form.slug}` : ""}
+                publicUrl={form.slug ? (form.slug === "about" || form.slug === "careers" ? `/${form.slug}` : `/p/${form.slug}`) : ""}
               />
             </TabsContent>
           </Tabs>
