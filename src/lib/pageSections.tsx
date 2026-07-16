@@ -436,7 +436,7 @@ function RichTextRender({ data }: { data: SectionData }) {
       <Container>
         <div
           className="prose prose-neutral max-w-none dark:prose-invert"
-          dangerouslySetInnerHTML={{ __html: data.html ?? "" }}
+          dangerouslySetInnerHTML={{ __html: sanitizeHtml(data.html ?? "") }}
         />
       </Container>
     </section>
