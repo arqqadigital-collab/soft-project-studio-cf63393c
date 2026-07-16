@@ -218,6 +218,7 @@ export type Database = {
           hero_headline: string
           hero_subheadline: string
           id: string
+          notification_email: string | null
           offices_heading: string
           offices_subheading: string
           quick_info: Json
@@ -236,6 +237,7 @@ export type Database = {
           hero_headline?: string
           hero_subheadline?: string
           id?: string
+          notification_email?: string | null
           offices_heading?: string
           offices_subheading?: string
           quick_info?: Json
@@ -254,6 +256,7 @@ export type Database = {
           hero_headline?: string
           hero_subheadline?: string
           id?: string
+          notification_email?: string | null
           offices_heading?: string
           offices_subheading?: string
           quick_info?: Json
