@@ -3,9 +3,11 @@ import { Navigate, useLocation, useNavigate } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/hooks/use-auth";
 import { AuthSpinner } from "@/components/AuthSpinner";
+import { useSiteBranding } from "@/hooks/use-site-branding";
 
 export default function Login() {
   const { session, loading } = useAuth();
+  const { data: branding } = useSiteBranding();
   const navigate = useNavigate();
   const location = useLocation();
   const [email, setEmail] = useState("");
@@ -41,7 +43,19 @@ export default function Login() {
         onSubmit={handleSubmit}
         className="w-full max-w-sm space-y-5 rounded-xl border border-border bg-card p-8 shadow-sm"
       >
-        <div>
+        <div className="flex flex-col items-center text-center">
+          {branding?.site_logo_url ? (
+            <img
+              src={branding.site_logo_url}
+              alt={branding.site_title ?? "Site logo"}
+              className="mb-3 h-14 w-14 rounded-lg object-contain"
+            />
+          ) : null}
+          {branding?.site_title ? (
+            <div className="mb-2 text-sm font-semibold uppercase tracking-wide text-muted-foreground">
+              {branding.site_title}
+            </div>
+          ) : null}
           <h1 className="text-2xl font-semibold text-foreground">Sign in</h1>
           <p className="mt-1 text-sm text-muted-foreground">Access your admin dashboard.</p>
         </div>
