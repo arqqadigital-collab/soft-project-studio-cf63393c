@@ -104,6 +104,7 @@ export default function Blog() {
   const [posts, setPosts] = useState<PostRow[]>([]);
   const [loading, setLoading] = useState(true);
   const [activeCategory, setActiveCategory] = useState<string>("All");
+  const { data: hero } = useListPageHero("blog");
 
   useEffect(() => {
     let cancelled = false;
