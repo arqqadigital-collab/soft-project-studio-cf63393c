@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { useSearchParams } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
@@ -141,6 +142,8 @@ function Editor({ pageKey }: { pageKey: string }) {
 }
 
 export default function ListPageHeros() {
+  const [params] = useSearchParams();
+  const initial = PAGES.find((p) => p.key === params.get("page"))?.key ?? PAGES[0].key;
   return (
     <div className="space-y-6">
       <div>
@@ -150,7 +153,7 @@ export default function ListPageHeros() {
           Case Studies, and Events pages.
         </p>
       </div>
-      <Tabs defaultValue={PAGES[0].key}>
+      <Tabs key={initial} defaultValue={initial}>
         <TabsList>
           {PAGES.map((p) => (
             <TabsTrigger key={p.key} value={p.key}>

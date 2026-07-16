@@ -5,6 +5,7 @@ import { toast } from "sonner";
 import {
   Plus, Trash2, Pencil, ChevronDown, ChevronRight, Home, FileText,
   ArrowUp, ArrowDown, Eye, EyeOff, FolderPlus, LayoutGrid, MessageSquare,
+  Newspaper, BookMarked, CalendarDays,
 } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { Button } from "@/components/ui/button";
@@ -109,6 +110,27 @@ export default function PagesList() {
           </span>
           <span className="ml-auto text-xs text-muted-foreground">Live at /contact</span>
         </div>
+        <SystemPageRow
+          icon={<Newspaper className="h-4 w-4 text-primary" />}
+          label="Blog"
+          to="/dashboard/list-heros?page=blog"
+          badge="List page"
+          liveAt="/blog"
+        />
+        <SystemPageRow
+          icon={<BookMarked className="h-4 w-4 text-primary" />}
+          label="Case Studies"
+          to="/dashboard/list-heros?page=case-studies"
+          badge="List page"
+          liveAt="/case-studies"
+        />
+        <SystemPageRow
+          icon={<CalendarDays className="h-4 w-4 text-primary" />}
+          label="Events & Webinars"
+          to="/dashboard/list-heros?page=events"
+          badge="List page"
+          liveAt="/events"
+        />
 
         {tree.isLoading ? (
           <div className="p-6 text-sm text-muted-foreground">Loading…</div>
@@ -316,6 +338,21 @@ function GroupNode(props: {
           )}
         </div>
       )}
+    </div>
+  );
+}
+
+function SystemPageRow({
+  icon, label, to, badge, liveAt,
+}: { icon: React.ReactNode; label: string; to: string; badge: string; liveAt: string }) {
+  return (
+    <div className="flex items-center gap-3 px-4 py-3">
+      {icon}
+      <Link to={to} className="font-medium hover:underline">{label}</Link>
+      <span className="rounded-full bg-primary/10 px-2 py-0.5 text-[10px] font-semibold uppercase tracking-wide text-primary">
+        {badge}
+      </span>
+      <span className="ml-auto text-xs text-muted-foreground">Live at {liveAt}</span>
     </div>
   );
 }
