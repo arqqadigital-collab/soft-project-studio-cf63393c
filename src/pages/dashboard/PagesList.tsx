@@ -5,7 +5,6 @@ import { toast } from "sonner";
 import {
   Plus, Trash2, Pencil, ChevronDown, ChevronRight, Home, FileText,
   ArrowUp, ArrowDown, Eye, EyeOff, FolderPlus, LayoutGrid, MessageSquare,
-  Newspaper, BookMarked, CalendarDays,
 } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { Button } from "@/components/ui/button";
