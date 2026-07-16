@@ -191,7 +191,7 @@ export default function PageEditor() {
           {lastSavedAt && <span className="text-xs text-muted-foreground">Saved {lastSavedAt.toLocaleTimeString()}</span>}
           {form.status === "published" && form.slug && (
             <Button asChild variant="outline" size="sm">
-              <a href={`/p/${form.slug}`} target="_blank" rel="noreferrer">
+              <a href={form.slug === "about" || form.slug === "careers" ? `/${form.slug}` : `/p/${form.slug}`} target="_blank" rel="noreferrer">
                 <ExternalLink className="mr-1 h-4 w-4" /> View live
               </a>
             </Button>
@@ -230,7 +230,7 @@ export default function PageEditor() {
                 className="border-none px-0 text-2xl font-semibold shadow-none focus-visible:ring-0"
               />
               <div className="flex items-center gap-2 text-sm text-muted-foreground">
-                <span>/p/</span>
+                <span>{form.slug === "about" || form.slug === "careers" ? "/" : "/p/"}</span>
                 <Input
                   value={form.slug}
                   onChange={(e) => { setSlugTouched(true); patch("slug", toSlug(e.target.value)); }}
@@ -259,7 +259,7 @@ export default function PageEditor() {
                 entityType="page"
                 entityId={pageId}
                 fallbackTitle={form.title}
-                publicUrl={form.slug ? `/p/${form.slug}` : ""}
+                publicUrl={form.slug ? (form.slug === "about" || form.slug === "careers" ? `/${form.slug}` : `/p/${form.slug}`) : ""}
               />
             </TabsContent>
           </Tabs>
