@@ -237,7 +237,7 @@ export default function ArticleDetail() {
           {post.content ? (
             <div
               className="prose prose-neutral max-w-none dark:prose-invert prose-headings:font-bold prose-a:text-[var(--brand-blue)]"
-              dangerouslySetInnerHTML={{ __html: post.content }}
+              dangerouslySetInnerHTML={{ __html: sanitizeHtml(post.content) }}
             />
           ) : (
             <p className="text-muted-foreground">No content.</p>
