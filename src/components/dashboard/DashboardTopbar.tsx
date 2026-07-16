@@ -15,10 +15,8 @@ import {
 import { useAuth } from "@/hooks/use-auth";
 import { useRoles } from "@/hooks/use-role";
 import { supabase } from "@/integrations/supabase/client";
-import { useSiteBranding } from "@/hooks/use-site-branding";
 
 export function DashboardTopbar() {
-  const { data: branding } = useSiteBranding();
   const { user } = useAuth();
   const { highest } = useRoles();
   const navigate = useNavigate();
