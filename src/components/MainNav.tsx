@@ -155,7 +155,7 @@ export function MainNav() {
             .map((page) => ({
               id: `page-${page.id}`,
               label: page.nav_label || page.title,
-              to: `/p/${page.slug}`,
+              to: STATIC_ROUTE_BY_SLUG[page.slug] ?? `/p/${page.slug}`,
               position: page.position,
             } as MenuItem & { position: number }));
           const customItems: MenuItem[] = section.customItems
