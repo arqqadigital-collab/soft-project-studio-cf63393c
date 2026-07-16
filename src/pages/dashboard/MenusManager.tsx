@@ -7,10 +7,14 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Card } from "@/components/ui/card";
 import { Label } from "@/components/ui/label";
+import { Dialog, DialogContent, DialogFooter, DialogHeader, DialogTitle } from "@/components/ui/dialog";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 
 export default function MenusManager() {
   const qc = useQueryClient();
   const [openGroups, setOpenGroups] = useState<Record<string, boolean>>({});
+  const [assignSectionId, setAssignSectionId] = useState<string | null>(null);
+  const [selectedPageId, setSelectedPageId] = useState("");
 
   const groupsQ = useQuery({
     queryKey: ["menus-groups"],
@@ -39,11 +43,25 @@ export default function MenusManager() {
     },
   });
 
+  const pagesQ = useQuery({
+    queryKey: ["menus-pages"],
+    queryFn: async () => {
+      const { data, error } = await supabase
+        .from("pages")
+        .select("id,title,slug,status,section_id,nav_label,position")
+        .neq("status", "trashed")
+        .order("title");
+      if (error) throw error;
+      return data;
+    },
+  });
+
   const refresh = () => {
     qc.invalidateQueries({ queryKey: ["menus-groups"] });
     qc.invalidateQueries({ queryKey: ["menus-sections"] });
     qc.invalidateQueries({ queryKey: ["menus-items"] });
     qc.invalidateQueries({ queryKey: ["nav-tree"] });
+    qc.invalidateQueries({ queryKey: ["menus-pages"] });
   };
 
   async function addGroup() {
@@ -134,7 +152,7 @@ export default function MenusManager() {
   }
 
   async function move(
-    table: "nav_groups" | "nav_sections" | "nav_items",
+    table: "nav_groups" | "nav_sections" | "nav_items" | "pages",
     rows: { id: string; position: number }[],
     index: number,
     direction: -1 | 1,
@@ -148,6 +166,42 @@ export default function MenusManager() {
       supabase.from(table).update({ position: current.position }).eq("id", next.id),
     ]);
     if (first || second) return toast.error((first || second)!.message);
+    refresh();
+  }
+
+  async function moveMenuItem(
+    rows: { id: string; position: number; table: "pages" | "nav_items" }[],
+    index: number,
+    direction: -1 | 1,
+  ) {
+    const target = index + direction;
+    if (target < 0 || target >= rows.length) return;
+    const current = rows[index];
+    const next = rows[target];
+    const [{ error: first }, { error: second }] = await Promise.all([
+      supabase.from(current.table).update({ position: next.position }).eq("id", current.id),
+      supabase.from(next.table).update({ position: current.position }).eq("id", next.id),
+    ]);
+    if (first || second) return toast.error((first || second)!.message);
+    refresh();
+  }
+
+  async function assignPage() {
+    if (!assignSectionId || !selectedPageId) return;
+    const sectionPages = pagesQ.data?.filter((page) => page.section_id === assignSectionId) ?? [];
+    const sectionItems = itemsQ.data?.filter((item) => item.section_id === assignSectionId) ?? [];
+    const position = Math.max(-1, ...sectionPages.map((page) => page.position), ...sectionItems.map((item) => item.position)) + 1;
+    const { error } = await supabase.from("pages").update({ section_id: assignSectionId, position }).eq("id", selectedPageId);
+    if (error) return toast.error(error.message);
+    toast.success("Page added to menu");
+    setAssignSectionId(null);
+    setSelectedPageId("");
+    refresh();
+  }
+
+  async function removePageFromMenu(pageId: string) {
+    const { error } = await supabase.from("pages").update({ section_id: null }).eq("id", pageId);
+    if (error) return toast.error(error.message);
     refresh();
   }
 
@@ -211,6 +265,11 @@ export default function MenusManager() {
                   <div className="mt-3 space-y-2 border-l-2 border-muted pl-4">
                     {sections.map((s, sectionIndex) => {
                       const items = itemsQ.data?.filter((item) => item.section_id === s.id) ?? [];
+                      const pages = pagesQ.data?.filter((page) => page.section_id === s.id) ?? [];
+                      const menuItems = [
+                        ...pages.map((page) => ({ ...page, table: "pages" as const, displayLabel: page.nav_label || page.title, url: `/p/${page.slug}`, is_visible: page.status === "published" })),
+                        ...items.map((item) => ({ ...item, table: "nav_items" as const, displayLabel: item.label })),
+                      ].sort((a, b) => a.position - b.position);
                       return (
                       <div key={s.id} className="space-y-2 border-b border-border/60 pb-2 last:border-0">
                        <div className="flex items-center gap-2">
@@ -245,20 +304,27 @@ export default function MenusManager() {
                         <Button variant="ghost" size="icon" onClick={() => delSection(s.id)}>
                           <Trash2 className="h-4 w-4 text-destructive" />
                         </Button>
-                        <Button variant="outline" size="sm" onClick={() => addItem(s.id)}><Plus className="mr-1 h-4 w-4" /> Item</Button>
+                        <Button variant="outline" size="sm" onClick={() => setAssignSectionId(s.id)}><Plus className="mr-1 h-4 w-4" /> Page</Button>
+                        <Button variant="outline" size="sm" onClick={() => addItem(s.id)}><Plus className="mr-1 h-4 w-4" /> Custom</Button>
                        </div>
-                       {items.map((item, itemIndex) => (
-                         <div key={item.id} className="ml-10 flex items-center gap-2 rounded-md bg-muted/40 px-3 py-2">
+                       {menuItems.map((item, itemIndex) => (
+                         <div key={`${item.table}-${item.id}`} className="ml-10 flex items-center gap-2 rounded-md bg-muted/40 px-3 py-2">
                            <LinkIcon className="h-4 w-4 text-muted-foreground" />
-                           <span className="text-sm font-medium">{item.label}</span>
+                           <span className="text-sm font-medium">{item.displayLabel}</span>
                            <span className="max-w-xs truncate text-xs text-muted-foreground">{item.url}</span>
                            {!item.is_visible && <span className="text-xs text-muted-foreground">Hidden</span>}
                            <div className="ml-auto flex items-center gap-1">
-                             <Button variant="ghost" size="icon" title="Move up" disabled={itemIndex === 0} onClick={() => move("nav_items", items, itemIndex, -1)}><ArrowUp className="h-4 w-4" /></Button>
-                             <Button variant="ghost" size="icon" title="Move down" disabled={itemIndex === items.length - 1} onClick={() => move("nav_items", items, itemIndex, 1)}><ArrowDown className="h-4 w-4" /></Button>
-                             <Button variant="ghost" size="icon" title={item.is_visible ? "Hide" : "Show"} onClick={() => supabase.from("nav_items").update({ is_visible: !item.is_visible }).eq("id", item.id).then(({ error }) => error ? toast.error(error.message) : refresh())}>{item.is_visible ? <Eye className="h-4 w-4" /> : <EyeOff className="h-4 w-4" />}</Button>
-                             <Button variant="ghost" size="icon" title="Edit" onClick={() => editItem(item)}><Pencil className="h-4 w-4" /></Button>
-                             <Button variant="ghost" size="icon" title="Delete" onClick={() => deleteItem(item.id)}><Trash2 className="h-4 w-4 text-destructive" /></Button>
+                             <Button variant="ghost" size="icon" title="Move up" disabled={itemIndex === 0} onClick={() => moveMenuItem(menuItems, itemIndex, -1)}><ArrowUp className="h-4 w-4" /></Button>
+                             <Button variant="ghost" size="icon" title="Move down" disabled={itemIndex === menuItems.length - 1} onClick={() => moveMenuItem(menuItems, itemIndex, 1)}><ArrowDown className="h-4 w-4" /></Button>
+                             {item.table === "nav_items" ? (
+                               <>
+                                 <Button variant="ghost" size="icon" title={item.is_visible ? "Hide" : "Show"} onClick={() => supabase.from("nav_items").update({ is_visible: !item.is_visible }).eq("id", item.id).then(({ error }) => error ? toast.error(error.message) : refresh())}>{item.is_visible ? <Eye className="h-4 w-4" /> : <EyeOff className="h-4 w-4" />}</Button>
+                                 <Button variant="ghost" size="icon" title="Edit" onClick={() => editItem(item)}><Pencil className="h-4 w-4" /></Button>
+                                 <Button variant="ghost" size="icon" title="Delete" onClick={() => deleteItem(item.id)}><Trash2 className="h-4 w-4 text-destructive" /></Button>
+                               </>
+                             ) : (
+                               <Button variant="ghost" size="icon" title="Remove from menu" onClick={() => removePageFromMenu(item.id)}><Trash2 className="h-4 w-4 text-destructive" /></Button>
+                             )}
                            </div>
                          </div>
                        ))}
@@ -281,6 +347,25 @@ export default function MenusManager() {
           Published pages assigned in the Pages editor appear automatically. Use Item for custom internal paths or external URLs.
         </p>
       </Card>
+
+      <Dialog open={!!assignSectionId} onOpenChange={(open) => !open && setAssignSectionId(null)}>
+        <DialogContent>
+          <DialogHeader><DialogTitle>Add existing page</DialogTitle></DialogHeader>
+          <div className="space-y-2">
+            <Label>Page</Label>
+            <Select value={selectedPageId} onValueChange={setSelectedPageId}>
+              <SelectTrigger><SelectValue placeholder="Choose a page" /></SelectTrigger>
+              <SelectContent>
+                {pagesQ.data?.map((page) => <SelectItem key={page.id} value={page.id}>{page.title}{page.section_id ? " (currently assigned)" : ""}</SelectItem>)}
+              </SelectContent>
+            </Select>
+          </div>
+          <DialogFooter>
+            <Button variant="outline" onClick={() => setAssignSectionId(null)}>Cancel</Button>
+            <Button onClick={assignPage} disabled={!selectedPageId}>Add page</Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
     </div>
   );
 }
