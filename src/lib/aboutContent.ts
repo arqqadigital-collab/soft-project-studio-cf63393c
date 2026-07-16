@@ -16,6 +16,7 @@ export const ABOUT_DEFAULTS = {
     headlineAccent: "Intelligent Technology Solutions",
     subheadline:
       "By combining ERP expertise, healthcare system integration, and enterprise consulting, SBS helps organisations transform fragmented processes into connected, intelligent ecosystems.",
+    mediaUrl: "",
   },
   Introduction: {
     body:

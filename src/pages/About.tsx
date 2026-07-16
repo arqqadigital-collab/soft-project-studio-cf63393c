@@ -54,7 +54,7 @@ export default function About() {
         <main className="relative min-h-[90vh] w-full overflow-hidden bg-background">
           <div className="absolute inset-0">
             <video
-              src={aboutHeroVideo}
+              src={hero.mediaUrl || aboutHeroVideo}
               autoPlay
               muted
               loop
