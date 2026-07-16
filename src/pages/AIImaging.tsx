@@ -364,7 +364,7 @@ export default function AIImaging() {
             </h2>
           </div>
 
-          <ExpandingJourney steps={c["Patient Journey"].items as JourneyStep[]} />
+          <ExpandingJourney steps={c["Patient Journey"].items as unknown as JourneyStep[]} />
         </div>
       </section>
       )}
