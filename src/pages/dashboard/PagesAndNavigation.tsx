@@ -5,6 +5,7 @@ import { toast } from "sonner";
 import {
   Plus, Trash2, Pencil, ChevronDown, ChevronRight, FileText,
   ArrowUp, ArrowDown, Eye, EyeOff, FolderPlus, LayoutGrid, ExternalLink,
+  Home, Mail, Lock,
 } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { Button } from "@/components/ui/button";
@@ -106,6 +107,25 @@ export default function PagesAndNavigation() {
       </div>
 
       <Card className="divide-y divide-border">
+        <ReferenceRow
+          icon={<Home className="h-4 w-4 text-primary" />}
+          title="Homepage"
+          badge="Front page"
+          route="/"
+          editHref="/dashboard/homepage"
+          description="Managed in Homepage editor (Hero + 9 sections). Not part of the menu tree."
+        />
+        <ReferenceRow
+          icon={<Mail className="h-4 w-4 text-primary" />}
+          title="Contact"
+          badge="Standalone page"
+          route="/contact"
+          editHref="/dashboard/contact"
+          description="Managed in Contact editor. Rendered on a fixed route, not part of the menu tree."
+        />
+      </Card>
+
+      <Card className="divide-y divide-border">
         {tree.isLoading ? (
           <div className="p-6 text-sm text-muted-foreground">Loading…</div>
         ) : groups.length === 0 ? (
@@ -142,6 +162,51 @@ export default function PagesAndNavigation() {
       </Card>
 
       <EditDialog target={edit} onClose={() => setEdit(null)} onSaved={invalidate} />
+    </div>
+  );
+}
+
+function ReferenceRow({
+  icon, title, badge, route, editHref, description,
+}: {
+  icon: React.ReactNode;
+  title: string;
+  badge: string;
+  route: string;
+  editHref: string;
+  description: string;
+}) {
+  const navigate = useNavigate();
+  return (
+    <div className="flex items-center gap-3 px-4 py-3">
+      {icon}
+      <div className="min-w-0">
+        <div className="flex items-center gap-2">
+          <span className="font-semibold">{title}</span>
+          <span className="rounded-full bg-primary/10 px-2 py-0.5 text-[10px] uppercase tracking-wide text-primary">
+            {badge}
+          </span>
+          <span className="inline-flex items-center gap-1 rounded-full bg-muted px-2 py-0.5 text-[10px] uppercase tracking-wide text-muted-foreground">
+            <Lock className="h-3 w-3" /> Not in menu tree
+          </span>
+        </div>
+        <p className="mt-0.5 text-xs text-muted-foreground">{description}</p>
+      </div>
+      <div className="ml-auto flex items-center gap-1">
+        <span className="hidden text-xs text-muted-foreground sm:inline">{route}</span>
+        <a
+          href={route}
+          target="_blank"
+          rel="noreferrer"
+          title="View live"
+          className="inline-flex h-8 w-8 items-center justify-center rounded-md text-muted-foreground hover:bg-accent"
+        >
+          <ExternalLink className="h-4 w-4" />
+        </a>
+        <Button size="sm" variant="outline" onClick={() => navigate(editHref)}>
+          <Pencil className="mr-1 h-4 w-4" /> Edit
+        </Button>
+      </div>
     </div>
   );
 }
