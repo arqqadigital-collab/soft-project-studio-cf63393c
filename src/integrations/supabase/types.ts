@@ -553,6 +553,39 @@ export type Database = {
         }
         Relationships: []
       }
+      list_page_hero: {
+        Row: {
+          created_at: string
+          description: string | null
+          eyebrow: string | null
+          is_visible: boolean
+          page_key: string
+          title_highlight: string | null
+          title_prefix: string | null
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          description?: string | null
+          eyebrow?: string | null
+          is_visible?: boolean
+          page_key: string
+          title_highlight?: string | null
+          title_prefix?: string | null
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          description?: string | null
+          eyebrow?: string | null
+          is_visible?: boolean
+          page_key?: string
+          title_highlight?: string | null
+          title_prefix?: string | null
+          updated_at?: string
+        }
+        Relationships: []
+      }
       media: {
         Row: {
           alt_text: string | null
