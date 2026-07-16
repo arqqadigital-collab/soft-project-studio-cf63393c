@@ -308,7 +308,9 @@ function GroupNode(props: {
                       {s.pages.length === 0 ? (
                         <div className="px-16 py-2 text-sm text-muted-foreground">No pages under this sub-tab.</div>
                       ) : (
-                        s.pages.map((p, pi) => (
+                        s.pages.map((p, pi) => {
+                          const sys = (p as any).__system as boolean | undefined;
+                          return (
                           <div key={p.id} className="flex items-center gap-2 border-t border-border/40 py-2 pl-16 pr-4">
                             <FileText className="h-4 w-4 text-muted-foreground" />
                             <button
@@ -317,29 +319,44 @@ function GroupNode(props: {
                             >
                               {p.nav_label || p.title}
                             </button>
-                            <span className="text-xs text-muted-foreground">/p/{p.slug}</span>
-                            <span
-                              className={`rounded-full px-2 py-0.5 text-[10px] capitalize ${
-                                p.status === "published"
-                                  ? "bg-green-500/15 text-green-700 dark:text-green-400"
-                                  : "bg-muted text-muted-foreground"
-                              }`}
-                            >
-                              {p.status}
-                            </span>
+                            {sys ? (
+                              <span className="text-xs text-muted-foreground">/{p.slug}</span>
+                            ) : (
+                              <span className="text-xs text-muted-foreground">/p/{p.slug}</span>
+                            )}
+                            {sys ? (
+                              <span className="rounded-full bg-primary/10 px-2 py-0.5 text-[10px] font-semibold uppercase tracking-wide text-primary">
+                                List page
+                              </span>
+                            ) : (
+                              <span
+                                className={`rounded-full px-2 py-0.5 text-[10px] capitalize ${
+                                  p.status === "published"
+                                    ? "bg-green-500/15 text-green-700 dark:text-green-400"
+                                    : "bg-muted text-muted-foreground"
+                                }`}
+                              >
+                                {p.status}
+                              </span>
+                            )}
                             <div className="ml-auto flex items-center gap-1">
-                              <IconBtn title="Move up" onClick={() => props.onMovePage(s.pages, pi, -1)} disabled={pi === 0}>
-                                <ArrowUp className="h-4 w-4" />
-                              </IconBtn>
-                              <IconBtn title="Move down" onClick={() => props.onMovePage(s.pages, pi, 1)} disabled={pi === s.pages.length - 1}>
-                                <ArrowDown className="h-4 w-4" />
-                              </IconBtn>
+                              {!sys && (
+                                <>
+                                  <IconBtn title="Move up" onClick={() => props.onMovePage(s.pages, pi, -1)} disabled={pi === 0}>
+                                    <ArrowUp className="h-4 w-4" />
+                                  </IconBtn>
+                                  <IconBtn title="Move down" onClick={() => props.onMovePage(s.pages, pi, 1)} disabled={pi === s.pages.length - 1}>
+                                    <ArrowDown className="h-4 w-4" />
+                                  </IconBtn>
+                                </>
+                              )}
                               <IconBtn title="Edit" onClick={() => props.onEditPage(p)}>
                                 <Pencil className="h-4 w-4" />
                               </IconBtn>
                             </div>
                           </div>
-                        ))
+                          );
+                        })
                       )}
                     </div>
                   )}
