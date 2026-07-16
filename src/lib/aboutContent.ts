@@ -5,88 +5,86 @@ import { supabase } from "@/integrations/supabase/client";
 export type AboutSectionKey =
   | "Hero"
   | "Introduction"
-  | "Mission"
-  | "Values"
-  | "Milestones"
-  | "By The Numbers"
+  | "Mission & Vision"
+  | "Our Journey"
   | "Final CTA";
 
 export const ABOUT_DEFAULTS = {
   Hero: {
-    headline: "Built by Practitioners.",
-    headlineAccent: "Trusted by Enterprises.",
+    eyebrow: "About SBS",
+    headline: "Empowering Organizations Through",
+    headlineAccent: "Intelligent Technology Solutions",
     subheadline:
-      "We help ambitious organizations run better systems — from clinical operations to enterprise resource planning — with software, services and expertise assembled by people who have done the work themselves.",
-    ctaLabel: "Talk to Our Team",
-    ctaHref: "/contact",
-    ctaLabel2: "See Our Case Studies",
-    ctaHref2: "/case-studies",
-    chips: [
-      "Regional Presence",
-      "250+ Enterprise Clients",
-      "20+ Years of Delivery",
-      "Healthcare · ERP · Cybersecurity",
-    ],
-    mediaUrl: "",
+      "By combining ERP expertise, healthcare system integration, and enterprise consulting, SBS helps organisations transform fragmented processes into connected, intelligent ecosystems.",
   },
   Introduction: {
-    eyebrow: "Who We Are",
-    heading: "One Partner for the Systems That Run Your Organization",
-    headingAccent: "Run Your Organization",
     body:
-      "We are a technology and consulting group with deep roots in healthcare information systems, enterprise resource planning, cybersecurity and cloud infrastructure. Our teams combine domain practitioners, certified engineers and delivery managers who work side-by-side with our clients — not from a distance. What began as a focused hospital-systems practice has grown into a regional partner supporting hundreds of organizations across the public and private sector, from single-site clinics to multi-country enterprises.",
+      "SBS is a specialised provider of enterprise software solutions, healthcare technologies, and digital transformation services designed to help organisations modernise operations, improve efficiency, and unlock data-driven decision-making.",
+    items: [] as any[],
   },
-  Mission: {
-    headline: "Our Mission",
-    body:
-      "To connect the systems, people and decisions that make modern organizations work — so that clinicians can focus on patients, operators can focus on outcomes, and leaders can focus on the future.",
-    primaryLabel: "Read Our Story",
-    primaryHref: "#story",
-    secondaryLabel: "",
-    secondaryHref: "",
-  },
-  Values: {
-    eyebrow: "What We Stand For",
-    heading: "The Principles That Guide Every Engagement",
-    headingAccent: "Every Engagement",
+  "Mission & Vision": {
     items: [
-      { icon: "ShieldCheck", title: "Practitioner-Led", description: "Our teams are led by people who have run the departments and operations our software supports — not just built products for them." },
-      { icon: "HeartPulse", title: "Outcomes Over Output", description: "Success is measured in reduced length of stay, faster financial close, avoided incidents — not lines of code shipped." },
-      { icon: "Network", title: "Open by Design", description: "We build on open standards and interoperable architectures so our clients are never locked into a single vendor world." },
-      { icon: "Workflow", title: "Delivery Discipline", description: "Structured methodology, clear milestones and shared accountability from kickoff to hyper-care and beyond." },
-      { icon: "CheckCircle2", title: "Long-Term Partnership", description: "We stay after go-live. Every client has a named team responsible for their success, not a ticketing queue." },
-      { icon: "BarChart3", title: "Measured Improvement", description: "Every engagement includes agreed KPIs and quarterly business reviews so improvement is visible and shared." },
+      {
+        icon: "Target",
+        title: "Our Mission",
+        description:
+          "To help organisations leverage technology as a strategic asset, enabling operational excellence, automation, and data-driven growth.",
+      },
+      {
+        icon: "Eye",
+        title: "Our Vision",
+        description:
+          "To become a leading regional provider of integrated enterprise and healthcare technology solutions, empowering organisations with scalable, intelligent systems.",
+      },
     ],
   },
-  Milestones: {
-    eyebrow: "Our Story",
-    heading: "Two Decades of Building Systems That Matter",
-    headingAccent: "Systems That Matter",
+  "Our Journey": {
+    eyebrow: "Our Journey",
+    heading: "From Vision to Trusted Technology Partner",
     items: [
-      { icon: "UserPlus", title: "2005 — Founded", description: "Founded as a small clinical-systems practice serving hospitals across the region with focused implementation and support services." },
-      { icon: "ClipboardList", title: "2012 — Enterprise Expansion", description: "Expanded into enterprise resource planning and financial systems for manufacturing, distribution and services groups." },
-      { icon: "ShieldCheck", title: "2017 — Cybersecurity Practice", description: "Launched a dedicated cybersecurity and infrastructure practice with a regional Security Operations Center." },
-      { icon: "Network", title: "2020 — Cloud & Integration", description: "Established the cloud engineering and integration platform team, delivering managed integration for hundreds of endpoints." },
-      { icon: "BarChart3", title: "2024 — Analytics & AI", description: "Formed the applied analytics and AI group, embedding intelligent decision support across every practice we deliver." },
-    ],
-  },
-  "By The Numbers": {
-    heading: "By The Numbers",
-    items: [
-      { value: "250", label: "Enterprise clients across healthcare, ERP and cybersecurity engagements" },
-      { value: "20", label: "Years of continuous regional delivery and support" },
-      { value: "9", label: "Practices — from clinical systems to cloud infrastructure" },
-      { value: "98", label: "Client retention rate across the last three fiscal years" },
+      {
+        icon: "Building2",
+        title: "Foundation",
+        description:
+          "SBS was established to help organisations solve operational challenges through smart, scalable technology solutions.",
+      },
+      {
+        icon: "Layers",
+        title: "Expansion",
+        description:
+          "We evolved into a full-service provider, delivering ERP implementation, system integration, and process automation across industries.",
+      },
+      {
+        icon: "Stethoscope",
+        title: "Healthcare Focus",
+        description:
+          "SBS expanded into healthcare, providing solutions such as HIS, EMR, PACS, and RCM systems, strengthening our industry specialisation.",
+      },
+      {
+        icon: "Handshake",
+        title: "Strategic Partnerships",
+        description:
+          "Collaborations with platforms like Odoo and Microsoft Dynamics 365 enabled us to deliver enterprise-grade, flexible solutions.",
+      },
+      {
+        icon: "Rocket",
+        title: "Today",
+        description:
+          "We continue to drive digital transformation through integrated systems, automation, and data-driven solutions that help organisations scale and innovate.",
+      },
     ],
   },
   "Final CTA": {
-    headline: "Ready to Build the Systems Your Organization Deserves?",
+    headline: "Building the Future with",
+    headlineAccent: "Intelligent Systems",
     body:
-      "Whether you are planning a full transformation or a focused improvement, our team is ready to help you scope, design and deliver.",
-    primaryLabel: "Talk to Our Team",
+      "As organizations continue to navigate digital transformation, the need for integrated, scalable, and intelligent systems has never been greater. SBS remains committed to helping organizations adopt technologies that enhance efficiency, strengthen decision-making, and create long-term competitive advantage.",
+    body2:
+      "Looking to modernize your operations with smarter technology solutions? Connect with SBS to explore how our expertise can support your organization digital transformation journey.",
+    primaryLabel: "Connect With SBS",
     primaryHref: "/contact",
-    secondaryLabel: "See Our Case Studies",
-    secondaryHref: "/case-studies",
+    secondaryLabel: "",
+    secondaryHref: "",
   },
 } as const;
 
@@ -109,10 +107,6 @@ function merge<T>(base: T, over: any): T {
   return (over ?? base) as T;
 }
 
-/**
- * Fetches all page_sections for the About page and merges DB overrides
- * over ABOUT_DEFAULTS. Same pattern as useHISContent.
- */
 export function useAboutContent(): AboutContent {
   const { data } = useQuery({
     queryKey: ["page-sections", ABOUT_PAGE_SLUG],
@@ -159,15 +153,4 @@ export function useAboutContent(): AboutContent {
     merged._visible[key] = visibility[key] ?? true;
   }
   return merged as AboutContent;
-}
-
-export function splitAccent(full: string, accent: string): { lead: string; accent: string } {
-  if (!full && !accent) return { lead: "", accent: "" };
-  if (!accent) return { lead: full, accent: "" };
-  if (!full) return { lead: "", accent };
-  if (full === accent) return { lead: "", accent: full };
-  if (full.endsWith(accent)) {
-    return { lead: full.slice(0, full.length - accent.length).trimEnd() + " ", accent };
-  }
-  return { lead: full + " ", accent };
 }
