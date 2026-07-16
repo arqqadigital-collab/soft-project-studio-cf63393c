@@ -117,7 +117,7 @@ export default function EventDetail() {
 
   return (
     <main className="min-h-screen bg-background">
-      <SeoHead title={ev.title} description={ev.description ?? undefined} ogType="event" />
+      <SeoHead title={ev.title} description={ev.description ?? undefined} ogType="article" />
 
       <section className="pb-10 pt-28 md:pt-36">
         <div className="mx-auto max-w-5xl px-6">
