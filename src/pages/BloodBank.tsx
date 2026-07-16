@@ -331,7 +331,7 @@ export default function BloodBank() {
                 {c["Patient Journey"].heading}
               </h2>
             </div>
-            <ExpandingJourney steps={c["Patient Journey"].items as any[]} />
+            <ExpandingJourney steps={[...(c["Patient Journey"].items as any)]} />
           </div>
         </section>
       )}
