@@ -119,6 +119,8 @@ export default function App() {
         <Route path="/blog" element={<Blog />} />
         <Route path="/blog/:slug" element={<ArticleDetail />} />
         <Route path="/events" element={<Events />} />
+        <Route path="/events/:slug" element={<EventDetail />} />
+
         <Route path="/case-studies" element={<CaseStudies />} />
         <Route path="/case-studies/:slug" element={<CaseStudyDetail />} />
         <Route path="/p/:slug" element={<PublicPage />} />
