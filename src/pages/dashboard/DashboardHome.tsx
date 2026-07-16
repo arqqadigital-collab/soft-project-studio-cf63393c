@@ -23,6 +23,7 @@ function StatCard({ label, value, icon: Icon }: { label: string; value: number |
 }
 
 export default function DashboardHome() {
+  const { data: branding } = useSiteBranding();
   const counts = useQuery({
     queryKey: ["dashboard-counts"],
     queryFn: async () => {
@@ -63,9 +64,17 @@ export default function DashboardHome() {
     <div className="space-y-6">
       <div className="flex flex-wrap items-center justify-between gap-3">
         <div className="flex items-center gap-3">
-          <span className="inline-flex h-12 w-12 items-center justify-center rounded-xl bg-primary text-primary-foreground text-sm font-bold shadow-sm">
-            CMS
-          </span>
+          {branding?.site_logo_url ? (
+            <img
+              src={branding.site_logo_url}
+              alt={branding.site_title ?? "Site logo"}
+              className="h-12 w-12 rounded-xl object-contain shadow-sm"
+            />
+          ) : (
+            <span className="inline-flex h-12 w-12 items-center justify-center rounded-xl bg-primary text-primary-foreground text-sm font-bold shadow-sm">
+              {(branding?.site_title ?? "CMS").slice(0, 3).toUpperCase()}
+            </span>
+          )}
           <div>
             <h1 className="text-2xl font-semibold">Dashboard</h1>
             <p className="text-sm text-muted-foreground">Welcome back — here's what's happening.</p>
