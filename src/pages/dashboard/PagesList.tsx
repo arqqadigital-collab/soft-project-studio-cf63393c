@@ -34,7 +34,38 @@ export default function PagesList() {
     setExpanded((s) => ({ ...s, [id]: !s[id] }));
   }
 
-  const groups = tree.data ?? [];
+  const SYSTEM_PAGES: Record<string, { id: string; title: string; slug: string; url: string }[]> = {
+    resources: [
+      { id: "sys:blog", title: "Blog", slug: "blog", url: "/dashboard/list-heros?page=blog" },
+      { id: "sys:case-studies", title: "Case Studies", slug: "case-studies", url: "/dashboard/list-heros?page=case-studies" },
+      { id: "sys:events", title: "Events & Webinars", slug: "events", url: "/dashboard/list-heros?page=events" },
+    ],
+  };
+
+  const rawGroups = tree.data ?? [];
+  const groups = rawGroups.map((g) => ({
+    ...g,
+    sections: g.sections.map((s) => {
+      const key = (s.label || "").trim().toLowerCase();
+      const extras = SYSTEM_PAGES[key];
+      if (!extras) return s;
+      const existing = new Set(s.pages.map((p) => p.id));
+      const virtualPages = extras
+        .filter((e) => !existing.has(e.id))
+        .map((e) => ({
+          id: e.id,
+          title: e.title,
+          slug: e.slug,
+          status: "published",
+          section_id: s.id,
+          nav_label: e.title,
+          position: -1,
+          __system: true as const,
+          __url: e.url,
+        }));
+      return { ...s, pages: [...virtualPages, ...s.pages] };
+    }),
+  }));
 
   async function reorder(
     table: "nav_groups" | "nav_sections" | "pages",
