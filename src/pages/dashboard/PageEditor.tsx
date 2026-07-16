@@ -283,12 +283,15 @@ export default function PageEditor() {
               <TabsTrigger value="seo">SEO</TabsTrigger>
             </TabsList>
             <TabsContent value="builder" className="mt-3">
-              {form.page_kind === "coded" ? (
-                <div className="rounded-md border border-dashed border-border p-6 text-sm text-muted-foreground">
-                  This page is rendered by a React component at <code>{form.route_path}</code>. Its content is defined in code, not the builder.
-                </div>
-              ) : pageId ? (
-                <PageBuilder pageId={pageId} />
+              {pageId ? (
+                <>
+                  {form.page_kind === "coded" && (
+                    <div className="mb-3 rounded-md border border-dashed border-border p-3 text-xs text-muted-foreground">
+                      This page is rendered by a React component at <code>{form.route_path}</code>. Editing a section here overrides the corresponding text in code; anything left blank falls back to the coded default.
+                    </div>
+                  )}
+                  <PageBuilder pageId={pageId} />
+                </>
               ) : (
                 <div className="rounded-md border border-dashed border-border p-6 text-sm text-muted-foreground">
                   Save the page first (title + draft) to start adding sections.
