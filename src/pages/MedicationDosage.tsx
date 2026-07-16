@@ -284,7 +284,7 @@ export default function MedicationDosage() {
             <h2 className="mt-5 text-3xl font-bold tracking-tight text-foreground md:text-5xl">{c.Integrations.heading}</h2>
             <p className="mx-auto mt-6 max-w-3xl text-base leading-relaxed text-foreground/70 md:text-lg">{c.Integrations.body}</p>
             <div className="mt-10 flex flex-nowrap items-center gap-3 overflow-x-auto pb-2 md:justify-center md:overflow-visible">
-              {(c.Integrations.tags as string[] | undefined)?.map((tag) => (
+              {((c.Integrations.tags as any) as string[] | undefined)?.map((tag) => (
                 <span key={tag} className="shrink-0 whitespace-nowrap rounded-full border border-border bg-card px-4 py-2 text-sm font-medium text-foreground/80 shadow-sm">{tag}</span>
               ))}
             </div>
