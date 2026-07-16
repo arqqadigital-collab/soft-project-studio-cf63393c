@@ -50,9 +50,11 @@ export default function PagesAndNavigation() {
     const a = rows[idx], b = rows[target];
     const av = (a as any)[field] as number;
     const bv = (b as any)[field] as number;
+    const patchA: any = { [field]: bv };
+    const patchB: any = { [field]: av };
     const [{ error: e1 }, { error: e2 }] = await Promise.all([
-      supabase.from(table).update({ [field]: bv }).eq("id", a.id),
-      supabase.from(table).update({ [field]: av }).eq("id", b.id),
+      (supabase.from(table) as any).update(patchA).eq("id", a.id),
+      (supabase.from(table) as any).update(patchB).eq("id", b.id),
     ]);
     if (e1 || e2) return toast.error((e1 || e2)!.message);
     invalidate();

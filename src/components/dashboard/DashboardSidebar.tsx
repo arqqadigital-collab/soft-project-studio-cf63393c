@@ -4,16 +4,12 @@ import {
   LayoutDashboard,
   FileStack,
   Image as ImageIcon,
-  Menu as MenuIcon,
   PanelsTopLeft,
   Settings,
   Newspaper,
   BookMarked,
   CalendarDays,
   Shield,
-  ChevronDown,
-  ChevronRight,
-  Folder,
 } from "lucide-react";
 import {
   Sidebar,
@@ -24,13 +20,8 @@ import {
   SidebarMenu,
   SidebarMenuButton,
   SidebarMenuItem,
-  SidebarMenuSub,
-  SidebarMenuSubButton,
-  SidebarMenuSubItem,
   SidebarHeader,
-  useSidebar,
 } from "@/components/ui/sidebar";
-import { useNavTree } from "@/lib/navTree";
 
 import { useRoles } from "@/hooks/use-role";
 import { useSiteBranding } from "@/hooks/use-site-branding";
@@ -48,10 +39,8 @@ const groups: { label: string; items: Item[] }[] = [
     label: "Content",
     items: [
       { title: "Dashboard", url: "/dashboard", icon: LayoutDashboard, exact: true },
-      { title: "Pages", url: "/dashboard/pages", icon: FileStack, allow: ["admin", "editor"] },
-      { title: "Menus", url: "/dashboard/menus", icon: MenuIcon, allow: ["admin", "editor"] },
+      { title: "Pages & Navigation", url: "/dashboard/pages", icon: FileStack, allow: ["admin", "editor"] },
       { title: "Header & Footer", url: "/dashboard/header-footer", icon: PanelsTopLeft, allow: ["admin", "editor"] },
-      
       { title: "Site Settings", url: "/dashboard/settings", icon: Settings, allow: ["admin"] },
       { title: "Media Library", url: "/dashboard/media", icon: ImageIcon },
     ],
@@ -76,11 +65,6 @@ export function DashboardSidebar() {
   const { pathname } = useLocation();
   const { roles } = useRoles();
   const { data: branding } = useSiteBranding();
-  const { state } = useSidebar();
-  const collapsed = state === "collapsed";
-  const { data: navTree = [] } = useNavTree();
-  const [openGroups, setOpenGroups] = useState<Record<string, boolean>>({});
-  const [openSections, setOpenSections] = useState<Record<string, boolean>>({});
 
   const isActive = (url: string, exact?: boolean) =>
     exact ? pathname === url : pathname === url || pathname.startsWith(url + "/");
@@ -93,9 +77,6 @@ export function DashboardSidebar() {
       ),
     }))
     .filter((g) => g.items.length > 0);
-
-  const canManagePages = roles.includes("admin" as any) || roles.includes("editor" as any);
-  const visibleNavGroups = navTree.filter((g) => g.is_visible);
 
   return (
     <Sidebar collapsible="icon">
@@ -139,116 +120,7 @@ export function DashboardSidebar() {
             </SidebarGroupContent>
           </SidebarGroup>
         ))}
-
-        {canManagePages && visibleNavGroups.length > 0 && !collapsed && (
-          <SidebarGroup>
-            <SidebarGroupLabel>Site Structure</SidebarGroupLabel>
-            <SidebarGroupContent>
-              <SidebarMenu>
-                {visibleNavGroups.map((group) => {
-                  const groupOpen = openGroups[group.id] ?? false;
-                  const visibleSections = group.sections.filter((s) => s.is_visible);
-                  return (
-                    <SidebarMenuItem key={group.id}>
-                      <SidebarMenuButton
-                        onClick={() =>
-                          setOpenGroups((s) => ({ ...s, [group.id]: !groupOpen }))
-                        }
-                        tooltip={group.label}
-                      >
-                        {groupOpen ? (
-                          <ChevronDown className="h-4 w-4" />
-                        ) : (
-                          <ChevronRight className="h-4 w-4" />
-                        )}
-                        <span className="truncate">{group.label}</span>
-                      </SidebarMenuButton>
-                      {groupOpen && visibleSections.length > 0 && (
-                        <SidebarMenuSub>
-                          {visibleSections.map((section) => {
-                            const secKey = `${group.id}:${section.id}`;
-                            const secOpen = openSections[secKey] ?? false;
-                            const publishedPages = section.pages.filter(
-                              (p) => p.status === "published",
-                            );
-                            const customLinks = section.customItems.filter(
-                              (i) => i.is_visible && i.url && i.url !== "#",
-                            );
-                            const seenSlugs = new Set(publishedPages.map((p) => p.slug));
-                            // Skip custom items whose URL matches a page slug's static route to avoid duplicates.
-                            const uniqueCustoms = customLinks.filter((i) => {
-                              const tail = (i.url.split("/").pop() || "").toLowerCase();
-                              return !seenSlugs.has(tail);
-                            });
-                            const totalCount = publishedPages.length + uniqueCustoms.length;
-                            return (
-                              <SidebarMenuSubItem key={section.id}>
-                                <SidebarMenuSubButton
-                                  onClick={() =>
-                                    setOpenSections((s) => ({
-                                      ...s,
-                                      [secKey]: !secOpen,
-                                    }))
-                                  }
-                                >
-                                  {secOpen ? (
-                                    <ChevronDown className="h-3.5 w-3.5" />
-                                  ) : (
-                                    <ChevronRight className="h-3.5 w-3.5" />
-                                  )}
-                                  <span className="truncate">{section.label}</span>
-                                </SidebarMenuSubButton>
-                                {secOpen && totalCount > 0 && (
-                                  <ul className="ml-4 mt-1 space-y-0.5 border-l border-sidebar-border/60 pl-2">
-                                    {publishedPages.map((page) => (
-                                      <li key={page.id}>
-                                        <NavLink
-                                          to={`/dashboard/pages/${page.id}`}
-                                          className={({ isActive: a }) =>
-                                            `flex items-center gap-1.5 rounded-md px-2 py-1 text-xs transition-colors ${
-                                              a
-                                                ? "bg-sidebar-accent text-sidebar-accent-foreground"
-                                                : "text-sidebar-foreground/80 hover:bg-sidebar-accent/60 hover:text-sidebar-accent-foreground"
-                                            }`
-                                          }
-                                        >
-                                          <Folder className="h-3 w-3 shrink-0" />
-                                          <span className="truncate">
-                                            {page.nav_label || page.title}
-                                          </span>
-                                        </NavLink>
-                                      </li>
-                                    ))}
-                                    {uniqueCustoms.map((item) => (
-                                      <li key={item.id}>
-                                        <a
-                                          href={item.url}
-                                          target={item.item_type === "external" ? "_blank" : undefined}
-                                          rel={item.item_type === "external" ? "noreferrer" : undefined}
-                                          className="flex items-center gap-1.5 rounded-md px-2 py-1 text-xs text-sidebar-foreground/70 transition-colors hover:bg-sidebar-accent/60 hover:text-sidebar-accent-foreground"
-                                        >
-                                          <Folder className="h-3 w-3 shrink-0" />
-                                          <span className="truncate">{item.label}</span>
-                                        </a>
-                                      </li>
-                                    ))}
-                                  </ul>
-                                )}
-                              </SidebarMenuSubItem>
-                            );
-                          })}
-
-                        </SidebarMenuSub>
-                      )}
-                    </SidebarMenuItem>
-                  );
-                })}
-              </SidebarMenu>
-            </SidebarGroupContent>
-          </SidebarGroup>
-        )}
       </SidebarContent>
     </Sidebar>
-
   );
 }

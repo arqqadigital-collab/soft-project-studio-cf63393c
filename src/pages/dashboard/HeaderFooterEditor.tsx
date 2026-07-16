@@ -10,7 +10,7 @@ import { Card } from "@/components/ui/card";
 import { Label } from "@/components/ui/label";
 import { Switch } from "@/components/ui/switch";
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
-import { useNavTree } from "@/lib/navTree";
+import { useMenuTree } from "@/lib/menuTree";
 
 type FooterLink = { label: string; href: string };
 type FooterColumn = { title: string; links: FooterLink[] };
@@ -56,7 +56,7 @@ function ColorField({
 export default function HeaderFooterEditor() {
   const qc = useQueryClient();
   const [form, setForm] = useState<any>(null);
-  const { data: navTree = [] } = useNavTree();
+  const { data: navTree = [] } = useMenuTree();
 
   const q = useQuery({
     queryKey: ["header-footer"],
@@ -177,11 +177,11 @@ export default function HeaderFooterEditor() {
             <div className="flex items-center justify-between">
               <div>
                 <h2 className="text-lg font-semibold">Menu preview</h2>
-                <p className="text-sm text-muted-foreground">Full menu currently shown in the header. Edit items in the Menus manager.</p>
+                <p className="text-sm text-muted-foreground">Full menu currently shown in the header. Edit items in Pages & Navigation.</p>
               </div>
               <Button variant="outline" size="sm" asChild>
-                <Link to="/dashboard/menus">
-                  <ExternalLink className="mr-1 h-4 w-4" /> Manage menus
+                <Link to="/dashboard/pages">
+                  <ExternalLink className="mr-1 h-4 w-4" /> Manage pages & navigation
                 </Link>
               </Button>
             </div>
@@ -198,28 +198,19 @@ export default function HeaderFooterEditor() {
                       )}
                     </div>
                     <div className="mt-2 space-y-2 pl-3">
-                      {group.sections.map((section) => (
-                        <div key={section.id}>
-                          <div className="text-sm font-medium">{section.label}</div>
+                      {group.columns.map((column) => (
+                        <div key={column.id}>
+                          <div className="text-sm font-medium">{column.label}</div>
                           <ul className="ml-4 mt-1 list-disc space-y-0.5 text-sm text-muted-foreground">
-                            {section.pages.map((p) => (
+                            {column.pages.map((p) => (
                               <li key={`p-${p.id}`}>
                                 {p.nav_label || p.title}{" "}
-                                <span className="text-xs opacity-60">(/p/{p.slug})</span>
+                                <span className="text-xs opacity-60">({p.route_path})</span>
                               </li>
                             ))}
-                            {section.customItems.map((c) => (
-                              <li key={`c-${c.id}`}>
-                                {c.label} <span className="text-xs opacity-60">({c.url})</span>
-                              </li>
-                            ))}
-                            {section.pages.length === 0 &&
-                              section.customItems.length === 0 &&
-                              section.href && (
-                                <li>
-                                  <span className="text-xs opacity-60">→ {section.href}</span>
-                                </li>
-                              )}
+                            {column.pages.length === 0 && (
+                              <li className="text-xs opacity-60">No pages assigned</li>
+                            )}
                           </ul>
                         </div>
                       ))}
