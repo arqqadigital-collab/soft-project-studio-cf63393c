@@ -191,7 +191,7 @@ export default function PageEditor() {
           {lastSavedAt && <span className="text-xs text-muted-foreground">Saved {lastSavedAt.toLocaleTimeString()}</span>}
           {form.status === "published" && form.slug && (
             <Button asChild variant="outline" size="sm">
-              <a href={`/p/${form.slug}`} target="_blank" rel="noreferrer">
+              <a href={form.slug === "about" || form.slug === "careers" ? `/${form.slug}` : `/p/${form.slug}`} target="_blank" rel="noreferrer">
                 <ExternalLink className="mr-1 h-4 w-4" /> View live
               </a>
             </Button>
