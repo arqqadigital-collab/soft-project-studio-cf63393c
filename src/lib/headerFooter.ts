@@ -45,6 +45,10 @@ export type HeaderFooterSettings = {
   header_cta_label: string | null;
   header_cta_url: string | null;
   header_show_menus: boolean;
+  header_bg_color: string | null;
+  header_text_color: string | null;
+  header_cta_bg_color: string | null;
+  header_cta_text_color: string | null;
   footer_logo_url: string | null;
   footer_tagline: string | null;
   footer_columns: FooterColumn[];
@@ -63,21 +67,27 @@ export function useHeaderFooter() {
         .maybeSingle();
       if (error) throw error;
       if (!data) return null;
+      const d = data as Record<string, unknown>;
       return {
-        header_logo_url: data.header_logo_url,
-        header_cta_label: data.header_cta_label,
-        header_cta_url: data.header_cta_url,
-        header_show_menus: data.header_show_menus ?? true,
-        footer_logo_url: data.footer_logo_url,
-        footer_tagline: data.footer_tagline,
-        footer_columns: Array.isArray(data.footer_columns)
-          ? (data.footer_columns as unknown as FooterColumn[])
+        header_logo_url: (d.header_logo_url as string) ?? null,
+        header_cta_label: (d.header_cta_label as string) ?? null,
+        header_cta_url: (d.header_cta_url as string) ?? null,
+        header_show_menus: (d.header_show_menus as boolean) ?? true,
+        header_bg_color: (d.header_bg_color as string) ?? null,
+        header_text_color: (d.header_text_color as string) ?? null,
+        header_cta_bg_color: (d.header_cta_bg_color as string) ?? null,
+        header_cta_text_color: (d.header_cta_text_color as string) ?? null,
+        footer_logo_url: (d.footer_logo_url as string) ?? null,
+        footer_tagline: (d.footer_tagline as string) ?? null,
+        footer_columns: Array.isArray(d.footer_columns)
+          ? (d.footer_columns as unknown as FooterColumn[])
           : [],
-        footer_social: Array.isArray(data.footer_social)
-          ? (data.footer_social as unknown as SocialLink[])
+        footer_social: Array.isArray(d.footer_social)
+          ? (d.footer_social as unknown as SocialLink[])
           : [],
-        footer_copyright: data.footer_copyright,
+        footer_copyright: (d.footer_copyright as string) ?? null,
       };
     },
   });
 }
+
