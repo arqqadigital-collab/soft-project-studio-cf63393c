@@ -30,6 +30,7 @@ const STATIC_ROUTE_BY_SLUG: Record<string, string> = {
   ris: "/healthcare/ris",
   rcm: "/healthcare/rcm",
   "blood-bank": "/healthcare/blood-bank",
+  "blood-bank-and-donor-management": "/healthcare/blood-bank",
   "medication-dosage": "/healthcare/medication-dosage",
   pacs: "/healthcare/pacs",
   "ai-imaging": "/healthcare/ai-imaging",
