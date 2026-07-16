@@ -171,6 +171,16 @@ export function DashboardSidebar() {
                             const publishedPages = section.pages.filter(
                               (p) => p.status === "published",
                             );
+                            const customLinks = section.customItems.filter(
+                              (i) => i.is_visible && i.url && i.url !== "#",
+                            );
+                            const seenSlugs = new Set(publishedPages.map((p) => p.slug));
+                            // Skip custom items whose URL matches a page slug's static route to avoid duplicates.
+                            const uniqueCustoms = customLinks.filter((i) => {
+                              const tail = (i.url.split("/").pop() || "").toLowerCase();
+                              return !seenSlugs.has(tail);
+                            });
+                            const totalCount = publishedPages.length + uniqueCustoms.length;
                             return (
                               <SidebarMenuSubItem key={section.id}>
                                 <SidebarMenuSubButton
@@ -188,7 +198,7 @@ export function DashboardSidebar() {
                                   )}
                                   <span className="truncate">{section.label}</span>
                                 </SidebarMenuSubButton>
-                                {secOpen && publishedPages.length > 0 && (
+                                {secOpen && totalCount > 0 && (
                                   <ul className="ml-4 mt-1 space-y-0.5 border-l border-sidebar-border/60 pl-2">
                                     {publishedPages.map((page) => (
                                       <li key={page.id}>
@@ -209,11 +219,25 @@ export function DashboardSidebar() {
                                         </NavLink>
                                       </li>
                                     ))}
+                                    {uniqueCustoms.map((item) => (
+                                      <li key={item.id}>
+                                        <a
+                                          href={item.url}
+                                          target={item.item_type === "external" ? "_blank" : undefined}
+                                          rel={item.item_type === "external" ? "noreferrer" : undefined}
+                                          className="flex items-center gap-1.5 rounded-md px-2 py-1 text-xs text-sidebar-foreground/70 transition-colors hover:bg-sidebar-accent/60 hover:text-sidebar-accent-foreground"
+                                        >
+                                          <Folder className="h-3 w-3 shrink-0" />
+                                          <span className="truncate">{item.label}</span>
+                                        </a>
+                                      </li>
+                                    ))}
                                   </ul>
                                 )}
                               </SidebarMenuSubItem>
                             );
                           })}
+
                         </SidebarMenuSub>
                       )}
                     </SidebarMenuItem>
