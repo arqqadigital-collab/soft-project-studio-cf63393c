@@ -6,6 +6,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { formatDistanceToNow } from "date-fns";
 import { getBuiltinMedia } from "@/lib/builtinMedia";
+import { useSiteBranding } from "@/hooks/use-site-branding";
 
 function StatCard({ label, value, icon: Icon }: { label: string; value: number | string; icon: any }) {
   return (
