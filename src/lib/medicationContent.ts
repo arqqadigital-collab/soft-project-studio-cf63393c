@@ -151,6 +151,15 @@ const MED_SLUG = "healthcare-medication-dosage";
 
 function merge<T>(base: T, over: any): T {
   if (over === undefined || over === null) return base;
+  if (Array.isArray(base) && Array.isArray(over)) {
+    const allObjects = over.every((v) => v && typeof v === "object" && !Array.isArray(v));
+    if (allObjects) {
+      return over.map((o: any, i: number) =>
+        i < (base as any[]).length ? merge((base as any[])[i], o) : o,
+      ) as T;
+    }
+    return over as T;
+  }
   if (Array.isArray(base) || Array.isArray(over)) return (over ?? base) as T;
   if (typeof base === "object" && base !== null && typeof over === "object") {
     const out: any = { ...(base as any) };
