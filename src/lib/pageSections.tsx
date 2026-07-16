@@ -8,6 +8,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { Trash2, Plus, Image as ImageIcon } from "lucide-react";
 import { MediaPickerDialog } from "@/components/dashboard/MediaPickerDialog";
 import { sanitizeHtml } from "@/lib/sanitize";
+import { CLINICAL_AI_SECTION_DEFS } from "@/lib/clinicalAiSections";
 
 function MediaField({
   label, value, onChange, accept,
@@ -54,7 +55,10 @@ function MediaField({
 
 // ---- Types ----
 export type SectionKind =
-  | "hero" | "features" | "stats" | "cta" | "media" | "logos" | "faq";
+  | "hero" | "features" | "stats" | "cta" | "media" | "logos" | "faq"
+  // Clinical AI page-specific kinds (registered from clinicalAiSections.tsx)
+  | "Hero" | "Introduction" | "The Problem" | "The Platform"
+  | "How It Works" | "Outcomes" | "Integrations" | "FAQ" | "Final CTA";
 
 export type SectionData = Record<string, any>;
 
@@ -699,6 +703,7 @@ export const SECTION_REGISTRY: Record<SectionKind, SectionDef> = {
     defaultData: { heading: "FAQ", items: [{ q: "", a: "" }] },
     Render: FaqRender, Edit: FaqEdit,
   },
-};
+  ...(CLINICAL_AI_SECTION_DEFS as Partial<Record<SectionKind, SectionDef>>),
+} as Record<SectionKind, SectionDef>;
 
 export const SECTION_KINDS: SectionKind[] = Object.keys(SECTION_REGISTRY) as SectionKind[];
