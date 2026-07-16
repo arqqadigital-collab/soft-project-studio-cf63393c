@@ -319,7 +319,7 @@ function GroupNode(props: {
                             >
                               {p.nav_label || p.title}
                             </button>
-                            {sys ? (
+                            {sys || p.slug === "about" || p.slug === "careers" ? (
                               <span className="text-xs text-muted-foreground">/{p.slug}</span>
                             ) : (
                               <span className="text-xs text-muted-foreground">/p/{p.slug}</span>
