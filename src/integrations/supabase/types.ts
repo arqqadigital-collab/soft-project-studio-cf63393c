@@ -399,10 +399,14 @@ export type Database = {
           footer_logo_url: string | null
           footer_social: Json
           footer_tagline: string | null
+          header_bg_color: string | null
+          header_cta_bg_color: string | null
           header_cta_label: string | null
+          header_cta_text_color: string | null
           header_cta_url: string | null
           header_logo_url: string | null
           header_show_menus: boolean
+          header_text_color: string | null
           id: string
           singleton: boolean
           updated_at: string
@@ -414,10 +418,14 @@ export type Database = {
           footer_logo_url?: string | null
           footer_social?: Json
           footer_tagline?: string | null
+          header_bg_color?: string | null
+          header_cta_bg_color?: string | null
           header_cta_label?: string | null
+          header_cta_text_color?: string | null
           header_cta_url?: string | null
           header_logo_url?: string | null
           header_show_menus?: boolean
+          header_text_color?: string | null
           id?: string
           singleton?: boolean
           updated_at?: string
@@ -429,10 +437,14 @@ export type Database = {
           footer_logo_url?: string | null
           footer_social?: Json
           footer_tagline?: string | null
+          header_bg_color?: string | null
+          header_cta_bg_color?: string | null
           header_cta_label?: string | null
+          header_cta_text_color?: string | null
           header_cta_url?: string | null
           header_logo_url?: string | null
           header_show_menus?: boolean
+          header_text_color?: string | null
           id?: string
           singleton?: boolean
           updated_at?: string
