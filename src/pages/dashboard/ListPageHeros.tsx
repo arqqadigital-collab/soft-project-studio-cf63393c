@@ -153,7 +153,7 @@ export default function ListPageHeros() {
           Case Studies, and Events pages.
         </p>
       </div>
-      <Tabs value={initial} key={initial} defaultValue={initial}>
+      <Tabs key={initial} defaultValue={initial}>
         <TabsList>
           {PAGES.map((p) => (
             <TabsTrigger key={p.key} value={p.key}>
