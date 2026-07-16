@@ -54,7 +54,10 @@ function MediaField({
 
 // ---- Types ----
 export type SectionKind =
-  | "hero" | "features" | "stats" | "cta" | "media" | "logos" | "faq";
+  | "hero" | "features" | "stats" | "cta" | "media" | "logos" | "faq"
+  // Clinical AI page-specific kinds (registered from clinicalAiSections.tsx)
+  | "Hero" | "Introduction" | "The Problem" | "The Platform"
+  | "How It Works" | "Outcomes" | "Integrations" | "FAQ" | "Final CTA";
 
 export type SectionData = Record<string, any>;
 
