@@ -90,12 +90,11 @@ export default function DashboardHome() {
         </div>
       </div>
 
-      <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-6">
+      <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5">
         <StatCard label="Posts" value={counts.data?.posts ?? "—"} icon={FileText} />
-        <StatCard label="Pages" value={counts.data?.pages ?? "—"} icon={FileStack} />
+        <StatCard label="Pages" value={counts.data ? (counts.data.pages + 1) : "—"} icon={FileStack} />
         <StatCard label="Users" value={counts.data?.users ?? "—"} icon={Users} />
         <StatCard label="Media" value={counts.data?.media ?? "—"} icon={Image} />
-        <StatCard label="Categories" value={counts.data?.categories ?? "—"} icon={Tags} />
         <StatCard label="Page views" value={counts.data?.views ?? "—"} icon={Eye} />
       </div>
 
