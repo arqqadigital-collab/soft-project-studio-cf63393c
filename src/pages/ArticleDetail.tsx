@@ -7,6 +7,7 @@ import { Footer } from "@/components/Footer";
 import { supabase } from "@/integrations/supabase/client";
 import { SeoHead } from "@/components/SeoHead";
 import { logPageView } from "@/lib/analytics";
+import { sanitizeHtml } from "@/lib/sanitize";
 
 type PostDetail = {
   id: string;
@@ -237,7 +238,7 @@ export default function ArticleDetail() {
           {post.content ? (
             <div
               className="prose prose-neutral max-w-none dark:prose-invert prose-headings:font-bold prose-a:text-[var(--brand-blue)]"
-              dangerouslySetInnerHTML={{ __html: post.content }}
+              dangerouslySetInnerHTML={{ __html: sanitizeHtml(post.content) }}
             />
           ) : (
             <p className="text-muted-foreground">No content.</p>

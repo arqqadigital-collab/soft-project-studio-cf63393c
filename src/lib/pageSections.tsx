@@ -7,6 +7,7 @@ import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { Trash2, Plus, Image as ImageIcon } from "lucide-react";
 import { MediaPickerDialog } from "@/components/dashboard/MediaPickerDialog";
+import { sanitizeHtml } from "@/lib/sanitize";
 
 function MediaField({
   label, value, onChange, accept,
@@ -435,7 +436,7 @@ function RichTextRender({ data }: { data: SectionData }) {
       <Container>
         <div
           className="prose prose-neutral max-w-none dark:prose-invert"
-          dangerouslySetInnerHTML={{ __html: data.html ?? "" }}
+          dangerouslySetInnerHTML={{ __html: sanitizeHtml(data.html ?? "") }}
         />
       </Container>
     </section>
