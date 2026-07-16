@@ -36,23 +36,7 @@ export function DashboardTopbar() {
         <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
         <Input placeholder="Search..." className="pl-9" />
       </div>
-      <div className="ml-auto flex items-center gap-3">
-        {(branding?.site_logo_url || branding?.site_title) && (
-          <div className="flex items-center gap-2 border-r border-border pr-3">
-            {branding?.site_logo_url ? (
-              <img
-                src={branding.site_logo_url}
-                alt={branding.site_title ?? "Site logo"}
-                className="h-7 w-7 rounded-md object-contain"
-              />
-            ) : null}
-            {branding?.site_title ? (
-              <span className="hidden text-sm font-semibold text-foreground sm:inline">
-                {branding.site_title}
-              </span>
-            ) : null}
-          </div>
-        )}
+      <div className="ml-auto flex items-center gap-2
         <Button variant="ghost" size="icon" aria-label="Notifications">
           <Bell className="h-4 w-4" />
         </Button>
