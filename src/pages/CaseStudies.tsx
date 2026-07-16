@@ -135,6 +135,7 @@ export default function CaseStudies() {
           </motion.div>
         </div>
       </section>
+      )}
 
       {/* Case Studies grid */}
       <section className="bg-background pb-24 md:pb-32">

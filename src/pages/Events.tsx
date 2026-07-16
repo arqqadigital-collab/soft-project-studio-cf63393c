@@ -2,6 +2,7 @@ import { motion } from "framer-motion";
 import { Clock, ArrowRight, Calendar, MapPin, Video } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Footer } from "@/components/Footer";
+import { useListPageHero } from "@/hooks/use-list-page-hero";
 
 const fadeInUp = {
   hidden: { opacity: 0, y: 30 },
@@ -150,9 +151,10 @@ function CardMeta({ duration, date, location, format }: { duration: string; date
 }
 
 export default function Events() {
+  const { data: hero } = useListPageHero("events");
   return (
     <main className="min-h-screen bg-background">
-      {/* Hero */}
+      {hero?.is_visible !== false && (
       <section className="relative overflow-hidden bg-background pb-16 pt-32 md:pb-24 md:pt-40">
         <div className="mx-auto max-w-7xl px-6">
           <motion.div
@@ -161,15 +163,18 @@ export default function Events() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, ease: "easeOut" }}
           >
-            <p className="text-sm font-semibold uppercase tracking-[0.2em]" style={{ color: "var(--brand-blue)" }}>
-              Learn, Connect, Grow
-            </p>
+            {hero?.eyebrow && (
+              <p className="text-sm font-semibold uppercase tracking-[0.2em]" style={{ color: "var(--brand-blue)" }}>
+                {hero.eyebrow}
+              </p>
+            )}
             <h1 className="mt-5 text-4xl font-bold leading-[1.1] tracking-tight text-foreground md:text-5xl lg:text-6xl">
-              Events & <span style={{ color: "var(--brand-blue)" }}>Webinars</span>
+              {hero?.title_prefix ?? "Events &"}{" "}
+              <span style={{ color: "var(--brand-blue)" }}>{hero?.title_highlight ?? "Webinars"}</span>
             </h1>
-            <p className="mt-5 text-lg text-muted-foreground">
-              Live sessions, workshops, and executive roundtables designed for healthcare, ERP, and technology leaders across the region.
-            </p>
+            {hero?.description && (
+              <p className="mt-5 text-lg text-muted-foreground">{hero.description}</p>
+            )}
           </motion.div>
 
           {/* Category filter */}
