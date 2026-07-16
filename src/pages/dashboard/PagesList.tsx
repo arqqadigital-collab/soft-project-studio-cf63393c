@@ -5,7 +5,6 @@ import { toast } from "sonner";
 import {
   Plus, Trash2, Pencil, ChevronDown, ChevronRight, Home, FileText,
   ArrowUp, ArrowDown, Eye, EyeOff, FolderPlus, LayoutGrid, MessageSquare,
-  Newspaper, BookMarked, CalendarDays,
 } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { Button } from "@/components/ui/button";
@@ -35,7 +34,38 @@ export default function PagesList() {
     setExpanded((s) => ({ ...s, [id]: !s[id] }));
   }
 
-  const groups = tree.data ?? [];
+  const SYSTEM_PAGES: Record<string, { id: string; title: string; slug: string; url: string }[]> = {
+    resources: [
+      { id: "sys:blog", title: "Blog", slug: "blog", url: "/dashboard/list-heros?page=blog" },
+      { id: "sys:case-studies", title: "Case Studies", slug: "case-studies", url: "/dashboard/list-heros?page=case-studies" },
+      { id: "sys:events", title: "Events & Webinars", slug: "events", url: "/dashboard/list-heros?page=events" },
+    ],
+  };
+
+  const rawGroups = tree.data ?? [];
+  const groups = rawGroups.map((g) => ({
+    ...g,
+    sections: g.sections.map((s) => {
+      const key = (s.label || "").trim().toLowerCase();
+      const extras = SYSTEM_PAGES[key];
+      if (!extras) return s;
+      const existing = new Set(s.pages.map((p) => p.id));
+      const virtualPages = extras
+        .filter((e) => !existing.has(e.id))
+        .map((e) => ({
+          id: e.id,
+          title: e.title,
+          slug: e.slug,
+          status: "published",
+          section_id: s.id,
+          nav_label: e.title,
+          position: -1,
+          __system: true as const,
+          __url: e.url,
+        }));
+      return { ...s, pages: [...virtualPages, ...s.pages] };
+    }),
+  }));
 
   async function reorder(
     table: "nav_groups" | "nav_sections" | "pages",
@@ -110,27 +140,6 @@ export default function PagesList() {
           </span>
           <span className="ml-auto text-xs text-muted-foreground">Live at /contact</span>
         </div>
-        <SystemPageRow
-          icon={<Newspaper className="h-4 w-4 text-primary" />}
-          label="Blog"
-          to="/dashboard/list-heros?page=blog"
-          badge="List page"
-          liveAt="/blog"
-        />
-        <SystemPageRow
-          icon={<BookMarked className="h-4 w-4 text-primary" />}
-          label="Case Studies"
-          to="/dashboard/list-heros?page=case-studies"
-          badge="List page"
-          liveAt="/case-studies"
-        />
-        <SystemPageRow
-          icon={<CalendarDays className="h-4 w-4 text-primary" />}
-          label="Events & Webinars"
-          to="/dashboard/list-heros?page=events"
-          badge="List page"
-          liveAt="/events"
-        />
 
         {tree.isLoading ? (
           <div className="p-6 text-sm text-muted-foreground">Loading…</div>
@@ -183,7 +192,9 @@ export default function PagesList() {
               onToggleGroupVisible={() => toggleVisible("nav_groups", g.id, g.is_visible)}
               onToggleSectionVisible={(s) => toggleVisible("nav_sections", s.id, s.is_visible)}
               onAddPage={(sectionId) => navigate(`/dashboard/pages/new?section=${sectionId}`)}
-              onEditPage={(p) => navigate(`/dashboard/pages/${p.id}`)}
+              onEditPage={(p: any) =>
+                p?.__system ? navigate(p.__url) : navigate(`/dashboard/pages/${p.id}`)
+              }
             />
           ))
         )}
@@ -297,7 +308,9 @@ function GroupNode(props: {
                       {s.pages.length === 0 ? (
                         <div className="px-16 py-2 text-sm text-muted-foreground">No pages under this sub-tab.</div>
                       ) : (
-                        s.pages.map((p, pi) => (
+                        s.pages.map((p, pi) => {
+                          const sys = (p as any).__system as boolean | undefined;
+                          return (
                           <div key={p.id} className="flex items-center gap-2 border-t border-border/40 py-2 pl-16 pr-4">
                             <FileText className="h-4 w-4 text-muted-foreground" />
                             <button
@@ -306,29 +319,44 @@ function GroupNode(props: {
                             >
                               {p.nav_label || p.title}
                             </button>
-                            <span className="text-xs text-muted-foreground">/p/{p.slug}</span>
-                            <span
-                              className={`rounded-full px-2 py-0.5 text-[10px] capitalize ${
-                                p.status === "published"
-                                  ? "bg-green-500/15 text-green-700 dark:text-green-400"
-                                  : "bg-muted text-muted-foreground"
-                              }`}
-                            >
-                              {p.status}
-                            </span>
+                            {sys ? (
+                              <span className="text-xs text-muted-foreground">/{p.slug}</span>
+                            ) : (
+                              <span className="text-xs text-muted-foreground">/p/{p.slug}</span>
+                            )}
+                            {sys ? (
+                              <span className="rounded-full bg-primary/10 px-2 py-0.5 text-[10px] font-semibold uppercase tracking-wide text-primary">
+                                List page
+                              </span>
+                            ) : (
+                              <span
+                                className={`rounded-full px-2 py-0.5 text-[10px] capitalize ${
+                                  p.status === "published"
+                                    ? "bg-green-500/15 text-green-700 dark:text-green-400"
+                                    : "bg-muted text-muted-foreground"
+                                }`}
+                              >
+                                {p.status}
+                              </span>
+                            )}
                             <div className="ml-auto flex items-center gap-1">
-                              <IconBtn title="Move up" onClick={() => props.onMovePage(s.pages, pi, -1)} disabled={pi === 0}>
-                                <ArrowUp className="h-4 w-4" />
-                              </IconBtn>
-                              <IconBtn title="Move down" onClick={() => props.onMovePage(s.pages, pi, 1)} disabled={pi === s.pages.length - 1}>
-                                <ArrowDown className="h-4 w-4" />
-                              </IconBtn>
+                              {!sys && (
+                                <>
+                                  <IconBtn title="Move up" onClick={() => props.onMovePage(s.pages, pi, -1)} disabled={pi === 0}>
+                                    <ArrowUp className="h-4 w-4" />
+                                  </IconBtn>
+                                  <IconBtn title="Move down" onClick={() => props.onMovePage(s.pages, pi, 1)} disabled={pi === s.pages.length - 1}>
+                                    <ArrowDown className="h-4 w-4" />
+                                  </IconBtn>
+                                </>
+                              )}
                               <IconBtn title="Edit" onClick={() => props.onEditPage(p)}>
                                 <Pencil className="h-4 w-4" />
                               </IconBtn>
                             </div>
                           </div>
-                        ))
+                          );
+                        })
                       )}
                     </div>
                   )}
@@ -342,20 +370,6 @@ function GroupNode(props: {
   );
 }
 
-function SystemPageRow({
-  icon, label, to, badge, liveAt,
-}: { icon: React.ReactNode; label: string; to: string; badge: string; liveAt: string }) {
-  return (
-    <div className="flex items-center gap-3 px-4 py-3">
-      {icon}
-      <Link to={to} className="font-medium hover:underline">{label}</Link>
-      <span className="rounded-full bg-primary/10 px-2 py-0.5 text-[10px] font-semibold uppercase tracking-wide text-primary">
-        {badge}
-      </span>
-      <span className="ml-auto text-xs text-muted-foreground">Live at {liveAt}</span>
-    </div>
-  );
-}
 
 function IconBtn({
   children, onClick, title, disabled,

@@ -10,7 +10,6 @@ import {
   BookMarked,
   CalendarDays,
   Shield,
-  Heading,
 } from "lucide-react";
 import {
   Sidebar,
