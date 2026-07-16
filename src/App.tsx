@@ -41,6 +41,7 @@ import Learning from "./pages/Learning";
 import Blog from "./pages/Blog";
 import Events from "./pages/Events";
 import CaseStudies from "./pages/CaseStudies";
+import CaseStudyDetail from "./pages/CaseStudyDetail";
 import Contact from "./pages/Contact";
 import ArticleDetail from "./pages/ArticleDetail";
 import PublicPage from "./pages/PublicPage";
@@ -117,6 +118,7 @@ export default function App() {
         <Route path="/blog/:slug" element={<ArticleDetail />} />
         <Route path="/events" element={<Events />} />
         <Route path="/case-studies" element={<CaseStudies />} />
+        <Route path="/case-studies/:slug" element={<CaseStudyDetail />} />
         <Route path="/p/:slug" element={<PublicPage />} />
         <Route path="/preview/:kind/:id" element={<PublicPreview />} />
         <Route path="/contact" element={<Contact />} />
