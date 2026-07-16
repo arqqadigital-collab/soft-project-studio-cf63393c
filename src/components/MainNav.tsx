@@ -13,6 +13,8 @@ type MenuItem = {
 };
 type Menu = { id: string; label: string; items: MenuItem[] };
 
+const simpleLinks = ["Contact"];
+
 function LeafLink({
   item,
   className,
