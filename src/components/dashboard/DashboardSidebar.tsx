@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { NavLink, useLocation } from "react-router-dom";
 import {
   LayoutDashboard,
@@ -10,6 +11,9 @@ import {
   BookMarked,
   CalendarDays,
   Shield,
+  ChevronDown,
+  ChevronRight,
+  Folder,
 } from "lucide-react";
 import {
   Sidebar,
@@ -20,8 +24,14 @@ import {
   SidebarMenu,
   SidebarMenuButton,
   SidebarMenuItem,
+  SidebarMenuSub,
+  SidebarMenuSubButton,
+  SidebarMenuSubItem,
   SidebarHeader,
+  useSidebar,
 } from "@/components/ui/sidebar";
+import { useNavTree } from "@/lib/navTree";
+
 import { useRoles } from "@/hooks/use-role";
 import { useSiteBranding } from "@/hooks/use-site-branding";
 
