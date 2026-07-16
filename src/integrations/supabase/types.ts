@@ -14,6 +14,124 @@ export type Database = {
   }
   public: {
     Tables: {
+      _archived_nav_groups: {
+        Row: {
+          created_at: string
+          id: string
+          is_visible: boolean
+          label: string
+          position: number
+          slug: string
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          is_visible?: boolean
+          label: string
+          position?: number
+          slug: string
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          is_visible?: boolean
+          label?: string
+          position?: number
+          slug?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      _archived_nav_items: {
+        Row: {
+          created_at: string
+          id: string
+          is_visible: boolean
+          item_type: string
+          label: string
+          position: number
+          section_id: string
+          updated_at: string
+          url: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          is_visible?: boolean
+          item_type?: string
+          label: string
+          position?: number
+          section_id: string
+          updated_at?: string
+          url: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          is_visible?: boolean
+          item_type?: string
+          label?: string
+          position?: number
+          section_id?: string
+          updated_at?: string
+          url?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "nav_items_section_id_fkey"
+            columns: ["section_id"]
+            isOneToOne: false
+            referencedRelation: "_archived_nav_sections"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      _archived_nav_sections: {
+        Row: {
+          created_at: string
+          description: string | null
+          group_id: string
+          href: string | null
+          id: string
+          is_visible: boolean
+          label: string
+          position: number
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          description?: string | null
+          group_id: string
+          href?: string | null
+          id?: string
+          is_visible?: boolean
+          label: string
+          position?: number
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          description?: string | null
+          group_id?: string
+          href?: string | null
+          id?: string
+          is_visible?: boolean
+          label?: string
+          position?: number
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "nav_sections_group_id_fkey"
+            columns: ["group_id"]
+            isOneToOne: false
+            referencedRelation: "_archived_nav_groups"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       admin_audit_log: {
         Row: {
           action: string
@@ -630,14 +748,51 @@ export type Database = {
           },
         ]
       }
-      nav_groups: {
+      menu_columns: {
+        Row: {
+          created_at: string
+          group_id: string
+          id: string
+          is_visible: boolean
+          label: string
+          position: number
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          group_id: string
+          id?: string
+          is_visible?: boolean
+          label: string
+          position?: number
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          group_id?: string
+          id?: string
+          is_visible?: boolean
+          label?: string
+          position?: number
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "menu_columns_group_id_fkey"
+            columns: ["group_id"]
+            isOneToOne: false
+            referencedRelation: "menu_groups"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      menu_groups: {
         Row: {
           created_at: string
           id: string
           is_visible: boolean
           label: string
           position: number
-          slug: string
           updated_at: string
         }
         Insert: {
@@ -646,7 +801,6 @@ export type Database = {
           is_visible?: boolean
           label: string
           position?: number
-          slug: string
           updated_at?: string
         }
         Update: {
@@ -655,98 +809,9 @@ export type Database = {
           is_visible?: boolean
           label?: string
           position?: number
-          slug?: string
           updated_at?: string
         }
         Relationships: []
-      }
-      nav_items: {
-        Row: {
-          created_at: string
-          id: string
-          is_visible: boolean
-          item_type: string
-          label: string
-          position: number
-          section_id: string
-          updated_at: string
-          url: string
-        }
-        Insert: {
-          created_at?: string
-          id?: string
-          is_visible?: boolean
-          item_type?: string
-          label: string
-          position?: number
-          section_id: string
-          updated_at?: string
-          url: string
-        }
-        Update: {
-          created_at?: string
-          id?: string
-          is_visible?: boolean
-          item_type?: string
-          label?: string
-          position?: number
-          section_id?: string
-          updated_at?: string
-          url?: string
-        }
-        Relationships: [
-          {
-            foreignKeyName: "nav_items_section_id_fkey"
-            columns: ["section_id"]
-            isOneToOne: false
-            referencedRelation: "nav_sections"
-            referencedColumns: ["id"]
-          },
-        ]
-      }
-      nav_sections: {
-        Row: {
-          created_at: string
-          description: string | null
-          group_id: string
-          href: string | null
-          id: string
-          is_visible: boolean
-          label: string
-          position: number
-          updated_at: string
-        }
-        Insert: {
-          created_at?: string
-          description?: string | null
-          group_id: string
-          href?: string | null
-          id?: string
-          is_visible?: boolean
-          label: string
-          position?: number
-          updated_at?: string
-        }
-        Update: {
-          created_at?: string
-          description?: string | null
-          group_id?: string
-          href?: string | null
-          id?: string
-          is_visible?: boolean
-          label?: string
-          position?: number
-          updated_at?: string
-        }
-        Relationships: [
-          {
-            foreignKeyName: "nav_sections_group_id_fkey"
-            columns: ["group_id"]
-            isOneToOne: false
-            referencedRelation: "nav_groups"
-            referencedColumns: ["id"]
-          },
-        ]
       }
       page_sections: {
         Row: {
@@ -826,10 +891,14 @@ export type Database = {
           created_at: string
           featured_image_url: string | null
           id: string
+          menu_column_id: string | null
+          menu_position: number
           nav_label: string | null
+          page_kind: string
           parent_id: string | null
           position: number
           preview_token: string
+          route_path: string | null
           section_id: string | null
           slug: string
           status: Database["public"]["Enums"]["page_status"]
@@ -843,10 +912,14 @@ export type Database = {
           created_at?: string
           featured_image_url?: string | null
           id?: string
+          menu_column_id?: string | null
+          menu_position?: number
           nav_label?: string | null
+          page_kind?: string
           parent_id?: string | null
           position?: number
           preview_token?: string
+          route_path?: string | null
           section_id?: string | null
           slug: string
           status?: Database["public"]["Enums"]["page_status"]
@@ -860,10 +933,14 @@ export type Database = {
           created_at?: string
           featured_image_url?: string | null
           id?: string
+          menu_column_id?: string | null
+          menu_position?: number
           nav_label?: string | null
+          page_kind?: string
           parent_id?: string | null
           position?: number
           preview_token?: string
+          route_path?: string | null
           section_id?: string | null
           slug?: string
           status?: Database["public"]["Enums"]["page_status"]
@@ -880,17 +957,17 @@ export type Database = {
             referencedColumns: ["id"]
           },
           {
+            foreignKeyName: "pages_menu_column_id_fkey"
+            columns: ["menu_column_id"]
+            isOneToOne: false
+            referencedRelation: "menu_columns"
+            referencedColumns: ["id"]
+          },
+          {
             foreignKeyName: "pages_parent_id_fkey"
             columns: ["parent_id"]
             isOneToOne: false
             referencedRelation: "pages"
-            referencedColumns: ["id"]
-          },
-          {
-            foreignKeyName: "pages_section_id_fkey"
-            columns: ["section_id"]
-            isOneToOne: false
-            referencedRelation: "nav_sections"
             referencedColumns: ["id"]
           },
         ]

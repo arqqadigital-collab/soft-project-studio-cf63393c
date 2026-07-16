@@ -22,6 +22,7 @@ import { PageBuilder } from "@/components/dashboard/PageBuilder";
 
 type Status = "draft" | "published" | "trashed";
 type Template = "default" | "full-width" | "landing";
+type PageKind = "cms" | "coded";
 
 interface PageForm {
   title: string;
@@ -31,8 +32,10 @@ interface PageForm {
   status: Status;
   template: Template;
   parent_id: string | null;
-  section_id: string | null;
+  menu_column_id: string | null;
   nav_label: string;
+  page_kind: PageKind;
+  route_path: string;
 }
 
 const EMPTY: PageForm = {
@@ -43,9 +46,16 @@ const EMPTY: PageForm = {
   status: "draft",
   template: "default",
   parent_id: null,
-  section_id: null,
+  menu_column_id: null,
   nav_label: "",
+  page_kind: "cms",
+  route_path: "",
 };
+
+function defaultRouteForSlug(slug: string): string {
+  if (!slug) return "";
+  return `/p/${slug}`;
+}
 
 export default function PageEditor() {
   const { id } = useParams();
@@ -58,10 +68,11 @@ export default function PageEditor() {
   const [pageId, setPageId] = useState<string | null>(isNew ? null : id!);
   const [previewToken, setPreviewToken] = useState<string | null>(null);
   const [form, setForm] = useState<PageForm>(() => {
-    const s = searchParams.get("section");
-    return s ? { ...EMPTY, section_id: s } : EMPTY;
+    const c = searchParams.get("column");
+    return c ? { ...EMPTY, menu_column_id: c } : EMPTY;
   });
   const [slugTouched, setSlugTouched] = useState(false);
+  const [routeTouched, setRouteTouched] = useState(false);
   const [saving, setSaving] = useState(false);
   const [lastSavedAt, setLastSavedAt] = useState<Date | null>(null);
   const [pickerOpen, setPickerOpen] = useState(false);
@@ -76,16 +87,16 @@ export default function PageEditor() {
     },
   });
 
-  const navTree = useQuery({
-    queryKey: ["nav-sections-flat"],
+  const menuTree = useQuery({
+    queryKey: ["menu-columns-flat"],
     queryFn: async () => {
-      const [g, s] = await Promise.all([
-        supabase.from("nav_groups").select("id,label,position").order("position"),
-        supabase.from("nav_sections").select("id,group_id,label,position").order("position"),
+      const [g, c] = await Promise.all([
+        supabase.from("menu_groups").select("id,label,position").order("position"),
+        supabase.from("menu_columns").select("id,group_id,label,position").order("position"),
       ]);
       if (g.error) throw g.error;
-      if (s.error) throw s.error;
-      return { groups: g.data ?? [], sections: s.data ?? [] };
+      if (c.error) throw c.error;
+      return { groups: g.data ?? [], columns: c.data ?? [] };
     },
   });
 
@@ -106,11 +117,14 @@ export default function PageEditor() {
         title: d.title, slug: d.slug, content: d.content ?? "",
         featured_image_url: d.featured_image_url ?? "",
         status: d.status, template: d.template, parent_id: d.parent_id,
-        section_id: d.section_id ?? null,
+        menu_column_id: d.menu_column_id ?? null,
         nav_label: d.nav_label ?? "",
+        page_kind: (d.page_kind as PageKind) ?? "cms",
+        route_path: d.route_path ?? "",
       });
       setPreviewToken(d.preview_token ?? null);
       setSlugTouched(true);
+      setRouteTouched(true);
       dirtyRef.current = false;
     }
   }, [existing.data]);
@@ -123,6 +137,12 @@ export default function PageEditor() {
   useEffect(() => {
     if (!slugTouched) setForm((f) => ({ ...f, slug: toSlug(f.title) }));
   }, [form.title, slugTouched]);
+
+  useEffect(() => {
+    if (!routeTouched && form.page_kind === "cms") {
+      setForm((f) => ({ ...f, route_path: defaultRouteForSlug(f.slug) }));
+    }
+  }, [form.slug, form.page_kind, routeTouched]);
 
   const canPublish = useMemo(() => form.title.trim().length > 0, [form]);
   const parentChoices = useMemo(
@@ -142,8 +162,10 @@ export default function PageEditor() {
       status: opts?.overrideStatus ?? form.status,
       template: form.template,
       parent_id: form.parent_id,
-      section_id: form.section_id,
+      menu_column_id: form.menu_column_id,
       nav_label: form.nav_label || null,
+      page_kind: form.page_kind,
+      route_path: form.route_path || defaultRouteForSlug(form.slug || toSlug(form.title)),
       author_id: user.id,
     };
     try {
@@ -163,7 +185,7 @@ export default function PageEditor() {
       dirtyRef.current = false;
       setLastSavedAt(new Date());
       qc.invalidateQueries({ queryKey: ["pages"] });
-      qc.invalidateQueries({ queryKey: ["nav-tree"] });
+      qc.invalidateQueries({ queryKey: ["menu-tree"] });
       qc.invalidateQueries({ queryKey: ["page", pid] });
       if (!opts?.silent) toast.success("Saved");
     } catch (e: any) {
@@ -181,6 +203,8 @@ export default function PageEditor() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [form]);
 
+  const liveUrl = form.route_path || defaultRouteForSlug(form.slug);
+
   return (
     <div className="mx-auto max-w-6xl space-y-4">
       <div className="flex flex-wrap items-center justify-between gap-3">
@@ -189,9 +213,9 @@ export default function PageEditor() {
         </Button>
         <div className="flex items-center gap-2">
           {lastSavedAt && <span className="text-xs text-muted-foreground">Saved {lastSavedAt.toLocaleTimeString()}</span>}
-          {form.status === "published" && form.slug && (
+          {form.status === "published" && liveUrl && (
             <Button asChild variant="outline" size="sm">
-              <a href={form.slug === "about" || form.slug === "careers" ? `/${form.slug}` : `/p/${form.slug}`} target="_blank" rel="noreferrer">
+              <a href={liveUrl} target="_blank" rel="noreferrer">
                 <ExternalLink className="mr-1 h-4 w-4" /> View live
               </a>
             </Button>
@@ -230,12 +254,25 @@ export default function PageEditor() {
                 className="border-none px-0 text-2xl font-semibold shadow-none focus-visible:ring-0"
               />
               <div className="flex items-center gap-2 text-sm text-muted-foreground">
-                <span>{form.slug === "about" || form.slug === "careers" ? "/" : "/p/"}</span>
+                <span>slug</span>
                 <Input
                   value={form.slug}
                   onChange={(e) => { setSlugTouched(true); patch("slug", toSlug(e.target.value)); }}
                   className="h-8"
                 />
+              </div>
+              <div className="flex items-center gap-2 text-sm text-muted-foreground">
+                <span>URL</span>
+                <Input
+                  value={form.route_path}
+                  onChange={(e) => { setRouteTouched(true); patch("route_path", e.target.value); }}
+                  placeholder={defaultRouteForSlug(form.slug)}
+                  className="h-8"
+                  disabled={form.page_kind === "coded"}
+                />
+                {form.page_kind === "coded" && (
+                  <span className="rounded bg-secondary px-1.5 py-0.5 text-[10px] uppercase">coded</span>
+                )}
               </div>
             </CardContent>
           </Card>
@@ -246,7 +283,11 @@ export default function PageEditor() {
               <TabsTrigger value="seo">SEO</TabsTrigger>
             </TabsList>
             <TabsContent value="builder" className="mt-3">
-              {pageId ? (
+              {form.page_kind === "coded" ? (
+                <div className="rounded-md border border-dashed border-border p-6 text-sm text-muted-foreground">
+                  This page is rendered by a React component at <code>{form.route_path}</code>. Its content is defined in code, not the builder.
+                </div>
+              ) : pageId ? (
                 <PageBuilder pageId={pageId} />
               ) : (
                 <div className="rounded-md border border-dashed border-border p-6 text-sm text-muted-foreground">
@@ -259,7 +300,7 @@ export default function PageEditor() {
                 entityType="page"
                 entityId={pageId}
                 fallbackTitle={form.title}
-                publicUrl={form.slug ? (form.slug === "about" || form.slug === "careers" ? `/${form.slug}` : `/p/${form.slug}`) : ""}
+                publicUrl={liveUrl}
               />
             </TabsContent>
           </Tabs>
@@ -298,29 +339,29 @@ export default function PageEditor() {
                 </Select>
               </div>
               <div className="space-y-1.5">
-                <Label className="text-xs">Nav section</Label>
+                <Label className="text-xs">Menu location</Label>
                 <Select
-                  value={form.section_id ?? "none"}
-                  onValueChange={(v) => patch("section_id", v === "none" ? null : v)}
+                  value={form.menu_column_id ?? "none"}
+                  onValueChange={(v) => patch("menu_column_id", v === "none" ? null : v)}
                 >
                   <SelectTrigger><SelectValue placeholder="Unassigned" /></SelectTrigger>
                   <SelectContent>
-                    <SelectItem value="none">Unassigned</SelectItem>
-                    {(navTree.data?.groups ?? []).map((g) => {
-                      const secs = (navTree.data?.sections ?? []).filter((s) => s.group_id === g.id);
-                      if (!secs.length) return null;
+                    <SelectItem value="none">Unassigned (not in menu)</SelectItem>
+                    {(menuTree.data?.groups ?? []).map((g) => {
+                      const cols = (menuTree.data?.columns ?? []).filter((c) => c.group_id === g.id);
+                      if (!cols.length) return null;
                       return (
                         <SelectGroup key={g.id}>
                           <SelectLabel>{g.label}</SelectLabel>
-                          {secs.map((s) => (
-                            <SelectItem key={s.id} value={s.id}>{s.label}</SelectItem>
+                          {cols.map((c) => (
+                            <SelectItem key={c.id} value={c.id}>{c.label}</SelectItem>
                           ))}
                         </SelectGroup>
                       );
                     })}
                   </SelectContent>
                 </Select>
-                <p className="text-xs text-muted-foreground">Where this page appears in the mega menu.</p>
+                <p className="text-xs text-muted-foreground">Where this page appears in the navbar. Leave unassigned to hide from menu.</p>
               </div>
               <div className="space-y-1.5">
                 <Label className="text-xs">Nav label (optional)</Label>
