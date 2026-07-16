@@ -208,6 +208,7 @@ export default function Blog() {
           )}
         </div>
       </section>
+      )}
 
       {loading && (
         <div className="pb-24 text-center text-sm text-muted-foreground">Loading articles…</div>
