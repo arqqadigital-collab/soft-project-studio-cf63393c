@@ -6,6 +6,7 @@ import { supabase } from "@/integrations/supabase/client";
 import { SeoHead } from "@/components/SeoHead";
 import { logPageView } from "@/lib/analytics";
 import { PageRenderer, usePageSections } from "@/components/PageRenderer";
+import { sanitizeHtml } from "@/lib/sanitize";
 
 type PageDetail = {
   id: string;
