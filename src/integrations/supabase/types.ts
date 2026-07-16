@@ -615,6 +615,50 @@ export type Database = {
         }
         Relationships: []
       }
+      nav_items: {
+        Row: {
+          created_at: string
+          id: string
+          is_visible: boolean
+          item_type: string
+          label: string
+          position: number
+          section_id: string
+          updated_at: string
+          url: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          is_visible?: boolean
+          item_type?: string
+          label: string
+          position?: number
+          section_id: string
+          updated_at?: string
+          url: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          is_visible?: boolean
+          item_type?: string
+          label?: string
+          position?: number
+          section_id?: string
+          updated_at?: string
+          url?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "nav_items_section_id_fkey"
+            columns: ["section_id"]
+            isOneToOne: false
+            referencedRelation: "nav_sections"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       nav_sections: {
         Row: {
           created_at: string

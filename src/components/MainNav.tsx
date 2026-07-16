@@ -1,143 +1,17 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import { ChevronDown, ChevronRight } from "lucide-react";
+import { useNavTree } from "@/lib/navTree";
 
 type MenuItem = {
+  id: string;
   label: string;
   to?: string;
   href?: string;
   description?: string;
   items?: MenuItem[];
 };
-type Menu = { label: string; items: MenuItem[] };
-
-const menus: Menu[] = [
-  {
-    label: "HealthCare",
-    items: [
-      {
-        label: "Hospital & Clinical Systems",
-        description: "Core hospital and clinic platforms",
-        items: [
-          { label: "Hospital Information System (HIS)", to: "/healthcare/his" },
-          { label: "Clinic Management System", to: "/healthcare/clinic" },
-          { label: "Dental Management Suite", to: "/healthcare/dental" },
-          { label: "Laboratory Information System (LIS)", to: "/healthcare/lis" },
-          { label: "Radiology Information System (RIS)", to: "/healthcare/ris" },
-          { label: "Revenue Cycle Management (RCM)", to: "/healthcare/rcm" },
-          { label: "Emergency Department Management", to: "/healthcare/emergency" },
-          { label: "Physiotherapy & Rehabilitation", to: "/healthcare/physiotherapy" },
-        ],
-      },
-      {
-        label: "Specialized Clinical Modules",
-        description: "Targeted modules for specialized care",
-        items: [
-          { label: "Blood Bank & Donor Management", to: "/healthcare/blood-bank" },
-          { label: "Medication & Dosage Management", to: "/healthcare/medication-dosage" },
-          { label: "Telemedicine & Virtual Care", to: "/healthcare/telemedicine" },
-          { label: "Hospital Operations & RTLS", to: "/healthcare/operations" },
-        ],
-      },
-      {
-        label: "Medical Imaging",
-        description: "PACS, archiving and AI imaging",
-        items: [
-          { label: "PACS & Medical Archiving", to: "/healthcare/pacs" },
-          { label: "AI for Medical Imaging", to: "/healthcare/ai-imaging" },
-        ],
-      },
-      {
-        label: "Compliance & Interoperability",
-        description: "Regional compliance and standards",
-        items: [
-          { label: "KSA Compliance & Interoperability", to: "/healthcare/ksa-compliance" },
-          { label: "UAE Compliance & Interoperability", to: "/healthcare/uae-compliance" },
-        ],
-      },
-      {
-        label: "Healthcare AI",
-        description: "Clinical AI and readiness",
-        items: [
-          { label: "Clinical AI & Documentation", to: "/healthcare/clinical-ai" },
-          { label: "EMRAM Roadmap & AI Readiness", to: "/healthcare/emram" },
-        ],
-      },
-      {
-        label: "Patient Engagement & Identity",
-        description: "Patient portals and identity management",
-        items: [
-          { label: "Patient Engagement & Identity", href: "#" },
-        ],
-      },
-      {
-        label: "Revenue Cycle & Financial Performance",
-        description: "Billing and financial operations",
-        items: [
-          { label: "Revenue Cycle & Financial Performance", href: "#" },
-        ],
-      },
-    ],
-  },
-  {
-    label: "ERP & Business",
-    items: [
-      {
-        label: "ERP Platforms",
-        description: "Enterprise resource planning suites",
-        items: [
-          { label: "Microsoft Dynamics 365 Business Central", to: "/erp/dynamics-365" },
-          { label: "Odoo", to: "/erp/odoo" },
-          { label: "Zoho", to: "/erp/zoho" },
-        ],
-      },
-      {
-        label: "Business Verticals (ERP)",
-        description: "Industry-tailored ERP solutions",
-        items: [
-          { label: "Manufacturing & Trading", to: "/erp/manufacturing" },
-          { label: "Logistics & Distribution", to: "/erp/logistics" },
-          { label: "Retail & E-commerce", to: "/erp/retail" },
-          { label: "Education & Research", to: "/erp/education" },
-        ],
-      },
-    ],
-  },
-  {
-    label: "Services",
-    items: [
-      { label: "Cybersecurity", to: "/services/cybersecurity", description: "Protect your digital estate" },
-      { label: "Consulting", to: "/services/consulting", description: "Strategy and advisory" },
-      { label: "Implementation & Integration", to: "/services/implementation", description: "Deploy and integrate" },
-      { label: "Staff Aug & Managed Services", to: "/services/staff-aug", description: "Talent and managed ops" },
-      { label: "Learning & Knowledge", to: "/services/learning", description: "Enablement and training" },
-    ],
-  },
-  {
-    label: "Company",
-    items: [
-      {
-        label: "Company",
-        description: "Our story and mission",
-        items: [
-          { label: "About Us", to: "/about" },
-          { label: "Careers", to: "/careers" },
-        ],
-      },
-      {
-        label: "Resources",
-        description: "Insights and updates",
-        items: [
-        { label: "Blog", to: "/blog" },
-        { label: "Case Studies", to: "/case-studies" },
-        { label: "Events & Webinars", to: "/events" },
-        ],
-      },
-    ],
-  },
-];
-
-const simpleLinks = ["Contact"];
+type Menu = { id: string; label: string; items: MenuItem[] };
 
 function LeafLink({
   item,
@@ -172,7 +46,7 @@ function MegaPanel({ menu }: { menu: Menu }) {
       <div className="grid grid-cols-1 gap-2 p-4">
         {menu.items.map((item) => (
           <LeafLink
-            key={item.label}
+            key={item.id}
             item={item}
             className="group/leaf flex flex-col gap-1 rounded-xl p-3 transition-colors hover:bg-white/10"
           >
@@ -216,7 +90,7 @@ function MegaPanel({ menu }: { menu: Menu }) {
           if (hasChildren) {
             return (
               <button
-                key={item.label}
+                key={item.id}
                 type="button"
                 onMouseEnter={() => setActiveIdx(idx)}
                 onFocus={() => setActiveIdx(idx)}
@@ -229,7 +103,7 @@ function MegaPanel({ menu }: { menu: Menu }) {
 
           return (
             <LeafLink
-              key={item.label}
+              key={item.id}
               item={item}
               className={className}
             >
@@ -246,7 +120,7 @@ function MegaPanel({ menu }: { menu: Menu }) {
             </div>
             {active.items.map((sub) => (
               <LeafLink
-                key={sub.label}
+                key={sub.id}
                 item={sub}
                 className="block rounded-lg px-3 py-2.5 text-sm font-medium text-white/85 transition-colors hover:bg-white/10 hover:text-white"
               >
@@ -265,13 +139,55 @@ function MegaPanel({ menu }: { menu: Menu }) {
 }
 
 export function MainNav() {
+  const { data: tree = [] } = useNavTree();
+  const menus: Menu[] = tree
+    .filter((group) => group.is_visible)
+    .map((group) => ({
+      id: group.id,
+      label: group.label,
+      items: group.sections
+        .filter((section) => section.is_visible)
+        .map((section) => {
+          const pageItems: MenuItem[] = section.pages
+            .filter((page) => page.status === "published")
+            .map((page) => ({
+              id: `page-${page.id}`,
+              label: page.nav_label || page.title,
+              to: `/p/${page.slug}`,
+              position: page.position,
+            } as MenuItem & { position: number }));
+          const customItems: MenuItem[] = section.customItems
+            .filter((item) => item.is_visible)
+            .map((item) => ({
+              id: `custom-${item.id}`,
+              label: item.label,
+              ...(item.item_type === "external" ? { href: item.url } : { to: item.url }),
+              position: item.position,
+            } as MenuItem & { position: number }));
+          const items = [...pageItems, ...customItems]
+            .sort((a, b) => ((a as MenuItem & { position: number }).position - (b as MenuItem & { position: number }).position));
+
+          return {
+            id: section.id,
+            label: section.label,
+            description: section.description ?? undefined,
+            ...(items.length > 0
+              ? { items }
+              : section.href
+                ? (/^https?:\/\//i.test(section.href) ? { href: section.href } : { to: section.href })
+                : {}),
+          };
+        }),
+    }))
+    .filter((menu) => menu.items.length > 0);
+
   return (
     <nav className="hidden items-center gap-8 lg:flex">
       {menus.map((menu) => {
         const hasRightPanel = menu.items.some((i) => i.items && i.items.length > 0);
         const width = hasRightPanel ? "w-[640px]" : "w-[360px]";
         return (
-          <div key={menu.label} className="group relative">
+          <div key={menu.id} className="group relative">
             <button
               type="button"
               className="inline-flex items-center gap-1 text-sm font-medium text-white/80 transition-colors hover:text-white"
@@ -290,15 +206,6 @@ export function MainNav() {
         );
       })}
 
-      {simpleLinks.map((link) => (
-        <Link
-          key={link}
-          to="/contact"
-          className="text-sm font-medium text-white/80 transition-colors hover:text-white"
-        >
-          {link}
-        </Link>
-      ))}
     </nav>
   );
 }
