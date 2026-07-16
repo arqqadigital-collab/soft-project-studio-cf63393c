@@ -8,6 +8,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { Trash2, Plus, Image as ImageIcon } from "lucide-react";
 import { MediaPickerDialog } from "@/components/dashboard/MediaPickerDialog";
 import { sanitizeHtml } from "@/lib/sanitize";
+import { CLINICAL_AI_SECTION_DEFS } from "@/lib/clinicalAiSections";
 
 function MediaField({
   label, value, onChange, accept,
