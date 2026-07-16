@@ -230,7 +230,7 @@ export default function PageEditor() {
                 className="border-none px-0 text-2xl font-semibold shadow-none focus-visible:ring-0"
               />
               <div className="flex items-center gap-2 text-sm text-muted-foreground">
-                <span>/p/</span>
+                <span>{form.slug === "about" || form.slug === "careers" ? "/" : "/p/"}</span>
                 <Input
                   value={form.slug}
                   onChange={(e) => { setSlugTouched(true); patch("slug", toSlug(e.target.value)); }}
