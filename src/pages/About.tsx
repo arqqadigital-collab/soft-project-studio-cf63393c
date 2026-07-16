@@ -65,7 +65,7 @@ export default function About() {
           </div>
 
           <div className="relative z-10 flex min-h-[90vh] flex-col">
-            <section className="flex flex-1 items-center justify-center px-6 pb-32 pt-40 md:px-12">
+            <section className="flex flex-1 items-center justify-center px-6 pb-32 pt-4 md:px-12">
               <motion.div
                 initial={{ opacity: 0, y: 30 }}
                 animate={{ opacity: 1, y: 0 }}
