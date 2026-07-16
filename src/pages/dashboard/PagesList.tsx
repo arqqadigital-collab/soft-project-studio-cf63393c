@@ -192,7 +192,9 @@ export default function PagesList() {
               onToggleGroupVisible={() => toggleVisible("nav_groups", g.id, g.is_visible)}
               onToggleSectionVisible={(s) => toggleVisible("nav_sections", s.id, s.is_visible)}
               onAddPage={(sectionId) => navigate(`/dashboard/pages/new?section=${sectionId}`)}
-              onEditPage={(p) => navigate(`/dashboard/pages/${p.id}`)}
+              onEditPage={(p: any) =>
+                p?.__system ? navigate(p.__url) : navigate(`/dashboard/pages/${p.id}`)
+              }
             />
           ))
         )}
