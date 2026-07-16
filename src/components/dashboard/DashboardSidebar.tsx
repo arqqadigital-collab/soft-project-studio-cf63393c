@@ -24,6 +24,7 @@ import {
   SidebarHeader,
 } from "@/components/ui/sidebar";
 import { useRoles } from "@/hooks/use-role";
+import { useSiteBranding } from "@/hooks/use-site-branding";
 
 type Item = {
   title: string;
@@ -65,6 +66,7 @@ const groups: { label: string; items: Item[] }[] = [
 export function DashboardSidebar() {
   const { pathname } = useLocation();
   const { roles } = useRoles();
+  const { data: branding } = useSiteBranding();
 
   const isActive = (url: string, exact?: boolean) =>
     exact ? pathname === url : pathname === url || pathname.startsWith(url + "/");
@@ -82,10 +84,18 @@ export function DashboardSidebar() {
     <Sidebar collapsible="icon">
       <SidebarHeader className="px-4 py-3">
         <NavLink to="/dashboard" className="flex items-center gap-2 font-semibold">
-          <span className="inline-flex h-7 w-7 items-center justify-center rounded-md bg-primary text-primary-foreground text-xs">
-            CMS
-          </span>
-          <span className="truncate">Admin</span>
+          {branding?.site_logo_url ? (
+            <img
+              src={branding.site_logo_url}
+              alt={branding.site_title ?? "Site logo"}
+              className="h-7 w-7 rounded-md object-contain"
+            />
+          ) : (
+            <span className="inline-flex h-7 w-7 items-center justify-center rounded-md bg-primary text-primary-foreground text-xs">
+              {(branding?.site_title ?? "CMS").slice(0, 3).toUpperCase()}
+            </span>
+          )}
+          <span className="truncate">{branding?.site_title ?? "Admin"}</span>
         </NavLink>
       </SidebarHeader>
       <SidebarContent>
