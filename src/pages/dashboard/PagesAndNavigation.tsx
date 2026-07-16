@@ -107,6 +107,25 @@ export default function PagesAndNavigation() {
       </div>
 
       <Card className="divide-y divide-border">
+        <ReferenceRow
+          icon={<Home className="h-4 w-4 text-primary" />}
+          title="Homepage"
+          badge="Front page"
+          route="/"
+          editHref="/dashboard/homepage"
+          description="Managed in Homepage editor (Hero + 9 sections). Not part of the menu tree."
+        />
+        <ReferenceRow
+          icon={<Mail className="h-4 w-4 text-primary" />}
+          title="Contact"
+          badge="Standalone page"
+          route="/contact"
+          editHref="/dashboard/contact"
+          description="Managed in Contact editor. Rendered on a fixed route, not part of the menu tree."
+        />
+      </Card>
+
+      <Card className="divide-y divide-border">
         {tree.isLoading ? (
           <div className="p-6 text-sm text-muted-foreground">Loading…</div>
         ) : groups.length === 0 ? (
