@@ -2,6 +2,7 @@ import { motion } from "framer-motion";
 import { ArrowRight } from "lucide-react";
 import { Link } from "react-router-dom";
 import { Footer } from "@/components/Footer";
+import { useListPageHero } from "@/hooks/use-list-page-hero";
 
 const slugify = (s: string) =>
   s.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "");
@@ -85,9 +86,10 @@ function CoverPlaceholder({ className }: { className?: string }) {
 }
 
 export default function CaseStudies() {
+  const { data: hero } = useListPageHero("case-studies");
   return (
     <main className="min-h-screen bg-background">
-      {/* Hero */}
+      {hero?.is_visible !== false && (
       <section className="relative overflow-hidden bg-background pb-16 pt-32 md:pb-24 md:pt-40">
         <div className="mx-auto max-w-7xl px-6">
           <motion.div
@@ -96,15 +98,18 @@ export default function CaseStudies() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, ease: "easeOut" }}
           >
-            <p className="text-sm font-semibold uppercase tracking-[0.2em]" style={{ color: "var(--brand-blue)" }}>
-              Success Stories
-            </p>
+            {hero?.eyebrow && (
+              <p className="text-sm font-semibold uppercase tracking-[0.2em]" style={{ color: "var(--brand-blue)" }}>
+                {hero.eyebrow}
+              </p>
+            )}
             <h1 className="mt-5 text-4xl font-bold leading-[1.1] tracking-tight text-foreground md:text-5xl lg:text-6xl">
-              Our <span style={{ color: "var(--brand-blue)" }}>Case Studies</span>
+              {hero?.title_prefix ?? "Our"}{" "}
+              <span style={{ color: "var(--brand-blue)" }}>{hero?.title_highlight ?? "Case Studies"}</span>
             </h1>
-            <p className="mt-5 text-lg text-muted-foreground">
-              Real-world outcomes from healthcare, ERP, and technology engagements across the region.
-            </p>
+            {hero?.description && (
+              <p className="mt-5 text-lg text-muted-foreground">{hero.description}</p>
+            )}
           </motion.div>
 
           {/* Category filter */}
@@ -130,6 +135,7 @@ export default function CaseStudies() {
           </motion.div>
         </div>
       </section>
+      )}
 
       {/* Case Studies grid */}
       <section className="bg-background pb-24 md:pb-32">
