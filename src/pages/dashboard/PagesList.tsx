@@ -370,20 +370,6 @@ function GroupNode(props: {
   );
 }
 
-function SystemPageRow({
-  icon, label, to, badge, liveAt,
-}: { icon: React.ReactNode; label: string; to: string; badge: string; liveAt: string }) {
-  return (
-    <div className="flex items-center gap-3 px-4 py-3">
-      {icon}
-      <Link to={to} className="font-medium hover:underline">{label}</Link>
-      <span className="rounded-full bg-primary/10 px-2 py-0.5 text-[10px] font-semibold uppercase tracking-wide text-primary">
-        {badge}
-      </span>
-      <span className="ml-auto text-xs text-muted-foreground">Live at {liveAt}</span>
-    </div>
-  );
-}
 
 function IconBtn({
   children, onClick, title, disabled,
