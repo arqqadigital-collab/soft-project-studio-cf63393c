@@ -168,7 +168,7 @@ function RenderedPage({ page, seo }: { page: PageDetail; seo: SeoMeta | null }) 
               {page.content ? (
                 <div
                   className="prose prose-neutral max-w-none dark:prose-invert prose-headings:font-bold prose-a:text-[var(--brand-blue)]"
-                  dangerouslySetInnerHTML={{ __html: page.content }}
+                  dangerouslySetInnerHTML={{ __html: sanitizeHtml(page.content) }}
                 />
               ) : (
                 <p className="text-muted-foreground">No content.</p>
