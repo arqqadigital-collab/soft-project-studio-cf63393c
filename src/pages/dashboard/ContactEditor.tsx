@@ -129,6 +129,7 @@ function PageContentTab() {
     form_submit_label: "",
     offices_heading: "",
     offices_subheading: "",
+    notification_email: "",
     quick_info: [] as QuickInfo[],
   });
 
@@ -161,6 +162,7 @@ function PageContentTab() {
       form_submit_label: d.form_submit_label ?? "",
       offices_heading: d.offices_heading ?? "",
       offices_subheading: d.offices_subheading ?? "",
+      notification_email: d.notification_email ?? "",
       quick_info: Array.isArray(d.quick_info) ? (d.quick_info as QuickInfo[]) : [],
     });
   }, [data]);
@@ -210,8 +212,9 @@ function PageContentTab() {
           form_submit_label: form.form_submit_label,
           offices_heading: form.offices_heading,
           offices_subheading: form.offices_subheading,
+          notification_email: form.notification_email.trim() || null,
           quick_info: form.quick_info as any,
-        })
+        } as any)
         .eq("id", form.id);
       if (error) throw error;
       toast.success("Contact page saved");
@@ -264,6 +267,14 @@ function PageContentTab() {
           <Labeled label="Heading"><Input value={form.form_heading} onChange={(e) => set("form_heading", e.target.value)} /></Labeled>
           <Labeled label="Subheading"><Input value={form.form_subheading} onChange={(e) => set("form_subheading", e.target.value)} /></Labeled>
           <Labeled label="Submit button label"><Input value={form.form_submit_label} onChange={(e) => set("form_submit_label", e.target.value)} /></Labeled>
+          <Labeled label="Notification email (where new submissions are sent)">
+            <Input
+              type="email"
+              value={form.notification_email}
+              onChange={(e) => set("notification_email", e.target.value)}
+              placeholder="sbs@sbs-me.com"
+            />
+          </Labeled>
         </CardContent>
       </Card>
 

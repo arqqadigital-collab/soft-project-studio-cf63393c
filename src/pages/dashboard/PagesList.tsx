@@ -4,7 +4,7 @@ import { useQueryClient } from "@tanstack/react-query";
 import { toast } from "sonner";
 import {
   Plus, Trash2, Pencil, ChevronDown, ChevronRight, Home, FileText,
-  ArrowUp, ArrowDown, Eye, EyeOff, FolderPlus, LayoutGrid,
+  ArrowUp, ArrowDown, Eye, EyeOff, FolderPlus, LayoutGrid, MessageSquare,
 } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { Button } from "@/components/ui/button";
@@ -98,6 +98,16 @@ export default function PagesList() {
             Front page
           </span>
           <span className="ml-auto text-xs text-muted-foreground">Always live at /</span>
+        </div>
+        <div className="flex items-center gap-3 px-4 py-3">
+          <MessageSquare className="h-4 w-4 text-primary" />
+          <Link to="/dashboard/contact" className="font-medium hover:underline">
+            Contact
+          </Link>
+          <span className="rounded-full bg-primary/10 px-2 py-0.5 text-[10px] font-semibold uppercase tracking-wide text-primary">
+            Standalone page
+          </span>
+          <span className="ml-auto text-xs text-muted-foreground">Live at /contact</span>
         </div>
 
         {tree.isLoading ? (

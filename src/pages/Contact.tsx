@@ -92,16 +92,26 @@ export default function Contact() {
     }
     setSubmitting(true);
     try {
-      const { error } = await supabase.from("contact_submissions").insert({
-        name: parsed.data.name,
-        email: parsed.data.email,
-        phone: parsed.data.phone,
-        area: parsed.data.area,
-        message: parsed.data.message ?? "",
-        consent: parsed.data.consent,
-        user_agent: typeof navigator !== "undefined" ? navigator.userAgent : null,
-      });
+      const { data: inserted, error } = await supabase
+        .from("contact_submissions")
+        .insert({
+          name: parsed.data.name,
+          email: parsed.data.email,
+          phone: parsed.data.phone,
+          area: parsed.data.area,
+          message: parsed.data.message ?? "",
+          consent: parsed.data.consent,
+          user_agent: typeof navigator !== "undefined" ? navigator.userAgent : null,
+        })
+        .select("id")
+        .single();
       if (error) throw error;
+      // Fire-and-forget email notification
+      if (inserted?.id) {
+        supabase.functions
+          .invoke("send-contact-notification", { body: { submission_id: inserted.id } })
+          .catch((e) => console.warn("notification invoke failed", e));
+      }
       toast.success("Thanks! We'll get back to you within one business day.");
       setForm({ name: "", email: "", phone: "", area: "", message: "", consent: false });
     } catch (err: any) {
