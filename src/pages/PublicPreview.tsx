@@ -69,7 +69,7 @@ export default function PublicPreview() {
         {data.excerpt && <p className="mt-3 text-lg text-muted-foreground">{data.excerpt}</p>}
         <div
           className="prose prose-neutral mt-8 max-w-none dark:prose-invert"
-          dangerouslySetInnerHTML={{ __html: data.content ?? "" }}
+          dangerouslySetInnerHTML={{ __html: sanitizeHtml(data.content ?? "") }}
         />
       </article>
     </>
