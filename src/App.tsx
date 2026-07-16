@@ -40,6 +40,8 @@ import StaffAug from "./pages/StaffAug";
 import Learning from "./pages/Learning";
 import Blog from "./pages/Blog";
 import Events from "./pages/Events";
+import EventDetail from "./pages/EventDetail";
+
 import CaseStudies from "./pages/CaseStudies";
 import CaseStudyDetail from "./pages/CaseStudyDetail";
 import Contact from "./pages/Contact";
