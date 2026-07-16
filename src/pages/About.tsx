@@ -51,7 +51,7 @@ export default function About() {
 
       {/* Hero with video background */}
       {v.Hero && (
-        <main className="relative min-h-[90vh] w-full overflow-hidden bg-background">
+        <main className="pt-20 relative min-h-[90vh] w-full overflow-hidden bg-background">
           <div className="absolute inset-0">
             <video
               src={hero.mediaUrl || aboutHeroVideo}
