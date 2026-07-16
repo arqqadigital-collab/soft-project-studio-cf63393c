@@ -15,6 +15,42 @@ type Menu = { id: string; label: string; items: MenuItem[] };
 
 const simpleLinks = ["Contact"];
 
+// Map dashboard page slugs to their real styled routes when they exist.
+// Add new entries here whenever a page has a dedicated static route.
+const STATIC_ROUTE_BY_SLUG: Record<string, string> = {
+  about: "/about",
+  careers: "/careers",
+  his: "/healthcare/his",
+  clinic: "/healthcare/clinic",
+  emergency: "/healthcare/emergency",
+  physiotherapy: "/healthcare/physiotherapy",
+  telemedicine: "/healthcare/telemedicine",
+  "dental-management-suite": "/healthcare/dental",
+  lis: "/healthcare/lis",
+  ris: "/healthcare/ris",
+  rcm: "/healthcare/rcm",
+  "blood-bank": "/healthcare/blood-bank",
+  "medication-dosage": "/healthcare/medication-dosage",
+  pacs: "/healthcare/pacs",
+  "ai-imaging": "/healthcare/ai-imaging",
+  "uae-compliance": "/healthcare/uae-compliance",
+  "ksa-compliance": "/healthcare/ksa-compliance",
+  emram: "/healthcare/emram",
+  "clinical-ai": "/healthcare/clinical-ai",
+  "dynamics-365": "/erp/dynamics-365",
+  odoo: "/erp/odoo",
+  zoho: "/erp/zoho",
+  manufacturing: "/erp/manufacturing",
+  retail: "/erp/retail",
+  education: "/erp/education",
+  logistics: "/erp/logistics",
+  cybersecurity: "/services/cybersecurity",
+  consulting: "/services/consulting",
+  implementation: "/services/implementation",
+  "staff-aug": "/services/staff-aug",
+  learning: "/services/learning",
+};
+
 function LeafLink({
   item,
   className,
@@ -155,7 +191,7 @@ export function MainNav() {
             .map((page) => ({
               id: `page-${page.id}`,
               label: page.nav_label || page.title,
-              to: `/p/${page.slug}`,
+              to: STATIC_ROUTE_BY_SLUG[page.slug] ?? `/p/${page.slug}`,
               position: page.position,
             } as MenuItem & { position: number }));
           const customItems: MenuItem[] = section.customItems
