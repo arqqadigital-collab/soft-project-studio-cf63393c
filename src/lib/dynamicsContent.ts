@@ -7,27 +7,16 @@ import u1 from "@/assets/dynamics/use-case-1.jpg.asset.json";
 import u2 from "@/assets/dynamics/use-case-2.jpg.asset.json";
 import u3 from "@/assets/dynamics/use-case-3.jpg.asset.json";
 import u4 from "@/assets/dynamics/use-case-4.jpg.asset.json";
-import p1 from "@/assets/dynamics/problem/p1.jpg.asset.json";
-import p2 from "@/assets/dynamics/problem/p2.jpg.asset.json";
-import p3 from "@/assets/dynamics/problem/p3.jpg.asset.json";
-import p4 from "@/assets/dynamics/problem/p4.jpg.asset.json";
-import p5 from "@/assets/dynamics/problem/p5.jpg.asset.json";
-import p6 from "@/assets/dynamics/problem/p6.jpg.asset.json";
-import j1 from "@/assets/dynamics/journey/j1.jpg.asset.json";
-import j2 from "@/assets/dynamics/journey/j2.jpg.asset.json";
-import j3 from "@/assets/dynamics/journey/j3.jpg.asset.json";
-import j4 from "@/assets/dynamics/journey/j4.jpg.asset.json";
 
 export type DynamicsSectionKey =
   | "Hero"
   | "Introduction"
-  | "The Problem"
-  | "The Platform"
-  | "Patient Journey"
-  | "Outcomes"
-  | "Integrations"
-  | "FAQ"
-  | "Final CTA";
+  | "What We Deliver"
+  | "Process"
+  | "Use Cases"
+  | "Who We Serve"
+  | "Standard vs Strategic"
+  | "Discovery Session";
 
 export const DYNAMICS_DEFAULTS = {
   Hero: {
@@ -37,138 +26,248 @@ export const DYNAMICS_DEFAULTS = {
     ctaHref: "#contact",
     ctaLabel2: "View capabilities",
     ctaHref2: "#services",
-    chips: [
-      "D365 Finance",
-      "SCM & Business Central",
-      "Power Platform",
-      "Azure Integration",
-      "Power BI",
-      "Multi-entity",
-    ],
     mediaUrl: heroVideo.url,
-    mediaKind: "video",
     posterUrl: pattern.url,
   },
   Introduction: {
-    eyebrow: "Microsoft Dynamics 365",
-    headline: "Implementation, Integration",
-    headlineAccent: "& Customization.",
+    headline: "Microsoft Dynamics 365",
+    headlineAccent: "Implementation, Integration & Customization",
     body:
-      "SBS implements, customizes, and integrates Microsoft Dynamics 365 environments structured around how you operate — delivering end-to-end value across finance, operations, and analytics. Trusted by growing organizations across healthcare, distribution, professional services, and enterprise operations.",
-  },
-  "The Problem": {
-    eyebrow: "The Problem",
-    heading: "Why Most Dynamics 365",
-    headingAccent: "Programs Underperform.",
-    items: [
-      { title: "Default Configurations", description: "Out-of-the-box D365 does not match how your enterprise actually operates — leading to workarounds, shadow processes, and abandonment.", image: p1.url },
-      { title: "Manual Approval Chains", description: "Without engineered workflow governance, procurement, expense, and HR approvals collapse into email chains and Excel trackers.", image: p2.url },
-      { title: "Legacy System Debt", description: "Legacy ERPs, banking connectors, and industry tools remain unintegrated — turning D365 into another silo instead of the operational core.", image: p3.url },
-      { title: "Fragmented Reporting", description: "Data lives in D365 but decisions live in disconnected spreadsheets. Leaders lose real-time visibility into finance and operations.", image: p4.url },
-      { title: "Slow Consolidation", description: "Multi-entity groups spend days closing books because entity structures, intercompany rules, and currency logic were never properly engineered.", image: p5.url },
-      { title: "Go-Live as Finish Line", description: "Programs that treat cutover as the end — instead of the start of stabilization — produce brittle systems that fail under real operational load.", image: p6.url },
+      "SBS implements, customizes, and integrates Microsoft Dynamics 365 environments structured around how you operate — delivering end-to-end value across finance, operations, and analytics.",
+    bullets: [
+      "End-to-end D365 Finance, SCM & Business Central",
+      "Power Platform, Azure & Microsoft 365 integration",
+      "Custom workflows, approvals & process automation",
+      "Power BI reporting architecture & executive dashboards",
     ],
+    footnote:
+      "Trusted by growing organizations across healthcare, distribution, professional services, and enterprise operations.",
   },
-  "The Platform": {
+  "What We Deliver": {
     eyebrow: "What We Deliver",
-    heading: "Enterprise Microsoft Dynamics Services",
-    body: "Every engagement is scoped to operational requirements, governance structures, and long-term maintainability — not software deployment timelines.",
+    heading: "Enterprise Microsoft Dynamics services across",
+    headingAccent: "implementation, integration, and operational transformation.",
+    body:
+      "Every engagement is scoped to operational requirements, governance structures, and long-term maintainability — not software deployment timelines.",
     items: [
-      { icon: "Layers", title: "Dynamics Implementation", description: "End-to-end implementation of D365 Finance, SCM, and Business Central structured around operational requirements, data integrity, and long-term scalability — not default configurations." },
-      { icon: "Workflow", title: "Workflow & Process Automation", description: "Custom approval structures, procurement workflows, and operational automation aligned to your governance model — eliminating manual coordination without creating process gaps." },
-      { icon: "Network", title: "Microsoft Ecosystem Integration", description: "Integration between Dynamics 365 and the full Microsoft stack — plus external banking, logistics, and enterprise applications — designed for operational continuity, not point-to-point patches." },
-      { icon: "BarChart3", title: "Power BI Reporting Architecture", description: "Operational and financial reporting environments that transform D365 data into executive dashboards and decision-ready intelligence — not just static exports." },
-      { icon: "Wrench", title: "Customization & Extensions", description: "Custom entities, role-specific interfaces, and operational logic that standard D365 configurations cannot address — built with long-term maintainability and upgrade compatibility in mind." },
-      { icon: "DatabaseZap", title: "Data Migration & Modernization", description: "Structured migration from legacy ERP systems into Dynamics 365 — prioritizing data integrity, operational continuity, and validated transition over speed of cutover." },
+      {
+        icon: "Layers",
+        title: "Microsoft Dynamics Implementation",
+        body:
+          "End-to-end implementation of Dynamics 365 environments structured around operational requirements, data integrity, and long-term scalability — not default configurations.",
+        chips: ["D365 Finance", "SCM", "Business Central", "Multi-company"],
+      },
+      {
+        icon: "Workflow",
+        title: "Workflow & Process Automation",
+        body:
+          "Custom approval structures, procurement workflows, and operational automation aligned to your governance model — eliminating manual coordination without creating process gaps.",
+        chips: ["Approval matrices", "Power Automate", "Escalation logic", "HR workflows"],
+      },
+      {
+        icon: "Network",
+        title: "Microsoft Ecosystem Integration",
+        body:
+          "Integration between Dynamics 365 and the full Microsoft stack — plus external banking systems, logistics platforms, and enterprise applications — designed for operational continuity, not point-to-point patches.",
+        chips: ["Power Platform", "Azure", "M365", "External ERP"],
+      },
+      {
+        icon: "BarChart3",
+        title: "Reporting & Power BI Architecture",
+        body:
+          "Operational and financial reporting environments that transform D365 data into executive dashboards and decision-ready intelligence — not just static exports.",
+        chips: ["Power BI", "KPI dashboards", "Financial reporting", "Automated distribution"],
+      },
+      {
+        icon: "Wrench",
+        title: "Customization & Extensions",
+        body:
+          "Custom entities, role-specific interfaces, and operational logic that standard D365 configurations cannot address — built with long-term maintainability and upgrade compatibility in mind.",
+        chips: ["Custom entities", "Role interfaces", "Industry logic", "Automation layers"],
+      },
+      {
+        icon: "DatabaseZap",
+        title: "Data Migration & Modernization",
+        body:
+          "Structured migration from legacy ERP systems into Dynamics 365 — prioritizing data integrity, operational continuity, and validated transition over speed of cutover.",
+        chips: ["Legacy ERP migration", "Data cleansing", "Staged execution", "Validation"],
+      },
     ],
   },
-  "Patient Journey": {
+  Process: {
     eyebrow: "Implementation Governance Process",
-    heading: "How We Scope, Architect,",
-    headingAccent: "and Deliver D365.",
-    body: "ERP failures are rarely software failures. They result from unclear scope, weak governance, and implementations that treat go-live as the finish line. Our five-phase framework is designed against those outcomes.",
+    heading: "How we scope, architect, and deliver",
+    headingAccent: "Microsoft Dynamics environments.",
+    body:
+      "ERP failures are rarely software failures. They result from unclear scope, weak governance, and implementations that treat go-live as the finish line. Our five-phase framework is designed against those outcomes.",
     items: [
-      { icon: "ScanSearch", title: "Operational Discovery & Requirements Mapping", description: "We evaluate business processes, reporting dependencies, and organizational structure to define how D365 should support the enterprise — before any configuration begins.", image: j1.url },
-      { icon: "ShieldCheck", title: "Solution Architecture & Governance Design", description: "System structure, role-based access, approval workflows, integration topology, and reporting architecture are designed and documented before development begins.", image: j2.url },
-      { icon: "Code2", title: "Configuration, Development & Integration", description: "D365 is configured and extended against approved requirements. Integrations, automation layers, and custom logic are built within a structured delivery framework — version-controlled, not ad hoc.", image: j3.url },
-      { icon: "Rocket", title: "Testing, Deployment & Operational Transition", description: "All workflows validated in UAT. Production rollout via controlled deployment procedures, supported by user training, operational documentation, and a defined hypercare period.", image: j4.url },
+      {
+        icon: "ScanSearch",
+        n: "01",
+        title: "Operational Discovery & Requirements Mapping",
+        body:
+          "We evaluate business processes, reporting dependencies, and organizational structure to define how D365 should support the enterprise — before any configuration begins.",
+        meta: "Output: Requirements assessment · Process map · Architecture recommendation · Implementation roadmap",
+      },
+      {
+        icon: "ShieldCheck",
+        n: "02",
+        title: "Solution Architecture & Governance Design",
+        body:
+          "System structure, role-based access, approval workflows, integration topology, and reporting architecture are designed and documented before development begins.",
+        meta: "Output: Architecture blueprint · Access model · Workflow design · Integration plan",
+      },
+      {
+        icon: "Code2",
+        n: "03",
+        title: "Configuration, Development & Integration",
+        body:
+          "D365 is configured and extended against approved requirements. Integrations, automation layers, and custom logic are built within a structured delivery framework — version-controlled, not ad hoc.",
+        meta: "Stack: D365 · Power Platform · Azure · Power BI · Microsoft 365",
+      },
+      {
+        icon: "CheckCircle2",
+        n: "04",
+        title: "Testing, Validation & User Acceptance",
+        body:
+          "All workflows, integrations, and reporting structures are validated in a controlled test environment. UAT covers operational scenarios — not just technical function. Nothing reaches production without sign-off.",
+        meta: "Coverage: Workflow · Financial · Integration · Regression · Reporting",
+      },
+      {
+        icon: "Rocket",
+        n: "05",
+        title: "Deployment, Training & Operational Transition",
+        body:
+          "Production rollout via controlled deployment procedures, supported by user training, operational documentation, and a defined hypercare period. Go-live is the beginning of stabilization — not the end of the program.",
+        meta: "Deliverables: Production deployment · Training · Documentation · Post-launch support",
+      },
     ],
   },
-  Outcomes: {
+  "Use Cases": {
     eyebrow: "Enterprise Use Cases",
-    heading: "What Enterprises Actually",
-    headingAccent: "Build with Dynamics 365.",
+    heading: "What enterprises actually build",
+    headingAccent: "with Dynamics 365.",
     body: "Representative operational transformation initiatives — not generic ERP demos.",
     items: [
-      { value: "40%", label: "Reduction in month-end close time via engineered consolidation and intercompany automation" },
-      { value: "60%", label: "Faster procurement approval cycles through governed workflow automation" },
-      { value: "3x", label: "Executive reporting speed via Power BI architecture instead of static exports" },
-      { value: "100%", label: "Legacy ERP migrations delivered with validated data integrity and controlled cutover" },
-    ],
-    cards: [
-      { title: "Multi-Entity Financial Management", body: "Centralized financial operations across multiple companies, branches, or operational entities with standardized reporting, approval governance, and consolidated visibility.", image: u1.url },
-      { title: "Procurement & Approval Workflow Automation", body: "Automated procurement approvals based on department structure, budget thresholds, operational hierarchy, and compliance policies.", image: u2.url },
-      { title: "Executive Power BI Reporting Layer", body: "Centralized operational and financial dashboards providing leadership teams with real-time visibility into KPIs, operational performance, and enterprise metrics.", image: u3.url },
-      { title: "Cross-System ERP Integration", body: "Integration between Microsoft Dynamics and external operational systems including banking platforms, logistics providers, healthcare systems, and enterprise applications.", image: u4.url },
-    ],
-  },
-  Integrations: {
-    eyebrow: "Integrations",
-    heading: "Built on the Full Microsoft Stack",
-    body: "Dynamics 365 works best when it's part of a governed Microsoft ecosystem — connected to the Power Platform, Azure, Microsoft 365, and the external operational systems your enterprise depends on.",
-    groups: [
       {
-        title: "Microsoft Ecosystem",
-        tags: [
-          "Dynamics 365 Finance",
-          "Dynamics 365 SCM",
-          "Business Central",
-          "Power Platform",
-          "Power BI",
-          "Power Automate",
-          "Azure",
-          "Microsoft 365",
-          "Azure AD / Entra ID",
-        ],
+        n: "01",
+        title: "Multi-Entity Financial Management",
+        body:
+          "Centralized financial operations across multiple companies, branches, or operational entities with standardized reporting, approval governance, and consolidated visibility.",
+        image: u1.url,
+        alt: "Multi-entity financial consolidation",
       },
       {
-        title: "External Systems & Standards",
-        tags: [
-          "Banking Connectors",
-          "Logistics Platforms",
-          "Legacy ERP Migration",
-          "REST / OData APIs",
-          "EDI",
-          "SharePoint",
-          "Azure Data Lake",
-          "SQL / Synapse",
-        ],
+        n: "02",
+        title: "Procurement & Approval Workflow Automation",
+        body:
+          "Automated procurement approvals based on department structure, budget thresholds, operational hierarchy, and compliance policies.",
+        image: u2.url,
+        alt: "Procurement and approval workflow automation",
+      },
+      {
+        n: "03",
+        title: "Executive Power BI Reporting Layer",
+        body:
+          "Centralized operational and financial dashboards providing leadership teams with real-time visibility into KPIs, operational performance, and enterprise metrics.",
+        image: u3.url,
+        alt: "Executive Power BI reporting dashboard",
+      },
+      {
+        n: "04",
+        title: "Cross-System ERP Integration",
+        body:
+          "Integration between Microsoft Dynamics and external operational systems including banking platforms, logistics providers, healthcare systems, and enterprise applications.",
+        image: u4.url,
+        alt: "Cross-system ERP integration",
       },
     ],
   },
-  FAQ: {
-    eyebrow: "FAQ",
-    heading: "Common Questions",
+  "Who We Serve": {
+    eyebrow: "Who We Serve",
+    heading: "Built for the leaders who",
+    headingAccent: "own enterprise operations.",
+    body:
+      "Different roles carry different operational stakes in a D365 program. We structure our delivery around all of them.",
     items: [
-      { question: "Do you implement D365 Finance & SCM, or Business Central?", answer: "Both. We scope the right Dynamics 365 SKU against operational complexity, entity structure, and reporting requirements — and implement the tier that fits, not the tier that sells." },
-      { question: "Can you integrate D365 with our legacy ERP or banking systems?", answer: "Yes. Every engagement includes an integration topology — Microsoft ecosystem plus external banking, logistics, and enterprise applications — designed for operational continuity, not point-to-point patches." },
-      { question: "Do you build custom entities and extensions?", answer: "Yes. Custom entities, role-specific interfaces, and operational logic are built with long-term maintainability and upgrade compatibility in mind — never as fragile bolt-ons." },
-      { question: "How long does a typical implementation take?", answer: "Business Central deployments typically span 3 to 5 months. Full D365 Finance & SCM programs for multi-entity groups typically span 6 to 12 months with governed phases." },
-      { question: "What happens after go-live?", answer: "Go-live is the beginning of stabilization — not the end. Every program includes a defined hypercare period, training, documentation, and post-launch support." },
-      { question: "Do you migrate data from our legacy ERP?", answer: "Yes. Structured migration from legacy ERPs into Dynamics 365 — prioritizing data integrity, operational continuity, and validated transition over speed of cutover." },
+      {
+        icon: "Users",
+        role: "Operations Directors",
+        headline: "Execution consistency across departments",
+        body:
+          "Standardized workflows and centralized operational visibility reduce dependency on manual coordination and improve execution consistency across locations and business units.",
+        outcomes: [
+          "Reduced bottlenecks",
+          "Faster workflow execution",
+          "Cross-functional visibility",
+          "Lower manual process dependency",
+        ],
+      },
+      {
+        icon: "Wallet",
+        role: "CFOs & Finance Leaders",
+        headline: "Financial control and audit readiness",
+        body:
+          "Integrated financial operations improve reporting accuracy, consolidation speed, compliance readiness, and cost visibility — replacing fragmented finance tooling with a governed D365 environment.",
+        outcomes: [
+          "Faster consolidation",
+          "Improved audit readiness",
+          "Reduced reconciliation effort",
+          "Better cost visibility",
+        ],
+      },
+      {
+        icon: "Cpu",
+        role: "CIOs & Transformation Leaders",
+        headline: "A scalable enterprise technology foundation",
+        body:
+          "Dynamics 365 creates a unified operational platform capable of supporting automation, integration, and long-term digital transformation — without rebuilding from scratch at each growth stage.",
+        outcomes: [
+          "Unified systems",
+          "Reduced legacy dependency",
+          "Improved data governance",
+          "Scalable architecture",
+        ],
+      },
+      {
+        icon: "Crown",
+        role: "Enterprise Leadership",
+        headline: "Operational agility and investment protection",
+        body:
+          "Well-structured D365 environments improve organizational agility and long-term scalability while protecting enterprise technology investments from the cost of repeated ERP transitions.",
+        outcomes: [
+          "Operational alignment",
+          "Increased scalability",
+          "Better decision infrastructure",
+          "Reduced fragmentation",
+        ],
+      },
     ],
   },
-  "Final CTA": {
+  "Standard vs Strategic": {
     headline: "Standard D365 covers the operational baseline.",
     headlineAccent: "Strategic implementation aligns it with how you actually work.",
-    body: "A structured discovery session — covering your workflows, operational dependencies, reporting requirements, and implementation priorities — produces a documented assessment and D365 architecture recommendation before any commitment is made.",
+    body1:
+      "Out-of-the-box Dynamics 365 handles the standard. It does not handle your approval governance, your multi-entity reporting structure, your integration contracts with legacy systems, or the operational logic that defines how your enterprise runs.",
+    body2:
+      "SBS builds that layer — structured around your operational requirements, governed through a defined implementation process, and maintained for long-term scalability.",
+    backgroundUrl: pattern.url,
+  },
+  "Discovery Session": {
+    eyebrow: "Discovery Session",
+    heading: "What does your D365 program",
+    headingAccent: "actually require?",
+    body:
+      "A structured discovery session — covering your workflows, operational dependencies, reporting requirements, and implementation priorities — produces a documented assessment and D365 architecture recommendation before any commitment is made.",
     ctaLabel: "Schedule a discovery session",
-    ctaHref: "#contact",
-    ctaLabel2: "Request project scoping",
-    ctaHref2: "#contact",
-    footnote: "Operational workflow review · Integration dependency mapping · Reporting requirements audit · Architecture recommendation · Implementation roadmap.",
-    mediaUrl: pattern.url,
-    mediaKind: "image",
+    ctaHref: "#cta",
+    items: [
+      "Operational workflow review",
+      "Integration dependency mapping",
+      "Reporting requirements audit",
+      "Architecture recommendation",
+      "Implementation roadmap",
+    ],
   },
 } as const;
 
