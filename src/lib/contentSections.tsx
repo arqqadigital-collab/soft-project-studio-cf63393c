@@ -253,22 +253,26 @@ function buildEmpty(template: Record<string, any>): Record<string, any> {
 
 // ---------- Generic Edit / Render ----------
 
-function GenericEdit({ data, onChange }: { data: SectionData; onChange: (n: SectionData) => void }) {
-  const set = (k: string, v: any) => onChange({ ...data, [k]: v });
-  // Standard field order: eyebrow, heading, headline, subheadline, body, ...
-  const preferred = ["eyebrow", "heading", "headingAccent", "headline", "headlineAccent", "subheading", "subheadline", "body", "body2"];
-  const keys = Object.keys(data ?? {}).filter((k) => k !== "section_name");
-  const ordered = [
-    ...preferred.filter((k) => keys.includes(k)),
-    ...keys.filter((k) => !preferred.includes(k)),
-  ];
-  return (
-    <div className="space-y-4">
-      {ordered.map((k) => (
-        <AnyField key={k} k={k} value={data?.[k]} onChange={(v) => set(k, v)} />
-      ))}
-    </div>
-  );
+function makeEdit(shape: SectionData) {
+  return function GenericEdit({ data, onChange }: { data: SectionData; onChange: (n: SectionData) => void }) {
+    const set = (k: string, v: any) => onChange({ ...data, [k]: v });
+    // Merge shape (defaults) + data keys so ALL editable fields are visible,
+    // even when the seeded row only contains an override or two.
+    const merged: SectionData = { ...shape, ...data };
+    const preferred = ["eyebrow", "heading", "headingAccent", "headline", "headlineAccent", "subheading", "subheadline", "body", "body2"];
+    const keys = Object.keys(merged).filter((k) => k !== "section_name");
+    const ordered = [
+      ...preferred.filter((k) => keys.includes(k)),
+      ...keys.filter((k) => !preferred.includes(k)),
+    ];
+    return (
+      <div className="space-y-4">
+        {ordered.map((k) => (
+          <AnyField key={k} k={k} value={data?.[k] ?? merged[k]} onChange={(v) => set(k, v)} />
+        ))}
+      </div>
+    );
+  };
 }
 
 function GenericRender({ data, kind }: { data: SectionData; kind: string }) {
@@ -337,7 +341,7 @@ export const PAGE_CONTENT_SECTION_DEFS: Record<string, SectionDef> = Object.from
       description: DESCRIPTIONS[k] ?? k,
       defaultData: pickDefault(k),
       Render: ({ data }: { data: SectionData }) => <GenericRender data={data} kind={k} />,
-      Edit: GenericEdit,
+      Edit: makeEdit(pickDefault(k)),
     },
   ]),
 );
