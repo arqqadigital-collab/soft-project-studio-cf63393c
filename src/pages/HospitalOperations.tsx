@@ -335,7 +335,7 @@ export default function HospitalOperations() {
               </h2>
             </div>
 
-            <ExpandingJourney steps={c["Patient Journey"].items ?? []} />
+            <ExpandingJourney steps={(c["Patient Journey"].items ?? []) as any[]} />
           </div>
         </section>
       )}
