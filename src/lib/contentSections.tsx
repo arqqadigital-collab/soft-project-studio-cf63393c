@@ -21,6 +21,7 @@ import { EMRAM_DEFAULTS } from "@/lib/emramContent";
 import { HOSPITAL_OPERATIONS_DEFAULTS } from "@/lib/hospitalOperationsContent";
 import { PACS_DEFAULTS } from "@/lib/pacsContent";
 import { TELEMEDICINE_DEFAULTS } from "@/lib/telemedicineContent";
+import { KSA_COMPLIANCE_DEFAULTS } from "@/lib/ksaComplianceContent";
 
 // Map page slug → its content defaults. Editor uses this to show the RIGHT
 // fields for the current page (each page has its own content shape).
@@ -41,6 +42,7 @@ const DEFAULTS_BY_SLUG: Record<string, Record<string, any>> = {
   "healthcare-operations": HOSPITAL_OPERATIONS_DEFAULTS as any,
   "healthcare-pacs": PACS_DEFAULTS as any,
   "healthcare-telemedicine": TELEMEDICINE_DEFAULTS as any,
+  "healthcare-ksa-compliance": KSA_COMPLIANCE_DEFAULTS as any,
 };
 
 const PageSlugContext = createContext<string | undefined>(undefined);
