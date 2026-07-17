@@ -703,7 +703,7 @@ export const SECTION_REGISTRY: Record<SectionKind, SectionDef> = {
     defaultData: { heading: "FAQ", items: [{ q: "", a: "" }] },
     Render: FaqRender, Edit: FaqEdit,
   },
-  ...(CLINICAL_AI_SECTION_DEFS as Partial<Record<SectionKind, SectionDef>>),
+  ...(PAGE_CONTENT_SECTION_DEFS as Partial<Record<SectionKind, SectionDef>>),
 } as Record<SectionKind, SectionDef>;
 
 export const SECTION_KINDS: SectionKind[] = Object.keys(SECTION_REGISTRY) as SectionKind[];
