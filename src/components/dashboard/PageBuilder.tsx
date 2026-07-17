@@ -180,7 +180,7 @@ export function PageBuilder({ pageId, pageSlug }: { pageId: string; pageSlug?: s
           })}
         </Tabs>
       )}
-    </div>
+    </div></PageDefaultsProvider>
   );
 }
 
