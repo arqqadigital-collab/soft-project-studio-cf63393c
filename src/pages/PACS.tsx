@@ -27,21 +27,16 @@ import {
   Eye,
   FileCheck,
 } from "lucide-react";
-import problemNoAccess from "@/assets/pacs/problems/no-access.jpg";
-import problemLegacy from "@/assets/pacs/problems/legacy.jpg";
-import problemCD from "@/assets/pacs/problems/cd-transfer.jpg";
-import problemStorage from "@/assets/pacs/problems/storage-fail.jpg";
-import problemRemote from "@/assets/pacs/problems/remote.jpg";
-import journeyAcquire from "@/assets/pacs/journey/acquire.jpg";
-import journeyRetrieve from "@/assets/pacs/journey/retrieve.jpg";
-import journeyReport from "@/assets/pacs/journey/report.jpg";
-import journeyDeliver from "@/assets/pacs/journey/deliver.jpg";
-import heroImage from "@/assets/pacs/hero.jpg";
+import * as LucideIcons from "lucide-react";
 import bgStepsLight from "@/assets/bg-steps-light.png"
 import { Footer } from "@/components/Footer";
 import { CtaSection } from "@/components/CtaSection";
+import { usePACSContent } from "@/lib/pacsContent";
 
 import { useHorizontalScroll } from "@/hooks/use-horizontal-scroll";
+
+const iconFor = (name?: string) => (name && (LucideIcons as any)[name]) || LucideIcons.Layers;
+
 const features = [
   { icon: Layers, title: "Universal DICOM Image Acquisition & Storage", body: "Receive, store, and manage DICOM images from every modality — CT, MRI, X-ray, fluoroscopy, mammography, tomosynthesis, ultrasound, nuclear medicine, PET-CT, dental, and interventional. Non-DICOM clinical imaging from endoscopy, dermatology, ophthalmology, and pathology is supported through conversion or native storage with full metadata preservation." },
   { icon: HardDrive, title: "Zero-Loss Archival Architecture", body: "Redundant, geographically distributed storage with no single point of failure. Automatic tiering moves active studies to high-speed primary storage and migrates long-term archives to cost-efficient deep storage — without manual intervention or performance compromise on current studies." },
