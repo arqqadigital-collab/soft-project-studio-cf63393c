@@ -400,6 +400,11 @@ export const PAGE_CONTENT_KINDS = [
   "Who We Serve",
   "Standard vs Strategic",
   "Discovery Session",
+  // Odoo sections
+  "What We Build",
+  "Development Process",
+  "80/20 Statement",
+  "ERP Objective",
 ] as const;
 
 export const PAGE_CONTENT_SECTION_DEFS: Record<string, SectionDef> = Object.fromEntries(
