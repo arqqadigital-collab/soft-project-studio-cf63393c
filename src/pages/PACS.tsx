@@ -37,62 +37,8 @@ import { useHorizontalScroll } from "@/hooks/use-horizontal-scroll";
 
 const iconFor = (name?: string) => (name && (LucideIcons as any)[name]) || LucideIcons.Layers;
 
-const features = [
-  { icon: Layers, title: "Universal DICOM Image Acquisition & Storage", body: "Receive, store, and manage DICOM images from every modality — CT, MRI, X-ray, fluoroscopy, mammography, tomosynthesis, ultrasound, nuclear medicine, PET-CT, dental, and interventional. Non-DICOM clinical imaging from endoscopy, dermatology, ophthalmology, and pathology is supported through conversion or native storage with full metadata preservation." },
-  { icon: HardDrive, title: "Zero-Loss Archival Architecture", body: "Redundant, geographically distributed storage with no single point of failure. Automatic tiering moves active studies to high-speed primary storage and migrates long-term archives to cost-efficient deep storage — without manual intervention or performance compromise on current studies." },
-  { icon: Monitor, title: "High-Performance Diagnostic Viewer", body: "A zero-footprint, browser-based diagnostic workstation delivers radiologist-grade display on any authorized device. Advanced visualization — MPR, MIP, volume rendering, 3D reconstruction, and fusion imaging — is built in. Large volumetric studies load in under three seconds on standard clinical hardware." },
-  { icon: Users, title: "Universal Viewing for Clinical Teams", body: "Role-appropriate viewing access for surgeons in theatre, oncologists in MDT, physicians at the bedside, and emergency teams in resuscitation. Image quality and tool availability are matched to clinical role — anywhere, on any authorized device." },
-  { icon: GitBranch, title: "Multi-Site Image Management & Sharing", body: "A unified imaging infrastructure across hospital groups and regional networks. Studies acquired at any site are accessible to authorized users at every other site in real time — with the patient's complete imaging history visible in one record." },
-  { icon: Wifi, title: "Teleradiology & Remote Reading", body: "High-performance image delivery optimized for remote reading over standard internet connections. Diagnostic-quality viewing on calibrated home workstations, integrated voice recognition, and signed reports delivered to the clinical team in real time." },
-  { icon: History, title: "Prior Study Retrieval & Comparison", body: "Every new study automatically retrieves relevant prior imaging — by modality, anatomy, and indication — from your archive, federated PACS, and patient-carried media. Interval change is always assessed against the most clinically relevant prior, not whatever is accessible." },
-  { icon: FileSearch, title: "Structured Reporting & RIS Integration", body: "Bidirectional integration with your Radiology Information System. Structured reporting templates launch from the viewer pre-populated. Voice dictation is built in. Signed reports transmit to RIS, referring clinicians, and the patient record simultaneously." },
-  { icon: Disc, title: "CD & External Image Import", body: "Patient-carried imaging on CD, DVD, or USB is imported through a dedicated workstation that converts external studies to your archival format, associates them with the correct patient, and makes them available for comparison within minutes." },
-  { icon: Share2, title: "Image Exchange & Interoperability", body: "Participate in regional and national image sharing networks via IHE XDS-I and Cross-Enterprise Document Sharing. Send and receive studies electronically — no CD burning, no courier dispatch. Integration with Malaffi, Riayati, and NPHIES image exchange is supported." },
-];
+// Static fallbacks are now sourced via usePACSContent() defaults.
 
-const journey = [
-  { icon: ScanLine, title: "Image Acquired", image: journeyAcquire, body: "The patient is scanned. The modality transmits the study to Secreta PACS via DICOM immediately after acquisition. The study appears in the archive and on the radiologist's worklist within seconds of the last image being generated." },
-  { icon: History, title: "Priors Retrieved", image: journeyRetrieve, body: "Secreta PACS automatically retrieves the patient's relevant prior studies — from the local archive, from federated PACS systems, and from imported external media — and associates them with the current study for comparison viewing." },
-  { icon: Eye, title: "Displayed & Reported", image: journeyReport, body: "The radiologist opens the study in the diagnostic viewer. Priors load in the comparison panel automatically. Advanced visualization is available without switching applications. The structured report template opens pre-populated. The radiologist dictates, reviews, and signs." },
-  { icon: FileCheck, title: "Report Delivered", image: journeyDeliver, body: "The signed report is transmitted to the RIS, referring clinician's EMR view, and patient portal simultaneously. Images are accessible to authorized clinical team members — surgeons, oncologists, emergency physicians — through role-appropriate viewing portals." },
-];
-
-const stats = [
-  { value: "50M+", label: "Medical images managed across client networks" },
-  { value: "99.9%", label: "Enterprise SLA availability guaranteed monthly" },
-  { value: "<3s", label: "Load time for large volumetric studies on standard hardware" },
-  { value: "0", label: "Image loss events under our zero-loss archival architecture" },
-  { value: "100%", label: "DICOM 3.0 compliance across every supported modality" },
-  { value: "24/7", label: "Worldwide access for authorized clinicians on any device" },
-];
-
-const problemCards = [
-  { title: "No Access Outside Radiology", image: problemNoAccess, body: "A surgeon preparing for a complex procedure cannot access pre-operative imaging from the operating theatre because the PACS is not accessible outside the radiology department." },
-  { title: "Legacy Archives, Lost History", image: problemLegacy, body: "Prior studies from a previous admission sit on a legacy system the current PACS cannot retrieve — so the radiologist reads without comparison, missing interval change that would have changed the report." },
-  { title: "CDs, Couriers, and Trauma Delays", image: problemCD, body: "A patient arrives in the ED after a road traffic accident. Imaging from the referring hospital cannot be transferred digitally — someone burns a CD, drives it across town, and the trauma team decides from verbal descriptions in the meantime." },
-  { title: "Storage Failures, Lost Studies", image: problemStorage, body: "Infrastructure fails during an upgrade and a subset of archived studies becomes inaccessible — triggering a clinical governance incident, a patient safety review, and emergency data recovery that costs more than the original investment." },
-  { title: "Remote Reading That Doesn't Perform", image: problemRemote, body: "Radiologists working from home cannot access studies at the same speed or quality as they can in the department — because the PACS architecture was never designed for remote reading." },
-];
-
-const faqs = [
-  { q: "How does Secreta PACS handle migration from our existing PACS?", a: "Legacy PACS migration is managed by Secreta's dedicated imaging migration team. The process begins with a complete inventory of your existing archive — study count, modality distribution, date range, and storage format. A migration methodology is developed that prioritizes active and recent studies while migrating the full historical archive in the background. Migration runs in parallel with your existing PACS until the cutover date — ensuring no clinical disruption and no period of reduced image availability. Every migrated study is validated for completeness and integrity before the legacy system is retired." },
-  { q: "What is the storage architecture and how is data protected against loss?", a: "Secreta PACS uses a tiered storage architecture with automatic replication across geographically separated storage nodes. Primary storage holds recent and active studies for fast retrieval. Near-line storage holds studies accessed less frequently. Deep archive storage holds long-term retention studies at lower cost per terabyte. Every storage tier replicates data automatically — no single hardware failure can result in image loss. Storage health is monitored continuously and alerts are generated before capacity thresholds are approached. Annual disaster recovery testing is included in enterprise SLA agreements." },
-  { q: "Can radiologists use their own diagnostic monitors for remote reading?", a: "Yes. Secreta PACS delivers images calibrated to DICOM GSDF standards through the browser-based viewer — the calibration is applied by the viewer, not by the monitor hardware. For formal diagnostic reading from home, radiologists should use DICOM-calibrated diagnostic monitors. For clinical review — non-reporting access by surgeons, oncologists, and other physicians — standard clinical monitors and consumer displays are appropriate. The viewer automatically applies the display parameters appropriate to the viewing context." },
-  { q: "How does the system handle studies from referring hospitals that use a different PACS vendor?", a: "Studies from external PACS systems can be received through three pathways — electronic DICOM push from the external PACS where network connectivity exists, patient-carried media import through the CD import workstation, and IHE XDS-I image exchange where both facilities participate in a shared exchange network. All three pathways result in the external study being associated with the correct patient record and available for comparison viewing alongside local studies in the diagnostic viewer." },
-  { q: "What happens to image availability during a planned maintenance window?", a: "Planned maintenance is scheduled during low-activity periods — typically overnight — and communicated to clinical teams in advance. During maintenance, the PACS operates in a read-only mode that allows image viewing to continue while archival and administrative functions are temporarily suspended. Emergency maintenance procedures ensure that imaging availability is restored within defined RTO targets specified in your SLA. Our enterprise SLA guarantees 99.9% availability measured on a monthly basis." },
-  { q: "How long are images retained in the archive?", a: "Retention periods are configurable by study type, patient age group, and applicable regulatory requirement. Standard configuration follows the retention requirements of your jurisdiction — typically 7 to 10 years for adult studies and until age 25 or beyond for pediatric studies depending on applicable law. Retention policies are enforced automatically — studies approaching the end of their retention period are flagged for clinical governance review before deletion. Studies flagged for retention beyond standard periods — medicolegal holds, research holds — are managed through a structured exception workflow." },
-  { q: "Does the system support 3D post-processing and advanced visualization?", a: "Yes. Advanced visualization tools — multiplanar reconstruction, maximum intensity projection, minimum intensity projection, volume rendering, surface rendering, and virtual endoscopy — are available within the diagnostic viewer without launching a separate application or transferring studies to a dedicated post-processing workstation. For highly specialized post-processing workflows — cardiac CT analysis, neurovascular imaging, orthopedic surgical planning — integration with dedicated third-party post-processing platforms is supported through DICOM push and retrieval." },
-  { q: "How is the PACS integrated with AI imaging applications?", a: "The Secreta PACS AI integration layer routes studies to configured AI analysis engines immediately upon acquisition using DICOMweb STOW-RS. AI results are returned as DICOM Structured Reports and DICOM Secondary Captures — appearing in the diagnostic viewer as an overlay or comparison panel alongside the original study. Every AI finding is traceable to the specific study and series that generated it. Multiple AI applications can be connected simultaneously, with study routing rules configured by modality, body region, and clinical indication." },
-];
-
-const trustChips = [
-  "Managing 50M+ Images",
-  "Full DICOM 3.0 Compliance",
-  "Zero-Loss Architecture",
-  "Multi-Modality & Multi-Site",
-  "AI-Ready Infrastructure",
-  "HL7 & RIS Integrated",
-];
 
 function AnimatedStat({ value }: { value: string }) {
   const ref = useRef<HTMLSpanElement>(null);
