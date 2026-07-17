@@ -34,6 +34,7 @@ const DEFAULTS_BY_SLUG: Record<string, Record<string, any>> = {
   "physiotherapy": PHYSIO_DEFAULTS as any,
   "rcm": RCM_DEFAULTS as any,
   "ris": RIS_DEFAULTS as any,
+  "healthcare-emram": EMRAM_DEFAULTS as any,
 };
 
 const PageSlugContext = createContext<string | undefined>(undefined);
