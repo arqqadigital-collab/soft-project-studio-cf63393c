@@ -391,6 +391,13 @@ export const PAGE_CONTENT_KINDS = [
   "Integrations",
   "FAQ",
   "Final CTA",
+  // Dynamics 365 sections
+  "What We Deliver",
+  "Process",
+  "Use Cases",
+  "Who We Serve",
+  "Standard vs Strategic",
+  "Discovery Session",
 ] as const;
 
 export const PAGE_CONTENT_SECTION_DEFS: Record<string, SectionDef> = Object.fromEntries(
