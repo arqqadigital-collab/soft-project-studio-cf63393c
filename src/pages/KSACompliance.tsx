@@ -304,7 +304,7 @@ export default function KSACompliance() {
               {c["Patient Journey"].body}
             </p>
           </div>
-          <ExpandingJourney steps={c["Patient Journey"].items as any[]} />
+          <ExpandingJourney steps={c["Patient Journey"].items as unknown as any[]} />
         </div>
       </section>
       )}
