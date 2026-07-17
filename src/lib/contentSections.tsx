@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { createContext, useContext, useState } from "react";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
@@ -7,6 +7,51 @@ import { Trash2, Plus, Image as ImageIcon } from "lucide-react";
 import { MediaPickerDialog } from "@/components/dashboard/MediaPickerDialog";
 import { CLINICAL_AI_DEFAULTS } from "@/lib/clinicalAiContent";
 import { AI_IMAGING_DEFAULTS } from "@/lib/aiImagingContent";
+import { BLOOD_BANK_DEFAULTS } from "@/lib/bloodBankContent";
+import { CLINIC_DEFAULTS } from "@/lib/clinicContent";
+import { DENTAL_DEFAULTS } from "@/lib/dentalContent";
+import { ED_DEFAULTS } from "@/lib/edContent";
+import { HIS_DEFAULTS } from "@/lib/hisContent";
+import { LIS_DEFAULTS } from "@/lib/lisContent";
+import { MEDICATION_DEFAULTS } from "@/lib/medicationContent";
+import { PHYSIO_DEFAULTS } from "@/lib/physioContent";
+import { RCM_DEFAULTS } from "@/lib/rcmContent";
+import { RIS_DEFAULTS } from "@/lib/risContent";
+
+// Map page slug → its content defaults. Editor uses this to show the RIGHT
+// fields for the current page (each page has its own content shape).
+const DEFAULTS_BY_SLUG: Record<string, Record<string, any>> = {
+  "healthcare-clinical-ai": CLINICAL_AI_DEFAULTS as any,
+  "healthcare-ai-imaging": AI_IMAGING_DEFAULTS as any,
+  "blood-bank-and-donor-management": BLOOD_BANK_DEFAULTS as any,
+  "clinic": CLINIC_DEFAULTS as any,
+  "dental-management-suite": DENTAL_DEFAULTS as any,
+  "emergency": ED_DEFAULTS as any,
+  "his": HIS_DEFAULTS as any,
+  "lis": LIS_DEFAULTS as any,
+  "healthcare-medication-dosage": MEDICATION_DEFAULTS as any,
+  "physiotherapy": PHYSIO_DEFAULTS as any,
+  "rcm": RCM_DEFAULTS as any,
+  "ris": RIS_DEFAULTS as any,
+};
+
+const PageSlugContext = createContext<string | undefined>(undefined);
+
+export function PageDefaultsProvider({ slug, children }: { slug?: string; children: React.ReactNode }) {
+  return <PageSlugContext.Provider value={slug}>{children}</PageSlugContext.Provider>;
+}
+
+function usePageDefaultsFor(sectionName: string): Record<string, any> {
+  const slug = useContext(PageSlugContext);
+  const bySlug = slug ? DEFAULTS_BY_SLUG[slug] : undefined;
+  if (bySlug?.[sectionName]) return bySlug[sectionName];
+  // Fallback: try any page that defines this section (first match)
+  for (const src of Object.values(DEFAULTS_BY_SLUG)) {
+    if (src?.[sectionName]) return src[sectionName];
+  }
+  return {};
+}
+
 
 /**
  * Generic section registry for the 12 product/service pages that share the
@@ -253,12 +298,13 @@ function buildEmpty(template: Record<string, any>): Record<string, any> {
 
 // ---------- Generic Edit / Render ----------
 
-function makeEdit(shape: SectionData) {
+function makeEdit(sectionName: string) {
   return function GenericEdit({ data, onChange }: { data: SectionData; onChange: (n: SectionData) => void }) {
     const set = (k: string, v: any) => onChange({ ...data, [k]: v });
-    // Merge shape (defaults) + data keys so ALL editable fields are visible,
-    // even when the seeded row only contains an override or two.
-    const merged: SectionData = { ...shape, ...data };
+    // Pull shape from THIS page's own defaults (via PageDefaultsProvider),
+    // so HIS shows HIS fields, LIS shows LIS fields, etc.
+    const pageShape = usePageDefaultsFor(sectionName);
+    const merged: SectionData = { ...pageShape, ...data };
     const preferred = ["eyebrow", "heading", "headingAccent", "headline", "headlineAccent", "subheading", "subheadline", "body", "body2"];
     const keys = Object.keys(merged).filter((k) => k !== "section_name");
     const ordered = [
@@ -274,6 +320,7 @@ function makeEdit(shape: SectionData) {
     );
   };
 }
+
 
 function GenericRender({ data, kind }: { data: SectionData; kind: string }) {
   const heading = data?.heading ?? data?.headline ?? kind;
@@ -341,7 +388,7 @@ export const PAGE_CONTENT_SECTION_DEFS: Record<string, SectionDef> = Object.from
       description: DESCRIPTIONS[k] ?? k,
       defaultData: pickDefault(k),
       Render: ({ data }: { data: SectionData }) => <GenericRender data={data} kind={k} />,
-      Edit: makeEdit(pickDefault(k)),
+      Edit: makeEdit(k),
     },
   ]),
 );

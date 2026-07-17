@@ -12,10 +12,11 @@ import {
   Trash2, ArrowUp, ArrowDown, Eye, EyeOff, Plus,
 } from "lucide-react";
 import { SECTION_REGISTRY, SECTION_KINDS, type SectionKind, type SectionDef } from "@/lib/pageSections";
+import { PageDefaultsProvider } from "@/lib/contentSections";
 
 type Row = { id: string; kind: SectionKind; position: number; is_visible: boolean; data: any };
 
-export function PageBuilder({ pageId }: { pageId: string }) {
+export function PageBuilder({ pageId, pageSlug }: { pageId: string; pageSlug?: string }) {
   const qc = useQueryClient();
   const [activeTab, setActiveTab] = useState<string | undefined>(undefined);
 
@@ -82,7 +83,7 @@ export function PageBuilder({ pageId }: { pageId: string }) {
   }
 
   return (
-    <div className="space-y-4">
+    <PageDefaultsProvider slug={pageSlug}><div className="space-y-4">
       <div className="flex items-center justify-between">
         <div>
           <h3 className="text-lg font-semibold">Sections</h3>
@@ -179,7 +180,7 @@ export function PageBuilder({ pageId }: { pageId: string }) {
           })}
         </Tabs>
       )}
-    </div>
+    </div></PageDefaultsProvider>
   );
 }
 
