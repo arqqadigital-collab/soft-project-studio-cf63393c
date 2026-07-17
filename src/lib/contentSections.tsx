@@ -42,6 +42,7 @@ const DEFAULTS_BY_SLUG: Record<string, Record<string, any>> = {
   "healthcare-operations": HOSPITAL_OPERATIONS_DEFAULTS as any,
   "healthcare-pacs": PACS_DEFAULTS as any,
   "healthcare-telemedicine": TELEMEDICINE_DEFAULTS as any,
+  "healthcare-ksa-compliance": KSA_COMPLIANCE_DEFAULTS as any,
 };
 
 const PageSlugContext = createContext<string | undefined>(undefined);
