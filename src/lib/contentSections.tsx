@@ -17,6 +17,7 @@ import { MEDICATION_DEFAULTS } from "@/lib/medicationContent";
 import { PHYSIO_DEFAULTS } from "@/lib/physioContent";
 import { RCM_DEFAULTS } from "@/lib/rcmContent";
 import { RIS_DEFAULTS } from "@/lib/risContent";
+import { EMRAM_DEFAULTS } from "@/lib/emramContent";
 
 // Map page slug → its content defaults. Editor uses this to show the RIGHT
 // fields for the current page (each page has its own content shape).
@@ -33,6 +34,7 @@ const DEFAULTS_BY_SLUG: Record<string, Record<string, any>> = {
   "physiotherapy": PHYSIO_DEFAULTS as any,
   "rcm": RCM_DEFAULTS as any,
   "ris": RIS_DEFAULTS as any,
+  "healthcare-emram": EMRAM_DEFAULTS as any,
 };
 
 const PageSlugContext = createContext<string | undefined>(undefined);
