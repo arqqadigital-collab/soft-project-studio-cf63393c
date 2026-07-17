@@ -142,14 +142,25 @@ function ExpandingJourney({ steps }: { steps: any[] }) {
 export default function PACS() {
   const problemRef = useRef<HTMLDivElement>(null);
   const { viewportRef: problemViewportRef, trackRef: problemTrackRef, x: problemX } = useHorizontalScroll(problemRef, [0.15, 0.82]);
+  const content = usePACSContent();
+  const hero = content.Hero as any;
+  const intro = content.Introduction as any;
+  const problem = content["The Problem"] as any;
+  const platform = content["The Platform"] as any;
+  const patientJourney = content["Patient Journey"] as any;
+  const outcomes = content.Outcomes as any;
+  const integrations = content.Integrations as any;
+  const faq = content.FAQ as any;
+  const finalCta = content["Final CTA"] as any;
+  const heroSrc = hero.mediaUrl;
 
   return (
     <>
-      {/* HERO */}
+      {content._visible.Hero && (
       <main className="pt-20 relative min-h-[90vh] w-full overflow-hidden bg-background">
         <div className="absolute inset-0">
           <img
-            src={heroImage}
+            src={heroSrc}
             alt="Radiology reading room with diagnostic displays"
             className="absolute inset-0 h-full w-full object-cover"
           />
@@ -171,30 +182,30 @@ export default function PACS() {
               className="mx-auto flex max-w-5xl flex-col items-center text-center"
             >
               <h1 className="text-3xl font-bold leading-[1.1] tracking-tight text-white sm:text-4xl md:text-5xl lg:text-6xl">
-                Every Image. Every Modality. Every Clinician.{" "}
+                {hero.headline}{" "}
                 <span className="bg-clip-text text-transparent" style={{ backgroundImage: "var(--gradient-brand)" }}>
-                  Instantly.
+                  {hero.headlineAccent}
                 </span>
               </h1>
 
               <div className="mt-10 flex flex-col items-center gap-3 sm:flex-row">
                 <a
-                  href="#contact"
+                  href={hero.ctaHref || "#contact"}
                   className="inline-flex items-center gap-2 rounded-full px-8 py-4 text-sm font-semibold text-white shadow-[var(--shadow-brand)] transition-transform hover:scale-105"
                   style={{ background: "var(--gradient-brand)" }}
                 >
-                  See Secreta PACS in Action <ArrowRight className="h-4 w-4" />
+                  {hero.ctaLabel} <ArrowRight className="h-4 w-4" />
                 </a>
                 <a
-                  href="#contact"
+                  href={hero.ctaHref2 || "#contact"}
                   className="inline-flex items-center gap-2 rounded-full border border-white/30 bg-white/5 px-8 py-4 text-sm font-semibold text-white backdrop-blur transition-colors hover:bg-white/15"
                 >
-                  Book an Imaging Infrastructure Assessment
+                  {hero.ctaLabel2}
                 </a>
               </div>
 
               <div className="mt-10 flex flex-nowrap items-center justify-center gap-3 overflow-x-auto pb-2">
-                {trustChips.map((chip) => (
+                {(hero.chips || []).map((chip: string) => (
                   <span
                     key={chip}
                     className="shrink-0 whitespace-nowrap rounded-full border border-white/20 bg-white/5 px-4 py-2 text-xs font-medium text-white/90 backdrop-blur md:text-sm"
@@ -207,43 +218,45 @@ export default function PACS() {
           </section>
         </div>
       </main>
+      )}
 
-      {/* INTRO */}
+      {content._visible.Introduction && (
       <section className="relative z-20 -mt-12 rounded-t-[2.5rem] bg-background px-6 py-24 shadow-[0_-20px_60px_-20px_rgba(0,0,0,0.4)] md:px-12 md:py-32">
         <div className="mx-auto max-w-4xl text-center">
           <p className="text-sm font-semibold uppercase tracking-[0.25em]" style={{ color: "var(--brand-blue)" }}>
-            Built for Medical Imaging
+            {intro.eyebrow}
           </p>
           <h2 className="mt-6 text-3xl font-bold leading-[1.15] tracking-tight md:text-4xl lg:text-5xl">
-            <span style={{ color: "var(--brand-dark)" }}>Enterprise Imaging Infrastructure for </span>
+            <span style={{ color: "var(--brand-dark)" }}>{intro.headline} </span>
             <span className="bg-clip-text text-transparent" style={{ backgroundImage: "var(--gradient-brand)" }}>
-              Modern Healthcare.
+              {intro.headlineAccent}
             </span>
           </h2>
           <p className="mx-auto mt-8 max-w-3xl text-base leading-relaxed text-muted-foreground md:text-lg">
-            Medical imaging is one of the most data-intensive, time-critical, and clinically consequential workflows in your hospital. When images are delayed, lost, duplicated, or inaccessible at the point of clinical decision-making, patients wait longer, diagnoses are delayed, and procedures are repeated unnecessarily. Secreta PACS is an enterprise-grade picture archiving and communication system that stores, manages, distributes, and displays every medical image your facility produces — instantly, securely, and from any authorized device anywhere in the world.
+            {intro.body}
           </p>
         </div>
       </section>
+      )}
 
-      {/* PROBLEM */}
+      {content._visible["The Problem"] && (
       <section ref={problemRef} className="relative bg-[#0a0e1a]" style={{ height: "320vh" }}>
         <div className="sticky top-0 flex min-h-screen flex-col overflow-hidden pb-12 md:pb-16">
           <div className="mx-auto w-full max-w-7xl px-6 pt-14 md:px-12 md:pt-16">
             <span className="inline-flex items-center gap-2 rounded-full bg-red-500/10 px-3 py-1.5 text-xs font-semibold uppercase tracking-wider text-red-300 ring-1 ring-red-500/20">
-              <AlertTriangle className="h-3.5 w-3.5" /> The Problem
+              <AlertTriangle className="h-3.5 w-3.5" /> {problem.eyebrow}
             </span>
             <h2 className="mt-5 max-w-5xl text-3xl font-bold leading-[1.1] tracking-tight text-white md:text-4xl lg:text-[2.5rem]">
-              Imaging Infrastructure Failures Cost Clinicians Time, Patients Safety, and Hospitals Money.{" "}
+              {problem.heading}{" "}
               <span className="bg-clip-text text-transparent" style={{ backgroundImage: "var(--gradient-brand)" }}>
-                Every Day.
+                {problem.headingAccent}
               </span>
             </h2>
           </div>
 
           <div ref={problemViewportRef} className="mt-6 flex flex-1 items-center overflow-hidden md:mt-8 scrollbar-hide">
             <motion.div ref={problemTrackRef} style={{ x: problemX }} className="flex items-stretch gap-6 px-6 md:gap-8 md:px-12">
-              {problemCards.map((card, i) => (
+              {(problem.items || []).map((card: any, i: number) => (
                 <article
                   key={i}
                   className="flex w-[82vw] shrink-0 flex-col overflow-hidden rounded-[2rem] bg-[#0f1424] md:w-[440px] lg:w-[480px]"
@@ -265,7 +278,7 @@ export default function PACS() {
                       {card.title}
                     </h3>
                     <p className="mt-3 text-sm leading-relaxed text-white/75">
-                      {card.body}
+                      {card.description || card.body}
                     </p>
                   </div>
                 </article>
@@ -274,8 +287,9 @@ export default function PACS() {
           </div>
         </div>
       </section>
+      )}
 
-      {/* FEATURES */}
+      {content._visible["The Platform"] && (
       <section
         className="px-6 py-24 md:px-12"
         style={{ background: "color-mix(in oklab, var(--brand-blue) 4%, var(--background))" }}
@@ -283,19 +297,19 @@ export default function PACS() {
         <div className="mx-auto max-w-6xl">
           <div className="mx-auto max-w-3xl text-center">
             <span className="text-xs font-semibold uppercase tracking-[0.3em] text-[color:var(--brand-blue)]">
-              The Platform
+              {platform.eyebrow}
             </span>
             <h2 className="mt-4 text-3xl font-bold tracking-tight text-foreground md:text-5xl">
-              Built for the Clinical and Operational Demands of Modern Healthcare
+              {platform.heading}
             </h2>
             <p className="mt-5 text-base leading-relaxed text-foreground/70 md:text-lg">
-              From the scanner room floor to the radiologist's workstation, from the operating theatre to the patient's bedside — Secreta PACS delivers every image with reliability, speed, and universal access.
+              {platform.body}
             </p>
           </div>
 
           <div className="mt-14 grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-            {features.map((f, i) => {
-              const Icon = f.icon;
+            {(platform.items || []).map((f: any, i: number) => {
+              const Icon = iconFor(f.icon);
               return (
                 <motion.div
                   key={f.title}
@@ -313,15 +327,16 @@ export default function PACS() {
                     <Icon className="h-6 w-6" />
                   </div>
                   <h3 className="mt-5 text-lg font-bold text-foreground">{f.title}</h3>
-                  <p className="mt-3 text-sm leading-relaxed text-foreground/70">{f.body}</p>
+                  <p className="mt-3 text-sm leading-relaxed text-foreground/70">{f.description || f.body}</p>
                 </motion.div>
               );
             })}
           </div>
         </div>
       </section>
+      )}
 
-      {/* HOW IT WORKS */}
+      {content._visible["Patient Journey"] && (
       <section
         className="relative px-6 py-24 md:px-12"
         style={{
@@ -334,18 +349,23 @@ export default function PACS() {
         <div className="relative mx-auto max-w-7xl">
           <div className="mx-auto max-w-3xl text-center">
             <span className="inline-flex items-center gap-2 rounded-full bg-[color:var(--brand-blue)]/10 px-3 py-1.5 text-xs font-semibold uppercase tracking-wider text-[color:var(--brand-blue)]">
-              <Workflow className="h-3.5 w-3.5" /> How It Works
+              <Workflow className="h-3.5 w-3.5" /> {patientJourney.eyebrow}
             </span>
             <h2 className="mt-5 text-3xl font-bold tracking-tight text-foreground md:text-5xl">
-              From Image Acquisition to Clinical Decision — Every Step Seamless
+              {patientJourney.heading}
             </h2>
           </div>
 
-          <ExpandingJourney steps={journey} />
+          <ExpandingJourney steps={(patientJourney.items || []).map((s: any) => ({
+            ...s,
+            icon: iconFor(s.icon),
+            body: s.description || s.body,
+          }))} />
         </div>
       </section>
+      )}
 
-      {/* METRICS */}
+      {content._visible.Outcomes && (
       <section className="relative overflow-hidden px-6 py-24 md:px-12" style={{ backgroundColor: "#091628" }}>
         <div
           className="absolute -left-32 top-1/2 h-96 w-96 -translate-y-1/2 rounded-full opacity-20 blur-3xl"
@@ -354,13 +374,13 @@ export default function PACS() {
         />
         <div className="relative mx-auto max-w-6xl">
           <div className="mx-auto max-w-3xl text-center">
-            <span className="text-xs font-semibold uppercase tracking-[0.3em] text-white/60">Outcomes</span>
+            <span className="text-xs font-semibold uppercase tracking-[0.3em] text-white/60">{outcomes.eyebrow}</span>
             <h2 className="mt-4 text-3xl font-bold tracking-tight text-white md:text-5xl">
-              Imaging Performance Measured Across Our Client Network
+              {outcomes.heading}
             </h2>
           </div>
           <div className="mt-14 grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-            {stats.map((s) => (
+            {(outcomes.items || []).map((s: any) => (
               <div key={s.label} className="rounded-2xl border border-white/10 bg-white/5 p-8 backdrop-blur">
                 <div
                   className="bg-clip-text text-4xl font-bold tracking-tight text-transparent md:text-5xl"
@@ -374,53 +394,23 @@ export default function PACS() {
           </div>
         </div>
       </section>
+      )}
 
-      {/* INTEGRATIONS */}
+      {content._visible.Integrations && (
       <section className="px-6 py-24 md:px-12">
         <div className="mx-auto max-w-6xl text-center">
           <span className="inline-flex items-center gap-2 rounded-full bg-[color:var(--brand-blue)]/10 px-3 py-1.5 text-xs font-semibold uppercase tracking-wider text-[color:var(--brand-blue)]">
-            <Network className="h-3.5 w-3.5" /> Integrations
+            <Network className="h-3.5 w-3.5" /> {integrations.eyebrow}
           </span>
           <h2 className="mt-5 text-3xl font-bold tracking-tight text-foreground md:text-5xl">
-            The Imaging Infrastructure at the Centre of Your Clinical Ecosystem
+            {integrations.heading}
           </h2>
           <p className="mx-auto mt-6 max-w-3xl text-base leading-relaxed text-foreground/70 md:text-lg">
-            Secreta PACS integrates with every system that produces, consumes, or references medical imaging — from modalities on the scanner room floor to AI engines in the cloud, from the RIS to the EMR delivering reports to referring clinicians.
+            {integrations.body}
           </p>
           <div className="mt-14 grid gap-6 text-left md:grid-cols-2 lg:grid-cols-3">
-            {[
-              {
-                icon: ScanSearch,
-                title: "Modality Integration",
-                subtitle: "All DICOM 3.0 compliant",
-                items: ["CT", "MRI", "X-Ray", "Fluoroscopy", "Mammography", "Ultrasound", "Nuclear Medicine", "PET-CT", "Dental", "Interventional", "Endoscopy", "Dermatology", "Ophthalmology", "Pathology WSI"],
-              },
-              {
-                icon: Boxes,
-                title: "System Integration",
-                subtitle: "RIS, EMR & enterprise platforms",
-                items: ["Secreta RIS", "Epic", "Cerner", "Meditech", "Agfa", "Philips IntelliSpace", "GE Centricity", "Fujifilm Synapse", "Intelerad", "All RIS via DICOM MWL & HL7"],
-              },
-              {
-                icon: Globe2,
-                title: "National Platform Integration",
-                subtitle: "Regional health information exchanges",
-                items: ["Malaffi", "Riayati", "NPHIES", "Qatar NHIX", "IHE XDS-I Image Exchange Networks"],
-              },
-              {
-                icon: Cpu,
-                title: "AI Platform Integration",
-                subtitle: "Clinical AI engines & custom vendors",
-                items: ["Secreta AI Imaging", "Google Health AI", "Aidoc", "Annalise.ai", "Custom AI vendor integration via DICOM SR & DICOMweb"],
-              },
-              {
-                icon: FileCode2,
-                title: "Supported Standards",
-                subtitle: "Interoperability protocols",
-                items: ["DICOM 3.0", "DICOMweb", "WADO-RS", "STOW-RS", "HL7 v2 & FHIR R4", "IHE Radiology Profiles", "IHE XDS-I", "IHE Cross-Enterprise Document Sharing", "IEC 62494 Radiation Dose Reporting", "REST API"],
-              },
-            ].map((group) => {
-              const Icon = group.icon;
+            {(integrations.groups || []).map((group: any) => {
+              const Icon = iconFor(group.icon);
               return (
                 <div
                   key={group.title}
@@ -435,7 +425,7 @@ export default function PACS() {
                   <h3 className="mt-4 text-lg font-semibold text-foreground">{group.title}</h3>
                   <p className="mt-1 text-sm text-foreground/60">{group.subtitle}</p>
                   <div className="mt-4 flex flex-wrap gap-2">
-                    {group.items.map((tag) => (
+                    {(group.items || []).map((tag: string) => (
                       <span
                         key={tag}
                         className="rounded-full border border-border bg-background/60 px-3 py-1 text-xs font-medium text-foreground/75"
@@ -448,11 +438,11 @@ export default function PACS() {
               );
             })}
           </div>
-
         </div>
       </section>
+      )}
 
-      {/* FAQ */}
+      {content._visible.FAQ && (
       <section
         className="px-6 py-24 md:px-12"
         style={{ background: "color-mix(in oklab, var(--brand-blue) 4%, var(--background))" }}
@@ -460,13 +450,13 @@ export default function PACS() {
         <div className="mx-auto max-w-4xl">
           <div className="text-center">
             <span className="inline-flex items-center gap-2 rounded-full bg-[color:var(--brand-blue)]/10 px-3 py-1.5 text-xs font-semibold uppercase tracking-wider text-[color:var(--brand-blue)]">
-              <ShieldCheck className="h-3.5 w-3.5" /> FAQ
+              <ShieldCheck className="h-3.5 w-3.5" /> {faq.eyebrow}
             </span>
-            <h2 className="mt-5 text-3xl font-bold tracking-tight text-foreground md:text-5xl">Common Questions</h2>
+            <h2 className="mt-5 text-3xl font-bold tracking-tight text-foreground md:text-5xl">{faq.heading}</h2>
           </div>
 
           <div className="mt-12 space-y-4">
-            {faqs.map((f) => (
+            {(faq.items || []).map((f: any) => (
               <details
                 key={f.q}
                 className="group rounded-2xl border border-border bg-card p-6 transition-shadow open:shadow-[var(--shadow-brand)]"
@@ -489,15 +479,16 @@ export default function PACS() {
           </div>
         </div>
       </section>
+      )}
 
-      {/* FINAL CTA */}
+      {content._visible["Final CTA"] && (
       <section
         id="contact"
         className="relative overflow-hidden px-6 py-24 md:px-12"
         style={{ backgroundColor: "#091628" }}
       >
         <img
-          src={heroImage}
+          src={finalCta.mediaUrl || heroSrc}
           alt=""
           className="absolute inset-0 h-full w-full object-cover opacity-40"
           aria-hidden="true"
@@ -511,43 +502,48 @@ export default function PACS() {
         />
         <div className="relative mx-auto max-w-4xl text-center">
           <h2 className="text-3xl font-bold tracking-tight text-white md:text-5xl">
-            Every Image Your Facility Produces Is a Clinical Asset.{" "}
+            {finalCta.headline}{" "}
             <span className="bg-clip-text text-transparent" style={{ backgroundImage: "var(--gradient-brand)" }}>
-              Treat It Like One.
+              {finalCta.headlineAccent}
             </span>
           </h2>
           <p className="mt-8 text-lg leading-relaxed text-white/85">
-            Medical images drive diagnoses, guide procedures, inform treatment decisions, and create the longitudinal visual record of your patients' health over time. They deserve infrastructure that stores them without loss, delivers them without delay, displays them without compromise, and makes them available to every clinician who needs them — wherever they are, whenever they need them.
+            {finalCta.body}
           </p>
-          <p className="mt-6 text-lg font-medium text-white">
-            That is what Secreta PACS delivers. Every image. Every time.
-          </p>
+          {finalCta.body2 && (
+            <p className="mt-6 text-lg font-medium text-white">
+              {finalCta.body2}
+            </p>
+          )}
 
           <div className="mt-12 flex flex-col items-center justify-center gap-4 sm:flex-row">
             <a
-              href="#"
+              href={finalCta.primaryHref || "#"}
               className="inline-flex items-center gap-3 rounded-full px-10 py-5 text-base font-semibold text-white shadow-[var(--shadow-brand)] transition-transform hover:scale-105"
               style={{ background: "var(--gradient-brand)" }}
             >
-              Book Your Imaging Infrastructure Assessment <ArrowRight className="h-5 w-5" />
+              {finalCta.primaryLabel} <ArrowRight className="h-5 w-5" />
             </a>
             <a
-              href="#"
+              href={finalCta.secondaryHref || "#"}
               className="inline-flex items-center gap-3 rounded-full border border-white/30 bg-white/5 px-10 py-5 text-base font-semibold text-white backdrop-blur transition-colors hover:bg-white/15"
             >
-              Request a PACS Migration Consultation
+              {finalCta.secondaryLabel}
             </a>
           </div>
 
-          <p className="mt-8 text-sm italic text-white/70">
-            Legacy PACS migration support included. On-premise, cloud, and hybrid deployment available. Infrastructure assessment delivered within two weeks. Pricing tailored to your study volume and site configuration.
-          </p>
-
+          {finalCta.footnote && (
+            <p className="mt-8 text-sm italic text-white/70">
+              {finalCta.footnote}
+            </p>
+          )}
         </div>
       </section>
+      )}
 
       <CtaSection />
       <Footer />
     </>
   );
 }
+
