@@ -315,7 +315,7 @@ export default function EMRAM() {
                 {c["Patient Journey"].body}
               </p>
             </div>
-            <ExpandingJourney steps={c["Patient Journey"].items} />
+            <ExpandingJourney steps={c["Patient Journey"].items as any} />
           </div>
         </section>
       )}
