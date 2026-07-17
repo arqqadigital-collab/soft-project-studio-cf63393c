@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { createContext, useContext, useState } from "react";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
@@ -7,6 +7,51 @@ import { Trash2, Plus, Image as ImageIcon } from "lucide-react";
 import { MediaPickerDialog } from "@/components/dashboard/MediaPickerDialog";
 import { CLINICAL_AI_DEFAULTS } from "@/lib/clinicalAiContent";
 import { AI_IMAGING_DEFAULTS } from "@/lib/aiImagingContent";
+import { BLOOD_BANK_DEFAULTS } from "@/lib/bloodBankContent";
+import { CLINIC_DEFAULTS } from "@/lib/clinicContent";
+import { DENTAL_DEFAULTS } from "@/lib/dentalContent";
+import { ED_DEFAULTS } from "@/lib/edContent";
+import { HIS_DEFAULTS } from "@/lib/hisContent";
+import { LIS_DEFAULTS } from "@/lib/lisContent";
+import { MEDICATION_DEFAULTS } from "@/lib/medicationContent";
+import { PHYSIO_DEFAULTS } from "@/lib/physioContent";
+import { RCM_DEFAULTS } from "@/lib/rcmContent";
+import { RIS_DEFAULTS } from "@/lib/risContent";
+
+// Map page slug → its content defaults. Editor uses this to show the RIGHT
+// fields for the current page (each page has its own content shape).
+const DEFAULTS_BY_SLUG: Record<string, Record<string, any>> = {
+  "healthcare-clinical-ai": CLINICAL_AI_DEFAULTS as any,
+  "healthcare-ai-imaging": AI_IMAGING_DEFAULTS as any,
+  "blood-bank-and-donor-management": BLOOD_BANK_DEFAULTS as any,
+  "clinic": CLINIC_DEFAULTS as any,
+  "dental-management-suite": DENTAL_DEFAULTS as any,
+  "emergency": ED_DEFAULTS as any,
+  "his": HIS_DEFAULTS as any,
+  "lis": LIS_DEFAULTS as any,
+  "healthcare-medication-dosage": MEDICATION_DEFAULTS as any,
+  "physiotherapy": PHYSIO_DEFAULTS as any,
+  "rcm": RCM_DEFAULTS as any,
+  "ris": RIS_DEFAULTS as any,
+};
+
+const PageSlugContext = createContext<string | undefined>(undefined);
+
+export function PageDefaultsProvider({ slug, children }: { slug?: string; children: React.ReactNode }) {
+  return <PageSlugContext.Provider value={slug}>{children}</PageSlugContext.Provider>;
+}
+
+function usePageDefaultsFor(sectionName: string): Record<string, any> {
+  const slug = useContext(PageSlugContext);
+  const bySlug = slug ? DEFAULTS_BY_SLUG[slug] : undefined;
+  if (bySlug?.[sectionName]) return bySlug[sectionName];
+  // Fallback: try any page that defines this section (first match)
+  for (const src of Object.values(DEFAULTS_BY_SLUG)) {
+    if (src?.[sectionName]) return src[sectionName];
+  }
+  return {};
+}
+
 
 /**
  * Generic section registry for the 12 product/service pages that share the
