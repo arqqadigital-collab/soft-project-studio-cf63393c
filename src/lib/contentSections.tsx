@@ -298,12 +298,13 @@ function buildEmpty(template: Record<string, any>): Record<string, any> {
 
 // ---------- Generic Edit / Render ----------
 
-function makeEdit(shape: SectionData) {
+function makeEdit(sectionName: string) {
   return function GenericEdit({ data, onChange }: { data: SectionData; onChange: (n: SectionData) => void }) {
     const set = (k: string, v: any) => onChange({ ...data, [k]: v });
-    // Merge shape (defaults) + data keys so ALL editable fields are visible,
-    // even when the seeded row only contains an override or two.
-    const merged: SectionData = { ...shape, ...data };
+    // Pull shape from THIS page's own defaults (via PageDefaultsProvider),
+    // so HIS shows HIS fields, LIS shows LIS fields, etc.
+    const pageShape = usePageDefaultsFor(sectionName);
+    const merged: SectionData = { ...pageShape, ...data };
     const preferred = ["eyebrow", "heading", "headingAccent", "headline", "headlineAccent", "subheading", "subheadline", "body", "body2"];
     const keys = Object.keys(merged).filter((k) => k !== "section_name");
     const ordered = [
@@ -319,6 +320,7 @@ function makeEdit(shape: SectionData) {
     );
   };
 }
+
 
 function GenericRender({ data, kind }: { data: SectionData; kind: string }) {
   const heading = data?.heading ?? data?.headline ?? kind;
