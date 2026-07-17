@@ -388,7 +388,7 @@ export const PAGE_CONTENT_SECTION_DEFS: Record<string, SectionDef> = Object.from
       description: DESCRIPTIONS[k] ?? k,
       defaultData: pickDefault(k),
       Render: ({ data }: { data: SectionData }) => <GenericRender data={data} kind={k} />,
-      Edit: makeEdit(pickDefault(k)),
+      Edit: makeEdit(k),
     },
   ]),
 );
