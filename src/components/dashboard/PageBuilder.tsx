@@ -12,10 +12,11 @@ import {
   Trash2, ArrowUp, ArrowDown, Eye, EyeOff, Plus,
 } from "lucide-react";
 import { SECTION_REGISTRY, SECTION_KINDS, type SectionKind, type SectionDef } from "@/lib/pageSections";
+import { PageDefaultsProvider } from "@/lib/contentSections";
 
 type Row = { id: string; kind: SectionKind; position: number; is_visible: boolean; data: any };
 
-export function PageBuilder({ pageId }: { pageId: string }) {
+export function PageBuilder({ pageId, pageSlug }: { pageId: string; pageSlug?: string }) {
   const qc = useQueryClient();
   const [activeTab, setActiveTab] = useState<string | undefined>(undefined);
 
