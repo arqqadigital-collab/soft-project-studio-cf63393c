@@ -83,7 +83,7 @@ export function PageBuilder({ pageId, pageSlug }: { pageId: string; pageSlug?: s
   }
 
   return (
-    <div className="space-y-4">
+    <PageDefaultsProvider slug={pageSlug}><div className="space-y-4">
       <div className="flex items-center justify-between">
         <div>
           <h3 className="text-lg font-semibold">Sections</h3>
