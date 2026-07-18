@@ -443,6 +443,8 @@ export const PAGE_CONTENT_KINDS = [
   "Pillars",
   // Implementation sections
   "Methodology",
+  // Staff Aug sections
+  "Models",
 ] as const;
 
 export const PAGE_CONTENT_SECTION_DEFS: Record<string, SectionDef> = Object.fromEntries(
