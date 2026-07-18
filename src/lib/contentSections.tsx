@@ -433,6 +433,8 @@ export const PAGE_CONTENT_KINDS = [
   "Philosophy",
   "Services",
   "Stats",
+  // Cybersecurity sections
+  "Pillars",
 ] as const;
 
 export const PAGE_CONTENT_SECTION_DEFS: Record<string, SectionDef> = Object.fromEntries(
