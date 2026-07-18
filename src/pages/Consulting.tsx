@@ -233,7 +233,7 @@ export default function Consulting() {
           <div className="text-center">
             <h2 className="text-3xl font-bold leading-tight text-white md:text-4xl">{c.Stats.heading}</h2>
           </div>
-          <StatsCounter items={c.Stats.items as any[]} />
+          <StatsCounter items={c.Stats.items as unknown as any[]} />
         </div>
       </section>
       )}
