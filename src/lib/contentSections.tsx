@@ -26,6 +26,7 @@ import { UAE_COMPLIANCE_DEFAULTS } from "@/lib/uaeComplianceContent";
 import { DYNAMICS_DEFAULTS } from "@/lib/dynamicsContent";
 import { ODOO_DEFAULTS } from "@/lib/odooContent";
 import { ZOHO_DEFAULTS } from "@/lib/zohoContent";
+import { MANUFACTURING_DEFAULTS } from "@/lib/manufacturingContent";
 
 // Map page slug → its content defaults. Editor uses this to show the RIGHT
 // fields for the current page (each page has its own content shape).
