@@ -32,6 +32,7 @@ import { LOGISTICS_DEFAULTS } from "@/lib/logisticsContent";
 import { EDUCATION_DEFAULTS } from "@/lib/educationContent";
 import { CONSULTING_DEFAULTS } from "@/lib/consultingContent";
 import { CYBERSECURITY_DEFAULTS } from "@/lib/cybersecurityContent";
+import { IMPLEMENTATION_DEFAULTS } from "@/lib/implementationContent";
 
 // Map page slug → its content defaults. Editor uses this to show the RIGHT
 // fields for the current page (each page has its own content shape).
@@ -63,6 +64,7 @@ const DEFAULTS_BY_SLUG: Record<string, Record<string, any>> = {
   "erp-education": EDUCATION_DEFAULTS as any,
   "services-consulting": CONSULTING_DEFAULTS as any,
   "services-cybersecurity": CYBERSECURITY_DEFAULTS as any,
+  "services-implementation": IMPLEMENTATION_DEFAULTS as any,
 };
 
 const PageSlugContext = createContext<string | undefined>(undefined);
@@ -435,6 +437,8 @@ export const PAGE_CONTENT_KINDS = [
   "Stats",
   // Cybersecurity sections
   "Pillars",
+  // Implementation sections
+  "Methodology",
 ] as const;
 
 export const PAGE_CONTENT_SECTION_DEFS: Record<string, SectionDef> = Object.fromEntries(
