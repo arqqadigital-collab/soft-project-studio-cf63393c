@@ -427,6 +427,10 @@ export const PAGE_CONTENT_KINDS = [
   "Capabilities",
   "Implementation",
   "Why SBS",
+  // Consulting sections
+  "Philosophy",
+  "Services",
+  "Stats",
 ] as const;
 
 export const PAGE_CONTENT_SECTION_DEFS: Record<string, SectionDef> = Object.fromEntries(
