@@ -27,6 +27,7 @@ import { DYNAMICS_DEFAULTS } from "@/lib/dynamicsContent";
 import { ODOO_DEFAULTS } from "@/lib/odooContent";
 import { ZOHO_DEFAULTS } from "@/lib/zohoContent";
 import { MANUFACTURING_DEFAULTS } from "@/lib/manufacturingContent";
+import { RETAIL_DEFAULTS } from "@/lib/retailContent";
 
 // Map page slug → its content defaults. Editor uses this to show the RIGHT
 // fields for the current page (each page has its own content shape).
@@ -53,6 +54,7 @@ const DEFAULTS_BY_SLUG: Record<string, Record<string, any>> = {
   "erp-odoo": ODOO_DEFAULTS as any,
   "erp-zoho": ZOHO_DEFAULTS as any,
   "erp-manufacturing": MANUFACTURING_DEFAULTS as any,
+  "erp-retail": RETAIL_DEFAULTS as any,
 };
 
 const PageSlugContext = createContext<string | undefined>(undefined);
