@@ -52,6 +52,7 @@ const DEFAULTS_BY_SLUG: Record<string, Record<string, any>> = {
   "erp-dynamics-365": DYNAMICS_DEFAULTS as any,
   "erp-odoo": ODOO_DEFAULTS as any,
   "erp-zoho": ZOHO_DEFAULTS as any,
+  "erp-manufacturing": MANUFACTURING_DEFAULTS as any,
 };
 
 const PageSlugContext = createContext<string | undefined>(undefined);
