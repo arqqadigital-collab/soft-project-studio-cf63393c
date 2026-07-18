@@ -66,6 +66,7 @@ const DEFAULTS_BY_SLUG: Record<string, Record<string, any>> = {
   "services-consulting": CONSULTING_DEFAULTS as any,
   "services-cybersecurity": CYBERSECURITY_DEFAULTS as any,
   "services-implementation": IMPLEMENTATION_DEFAULTS as any,
+  "services-learning": LEARNING_DEFAULTS as any,
 };
 
 const PageSlugContext = createContext<string | undefined>(undefined);
