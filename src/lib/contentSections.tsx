@@ -31,6 +31,7 @@ import { RETAIL_DEFAULTS } from "@/lib/retailContent";
 import { LOGISTICS_DEFAULTS } from "@/lib/logisticsContent";
 import { EDUCATION_DEFAULTS } from "@/lib/educationContent";
 import { CONSULTING_DEFAULTS } from "@/lib/consultingContent";
+import { CYBERSECURITY_DEFAULTS } from "@/lib/cybersecurityContent";
 
 // Map page slug → its content defaults. Editor uses this to show the RIGHT
 // fields for the current page (each page has its own content shape).
