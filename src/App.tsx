@@ -28,6 +28,8 @@ import UAECompliance from "./pages/UAECompliance";
 import KSACompliance from "./pages/KSACompliance";
 import EMRAM from "./pages/EMRAM";
 import ClinicalAI from "./pages/ClinicalAI";
+import PatientEngagement from "./pages/PatientEngagement";
+import RevenueCycle from "./pages/RevenueCycle";
 import Dynamics365 from "./pages/Dynamics365";
 import Odoo from "./pages/Odoo";
 import Zoho from "./pages/Zoho";
