@@ -65,14 +65,42 @@ export default function PagesAndNavigation() {
   async function translateAllPages() {
     if (!confirm("Auto-translate ALL sections across ALL pages into Arabic?\n\nThis will OVERWRITE any existing Arabic content site-wide and may take several minutes.")) return;
     setTranslatingAll(true);
-    const t = toast.loading("Translating every page to Arabic. This can take a few minutes…");
+    const t = toast.loading("Preparing pages…");
     try {
-      const { data, error } = await supabase.functions.invoke("translate-content", {
-        body: { mode: "all_pages" },
+      // Fetch every page id, then translate one page at a time.
+      // Per-page invokes stay well under the edge-function timeout and give live progress.
+      const { data: pages, error: pErr } = await supabase
+        .from("pages")
+        .select("id,title")
+        .order("title", { ascending: true });
+      if (pErr) throw pErr;
+      const list = pages ?? [];
+      let ok = 0, fail = 0, totalSections = 0, doneSections = 0;
+      for (let i = 0; i < list.length; i++) {
+        const p = list[i];
+        toast.loading(`Translating ${i + 1}/${list.length}: ${p.title}…  (${doneSections} sections done)`, { id: t });
+        try {
+          const { data, error } = await supabase.functions.invoke("translate-content", {
+            body: { mode: "page", pageId: p.id },
+          });
+          if (error) throw error;
+          const res = (data ?? {}) as { ok: number; fail: number; total: number };
+          ok += res.ok ?? 0;
+          fail += res.fail ?? 0;
+          totalSections += res.total ?? 0;
+          doneSections += (res.ok ?? 0) + (res.fail ?? 0);
+        } catch (e: any) {
+          fail += 1;
+          console.error(`Translate failed for ${p.title}:`, e);
+        }
+      }
+      qc.invalidateQueries({
+        predicate: (q) => Array.isArray(q.queryKey) && q.queryKey[0] === "page-sections",
       });
-      if (error) throw error;
-      const res = data as { ok: number; fail: number; total: number };
-      toast.success(`Translated ${res.ok}/${res.total} sections${res.fail ? ` (${res.fail} failed)` : ""}`, { id: t });
+      toast.success(
+        `Done. ${ok}/${totalSections} sections translated across ${list.length} pages${fail ? ` (${fail} failed)` : ""}.`,
+        { id: t, duration: 8000 },
+      );
     } catch (e: any) {
       toast.error(e?.message ?? "Translation failed", { id: t });
     } finally {
