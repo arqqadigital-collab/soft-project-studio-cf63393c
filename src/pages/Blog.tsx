@@ -212,7 +212,7 @@ export default function Blog() {
                   key={cat}
                   type="button"
                   onClick={() => setActiveCategory(cat)}
-                  className={`rounded-full px-5 py-2 text-sm font-medium transition-colors ${
+                  className={`listing-category-filter rounded-full px-5 py-2 text-sm font-medium transition-colors ${
                     activeCategory === cat
                       ? "bg-primary text-primary-foreground"
                       : "border border-border bg-card text-card-foreground hover:bg-muted"
@@ -255,7 +255,7 @@ export default function Blog() {
                 <div className="flex flex-col justify-center p-8 md:p-12">
                   {featured.category && (
                     <span
-                      className="w-fit rounded-full px-3 py-1 text-xs font-semibold uppercase tracking-wider"
+                    className="listing-category w-fit rounded-full px-3 py-1 text-xs font-semibold uppercase tracking-wider"
                       style={{
                         color: "var(--brand-blue)",
                         background: "oklch(0.62 0.13 230 / 0.1)",
@@ -320,7 +320,7 @@ export default function Blog() {
                     <div className="flex flex-1 flex-col p-6">
                       {post.category && (
                         <span
-                          className="w-fit rounded-full px-3 py-1 text-xs font-semibold uppercase tracking-wider"
+                          className="listing-category w-fit rounded-full px-3 py-1 text-xs font-semibold uppercase tracking-wider"
                           style={{
                             color: "var(--brand-blue)",
                             background: "oklch(0.62 0.13 230 / 0.1)",

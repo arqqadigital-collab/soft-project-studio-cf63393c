@@ -137,6 +137,73 @@ function TokenControls({ value, onChange }: { value: StyleTokens; onChange: (v: 
   );
 }
 
+function CategoryControls({ value, onChange }: { value: StyleTokens; onChange: (v: StyleTokens) => void }) {
+  const set = <K extends keyof StyleTokens>(k: K, v: StyleTokens[K]) => onChange({ ...value, [k]: v });
+  return (
+    <div className="space-y-4 border-t pt-6">
+      <div>
+        <h4 className="font-semibold">Category style</h4>
+        <p className="text-sm text-muted-foreground">Controls card badges and the category filters above the cards.</p>
+      </div>
+      <div className="grid gap-4 md:grid-cols-2">
+        <div>
+          <Label>Badge appearance</Label>
+          <Select value={value.category_style ?? "soft"} onValueChange={(v) => set("category_style", v)}>
+            <SelectTrigger><SelectValue /></SelectTrigger>
+            <SelectContent>
+              <SelectItem value="soft">Soft background</SelectItem>
+              <SelectItem value="solid">Solid</SelectItem>
+              <SelectItem value="outline">Outline</SelectItem>
+            </SelectContent>
+          </Select>
+        </div>
+        <div>
+          <Label>Color</Label>
+          <Select value={value.category_color ?? "primary"} onValueChange={(v) => set("category_color", v)}>
+            <SelectTrigger><SelectValue /></SelectTrigger>
+            <SelectContent>
+              <SelectItem value="primary">Brand blue</SelectItem>
+              <SelectItem value="green">Brand green</SelectItem>
+              <SelectItem value="accent">Accent</SelectItem>
+              <SelectItem value="neutral">Neutral</SelectItem>
+            </SelectContent>
+          </Select>
+        </div>
+        <div>
+          <Label>Shape</Label>
+          <Select value={value.category_radius ?? "9999px"} onValueChange={(v) => set("category_radius", v)}>
+            <SelectTrigger><SelectValue /></SelectTrigger>
+            <SelectContent>
+              <SelectItem value="0rem">Sharp</SelectItem>
+              <SelectItem value="0.375rem">Small</SelectItem>
+              <SelectItem value="0.75rem">Rounded</SelectItem>
+              <SelectItem value="9999px">Pill</SelectItem>
+            </SelectContent>
+          </Select>
+        </div>
+        <div>
+          <Label>Letter case</Label>
+          <Select value={value.category_text_case ?? "uppercase"} onValueChange={(v) => set("category_text_case", v)}>
+            <SelectTrigger><SelectValue /></SelectTrigger>
+            <SelectContent>
+              <SelectItem value="original">Original</SelectItem>
+              <SelectItem value="uppercase">Uppercase</SelectItem>
+            </SelectContent>
+          </Select>
+        </div>
+      </div>
+      <div className="flex items-center justify-between rounded-md border p-3">
+        <Label>Show category badges on cards</Label>
+        <Switch checked={value.category_badge_visible !== false} onCheckedChange={(v) => set("category_badge_visible", v)} />
+      </div>
+      <div className="flex items-center justify-between rounded-md border p-3">
+        <Label>Show category filter buttons</Label>
+        <Switch checked={value.category_filters_visible !== false} onCheckedChange={(v) => set("category_filters_visible", v)} />
+      </div>
+    </div>
+  );
+}
+
 function Preview({ tokens }: { tokens: StyleTokens }) {
   return (
     <div className="rounded-lg border bg-muted/30 p-6">
@@ -147,6 +214,12 @@ function Preview({ tokens }: { tokens: StyleTokens }) {
           boxShadow: tokens.card_shadow === "none" ? "none" : `0 4px 12px -2px rgb(0 0 0 / 0.10)`,
           borderWidth: tokens.card_border === false ? 0 : 1,
         }}>
+          {tokens.category_badge_visible !== false && (
+            <span
+              className="mb-3 inline-flex border px-3 py-1 text-xs font-semibold"
+              style={{ borderRadius: tokens.category_radius ?? "9999px", textTransform: tokens.category_text_case === "original" ? "none" : "uppercase" }}
+            >Healthcare</span>
+          )}
           <h4 className="mb-1 font-semibold">Sample card</h4>
           <p className="text-sm text-muted-foreground">This is how your cards will look across all pages.</p>
         </div>
@@ -268,6 +341,7 @@ export default function StyleEditor() {
             {active && (
               <CardContent className="space-y-6">
                 <TokenControls value={current} onChange={(v) => setOverride(page.prefix, v)} />
+                <CategoryControls value={current} onChange={(v) => setOverride(page.prefix, v)} />
                 <Preview tokens={current} />
               </CardContent>
             )}
