@@ -3,6 +3,7 @@ import { motion } from "framer-motion";
 import { Clock, ArrowRight, Calendar } from "lucide-react";
 import { Link } from "react-router-dom";
 import { format } from "date-fns";
+import { ar as arLocale } from "date-fns/locale";
 import { Button } from "@/components/ui/button";
 import { Footer } from "@/components/Footer";
 import { supabase } from "@/integrations/supabase/client";
@@ -19,7 +20,7 @@ type PostRow = {
   featured_image_url: string | null;
   published_at: string | null;
   created_at: string;
-  category: { name: string; slug: string } | null;
+  category: { name: string; slug: string; translations?: Record<string, { name?: string }> | null } | null;
   author: { full_name: string | null } | null;
   translations?: Record<string, Partial<Pick<PostRow, "title" | "excerpt">>> | null;
 };
@@ -43,10 +44,10 @@ function initialsOf(name: string | null | undefined) {
     .join("");
 }
 
-function readTimeFor(excerpt: string | null) {
+function readTimeFor(excerpt: string | null, locale: string) {
   const words = (excerpt ?? "").split(/\s+/).filter(Boolean).length;
   const minutes = Math.max(3, Math.ceil(words / 200));
-  return `${minutes} Min Read`;
+  return locale === "ar" ? `${minutes} دقائق قراءة` : `${minutes} Min Read`;
 }
 
 function CoverPlaceholder({ className }: { className?: string }) {
@@ -117,17 +118,21 @@ export default function Blog() {
       const { data, error } = await supabase
         .from("posts")
         .select(
-          "id,title,slug,excerpt,featured_image_url,published_at,created_at,translations,category:categories(name,slug),author:profiles!posts_author_id_fkey(full_name)"
+          "id,title,slug,excerpt,featured_image_url,published_at,created_at,translations,category:categories(name,slug,translations),author:profiles!posts_author_id_fkey(full_name)"
         )
         .eq("status", "published")
         .order("published_at", { ascending: false, nullsFirst: false })
         .limit(50);
       if (cancelled) return;
       if (!error && data) {
-        setPosts((data as unknown as PostRow[]).map((post) => ({
-          ...post,
-          ...(locale === "en" ? {} : post.translations?.[locale] ?? {}),
-        })));
+        setPosts((data as unknown as PostRow[]).map((post) => {
+          const catAr = locale !== "en" ? post.category?.translations?.[locale]?.name : undefined;
+          return {
+            ...post,
+            ...(locale === "en" ? {} : post.translations?.[locale] ?? {}),
+            category: post.category ? { ...post.category, name: catAr ?? post.category.name } : null,
+          };
+        }));
       }
       setLoading(false);
     })();
@@ -223,11 +228,15 @@ export default function Blog() {
       )}
 
       {loading && (
-        <div className="pb-24 text-center text-sm text-muted-foreground">Loading articles…</div>
+        <div className="pb-24 text-center text-sm text-muted-foreground">
+          {locale === "ar" ? "جارٍ تحميل المقالات…" : "Loading articles…"}
+        </div>
       )}
 
       {!loading && !featured && (
-        <div className="pb-24 text-center text-sm text-muted-foreground">No published articles yet.</div>
+        <div className="pb-24 text-center text-sm text-muted-foreground">
+          {locale === "ar" ? "لا توجد مقالات منشورة بعد." : "No published articles yet."}
+        </div>
       )}
 
       {/* Featured post */}
@@ -264,18 +273,19 @@ export default function Blog() {
                   <div className="mt-8 flex flex-wrap items-center justify-between gap-4">
                     <AuthorBadge name={featured.author?.full_name} />
                     <CardMeta
-                      readTime={readTimeFor(featured.excerpt)}
+                      readTime={readTimeFor(featured.excerpt, locale)}
                       date={format(
                         new Date(featured.published_at ?? featured.created_at),
-                        "MMMM d, yyyy"
+                        "MMMM d, yyyy",
+                        locale === "ar" ? { locale: arLocale } : undefined
                       )}
                     />
                   </div>
                   <div className="mt-8">
                     <Button asChild className="group/btn inline-flex items-center gap-2">
                       <Link to={`/blog/${featured.slug}`}>
-                        Read Article
-                        <ArrowRight className="h-4 w-4 transition-transform group-hover/btn:translate-x-1" />
+                        {locale === "ar" ? "اقرأ المقال" : "Read Article"}
+                        <ArrowRight className="h-4 w-4 transition-transform group-hover/btn:translate-x-1 rtl:rotate-180" />
                       </Link>
                     </Button>
                   </div>
@@ -291,7 +301,7 @@ export default function Blog() {
         <section className="bg-background pb-24 md:pb-32">
           <div className="mx-auto max-w-7xl px-6">
             <div className="mb-10 flex items-center justify-between">
-              <h2 className="text-2xl font-bold text-foreground md:text-3xl">Latest Articles</h2>
+              <h2 className="text-2xl font-bold text-foreground md:text-3xl">{locale === "ar" ? "أحدث المقالات" : "Latest Articles"}</h2>
             </div>
 
             <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-3">
@@ -328,10 +338,11 @@ export default function Blog() {
                       <div className="mt-6 flex flex-wrap items-center justify-between gap-4 border-t border-border pt-5">
                         <AuthorBadge name={post.author?.full_name} />
                         <CardMeta
-                          readTime={readTimeFor(post.excerpt)}
+                          readTime={readTimeFor(post.excerpt, locale)}
                           date={format(
                             new Date(post.published_at ?? post.created_at),
-                            "MMM d, yyyy"
+                            "MMM d, yyyy",
+                            locale === "ar" ? { locale: arLocale } : undefined
                           )}
                         />
                       </div>
