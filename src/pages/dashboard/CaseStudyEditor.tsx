@@ -21,23 +21,35 @@ export default function CaseStudyEditor() {
   const [f, setF] = useState<any>({
     title: "", slug: "", client_name: "", industry: "", summary: "",
     challenge: "", solution: "", results: "", cover_image_url: "", status: "draft",
+    translations: {} as Record<string, any>,
   });
   const [loading, setLoading] = useState(!isNew);
+  const [locale, setLocale] = useState<EditorLocale>("en");
+  const [ar, setAr] = useState<Record<string, string>>({});
 
   useEffect(() => {
     if (isNew) return;
     (async () => {
       const { data, error } = await supabase.from("case_studies").select("*").eq("id", id!).maybeSingle();
       if (error) toast.error(error.message);
-      if (data) setF(data);
+      if (data) {
+        setF(data);
+        setAr(((data as any).translations?.ar ?? {}) as Record<string, string>);
+      }
       setLoading(false);
     })();
   }, [id, isNew]);
 
   const set = (patch: any) => setF((x: any) => ({ ...x, ...patch }));
+  const setArField = (k: string, v: string) => setAr((x) => ({ ...x, [k]: v }));
+
+  // Read/write a field respecting current locale
+  const getV = (k: string) => (locale === "ar" ? (ar[k] ?? "") : (f[k] ?? ""));
+  const setV = (k: string, v: string) => (locale === "ar" ? setArField(k, v) : set({ [k]: v }));
 
   async function save() {
-    const payload = { ...f, slug: f.slug || slugify(f.title) };
+    const translations = { ...(f.translations ?? {}), ar };
+    const payload = { ...f, translations, slug: f.slug || slugify(f.title) };
     if (!payload.title) return toast.error("Title required");
     if (isNew) {
       const { data, error } = await supabase.from("case_studies").insert(payload).select("id").single();
