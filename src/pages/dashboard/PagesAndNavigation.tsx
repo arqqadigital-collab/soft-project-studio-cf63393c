@@ -46,7 +46,7 @@ type Col = MenuTreeGroup["columns"][number];
 
 type EditTarget =
   | { kind: "group"; id?: string; label: string }
-  | { kind: "column"; id?: string; group_id: string; label: string }
+  | { kind: "column"; id?: string; group_id: string; label: string; description: string }
   | { kind: "link"; id?: string; column_id: string; label: string; url: string; target: string };
 
 type DragKind = "group" | "column" | "item";
@@ -442,8 +442,8 @@ export default function PagesAndNavigation() {
                       onSubToggle={toggle}
                       onEditGroup={() => setEdit({ kind: "group", id: g.id, label: g.label })}
                       onDeleteGroup={() => remove("menu_groups", g.id, g.label)}
-                      onAddColumn={() => setEdit({ kind: "column", group_id: g.id, label: "" })}
-                      onEditColumn={(c) => setEdit({ kind: "column", id: c.id, group_id: g.id, label: c.label })}
+                      onAddColumn={() => setEdit({ kind: "column", group_id: g.id, label: "", description: "" })}
+                      onEditColumn={(c) => setEdit({ kind: "column", id: c.id, group_id: g.id, label: c.label, description: c.description ?? "" })}
                       onDeleteColumn={(c) => remove("menu_columns", c.id, c.label)}
                       onToggleGroupVisible={() => toggleVisible("menu_groups", g.id, g.is_visible)}
                       onToggleColumnVisible={(c) => toggleVisible("menu_columns", c.id, c.is_visible)}
@@ -811,6 +811,7 @@ function EditDialog({
   const [label, setLabel] = useState("");
   const [url, setUrl] = useState("");
   const [newTab, setNewTab] = useState(false);
+  const [description, setDescription] = useState("");
 
   const key = useMemo(() => {
     if (!target) return "";
@@ -822,9 +823,15 @@ function EditDialog({
     if (target.kind === "link") {
       setUrl(target.url);
       setNewTab(target.target === "_blank");
+      setDescription("");
+    } else if (target.kind === "column") {
+      setUrl("");
+      setNewTab(false);
+      setDescription(target.description ?? "");
     } else {
       setUrl("");
       setNewTab(false);
+      setDescription("");
     }
     setLastKey(key);
   }
@@ -847,12 +854,13 @@ function EditDialog({
           if (error) throw error;
         }
       } else if (target.kind === "column") {
+        const desc = description.trim() || null;
         if (target.id) {
-          const { error } = await supabase.from("menu_columns").update({ label: label.trim() }).eq("id", target.id);
+          const { error } = await supabase.from("menu_columns").update({ label: label.trim(), description: desc }).eq("id", target.id);
           if (error) throw error;
         } else {
           const { data: max } = await supabase.from("menu_columns").select("position").eq("group_id", target.group_id).order("position", { ascending: false }).limit(1).maybeSingle();
-          const { error } = await supabase.from("menu_columns").insert({ label: label.trim(), group_id: target.group_id, position: ((max?.position ?? -1) + 1), is_visible: true });
+          const { error } = await supabase.from("menu_columns").insert({ label: label.trim(), description: desc, group_id: target.group_id, position: ((max?.position ?? -1) + 1), is_visible: true });
           if (error) throw error;
         }
       } else {
@@ -890,6 +898,19 @@ function EditDialog({
             <Label>Label</Label>
             <Input value={label} onChange={(e) => setLabel(e.target.value)} placeholder="Displayed in menu" autoFocus />
           </div>
+          {target.kind === "column" && (
+            <div>
+              <Label>Description</Label>
+              <Input
+                value={description}
+                onChange={(e) => setDescription(e.target.value)}
+                placeholder="Short subtitle shown under the tab in the mega menu"
+              />
+              <p className="mt-1 text-xs text-muted-foreground">
+                Optional. Appears as a small line under the tab title.
+              </p>
+            </div>
+          )}
           {target.kind === "link" && (
             <>
               <div>

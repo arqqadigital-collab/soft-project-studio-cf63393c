@@ -757,6 +757,7 @@ export type Database = {
       menu_columns: {
         Row: {
           created_at: string
+          description: string | null
           group_id: string
           id: string
           is_visible: boolean
@@ -766,6 +767,7 @@ export type Database = {
         }
         Insert: {
           created_at?: string
+          description?: string | null
           group_id: string
           id?: string
           is_visible?: boolean
@@ -775,6 +777,7 @@ export type Database = {
         }
         Update: {
           created_at?: string
+          description?: string | null
           group_id?: string
           id?: string
           is_visible?: boolean
