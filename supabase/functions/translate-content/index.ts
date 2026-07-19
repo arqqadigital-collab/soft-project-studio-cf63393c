@@ -37,21 +37,62 @@ async function translateJson(input: unknown, attempt = 0): Promise<any> {
   });
   if (!res.ok) {
     const t = await res.text();
-    // Retry on rate-limit / transient upstream
-    if ((res.status === 429 || res.status >= 500) && attempt < 2) {
+    if ((res.status === 429 || res.status >= 500) && attempt < 4) {
       await new Promise((r) => setTimeout(r, 1500 * (attempt + 1)));
       return translateJson(input, attempt + 1);
     }
     throw new Error(`AI ${res.status}: ${t.slice(0, 200)}`);
   }
   const j = await res.json();
-  const content = j?.choices?.[0]?.message?.content ?? "{}";
-  try {
-    return JSON.parse(content);
-  } catch {
+  const content = j?.choices?.[0]?.message?.content ?? "";
+  const tryParse = (s: string) => { try { return JSON.parse(s); } catch { return null; } };
+  let parsed = tryParse(content);
+  if (!parsed) {
     const cleaned = content.replace(/^```(?:json)?/i, "").replace(/```$/, "").trim();
-    try { return JSON.parse(cleaned); } catch { return {}; }
+    parsed = tryParse(cleaned);
   }
+  if (!parsed) {
+    // Extract first {...} block
+    const m = content.match(/\{[\s\S]*\}/);
+    if (m) parsed = tryParse(m[0]);
+  }
+  if (!parsed && attempt < 4) {
+    await new Promise((r) => setTimeout(r, 800 * (attempt + 1)));
+    return translateJson(input, attempt + 1);
+  }
+  return parsed ?? {};
+}
+
+// Recursively count translatable string leaves (skips code-like values)
+function countStrings(v: unknown): number {
+  if (typeof v === "string") {
+    const s = v.trim();
+    if (!s) return 0;
+    if (/^(https?:|\/|#|mailto:)/i.test(s)) return 0;
+    if (/^[a-z0-9_-]{1,32}$/i.test(s) && !/\s/.test(s)) return 0; // slugs/enums
+    return 1;
+  }
+  if (Array.isArray(v)) return v.reduce((n, x) => n + countStrings(x), 0);
+  if (v && typeof v === "object") return Object.values(v as any).reduce((n: number, x) => n + countStrings(x), 0);
+  return 0;
+}
+
+// Check translation looks structurally complete: covers >=70% of source strings
+function isTranslationAdequate(source: unknown, ar: unknown): boolean {
+  const srcCount = countStrings(source);
+  if (srcCount === 0) return true;
+  const arCount = countStrings(ar);
+  return arCount >= Math.ceil(srcCount * 0.7);
+}
+
+async function translateJsonValidated(input: unknown): Promise<any> {
+  let last: any = {};
+  for (let i = 0; i < 3; i++) {
+    const ar = await translateJson(input, 0);
+    last = ar;
+    if (isTranslationAdequate(input, ar)) return ar;
+  }
+  return last;
 }
 
 async function mapWithConcurrency<T, R>(items: T[], limit: number, fn: (item: T) => Promise<R>): Promise<PromiseSettledResult<R>[]> {
@@ -88,7 +129,10 @@ async function mergeArFields(table: string, id: string, fields: Record<string, u
 }
 
 async function translateSection(row: { id: string; data: any }) {
-  const ar = await translateJson(row.data ?? {});
+  const src = row.data ?? {};
+  if (countStrings(src) === 0) return; // nothing translatable
+  const ar = await translateJsonValidated(src);
+  if (!ar || Object.keys(ar).length === 0) throw new Error("empty translation");
   await mergeAr("page_sections", row.id, ar);
 }
 
