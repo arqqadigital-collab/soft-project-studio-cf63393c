@@ -167,7 +167,7 @@ export default function Index() {
 
             <a
               href={hero.cta_href || "/contact"}
-              className="mt-10 inline-flex items-center gap-2 self-start rounded-full px-6 py-3 text-sm font-semibold shadow-[var(--shadow-brand)] transition-transform hover:scale-105 sm:gap-3 sm:px-8 sm:py-4 sm:text-base md:mt-12 md:px-10 md:py-5"
+              className="mt-10 inline-flex items-center gap-2 rounded-full px-6 py-3 text-sm font-semibold shadow-[var(--shadow-brand)] transition-transform hover:scale-105 sm:gap-3 sm:px-8 sm:py-4 sm:text-base md:mt-12 md:px-10 md:py-5"
               style={{
                 background: `linear-gradient(135deg, ${hero.cta_bg_from}, ${hero.cta_bg_to})`,
                 color: hero.cta_text_color,
