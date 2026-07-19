@@ -74,21 +74,28 @@ export default function CaseStudyEditor() {
           </Button>
           <h1 className="text-2xl font-semibold">{isNew ? "New Case Study" : "Edit Case Study"}</h1>
         </div>
-        <Button onClick={save}><Save className="mr-1 h-4 w-4" /> Save</Button>
+        <div className="flex items-center gap-2">
+          <LocaleTabs locale={locale} onChange={setLocale} />
+          <Button onClick={save}><Save className="mr-1 h-4 w-4" /> Save</Button>
+        </div>
       </div>
 
+      <LocaleHint locale={locale} />
+
       <div className="grid gap-4 lg:grid-cols-[1fr_320px]">
-        <Card className="p-4 space-y-4">
-          <div className="space-y-2"><Label>Title</Label><Input value={f.title} onChange={(e) => set({ title: e.target.value })} /></div>
-          <div className="space-y-2"><Label>Slug</Label><Input value={f.slug} onChange={(e) => set({ slug: e.target.value })} placeholder="auto from title" /></div>
-          <div className="grid gap-4 md:grid-cols-2">
-            <div className="space-y-2"><Label>Client</Label><Input value={f.client_name ?? ""} onChange={(e) => set({ client_name: e.target.value })} /></div>
-            <div className="space-y-2"><Label>Industry</Label><Input value={f.industry ?? ""} onChange={(e) => set({ industry: e.target.value })} /></div>
-          </div>
-          <div className="space-y-2"><Label>Summary</Label><Textarea rows={3} value={f.summary ?? ""} onChange={(e) => set({ summary: e.target.value })} /></div>
-          <div className="space-y-2"><Label>Challenge</Label><Textarea rows={5} value={f.challenge ?? ""} onChange={(e) => set({ challenge: e.target.value })} /></div>
-          <div className="space-y-2"><Label>Solution</Label><Textarea rows={5} value={f.solution ?? ""} onChange={(e) => set({ solution: e.target.value })} /></div>
-          <div className="space-y-2"><Label>Results</Label><Textarea rows={5} value={f.results ?? ""} onChange={(e) => set({ results: e.target.value })} /></div>
+        <Card className="p-4 space-y-4" dir={locale === "ar" ? "rtl" : "ltr"}>
+          <div className="space-y-2"><Label>Title{locale === "ar" ? " (AR)" : ""}</Label><Input value={getV("title")} onChange={(e) => setV("title", e.target.value)} placeholder={locale === "ar" ? f.title : undefined} /></div>
+          {locale === "en" && <div className="space-y-2"><Label>Slug</Label><Input value={f.slug} onChange={(e) => set({ slug: e.target.value })} placeholder="auto from title" /></div>}
+          {locale === "en" && (
+            <div className="grid gap-4 md:grid-cols-2">
+              <div className="space-y-2"><Label>Client</Label><Input value={f.client_name ?? ""} onChange={(e) => set({ client_name: e.target.value })} /></div>
+              <div className="space-y-2"><Label>Industry</Label><Input value={f.industry ?? ""} onChange={(e) => set({ industry: e.target.value })} /></div>
+            </div>
+          )}
+          <div className="space-y-2"><Label>Summary{locale === "ar" ? " (AR)" : ""}</Label><Textarea rows={3} value={getV("summary")} onChange={(e) => setV("summary", e.target.value)} placeholder={locale === "ar" ? f.summary ?? "" : undefined} /></div>
+          <div className="space-y-2"><Label>Challenge{locale === "ar" ? " (AR)" : ""}</Label><Textarea rows={5} value={getV("challenge")} onChange={(e) => setV("challenge", e.target.value)} placeholder={locale === "ar" ? f.challenge ?? "" : undefined} /></div>
+          <div className="space-y-2"><Label>Solution{locale === "ar" ? " (AR)" : ""}</Label><Textarea rows={5} value={getV("solution")} onChange={(e) => setV("solution", e.target.value)} placeholder={locale === "ar" ? f.solution ?? "" : undefined} /></div>
+          <div className="space-y-2"><Label>Results{locale === "ar" ? " (AR)" : ""}</Label><Textarea rows={5} value={getV("results")} onChange={(e) => setV("results", e.target.value)} placeholder={locale === "ar" ? f.results ?? "" : undefined} /></div>
         </Card>
 
         <Card className="p-4 space-y-4 h-fit">
