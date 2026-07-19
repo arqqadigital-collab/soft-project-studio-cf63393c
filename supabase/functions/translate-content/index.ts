@@ -77,6 +77,16 @@ async function mergeAr(table: string, id: string, ar: any) {
   if (error) throw error;
 }
 
+async function mergeArFields(table: string, id: string, fields: Record<string, unknown>) {
+  const { data: existing, error: readError } = await admin
+    .from(table).select("translations").eq("id", id).maybeSingle();
+  if (readError) throw readError;
+  const translations = (((existing as any)?.translations as Record<string, any>) ?? {});
+  const next = { ...translations, ar: { ...(translations.ar ?? {}), ...fields } };
+  const { error } = await admin.from(table).update({ translations: next }).eq("id", id);
+  if (error) throw error;
+}
+
 async function translateSection(row: { id: string; data: any }) {
   const ar = await translateJson(row.data ?? {});
   await mergeAr("page_sections", row.id, ar);
@@ -101,37 +111,50 @@ async function translateHeaderFooter() {
 }
 
 async function translateMenus() {
-  let ok = 0, fail = 0, total = 0;
+  let ok = 0, fail = 0;
   const errors: string[] = [];
-  for (const table of ["menu_groups", "menu_columns", "menu_links"] as const) {
-    const { data, error } = await admin.from(table).select("id, label, description");
-    if (error) throw error;
-    for (const row of (data ?? []) as any[]) {
-      total++;
-      try {
-        const payload: any = { label: row.label ?? "" };
-        if (table === "menu_columns") payload.description = row.description ?? "";
-        const ar = await translateJson(payload);
-        await mergeAr(table, row.id, ar);
-        ok++;
-      } catch (e) {
-        fail++; errors.push(`${table}/${row.id}: ${(e as Error).message}`);
-      }
-    }
+  const [groupsResult, columnsResult, linksResult, pagesResult] = await Promise.all([
+    admin.from("menu_groups").select("id, label").order("position"),
+    admin.from("menu_columns").select("id, label, description").order("position"),
+    admin.from("menu_links").select("id, label").order("position"),
+    admin.from("pages").select("id, title, nav_label").not("menu_column_id", "is", null).order("menu_position"),
+  ]);
+  for (const result of [groupsResult, columnsResult, linksResult, pagesResult]) {
+    if (result.error) throw result.error;
   }
-  // Also translate page nav_label + title for pages in menus
-  const { data: pgs } = await admin
-    .from("pages").select("id, title, nav_label").not("menu_column_id", "is", null);
-  for (const p of (pgs ?? []) as any[]) {
-    total++;
-    try {
-      const ar = await translateJson({ title: p.title ?? "", nav_label: p.nav_label ?? p.title ?? "" });
-      await mergeAr("pages", p.id, ar);
-      ok++;
-    } catch (e) {
-      fail++; errors.push(`pages/${p.id}: ${(e as Error).message}`);
+
+  const groups = (groupsResult.data ?? []) as any[];
+  const columns = (columnsResult.data ?? []) as any[];
+  const links = (linksResult.data ?? []) as any[];
+  const pages = (pagesResult.data ?? []) as any[];
+  const total = groups.length + columns.length + links.length + pages.length;
+
+  // Translate the small menu tree in one request instead of making one AI call per row.
+  // This keeps the function well below its wall-clock timeout.
+  const translated = await translateJson({
+    groups: groups.map((row) => ({ label: row.label ?? "" })),
+    columns: columns.map((row) => ({ label: row.label ?? "", description: row.description ?? "" })),
+    links: links.map((row) => ({ label: row.label ?? "" })),
+    pages: pages.map((row) => ({ title: row.title ?? "", nav_label: row.nav_label ?? row.title ?? "" })),
+  });
+
+  const jobs = [
+    ...groups.map((row, index) => ({ table: "menu_groups", row, ar: translated?.groups?.[index] })),
+    ...columns.map((row, index) => ({ table: "menu_columns", row, ar: translated?.columns?.[index] })),
+    ...links.map((row, index) => ({ table: "menu_links", row, ar: translated?.links?.[index] })),
+    ...pages.map((row, index) => ({ table: "pages", row, ar: translated?.pages?.[index] })),
+  ];
+  const settled = await mapWithConcurrency(jobs, 8, async (job) => {
+    if (!job.ar || typeof job.ar !== "object") throw new Error("Missing translated row");
+    await mergeArFields(job.table, job.row.id, job.ar);
+  });
+  settled.forEach((result, index) => {
+    if (result.status === "fulfilled") ok++;
+    else {
+      fail++;
+      errors.push(`${jobs[index].table}/${jobs[index].row.id}: ${(result.reason as Error)?.message ?? "error"}`);
     }
-  }
+  });
   return { ok, fail, total, errors };
 }
 

@@ -152,9 +152,13 @@ export default function HeaderFooterEditor() {
                 body: { mode: "menus" },
               });
               toast.dismiss(t);
-              if (error) return toast.error(error.message);
+              if (error) {
+                const detail = await (error as any)?.context?.text?.().catch(() => "");
+                return toast.error(detail || error.message);
+              }
               const r = data as any;
-              toast.success(`Menus translated (${r?.ok ?? 0}/${r?.total ?? 0})`);
+              if (r?.fail) toast.warning(`Menus translated (${r.ok}/${r.total}); ${r.fail} failed`);
+              else toast.success(`Menus translated (${r?.ok ?? 0}/${r?.total ?? 0})`);
               qc.invalidateQueries({ queryKey: ["menu-tree"] });
             }}
           >

@@ -103,7 +103,11 @@ export default function PagesAndNavigation() {
       } catch (e) { console.error("H/F translate failed", e); }
       try {
         toast.loading(`Translating navigation menus…`, { id: t });
-        const { data: mn } = await supabase.functions.invoke("translate-content", { body: { mode: "menus" } });
+        const { data: mn, error: mnError } = await supabase.functions.invoke("translate-content", { body: { mode: "menus" } });
+        if (mnError) {
+          const detail = await (mnError as any)?.context?.text?.().catch(() => "");
+          throw new Error(detail || mnError.message);
+        }
         menuOk = (mn as any)?.ok ?? 0;
         menuTotal = (mn as any)?.total ?? 0;
       } catch (e) { console.error("Menus translate failed", e); }
