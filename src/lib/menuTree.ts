@@ -12,6 +12,7 @@ export type MenuColumn = {
   id: string;
   group_id: string;
   label: string;
+  description: string | null;
   position: number;
   is_visible: boolean;
 };
