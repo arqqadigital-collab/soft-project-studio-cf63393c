@@ -1262,12 +1262,25 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
+      find_media_usage: {
+        Args: { _url: string }
+        Returns: {
+          entity_id: string
+          entity_type: string
+          slug: string
+          title: string
+        }[]
+      }
       has_role: {
         Args: {
           _role: Database["public"]["Enums"]["app_role"]
           _user_id: string
         }
         Returns: boolean
+      }
+      replace_media_url: {
+        Args: { _new: string; _old: string }
+        Returns: number
       }
     }
     Enums: {

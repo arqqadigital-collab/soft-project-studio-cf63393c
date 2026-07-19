@@ -4,7 +4,7 @@ import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { toast } from "sonner";
 import {
   Upload, Search as SearchIcon, Copy, Trash2, X, Folder as FolderIcon,
-  FolderPlus, Tag as TagIcon, CheckSquare, Square, MoveRight, Pencil,
+  FolderPlus, Tag as TagIcon, CheckSquare, Square, MoveRight, Pencil, RefreshCw,
 } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/hooks/use-auth";
@@ -479,16 +479,57 @@ function MediaDetailsDialog({
   const [tags, setTags] = useState<string[]>(media?.tags ?? []);
   const [newTag, setNewTag] = useState("");
   const [saving, setSaving] = useState(false);
+  const [replacing, setReplacing] = useState(false);
+  const { user } = useAuth();
+
+  async function replaceFile(file: File) {
+    if (!media || !user) return;
+    setReplacing(true);
+    try {
+      const oldUrl = media.file_url;
+      const ext = file.name.split(".").pop() || "bin";
+      const key = `${user.id}/${crypto.randomUUID()}.${ext}`;
+      const up = await supabase.storage.from("media").upload(key, file, { contentType: file.type });
+      if (up.error) throw up.error;
+      const signed = await supabase.storage.from("media").createSignedUrl(key, SIGNED_URL_TTL);
+      if (signed.error) throw signed.error;
+      const newUrl = signed.data.signedUrl;
+
+      const { error: upErr } = await supabase.from("media").update({
+        file_name: file.name,
+        file_url: newUrl,
+        file_type: file.type,
+        file_size: file.size,
+      }).eq("id", media.id);
+      if (upErr) throw upErr;
+
+      const { data: n, error: rpcErr } = await supabase.rpc("replace_media_url", { _old: oldUrl, _new: newUrl });
+      if (rpcErr) throw rpcErr;
+
+      // Best-effort remove the old storage object
+      try {
+        const oldPath = oldUrl.split("/object/sign/media/")[1]?.split("?")[0];
+        if (oldPath) await supabase.storage.from("media").remove([decodeURIComponent(oldPath)]);
+      } catch {}
+
+      toast.success(`Replaced. Updated ${n ?? 0} reference(s).`);
+      qc.invalidateQueries({ queryKey: ["media"] });
+      qc.invalidateQueries({ queryKey: ["media-usage"] });
+      onOpenChange(false);
+    } catch (e: any) {
+      toast.error(e.message ?? "Replace failed");
+    } finally {
+      setReplacing(false);
+    }
+  }
 
   const usage = useQuery({
-    queryKey: ["media-usage", media?.id],
+    queryKey: ["media-usage", media?.id, media?.file_url],
     enabled: !!media,
     queryFn: async () => {
-      const [posts, pages] = await Promise.all([
-        supabase.from("posts").select("id, title, slug").or(`featured_image_url.eq.${media!.file_url},content.ilike.%${media!.file_url}%`),
-        supabase.from("pages").select("id, title, slug").or(`featured_image_url.eq.${media!.file_url},content.ilike.%${media!.file_url}%`),
-      ]);
-      return { posts: posts.data ?? [], pages: pages.data ?? [] };
+      const { data, error } = await supabase.rpc("find_media_usage", { _url: media!.file_url });
+      if (error) throw error;
+      return (data ?? []) as { entity_type: string; entity_id: string; title: string; slug: string }[];
     },
   });
 
@@ -617,24 +658,39 @@ function MediaDetailsDialog({
               <div className="mb-1 text-xs font-medium">Used in</div>
               {usage.isLoading ? (
                 <p className="text-xs text-muted-foreground">Checking…</p>
-              ) : (usage.data?.posts.length ?? 0) + (usage.data?.pages.length ?? 0) === 0 ? (
+              ) : (usage.data?.length ?? 0) === 0 ? (
                 <p className="text-xs text-muted-foreground">Not referenced yet.</p>
               ) : (
-                <ul className="space-y-0.5 text-xs">
-                  {usage.data!.posts.map((p) => <li key={"p" + p.id}>Post: {p.title}</li>)}
-                  {usage.data!.pages.map((p) => <li key={"pg" + p.id}>Page: {p.title}</li>)}
+                <ul className="max-h-32 space-y-0.5 overflow-y-auto text-xs">
+                  {usage.data!.map((u, i) => (
+                    <li key={u.entity_type + u.entity_id + i}>
+                      <span className="capitalize text-muted-foreground">{u.entity_type.replace("_", " ")}:</span> {u.title}
+                    </li>
+                  ))}
                 </ul>
               )}
             </div>
           </div>
         </div>
-        <DialogFooter className="flex justify-between sm:justify-between">
+        <DialogFooter className="flex flex-wrap justify-between gap-2 sm:justify-between">
           {builtin ? (
             <span className="text-xs text-muted-foreground">Built-in asset — cannot be modified</span>
           ) : (
             <Button variant="destructive" onClick={del}><Trash2 className="mr-1 h-4 w-4" /> Delete</Button>
           )}
-          <div className="flex gap-2">
+          <div className="flex flex-wrap gap-2">
+            {!builtin && (
+              <label>
+                <input
+                  type="file"
+                  className="sr-only"
+                  onChange={(e) => e.target.files?.[0] && replaceFile(e.target.files[0])}
+                />
+                <Button asChild variant="outline" disabled={replacing}>
+                  <span><RefreshCw className="mr-1 h-4 w-4" /> {replacing ? "Replacing…" : "Replace file"}</span>
+                </Button>
+              </label>
+            )}
             <Button variant="outline" onClick={() => onOpenChange(false)}><X className="mr-1 h-4 w-4" /> Close</Button>
             <Button onClick={save} disabled={saving || builtin}>{saving ? "Saving…" : "Save"}</Button>
           </div>
