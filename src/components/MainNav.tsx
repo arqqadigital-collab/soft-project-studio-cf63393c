@@ -64,8 +64,9 @@ function MegaPanel({ menu }: { menu: Menu }) {
   }
 
   return (
-    <div className="grid grid-cols-[minmax(280px,1fr)_minmax(320px,1.2fr)]">
-      <div className="space-y-1 border-r border-white/10 bg-white/[0.02] p-3">
+    <div className="grid grid-cols-[minmax(280px,1fr)_minmax(320px,1.2fr)] rtl:grid-cols-[minmax(320px,1.2fr)_minmax(280px,1fr)]">
+      <div className="space-y-1 border-e border-white/10 bg-white/[0.02] p-3 rtl:order-2">
+
         {menu.columns.map((c, idx) => {
           const isActive = idx === activeIdx;
           return (
