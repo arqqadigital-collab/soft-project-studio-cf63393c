@@ -4,7 +4,7 @@ import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { toast } from "sonner";
 import {
   Upload, Search as SearchIcon, Copy, Trash2, X, Folder as FolderIcon,
-  FolderPlus, Tag as TagIcon, CheckSquare, Square, MoveRight, Pencil,
+  FolderPlus, Tag as TagIcon, CheckSquare, Square, MoveRight, Pencil, RefreshCw,
 } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/hooks/use-auth";
@@ -481,14 +481,12 @@ function MediaDetailsDialog({
   const [saving, setSaving] = useState(false);
 
   const usage = useQuery({
-    queryKey: ["media-usage", media?.id],
+    queryKey: ["media-usage", media?.id, media?.file_url],
     enabled: !!media,
     queryFn: async () => {
-      const [posts, pages] = await Promise.all([
-        supabase.from("posts").select("id, title, slug").or(`featured_image_url.eq.${media!.file_url},content.ilike.%${media!.file_url}%`),
-        supabase.from("pages").select("id, title, slug").or(`featured_image_url.eq.${media!.file_url},content.ilike.%${media!.file_url}%`),
-      ]);
-      return { posts: posts.data ?? [], pages: pages.data ?? [] };
+      const { data, error } = await supabase.rpc("find_media_usage", { _url: media!.file_url });
+      if (error) throw error;
+      return (data ?? []) as { entity_type: string; entity_id: string; title: string; slug: string }[];
     },
   });
 
