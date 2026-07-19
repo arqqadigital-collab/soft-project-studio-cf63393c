@@ -202,6 +202,58 @@ async function translateMenus() {
   return { ok, fail, total, errors };
 }
 
+async function translateHomepage(missingOnly: boolean) {
+  let ok = 0, fail = 0, total = 0;
+  const errors: string[] = [];
+
+  // 1) Hero row (text fields)
+  const { data: hero, error: heroErr } = await admin
+    .from("homepage_hero").select("id, heading_line1, heading_line2, subheadline, cta_label, translations")
+    .eq("singleton", true).maybeSingle();
+  if (heroErr) throw heroErr;
+  if (hero) {
+    total++;
+    const payload = {
+      heading_line1: (hero as any).heading_line1 ?? "",
+      heading_line2: (hero as any).heading_line2 ?? "",
+      subheadline: (hero as any).subheadline ?? "",
+      cta_label: (hero as any).cta_label ?? "",
+    };
+    const existingAr = ((hero as any).translations?.ar ?? {}) as any;
+    const skip = missingOnly && isTranslationAdequate(payload, existingAr);
+    if (!skip) {
+      try {
+        const ar = await translateJsonValidated(payload);
+        await mergeAr("homepage_hero", (hero as any).id, ar);
+        ok++;
+      } catch (e: any) { fail++; errors.push(`hero: ${e?.message ?? "error"}`); }
+    } else { ok++; }
+  }
+
+  // 2) Homepage sections
+  const { data: sections, error: secErr } = await admin
+    .from("homepage_sections").select("id, section_key, content, translations");
+  if (secErr) throw secErr;
+  let list = (sections ?? []) as any[];
+  if (missingOnly) {
+    list = list.filter((r) => !isTranslationAdequate(r.content ?? {}, (r.translations as any)?.ar ?? {}));
+  }
+  total += list.length;
+  const settled = await mapWithConcurrency(list, 3, async (row: any) => {
+    const src = row.content ?? {};
+    if (countStrings(src) === 0) return;
+    const ar = await translateJsonValidated(src);
+    if (!ar || Object.keys(ar).length === 0) throw new Error("empty translation");
+    await mergeAr("homepage_sections", row.id, ar);
+  });
+  settled.forEach((r, i) => {
+    if (r.status === "fulfilled") ok++;
+    else { fail++; errors.push(`${list[i].section_key}: ${(r.reason as Error)?.message ?? "error"}`); }
+  });
+
+  return { ok, fail, total, errors: errors.slice(0, 10) };
+}
+
 async function requireAdmin(req: Request): Promise<string> {
   const authHeader = req.headers.get("Authorization") ?? "";
   const token = authHeader.replace(/^Bearer\s+/i, "");
