@@ -594,19 +594,19 @@ export function SecretaProductLayout({ content }: { content: any }) {
             </p>
           )}
 
-          <div className="mt-12 flex flex-col items-center justify-center gap-4 sm:flex-row">
+          <div className="mt-10 flex flex-col items-stretch justify-center gap-3 sm:mt-12 sm:flex-row sm:items-center sm:gap-4">
             <a
               href={finalCta.primaryHref}
-              className="inline-flex items-center gap-3 rounded-full px-10 py-5 text-base font-semibold text-white shadow-[var(--shadow-brand)] transition-transform hover:scale-105"
+              className="inline-flex items-center justify-center gap-2 rounded-full px-6 py-3 text-sm font-semibold text-white shadow-[var(--shadow-brand)] transition-transform hover:scale-105 sm:gap-3 sm:px-10 sm:py-5 sm:text-base"
               style={{ background: "var(--gradient-brand)" }}
             >
               {finalCta.primaryLabel}
-              <ArrowRight className="h-5 w-5" />
+              <ArrowRight className="h-4 w-4 sm:h-5 sm:w-5" />
             </a>
             {finalCta.secondaryLabel && (
               <a
                 href={finalCta.secondaryHref}
-                className="inline-flex items-center gap-3 rounded-full border border-white/30 bg-white/5 px-10 py-5 text-base font-semibold text-white backdrop-blur transition-colors hover:bg-white/15"
+                className="inline-flex items-center justify-center gap-2 rounded-full border border-white/30 bg-white/5 px-6 py-3 text-sm font-semibold text-white backdrop-blur transition-colors hover:bg-white/15 sm:gap-3 sm:px-10 sm:py-5 sm:text-base"
               >
                 {finalCta.secondaryLabel}
               </a>
