@@ -819,6 +819,50 @@ export type Database = {
         }
         Relationships: []
       }
+      menu_links: {
+        Row: {
+          column_id: string
+          created_at: string
+          id: string
+          is_visible: boolean
+          label: string
+          position: number
+          target: string
+          updated_at: string
+          url: string
+        }
+        Insert: {
+          column_id: string
+          created_at?: string
+          id?: string
+          is_visible?: boolean
+          label: string
+          position?: number
+          target?: string
+          updated_at?: string
+          url: string
+        }
+        Update: {
+          column_id?: string
+          created_at?: string
+          id?: string
+          is_visible?: boolean
+          label?: string
+          position?: number
+          target?: string
+          updated_at?: string
+          url?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "menu_links_column_id_fkey"
+            columns: ["column_id"]
+            isOneToOne: false
+            referencedRelation: "menu_columns"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       page_sections: {
         Row: {
           created_at: string
