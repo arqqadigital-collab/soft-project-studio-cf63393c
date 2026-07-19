@@ -811,6 +811,7 @@ function EditDialog({
   const [label, setLabel] = useState("");
   const [url, setUrl] = useState("");
   const [newTab, setNewTab] = useState(false);
+  const [description, setDescription] = useState("");
 
   const key = useMemo(() => {
     if (!target) return "";
@@ -822,9 +823,15 @@ function EditDialog({
     if (target.kind === "link") {
       setUrl(target.url);
       setNewTab(target.target === "_blank");
+      setDescription("");
+    } else if (target.kind === "column") {
+      setUrl("");
+      setNewTab(false);
+      setDescription(target.description ?? "");
     } else {
       setUrl("");
       setNewTab(false);
+      setDescription("");
     }
     setLastKey(key);
   }
