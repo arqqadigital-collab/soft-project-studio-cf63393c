@@ -898,6 +898,19 @@ function EditDialog({
             <Label>Label</Label>
             <Input value={label} onChange={(e) => setLabel(e.target.value)} placeholder="Displayed in menu" autoFocus />
           </div>
+          {target.kind === "column" && (
+            <div>
+              <Label>Description</Label>
+              <Input
+                value={description}
+                onChange={(e) => setDescription(e.target.value)}
+                placeholder="Short subtitle shown under the tab in the mega menu"
+              />
+              <p className="mt-1 text-xs text-muted-foreground">
+                Optional. Appears as a small line under the tab title.
+              </p>
+            </div>
+          )}
           {target.kind === "link" && (
             <>
               <div>
