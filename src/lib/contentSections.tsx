@@ -38,6 +38,7 @@ import { STAFF_AUG_DEFAULTS } from "@/lib/staffAugContent";
 import { ABOUT_DEFAULTS } from "@/lib/aboutContent";
 import { BLOG_DEFAULTS } from "@/lib/blogContent";
 import { CAREERS_DEFAULTS } from "@/lib/careersContent";
+import { CASE_STUDIES_DEFAULTS } from "@/lib/caseStudiesContent";
 
 // Map page slug → its content defaults. Editor uses this to show the RIGHT
 // fields for the current page (each page has its own content shape).
