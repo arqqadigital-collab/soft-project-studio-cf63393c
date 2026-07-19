@@ -216,6 +216,7 @@ export default function PostEditor() {
           <ArrowLeft className="mr-1 h-4 w-4" /> Back
         </Button>
         <div className="flex items-center gap-2">
+          <LocaleTabs locale={locale} onChange={setLocale} />
           {lastSavedAt && (
             <span className="text-xs text-muted-foreground">
               Saved {lastSavedAt.toLocaleTimeString()}
