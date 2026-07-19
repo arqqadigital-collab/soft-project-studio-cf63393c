@@ -138,23 +138,37 @@ export default function HomepageEditor() {
         text_align: (d.text_align ?? "center") as Align,
         vertical_position: (d.vertical_position ?? "center") as VPos,
       });
+      const ar = (d.translations?.ar ?? {}) as any;
+      setArForm({
+        heading_line1: ar.heading_line1 ?? "",
+        heading_line2: ar.heading_line2 ?? "",
+        subheadline: ar.subheadline ?? "",
+        cta_label: ar.cta_label ?? "",
+      });
     }
   }, [data]);
 
   function patch<K extends keyof HeroForm>(key: K, value: HeroForm[K]) {
     setForm((f) => ({ ...f, [key]: value }));
   }
+  function patchAr<K extends keyof typeof arForm>(key: K, value: string) {
+    setArForm((f) => ({ ...f, [key]: value }));
+  }
 
   async function save() {
     if (!rowId) return;
     setSaving(true);
     try {
+      const existingTranslations = ((data as any)?.translations ?? {}) as Record<string, any>;
+      const arClean = Object.fromEntries(Object.entries(arForm).filter(([, v]) => (v ?? "").toString().trim() !== ""));
+      const translations = { ...existingTranslations, ar: { ...(existingTranslations.ar ?? {}), ...arClean } };
       const { error } = await supabase
         .from("homepage_hero")
         .update({
           ...form,
           is_visible: heroVisible,
           background_url: form.background_url || null,
+          translations,
         })
         .eq("id", rowId);
       if (error) throw error;
@@ -165,6 +179,33 @@ export default function HomepageEditor() {
       toast.error(e.message || "Save failed");
     } finally {
       setSaving(false);
+    }
+  }
+
+  async function translateHomepage(missingOnly: boolean) {
+    const msg = missingOnly
+      ? "Translate homepage hero + sections that are missing Arabic?"
+      : "Auto-translate the entire homepage (hero + all sections) to Arabic? This OVERWRITES existing Arabic content.";
+    if (!confirm(msg)) return;
+    setTranslating(true);
+    const t = toast.loading("Translating homepage to Arabic…");
+    try {
+      const { data: res, error } = await supabase.functions.invoke("translate-content", {
+        body: { mode: "homepage", missingOnly },
+      });
+      if (error) {
+        const detail = await (error as any)?.context?.text?.().catch(() => "");
+        throw new Error(detail || (error as Error).message || "Edge function error");
+      }
+      const r = res as { ok: number; fail: number; total: number };
+      toast.success(`Translated ${r.ok}/${r.total}${r.fail ? ` (${r.fail} failed)` : ""}`, { id: t });
+      qc.invalidateQueries({ queryKey: ["homepage-hero"] });
+      qc.invalidateQueries({ queryKey: ["homepage-hero-public"] });
+      qc.invalidateQueries({ predicate: (q) => Array.isArray(q.queryKey) && String(q.queryKey[0]).startsWith("homepage-section") });
+    } catch (e: any) {
+      toast.error(e?.message ?? "Translation failed", { id: t });
+    } finally {
+      setTranslating(false);
     }
   }
 
