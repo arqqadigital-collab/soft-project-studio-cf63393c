@@ -378,7 +378,9 @@ export default function HomepageEditor() {
             <CardContent className="space-y-3">
               <div className="space-y-1.5">
                 <Label className="text-xs">Button label</Label>
-                <Input value={form.cta_label} onChange={(e) => patch("cta_label", e.target.value)} />
+                {lang === "en"
+                  ? <Input value={form.cta_label} onChange={(e) => patch("cta_label", e.target.value)} />
+                  : <Input dir="rtl" value={arForm.cta_label} onChange={(e) => patchAr("cta_label", e.target.value)} placeholder={form.cta_label} />}
               </div>
               <div className="space-y-1.5">
                 <Label className="text-xs">Button link (URL or path like /contact)</Label>
