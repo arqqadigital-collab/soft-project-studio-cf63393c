@@ -60,6 +60,25 @@ export default function PagesAndNavigation() {
   const [activeDrag, setActiveDrag] = useState<{ kind: DragKind; label: string } | null>(null);
   const [tab, setTab] = useState<"pages" | "navigation">("pages");
   const [pageSearch, setPageSearch] = useState("");
+  const [translatingAll, setTranslatingAll] = useState(false);
+
+  async function translateAllPages() {
+    if (!confirm("Auto-translate ALL sections across ALL pages into Arabic?\n\nThis will OVERWRITE any existing Arabic content site-wide and may take several minutes.")) return;
+    setTranslatingAll(true);
+    const t = toast.loading("Translating every page to Arabic. This can take a few minutes…");
+    try {
+      const { data, error } = await supabase.functions.invoke("translate-content", {
+        body: { mode: "all_pages" },
+      });
+      if (error) throw error;
+      const res = data as { ok: number; fail: number; total: number };
+      toast.success(`Translated ${res.ok}/${res.total} sections${res.fail ? ` (${res.fail} failed)` : ""}`, { id: t });
+    } catch (e: any) {
+      toast.error(e?.message ?? "Translation failed", { id: t });
+    } finally {
+      setTranslatingAll(false);
+    }
+  }
 
   const groups = tree.data ?? [];
 
