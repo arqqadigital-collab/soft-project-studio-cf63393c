@@ -77,6 +77,9 @@ export default function App() {
   const location = useLocation();
   const hideHeader =
     location.pathname === "/login" ||
+    location.pathname === "/set-password" ||
+    location.pathname === "/reset-password" ||
+    location.pathname === "/accept-invite" ||
     location.pathname === "/admin" ||
     location.pathname === "/dashboard" ||
     location.pathname.startsWith("/dashboard/");

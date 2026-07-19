@@ -1,4 +1,5 @@
 import { FormEvent, useEffect, useState } from "react";
+import type { EmailOtpType } from "@supabase/supabase-js";
 import { useNavigate } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
 import { useSiteBranding } from "@/hooks/use-site-branding";
@@ -15,40 +16,93 @@ export default function SetPassword() {
 
   useEffect(() => {
     document.title = "Set your password";
+    let active = true;
+    const query = new URLSearchParams(window.location.search);
+    const hash = new URLSearchParams(window.location.hash.replace(/^#/, ""));
+    const getParam = (key: string) => query.get(key) ?? hash.get(key);
 
-    // Supabase returns tokens in the URL hash (#access_token=...&type=invite|recovery|signup)
-    // or as an error (#error=access_denied&error_code=otp_expired).
-    const hash = window.location.hash.startsWith("#")
-      ? window.location.hash.slice(1)
-      : window.location.hash;
-    const params = new URLSearchParams(hash);
+    const linkType = getParam("type");
+    if (linkType === "invite" || linkType === "recovery" || linkType === "signup") {
+      setMode(linkType);
+    } else if (window.location.pathname.includes("reset-password")) {
+      setMode("recovery");
+    } else if (window.location.pathname.includes("invite")) {
+      setMode("invite");
+    }
 
-    const errorCode = params.get("error_code") || params.get("error");
-    const errorDescription = params.get("error_description");
-    if (errorCode) {
+    const showLinkError = (message?: string) => {
+      if (!active) return;
+      setReady(false);
       setErrorMsg(
-        errorDescription?.replace(/\+/g, " ") ??
-          "This link is invalid or has expired. Please request a new invitation."
+        message || "This password link is invalid or has expired. Please request a new link."
       );
-      return;
-    }
+    };
 
-    const type = params.get("type");
-    if (type === "invite" || type === "recovery" || type === "signup") {
-      setMode(type);
-    }
+    const initialize = async () => {
+      const linkError = getParam("error_code") || getParam("error");
+      if (linkError) {
+        showLinkError(getParam("error_description")?.replace(/\+/g, " "));
+        return;
+      }
 
-    // Detect session created by the recovery/invite link.
-    const { data: sub } = supabase.auth.onAuthStateChange((event) => {
-      if (event === "PASSWORD_RECOVERY" || event === "SIGNED_IN") {
+      // Handle PKCE links (?code=...), custom token-hash links, and legacy
+      // implicit links (#access_token=...&refresh_token=...).
+      const code = query.get("code");
+      if (code) {
+        const { error } = await supabase.auth.exchangeCodeForSession(code);
+        if (error) {
+          showLinkError(error.message);
+          return;
+        }
+      } else {
+        const tokenHash = getParam("token_hash");
+        if (tokenHash && linkType) {
+          const { error } = await supabase.auth.verifyOtp({
+            token_hash: tokenHash,
+            type: linkType as EmailOtpType,
+          });
+          if (error) {
+            showLinkError(error.message);
+            return;
+          }
+        } else {
+          const accessToken = hash.get("access_token");
+          const refreshToken = hash.get("refresh_token");
+          if (accessToken && refreshToken) {
+            const { error } = await supabase.auth.setSession({
+              access_token: accessToken,
+              refresh_token: refreshToken,
+            });
+            if (error) {
+              showLinkError(error.message);
+              return;
+            }
+          }
+        }
+      }
+
+      const { data, error } = await supabase.auth.getSession();
+      if (!active) return;
+      if (error || !data.session) {
+        showLinkError(error?.message);
+        return;
+      }
+      setErrorMsg(null);
+      setReady(true);
+    };
+
+    const { data: sub } = supabase.auth.onAuthStateChange((event, session) => {
+      if (active && session && (event === "PASSWORD_RECOVERY" || event === "SIGNED_IN")) {
+        setErrorMsg(null);
         setReady(true);
       }
     });
-    supabase.auth.getSession().then(({ data }) => {
-      if (data.session) setReady(true);
-    });
 
-    return () => sub.subscription.unsubscribe();
+    void initialize();
+    return () => {
+      active = false;
+      sub.subscription.unsubscribe();
+    };
   }, []);
 
   async function handleSubmit(e: FormEvent) {
@@ -97,7 +151,9 @@ export default function SetPassword() {
           <div className="space-y-3">
             <p className="text-sm text-destructive">{errorMsg}</p>
             <p className="text-xs text-muted-foreground">
-              Ask an admin to send you a new invitation link.
+              {mode === "recovery"
+                ? "Return to sign in and request a new reset link."
+                : "Ask an admin to send you a new invitation link."}
             </p>
           </div>
         ) : !ready ? (

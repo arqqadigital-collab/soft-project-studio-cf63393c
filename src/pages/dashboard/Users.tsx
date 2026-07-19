@@ -99,7 +99,12 @@ export default function UsersPage() {
 
   const invite = useMutation({
     mutationFn: async () =>
-      callAdmin({ action: "invite", email: inviteEmail, role: inviteRole }),
+      callAdmin({
+        action: "invite",
+        email: inviteEmail,
+        role: inviteRole,
+        redirect_to: window.location.origin,
+      }),
     onSuccess: () => {
       toast.success("Invitation sent");
       setInviteOpen(false);
