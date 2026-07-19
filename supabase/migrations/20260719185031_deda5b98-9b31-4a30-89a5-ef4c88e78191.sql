@@ -1,0 +1,1 @@
+ALTER TABLE public.list_page_hero ADD COLUMN IF NOT EXISTS translations jsonb NOT NULL DEFAULT '{}'::jsonb;
