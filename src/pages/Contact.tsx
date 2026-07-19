@@ -5,6 +5,7 @@ import { z } from "zod";
 import { toast } from "sonner";
 import { Footer } from "@/components/Footer";
 import { supabase } from "@/integrations/supabase/client";
+import { useLocale } from "@/hooks/useLocale";
 import contactHero from "@/assets/contact/contact-hero.jpg";
 
 const ICONS: Record<string, LucideIcon> = {
@@ -12,6 +13,13 @@ const ICONS: Record<string, LucideIcon> = {
   phone: Phone,
   "map-pin": MapPin,
 };
+
+function pickAr<T>(en: T | undefined | null, ar: T | undefined | null, isAr: boolean): T | undefined | null {
+  if (!isAr) return en;
+  if (ar === undefined || ar === null) return en;
+  if (typeof ar === "string" && !ar.trim()) return en;
+  return ar;
+}
 
 const submissionSchema = z.object({
   name: z.string().trim().min(1, "Name is required").max(100),
