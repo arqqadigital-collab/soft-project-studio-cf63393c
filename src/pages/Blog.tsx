@@ -8,7 +8,7 @@ import { Footer } from "@/components/Footer";
 import { supabase } from "@/integrations/supabase/client";
 import { SeoHead } from "@/components/SeoHead";
 import { Helmet } from "react-helmet-async";
-import { useListPageHero } from "@/hooks/use-list-page-hero";
+import { useBlogContent } from "@/lib/blogContent";
 
 type PostRow = {
   id: string;
@@ -104,7 +104,9 @@ export default function Blog() {
   const [posts, setPosts] = useState<PostRow[]>([]);
   const [loading, setLoading] = useState(true);
   const [activeCategory, setActiveCategory] = useState<string>("All");
-  const { data: hero } = useListPageHero("blog");
+  const content = useBlogContent();
+  const hero = content.Hero;
+  const heroVisible = content._visible.Hero;
 
   useEffect(() => {
     let cancelled = false;
@@ -159,7 +161,7 @@ export default function Blog() {
       </Helmet>
 
       {/* Hero */}
-      {hero?.is_visible !== false && (
+      {heroVisible && (
       <section className="relative overflow-hidden bg-background pb-16 pt-32 md:pb-24 md:pt-40">
         <div className="mx-auto max-w-7xl px-6">
           <motion.div
