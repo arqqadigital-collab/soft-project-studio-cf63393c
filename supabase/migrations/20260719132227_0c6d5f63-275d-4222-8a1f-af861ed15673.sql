@@ -1,0 +1,3 @@
+INSERT INTO public.pages (title, slug, status, author_id, template, page_kind, route_path, menu_column_id, nav_label, position, menu_position)
+SELECT 'Contact', 'contact', 'published', (SELECT author_id FROM public.pages WHERE slug='about' LIMIT 1), 'default', 'coded', '/contact', '1c464b51-1928-42f7-956e-2705acc8ff01', 'Contact', 0, 0
+WHERE NOT EXISTS (SELECT 1 FROM public.pages WHERE slug='contact');
