@@ -5,6 +5,7 @@ import { z } from "zod";
 import { toast } from "sonner";
 import { Footer } from "@/components/Footer";
 import { supabase } from "@/integrations/supabase/client";
+import { useLocale } from "@/hooks/useLocale";
 import contactHero from "@/assets/contact/contact-hero.jpg";
 
 const ICONS: Record<string, LucideIcon> = {
@@ -12,6 +13,13 @@ const ICONS: Record<string, LucideIcon> = {
   phone: Phone,
   "map-pin": MapPin,
 };
+
+function pickAr<T>(en: T | undefined | null, ar: T | undefined | null, isAr: boolean): T | undefined | null {
+  if (!isAr) return en;
+  if (ar === undefined || ar === null) return en;
+  if (typeof ar === "string" && !ar.trim()) return en;
+  return ar;
+}
 
 const submissionSchema = z.object({
   name: z.string().trim().min(1, "Name is required").max(100),
@@ -23,6 +31,8 @@ const submissionSchema = z.object({
 });
 
 export default function Contact() {
+  const { locale } = useLocale();
+  const isAr = locale === "ar";
   const [form, setForm] = useState({
     name: "",
     email: "",
@@ -71,17 +81,64 @@ export default function Contact() {
     },
   });
 
-  const page = pageQ.data;
-  const offices = officesQ.data ?? [];
-  const areas = areasQ.data ?? [];
+  const rawPage = pageQ.data as any;
+  const rawOffices = officesQ.data ?? [];
+  const rawAreas = areasQ.data ?? [];
+
+  const page = useMemo(() => {
+    if (!rawPage) return null as any;
+    const ar = (rawPage.translations?.ar ?? {}) as any;
+    return {
+      ...rawPage,
+      hero_eyebrow: pickAr(rawPage.hero_eyebrow, ar.hero_eyebrow, isAr),
+      hero_headline: pickAr(rawPage.hero_headline, ar.hero_headline, isAr),
+      hero_subheadline: pickAr(rawPage.hero_subheadline, ar.hero_subheadline, isAr),
+      hero_cta_label: pickAr(rawPage.hero_cta_label, ar.hero_cta_label, isAr),
+      form_heading: pickAr(rawPage.form_heading, ar.form_heading, isAr),
+      form_subheading: pickAr(rawPage.form_subheading, ar.form_subheading, isAr),
+      form_submit_label: pickAr(rawPage.form_submit_label, ar.form_submit_label, isAr),
+      offices_heading: pickAr(rawPage.offices_heading, ar.offices_heading, isAr),
+      offices_subheading: pickAr(rawPage.offices_subheading, ar.offices_subheading, isAr),
+      _arQuickInfo: Array.isArray(ar.quick_info) ? ar.quick_info : [],
+    };
+  }, [rawPage, isAr]);
+
+  const offices = useMemo(() => {
+    return (rawOffices as any[]).map((o) => {
+      const ar = (o.translations?.ar ?? {}) as any;
+      return {
+        ...o,
+        city: pickAr(o.city, ar.city, isAr),
+        address: pickAr(o.address, ar.address, isAr),
+      };
+    });
+  }, [rawOffices, isAr]);
+
+  const areas = useMemo(() => {
+    return (rawAreas as any[]).map((a) => {
+      const ar = (a.translations?.ar ?? {}) as any;
+      return { ...a, label: pickAr(a.label, ar.label, isAr) };
+    });
+  }, [rawAreas, isAr]);
 
   const quickInfo = useMemo(() => {
     const raw = (page?.quick_info as unknown) as
       | Array<{ icon?: string; title?: string; value?: string; subtitle?: string }>
       | null
       | undefined;
-    return Array.isArray(raw) ? raw : [];
-  }, [page]);
+    const base = Array.isArray(raw) ? raw : [];
+    if (!isAr) return base;
+    const arList = (page?._arQuickInfo ?? []) as any[];
+    return base.map((c, i) => {
+      const a = arList[i] ?? {};
+      return {
+        icon: c.icon,
+        title: (a.title && String(a.title).trim()) || c.title,
+        value: (a.value && String(a.value).trim()) || c.value,
+        subtitle: (a.subtitle && String(a.subtitle).trim()) || c.subtitle,
+      };
+    });
+  }, [page, isAr]);
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();

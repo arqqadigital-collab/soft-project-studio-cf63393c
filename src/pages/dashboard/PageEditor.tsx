@@ -19,6 +19,7 @@ import { MediaPickerDialog } from "@/components/dashboard/MediaPickerDialog";
 import { SeoEditor } from "@/components/dashboard/SeoEditor";
 import { RevisionsPanel } from "@/components/dashboard/RevisionsPanel";
 import { PageBuilder } from "@/components/dashboard/PageBuilder";
+import ContactEditor from "@/pages/dashboard/ContactEditor";
 
 type Status = "draft" | "published" | "trashed";
 type Template = "default" | "full-width" | "landing";
@@ -283,29 +284,16 @@ export default function PageEditor() {
               <TabsTrigger value="seo">SEO</TabsTrigger>
             </TabsList>
             <TabsContent value="builder" className="mt-3">
-              {form.slug === "contact" && (
-                <div className="mb-3 flex flex-wrap items-center justify-between gap-3 rounded-md border border-primary/30 bg-primary/5 p-4 text-sm">
-                  <div>
-                    <div className="font-semibold text-foreground">Contact page has a dedicated editor</div>
-                    <div className="text-xs text-muted-foreground mt-1">
-                      Hero, quick info, form heading, offices and inquiry areas are managed in the Contact Editor (backed by dedicated tables), not the generic Sections builder.
-                    </div>
-                  </div>
-                  <Button size="sm" onClick={() => navigate("/dashboard/contact")}>
-                    Open Contact Editor
-                  </Button>
-                </div>
-              )}
-              {pageId ? (
+              {form.slug === "contact" ? (
+                <ContactEditor embedded />
+              ) : pageId ? (
                 <>
-                  {form.page_kind === "coded" && form.slug !== "contact" && (
+                  {form.page_kind === "coded" && (
                     <div className="mb-3 rounded-md border border-dashed border-border p-3 text-xs text-muted-foreground">
                       This page is rendered by a React component at <code>{form.route_path}</code>. Editing a section here overrides the corresponding text in code; anything left blank falls back to the coded default.
                     </div>
                   )}
-                  {form.slug !== "contact" && (
-                    <PageBuilder pageId={pageId} pageSlug={form.slug} />
-                  )}
+                  <PageBuilder pageId={pageId} pageSlug={form.slug} />
                 </>
               ) : (
                 <div className="rounded-md border border-dashed border-border p-6 text-sm text-muted-foreground">
