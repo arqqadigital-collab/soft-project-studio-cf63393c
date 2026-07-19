@@ -310,6 +310,12 @@ export default function PagesAndNavigation() {
           </p>
         </div>
         <div className="flex gap-2">
+          {tab === "pages" && (
+            <Button variant="outline" onClick={translateAllPages} disabled={translatingAll} title="Auto-translate every page section into Arabic (overwrites existing Arabic content)">
+              {translatingAll ? <Loader2 className="mr-1 h-4 w-4 animate-spin" /> : <Sparkles className="mr-1 h-4 w-4" />}
+              Translate all to Arabic
+            </Button>
+          )}
           {tab === "navigation" && (
             <Button variant="outline" onClick={() => setEdit({ kind: "group", label: "" })}>
               <FolderPlus className="mr-1 h-4 w-4" /> New Group
