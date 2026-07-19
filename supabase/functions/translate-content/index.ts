@@ -179,20 +179,17 @@ Deno.serve(async (req) => {
     const { data: rows, error } = await query;
     if (error) throw error;
 
+    const list = (rows ?? []) as any[];
+    const settled = await mapWithConcurrency(list, 3, (row) => translateSection(row));
     let ok = 0, fail = 0;
     const errors: string[] = [];
-    for (const row of rows ?? []) {
-      try {
-        await translateSection(row as any);
-        ok++;
-      } catch (e) {
-        fail++;
-        errors.push(`${(row as any).id}: ${(e as Error).message}`);
-      }
-    }
+    settled.forEach((r, i) => {
+      if (r.status === "fulfilled") ok++;
+      else { fail++; errors.push(`${list[i].id}: ${(r.reason as Error)?.message ?? "error"}`); }
+    });
 
     return new Response(
-      JSON.stringify({ ok, fail, total: rows?.length ?? 0, errors: errors.slice(0, 10) }),
+      JSON.stringify({ ok, fail, total: list.length, errors: errors.slice(0, 10) }),
       { headers: { ...corsHeaders, "Content-Type": "application/json" } },
     );
   } catch (e) {
