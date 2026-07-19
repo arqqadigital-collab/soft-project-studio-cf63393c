@@ -1,5 +1,6 @@
 import { Routes, Route, Link, useLocation } from "react-router-dom";
 import { Header } from "@/components/Header";
+import { BrandingApplier } from "@/components/BrandingApplier";
 import { AuthProvider } from "@/hooks/use-auth";
 import { ProtectedRoute } from "@/components/ProtectedRoute";
 import Login from "./pages/Login";
@@ -81,6 +82,7 @@ export default function App() {
 
   return (
     <AuthProvider>
+      <BrandingApplier />
       {!hideHeader && <Header />}
       <Routes>
         <Route path="/" element={<Index />} />

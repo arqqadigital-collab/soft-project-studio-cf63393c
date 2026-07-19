@@ -1192,11 +1192,19 @@ export type Database = {
       }
       site_settings: {
         Row: {
+          accent_color: string | null
+          body_font: string | null
+          border_radius: string | null
+          brand_dark_color: string | null
           created_at: string
           default_meta_description: string | null
           default_meta_title: string | null
           favicon_url: string | null
+          heading_font: string | null
           id: string
+          logo_dark_url: string | null
+          og_image_url: string | null
+          primary_color: string | null
           singleton: boolean
           site_description: string | null
           site_logo_url: string | null
@@ -1205,11 +1213,19 @@ export type Database = {
           updated_at: string
         }
         Insert: {
+          accent_color?: string | null
+          body_font?: string | null
+          border_radius?: string | null
+          brand_dark_color?: string | null
           created_at?: string
           default_meta_description?: string | null
           default_meta_title?: string | null
           favicon_url?: string | null
+          heading_font?: string | null
           id?: string
+          logo_dark_url?: string | null
+          og_image_url?: string | null
+          primary_color?: string | null
           singleton?: boolean
           site_description?: string | null
           site_logo_url?: string | null
@@ -1218,11 +1234,19 @@ export type Database = {
           updated_at?: string
         }
         Update: {
+          accent_color?: string | null
+          body_font?: string | null
+          border_radius?: string | null
+          brand_dark_color?: string | null
           created_at?: string
           default_meta_description?: string | null
           default_meta_title?: string | null
           favicon_url?: string | null
+          heading_font?: string | null
           id?: string
+          logo_dark_url?: string | null
+          og_image_url?: string | null
+          primary_color?: string | null
           singleton?: boolean
           site_description?: string | null
           site_logo_url?: string | null

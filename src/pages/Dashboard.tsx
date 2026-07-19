@@ -12,6 +12,7 @@ import Taxonomy from "./dashboard/Taxonomy";
 import Users from "./dashboard/Users";
 import Analytics from "./dashboard/Analytics";
 import SettingsPage from "./dashboard/Settings";
+import BrandingPage from "./dashboard/Branding";
 import SeoDashboard from "./dashboard/SeoDashboard";
 import HomepageEditor from "./dashboard/HomepageEditor";
 import HeaderFooterEditor from "./dashboard/HeaderFooterEditor";
@@ -102,6 +103,11 @@ export default function Dashboard() {
           path="settings"
           element={<RoleGate allow={["admin"]}><SettingsPage /></RoleGate>}
         />
+        <Route
+          path="branding"
+          element={<RoleGate allow={["admin"]}><BrandingPage /></RoleGate>}
+        />
+
         <Route
           path="contact"
           element={<RoleGate allow={["admin", "editor"]}><ContactEditor /></RoleGate>}
