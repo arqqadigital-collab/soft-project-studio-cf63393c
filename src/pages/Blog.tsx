@@ -9,6 +9,7 @@ import { supabase } from "@/integrations/supabase/client";
 import { SeoHead } from "@/components/SeoHead";
 import { Helmet } from "react-helmet-async";
 import { useBlogContent } from "@/lib/blogContent";
+import { useLocale } from "@/i18n/LanguageProvider";
 
 type PostRow = {
   id: string;
@@ -20,6 +21,7 @@ type PostRow = {
   created_at: string;
   category: { name: string; slug: string } | null;
   author: { full_name: string | null } | null;
+  translations?: Record<string, Partial<Pick<PostRow, "title" | "excerpt">>> | null;
 };
 
 const fadeInUp = {
@@ -101,6 +103,7 @@ function CardMeta({ readTime, date }: { readTime: string; date: string }) {
 }
 
 export default function Blog() {
+  const { locale } = useLocale();
   const [posts, setPosts] = useState<PostRow[]>([]);
   const [loading, setLoading] = useState(true);
   const [activeCategory, setActiveCategory] = useState<string>("All");
@@ -114,19 +117,24 @@ export default function Blog() {
       const { data, error } = await supabase
         .from("posts")
         .select(
-          "id,title,slug,excerpt,featured_image_url,published_at,created_at,category:categories(name,slug),author:profiles!posts_author_id_fkey(full_name)"
+          "id,title,slug,excerpt,featured_image_url,published_at,created_at,translations,category:categories(name,slug),author:profiles!posts_author_id_fkey(full_name)"
         )
         .eq("status", "published")
         .order("published_at", { ascending: false, nullsFirst: false })
         .limit(50);
       if (cancelled) return;
-      if (!error && data) setPosts(data as unknown as PostRow[]);
+      if (!error && data) {
+        setPosts((data as unknown as PostRow[]).map((post) => ({
+          ...post,
+          ...(locale === "en" ? {} : post.translations?.[locale] ?? {}),
+        })));
+      }
       setLoading(false);
     })();
     return () => {
       cancelled = true;
     };
-  }, []);
+  }, [locale]);
 
   const categories = useMemo(() => {
     const set = new Map<string, string>();

@@ -6,6 +6,7 @@ import { Footer } from "@/components/Footer";
 import { SeoHead } from "@/components/SeoHead";
 import { supabase } from "@/integrations/supabase/client";
 import { useEventsContent } from "@/lib/eventsContent";
+import { useLocale } from "@/i18n/LanguageProvider";
 
 type EventRow = {
   id: string;
@@ -19,6 +20,7 @@ type EventRow = {
   virtual_link: string | null;
   cover_image_url: string | null;
   published_at: string | null;
+  translations?: Record<string, Partial<Pick<EventRow, "title" | "description" | "location">>> | null;
 };
 
 const fadeInUp = {
@@ -78,6 +80,7 @@ function labelType(t: string) {
 }
 
 export default function Events() {
+  const { locale } = useLocale();
   const content = useEventsContent();
   const hero = content.Hero;
   const heroVisible = content._visible.Hero;
@@ -90,18 +93,21 @@ export default function Events() {
     (async () => {
       const { data, error } = await supabase
         .from("events")
-        .select("id,title,slug,description,event_type,starts_at,ends_at,location,virtual_link,cover_image_url,published_at")
+        .select("id,title,slug,description,event_type,starts_at,ends_at,location,virtual_link,cover_image_url,published_at,translations")
         .eq("status", "published")
         .order("starts_at", { ascending: true, nullsFirst: false })
         .limit(100);
       if (cancelled) return;
-      if (!error && data) setRows(data as EventRow[]);
+      if (!error && data) setRows((data as EventRow[]).map((row) => ({
+        ...row,
+        ...(locale === "en" ? {} : row.translations?.[locale] ?? {}),
+      })));
       setLoading(false);
     })();
     return () => {
       cancelled = true;
     };
-  }, []);
+  }, [locale]);
 
   const categories = useMemo(() => {
     const set = new Set<string>();
