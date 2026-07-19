@@ -338,10 +338,11 @@ export default function Blog() {
                       <div className="mt-6 flex flex-wrap items-center justify-between gap-4 border-t border-border pt-5">
                         <AuthorBadge name={post.author?.full_name} />
                         <CardMeta
-                          readTime={readTimeFor(post.excerpt)}
+                          readTime={readTimeFor(post.excerpt, locale)}
                           date={format(
                             new Date(post.published_at ?? post.created_at),
-                            "MMM d, yyyy"
+                            "MMM d, yyyy",
+                            locale === "ar" ? { locale: arLocale } : undefined
                           )}
                         />
                       </div>
