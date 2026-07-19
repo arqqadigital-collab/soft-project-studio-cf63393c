@@ -59,16 +59,21 @@ export function StatsSection() {
           </h2>
         </div>
 
-        <div ref={ref} className="mt-16 grid gap-6" style={{ gridTemplateColumns: `repeat(${Math.min(c.items.length, 3)}, minmax(0, 1fr))` }}>
+        <div
+          ref={ref}
+          className={`mt-16 grid gap-6 grid-cols-1 sm:grid-cols-2 ${
+            c.items.length >= 3 ? "lg:grid-cols-3" : c.items.length >= 2 ? "lg:grid-cols-2" : "lg:grid-cols-1"
+          }`}
+        >
           {c.items.map((stat, i) => (
-            <motion.div key={i} initial={{ opacity: 0, y: 30 }} animate={inView ? { opacity: 1, y: 0 } : {}} transition={{ duration: 0.6, delay: i * 0.15 }} className="p-10 text-center">
+            <motion.div key={i} initial={{ opacity: 0, y: 30 }} animate={inView ? { opacity: 1, y: 0 } : {}} transition={{ duration: 0.6, delay: i * 0.15 }} className="p-6 text-center md:p-10">
               <div className="mx-auto flex h-14 w-14 items-center justify-center rounded-2xl bg-white shadow-lg">
                 <Icon name={stat.icon} className="h-6 w-6" style={{ color: "var(--brand-blue)" }} />
               </div>
-              <div className="mt-8 text-6xl font-bold tracking-tight md:text-7xl">
+              <div className="mt-6 text-5xl font-bold tracking-tight sm:text-6xl md:mt-8 md:text-7xl">
                 <Counter to={Number(stat.value)} suffix={stat.suffix} start={inView} />
               </div>
-              <p className="mt-6 text-xs font-semibold uppercase tracking-[0.2em] text-white/70">{stat.label}</p>
+              <p className="mt-4 text-xs font-semibold uppercase tracking-[0.2em] text-white/70 md:mt-6">{stat.label}</p>
             </motion.div>
           ))}
         </div>
