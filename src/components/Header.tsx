@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import { Menu as MenuIcon, X, Globe, Linkedin, Twitter, Facebook, Instagram, Youtube, Github } from "lucide-react";
 import logo from "@/assets/logo.png";
 import { MainNav } from "@/components/MainNav";
+import { LanguageSwitcher } from "@/components/LanguageSwitcher";
 import {
   useHeaderFooter,
   DEFAULT_HEADER_CTA_LABEL,
@@ -48,7 +49,7 @@ export function Header() {
   const { data: tree = [] } = useMenuTree();
   const [scrolled, setScrolled] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
-  const [localeOpen, setLocaleOpen] = useState(false);
+  
 
   const sticky = settings?.header_sticky ?? true;
   const transparentOnHero = settings?.header_transparent_on_hero ?? false;
@@ -80,8 +81,6 @@ export function Header() {
   const showBrandText = settings?.header_show_brand_text ?? false;
   const brandText = settings?.header_brand_text ?? "";
   const shadowStyle = settings?.header_shadow_style ?? "soft";
-  const showLocales = settings?.header_show_locale_switcher ?? false;
-  const locales = settings?.header_locales ?? [];
   const mobileExtra = settings?.mobile_menu_items ?? [];
   const mobileShowSocial = settings?.mobile_show_social ?? true;
   const social = settings?.footer_social ?? [];
@@ -126,33 +125,8 @@ export function Header() {
         {showMenus && <MainNav />}
 
         <div className="flex items-center gap-2">
-          {showLocales && locales.length > 0 && (
-            <div className="relative hidden lg:block">
-              <button
-                type="button"
-                onClick={() => setLocaleOpen((v) => !v)}
-                onBlur={() => setTimeout(() => setLocaleOpen(false), 120)}
-                className="inline-flex items-center gap-1.5 rounded-full px-3 py-2 text-sm font-medium text-white/80 hover:bg-white/10 hover:text-white"
-              >
-                <Globe className="h-4 w-4" />
-                {locales[0]?.code?.toUpperCase()}
-              </button>
-              {localeOpen && (
-                <div className="absolute right-0 top-full mt-2 w-40 overflow-hidden rounded-xl border border-white/10 bg-[var(--brand-dark)]/95 shadow-xl backdrop-blur-md">
-                  {locales.map((l) => (
-                    <a
-                      key={l.code}
-                      href={l.url || "#"}
-                      className="block px-4 py-2 text-sm text-white/85 hover:bg-white/10"
-                    >
-                      <span className="mr-2 text-xs uppercase text-white/50">{l.code}</span>
-                      {l.label}
-                    </a>
-                  ))}
-                </div>
-              )}
-            </div>
-          )}
+          <LanguageSwitcher className="hidden lg:block" />
+
 
           <a
             href={ctaUrl}
@@ -266,24 +240,15 @@ export function Header() {
               {ctaLabel}
             </a>
 
-            {showLocales && locales.length > 0 && (
-              <div className="mt-6">
-                <div className="mb-2 text-xs font-semibold uppercase tracking-wider text-white/40">
-                  Language
-                </div>
-                <div className="flex flex-wrap gap-2">
-                  {locales.map((l) => (
-                    <a
-                      key={l.code}
-                      href={l.url || "#"}
-                      className="rounded-full border border-white/15 px-3 py-1 text-xs font-medium text-white/85 hover:bg-white/10"
-                    >
-                      {l.label}
-                    </a>
-                  ))}
-                </div>
+            <div className="mt-6">
+              <div className="mb-2 text-xs font-semibold uppercase tracking-wider text-white/40">
+                Language / اللغة
               </div>
-            )}
+              <LanguageSwitcher
+                buttonClassName="inline-flex items-center gap-1.5 rounded-full border border-white/15 px-3 py-2 text-sm font-medium text-white/85 hover:bg-white/10"
+              />
+            </div>
+
 
             {mobileShowSocial && social.length > 0 && (
               <div className="mt-6 flex items-center gap-3">

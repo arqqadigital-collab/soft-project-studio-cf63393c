@@ -5,6 +5,8 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { HelmetProvider } from "react-helmet-async";
 import App from "./App";
 import "./styles.css";
+import "./i18n";
+import { LanguageProvider } from "./i18n/LanguageProvider";
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -17,7 +19,9 @@ createRoot(document.getElementById("root")!).render(
     <HelmetProvider>
       <QueryClientProvider client={queryClient}>
         <BrowserRouter>
-          <App />
+          <LanguageProvider>
+            <App />
+          </LanguageProvider>
         </BrowserRouter>
       </QueryClientProvider>
     </HelmetProvider>
