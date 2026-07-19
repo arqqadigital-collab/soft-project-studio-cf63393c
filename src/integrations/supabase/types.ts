@@ -180,6 +180,7 @@ export type Database = {
           summary: string | null
           tags: string[]
           title: string
+          translations: Json
           updated_at: string
         }
         Insert: {
@@ -199,6 +200,7 @@ export type Database = {
           summary?: string | null
           tags?: string[]
           title: string
+          translations?: Json
           updated_at?: string
         }
         Update: {
@@ -218,6 +220,7 @@ export type Database = {
           summary?: string | null
           tags?: string[]
           title?: string
+          translations?: Json
           updated_at?: string
         }
         Relationships: []
@@ -267,6 +270,7 @@ export type Database = {
           is_active: boolean
           label: string
           position: number
+          translations: Json
           updated_at: string
         }
         Insert: {
@@ -275,6 +279,7 @@ export type Database = {
           is_active?: boolean
           label: string
           position?: number
+          translations?: Json
           updated_at?: string
         }
         Update: {
@@ -283,6 +288,7 @@ export type Database = {
           is_active?: boolean
           label?: string
           position?: number
+          translations?: Json
           updated_at?: string
         }
         Relationships: []
@@ -297,6 +303,7 @@ export type Database = {
           image_url: string | null
           phone: string
           position: number
+          translations: Json
           updated_at: string
         }
         Insert: {
@@ -308,6 +315,7 @@ export type Database = {
           image_url?: string | null
           phone?: string
           position?: number
+          translations?: Json
           updated_at?: string
         }
         Update: {
@@ -319,6 +327,7 @@ export type Database = {
           image_url?: string | null
           phone?: string
           position?: number
+          translations?: Json
           updated_at?: string
         }
         Relationships: []
@@ -341,6 +350,7 @@ export type Database = {
           offices_subheading: string
           quick_info: Json
           singleton: boolean
+          translations: Json
           updated_at: string
         }
         Insert: {
@@ -360,6 +370,7 @@ export type Database = {
           offices_subheading?: string
           quick_info?: Json
           singleton?: boolean
+          translations?: Json
           updated_at?: string
         }
         Update: {
@@ -379,6 +390,7 @@ export type Database = {
           offices_subheading?: string
           quick_info?: Json
           singleton?: boolean
+          translations?: Json
           updated_at?: string
         }
         Relationships: []
@@ -468,6 +480,7 @@ export type Database = {
           starts_at: string | null
           status: Database["public"]["Enums"]["post_status"]
           title: string
+          translations: Json
           updated_at: string
           virtual_link: string | null
         }
@@ -486,6 +499,7 @@ export type Database = {
           starts_at?: string | null
           status?: Database["public"]["Enums"]["post_status"]
           title: string
+          translations?: Json
           updated_at?: string
           virtual_link?: string | null
         }
@@ -504,6 +518,7 @@ export type Database = {
           starts_at?: string | null
           status?: Database["public"]["Enums"]["post_status"]
           title?: string
+          translations?: Json
           updated_at?: string
           virtual_link?: string | null
         }
@@ -539,6 +554,7 @@ export type Database = {
           mobile_menu_items: Json
           mobile_show_social: boolean
           singleton: boolean
+          translations: Json
           updated_at: string
         }
         Insert: {
@@ -570,6 +586,7 @@ export type Database = {
           mobile_menu_items?: Json
           mobile_show_social?: boolean
           singleton?: boolean
+          translations?: Json
           updated_at?: string
         }
         Update: {
@@ -601,6 +618,7 @@ export type Database = {
           mobile_menu_items?: Json
           mobile_show_social?: boolean
           singleton?: boolean
+          translations?: Json
           updated_at?: string
         }
         Relationships: []
@@ -628,6 +646,7 @@ export type Database = {
           subheadline: string
           subheadline_color: string
           text_align: string
+          translations: Json
           updated_at: string
           vertical_position: string
         }
@@ -653,6 +672,7 @@ export type Database = {
           subheadline?: string
           subheadline_color?: string
           text_align?: string
+          translations?: Json
           updated_at?: string
           vertical_position?: string
         }
@@ -678,6 +698,7 @@ export type Database = {
           subheadline?: string
           subheadline_color?: string
           text_align?: string
+          translations?: Json
           updated_at?: string
           vertical_position?: string
         }
@@ -799,6 +820,7 @@ export type Database = {
           is_visible: boolean
           label: string
           position: number
+          translations: Json
           updated_at: string
         }
         Insert: {
@@ -809,6 +831,7 @@ export type Database = {
           is_visible?: boolean
           label: string
           position?: number
+          translations?: Json
           updated_at?: string
         }
         Update: {
@@ -819,6 +842,7 @@ export type Database = {
           is_visible?: boolean
           label?: string
           position?: number
+          translations?: Json
           updated_at?: string
         }
         Relationships: [
@@ -838,6 +862,7 @@ export type Database = {
           is_visible: boolean
           label: string
           position: number
+          translations: Json
           updated_at: string
         }
         Insert: {
@@ -846,6 +871,7 @@ export type Database = {
           is_visible?: boolean
           label: string
           position?: number
+          translations?: Json
           updated_at?: string
         }
         Update: {
@@ -854,6 +880,7 @@ export type Database = {
           is_visible?: boolean
           label?: string
           position?: number
+          translations?: Json
           updated_at?: string
         }
         Relationships: []
@@ -867,6 +894,7 @@ export type Database = {
           label: string
           position: number
           target: string
+          translations: Json
           updated_at: string
           url: string
         }
@@ -878,6 +906,7 @@ export type Database = {
           label: string
           position?: number
           target?: string
+          translations?: Json
           updated_at?: string
           url: string
         }
@@ -889,6 +918,7 @@ export type Database = {
           label?: string
           position?: number
           target?: string
+          translations?: Json
           updated_at?: string
           url?: string
         }
@@ -911,6 +941,7 @@ export type Database = {
           kind: string
           page_id: string
           position: number
+          translations: Json
           updated_at: string
         }
         Insert: {
@@ -921,6 +952,7 @@ export type Database = {
           kind: string
           page_id: string
           position?: number
+          translations?: Json
           updated_at?: string
         }
         Update: {
@@ -931,6 +963,7 @@ export type Database = {
           kind?: string
           page_id?: string
           position?: number
+          translations?: Json
           updated_at?: string
         }
         Relationships: [
@@ -993,6 +1026,7 @@ export type Database = {
           status: Database["public"]["Enums"]["page_status"]
           template: Database["public"]["Enums"]["page_template"]
           title: string
+          translations: Json
           updated_at: string
         }
         Insert: {
@@ -1014,6 +1048,7 @@ export type Database = {
           status?: Database["public"]["Enums"]["page_status"]
           template?: Database["public"]["Enums"]["page_template"]
           title: string
+          translations?: Json
           updated_at?: string
         }
         Update: {
@@ -1035,6 +1070,7 @@ export type Database = {
           status?: Database["public"]["Enums"]["page_status"]
           template?: Database["public"]["Enums"]["page_template"]
           title?: string
+          translations?: Json
           updated_at?: string
         }
         Relationships: [
@@ -1105,6 +1141,7 @@ export type Database = {
           slug: string
           status: Database["public"]["Enums"]["post_status"]
           title: string
+          translations: Json
           updated_at: string
         }
         Insert: {
@@ -1120,6 +1157,7 @@ export type Database = {
           slug: string
           status?: Database["public"]["Enums"]["post_status"]
           title: string
+          translations?: Json
           updated_at?: string
         }
         Update: {
@@ -1135,6 +1173,7 @@ export type Database = {
           slug?: string
           status?: Database["public"]["Enums"]["post_status"]
           title?: string
+          translations?: Json
           updated_at?: string
         }
         Relationships: [
