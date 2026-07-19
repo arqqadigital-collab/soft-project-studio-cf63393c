@@ -119,14 +119,14 @@ export default function StaffAug() {
                 <div className="mt-9 flex flex-col items-center gap-3 sm:flex-row">
                   <a
                     href={hero.ctaHref}
-                    className="inline-flex items-center gap-2 rounded-full px-8 py-4 text-sm font-semibold text-white shadow-[var(--shadow-brand)] transition-transform hover:scale-105"
+                    className="inline-flex items-center gap-2 rounded-full px-6 py-3 text-sm font-semibold sm:px-8 sm:py-4 text-white shadow-[var(--shadow-brand)] transition-transform hover:scale-105"
                     style={{ background: "var(--gradient-brand)" }}
                   >
                     {hero.ctaLabel} <ArrowRight className="h-4 w-4" />
                   </a>
                   <a
                     href={hero.ctaHref2}
-                    className="inline-flex items-center gap-2 rounded-full border border-white/30 bg-white/5 px-8 py-4 text-sm font-semibold text-white backdrop-blur transition-colors hover:bg-white/15"
+                    className="inline-flex items-center gap-2 rounded-full border border-white/30 bg-white/5 px-6 py-3 text-sm font-semibold sm:px-8 sm:py-4 text-white backdrop-blur transition-colors hover:bg-white/15"
                   >
                     {hero.ctaLabel2}
                   </a>
@@ -446,14 +446,14 @@ export default function StaffAug() {
             <div className="mt-9 flex flex-col items-center justify-center gap-3 sm:flex-row">
               <a
                 href={finalCta.ctaHref}
-                className="inline-flex items-center gap-2 rounded-full px-8 py-4 text-sm font-semibold text-white shadow-[var(--shadow-brand)] transition-transform hover:scale-105"
+                className="inline-flex items-center gap-2 rounded-full px-6 py-3 text-sm font-semibold sm:px-8 sm:py-4 text-white shadow-[var(--shadow-brand)] transition-transform hover:scale-105"
                 style={{ background: "var(--gradient-brand)" }}
               >
                 {finalCta.ctaLabel} <ArrowRight className="h-4 w-4" />
               </a>
               <a
                 href={finalCta.ctaHref2}
-                className="inline-flex items-center gap-2 rounded-full border border-white/30 bg-white/5 px-8 py-4 text-sm font-semibold text-white backdrop-blur transition-colors hover:bg-white/15"
+                className="inline-flex items-center gap-2 rounded-full border border-white/30 bg-white/5 px-6 py-3 text-sm font-semibold sm:px-8 sm:py-4 text-white backdrop-blur transition-colors hover:bg-white/15"
               >
                 {finalCta.ctaLabel2}
               </a>

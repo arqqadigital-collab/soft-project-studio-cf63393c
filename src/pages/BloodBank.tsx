@@ -164,7 +164,7 @@ export default function BloodBank() {
                   {c.Hero.ctaLabel && (
                     <a
                       href={c.Hero.ctaHref || "#contact"}
-                      className="inline-flex items-center gap-2 rounded-full px-8 py-4 text-sm font-semibold text-white shadow-[var(--shadow-brand)] transition-transform hover:scale-105"
+                      className="inline-flex items-center gap-2 rounded-full px-6 py-3 text-sm font-semibold sm:px-8 sm:py-4 text-white shadow-[var(--shadow-brand)] transition-transform hover:scale-105"
                       style={{ background: "var(--gradient-brand)" }}
                     >
                       {c.Hero.ctaLabel} <ArrowRight className="h-4 w-4" />
@@ -173,7 +173,7 @@ export default function BloodBank() {
                   {c.Hero.ctaLabel2 && (
                     <a
                       href={c.Hero.ctaHref2 || "#contact"}
-                      className="inline-flex items-center gap-2 rounded-full border border-white/30 bg-white/5 px-8 py-4 text-sm font-semibold text-white backdrop-blur transition-colors hover:bg-white/15"
+                      className="inline-flex items-center gap-2 rounded-full border border-white/30 bg-white/5 px-6 py-3 text-sm font-semibold sm:px-8 sm:py-4 text-white backdrop-blur transition-colors hover:bg-white/15"
                     >
                       {c.Hero.ctaLabel2}
                     </a>
@@ -473,7 +473,7 @@ export default function BloodBank() {
               {c["Final CTA"].primaryLabel && (
                 <a
                   href={c["Final CTA"].primaryHref || "#contact"}
-                  className="inline-flex items-center gap-3 rounded-full px-10 py-5 text-base font-semibold text-white shadow-[var(--shadow-brand)] transition-transform hover:scale-105"
+                  className="inline-flex items-center gap-3 rounded-full px-6 py-3 text-sm font-semibold sm:px-10 sm:py-5 sm:text-base text-white shadow-[var(--shadow-brand)] transition-transform hover:scale-105"
                   style={{ background: "var(--gradient-brand)" }}
                 >
                   {c["Final CTA"].primaryLabel} <ArrowRight className="h-5 w-5" />
@@ -482,7 +482,7 @@ export default function BloodBank() {
               {c["Final CTA"].secondaryLabel && (
                 <a
                   href={c["Final CTA"].secondaryHref || "#contact"}
-                  className="inline-flex items-center gap-3 rounded-full border border-white/30 bg-white/5 px-10 py-5 text-base font-semibold text-white backdrop-blur transition-colors hover:bg-white/15"
+                  className="inline-flex items-center gap-3 rounded-full border border-white/30 bg-white/5 px-6 py-3 text-sm font-semibold sm:px-10 sm:py-5 sm:text-base text-white backdrop-blur transition-colors hover:bg-white/15"
                 >
                   {c["Final CTA"].secondaryLabel}
                 </a>

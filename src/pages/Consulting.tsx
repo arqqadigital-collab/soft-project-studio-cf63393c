@@ -77,10 +77,10 @@ export default function Consulting() {
               </h1>
               <p className="mx-auto mt-6 max-w-3xl text-base leading-relaxed text-white/75 md:text-lg">{c.Hero.body}</p>
               <div className="mt-9 flex flex-col items-center gap-3 sm:flex-row">
-                <a href={c.Hero.ctaHref} className="inline-flex items-center gap-2 rounded-full px-8 py-4 text-sm font-semibold text-white shadow-[var(--shadow-brand)] transition-transform hover:scale-105" style={{ background: "var(--gradient-brand)" }}>
+                <a href={c.Hero.ctaHref} className="inline-flex items-center gap-2 rounded-full px-6 py-3 text-sm font-semibold sm:px-8 sm:py-4 text-white shadow-[var(--shadow-brand)] transition-transform hover:scale-105" style={{ background: "var(--gradient-brand)" }}>
                   {c.Hero.ctaLabel} <ArrowRight className="h-4 w-4" />
                 </a>
-                <a href={c.Hero.ctaHref2} className="inline-flex items-center gap-2 rounded-full border border-white/30 bg-white/5 px-8 py-4 text-sm font-semibold text-white backdrop-blur transition-colors hover:bg-white/15">
+                <a href={c.Hero.ctaHref2} className="inline-flex items-center gap-2 rounded-full border border-white/30 bg-white/5 px-6 py-3 text-sm font-semibold sm:px-8 sm:py-4 text-white backdrop-blur transition-colors hover:bg-white/15">
                   {c.Hero.ctaLabel2}
                 </a>
               </div>
@@ -276,10 +276,10 @@ export default function Consulting() {
           </h2>
           <p className="mx-auto mt-6 max-w-2xl text-base leading-relaxed text-white/75 md:text-lg">{c["Final CTA"].body}</p>
           <div className="mt-9 flex flex-col items-center justify-center gap-3 sm:flex-row">
-            <a href={c["Final CTA"].ctaHref} className="inline-flex items-center gap-2 rounded-full px-8 py-4 text-sm font-semibold text-white shadow-[var(--shadow-brand)] transition-transform hover:scale-105" style={{ background: "var(--gradient-brand)" }}>
+            <a href={c["Final CTA"].ctaHref} className="inline-flex items-center gap-2 rounded-full px-6 py-3 text-sm font-semibold sm:px-8 sm:py-4 text-white shadow-[var(--shadow-brand)] transition-transform hover:scale-105" style={{ background: "var(--gradient-brand)" }}>
               {c["Final CTA"].ctaLabel} <ArrowRight className="h-4 w-4" />
             </a>
-            <a href={c["Final CTA"].ctaHref2} className="inline-flex items-center gap-2 rounded-full border border-white/30 bg-white/5 px-8 py-4 text-sm font-semibold text-white backdrop-blur transition-colors hover:bg-white/15">
+            <a href={c["Final CTA"].ctaHref2} className="inline-flex items-center gap-2 rounded-full border border-white/30 bg-white/5 px-6 py-3 text-sm font-semibold sm:px-8 sm:py-4 text-white backdrop-blur transition-colors hover:bg-white/15">
               {c["Final CTA"].ctaLabel2}
             </a>
           </div>
