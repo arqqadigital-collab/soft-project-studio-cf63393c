@@ -447,6 +447,9 @@ export const PAGE_CONTENT_KINDS = [
   "Methodology",
   // Staff Aug sections
   "Models",
+  // About sections
+  "Mission & Vision",
+  "Our Journey",
 ] as const;
 
 export const PAGE_CONTENT_SECTION_DEFS: Record<string, SectionDef> = Object.fromEntries(
