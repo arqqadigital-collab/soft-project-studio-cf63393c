@@ -165,6 +165,7 @@ export default function PostEditor() {
       category_id: form.category_id || null,
       published_at: form.published_at,
       author_id: user.id,
+      translations: { ...translations, ar },
     };
     try {
       let pid = postId;
