@@ -77,20 +77,29 @@ function AnimatedStat({ value }: { value: string }) {
 type JourneyStep = { icon: string; title: string; image: string; description: string };
 
 function ExpandingJourney({ steps }: { steps: JourneyStep[] }) {
-  const [active, setActive] = useState(0);
+    const [active, setActive] = useState(0);
+  const [isDesktop, setIsDesktop] = useState(false);
+  useEffect(() => {
+    const mq = window.matchMedia("(min-width: 768px)");
+    const onChange = () => setIsDesktop(mq.matches);
+    onChange();
+    mq.addEventListener("change", onChange);
+    return () => mq.removeEventListener("change", onChange);
+  }, []);
   return (
     <div className="mt-14 flex flex-col gap-3 md:h-[520px] md:flex-row md:gap-4">
       {steps.map((step, i) => {
         const isActive = active === i;
+        const showExpanded = isActive || !isDesktop;
         return (
           <motion.div
             key={step.title + i}
             onMouseEnter={() => setActive(i)}
             onClick={() => setActive(i)}
-            animate={{ flexGrow: isActive ? 4 : 1 }}
+            animate={isDesktop ? { flexGrow: isActive ? 4 : 1 } : { flexGrow: 1 }}
             transition={{ duration: 0.55, ease: [0.4, 0, 0.2, 1] }}
-            className={`group relative cursor-pointer overflow-hidden rounded-3xl border border-border bg-card/70 md:h-full ${isActive ? "md:p-8" : "md:p-5"}`}
-            style={{ flexBasis: 0, minWidth: 0 }}
+            className={`group relative cursor-pointer overflow-hidden rounded-3xl border border-border bg-card/70 min-h-[380px] md:min-h-0 md:h-full ${isDesktop && !isActive ? "md:p-5" : "md:p-8"}`}
+            style={{ flexBasis: isDesktop ? 0 : 'auto', minWidth: 0 }}
           >
             <div
               className="absolute inset-0 bg-cover bg-center bg-no-repeat transition-transform duration-700 group-hover:scale-105"
@@ -98,7 +107,7 @@ function ExpandingJourney({ steps }: { steps: JourneyStep[] }) {
               aria-hidden="true"
             />
             <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(5,12,24,0.35)_0%,rgba(5,12,24,0.72)_48%,rgba(5,12,24,0.94)_100%)]" aria-hidden="true" />
-            <div className={`relative flex h-full min-h-[320px] flex-col ${isActive ? "p-7" : "p-4"}`}>
+            <div className={`relative flex h-full min-h-[320px] flex-col ${showExpanded ? "p-7" : "p-4"}`}>
               <div
                 className="flex h-14 w-14 items-center justify-center rounded-2xl text-white shadow-[var(--shadow-brand)]"
                 style={{ background: "var(--gradient-brand)" }}
@@ -108,11 +117,11 @@ function ExpandingJourney({ steps }: { steps: JourneyStep[] }) {
 
               <div className="mt-6 flex h-[calc(100%-3.5rem)] flex-col">
                 <motion.div
-                  animate={{ opacity: isActive ? 1 : 0 }}
-                  transition={{ duration: 0.3, delay: isActive ? 0.25 : 0 }}
+                  animate={{ opacity: showExpanded ? 1 : 0 }}
+                  transition={{ duration: 0.3, delay: showExpanded ? 0.25 : 0 }}
                   className="flex-1"
                 >
-                  {isActive && (
+                  {showExpanded && (
                     <>
                       <div className="text-xs font-bold uppercase tracking-[0.2em] text-white/70">
                         Step {i + 1}
@@ -123,7 +132,7 @@ function ExpandingJourney({ steps }: { steps: JourneyStep[] }) {
                   )}
                 </motion.div>
 
-                {!isActive && (
+                {!showExpanded && (
                   <div className="mt-auto text-left">
                     <div className="text-[10px] font-bold uppercase tracking-[0.15em] text-white/65">
                       Step {i + 1}
