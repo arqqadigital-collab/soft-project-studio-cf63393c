@@ -311,14 +311,6 @@ export default function PagesAndNavigation() {
           editHref="/dashboard/homepage"
           description="Managed in Homepage editor. Not part of the menu tree."
         />
-        <ReferenceRow
-          icon={<Mail className="h-4 w-4 text-primary" />}
-          title="Contact"
-          badge="Standalone page"
-          route="/contact"
-          editHref="/dashboard/contact"
-          description="Managed in Contact editor. Rendered on a fixed route, not part of the menu tree."
-        />
       </Card>
 
       <Tabs value={tab} onValueChange={(v) => setTab(v as "pages" | "navigation")}>
