@@ -235,7 +235,7 @@ Deno.serve(async (req) => {
       return new Response(JSON.stringify(r), { headers: { ...corsHeaders, "Content-Type": "application/json" } });
     }
 
-    let query = admin.from("page_sections").select("id, data, page_id");
+    let query = admin.from("page_sections").select("id, data, page_id, translations");
     if (mode === "page") {
       if (!body?.pageId) throw new Response(JSON.stringify({ error: "pageId required" }), { status: 400 });
       query = query.eq("page_id", body.pageId);
@@ -246,7 +246,11 @@ Deno.serve(async (req) => {
     const { data: rows, error } = await query;
     if (error) throw error;
 
-    const list = (rows ?? []) as any[];
+    let list = (rows ?? []) as any[];
+    // When missingOnly=true, skip sections whose Arabic already looks complete
+    if (body?.missingOnly) {
+      list = list.filter((r) => !isTranslationAdequate(r.data ?? {}, (r.translations as any)?.ar ?? {}));
+    }
     const settled = await mapWithConcurrency(list, 3, (row) => translateSection(row));
     let ok = 0, fail = 0;
     const errors: string[] = [];
