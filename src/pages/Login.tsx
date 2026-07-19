@@ -1,4 +1,4 @@
-import { FormEvent, useEffect, useState } from "react";
+import { FormEvent, useEffect, useRef, useState } from "react";
 import { Navigate, useLocation, useNavigate } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/hooks/use-auth";
@@ -16,6 +16,7 @@ export default function Login() {
   const [info, setInfo] = useState<string | null>(null);
   const [submitting, setSubmitting] = useState(false);
   const [resetting, setResetting] = useState(false);
+  const resetInFlight = useRef(false);
 
   const from = (location.state as { from?: { pathname?: string } } | null)?.from?.pathname ?? "/dashboard";
 
@@ -41,21 +42,24 @@ export default function Login() {
   }
 
   async function handleForgotPassword() {
+    if (resetInFlight.current) return;
     setError(null);
     setInfo(null);
     if (!email) {
       setError("Enter your email above, then click Forgot password.");
       return;
     }
+    resetInFlight.current = true;
     setResetting(true);
-    const { error } = await supabase.auth.resetPasswordForEmail(email, {
+    const { error } = await supabase.auth.resetPasswordForEmail(email.trim().toLowerCase(), {
       redirectTo: `${window.location.origin}/reset-password`,
     });
+    resetInFlight.current = false;
     setResetting(false);
     if (error) {
       setError(
-        error.message.toLowerCase().includes("rate limit")
-          ? "Too many reset emails were requested. Please wait a few minutes, then try again."
+        error.status === 429 || error.message.toLowerCase().includes("rate limit")
+          ? "The email service has reached its sending limit. Please wait before trying again, or ask an administrator to set your password."
           : error.message
       );
       return;

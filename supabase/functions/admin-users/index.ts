@@ -5,7 +5,20 @@ const SUPABASE_URL = Deno.env.get('SUPABASE_URL')!;
 const SERVICE_ROLE = Deno.env.get('SUPABASE_SERVICE_ROLE_KEY')!;
 const ANON = Deno.env.get('SUPABASE_PUBLISHABLE_KEY') ?? Deno.env.get('SUPABASE_ANON_KEY')!;
 
-type Action = 'list' | 'invite' | 'set_role' | 'delete';
+type Action = 'list' | 'invite' | 'create' | 'send_reset' | 'set_password' | 'set_role' | 'delete';
+
+const VALID_ROLES = ['admin', 'editor', 'author', 'subscriber'] as const;
+const EMAIL_PATTERN = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+function validRole(role: unknown): role is typeof VALID_ROLES[number] {
+  return typeof role === 'string' && VALID_ROLES.includes(role as typeof VALID_ROLES[number]);
+}
+
+function passwordError(password: unknown) {
+  if (typeof password !== 'string' || password.length < 8) return 'Password must be at least 8 characters';
+  if (password.length > 128) return 'Password must be 128 characters or fewer';
+  return null;
+}
 
 // Per-admin rate limit for sensitive actions.
 // In-memory (per edge instance) — good enough to blunt bursts and misuse.
@@ -107,7 +120,8 @@ Deno.serve(async (req) => {
 
     if (action === 'invite') {
       const { email, role, redirect_to } = body;
-      if (!email || typeof email !== 'string') return jsonResponse({ error: 'email required' }, 400);
+      if (typeof email !== 'string' || !EMAIL_PATTERN.test(email)) return jsonResponse({ error: 'A valid email is required' }, 400);
+      if (!validRole(role)) return jsonResponse({ error: 'A valid role is required' }, 400);
       const origin = req.headers.get('origin') || req.headers.get('referer') || '';
       const base = (redirect_to || origin || '').replace(/\/$/, '');
       const redirectTo = base ? `${base}/set-password` : undefined;
@@ -123,11 +137,62 @@ Deno.serve(async (req) => {
       return jsonResponse({ user: data.user });
     }
 
+    if (action === 'create') {
+      const { email, password, role } = body;
+      if (typeof email !== 'string' || !EMAIL_PATTERN.test(email)) return jsonResponse({ error: 'A valid email is required' }, 400);
+      const invalidPassword = passwordError(password);
+      if (invalidPassword) return jsonResponse({ error: invalidPassword }, 400);
+      if (!validRole(role)) return jsonResponse({ error: 'A valid role is required' }, 400);
+
+      const { data, error } = await admin.auth.admin.createUser({
+        email: email.trim().toLowerCase(),
+        password,
+        email_confirm: true,
+      });
+      if (error) throw error;
+      await admin.from('user_roles').upsert(
+        { user_id: data.user.id, role },
+        { onConflict: 'user_id,role' },
+      );
+      await logAudit('create_user', data.user.id, { email, role });
+      return jsonResponse({ user: data.user });
+    }
+
+    if (action === 'send_reset') {
+      const { email, redirect_to } = body;
+      if (typeof email !== 'string' || !EMAIL_PATTERN.test(email)) return jsonResponse({ error: 'A valid email is required' }, 400);
+      const origin = req.headers.get('origin') || req.headers.get('referer') || '';
+      const base = (redirect_to || origin || '').replace(/\/$/, '');
+      const { error } = await admin.auth.resetPasswordForEmail(
+        email.trim().toLowerCase(),
+        base ? { redirectTo: `${base}/reset-password` } : undefined,
+      );
+      if (error) {
+        const isRateLimit = error.status === 429 || error.message.toLowerCase().includes('rate limit');
+        return jsonResponse(
+          { error: isRateLimit ? 'Email limit reached. Wait before retrying, or set the password directly.' : error.message },
+          isRateLimit ? 429 : 400,
+        );
+      }
+      await logAudit('send_password_reset', null, { email });
+      return jsonResponse({ ok: true });
+    }
+
+    if (action === 'set_password') {
+      const { user_id, password } = body;
+      if (typeof user_id !== 'string' || !user_id) return jsonResponse({ error: 'user_id required' }, 400);
+      const invalidPassword = passwordError(password);
+      if (invalidPassword) return jsonResponse({ error: invalidPassword }, 400);
+      const { error } = await admin.auth.admin.updateUserById(user_id, { password });
+      if (error) throw error;
+      await logAudit('set_password', user_id, {});
+      return jsonResponse({ ok: true });
+    }
+
     if (action === 'set_role') {
       const { user_id, role } = body;
       if (!user_id || !role) return jsonResponse({ error: 'user_id and role required' }, 400);
-      const validRoles = ['admin', 'editor', 'author', 'subscriber'];
-      if (!validRoles.includes(role)) return jsonResponse({ error: 'invalid role' }, 400);
+      if (!validRole(role)) return jsonResponse({ error: 'invalid role' }, 400);
 
       // Capture previous roles for audit trail
       const { data: prevRoles } = await admin.from('user_roles').select('role').eq('user_id', user_id);
