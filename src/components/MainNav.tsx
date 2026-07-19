@@ -9,7 +9,7 @@ type Leaf = {
   to?: string;
   href?: string;
 };
-type Column = { id: string; label: string; items: Leaf[] };
+type Column = { id: string; label: string; description?: string | null; items: Leaf[] };
 type Menu = { id: string; label: string; columns: Column[] };
 
 const simpleLinks = ["Contact"];
