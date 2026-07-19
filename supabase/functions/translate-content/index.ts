@@ -149,7 +149,7 @@ async function translateHeaderFooter() {
     footer_columns: (data as any).footer_columns ?? [],
     mobile_menu_items: (data as any).mobile_menu_items ?? [],
   };
-  const ar = await translateJson(payload);
+  const ar = await translateJsonValidated(payload);
   await mergeAr("header_footer_settings", (data as any).id, ar);
   return { ok: 1, fail: 0, total: 1 };
 }
