@@ -153,7 +153,7 @@ export function Header() {
       {mobileOpen && (
         <div className="fixed inset-0 z-[60] lg:hidden">
           <div className="absolute inset-0 bg-black/60 backdrop-blur-sm" onClick={() => setMobileOpen(false)} />
-          <div className="absolute right-0 top-0 h-full w-[86%] max-w-sm overflow-y-auto bg-[var(--brand-dark)] p-6 shadow-2xl">
+          <div className="absolute end-0 top-0 h-full w-[86%] max-w-sm overflow-y-auto bg-[var(--brand-dark)] p-6 shadow-2xl">
             <div className="mb-6 flex items-center justify-between">
               <img src={lightLogo} alt="Logo" style={{ height: 40 }} className="w-auto" />
               <button
