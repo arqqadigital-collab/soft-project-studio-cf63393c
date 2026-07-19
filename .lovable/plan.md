@@ -1,68 +1,77 @@
-## Contact page — dashboard integration
+# Bilingual Site: English + Arabic (with RTL)
 
-Bring the `/contact` page fully under the dashboard so its content, form options, form submissions, and SEO can all be managed without code.
+Add full English/Arabic support across the public site, with per-section translations editable in the dashboard and proper RTL layout.
 
-### 1. Database (migration)
+## Scope
 
-New tables in `public` (RLS on, with GRANTs):
+**In scope**
+- Language switcher in the header (EN / العربية), persisted in `localStorage` and URL (`?lang=ar`).
+- Automatic `dir="rtl"` + `lang="ar"` on `<html>` when Arabic is active, with global RTL styling fixes.
+- UI chrome (nav, footer, buttons, form labels, toasts) translated via i18n dictionaries.
+- Per-section content translations: every `page_sections` row gets an Arabic variant editable in the dashboard side-by-side with English.
+- Translations for: Homepage hero, all 32 pages' sections, Header/Footer settings (CTAs, tagline), Contact page (hero, offices, inquiry areas), Menu labels (groups, columns, links), Posts (title, excerpt, content), Case studies, Events.
+- SEO: `hreflang` alternates, translated `<title>` / meta description per locale.
 
-- **`contact_page`** — single row (`singleton = true`) holding:
-  - Hero: eyebrow, headline, subheadline, background image URL, CTA label/href
-  - Form section: heading, subheading, submit button label
-  - Quick info cards (JSONB array): `{ icon, title, value, subtitle }`
-  - Offices section heading + description
-  - Read: public. Write: `admin` / `editor`.
+**Out of scope (for now)**
+- Auto-translation via AI (can be added later as a "Translate with AI" button per section).
+- Additional languages beyond EN/AR.
+- Translating admin dashboard UI itself (stays English).
 
-- **`contact_offices`** — one row per office:
-  - `city`, `address`, `phone`, `email`, `image_url`, `position` (ordering)
-  - Read: public. Write: `admin` / `editor`.
+## Approach
 
-- **`contact_inquiry_areas`** — dropdown options:
-  - `label`, `position`, `is_active`
-  - Read: public. Write: `admin` / `editor`.
+### 1. Data model
+Add a `translations` JSONB column to content tables, keyed by locale:
+- `page_sections.translations` → `{ ar: { data: {...same shape as data...} } }`
+- `pages.translations` → `{ ar: { title, content, meta_title, meta_description } }`
+- `posts.translations` → `{ ar: { title, excerpt, content } }`
+- `menu_groups.translations`, `menu_columns.translations`, `menu_links.translations` → `{ ar: { label / title / description } }`
+- `header_footer_settings.translations`, `homepage_hero.translations`, `contact_page.translations`, `contact_offices.translations`, `contact_inquiry_areas.translations`, `case_studies.translations`, `events.translations`.
 
-- **`contact_submissions`** — form inbox:
-  - `name`, `email`, `phone`, `area`, `message`, `consent`, `status` (`new` / `read` / `archived`), `ip`, `user_agent`, `created_at`
-  - Insert: `anon` + `authenticated` (public form).
-  - Select / Update / Delete: `admin` / `editor` only.
+At read time, if current locale is `ar`, merge `translations.ar` over the base row (English is the default/base).
 
-- Seed all four tables with the current hardcoded content from `src/pages/Contact.tsx` (hero copy, 3 quick info cards, 5 offices, 9 inquiry areas).
+### 2. Frontend i18n
+- Add `i18next` + `react-i18next` + language detector.
+- Create `src/i18n/index.ts` with `en` and `ar` dictionaries for UI strings (buttons, nav fallbacks, form labels, footer boilerplate, common CTAs).
+- `LanguageProvider` sets `document.documentElement.dir` and `lang` based on active locale.
+- `useLocale()` hook returns current locale; content hooks (e.g. `useHISContent`, `useContactPage`, etc.) accept locale and return the merged Arabic-or-English content.
+- `LanguageSwitcher` component in header — toggle EN / العربية, updates URL param + localStorage.
 
-- Add `updated_at` triggers on the editable tables.
+### 3. RTL styling
+- Global CSS: swap `left/right` for `start/end` where possible; audit Tailwind classes using `rtl:` variants for known offenders (margins, flex direction on nav/footer, chevrons).
+- Fonts: keep current system stack for Latin; add a suitable Arabic web font (e.g. Cairo or IBM Plex Arabic) loaded only when `lang=ar`.
+- Icons that imply direction (arrows) flip via `rtl:rotate-180`.
 
-### 2. Frontend — public `/contact` page
+### 4. Dashboard editor
+- Add a language tab (EN / AR) at the top of Page Builder, Post editor, Contact editor, Menu editor, Header/Footer editor, Homepage editor.
+- Switching to AR shows the same form fields but writes into `translations.ar` instead of the base columns.
+- Placeholder in AR fields shows the English value in gray so translators see context.
+- "Copy from English" button per field.
 
-Refactor `src/pages/Contact.tsx` to:
+### 5. SEO
+- `SeoHead` accepts locale; emits `<html lang>`, `hreflang="en"` and `hreflang="ar"` alternates, and translated title/description.
 
-- Fetch `contact_page`, `contact_offices`, `contact_inquiry_areas`, and use them to render the same layout (hero, form, quick info, offices).
-- Submit the form to `contact_submissions` (insert as anon), show a success toast, and clear the fields. Validate with zod (name ≤100, email ≤255, phone ≤30, message ≤1000, consent required).
-- Keep the existing visual design; only the data source changes.
-- Attach `<Helmet>` reading SEO fields from `seo_meta` for `/contact` (falling back to defaults) — matches how other pages already handle SEO.
+## Technical details
 
-### 3. Dashboard — new "Contact" section
+**New/modified files (high level)**
+- `src/i18n/index.ts`, `src/i18n/en.ts`, `src/i18n/ar.ts`
+- `src/i18n/LanguageProvider.tsx`, `src/hooks/useLocale.ts`
+- `src/components/LanguageSwitcher.tsx` (mounted in `Header.tsx`)
+- Update all `use*Content` hooks to accept `locale` and merge `translations[locale]` over the base row/section
+- `src/pages/dashboard/*` editors: add language tab and route field writes to `translations.ar` when AR active
+- `src/components/SeoHead.tsx`: hreflang alternates
+- `src/index.css`: RTL adjustments, Arabic font import
+- One Supabase migration adding `translations JSONB DEFAULT '{}'::jsonb` columns to all listed tables
 
-Add a new item in the dashboard sidebar under content: **Contact**, gated to `admin` + `editor`. Route: `/dashboard/contact`.
+**Rollout order (I will do in this order across follow-up turns)**
+1. i18n foundation + language switcher + RTL + UI dictionary (visible immediately, chrome-only).
+2. Migration adding `translations` columns.
+3. Wire section reads to merge `translations.ar`.
+4. Add AR tab to Page Builder (covers all 32 pages at once).
+5. Extend AR tab to Contact / Menu / Header-Footer / Homepage / Posts editors.
+6. SEO hreflang + Arabic font polish.
 
-Single page with tabs:
+## Notes
 
-- **Page content** — form fields for hero, quick info cards (add/remove/reorder), and form section copy. Media picker for hero background and card icons.
-- **Offices** — table + editor: add/edit/delete/reorder offices with a media picker for images.
-- **Inquiry areas** — simple add/edit/delete/reorder list with active toggle.
-- **Submissions** — inbox table (newest first) showing name, email, phone, area, message, status, timestamp. Row actions: mark read, archive, delete. Filter by status. Export to CSV button.
-- **SEO** — reuse existing `SeoEditor` component bound to the `/contact` page's `seo_meta` row.
-
-Wire it into `Dashboard.tsx` routes and the sidebar nav.
-
-### 4. Files touched
-
-- Migration (via migration tool) — new tables, policies, grants, seed data, triggers.
-- `src/pages/Contact.tsx` — rewrite to consume Supabase data and submit to `contact_submissions`.
-- `src/pages/Dashboard.tsx` — add route.
-- `src/pages/dashboard/ContactEditor.tsx` — new (tabs above).
-- `src/components/dashboard/Sidebar.tsx` (or wherever nav items live) — add Contact link.
-
-### Out of scope (ask if you want them)
-
-- Email notifications on new submissions (would need an edge function + email provider).
-- Spam/CAPTCHA protection.
-- Multilingual content.
+- English stays the source of truth; Arabic is a per-field overlay. Missing Arabic fields fall back to English so nothing ever appears blank.
+- No content is lost — existing rows keep working with `translations = {}`.
+- You (or a translator) fill Arabic text in the dashboard; nothing is auto-translated unless you later ask for an AI translate button.
