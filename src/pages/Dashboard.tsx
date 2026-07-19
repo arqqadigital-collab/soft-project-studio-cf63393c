@@ -104,6 +104,11 @@ export default function Dashboard() {
           element={<RoleGate allow={["admin"]}><SettingsPage /></RoleGate>}
         />
         <Route
+          path="branding"
+          element={<RoleGate allow={["admin"]}><BrandingPage /></RoleGate>}
+        />
+
+        <Route
           path="contact"
           element={<RoleGate allow={["admin", "editor"]}><ContactEditor /></RoleGate>}
         />
