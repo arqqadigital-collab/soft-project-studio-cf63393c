@@ -55,9 +55,11 @@ export function BrandingApplier() {
     if (data.brand_dark_color) rules.push(`--brand-dark: ${data.brand_dark_color};`);
     if (data.border_radius) rules.push(`--radius: ${data.border_radius};`);
 
+    const isStack = (v: string) => v.includes(",") || v.includes("-serif") || v.includes("ui-");
+    const fmt = (v: string) => (isStack(v) ? v : `"${v}",sans-serif`);
     const fontFams: string[] = [];
-    if (data.heading_font) fontFams.push(`h1,h2,h3,h4,h5,h6{font-family:"${data.heading_font}",sans-serif;}`);
-    if (data.body_font) fontFams.push(`body{font-family:"${data.body_font}",sans-serif;}`);
+    if (data.heading_font) fontFams.push(`h1,h2,h3,h4,h5,h6{font-family:${fmt(data.heading_font)};}`);
+    if (data.body_font) fontFams.push(`body{font-family:${fmt(data.body_font)};}`);
 
     const css = `:root{${rules.join("")}} ${fontFams.join(" ")}`;
     let style = document.getElementById(STYLE_ID) as HTMLStyleElement | null;
@@ -68,7 +70,7 @@ export function BrandingApplier() {
     }
     style.textContent = css;
 
-    const gfonts = [data.heading_font, data.body_font].filter(Boolean) as string[];
+    const gfonts = [data.heading_font, data.body_font].filter((f): f is string => !!f && !isStack(f));
     let fontLink = document.getElementById(FONT_ID) as HTMLLinkElement | null;
     if (gfonts.length > 0) {
       if (!fontLink) {
@@ -81,6 +83,7 @@ export function BrandingApplier() {
     } else if (fontLink) {
       fontLink.remove();
     }
+
 
     if (data.favicon_url) {
       upsertLink("icon", data.favicon_url);
