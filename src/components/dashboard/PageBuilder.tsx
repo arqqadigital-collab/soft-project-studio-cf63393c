@@ -55,7 +55,13 @@ export function PageBuilder({ pageId, pageSlug }: { pageId: string; pageSlug?: s
 
   function invalidate() {
     qc.invalidateQueries({ queryKey: ["page-sections-admin", pageId] });
-    qc.invalidateQueries({ queryKey: ["page-sections", pageSlug] });
+    // Reader cache key is ["page-sections", slug, locale] — match any locale.
+    qc.invalidateQueries({
+      predicate: (query) =>
+        Array.isArray(query.queryKey) &&
+        query.queryKey[0] === "page-sections" &&
+        query.queryKey[1] === pageSlug,
+    });
   }
 
   async function addSection(kind: SectionKind) {
