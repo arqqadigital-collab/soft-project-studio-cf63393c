@@ -82,6 +82,7 @@ export default function PagesAndNavigation() {
   function invalidate() {
     qc.invalidateQueries({ queryKey: ["menu-tree"] });
     qc.invalidateQueries({ queryKey: ["pages"] });
+    qc.invalidateQueries({ queryKey: ["all-pages-flat"] });
   }
 
   async function toggleVisible(
