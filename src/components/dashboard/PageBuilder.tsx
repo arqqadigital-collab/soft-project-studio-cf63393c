@@ -161,6 +161,16 @@ export function PageBuilder({ pageId, pageSlug }: { pageId: string; pageSlug?: s
               AR — العربية
             </button>
           </div>
+          <Button
+            size="sm"
+            variant="outline"
+            onClick={translateAll}
+            disabled={translating || rows.length === 0}
+            title="Auto-translate all sections on this page to Arabic (overwrites existing Arabic)"
+          >
+            {translating ? <Loader2 className="mr-1 h-4 w-4 animate-spin" /> : <Sparkles className="mr-1 h-4 w-4" />}
+            Translate to Arabic
+          </Button>
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
               <Button size="sm"><Plus className="mr-1 h-4 w-4" /> Add section</Button>
