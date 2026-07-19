@@ -301,7 +301,7 @@ export default function Blog() {
         <section className="bg-background pb-24 md:pb-32">
           <div className="mx-auto max-w-7xl px-6">
             <div className="mb-10 flex items-center justify-between">
-              <h2 className="text-2xl font-bold text-foreground md:text-3xl">Latest Articles</h2>
+              <h2 className="text-2xl font-bold text-foreground md:text-3xl">{locale === "ar" ? "أحدث المقالات" : "Latest Articles"}</h2>
             </div>
 
             <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-3">
