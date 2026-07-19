@@ -90,9 +90,14 @@ function ColorField({
 export default function HomepageEditor() {
   const qc = useQueryClient();
   const [form, setForm] = useState<HeroForm>(EMPTY);
+  const [arForm, setArForm] = useState<Pick<HeroForm, "heading_line1" | "heading_line2" | "subheadline" | "cta_label">>({
+    heading_line1: "", heading_line2: "", subheadline: "", cta_label: "",
+  });
+  const [lang, setLang] = useState<"en" | "ar">("en");
   const [rowId, setRowId] = useState<string | null>(null);
   const [heroVisible, setHeroVisible] = useState(true);
   const [saving, setSaving] = useState(false);
+  const [translating, setTranslating] = useState(false);
   const [pickerOpen, setPickerOpen] = useState(false);
 
   const { data, isLoading } = useQuery({
