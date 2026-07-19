@@ -1,60 +1,73 @@
-import { useEffect, useState } from "react";
+import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
 
 export const BLOG_DEFAULTS = {
   Hero: {
-    _visible: true,
     eyebrow: "Insights & Updates",
     title_prefix: "Our",
     title_highlight: "Blog",
     description:
       "Thought leadership, industry trends, and practical guidance for healthcare, ERP, and technology leaders.",
   },
-};
+} as const;
 
-export type BlogContent = typeof BLOG_DEFAULTS;
+export type BlogSectionKey = keyof typeof BLOG_DEFAULTS;
 
-function merge<T>(defaults: T, override: any): T {
-  if (!override || typeof override !== "object") return defaults;
-  const out: any = Array.isArray(defaults) ? [...(defaults as any)] : { ...(defaults as any) };
-  for (const k of Object.keys(override)) {
-    const dv = (defaults as any)?.[k];
-    const ov = override[k];
-    if (dv && typeof dv === "object" && !Array.isArray(dv) && ov && typeof ov === "object" && !Array.isArray(ov)) {
-      out[k] = merge(dv, ov);
-    } else if (ov !== undefined && ov !== null && ov !== "") {
-      out[k] = ov;
+export type BlogContent = {
+  [K in BlogSectionKey]: (typeof BLOG_DEFAULTS)[K] & Record<string, any>;
+} & { _visible: Record<BlogSectionKey, boolean> };
+
+const BLOG_PAGE_SLUG = "blog";
+
+function merge<T>(base: T, over: any): T {
+  if (over === undefined || over === null) return base;
+  if (Array.isArray(base) || Array.isArray(over)) return (over ?? base) as T;
+  if (typeof base === "object" && base !== null && typeof over === "object") {
+    const out: any = { ...(base as any) };
+    for (const k of Object.keys(over)) {
+      out[k] = merge((base as any)[k], (over as any)[k]);
     }
+    return out;
   }
-  return out;
+  return (over ?? base) as T;
 }
 
-export function useBlogContent() {
-  const [content, setContent] = useState<BlogContent>(BLOG_DEFAULTS);
-
-  useEffect(() => {
-    let cancelled = false;
-    (async () => {
-      const { data: page } = await supabase.from("pages").select("id").eq("slug", "blog").maybeSingle();
-      if (!page?.id) return;
+export function useBlogContent(): BlogContent {
+  const { data } = useQuery({
+    queryKey: ["page-sections", BLOG_PAGE_SLUG],
+    queryFn: async () => {
+      const { data: page } = await supabase
+        .from("pages")
+        .select("id")
+        .eq("slug", BLOG_PAGE_SLUG)
+        .maybeSingle();
+      if (!page?.id) return { byName: {}, visibleByName: {} };
       const { data: sections } = await supabase
         .from("page_sections")
-        .select("section_name, content, is_visible")
-        .eq("page_id", page.id);
-      if (cancelled || !sections) return;
-      const next: any = JSON.parse(JSON.stringify(BLOG_DEFAULTS));
-      for (const s of sections) {
-        const key = s.section_name as keyof BlogContent;
-        if (!(key in next)) continue;
-        next[key] = merge(next[key], s.content ?? {});
-        next[key]._visible = s.is_visible !== false;
+        .select("data, position, is_visible")
+        .eq("page_id", page.id)
+        .order("position");
+      const byName: Record<string, any> = {};
+      const visibleByName: Record<string, boolean> = {};
+      for (const row of sections ?? []) {
+        const d = (row.data ?? {}) as any;
+        const name = d.section_name;
+        if (typeof name === "string" && name.length > 0) {
+          byName[name] = d;
+          visibleByName[name] = row.is_visible !== false;
+        }
       }
-      setContent(next);
-    })();
-    return () => {
-      cancelled = true;
-    };
-  }, []);
+      return { byName, visibleByName };
+    },
+    staleTime: 30_000,
+  });
 
-  return content;
+  const overrides = data?.byName ?? {};
+  const visibility = data?.visibleByName ?? {};
+  const merged: any = { _visible: {} as Record<BlogSectionKey, boolean> };
+  for (const key of Object.keys(BLOG_DEFAULTS) as BlogSectionKey[]) {
+    merged[key] = merge(BLOG_DEFAULTS[key] as any, overrides[key] ?? {});
+    merged._visible[key] = visibility[key] ?? true;
+  }
+  return merged as BlogContent;
 }
