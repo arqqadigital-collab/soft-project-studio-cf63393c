@@ -9,23 +9,41 @@ import {
   DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import {
-  Trash2, ArrowUp, ArrowDown, Eye, EyeOff, Plus,
+  Trash2, ArrowUp, ArrowDown, Eye, EyeOff, Plus, Copy, Languages,
 } from "lucide-react";
 import { SECTION_REGISTRY, SECTION_KINDS, type SectionKind, type SectionDef } from "@/lib/pageSections";
 import { PageDefaultsProvider } from "@/lib/contentSections";
 
-type Row = { id: string; kind: SectionKind; position: number; is_visible: boolean; data: any };
+type LocaleCode = "en" | "ar";
+type Row = { id: string; kind: SectionKind; position: number; is_visible: boolean; data: any; translations: any };
+
+function mergeDeep(base: any, over: any): any {
+  if (over === undefined || over === null) return base;
+  if (Array.isArray(base) || Array.isArray(over)) {
+    if (Array.isArray(base) && Array.isArray(over)) {
+      return base.map((item, i) => (over[i] !== undefined ? mergeDeep(item, over[i]) : item));
+    }
+    return over ?? base;
+  }
+  if (typeof base === "object" && base !== null && typeof over === "object") {
+    const out: any = { ...base };
+    for (const k of Object.keys(over)) out[k] = mergeDeep(base?.[k], over[k]);
+    return out;
+  }
+  return over ?? base;
+}
 
 export function PageBuilder({ pageId, pageSlug }: { pageId: string; pageSlug?: string }) {
   const qc = useQueryClient();
   const [activeTab, setActiveTab] = useState<string | undefined>(undefined);
+  const [locale, setLocale] = useState<LocaleCode>("en");
 
   const q = useQuery({
-    queryKey: ["page-sections", pageId],
+    queryKey: ["page-sections-admin", pageId],
     queryFn: async () => {
       const { data, error } = await supabase
         .from("page_sections")
-        .select("id, kind, position, is_visible, data")
+        .select("id, kind, position, is_visible, data, translations")
         .eq("page_id", pageId)
         .order("position");
       if (error) throw error;
@@ -36,7 +54,8 @@ export function PageBuilder({ pageId, pageSlug }: { pageId: string; pageSlug?: s
   const rows = q.data ?? [];
 
   function invalidate() {
-    qc.invalidateQueries({ queryKey: ["page-sections", pageId] });
+    qc.invalidateQueries({ queryKey: ["page-sections-admin", pageId] });
+    qc.invalidateQueries({ queryKey: ["page-sections", pageSlug] });
   }
 
   async function addSection(kind: SectionKind) {
@@ -51,9 +70,18 @@ export function PageBuilder({ pageId, pageSlug }: { pageId: string; pageSlug?: s
     invalidate();
   }
 
-  async function updateData(id: string, data: any) {
+  async function updateEnglish(id: string, data: any) {
     const { error } = await supabase.from("page_sections").update({ data }).eq("id", id);
     if (error) return toast.error(error.message);
+    toast.success("Saved");
+    invalidate();
+  }
+
+  async function updateTranslation(id: string, current: any, loc: LocaleCode, overlay: any) {
+    const nextTranslations = { ...(current ?? {}), [loc]: overlay };
+    const { error } = await supabase.from("page_sections").update({ translations: nextTranslations }).eq("id", id);
+    if (error) return toast.error(error.message);
+    toast.success(`${loc.toUpperCase()} translation saved`);
     invalidate();
   }
 
@@ -84,30 +112,54 @@ export function PageBuilder({ pageId, pageSlug }: { pageId: string; pageSlug?: s
 
   return (
     <PageDefaultsProvider slug={pageSlug}><div className="space-y-4">
-      <div className="flex items-center justify-between">
+      <div className="flex flex-wrap items-center justify-between gap-3">
         <div>
           <h3 className="text-lg font-semibold">Sections</h3>
           <p className="text-xs text-muted-foreground">Add, reorder and edit the blocks that make up this page.</p>
         </div>
-        <DropdownMenu>
-          <DropdownMenuTrigger asChild>
-            <Button size="sm"><Plus className="mr-1 h-4 w-4" /> Add section</Button>
-          </DropdownMenuTrigger>
-          <DropdownMenuContent align="end" className="w-64">
-            {SECTION_KINDS.map((k) => {
-              const def = SECTION_REGISTRY[k];
-              return (
-                <DropdownMenuItem key={k} onClick={() => addSection(k)}>
-                  <div>
-                    <div className="font-medium">{def.label}</div>
-                    <div className="text-xs text-muted-foreground">{def.description}</div>
-                  </div>
-                </DropdownMenuItem>
-              );
-            })}
-          </DropdownMenuContent>
-        </DropdownMenu>
+        <div className="flex items-center gap-2">
+          <div className="inline-flex overflow-hidden rounded-md border border-border">
+            <button
+              type="button"
+              onClick={() => setLocale("en")}
+              className={`inline-flex items-center gap-1 px-3 py-1.5 text-xs font-semibold ${locale === "en" ? "bg-primary text-primary-foreground" : "bg-background hover:bg-muted"}`}
+            >
+              <Languages className="h-3.5 w-3.5" /> EN
+            </button>
+            <button
+              type="button"
+              onClick={() => setLocale("ar")}
+              className={`inline-flex items-center gap-1 border-s border-border px-3 py-1.5 text-xs font-semibold ${locale === "ar" ? "bg-primary text-primary-foreground" : "bg-background hover:bg-muted"}`}
+            >
+              AR — العربية
+            </button>
+          </div>
+          <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+              <Button size="sm"><Plus className="mr-1 h-4 w-4" /> Add section</Button>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent align="end" className="w-64">
+              {SECTION_KINDS.map((k) => {
+                const def = SECTION_REGISTRY[k];
+                return (
+                  <DropdownMenuItem key={k} onClick={() => addSection(k)}>
+                    <div>
+                      <div className="font-medium">{def.label}</div>
+                      <div className="text-xs text-muted-foreground">{def.description}</div>
+                    </div>
+                  </DropdownMenuItem>
+                );
+              })}
+            </DropdownMenuContent>
+          </DropdownMenu>
+        </div>
       </div>
+
+      {locale === "ar" && (
+        <div className="rounded-md border border-amber-300/40 bg-amber-50 px-3 py-2 text-xs text-amber-900 dark:border-amber-500/30 dark:bg-amber-500/10 dark:text-amber-200">
+          Editing Arabic overlay. Fields you save here will show when a visitor picks العربية. Empty fields fall back to English. Use <b>Copy from English</b> to prefill this section, then translate.
+        </div>
+      )}
 
       {q.isLoading ? (
         <div className="p-6 text-sm text-muted-foreground">Loading sections…</div>
@@ -142,6 +194,8 @@ export function PageBuilder({ pageId, pageSlug }: { pageId: string; pageSlug?: s
           {rows.map((row, i) => {
             const def = SECTION_REGISTRY[row.kind];
             if (!def) return null;
+            const arOverlay = (row.translations ?? {})[locale] ?? null;
+            const initial = locale === "en" ? (row.data ?? {}) : mergeDeep(row.data ?? {}, arOverlay ?? {});
             return (
               <TabsContent key={row.id} value={row.id} className="mt-4">
                 <Card className={row.is_visible ? "" : "opacity-60"}>
@@ -150,10 +204,24 @@ export function PageBuilder({ pageId, pageSlug }: { pageId: string; pageSlug?: s
                       <div className="text-sm font-semibold">
                         {sectionDisplayName(row, def.label)}
                         <span className="ml-2 text-xs font-normal uppercase tracking-wider text-muted-foreground/70">
-                          {def.label}
+                          {def.label} · {locale.toUpperCase()}
                         </span>
                       </div>
                       <div className="ml-auto flex items-center gap-1">
+                        {locale !== "en" && (
+                          <Button
+                            size="sm"
+                            variant="outline"
+                            className="h-7 gap-1 text-xs"
+                            onClick={async () => {
+                              if (arOverlay && !confirm("Overwrite the existing Arabic overlay with the English content?")) return;
+                              await updateTranslation(row.id, row.translations, locale, structuredClone(row.data ?? {}));
+                            }}
+                            title="Copy English content into this Arabic overlay so you can translate it"
+                          >
+                            <Copy className="h-3.5 w-3.5" /> Copy from English
+                          </Button>
+                        )}
                         <Button size="icon" variant="ghost" className="h-7 w-7" onClick={() => move(i, -1)} disabled={i === 0} title="Move left">
                           <ArrowUp className="h-4 w-4 -rotate-90" />
                         </Button>
@@ -169,9 +237,15 @@ export function PageBuilder({ pageId, pageSlug }: { pageId: string; pageSlug?: s
                       </div>
                     </div>
                     <SectionEditForm
-                      initial={row.data ?? {}}
-                      onSave={(next) => updateData(row.id, next)}
+                      key={`${row.id}-${locale}`}
+                      initial={initial}
+                      onSave={(next) =>
+                        locale === "en"
+                          ? updateEnglish(row.id, next)
+                          : updateTranslation(row.id, row.translations, locale, next)
+                      }
                       def={def}
+                      locale={locale}
                     />
                   </CardContent>
                 </Card>
@@ -182,11 +256,6 @@ export function PageBuilder({ pageId, pageSlug }: { pageId: string; pageSlug?: s
       )}
     </div></PageDefaultsProvider>
   );
-}
-
-function sectionSummary(row: Row) {
-  const d = row.data ?? {};
-  return d.headline || d.heading || d.title || "";
 }
 
 function sectionDisplayName(row: Row, fallback: string) {
@@ -220,11 +289,12 @@ function collectImages(data: any): string[] {
 }
 
 function SectionEditForm({
-  initial, onSave, def,
+  initial, onSave, def, locale,
 }: {
   initial: any;
   onSave: (next: any) => void;
   def: SectionDef;
+  locale: LocaleCode;
 }) {
   const [draft, setDraft] = useState(initial);
   const dirty = useMemo(() => JSON.stringify(draft) !== JSON.stringify(initial), [draft, initial]);
@@ -233,7 +303,9 @@ function SectionEditForm({
   return (
     <div className="space-y-4">
       <div className="rounded-md border border-border bg-muted/30 p-3">
-        <label className="text-xs font-medium text-muted-foreground">Section name (dashboard label)</label>
+        <label className="text-xs font-medium text-muted-foreground">
+          Section name (dashboard label){locale !== "en" ? ` — ${locale.toUpperCase()}` : ""}
+        </label>
         <input
           type="text"
           value={draft.section_name ?? ""}
@@ -259,7 +331,9 @@ function SectionEditForm({
       )}
       <div className="flex justify-end gap-2 border-t border-border pt-3">
         <Button variant="outline" size="sm" onClick={() => setDraft(initial)} disabled={!dirty}>Reset</Button>
-        <Button size="sm" onClick={() => onSave(draft)} disabled={!dirty}>Save section</Button>
+        <Button size="sm" onClick={() => onSave(draft)} disabled={!dirty}>
+          Save {locale !== "en" ? `(${locale.toUpperCase()})` : ""}
+        </Button>
       </div>
     </div>
   );
