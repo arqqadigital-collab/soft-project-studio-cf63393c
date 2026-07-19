@@ -1,5 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
+import { useLocale } from "@/hooks/useLocale";
 
 export type MenuGroup = {
   id: string;
@@ -39,7 +40,6 @@ export type MenuLink = {
   is_visible: boolean;
 };
 
-/** Unified item shown inside a column — either a page or an external link. */
 export type MenuItem =
   | { kind: "page"; id: string; position: number; page: MenuPage }
   | { kind: "link"; id: string; position: number; link: MenuLink };
@@ -52,26 +52,57 @@ export type MenuTreeGroup = MenuGroup & {
   })[];
 };
 
-export async function fetchMenuTree(): Promise<MenuTreeGroup[]> {
+function trLabel(row: any, locale: string, fallback: string, key = "label"): string {
+  if (locale === "en") return fallback;
+  const t = row?.translations?.[locale];
+  const v = t?.[key];
+  return typeof v === "string" && v.length > 0 ? v : fallback;
+}
+
+export async function fetchMenuTree(locale: string = "en"): Promise<MenuTreeGroup[]> {
   const [gRes, cRes, pRes, lRes] = await Promise.all([
-    supabase.from("menu_groups").select("*").order("position"),
-    supabase.from("menu_columns").select("*").order("position"),
+    supabase.from("menu_groups").select("*, translations").order("position"),
+    supabase.from("menu_columns").select("*, translations").order("position"),
     supabase
       .from("pages")
-      .select("id,title,slug,status,menu_column_id,menu_position,nav_label,page_kind,route_path")
+      .select("id,title,slug,status,menu_column_id,menu_position,nav_label,page_kind,route_path,translations")
       .not("menu_column_id", "is", null)
       .order("menu_position"),
-    supabase.from("menu_links").select("*").order("position"),
+    supabase.from("menu_links").select("*, translations").order("position"),
   ]);
   if (gRes.error) throw gRes.error;
   if (cRes.error) throw cRes.error;
   if (pRes.error) throw pRes.error;
   if (lRes.error) throw lRes.error;
 
-  const groups = (gRes.data ?? []) as MenuGroup[];
-  const columns = (cRes.data ?? []) as MenuColumn[];
-  const pages = (pRes.data ?? []) as MenuPage[];
-  const links = (lRes.data ?? []) as MenuLink[];
+  const groups = (gRes.data ?? []).map((g: any) => ({
+    ...g,
+    label: trLabel(g, locale, g.label),
+  })) as MenuGroup[];
+
+  const columns = (cRes.data ?? []).map((c: any) => ({
+    ...c,
+    label: trLabel(c, locale, c.label),
+    description:
+      locale !== "en" && c.translations?.[locale]?.description
+        ? c.translations[locale].description
+        : c.description,
+  })) as MenuColumn[];
+
+  const pages = (pRes.data ?? []).map((p: any) => {
+    const navFallback = p.nav_label || p.title;
+    const nav_label = trLabel(p, locale, navFallback, "nav_label");
+    return {
+      ...p,
+      title: trLabel(p, locale, p.title, "title"),
+      nav_label,
+    };
+  }) as MenuPage[];
+
+  const links = (lRes.data ?? []).map((l: any) => ({
+    ...l,
+    label: trLabel(l, locale, l.label),
+  })) as MenuLink[];
 
   return groups.map((g) => ({
     ...g,
@@ -90,5 +121,6 @@ export async function fetchMenuTree(): Promise<MenuTreeGroup[]> {
 }
 
 export function useMenuTree() {
-  return useQuery({ queryKey: ["menu-tree"], queryFn: fetchMenuTree });
+  const { locale } = useLocale();
+  return useQuery({ queryKey: ["menu-tree", locale], queryFn: () => fetchMenuTree(locale) });
 }

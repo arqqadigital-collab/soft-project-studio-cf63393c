@@ -128,7 +128,40 @@ export default function HeaderFooterEditor() {
           <h1 className="text-2xl font-semibold">Header & Footer</h1>
           <p className="text-sm text-muted-foreground">Site-wide header and footer configuration.</p>
         </div>
-        <Button onClick={save}><Save className="mr-1 h-4 w-4" /> Save</Button>
+        <div className="flex items-center gap-2">
+          <Button
+            variant="outline"
+            onClick={async () => {
+              const t = toast.loading("Translating header & footer to Arabic…");
+              const { data, error } = await supabase.functions.invoke("translate-content", {
+                body: { mode: "header_footer" },
+              });
+              toast.dismiss(t);
+              if (error) return toast.error(error.message);
+              toast.success(`Header/Footer translated (${(data as any)?.ok ?? 0})`);
+              qc.invalidateQueries({ queryKey: ["header-footer"] });
+            }}
+          >
+            Translate H/F to Arabic
+          </Button>
+          <Button
+            variant="outline"
+            onClick={async () => {
+              const t = toast.loading("Translating menus to Arabic…");
+              const { data, error } = await supabase.functions.invoke("translate-content", {
+                body: { mode: "menus" },
+              });
+              toast.dismiss(t);
+              if (error) return toast.error(error.message);
+              const r = data as any;
+              toast.success(`Menus translated (${r?.ok ?? 0}/${r?.total ?? 0})`);
+              qc.invalidateQueries({ queryKey: ["menu-tree"] });
+            }}
+          >
+            Translate Menus to Arabic
+          </Button>
+          <Button onClick={save}><Save className="mr-1 h-4 w-4" /> Save</Button>
+        </div>
       </div>
 
       <Tabs defaultValue="header" className="space-y-4">
