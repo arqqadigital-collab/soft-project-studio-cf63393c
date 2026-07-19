@@ -1,5 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
+import { useSectionsContent } from "@/lib/useSectionsContent";
 
 export const BLOG_DEFAULTS = {
   Hero: {
@@ -33,6 +34,10 @@ function merge<T>(base: T, over: any): T {
 }
 
 export function useBlogContent(): BlogContent {
+  return useSectionsContent(BLOG_PAGE_SLUG, BLOG_DEFAULTS) as BlogContent;
+}
+
+export function useBlogContentLegacy(): BlogContent {
   const { data } = useQuery({
     queryKey: ["page-sections", BLOG_PAGE_SLUG],
     queryFn: async () => {

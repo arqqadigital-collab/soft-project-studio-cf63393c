@@ -1,5 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
+import { useSectionsContent } from "@/lib/useSectionsContent";
 
 import hisHeroVideo from "@/assets/his-hero.mp4.asset.json";
 import hisCtaVideo from "@/assets/his-cta.mp4.asset.json";
@@ -183,6 +184,10 @@ function merge<T>(base: T, over: any): T {
 }
 
 export function usePhysioContent(): PhysioContent {
+  return useSectionsContent(PHYSIO_PAGE_SLUG, PHYSIO_DEFAULTS) as PhysioContent;
+}
+
+export function usePhysioContentLegacy(): PhysioContent {
   const { data } = useQuery({
     queryKey: ["page-sections", PHYSIO_PAGE_SLUG],
     queryFn: async () => {

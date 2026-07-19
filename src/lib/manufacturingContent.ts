@@ -1,5 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
+import { useSectionsContent } from "@/lib/useSectionsContent";
 
 import hero from "@/assets/manufacturing/hero.jpg.asset.json";
 import tradFail from "@/assets/manufacturing/traditional-fail.jpg.asset.json";
@@ -172,6 +173,10 @@ function merge<T>(base: T, over: any): T {
 }
 
 export function useManufacturingContent(): ManufacturingContent {
+  return useSectionsContent(SLUG, MANUFACTURING_DEFAULTS) as ManufacturingContent;
+}
+
+export function useManufacturingContentLegacy(): ManufacturingContent {
   const { data } = useQuery({
     queryKey: ["page-sections", SLUG],
     queryFn: async () => {

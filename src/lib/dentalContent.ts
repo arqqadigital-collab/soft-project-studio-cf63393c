@@ -1,5 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
+import { useSectionsContent } from "@/lib/useSectionsContent";
 
 import dentalHeroVideo from "@/assets/dental/dental-hero.mp4.asset.json";
 import dentalCtaVideo from "@/assets/dental/dental-cta.mp4.asset.json";
@@ -206,6 +207,10 @@ function merge<T>(base: T, over: any): T {
 }
 
 export function useDentalContent(): DentalContent {
+  return useSectionsContent(DENTAL_PAGE_SLUG, DENTAL_DEFAULTS) as DentalContent;
+}
+
+export function useDentalContentLegacy(): DentalContent {
   const { data } = useQuery({
     queryKey: ["page-sections", DENTAL_PAGE_SLUG],
     queryFn: async () => {

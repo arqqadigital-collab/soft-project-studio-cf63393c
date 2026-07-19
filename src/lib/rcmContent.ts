@@ -1,5 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
+import { useSectionsContent } from "@/lib/useSectionsContent";
 
 import rcmHeroVideo from "@/assets/rcm/rcm-hero.mp4.asset.json";
 import hisVideo from "@/assets/rcm/his-video.mp4.asset.json";
@@ -184,6 +185,10 @@ function merge<T>(base: T, over: any): T {
 }
 
 export function useRcmContent(): RcmContent {
+  return useSectionsContent(RCM_PAGE_SLUG, RCM_DEFAULTS) as RcmContent;
+}
+
+export function useRcmContentLegacy(): RcmContent {
   const { data } = useQuery({
     queryKey: ["page-sections", RCM_PAGE_SLUG],
     queryFn: async () => {

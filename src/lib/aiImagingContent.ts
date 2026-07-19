@@ -1,5 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
+import { useSectionsContent } from "@/lib/useSectionsContent";
 
 import heroVideo from "@/assets/ai-imaging/hero-video.mp4.asset.json";
 import journeyAcquire from "@/assets/ai-imaging/journey/acquire.jpg.asset.json";
@@ -185,6 +186,10 @@ function merge<T>(base: T, over: any): T {
 }
 
 export function useAIImagingContent(): AIImagingContent {
+  return useSectionsContent(AI_IMAGING_PAGE_SLUG, AI_IMAGING_DEFAULTS) as AIImagingContent;
+}
+
+export function useAIImagingContentLegacy(): AIImagingContent {
   const { data } = useQuery({
     queryKey: ["page-sections", AI_IMAGING_PAGE_SLUG],
     queryFn: async () => {

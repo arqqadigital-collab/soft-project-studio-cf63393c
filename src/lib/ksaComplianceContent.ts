@@ -1,5 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
+import { useSectionsContent } from "@/lib/useSectionsContent";
 
 import heroVideo from "@/assets/uae-compliance/uae-hero.mp4.asset.json";
 import ctaVideo from "@/assets/uae-compliance/uae-cta.mp4.asset.json";
@@ -192,6 +193,10 @@ function merge<T>(base: T, over: any): T {
 }
 
 export function useKSAComplianceContent(): KSAComplianceContent {
+  return useSectionsContent(KSA_COMPLIANCE_PAGE_SLUG, KSA_COMPLIANCE_DEFAULTS) as KSAComplianceContent;
+}
+
+export function useKSAComplianceContentLegacy(): KSAComplianceContent {
   const { data } = useQuery({
     queryKey: ["page-sections", KSA_COMPLIANCE_PAGE_SLUG],
     queryFn: async () => {

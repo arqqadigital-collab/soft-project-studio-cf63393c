@@ -6,6 +6,7 @@ import { Footer } from "@/components/Footer";
 import { SeoHead } from "@/components/SeoHead";
 import { supabase } from "@/integrations/supabase/client";
 import { useCaseStudiesContent } from "@/lib/caseStudiesContent";
+import { useLocale } from "@/i18n/LanguageProvider";
 
 type CaseStudyRow = {
   id: string;
@@ -17,6 +18,7 @@ type CaseStudyRow = {
   cover_image_url: string | null;
   published_at: string | null;
   created_at: string;
+  translations?: Record<string, Partial<Pick<CaseStudyRow, "title" | "summary">>> | null;
 };
 
 const fadeInUp = {
@@ -54,6 +56,7 @@ function Cover({ url, className }: { url: string | null; className?: string }) {
 }
 
 export default function CaseStudies() {
+  const { locale } = useLocale();
   const content = useCaseStudiesContent();
   const hero = content.Hero;
   const heroVisible = content._visible.Hero;
@@ -66,18 +69,21 @@ export default function CaseStudies() {
     (async () => {
       const { data, error } = await supabase
         .from("case_studies")
-        .select("id,title,slug,summary,client_name,industry,cover_image_url,published_at,created_at")
+        .select("id,title,slug,summary,client_name,industry,cover_image_url,published_at,created_at,translations")
         .eq("status", "published")
         .order("published_at", { ascending: false, nullsFirst: false })
         .limit(100);
       if (cancelled) return;
-      if (!error && data) setRows(data as CaseStudyRow[]);
+      if (!error && data) setRows((data as CaseStudyRow[]).map((row) => ({
+        ...row,
+        ...(locale === "en" ? {} : row.translations?.[locale] ?? {}),
+      })));
       setLoading(false);
     })();
     return () => {
       cancelled = true;
     };
-  }, []);
+  }, [locale]);
 
   const categories = useMemo(() => {
     const set = new Set<string>();

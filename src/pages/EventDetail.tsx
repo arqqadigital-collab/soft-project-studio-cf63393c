@@ -6,6 +6,7 @@ import { Footer } from "@/components/Footer";
 import { SeoHead } from "@/components/SeoHead";
 import { Button } from "@/components/ui/button";
 import { supabase } from "@/integrations/supabase/client";
+import { useLocale } from "@/i18n/LanguageProvider";
 
 type EventDetail = {
   id: string;
@@ -20,6 +21,7 @@ type EventDetail = {
   registration_url: string | null;
   cover_image_url: string | null;
   published_at: string | null;
+  translations?: Record<string, Partial<Pick<EventDetail, "title" | "description" | "location">>> | null;
 };
 
 function CoverPlaceholder({ className }: { className?: string }) {
@@ -51,6 +53,7 @@ function formatDateTime(iso: string | null) {
 }
 
 export default function EventDetail() {
+  const { locale } = useLocale();
   const { slug } = useParams();
   const navigate = useNavigate();
   const [ev, setEv] = useState<EventDetail | null>(null);
@@ -70,7 +73,8 @@ export default function EventDetail() {
         .maybeSingle();
       if (cancelled) return;
       if (data) {
-        setEv(data as EventDetail);
+        const base = data as EventDetail;
+        setEv({ ...base, ...(locale === "en" ? {} : base.translations?.[locale] ?? {}) });
         setLoading(false);
         return;
       }
@@ -92,7 +96,7 @@ export default function EventDetail() {
     return () => {
       cancelled = true;
     };
-  }, [slug, navigate]);
+  }, [slug, navigate, locale]);
 
   if (loading) {
     return (

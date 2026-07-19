@@ -1,5 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
+import { useSectionsContent } from "@/lib/useSectionsContent";
 
 import heroVideo from "@/assets/emram/emram-hero.mp4.asset.json";
 import ctaVideo from "@/assets/emram/emram-cta.mp4.asset.json";
@@ -203,6 +204,10 @@ function merge<T>(base: T, over: any): T {
 }
 
 export function useEMRAMContent(): EMRAMContent {
+  return useSectionsContent(EMRAM_PAGE_SLUG, EMRAM_DEFAULTS) as EMRAMContent;
+}
+
+export function useEMRAMContentLegacy(): EMRAMContent {
   const { data } = useQuery({
     queryKey: ["page-sections", EMRAM_PAGE_SLUG],
     queryFn: async () => {

@@ -1,5 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
+import { useSectionsContent } from "@/lib/useSectionsContent";
 
 export const EVENTS_DEFAULTS = {
   Hero: {
@@ -33,6 +34,10 @@ function merge<T>(base: T, over: any): T {
 }
 
 export function useEventsContent(): EventsContent {
+  return useSectionsContent(EVENTS_PAGE_SLUG, EVENTS_DEFAULTS) as EventsContent;
+}
+
+export function useEventsContentLegacy(): EventsContent {
   const { data } = useQuery({
     queryKey: ["page-sections", EVENTS_PAGE_SLUG],
     queryFn: async () => {

@@ -60,7 +60,7 @@ export function PageBuilder({ pageId, pageSlug }: { pageId: string; pageSlug?: s
       predicate: (query) =>
         Array.isArray(query.queryKey) &&
         query.queryKey[0] === "page-sections" &&
-        query.queryKey[1] === pageSlug,
+        (query.queryKey[1] === pageSlug || query.queryKey[1] === pageId),
     });
   }
 

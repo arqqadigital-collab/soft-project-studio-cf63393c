@@ -1,5 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
+import { useSectionsContent } from "@/lib/useSectionsContent";
 
 // Default assets — imported so the URLs stay valid across builds.
 import problem1 from "@/assets/his/problem-1.jpg";
@@ -205,6 +206,10 @@ function merge<T>(base: T, over: any): T {
  * has toggled off.
  */
 export function useHISContent(): HISContent {
+  return useSectionsContent(HIS_PAGE_SLUG, HIS_DEFAULTS) as HISContent;
+}
+
+export function useHISContentLegacy(): HISContent {
   const { data } = useQuery({
     queryKey: ["page-sections", HIS_PAGE_SLUG],
     queryFn: async () => {

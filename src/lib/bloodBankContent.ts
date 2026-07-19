@@ -1,5 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
+import { useSectionsContent } from "@/lib/useSectionsContent";
 
 import heroVideo from "@/assets/blood-bank/hero-video.mp4";
 import ctaVideo from "@/assets/blood-bank/cta-video.mp4.asset.json";
@@ -181,6 +182,10 @@ function merge<T>(base: T, over: any): T {
 }
 
 export function useBloodBankContent(): BloodBankContent {
+  return useSectionsContent(BLOOD_BANK_PAGE_SLUG, BLOOD_BANK_DEFAULTS) as BloodBankContent;
+}
+
+export function useBloodBankContentLegacy(): BloodBankContent {
   const { data } = useQuery({
     queryKey: ["page-sections", BLOOD_BANK_PAGE_SLUG],
     queryFn: async () => {
