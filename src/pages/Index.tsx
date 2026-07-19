@@ -16,7 +16,7 @@ import { PartnersSection } from "@/components/PartnersSection";
 import { CtaSection } from "@/components/CtaSection";
 import { Footer } from "@/components/Footer";
 import { useHomepageVisibility } from "@/lib/homepageContent";
-import { useLocale } from "@/contexts/LanguageProvider";
+import { useLocale } from "@/hooks/useLocale";
 
 const HERO_DEFAULTS = {
   heading_line1: "Transforming Complexity",
