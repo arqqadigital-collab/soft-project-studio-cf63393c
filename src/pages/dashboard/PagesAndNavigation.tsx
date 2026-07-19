@@ -46,7 +46,7 @@ type Col = MenuTreeGroup["columns"][number];
 
 type EditTarget =
   | { kind: "group"; id?: string; label: string }
-  | { kind: "column"; id?: string; group_id: string; label: string }
+  | { kind: "column"; id?: string; group_id: string; label: string; description: string }
   | { kind: "link"; id?: string; column_id: string; label: string; url: string; target: string };
 
 type DragKind = "group" | "column" | "item";
