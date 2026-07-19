@@ -712,7 +712,9 @@ export type Database = {
           file_size: number | null
           file_type: string | null
           file_url: string
+          folder: string
           id: string
+          tags: string[]
           updated_at: string
           uploaded_by: string | null
         }
@@ -723,7 +725,9 @@ export type Database = {
           file_size?: number | null
           file_type?: string | null
           file_url: string
+          folder?: string
           id?: string
+          tags?: string[]
           updated_at?: string
           uploaded_by?: string | null
         }
@@ -734,7 +738,9 @@ export type Database = {
           file_size?: number | null
           file_type?: string | null
           file_url?: string
+          folder?: string
           id?: string
+          tags?: string[]
           updated_at?: string
           uploaded_by?: string | null
         }
