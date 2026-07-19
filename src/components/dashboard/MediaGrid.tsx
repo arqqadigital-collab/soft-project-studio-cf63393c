@@ -615,12 +615,15 @@ function MediaDetailsDialog({
               <div className="mb-1 text-xs font-medium">Used in</div>
               {usage.isLoading ? (
                 <p className="text-xs text-muted-foreground">Checking…</p>
-              ) : (usage.data?.posts.length ?? 0) + (usage.data?.pages.length ?? 0) === 0 ? (
+              ) : (usage.data?.length ?? 0) === 0 ? (
                 <p className="text-xs text-muted-foreground">Not referenced yet.</p>
               ) : (
-                <ul className="space-y-0.5 text-xs">
-                  {usage.data!.posts.map((p) => <li key={"p" + p.id}>Post: {p.title}</li>)}
-                  {usage.data!.pages.map((p) => <li key={"pg" + p.id}>Page: {p.title}</li>)}
+                <ul className="max-h-32 space-y-0.5 overflow-y-auto text-xs">
+                  {usage.data!.map((u, i) => (
+                    <li key={u.entity_type + u.entity_id + i}>
+                      <span className="capitalize text-muted-foreground">{u.entity_type.replace("_", " ")}:</span> {u.title}
+                    </li>
+                  ))}
                 </ul>
               )}
             </div>
