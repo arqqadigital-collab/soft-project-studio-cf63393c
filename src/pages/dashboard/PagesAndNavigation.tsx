@@ -271,19 +271,31 @@ export default function PagesAndNavigation() {
     await Promise.all(ops);
   }
 
+  const filteredPages = (allPages.data ?? []).filter((p) => {
+    const q = pageSearch.trim().toLowerCase();
+    if (!q) return true;
+    return (
+      (p.title ?? "").toLowerCase().includes(q) ||
+      (p.nav_label ?? "").toLowerCase().includes(q) ||
+      (p.route_path ?? "").toLowerCase().includes(q)
+    );
+  });
+
   return (
     <div className="space-y-4">
       <div className="flex flex-wrap items-center justify-between gap-3">
         <div>
           <h1 className="text-2xl font-semibold">Pages & Navigation</h1>
           <p className="text-sm text-muted-foreground">
-            Drag to reorder or move between columns. Groups → Columns → Pages / Links.
+            Manage every page and how they're wired into the site's menus.
           </p>
         </div>
         <div className="flex gap-2">
-          <Button variant="outline" onClick={() => setEdit({ kind: "group", label: "" })}>
-            <FolderPlus className="mr-1 h-4 w-4" /> New Group
-          </Button>
+          {tab === "navigation" && (
+            <Button variant="outline" onClick={() => setEdit({ kind: "group", label: "" })}>
+              <FolderPlus className="mr-1 h-4 w-4" /> New Group
+            </Button>
+          )}
           <Button onClick={() => navigate("/dashboard/pages/new")}>
             <Plus className="mr-1 h-4 w-4" /> New Page
           </Button>
@@ -309,57 +321,160 @@ export default function PagesAndNavigation() {
         />
       </Card>
 
-      <DndContext sensors={sensors} collisionDetection={closestCenter} onDragStart={onDragStart} onDragEnd={onDragEnd}>
-        <Card className="divide-y divide-border">
-          {tree.isLoading ? (
-            <div className="p-6 text-sm text-muted-foreground">Loading…</div>
-          ) : groups.length === 0 ? (
-            <div className="p-6 text-sm text-muted-foreground">
-              No menu groups yet. Create your first with <b>New Group</b>.
-            </div>
-          ) : (
-            <SortableContext items={groups.map((g) => `group:${g.id}`)} strategy={verticalListSortingStrategy}>
-              {groups.map((g) => (
-                <GroupNode
-                  key={g.id}
-                  group={g}
-                  expanded={!!expanded[g.id]}
-                  onToggle={() => toggle(g.id)}
-                  subExpanded={expanded}
-                  onSubToggle={toggle}
-                  onEditGroup={() => setEdit({ kind: "group", id: g.id, label: g.label })}
-                  onDeleteGroup={() => remove("menu_groups", g.id, g.label)}
-                  onAddColumn={() => setEdit({ kind: "column", group_id: g.id, label: "" })}
-                  onEditColumn={(c) => setEdit({ kind: "column", id: c.id, group_id: g.id, label: c.label })}
-                  onDeleteColumn={(c) => remove("menu_columns", c.id, c.label)}
-                  onToggleGroupVisible={() => toggleVisible("menu_groups", g.id, g.is_visible)}
-                  onToggleColumnVisible={(c) => toggleVisible("menu_columns", c.id, c.is_visible)}
-                  onToggleLinkVisible={(l) => toggleVisible("menu_links", l.id, l.is_visible)}
-                  onAddPage={(columnId) => navigate(`/dashboard/pages/new?column=${columnId}`)}
-                  onAddLink={(columnId) =>
-                    setEdit({ kind: "link", column_id: columnId, label: "", url: "", target: "_self" })
-                  }
-                  onEditLink={(l) =>
-                    setEdit({ kind: "link", id: l.id, column_id: l.column_id, label: l.label, url: l.url, target: l.target })
-                  }
-                  onDeleteLink={(l) => remove("menu_links", l.id, l.label)}
-                  onEditPage={(p) => navigate(`/dashboard/pages/${p.id}`)}
-                  onDeletePage={(p) => deletePage(p.id, p.nav_label || p.title)}
-                />
-              ))}
-            </SortableContext>
-          )}
-        </Card>
+      <Tabs value={tab} onValueChange={(v) => setTab(v as "pages" | "navigation")}>
+        <TabsList>
+          <TabsTrigger value="pages">
+            <FileText className="mr-1 h-4 w-4" /> Pages
+            <span className="ml-2 rounded-full bg-muted px-2 py-0.5 text-[10px] text-muted-foreground">
+              {allPages.data?.length ?? 0}
+            </span>
+          </TabsTrigger>
+          <TabsTrigger value="navigation">
+            <LayoutGrid className="mr-1 h-4 w-4" /> Navigation
+            <span className="ml-2 rounded-full bg-muted px-2 py-0.5 text-[10px] text-muted-foreground">
+              {groups.length}
+            </span>
+          </TabsTrigger>
+        </TabsList>
 
-        <DragOverlay>
-          {activeDrag ? (
-            <div className="rounded-md border bg-background px-3 py-2 text-sm font-medium shadow-lg">
-              {activeDrag.kind === "group" ? "📁 " : activeDrag.kind === "column" ? "🗂 " : "↕ "}
-              {activeDrag.label}
+        <TabsContent value="pages" className="mt-4">
+          <Card>
+            <div className="flex items-center gap-2 border-b border-border p-3">
+              <Search className="h-4 w-4 text-muted-foreground" />
+              <Input
+                value={pageSearch}
+                onChange={(e) => setPageSearch(e.target.value)}
+                placeholder="Search pages by title, nav label, or route…"
+                className="h-8 border-0 shadow-none focus-visible:ring-0"
+              />
             </div>
-          ) : null}
-        </DragOverlay>
-      </DndContext>
+            {allPages.isLoading ? (
+              <div className="p-6 text-sm text-muted-foreground">Loading…</div>
+            ) : filteredPages.length === 0 ? (
+              <div className="p-6 text-sm text-muted-foreground">
+                {pageSearch ? "No pages match your search." : "No pages yet."}
+              </div>
+            ) : (
+              <div className="divide-y divide-border">
+                {filteredPages.map((p) => {
+                  const inMenu = !!p.menu_column_id;
+                  return (
+                    <div key={p.id} className="flex items-center gap-2 px-4 py-2">
+                      <FileText className="h-4 w-4 text-muted-foreground" />
+                      <button
+                        onClick={() => navigate(`/dashboard/pages/${p.id}`)}
+                        className="font-medium hover:underline"
+                      >
+                        {p.nav_label || p.title}
+                      </button>
+                      <span className="text-xs text-muted-foreground">{p.route_path}</span>
+                      <span
+                        className={`rounded-full px-2 py-0.5 text-[10px] capitalize ${
+                          p.page_kind === "coded"
+                            ? "bg-blue-500/15 text-blue-700 dark:text-blue-400"
+                            : "bg-primary/10 text-primary"
+                        }`}
+                      >
+                        {p.page_kind}
+                      </span>
+                      <span
+                        className={`rounded-full px-2 py-0.5 text-[10px] capitalize ${
+                          p.status === "published"
+                            ? "bg-green-500/15 text-green-700 dark:text-green-400"
+                            : "bg-muted text-muted-foreground"
+                        }`}
+                      >
+                        {p.status}
+                      </span>
+                      {!inMenu && (
+                        <span className="rounded-full bg-amber-500/15 px-2 py-0.5 text-[10px] uppercase text-amber-700 dark:text-amber-400">
+                          Not in menu
+                        </span>
+                      )}
+                      <div className="ml-auto flex items-center gap-1">
+                        {p.route_path && p.status === "published" && (
+                          <a
+                            href={p.route_path}
+                            target="_blank"
+                            rel="noreferrer"
+                            title="View live"
+                            className="inline-flex h-7 w-7 items-center justify-center rounded-md text-muted-foreground hover:bg-accent"
+                          >
+                            <ExternalLink className="h-4 w-4" />
+                          </a>
+                        )}
+                        <IconBtn title="Edit" onClick={() => navigate(`/dashboard/pages/${p.id}`)}>
+                          <Pencil className="h-4 w-4" />
+                        </IconBtn>
+                        <IconBtn title="Delete" onClick={() => deletePage(p.id, p.nav_label || p.title)}>
+                          <Trash2 className="h-4 w-4 text-destructive" />
+                        </IconBtn>
+                      </div>
+                    </div>
+                  );
+                })}
+              </div>
+            )}
+          </Card>
+        </TabsContent>
+
+        <TabsContent value="navigation" className="mt-4">
+          <p className="mb-3 text-sm text-muted-foreground">
+            Drag to reorder or move between columns. Groups → Columns → Pages / Links.
+          </p>
+          <DndContext sensors={sensors} collisionDetection={closestCenter} onDragStart={onDragStart} onDragEnd={onDragEnd}>
+            <Card className="divide-y divide-border">
+              {tree.isLoading ? (
+                <div className="p-6 text-sm text-muted-foreground">Loading…</div>
+              ) : groups.length === 0 ? (
+                <div className="p-6 text-sm text-muted-foreground">
+                  No menu groups yet. Create your first with <b>New Group</b>.
+                </div>
+              ) : (
+                <SortableContext items={groups.map((g) => `group:${g.id}`)} strategy={verticalListSortingStrategy}>
+                  {groups.map((g) => (
+                    <GroupNode
+                      key={g.id}
+                      group={g}
+                      expanded={!!expanded[g.id]}
+                      onToggle={() => toggle(g.id)}
+                      subExpanded={expanded}
+                      onSubToggle={toggle}
+                      onEditGroup={() => setEdit({ kind: "group", id: g.id, label: g.label })}
+                      onDeleteGroup={() => remove("menu_groups", g.id, g.label)}
+                      onAddColumn={() => setEdit({ kind: "column", group_id: g.id, label: "" })}
+                      onEditColumn={(c) => setEdit({ kind: "column", id: c.id, group_id: g.id, label: c.label })}
+                      onDeleteColumn={(c) => remove("menu_columns", c.id, c.label)}
+                      onToggleGroupVisible={() => toggleVisible("menu_groups", g.id, g.is_visible)}
+                      onToggleColumnVisible={(c) => toggleVisible("menu_columns", c.id, c.is_visible)}
+                      onToggleLinkVisible={(l) => toggleVisible("menu_links", l.id, l.is_visible)}
+                      onAddPage={(columnId) => navigate(`/dashboard/pages/new?column=${columnId}`)}
+                      onAddLink={(columnId) =>
+                        setEdit({ kind: "link", column_id: columnId, label: "", url: "", target: "_self" })
+                      }
+                      onEditLink={(l) =>
+                        setEdit({ kind: "link", id: l.id, column_id: l.column_id, label: l.label, url: l.url, target: l.target })
+                      }
+                      onDeleteLink={(l) => remove("menu_links", l.id, l.label)}
+                      onEditPage={(p) => navigate(`/dashboard/pages/${p.id}`)}
+                      onDeletePage={(p) => deletePage(p.id, p.nav_label || p.title)}
+                    />
+                  ))}
+                </SortableContext>
+              )}
+            </Card>
+
+            <DragOverlay>
+              {activeDrag ? (
+                <div className="rounded-md border bg-background px-3 py-2 text-sm font-medium shadow-lg">
+                  {activeDrag.kind === "group" ? "📁 " : activeDrag.kind === "column" ? "🗂 " : "↕ "}
+                  {activeDrag.label}
+                </div>
+              ) : null}
+            </DragOverlay>
+          </DndContext>
+        </TabsContent>
+      </Tabs>
 
       <EditDialog target={edit} onClose={() => setEdit(null)} onSaved={invalidate} />
     </div>
