@@ -44,10 +44,10 @@ function initialsOf(name: string | null | undefined) {
     .join("");
 }
 
-function readTimeFor(excerpt: string | null) {
+function readTimeFor(excerpt: string | null, locale: string) {
   const words = (excerpt ?? "").split(/\s+/).filter(Boolean).length;
   const minutes = Math.max(3, Math.ceil(words / 200));
-  return `${minutes} Min Read`;
+  return locale === "ar" ? `${minutes} دقائق قراءة` : `${minutes} Min Read`;
 }
 
 function CoverPlaceholder({ className }: { className?: string }) {
