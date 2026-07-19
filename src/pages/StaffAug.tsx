@@ -101,7 +101,7 @@ export default function StaffAug() {
                 initial={{ opacity: 0, y: 30 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.8 }}
-                className="mx-auto flex max-w-5xl flex-col items-center text-center"
+                className="mx-auto flex w-full max-w-5xl flex-col items-center text-center"
               >
                 <span className="inline-flex items-center gap-2 rounded-full border border-white/20 bg-white/5 px-4 py-1.5 text-xs font-semibold uppercase tracking-wider text-white/85 backdrop-blur">
                   <Users className="h-3.5 w-3.5" /> {hero.eyebrow}
