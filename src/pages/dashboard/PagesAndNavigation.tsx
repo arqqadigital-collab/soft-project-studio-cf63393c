@@ -94,11 +94,27 @@ export default function PagesAndNavigation() {
           console.error(`Translate failed for ${p.title}:`, e);
         }
       }
+      // Also translate header/footer + menu labels so nav/mega-menu update too.
+      let hfOk = 0, menuOk = 0, menuTotal = 0;
+      try {
+        toast.loading(`Translating header & footer…`, { id: t });
+        const { data: hf } = await supabase.functions.invoke("translate-content", { body: { mode: "header_footer" } });
+        hfOk = (hf as any)?.ok ?? 0;
+      } catch (e) { console.error("H/F translate failed", e); }
+      try {
+        toast.loading(`Translating navigation menus…`, { id: t });
+        const { data: mn } = await supabase.functions.invoke("translate-content", { body: { mode: "menus" } });
+        menuOk = (mn as any)?.ok ?? 0;
+        menuTotal = (mn as any)?.total ?? 0;
+      } catch (e) { console.error("Menus translate failed", e); }
+
       qc.invalidateQueries({
         predicate: (q) => Array.isArray(q.queryKey) && q.queryKey[0] === "page-sections",
       });
+      qc.invalidateQueries({ queryKey: ["header-footer"] });
+      qc.invalidateQueries({ queryKey: ["menu-tree"] });
       toast.success(
-        `Done. ${ok}/${totalSections} sections translated across ${list.length} pages${fail ? ` (${fail} failed)` : ""}.`,
+        `Done. ${ok}/${totalSections} sections across ${list.length} pages, header/footer (${hfOk}), menus (${menuOk}/${menuTotal})${fail ? ` — ${fail} failed` : ""}.`,
         { id: t, duration: 8000 },
       );
     } catch (e: any) {
