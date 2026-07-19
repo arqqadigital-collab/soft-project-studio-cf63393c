@@ -83,6 +83,8 @@ function buildCss(t: StyleTokens): string {
   const categoryCase = t.category_text_case === "original" ? "none" : "uppercase";
   rules.push(`.listing-category{border-radius:${categoryRadius} !important;text-transform:${categoryCase} !important;}`);
   rules.push(`.listing-category-filter{border-radius:${categoryRadius} !important;}`);
+  rules.push(`.listing-category-filter.bg-primary{background:${categoryColor} !important;color:hsl(var(--primary-foreground)) !important;border-color:${categoryColor} !important;}`);
+  rules.push(`.listing-category-filter:not(.bg-primary){color:${categoryColor} !important;}`);
   if (t.category_badge_visible === false) rules.push(`.listing-category{display:none !important;}`);
   if (t.category_filters_visible === false) rules.push(`.listing-category-filters{display:none !important;}`);
   if (t.category_style === "solid") {

@@ -202,7 +202,7 @@ export default function Blog() {
 
           {categories.length > 1 && (
             <motion.div
-              className="mt-10 flex flex-wrap items-center justify-center gap-3"
+              className="listing-category-filters mt-10 flex flex-wrap items-center justify-center gap-3"
               initial={{ opacity: 0, y: 16 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5, delay: 0.2 }}
