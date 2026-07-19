@@ -147,5 +147,5 @@ export const RC_DEFAULTS = {
 } as const;
 
 export function useRevenueCycleContent() {
-  return useSectionsContent("revenue-cycle", RC_DEFAULTS as any);
+  return useSectionsContent("healthcare-revenue-cycle", RC_DEFAULTS as any);
 }
