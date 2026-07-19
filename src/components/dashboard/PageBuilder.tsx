@@ -170,7 +170,17 @@ export function PageBuilder({ pageId, pageSlug }: { pageId: string; pageSlug?: s
           <Button
             size="sm"
             variant="outline"
-            onClick={translateAll}
+            onClick={() => translateAll(true)}
+            disabled={translating || rows.length === 0}
+            title="Translate only sections whose Arabic is missing or incomplete"
+          >
+            {translating ? <Loader2 className="mr-1 h-4 w-4 animate-spin" /> : <Sparkles className="mr-1 h-4 w-4" />}
+            Fill missing AR
+          </Button>
+          <Button
+            size="sm"
+            variant="outline"
+            onClick={() => translateAll(false)}
             disabled={translating || rows.length === 0}
             title="Auto-translate all sections on this page to Arabic (overwrites existing Arabic)"
           >
