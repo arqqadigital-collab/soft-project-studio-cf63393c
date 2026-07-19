@@ -232,7 +232,7 @@ async function translateHomepage(missingOnly: boolean) {
 
   // 2) Homepage sections
   const { data: sections, error: secErr } = await admin
-    .from("homepage_sections").select("id, section_key, content, translations");
+    .from("homepage_sections").select("section_key, content, translations");
   if (secErr) throw secErr;
   let list = (sections ?? []) as any[];
   if (missingOnly) {
@@ -244,7 +244,7 @@ async function translateHomepage(missingOnly: boolean) {
     if (countStrings(src) === 0) return;
     const ar = await translateJsonValidated(src);
     if (!ar || Object.keys(ar).length === 0) throw new Error("empty translation");
-    await mergeAr("homepage_sections", row.id, ar);
+    await mergeAr("homepage_sections", row.section_key, ar, "section_key");
   });
   settled.forEach((r, i) => {
     if (r.status === "fulfilled") ok++;
