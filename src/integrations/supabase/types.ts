@@ -1294,6 +1294,7 @@ export type Database = {
           site_logo_url: string | null
           site_title: string | null
           site_url: string | null
+          style_tokens: Json
           updated_at: string
         }
         Insert: {
@@ -1315,6 +1316,7 @@ export type Database = {
           site_logo_url?: string | null
           site_title?: string | null
           site_url?: string | null
+          style_tokens?: Json
           updated_at?: string
         }
         Update: {
@@ -1336,6 +1338,7 @@ export type Database = {
           site_logo_url?: string | null
           site_title?: string | null
           site_url?: string | null
+          style_tokens?: Json
           updated_at?: string
         }
         Relationships: []

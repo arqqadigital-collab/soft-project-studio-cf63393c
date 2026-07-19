@@ -14,6 +14,7 @@ import ActivityLog from "./dashboard/ActivityLog";
 import Analytics from "./dashboard/Analytics";
 import SettingsPage from "./dashboard/Settings";
 import BrandingPage from "./dashboard/Branding";
+import StyleEditor from "./dashboard/StyleEditor";
 import SeoDashboard from "./dashboard/SeoDashboard";
 import HomepageEditor from "./dashboard/HomepageEditor";
 import HeaderFooterEditor from "./dashboard/HeaderFooterEditor";
@@ -111,6 +112,10 @@ export default function Dashboard() {
         <Route
           path="branding"
           element={<RoleGate allow={["admin"]}><BrandingPage /></RoleGate>}
+        />
+        <Route
+          path="style"
+          element={<RoleGate allow={["admin"]}><StyleEditor /></RoleGate>}
         />
 
         <Route
