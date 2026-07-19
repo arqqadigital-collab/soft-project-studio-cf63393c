@@ -11,7 +11,7 @@ import {
   CalendarDays,
   Shield,
   Palette,
-} from "lucide-react";
+  Activity,
 import {
   Sidebar,
   SidebarContent,
