@@ -74,16 +74,19 @@ function MegaPanel({ menu }: { menu: Menu }) {
               type="button"
               onMouseEnter={() => setActiveIdx(idx)}
               onFocus={() => setActiveIdx(idx)}
-              className={`flex w-full items-center gap-3 rounded-xl p-3 text-left transition-colors ${
+              className={`flex w-full items-start gap-3 rounded-xl p-3 text-left transition-colors ${
                 isActive ? "bg-white/10" : "hover:bg-white/5"
               }`}
             >
-              <div className="flex-1">
-                <div className="text-sm font-semibold text-white">{c.label}</div>
+              <div className="min-w-0 flex-1">
+                <div className="truncate text-sm font-semibold text-white">{c.label}</div>
+                {c.description ? (
+                  <div className="mt-0.5 line-clamp-2 text-xs text-white/50">{c.description}</div>
+                ) : null}
               </div>
               {c.items.length > 0 && (
                 <ChevronRight
-                  className={`h-4 w-4 shrink-0 transition-colors ${
+                  className={`mt-1 h-4 w-4 shrink-0 transition-colors ${
                     isActive ? "text-white" : "text-white/40"
                   }`}
                 />
