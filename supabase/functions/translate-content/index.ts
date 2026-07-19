@@ -110,11 +110,11 @@ async function mapWithConcurrency<T, R>(items: T[], limit: number, fn: (item: T)
   return results;
 }
 
-async function mergeAr(table: string, id: string, ar: any) {
+async function mergeAr(table: string, id: string, ar: any, keyColumn = "id") {
   const { data: existing } = await admin
-    .from(table).select("translations").eq("id", id).maybeSingle();
+    .from(table).select("translations").eq(keyColumn, id).maybeSingle();
   const next = { ...(((existing as any)?.translations as any) ?? {}), ar };
-  const { error } = await admin.from(table).update({ translations: next }).eq("id", id);
+  const { error } = await admin.from(table).update({ translations: next }).eq(keyColumn, id);
   if (error) throw error;
 }
 
