@@ -254,6 +254,91 @@ async function translateHomepage(missingOnly: boolean) {
   return { ok, fail, total, errors: errors.slice(0, 10) };
 }
 
+async function translateContact(missingOnly: boolean) {
+  let ok = 0, fail = 0, total = 0;
+  const errors: string[] = [];
+
+  // 1) contact_page singleton
+  const { data: page, error: pErr } = await admin
+    .from("contact_page").select("*").eq("singleton", true).maybeSingle();
+  if (pErr) throw pErr;
+  if (page) {
+    total++;
+    const p: any = page;
+    const payload = {
+      hero_eyebrow: p.hero_eyebrow ?? "",
+      hero_headline: p.hero_headline ?? "",
+      hero_subheadline: p.hero_subheadline ?? "",
+      hero_cta_label: p.hero_cta_label ?? "",
+      form_heading: p.form_heading ?? "",
+      form_subheading: p.form_subheading ?? "",
+      form_submit_label: p.form_submit_label ?? "",
+      offices_heading: p.offices_heading ?? "",
+      offices_subheading: p.offices_subheading ?? "",
+      quick_info: Array.isArray(p.quick_info) ? p.quick_info : [],
+    };
+    const existingAr = (p.translations?.ar ?? {}) as any;
+    const skip = missingOnly && isTranslationAdequate(payload, existingAr);
+    if (!skip) {
+      try {
+        const ar = await translateJsonValidated(payload);
+        await mergeAr("contact_page", p.id, ar);
+        ok++;
+      } catch (e: any) { fail++; errors.push(`page: ${e?.message ?? "error"}`); }
+    } else { ok++; }
+  }
+
+  // 2) contact_offices
+  const { data: offices, error: oErr } = await admin
+    .from("contact_offices").select("id, city, address, translations");
+  if (oErr) throw oErr;
+  let officeList = (offices ?? []) as any[];
+  if (missingOnly) {
+    officeList = officeList.filter((r) =>
+      !isTranslationAdequate({ city: r.city, address: r.address }, (r.translations as any)?.ar ?? {}),
+    );
+  }
+  total += officeList.length;
+  const oSettled = await mapWithConcurrency(officeList, 3, async (row: any) => {
+    const src = { city: row.city ?? "", address: row.address ?? "" };
+    if (countStrings(src) === 0) return;
+    const ar = await translateJsonValidated(src);
+    await mergeAr("contact_offices", row.id, ar);
+  });
+  oSettled.forEach((r, i) => {
+    if (r.status === "fulfilled") ok++;
+    else { fail++; errors.push(`office/${officeList[i].id}: ${(r.reason as Error)?.message ?? "error"}`); }
+  });
+
+  // 3) contact_inquiry_areas (translate as one batch to save calls)
+  const { data: areas, error: aErr } = await admin
+    .from("contact_inquiry_areas").select("id, label, translations");
+  if (aErr) throw aErr;
+  let areaList = (areas ?? []) as any[];
+  if (missingOnly) {
+    areaList = areaList.filter((r) =>
+      !isTranslationAdequate({ label: r.label }, (r.translations as any)?.ar ?? {}),
+    );
+  }
+  if (areaList.length) {
+    total += areaList.length;
+    try {
+      const batch = await translateJsonValidated({ labels: areaList.map((r) => r.label ?? "") });
+      const arr = Array.isArray(batch?.labels) ? batch.labels : [];
+      await Promise.all(areaList.map(async (row, idx) => {
+        try {
+          const label = typeof arr[idx] === "string" ? arr[idx] : "";
+          if (!label) { fail++; return; }
+          await mergeAr("contact_inquiry_areas", row.id, { label });
+          ok++;
+        } catch (e: any) { fail++; errors.push(`area/${row.id}: ${e?.message ?? "error"}`); }
+      }));
+    } catch (e: any) { fail += areaList.length; errors.push(`areas: ${e?.message ?? "error"}`); }
+  }
+
+  return { ok, fail, total, errors: errors.slice(0, 10) };
+}
+
 async function requireAdmin(req: Request): Promise<string> {
   const authHeader = req.headers.get("Authorization") ?? "";
   const token = authHeader.replace(/^Bearer\s+/i, "");
