@@ -1,5 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
+import { useSectionsContent } from "@/lib/useSectionsContent";
 
 import heroVideo from "@/assets/dynamics/dynamics-hero-bg.mp4.asset.json";
 import pattern from "@/assets/dynamics/dynamics-pattern.jpg.asset.json";
@@ -300,6 +301,10 @@ function merge<T>(base: T, over: any): T {
 }
 
 export function useDynamicsContent(): DynamicsContent {
+  return useSectionsContent(DYNAMICS_PAGE_SLUG, DYNAMICS_DEFAULTS) as DynamicsContent;
+}
+
+export function useDynamicsContentLegacy(): DynamicsContent {
   const { data } = useQuery({
     queryKey: ["page-sections", DYNAMICS_PAGE_SLUG],
     queryFn: async () => {

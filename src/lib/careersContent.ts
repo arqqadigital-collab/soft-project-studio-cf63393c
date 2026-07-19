@@ -1,5 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
+import { useSectionsContent } from "@/lib/useSectionsContent";
 
 // Section keys mirror the `data.section_name` values saved by the builder.
 export type CareersSectionKey =
@@ -80,6 +81,10 @@ function merge<T>(base: T, over: any): T {
 }
 
 export function useCareersContent(): CareersContent {
+  return useSectionsContent(CAREERS_PAGE_SLUG, CAREERS_DEFAULTS) as CareersContent;
+}
+
+export function useCareersContentLegacy(): CareersContent {
   const { data } = useQuery({
     queryKey: ["page-sections", CAREERS_PAGE_SLUG],
     queryFn: async () => {

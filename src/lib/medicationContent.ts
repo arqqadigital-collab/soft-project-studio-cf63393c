@@ -1,5 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
+import { useSectionsContent } from "@/lib/useSectionsContent";
 
 import heroVideo from "@/assets/medication/hero-video.mp4.asset.json";
 import ctaVideo from "@/assets/medication/cta-video.mp4.asset.json";
@@ -170,6 +171,10 @@ function merge<T>(base: T, over: any): T {
 }
 
 export function useMedicationContent(): MedContent {
+  return useSectionsContent(MED_SLUG, MEDICATION_DEFAULTS) as MedContent;
+}
+
+export function useMedicationContentLegacy(): MedContent {
   const { data } = useQuery({
     queryKey: ["page-sections", MED_SLUG],
     queryFn: async () => {

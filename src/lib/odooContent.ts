@@ -1,5 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
+import { useSectionsContent } from "@/lib/useSectionsContent";
 
 import heroVideo from "@/assets/odoo/odoo-hero.mp4.asset.json";
 import pattern from "@/assets/odoo/pattern.jpg.asset.json";
@@ -160,6 +161,10 @@ function merge<T>(base: T, over: any): T {
 }
 
 export function useOdooContent(): OdooContent {
+  return useSectionsContent(ODOO_PAGE_SLUG, ODOO_DEFAULTS) as OdooContent;
+}
+
+export function useOdooContentLegacy(): OdooContent {
   const { data } = useQuery({
     queryKey: ["page-sections", ODOO_PAGE_SLUG],
     queryFn: async () => {

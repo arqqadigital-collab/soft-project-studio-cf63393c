@@ -1,5 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
+import { useSectionsContent } from "@/lib/useSectionsContent";
 
 import hero from "@/assets/cybersecurity/hero.jpg.asset.json";
 import cta from "@/assets/cybersecurity/cta.jpg.asset.json";
@@ -149,6 +150,10 @@ function merge<T>(base: T, over: any): T {
 }
 
 export function useCybersecurityContent(): CybersecurityContent {
+  return useSectionsContent(SLUG, CYBERSECURITY_DEFAULTS) as CybersecurityContent;
+}
+
+export function useCybersecurityContentLegacy(): CybersecurityContent {
   const { data } = useQuery({
     queryKey: ["page-sections", SLUG],
     queryFn: async () => {

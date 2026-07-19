@@ -1,5 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
+import { useSectionsContent } from "@/lib/useSectionsContent";
 
 import risProblem1 from "@/assets/ris/problem-1.jpg";
 import risProblem2 from "@/assets/ris/problem-2.jpg";
@@ -174,6 +175,10 @@ function merge<T>(base: T, over: any): T {
 }
 
 export function useRisContent(): RisContent {
+  return useSectionsContent(RIS_PAGE_SLUG, RIS_DEFAULTS) as RisContent;
+}
+
+export function useRisContentLegacy(): RisContent {
   const { data } = useQuery({
     queryKey: ["page-sections", RIS_PAGE_SLUG],
     queryFn: async () => {

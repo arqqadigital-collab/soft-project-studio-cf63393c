@@ -1,5 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
+import { useSectionsContent } from "@/lib/useSectionsContent";
 
 import heroImage from "@/assets/pacs/hero.jpg.asset.json";
 import problemNoAccess from "@/assets/pacs/problems/no-access.jpg.asset.json";
@@ -169,6 +170,10 @@ function merge<T>(base: T, over: any): T {
 }
 
 export function usePACSContent(): PACSContent {
+  return useSectionsContent(PACS_PAGE_SLUG, PACS_DEFAULTS) as PACSContent;
+}
+
+export function usePACSContentLegacy(): PACSContent {
   const { data } = useQuery({
     queryKey: ["page-sections", PACS_PAGE_SLUG],
     queryFn: async () => {

@@ -1,5 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
+import { useSectionsContent } from "@/lib/useSectionsContent";
 
 export const CASE_STUDIES_DEFAULTS = {
   Hero: {
@@ -31,6 +32,10 @@ function merge<T>(base: T, over: any): T {
 }
 
 export function useCaseStudiesContent(): CaseStudiesContent {
+  return useSectionsContent(SLUG, CASE_STUDIES_DEFAULTS) as CaseStudiesContent;
+}
+
+export function useCaseStudiesContentLegacy(): CaseStudiesContent {
   const { data } = useQuery({
     queryKey: ["page-sections", SLUG],
     queryFn: async () => {

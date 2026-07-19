@@ -1,5 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
+import { useSectionsContent } from "@/lib/useSectionsContent";
 
 import heroVideo from "@/assets/zoho/zoho-hero.mp4.asset.json";
 import u1 from "@/assets/zoho/use-case-1.jpg.asset.json";
@@ -143,6 +144,10 @@ function merge<T>(base: T, over: any): T {
 }
 
 export function useZohoContent(): ZohoContent {
+  return useSectionsContent(ZOHO_PAGE_SLUG, ZOHO_DEFAULTS) as ZohoContent;
+}
+
+export function useZohoContentLegacy(): ZohoContent {
   const { data } = useQuery({
     queryKey: ["page-sections", ZOHO_PAGE_SLUG],
     queryFn: async () => {

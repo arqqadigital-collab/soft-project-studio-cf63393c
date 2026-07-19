@@ -1,5 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
+import { useSectionsContent } from "@/lib/useSectionsContent";
 
 import heroVideo from "@/assets/emram/emram-hero.mp4.asset.json";
 import ctaVideo from "@/assets/emram/emram-cta.mp4.asset.json";
@@ -174,6 +175,10 @@ function merge<T>(base: T, over: any): T {
 }
 
 export function useClinicalAiContent(): ClinicalAiContent {
+  return useSectionsContent(CLINICAL_AI_PAGE_SLUG, CLINICAL_AI_DEFAULTS) as ClinicalAiContent;
+}
+
+export function useClinicalAiContentLegacy(): ClinicalAiContent {
   const { data } = useQuery({
     queryKey: ["page-sections", CLINICAL_AI_PAGE_SLUG],
     queryFn: async () => {

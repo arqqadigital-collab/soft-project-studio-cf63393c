@@ -1,5 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
+import { useSectionsContent } from "@/lib/useSectionsContent";
 
 import lisHeroVideo from "@/assets/lis/lis-hero.mp4.asset.json";
 import problem1 from "@/assets/lis/problem-1.jpg";
@@ -159,6 +160,10 @@ function merge<T>(base: T, over: any): T {
 }
 
 export function useLisContent(): LisContent {
+  return useSectionsContent(LIS_PAGE_SLUG, LIS_DEFAULTS) as LisContent;
+}
+
+export function useLisContentLegacy(): LisContent {
   const { data } = useQuery({
     queryKey: ["page-sections", LIS_PAGE_SLUG],
     queryFn: async () => {

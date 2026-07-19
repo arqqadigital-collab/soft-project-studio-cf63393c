@@ -1,5 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
+import { useSectionsContent } from "@/lib/useSectionsContent";
 
 // Section keys mirror the `data.section_name` values saved by the builder.
 export type AboutSectionKey =
@@ -109,6 +110,10 @@ function merge<T>(base: T, over: any): T {
 }
 
 export function useAboutContent(): AboutContent {
+  return useSectionsContent(ABOUT_PAGE_SLUG, ABOUT_DEFAULTS) as AboutContent;
+}
+
+export function useAboutContentLegacy(): AboutContent {
   const { data } = useQuery({
     queryKey: ["page-sections", ABOUT_PAGE_SLUG],
     queryFn: async () => {

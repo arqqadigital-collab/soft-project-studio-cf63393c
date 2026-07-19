@@ -1,5 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
+import { useSectionsContent } from "@/lib/useSectionsContent";
 
 import heroImage from "@/assets/telemedicine/hero.jpg.asset.json";
 import p1 from "@/assets/telemedicine/problems/p1.jpg.asset.json";
@@ -162,6 +163,10 @@ function merge<T>(base: T, over: any): T {
 }
 
 export function useTelemedicineContent(): TelemedicineContent {
+  return useSectionsContent(TELEMEDICINE_PAGE_SLUG, TELEMEDICINE_DEFAULTS) as TelemedicineContent;
+}
+
+export function useTelemedicineContentLegacy(): TelemedicineContent {
   const { data } = useQuery({
     queryKey: ["page-sections", TELEMEDICINE_PAGE_SLUG],
     queryFn: async () => {

@@ -1,5 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
+import { useSectionsContent } from "@/lib/useSectionsContent";
 
 import hero from "@/assets/staffaug/hero.jpg.asset.json";
 import cta from "@/assets/staffaug/cta.jpg.asset.json";
@@ -153,6 +154,10 @@ function merge<T>(base: T, over: any): T {
 }
 
 export function useStaffAugContent(): StaffAugContent {
+  return useSectionsContent(SLUG, STAFF_AUG_DEFAULTS) as StaffAugContent;
+}
+
+export function useStaffAugContentLegacy(): StaffAugContent {
   const { data } = useQuery({
     queryKey: ["page-sections", SLUG],
     queryFn: async () => {
