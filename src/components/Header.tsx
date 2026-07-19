@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import { Menu as MenuIcon, X, Globe, Linkedin, Twitter, Facebook, Instagram, Youtube, Github } from "lucide-react";
 import logo from "@/assets/logo.png";
 import { MainNav } from "@/components/MainNav";
@@ -51,8 +51,10 @@ export function Header() {
   const [mobileOpen, setMobileOpen] = useState(false);
   
 
+  const location = useLocation();
   const sticky = settings?.header_sticky ?? true;
-  const transparentOnHero = settings?.header_transparent_on_hero ?? false;
+  const isHome = location.pathname === "/";
+  const transparentOnHero = (settings?.header_transparent_on_hero ?? false) && isHome;
   const isTransparent = transparentOnHero && !scrolled;
 
   useEffect(() => {
