@@ -14,6 +14,8 @@ import {
   Phone,
   MapPin,
   Eye,
+  Languages,
+  Loader2,
 } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { Button } from "@/components/ui/button";
@@ -50,8 +52,9 @@ type Office = {
   email: string;
   image_url: string | null;
   position: number;
+  translations?: any;
 };
-type Area = { id: string; label: string; position: number; is_active: boolean };
+type Area = { id: string; label: string; position: number; is_active: boolean; translations?: any };
 type Submission = {
   id: string;
   name: string;
@@ -63,8 +66,119 @@ type Submission = {
   status: string;
   created_at: string;
 };
+type Loc = "en" | "ar";
 
-export default function ContactEditor() {
+function LocaleToggle({ locale, onChange }: { locale: Loc; onChange: (l: Loc) => void }) {
+  return (
+    <div className="inline-flex overflow-hidden rounded-md border border-border">
+      <button
+        type="button"
+        onClick={() => onChange("en")}
+        className={`inline-flex items-center gap-1 px-3 py-1.5 text-xs font-semibold ${locale === "en" ? "bg-primary text-primary-foreground" : "bg-background hover:bg-muted"}`}
+      >
+        <Languages className="h-3.5 w-3.5" /> EN
+      </button>
+      <button
+        type="button"
+        onClick={() => onChange("ar")}
+        className={`inline-flex items-center gap-1 border-s border-border px-3 py-1.5 text-xs font-semibold ${locale === "ar" ? "bg-primary text-primary-foreground" : "bg-background hover:bg-muted"}`}
+      >
+        AR — العربية
+      </button>
+    </div>
+  );
+}
+
+export default function ContactEditor({ embedded = false }: { embedded?: boolean } = {}) {
+  const [locale, setLocale] = useState<Loc>("en");
+  const [translating, setTranslating] = useState(false);
+  const qc = useQueryClient();
+
+  async function autoTranslate(missingOnly = false) {
+    setTranslating(true);
+    try {
+      const { data, error } = await supabase.functions.invoke("translate-content", {
+        body: { mode: "contact", missingOnly },
+      });
+      if (error) throw error;
+      const d: any = data ?? {};
+      toast.success(`Translated ${d.ok ?? 0}/${d.total ?? 0}${d.fail ? ` — ${d.fail} failed` : ""}`);
+      qc.invalidateQueries({ queryKey: ["contact_page_admin"] });
+      qc.invalidateQueries({ queryKey: ["contact_offices_admin"] });
+      qc.invalidateQueries({ queryKey: ["contact_areas_admin"] });
+      qc.invalidateQueries({ queryKey: ["contact_page_public"] });
+      qc.invalidateQueries({ queryKey: ["contact_offices_public"] });
+      qc.invalidateQueries({ queryKey: ["contact_areas_public"] });
+      setLocale("ar");
+    } catch (e: any) {
+      toast.error(e.message || "Translate failed");
+    } finally {
+      setTranslating(false);
+    }
+  }
+
+  const toolbar = (
+    <div className="flex flex-wrap items-center gap-2">
+      <LocaleToggle locale={locale} onChange={setLocale} />
+      <Button size="sm" variant="outline" onClick={() => autoTranslate(false)} disabled={translating}>
+        {translating ? <Loader2 className="mr-1 h-4 w-4 animate-spin" /> : <Languages className="mr-1 h-4 w-4" />}
+        Translate to Arabic
+      </Button>
+      <Button size="sm" variant="ghost" onClick={() => autoTranslate(true)} disabled={translating}>
+        Fill missing AR
+      </Button>
+      {!embedded && (
+        <Button asChild variant="outline" size="sm">
+          <a href="/contact" target="_blank" rel="noreferrer">
+            <ExternalLink className="mr-1 h-4 w-4" /> View live
+          </a>
+        </Button>
+      )}
+    </div>
+  );
+
+  const body = (
+    <Tabs defaultValue="content">
+      <TabsList className="flex-wrap">
+        <TabsTrigger value="content">Page content</TabsTrigger>
+        <TabsTrigger value="offices">Offices</TabsTrigger>
+        <TabsTrigger value="areas">Inquiry areas</TabsTrigger>
+        <TabsTrigger value="submissions">Submissions</TabsTrigger>
+        {!embedded && <TabsTrigger value="seo">SEO</TabsTrigger>}
+      </TabsList>
+
+      <TabsContent value="content" className="mt-4">
+        <PageContentTab locale={locale} />
+      </TabsContent>
+      <TabsContent value="offices" className="mt-4">
+        <OfficesTab locale={locale} />
+      </TabsContent>
+      <TabsContent value="areas" className="mt-4">
+        <AreasTab locale={locale} />
+      </TabsContent>
+      <TabsContent value="submissions" className="mt-4">
+        <SubmissionsTab />
+      </TabsContent>
+      {!embedded && (
+        <TabsContent value="seo" className="mt-4">
+          <SeoTab />
+        </TabsContent>
+      )}
+    </Tabs>
+  );
+
+  if (embedded) {
+    return (
+      <div className="space-y-4">
+        <div className="flex flex-wrap items-center justify-between gap-3 rounded-md border border-primary/30 bg-primary/5 p-3 text-sm">
+          <div className="font-medium text-foreground">Contact page sections</div>
+          {toolbar}
+        </div>
+        {body}
+      </div>
+    );
+  }
+
   return (
     <div className="mx-auto max-w-6xl space-y-4">
       <div className="flex flex-wrap items-center justify-between gap-3">
@@ -74,64 +188,54 @@ export default function ContactEditor() {
             Manage the /contact page content, offices, form options, submissions and SEO.
           </p>
         </div>
-        <Button asChild variant="outline" size="sm">
-          <a href="/contact" target="_blank" rel="noreferrer">
-            <ExternalLink className="mr-1 h-4 w-4" /> View live
-          </a>
-        </Button>
+        {toolbar}
       </div>
-
-      <Tabs defaultValue="content">
-        <TabsList className="flex-wrap">
-          <TabsTrigger value="content">Page content</TabsTrigger>
-          <TabsTrigger value="offices">Offices</TabsTrigger>
-          <TabsTrigger value="areas">Inquiry areas</TabsTrigger>
-          <TabsTrigger value="submissions">Submissions</TabsTrigger>
-          <TabsTrigger value="seo">SEO</TabsTrigger>
-        </TabsList>
-
-        <TabsContent value="content" className="mt-4">
-          <PageContentTab />
-        </TabsContent>
-        <TabsContent value="offices" className="mt-4">
-          <OfficesTab />
-        </TabsContent>
-        <TabsContent value="areas" className="mt-4">
-          <AreasTab />
-        </TabsContent>
-        <TabsContent value="submissions" className="mt-4">
-          <SubmissionsTab />
-        </TabsContent>
-        <TabsContent value="seo" className="mt-4">
-          <SeoTab />
-        </TabsContent>
-      </Tabs>
+      {body}
     </div>
   );
 }
 
 /* ---------------- Page content ---------------- */
 
-function PageContentTab() {
+type PageFields = {
+  hero_eyebrow: string;
+  hero_headline: string;
+  hero_subheadline: string;
+  hero_cta_label: string;
+  hero_cta_href: string;
+  hero_background_url: string;
+  form_heading: string;
+  form_subheading: string;
+  form_submit_label: string;
+  offices_heading: string;
+  offices_subheading: string;
+  notification_email: string;
+  quick_info: QuickInfo[];
+};
+
+const EMPTY_PAGE: PageFields = {
+  hero_eyebrow: "",
+  hero_headline: "",
+  hero_subheadline: "",
+  hero_cta_label: "",
+  hero_cta_href: "",
+  hero_background_url: "",
+  form_heading: "",
+  form_subheading: "",
+  form_submit_label: "",
+  offices_heading: "",
+  offices_subheading: "",
+  notification_email: "",
+  quick_info: [],
+};
+
+function PageContentTab({ locale }: { locale: Loc }) {
   const qc = useQueryClient();
   const [saving, setSaving] = useState(false);
   const [pickerOpen, setPickerOpen] = useState(false);
-  const [form, setForm] = useState({
-    id: "",
-    hero_eyebrow: "",
-    hero_headline: "",
-    hero_subheadline: "",
-    hero_background_url: "",
-    hero_cta_label: "",
-    hero_cta_href: "",
-    form_heading: "",
-    form_subheading: "",
-    form_submit_label: "",
-    offices_heading: "",
-    offices_subheading: "",
-    notification_email: "",
-    quick_info: [] as QuickInfo[],
-  });
+  const [id, setId] = useState<string>("");
+  const [en, setEn] = useState<PageFields>(EMPTY_PAGE);
+  const [ar, setAr] = useState<Partial<PageFields>>({});
 
   const { data, isLoading } = useQuery({
     queryKey: ["contact_page_admin"],
@@ -149,14 +253,14 @@ function PageContentTab() {
   useEffect(() => {
     if (!data) return;
     const d: any = data;
-    setForm({
-      id: d.id,
+    setId(d.id);
+    setEn({
       hero_eyebrow: d.hero_eyebrow ?? "",
       hero_headline: d.hero_headline ?? "",
       hero_subheadline: d.hero_subheadline ?? "",
-      hero_background_url: d.hero_background_url ?? "",
       hero_cta_label: d.hero_cta_label ?? "",
       hero_cta_href: d.hero_cta_href ?? "",
+      hero_background_url: d.hero_background_url ?? "",
       form_heading: d.form_heading ?? "",
       form_subheading: d.form_subheading ?? "",
       form_submit_label: d.form_submit_label ?? "",
@@ -165,57 +269,120 @@ function PageContentTab() {
       notification_email: d.notification_email ?? "",
       quick_info: Array.isArray(d.quick_info) ? (d.quick_info as QuickInfo[]) : [],
     });
+    const arObj = (d.translations?.ar ?? {}) as Partial<PageFields>;
+    setAr(arObj);
   }, [data]);
 
-  function set<K extends keyof typeof form>(k: K, v: (typeof form)[K]) {
-    setForm((f) => ({ ...f, [k]: v }));
+  // Text field binding helpers — non-translatable fields always use EN.
+  const NON_TRANSLATABLE = new Set(["hero_cta_href", "hero_background_url", "notification_email"]);
+  function V(k: keyof PageFields): string {
+    if (locale === "ar" && !NON_TRANSLATABLE.has(k as string)) {
+      const v = (ar as any)[k];
+      return typeof v === "string" ? v : "";
+    }
+    return (en as any)[k] ?? "";
+  }
+  function setV(k: keyof PageFields, v: string) {
+    if (locale === "ar" && !NON_TRANSLATABLE.has(k as string)) {
+      setAr((prev) => ({ ...prev, [k]: v }));
+    } else {
+      setEn((prev) => ({ ...prev, [k]: v }));
+    }
   }
 
+  // Quick info card binding
+  const arCards: QuickInfo[] = Array.isArray((ar as any).quick_info) ? (ar as any).quick_info : [];
+  function cardVal(i: number, field: keyof QuickInfo): string {
+    if (locale === "ar" && field !== "icon") {
+      const v = arCards[i]?.[field];
+      return typeof v === "string" ? v : "";
+    }
+    return (en.quick_info[i]?.[field] as string) ?? "";
+  }
   function updateCard(i: number, patch: Partial<QuickInfo>) {
-    setForm((f) => ({
-      ...f,
-      quick_info: f.quick_info.map((c, idx) => (idx === i ? { ...c, ...patch } : c)),
-    }));
+    if (locale === "ar") {
+      // AR overlay: icon stays in EN; only text fields overlay
+      setAr((prev) => {
+        const list = Array.isArray((prev as any).quick_info) ? [...(prev as any).quick_info] : [];
+        while (list.length <= i) list.push({ icon: "", title: "", value: "", subtitle: "" });
+        list[i] = { ...list[i], ...patch };
+        return { ...prev, quick_info: list } as any;
+      });
+      // If icon changed while in AR view, still update EN icon.
+      if (patch.icon !== undefined) {
+        setEn((prev) => ({
+          ...prev,
+          quick_info: prev.quick_info.map((c, idx) => (idx === i ? { ...c, icon: patch.icon! } : c)),
+        }));
+      }
+    } else {
+      setEn((prev) => ({
+        ...prev,
+        quick_info: prev.quick_info.map((c, idx) => (idx === i ? { ...c, ...patch } : c)),
+      }));
+    }
   }
   function addCard() {
-    setForm((f) => ({
-      ...f,
-      quick_info: [...f.quick_info, { icon: "mail", title: "", value: "", subtitle: "" }],
+    setEn((prev) => ({
+      ...prev,
+      quick_info: [...prev.quick_info, { icon: "mail", title: "", value: "", subtitle: "" }],
     }));
   }
   function removeCard(i: number) {
-    setForm((f) => ({ ...f, quick_info: f.quick_info.filter((_, idx) => idx !== i) }));
+    setEn((prev) => ({ ...prev, quick_info: prev.quick_info.filter((_, idx) => idx !== i) }));
+    setAr((prev) => {
+      const list = Array.isArray((prev as any).quick_info) ? [...(prev as any).quick_info] : [];
+      list.splice(i, 1);
+      return { ...prev, quick_info: list } as any;
+    });
   }
   function moveCard(i: number, dir: -1 | 1) {
     const t = i + dir;
-    if (t < 0 || t >= form.quick_info.length) return;
-    const next = [...form.quick_info];
-    [next[i], next[t]] = [next[t], next[i]];
-    set("quick_info", next);
+    if (t < 0 || t >= en.quick_info.length) return;
+    setEn((prev) => {
+      const next = [...prev.quick_info];
+      [next[i], next[t]] = [next[t], next[i]];
+      return { ...prev, quick_info: next };
+    });
+    setAr((prev) => {
+      const list = Array.isArray((prev as any).quick_info) ? [...(prev as any).quick_info] : [];
+      if (list[i] || list[t]) {
+        while (list.length <= Math.max(i, t)) list.push({ icon: "", title: "", value: "", subtitle: "" });
+        [list[i], list[t]] = [list[t], list[i]];
+      }
+      return { ...prev, quick_info: list } as any;
+    });
   }
 
   async function save() {
-    if (!form.id) return;
+    if (!id) return;
     setSaving(true);
     try {
+      // Fetch current translations, merge our ar overlay in
+      const { data: existing } = await supabase
+        .from("contact_page").select("translations").eq("id", id).maybeSingle();
+      const prevTr = ((existing as any)?.translations ?? {}) as Record<string, any>;
+      const nextTranslations = { ...prevTr, ar: { ...(prevTr.ar ?? {}), ...ar } };
+
       const { error } = await supabase
         .from("contact_page")
         .update({
-          hero_eyebrow: form.hero_eyebrow,
-          hero_headline: form.hero_headline,
-          hero_subheadline: form.hero_subheadline,
-          hero_background_url: form.hero_background_url || null,
-          hero_cta_label: form.hero_cta_label,
-          hero_cta_href: form.hero_cta_href,
-          form_heading: form.form_heading,
-          form_subheading: form.form_subheading,
-          form_submit_label: form.form_submit_label,
-          offices_heading: form.offices_heading,
-          offices_subheading: form.offices_subheading,
-          notification_email: form.notification_email.trim() || null,
-          quick_info: form.quick_info as any,
+          hero_eyebrow: en.hero_eyebrow,
+          hero_headline: en.hero_headline,
+          hero_subheadline: en.hero_subheadline,
+          hero_background_url: en.hero_background_url || null,
+          hero_cta_label: en.hero_cta_label,
+          hero_cta_href: en.hero_cta_href,
+          form_heading: en.form_heading,
+          form_subheading: en.form_subheading,
+          form_submit_label: en.form_submit_label,
+          offices_heading: en.offices_heading,
+          offices_subheading: en.offices_subheading,
+          notification_email: en.notification_email.trim() || null,
+          quick_info: en.quick_info as any,
+          translations: nextTranslations as any,
         } as any)
-        .eq("id", form.id);
+        .eq("id", id);
       if (error) throw error;
       toast.success("Contact page saved");
       qc.invalidateQueries({ queryKey: ["contact_page_admin"] });
@@ -229,33 +396,42 @@ function PageContentTab() {
 
   if (isLoading) return <div className="text-sm text-muted-foreground">Loading…</div>;
 
+  const dir = locale === "ar" ? "rtl" : "ltr";
+
   return (
     <div className="space-y-4">
-      <div className="flex justify-end">
-        <Button onClick={save} disabled={saving} size="sm">
-          <Save className="mr-1 h-4 w-4" /> Save
-        </Button>
+      <div className="flex flex-wrap items-center justify-between gap-2">
+        {locale === "ar" && (
+          <p className="text-xs text-muted-foreground">
+            Editing Arabic overlay. Empty fields fall back to English.
+          </p>
+        )}
+        <div className="ms-auto">
+          <Button onClick={save} disabled={saving} size="sm">
+            <Save className="mr-1 h-4 w-4" /> Save
+          </Button>
+        </div>
       </div>
 
       <Card>
         <CardHeader><CardTitle>Hero</CardTitle></CardHeader>
         <CardContent className="space-y-4">
           <div className="grid gap-3 md:grid-cols-2">
-            <Labeled label="Eyebrow"><Input value={form.hero_eyebrow} onChange={(e) => set("hero_eyebrow", e.target.value)} /></Labeled>
-            <Labeled label="CTA label"><Input value={form.hero_cta_label} onChange={(e) => set("hero_cta_label", e.target.value)} /></Labeled>
+            <Labeled label="Eyebrow"><Input dir={dir} value={V("hero_eyebrow")} onChange={(e) => setV("hero_eyebrow", e.target.value)} /></Labeled>
+            <Labeled label="CTA label"><Input dir={dir} value={V("hero_cta_label")} onChange={(e) => setV("hero_cta_label", e.target.value)} /></Labeled>
           </div>
-          <Labeled label="Headline"><Input value={form.hero_headline} onChange={(e) => set("hero_headline", e.target.value)} /></Labeled>
-          <Labeled label="Subheadline"><Textarea rows={2} value={form.hero_subheadline} onChange={(e) => set("hero_subheadline", e.target.value)} /></Labeled>
-          <Labeled label="CTA link"><Input value={form.hero_cta_href} onChange={(e) => set("hero_cta_href", e.target.value)} placeholder="#contact-form" /></Labeled>
+          <Labeled label="Headline"><Input dir={dir} value={V("hero_headline")} onChange={(e) => setV("hero_headline", e.target.value)} /></Labeled>
+          <Labeled label="Subheadline"><Textarea dir={dir} rows={2} value={V("hero_subheadline")} onChange={(e) => setV("hero_subheadline", e.target.value)} /></Labeled>
+          <Labeled label="CTA link"><Input value={V("hero_cta_href")} onChange={(e) => setV("hero_cta_href", e.target.value)} placeholder="#contact-form" /></Labeled>
           <Labeled label="Background image">
             <div className="flex items-center gap-2">
-              <Input value={form.hero_background_url} onChange={(e) => set("hero_background_url", e.target.value)} placeholder="https://…" />
+              <Input value={V("hero_background_url")} onChange={(e) => setV("hero_background_url", e.target.value)} placeholder="https://…" />
               <Button type="button" variant="outline" size="sm" onClick={() => setPickerOpen(true)}>
                 <ImageIcon className="mr-1 h-4 w-4" /> Pick
               </Button>
             </div>
-            {form.hero_background_url && (
-              <img src={form.hero_background_url} alt="" className="mt-2 h-24 rounded-md object-cover" />
+            {V("hero_background_url") && (
+              <img src={V("hero_background_url")} alt="" className="mt-2 h-24 rounded-md object-cover" />
             )}
           </Labeled>
         </CardContent>
@@ -264,14 +440,14 @@ function PageContentTab() {
       <Card>
         <CardHeader><CardTitle>Form section</CardTitle></CardHeader>
         <CardContent className="space-y-4">
-          <Labeled label="Heading"><Input value={form.form_heading} onChange={(e) => set("form_heading", e.target.value)} /></Labeled>
-          <Labeled label="Subheading"><Input value={form.form_subheading} onChange={(e) => set("form_subheading", e.target.value)} /></Labeled>
-          <Labeled label="Submit button label"><Input value={form.form_submit_label} onChange={(e) => set("form_submit_label", e.target.value)} /></Labeled>
+          <Labeled label="Heading"><Input dir={dir} value={V("form_heading")} onChange={(e) => setV("form_heading", e.target.value)} /></Labeled>
+          <Labeled label="Subheading"><Input dir={dir} value={V("form_subheading")} onChange={(e) => setV("form_subheading", e.target.value)} /></Labeled>
+          <Labeled label="Submit button label"><Input dir={dir} value={V("form_submit_label")} onChange={(e) => setV("form_submit_label", e.target.value)} /></Labeled>
           <Labeled label="Notification email (where new submissions are sent)">
             <Input
               type="email"
-              value={form.notification_email}
-              onChange={(e) => set("notification_email", e.target.value)}
+              value={V("notification_email")}
+              onChange={(e) => setV("notification_email", e.target.value)}
               placeholder="sbs@sbs-me.com"
             />
           </Labeled>
@@ -282,28 +458,32 @@ function PageContentTab() {
         <CardHeader>
           <CardTitle className="flex items-center justify-between">
             <span>Quick info cards</span>
-            <Button size="sm" variant="outline" onClick={addCard}>
-              <Plus className="mr-1 h-4 w-4" /> Add card
-            </Button>
+            {locale === "en" && (
+              <Button size="sm" variant="outline" onClick={addCard}>
+                <Plus className="mr-1 h-4 w-4" /> Add card
+              </Button>
+            )}
           </CardTitle>
         </CardHeader>
         <CardContent className="space-y-4">
-          {form.quick_info.length === 0 && (
+          {en.quick_info.length === 0 && (
             <p className="text-sm text-muted-foreground">No cards yet.</p>
           )}
-          {form.quick_info.map((c, i) => (
+          {en.quick_info.map((_c, i) => (
             <div key={i} className="rounded-lg border p-4">
               <div className="mb-3 flex items-center justify-between">
                 <Badge variant="secondary">Card {i + 1}</Badge>
-                <div className="flex gap-1">
-                  <Button size="icon" variant="ghost" onClick={() => moveCard(i, -1)}><ArrowUp className="h-4 w-4" /></Button>
-                  <Button size="icon" variant="ghost" onClick={() => moveCard(i, 1)}><ArrowDown className="h-4 w-4" /></Button>
-                  <Button size="icon" variant="ghost" onClick={() => removeCard(i)}><Trash2 className="h-4 w-4" /></Button>
-                </div>
+                {locale === "en" && (
+                  <div className="flex gap-1">
+                    <Button size="icon" variant="ghost" onClick={() => moveCard(i, -1)}><ArrowUp className="h-4 w-4" /></Button>
+                    <Button size="icon" variant="ghost" onClick={() => moveCard(i, 1)}><ArrowDown className="h-4 w-4" /></Button>
+                    <Button size="icon" variant="ghost" onClick={() => removeCard(i)}><Trash2 className="h-4 w-4" /></Button>
+                  </div>
+                )}
               </div>
               <div className="grid gap-3 md:grid-cols-2">
                 <Labeled label="Icon">
-                  <Select value={c.icon} onValueChange={(v) => updateCard(i, { icon: v })}>
+                  <Select value={en.quick_info[i].icon} onValueChange={(v) => updateCard(i, { icon: v })}>
                     <SelectTrigger><SelectValue /></SelectTrigger>
                     <SelectContent>
                       <SelectItem value="mail">Mail</SelectItem>
@@ -312,9 +492,9 @@ function PageContentTab() {
                     </SelectContent>
                   </Select>
                 </Labeled>
-                <Labeled label="Title (small)"><Input value={c.title} onChange={(e) => updateCard(i, { title: e.target.value })} /></Labeled>
-                <Labeled label="Value (big)"><Input value={c.value} onChange={(e) => updateCard(i, { value: e.target.value })} /></Labeled>
-                <Labeled label="Subtitle"><Input value={c.subtitle} onChange={(e) => updateCard(i, { subtitle: e.target.value })} /></Labeled>
+                <Labeled label="Title (small)"><Input dir={dir} value={cardVal(i, "title")} onChange={(e) => updateCard(i, { title: e.target.value })} /></Labeled>
+                <Labeled label="Value (big)"><Input dir={dir} value={cardVal(i, "value")} onChange={(e) => updateCard(i, { value: e.target.value })} /></Labeled>
+                <Labeled label="Subtitle"><Input dir={dir} value={cardVal(i, "subtitle")} onChange={(e) => updateCard(i, { subtitle: e.target.value })} /></Labeled>
               </div>
             </div>
           ))}
@@ -324,15 +504,15 @@ function PageContentTab() {
       <Card>
         <CardHeader><CardTitle>Offices section header</CardTitle></CardHeader>
         <CardContent className="space-y-4">
-          <Labeled label="Heading"><Input value={form.offices_heading} onChange={(e) => set("offices_heading", e.target.value)} /></Labeled>
-          <Labeled label="Subheading"><Textarea rows={2} value={form.offices_subheading} onChange={(e) => set("offices_subheading", e.target.value)} /></Labeled>
+          <Labeled label="Heading"><Input dir={dir} value={V("offices_heading")} onChange={(e) => setV("offices_heading", e.target.value)} /></Labeled>
+          <Labeled label="Subheading"><Textarea dir={dir} rows={2} value={V("offices_subheading")} onChange={(e) => setV("offices_subheading", e.target.value)} /></Labeled>
         </CardContent>
       </Card>
 
       <MediaPickerDialog
         open={pickerOpen}
         onOpenChange={setPickerOpen}
-        onPick={(m) => set("hero_background_url", m.file_url)}
+        onPick={(m) => setV("hero_background_url", m.file_url)}
       />
     </div>
   );
@@ -340,9 +520,10 @@ function PageContentTab() {
 
 /* ---------------- Offices ---------------- */
 
-function OfficesTab() {
+function OfficesTab({ locale }: { locale: Loc }) {
   const qc = useQueryClient();
   const [editing, setEditing] = useState<Office | null>(null);
+  const [editingAr, setEditingAr] = useState<{ city?: string; address?: string }>({});
   const [pickerOpen, setPickerOpen] = useState(false);
 
   const { data, isLoading } = useQuery({
@@ -358,6 +539,7 @@ function OfficesTab() {
   });
 
   const offices = data ?? [];
+  const dir = locale === "ar" ? "rtl" : "ltr";
 
   function invalidate() {
     qc.invalidateQueries({ queryKey: ["contact_offices_admin"] });
@@ -387,10 +569,17 @@ function OfficesTab() {
   function newOffice() {
     const nextPos = offices.length ? Math.max(...offices.map((o) => o.position)) + 1 : 1;
     setEditing({ id: "", city: "", address: "", phone: "", email: "", image_url: "", position: nextPos });
+    setEditingAr({});
+  }
+  function openEdit(o: Office) {
+    setEditing(o);
+    setEditingAr((o.translations?.ar ?? {}) as any);
   }
 
   async function saveOffice() {
     if (!editing) return;
+    const prevTr = (editing.translations ?? {}) as Record<string, any>;
+    const nextTr = { ...prevTr, ar: { ...(prevTr.ar ?? {}), ...editingAr } };
     const payload = {
       city: editing.city,
       address: editing.address,
@@ -398,6 +587,7 @@ function OfficesTab() {
       email: editing.email,
       image_url: editing.image_url || null,
       position: editing.position,
+      translations: nextTr as any,
     };
     const { error } = editing.id
       ? await supabase.from("contact_offices").update(payload).eq("id", editing.id)
@@ -405,6 +595,7 @@ function OfficesTab() {
     if (error) return toast.error(error.message);
     toast.success("Saved");
     setEditing(null);
+    setEditingAr({});
     invalidate();
   }
 
@@ -418,35 +609,43 @@ function OfficesTab() {
       <Card>
         <CardContent className="p-0">
           <div className="divide-y">
-            {offices.map((o, i) => (
-              <div key={o.id} className="flex items-center gap-4 p-4">
-                <div className="h-12 w-16 shrink-0 overflow-hidden rounded-md bg-muted">
-                  {o.image_url && <img src={o.image_url} alt={o.city} className="h-full w-full object-cover" />}
+            {offices.map((o, i) => {
+              const arCity = o.translations?.ar?.city;
+              const arAddr = o.translations?.ar?.address;
+              const displayCity = locale === "ar" && arCity ? arCity : o.city;
+              const displayAddr = locale === "ar" && arAddr ? arAddr : o.address;
+              return (
+                <div key={o.id} className="flex items-center gap-4 p-4">
+                  <div className="h-12 w-16 shrink-0 overflow-hidden rounded-md bg-muted">
+                    {o.image_url && <img src={o.image_url} alt={displayCity} className="h-full w-full object-cover" />}
+                  </div>
+                  <div className="min-w-0 flex-1" dir={dir}>
+                    <div className="truncate font-medium">{displayCity}</div>
+                    <div className="truncate text-xs text-muted-foreground">{displayAddr}</div>
+                  </div>
+                  <div className="flex gap-1">
+                    <Button size="icon" variant="ghost" onClick={() => move(i, -1)}><ArrowUp className="h-4 w-4" /></Button>
+                    <Button size="icon" variant="ghost" onClick={() => move(i, 1)}><ArrowDown className="h-4 w-4" /></Button>
+                    <Button size="sm" variant="outline" onClick={() => openEdit(o)}>Edit</Button>
+                    <Button size="icon" variant="ghost" onClick={() => remove(o.id, o.city)}><Trash2 className="h-4 w-4" /></Button>
+                  </div>
                 </div>
-                <div className="min-w-0 flex-1">
-                  <div className="truncate font-medium">{o.city}</div>
-                  <div className="truncate text-xs text-muted-foreground">{o.address}</div>
-                </div>
-                <div className="flex gap-1">
-                  <Button size="icon" variant="ghost" onClick={() => move(i, -1)}><ArrowUp className="h-4 w-4" /></Button>
-                  <Button size="icon" variant="ghost" onClick={() => move(i, 1)}><ArrowDown className="h-4 w-4" /></Button>
-                  <Button size="sm" variant="outline" onClick={() => setEditing(o)}>Edit</Button>
-                  <Button size="icon" variant="ghost" onClick={() => remove(o.id, o.city)}><Trash2 className="h-4 w-4" /></Button>
-                </div>
-              </div>
-            ))}
+              );
+            })}
             {offices.length === 0 && <div className="p-6 text-sm text-muted-foreground">No offices yet.</div>}
           </div>
         </CardContent>
       </Card>
 
-      <Dialog open={!!editing} onOpenChange={(o) => !o && setEditing(null)}>
-        <DialogContent>
+      <Dialog open={!!editing} onOpenChange={(o) => { if (!o) { setEditing(null); setEditingAr({}); } }}>
+        <DialogContent className="max-w-lg">
           <DialogHeader><DialogTitle>{editing?.id ? "Edit office" : "Add office"}</DialogTitle></DialogHeader>
           {editing && (
             <div className="space-y-3">
-              <Labeled label="City"><Input value={editing.city} onChange={(e) => setEditing({ ...editing, city: e.target.value })} /></Labeled>
-              <Labeled label="Address"><Textarea rows={2} value={editing.address} onChange={(e) => setEditing({ ...editing, address: e.target.value })} /></Labeled>
+              <Labeled label="City (English)"><Input value={editing.city} onChange={(e) => setEditing({ ...editing, city: e.target.value })} /></Labeled>
+              <Labeled label="City (العربية)"><Input dir="rtl" value={editingAr.city ?? ""} onChange={(e) => setEditingAr({ ...editingAr, city: e.target.value })} placeholder="اتركه فارغًا للاحتفاظ بالإنجليزية" /></Labeled>
+              <Labeled label="Address (English)"><Textarea rows={2} value={editing.address} onChange={(e) => setEditing({ ...editing, address: e.target.value })} /></Labeled>
+              <Labeled label="Address (العربية)"><Textarea dir="rtl" rows={2} value={editingAr.address ?? ""} onChange={(e) => setEditingAr({ ...editingAr, address: e.target.value })} /></Labeled>
               <div className="grid gap-3 md:grid-cols-2">
                 <Labeled label="Phone"><Input value={editing.phone} onChange={(e) => setEditing({ ...editing, phone: e.target.value })} /></Labeled>
                 <Labeled label="Email"><Input value={editing.email} onChange={(e) => setEditing({ ...editing, email: e.target.value })} /></Labeled>
@@ -466,7 +665,7 @@ function OfficesTab() {
             </div>
           )}
           <DialogFooter>
-            <Button variant="outline" onClick={() => setEditing(null)}>Cancel</Button>
+            <Button variant="outline" onClick={() => { setEditing(null); setEditingAr({}); }}>Cancel</Button>
             <Button onClick={saveOffice}><Save className="mr-1 h-4 w-4" /> Save</Button>
           </DialogFooter>
         </DialogContent>
@@ -483,7 +682,7 @@ function OfficesTab() {
 
 /* ---------------- Inquiry Areas ---------------- */
 
-function AreasTab() {
+function AreasTab({ locale }: { locale: Loc }) {
   const qc = useQueryClient();
   const [newLabel, setNewLabel] = useState("");
 
@@ -516,8 +715,21 @@ function AreasTab() {
     invalidate();
   }
 
-  async function update(id: string, patch: Partial<Area>) {
-    const { error } = await supabase.from("contact_inquiry_areas").update(patch).eq("id", id);
+  async function updateLabel(a: Area, value: string) {
+    if (locale === "ar") {
+      const prevTr = (a.translations ?? {}) as Record<string, any>;
+      const nextTr = { ...prevTr, ar: { ...(prevTr.ar ?? {}), label: value } };
+      const { error } = await supabase.from("contact_inquiry_areas").update({ translations: nextTr as any }).eq("id", a.id);
+      if (error) return toast.error(error.message);
+    } else {
+      const { error } = await supabase.from("contact_inquiry_areas").update({ label: value }).eq("id", a.id);
+      if (error) return toast.error(error.message);
+    }
+    invalidate();
+  }
+
+  async function updateActive(a: Area, is_active: boolean) {
+    const { error } = await supabase.from("contact_inquiry_areas").update({ is_active }).eq("id", a.id);
     if (error) return toast.error(error.message);
     invalidate();
   }
@@ -541,33 +753,51 @@ function AreasTab() {
   }
 
   if (isLoading) return <div className="text-sm text-muted-foreground">Loading…</div>;
+  const dir = locale === "ar" ? "rtl" : "ltr";
 
   return (
     <div className="space-y-4">
       <Card>
-        <CardHeader><CardTitle>Dropdown options</CardTitle></CardHeader>
+        <CardHeader><CardTitle>Dropdown options {locale === "ar" && <span className="ms-2 text-xs font-normal text-muted-foreground">(editing Arabic labels)</span>}</CardTitle></CardHeader>
         <CardContent className="space-y-3">
-          <div className="flex gap-2">
-            <Input placeholder="New inquiry area…" value={newLabel} onChange={(e) => setNewLabel(e.target.value)} onKeyDown={(e) => e.key === "Enter" && add()} />
-            <Button onClick={add}><Plus className="mr-1 h-4 w-4" /> Add</Button>
-          </div>
+          {locale === "en" && (
+            <div className="flex gap-2">
+              <Input placeholder="New inquiry area…" value={newLabel} onChange={(e) => setNewLabel(e.target.value)} onKeyDown={(e) => e.key === "Enter" && add()} />
+              <Button onClick={add}><Plus className="mr-1 h-4 w-4" /> Add</Button>
+            </div>
+          )}
           <div className="divide-y rounded-md border">
-            {areas.map((a, i) => (
-              <div key={a.id} className="flex items-center gap-3 p-3">
-                <Input
-                  value={a.label}
-                  onChange={(e) => update(a.id, { label: e.target.value })}
-                  className="flex-1"
-                />
-                <div className="flex items-center gap-2">
-                  <Switch checked={a.is_active} onCheckedChange={(v) => update(a.id, { is_active: v })} />
-                  <span className="text-xs text-muted-foreground">{a.is_active ? "Active" : "Hidden"}</span>
+            {areas.map((a, i) => {
+              const value = locale === "ar" ? (a.translations?.ar?.label ?? "") : a.label;
+              return (
+                <div key={a.id} className="flex items-center gap-3 p-3">
+                  <Input
+                    dir={dir}
+                    value={value}
+                    placeholder={locale === "ar" ? a.label : ""}
+                    onChange={(e) => {
+                      const v = e.target.value;
+                      // optimistic UI: mutate local cache
+                      if (locale === "ar") {
+                        a.translations = { ...(a.translations ?? {}), ar: { ...(a.translations?.ar ?? {}), label: v } };
+                      } else {
+                        a.label = v;
+                      }
+                      qc.setQueryData(["contact_areas_admin"], [...areas]);
+                    }}
+                    onBlur={(e) => updateLabel(a, e.target.value)}
+                    className="flex-1"
+                  />
+                  <div className="flex items-center gap-2">
+                    <Switch checked={a.is_active} onCheckedChange={(v) => updateActive(a, v)} />
+                    <span className="text-xs text-muted-foreground">{a.is_active ? "Active" : "Hidden"}</span>
+                  </div>
+                  <Button size="icon" variant="ghost" onClick={() => move(i, -1)}><ArrowUp className="h-4 w-4" /></Button>
+                  <Button size="icon" variant="ghost" onClick={() => move(i, 1)}><ArrowDown className="h-4 w-4" /></Button>
+                  <Button size="icon" variant="ghost" onClick={() => remove(a.id, a.label)}><Trash2 className="h-4 w-4" /></Button>
                 </div>
-                <Button size="icon" variant="ghost" onClick={() => move(i, -1)}><ArrowUp className="h-4 w-4" /></Button>
-                <Button size="icon" variant="ghost" onClick={() => move(i, 1)}><ArrowDown className="h-4 w-4" /></Button>
-                <Button size="icon" variant="ghost" onClick={() => remove(a.id, a.label)}><Trash2 className="h-4 w-4" /></Button>
-              </div>
-            ))}
+              );
+            })}
             {areas.length === 0 && <div className="p-4 text-sm text-muted-foreground">No options yet.</div>}
           </div>
         </CardContent>
