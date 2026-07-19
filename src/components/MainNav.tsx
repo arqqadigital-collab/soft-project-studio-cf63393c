@@ -131,15 +131,25 @@ export function MainNav() {
         .map((c) => ({
           id: c.id,
           label: c.label,
-          items: c.pages
-            .filter((p) => p.status === "published" && p.route_path)
-            .map<Leaf>((p) => {
-              const route = p.route_path!;
-              const leaf: Leaf = { id: p.id, label: p.nav_label || p.title };
-              if (isExternal(route)) leaf.href = route;
-              else leaf.to = route;
+          items: c.items
+            .map<Leaf | null>((it) => {
+              if (it.kind === "page") {
+                const p = it.page;
+                if (p.status !== "published" || !p.route_path) return null;
+                const leaf: Leaf = { id: p.id, label: p.nav_label || p.title };
+                if (isExternal(p.route_path)) leaf.href = p.route_path;
+                else leaf.to = p.route_path;
+                return leaf;
+              }
+              const l = it.link;
+              if (!l.is_visible) return null;
+              const leaf: Leaf = { id: l.id, label: l.label };
+              if (l.target === "_blank" || isExternal(l.url)) leaf.href = l.url;
+              else if (l.url.startsWith("/")) leaf.to = l.url;
+              else leaf.href = l.url;
               return leaf;
-            }),
+            })
+            .filter((x): x is Leaf => x !== null),
         })),
     }))
     .filter((m) => m.columns.length > 0);
