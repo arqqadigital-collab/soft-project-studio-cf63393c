@@ -7,6 +7,8 @@ import { Trash2, Plus, Image as ImageIcon } from "lucide-react";
 import { MediaPickerDialog } from "@/components/dashboard/MediaPickerDialog";
 import { CLINICAL_AI_DEFAULTS } from "@/lib/clinicalAiContent";
 import { AI_IMAGING_DEFAULTS } from "@/lib/aiImagingContent";
+import { PE_DEFAULTS } from "@/lib/patientEngagementContent";
+import { RC_DEFAULTS } from "@/lib/revenueCycleContent";
 import { BLOOD_BANK_DEFAULTS } from "@/lib/bloodBankContent";
 import { CLINIC_DEFAULTS } from "@/lib/clinicContent";
 import { DENTAL_DEFAULTS } from "@/lib/dentalContent";
@@ -46,6 +48,8 @@ import { EVENTS_DEFAULTS } from "@/lib/eventsContent";
 const DEFAULTS_BY_SLUG: Record<string, Record<string, any>> = {
   "healthcare-clinical-ai": CLINICAL_AI_DEFAULTS as any,
   "healthcare-ai-imaging": AI_IMAGING_DEFAULTS as any,
+  "healthcare-patient-engagement": PE_DEFAULTS as any,
+  "healthcare-revenue-cycle": RC_DEFAULTS as any,
   "blood-bank-and-donor-management": BLOOD_BANK_DEFAULTS as any,
   "clinic": CLINIC_DEFAULTS as any,
   "dental-management-suite": DENTAL_DEFAULTS as any,
