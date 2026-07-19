@@ -39,6 +39,7 @@ import {
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { Badge } from "@/components/ui/badge";
 import { toast } from "sonner";
 import { format } from "date-fns";
 import { Trash2, UserPlus } from "lucide-react";
@@ -188,6 +189,11 @@ export default function UsersPage() {
                             </AvatarFallback>
                           </Avatar>
                           <span className="font-medium">{u.full_name ?? "—"}</span>
+                          {!u.last_sign_in_at && (
+                            <Badge variant="outline" className="border-amber-500/40 bg-amber-500/10 text-amber-700 dark:text-amber-300">
+                              Pending
+                            </Badge>
+                          )}
                         </div>
                       </TableCell>
                       <TableCell className="text-sm text-muted-foreground">{u.email}</TableCell>
