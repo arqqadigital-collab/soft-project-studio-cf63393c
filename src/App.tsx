@@ -112,6 +112,8 @@ export default function App() {
         <Route path="/healthcare/ksa-compliance" element={<KSACompliance />} />
         <Route path="/healthcare/emram" element={<EMRAM />} />
         <Route path="/healthcare/clinical-ai" element={<ClinicalAI />} />
+        <Route path="/healthcare/patient-engagement" element={<PatientEngagement />} />
+        <Route path="/healthcare/revenue-cycle" element={<RevenueCycle />} />
         <Route path="/erp/dynamics-365" element={<Dynamics365 />} />
         <Route path="/erp/odoo" element={<Odoo />} />
         <Route path="/erp/zoho" element={<Zoho />} />
