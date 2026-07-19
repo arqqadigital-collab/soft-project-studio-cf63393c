@@ -110,6 +110,9 @@ export default function PostEditor() {
       setPreviewToken(d.preview_token ?? null);
       setSlugTouched(true);
       dirtyRef.current = false;
+      const t = (d.translations ?? {}) as Record<string, any>;
+      setTranslations(t);
+      setAr((t.ar ?? {}) as any);
     }
   }, [existing.data]);
 
