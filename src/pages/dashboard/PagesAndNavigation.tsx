@@ -5,7 +5,7 @@ import { toast } from "sonner";
 import {
   Plus, Trash2, Pencil, ChevronDown, ChevronRight, FileText,
   Eye, EyeOff, FolderPlus, LayoutGrid, ExternalLink,
-  Home, Mail, Lock, Link as LinkIcon, GripVertical, Search,
+  Home, Mail, Lock, Link as LinkIcon, GripVertical, Search, Sparkles, Loader2,
 } from "lucide-react";
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
 import {
