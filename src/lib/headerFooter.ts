@@ -1,5 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
+import { useLocale } from "@/hooks/useLocale";
 
 export type FooterLink = { label: string; href?: string; to?: string };
 export type FooterColumn = { title: string; links: FooterLink[] };
@@ -77,9 +78,54 @@ function arr<T>(v: unknown): T[] {
   return Array.isArray(v) ? (v as T[]) : [];
 }
 
+/** Overlay Arabic (or any locale) translations onto the base row. */
+function applyOverlay(base: Record<string, unknown>, overlay: Record<string, unknown> | undefined) {
+  if (!overlay) return base;
+  const out: Record<string, unknown> = { ...base };
+  const textKeys = [
+    "header_brand_text",
+    "header_cta_label",
+    "footer_tagline",
+    "footer_copyright",
+  ];
+  for (const k of textKeys) {
+    if (typeof overlay[k] === "string" && (overlay[k] as string).length > 0) {
+      out[k] = overlay[k];
+    }
+  }
+  // footer_columns: array of { title, links: [{ label, ...}] }
+  const baseCols = arr<FooterColumn>(base.footer_columns);
+  const trCols = arr<Partial<FooterColumn>>(overlay.footer_columns);
+  if (trCols.length > 0) {
+    out.footer_columns = baseCols.map((c, i) => {
+      const t = trCols[i] ?? {};
+      const trLinks = arr<Partial<FooterLink>>(t.links);
+      return {
+        ...c,
+        title: (t.title as string) || c.title,
+        links: c.links.map((l, j) => ({
+          ...l,
+          label: (trLinks[j]?.label as string) || l.label,
+        })),
+      };
+    });
+  }
+  // mobile_menu_items
+  const baseMob = arr<MobileMenuItem>(base.mobile_menu_items);
+  const trMob = arr<Partial<MobileMenuItem>>(overlay.mobile_menu_items);
+  if (trMob.length > 0) {
+    out.mobile_menu_items = baseMob.map((m, i) => ({
+      ...m,
+      label: (trMob[i]?.label as string) || m.label,
+    }));
+  }
+  return out;
+}
+
 export function useHeaderFooter() {
+  const { locale } = useLocale();
   return useQuery({
-    queryKey: ["header-footer"],
+    queryKey: ["header-footer", locale],
     queryFn: async (): Promise<HeaderFooterSettings | null> => {
       const { data, error } = await supabase
         .from("header_footer_settings")
@@ -88,7 +134,10 @@ export function useHeaderFooter() {
         .maybeSingle();
       if (error) throw error;
       if (!data) return null;
-      const d = data as Record<string, unknown>;
+      const raw = data as Record<string, unknown>;
+      const translations = (raw.translations as Record<string, Record<string, unknown>>) ?? {};
+      const overlay = locale !== "en" ? translations[locale] : undefined;
+      const d = applyOverlay(raw, overlay);
       return {
         header_logo_url: (d.header_logo_url as string) ?? null,
         header_logo_dark_url: (d.header_logo_dark_url as string) ?? null,
