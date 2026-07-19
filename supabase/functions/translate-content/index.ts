@@ -19,7 +19,7 @@ Rules:
 - Preserve punctuation and structure. Do NOT add commentary.
 - Output ONLY valid minified JSON, no markdown fences.`;
 
-async function translateJson(input: unknown): Promise<any> {
+async function translateJson(input: unknown, attempt = 0): Promise<any> {
   const res = await fetch("https://ai.gateway.lovable.dev/v1/chat/completions", {
     method: "POST",
     headers: {
@@ -37,7 +37,12 @@ async function translateJson(input: unknown): Promise<any> {
   });
   if (!res.ok) {
     const t = await res.text();
-    throw new Error(`AI ${res.status}: ${t.slice(0, 300)}`);
+    // Retry on rate-limit / transient upstream
+    if ((res.status === 429 || res.status >= 500) && attempt < 2) {
+      await new Promise((r) => setTimeout(r, 1500 * (attempt + 1)));
+      return translateJson(input, attempt + 1);
+    }
+    throw new Error(`AI ${res.status}: ${t.slice(0, 200)}`);
   }
   const j = await res.json();
   const content = j?.choices?.[0]?.message?.content ?? "{}";
@@ -45,8 +50,23 @@ async function translateJson(input: unknown): Promise<any> {
     return JSON.parse(content);
   } catch {
     const cleaned = content.replace(/^```(?:json)?/i, "").replace(/```$/, "").trim();
-    return JSON.parse(cleaned);
+    try { return JSON.parse(cleaned); } catch { return {}; }
   }
+}
+
+async function mapWithConcurrency<T, R>(items: T[], limit: number, fn: (item: T) => Promise<R>): Promise<PromiseSettledResult<R>[]> {
+  const results: PromiseSettledResult<R>[] = new Array(items.length);
+  let i = 0;
+  async function worker() {
+    while (true) {
+      const idx = i++;
+      if (idx >= items.length) return;
+      try { results[idx] = { status: "fulfilled", value: await fn(items[idx]) }; }
+      catch (e) { results[idx] = { status: "rejected", reason: e }; }
+    }
+  }
+  await Promise.all(Array.from({ length: Math.min(limit, items.length) }, worker));
+  return results;
 }
 
 async function mergeAr(table: string, id: string, ar: any) {
@@ -159,20 +179,17 @@ Deno.serve(async (req) => {
     const { data: rows, error } = await query;
     if (error) throw error;
 
+    const list = (rows ?? []) as any[];
+    const settled = await mapWithConcurrency(list, 3, (row) => translateSection(row));
     let ok = 0, fail = 0;
     const errors: string[] = [];
-    for (const row of rows ?? []) {
-      try {
-        await translateSection(row as any);
-        ok++;
-      } catch (e) {
-        fail++;
-        errors.push(`${(row as any).id}: ${(e as Error).message}`);
-      }
-    }
+    settled.forEach((r, i) => {
+      if (r.status === "fulfilled") ok++;
+      else { fail++; errors.push(`${list[i].id}: ${(r.reason as Error)?.message ?? "error"}`); }
+    });
 
     return new Response(
-      JSON.stringify({ ok, fail, total: rows?.length ?? 0, errors: errors.slice(0, 10) }),
+      JSON.stringify({ ok, fail, total: list.length, errors: errors.slice(0, 10) }),
       { headers: { ...corsHeaders, "Content-Type": "application/json" } },
     );
   } catch (e) {

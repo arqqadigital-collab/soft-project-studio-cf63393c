@@ -47,7 +47,10 @@ export function PageBuilder({ pageId, pageSlug }: { pageId: string; pageSlug?: s
       const { data, error } = await supabase.functions.invoke("translate-content", {
         body: { mode: "page", pageId },
       });
-      if (error) throw error;
+      if (error) {
+        const detail = await (error as any)?.context?.text?.().catch(() => "");
+        throw new Error(detail || (error as Error).message || "Edge function error");
+      }
       const res = data as { ok: number; fail: number; total: number };
       toast.success(`Translated ${res.ok}/${res.total} sections${res.fail ? ` (${res.fail} failed)` : ""}`, { id: t });
       invalidate();
