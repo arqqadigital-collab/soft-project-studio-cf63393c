@@ -19,7 +19,9 @@ createRoot(document.getElementById("root")!).render(
     <HelmetProvider>
       <QueryClientProvider client={queryClient}>
         <BrowserRouter>
-          <App />
+          <LanguageProvider>
+            <App />
+          </LanguageProvider>
         </BrowserRouter>
       </QueryClientProvider>
     </HelmetProvider>
