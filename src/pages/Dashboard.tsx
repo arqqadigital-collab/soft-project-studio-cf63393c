@@ -12,6 +12,7 @@ import Taxonomy from "./dashboard/Taxonomy";
 import Users from "./dashboard/Users";
 import Analytics from "./dashboard/Analytics";
 import SettingsPage from "./dashboard/Settings";
+import BrandingPage from "./dashboard/Branding";
 import SeoDashboard from "./dashboard/SeoDashboard";
 import HomepageEditor from "./dashboard/HomepageEditor";
 import HeaderFooterEditor from "./dashboard/HeaderFooterEditor";
