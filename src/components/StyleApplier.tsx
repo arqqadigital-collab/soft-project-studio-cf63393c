@@ -13,6 +13,12 @@ export type StyleTokens = {
   btn_size?: string; // sm | md | lg
   btn_shadow?: string; // none | sm | md | lg
   btn_style?: string; // solid | outline | gradient
+  category_badge_visible?: boolean;
+  category_filters_visible?: boolean;
+  category_radius?: string;
+  category_style?: string; // soft | solid | outline
+  category_color?: string; // primary | green | accent | neutral
+  category_text_case?: string; // original | uppercase
 };
 
 export type StylePayload = {
@@ -65,6 +71,28 @@ function buildCss(t: StyleTokens): string {
     rules.push(`button.bg-primary:hover,a.bg-primary:hover{background:hsl(var(--primary)) !important;color:hsl(var(--primary-foreground)) !important;}`);
   } else if (t.btn_style === "gradient") {
     rules.push(`button.bg-primary,a.bg-primary{background:linear-gradient(135deg, hsl(var(--primary)), hsl(var(--accent))) !important;}`);
+  }
+
+  const categoryColor = {
+    primary: "hsl(var(--primary))",
+    green: "var(--brand-green)",
+    accent: "hsl(var(--accent))",
+    neutral: "hsl(var(--muted-foreground))",
+  }[t.category_color ?? "primary"] ?? "hsl(var(--primary))";
+  const categoryRadius = t.category_radius ?? "9999px";
+  const categoryCase = t.category_text_case === "original" ? "none" : "uppercase";
+  rules.push(`.listing-category{border-radius:${categoryRadius} !important;text-transform:${categoryCase} !important;}`);
+  rules.push(`.listing-category-filter{border-radius:${categoryRadius} !important;}`);
+  rules.push(`.listing-category-filter.bg-primary{background:${categoryColor} !important;color:hsl(var(--primary-foreground)) !important;border-color:${categoryColor} !important;}`);
+  rules.push(`.listing-category-filter:not(.bg-primary){color:${categoryColor} !important;}`);
+  if (t.category_badge_visible === false) rules.push(`.listing-category{display:none !important;}`);
+  if (t.category_filters_visible === false) rules.push(`.listing-category-filters{display:none !important;}`);
+  if (t.category_style === "solid") {
+    rules.push(`.listing-category{background:${categoryColor} !important;color:hsl(var(--primary-foreground)) !important;border:1px solid ${categoryColor} !important;}`);
+  } else if (t.category_style === "outline") {
+    rules.push(`.listing-category{background:transparent !important;color:${categoryColor} !important;border:1px solid ${categoryColor} !important;}`);
+  } else {
+    rules.push(`.listing-category{background:color-mix(in oklch, ${categoryColor} 12%, transparent) !important;color:${categoryColor} !important;border:1px solid transparent !important;}`);
   }
   return rules.join("\n");
 }

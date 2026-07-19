@@ -153,7 +153,7 @@ export default function Events() {
 
             {categories.length > 1 && (
               <motion.div
-                className="mt-10 flex flex-wrap items-center justify-center gap-3"
+                className="listing-category-filters mt-10 flex flex-wrap items-center justify-center gap-3"
                 initial={{ opacity: 0, y: 16 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.5, delay: 0.2 }}
@@ -163,7 +163,7 @@ export default function Events() {
                     key={cat}
                     type="button"
                     onClick={() => setActive(cat)}
-                    className={`rounded-full px-5 py-2 text-sm font-medium transition-colors ${
+                    className={`listing-category-filter rounded-full px-5 py-2 text-sm font-medium transition-colors ${
                       active === cat
                         ? "bg-primary text-primary-foreground"
                         : "border border-border bg-card text-card-foreground hover:bg-muted"
@@ -206,7 +206,7 @@ export default function Events() {
                     <Cover url={ev.cover_image_url} className="aspect-[16/10] w-full" />
                     <div className="flex flex-1 flex-col p-6">
                       <span
-                        className="w-fit rounded-full px-3 py-1 text-xs font-semibold uppercase tracking-wider"
+                        className="listing-category w-fit rounded-full px-3 py-1 text-xs font-semibold uppercase tracking-wider"
                         style={{ color: "var(--brand-blue)", background: "oklch(0.62 0.13 230 / 0.1)" }}
                       >
                         {labelType(ev.event_type)}
