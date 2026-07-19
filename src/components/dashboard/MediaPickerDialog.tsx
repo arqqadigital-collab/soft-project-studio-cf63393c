@@ -12,12 +12,14 @@ export function MediaPickerDialog({
 }) {
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="max-w-5xl">
+      <DialogContent className="max-w-5xl max-h-[90vh] flex flex-col overflow-hidden">
         <DialogHeader><DialogTitle>Choose an image</DialogTitle></DialogHeader>
-        <MediaGrid
-          filterType="image"
-          onPick={(m) => { onPick(m); onOpenChange(false); }}
-        />
+        <div className="flex-1 overflow-y-auto min-h-0 -mx-6 px-6">
+          <MediaGrid
+            filterType="image"
+            onPick={(m) => { onPick(m); onOpenChange(false); }}
+          />
+        </div>
       </DialogContent>
     </Dialog>
   );
