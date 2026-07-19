@@ -51,8 +51,9 @@ export function Header() {
   const [mobileOpen, setMobileOpen] = useState(false);
   
 
+  const location = useLocation();
   const sticky = settings?.header_sticky ?? true;
-  const isHome = typeof window !== "undefined" && window.location.pathname === "/";
+  const isHome = location.pathname === "/";
   const transparentOnHero = (settings?.header_transparent_on_hero ?? false) && isHome;
   const isTransparent = transparentOnHero && !scrolled;
 
