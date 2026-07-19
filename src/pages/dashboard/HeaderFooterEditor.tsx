@@ -82,14 +82,29 @@ export default function HeaderFooterEditor() {
 
   const set = (patch: any) => setForm((f: any) => ({ ...f, ...patch }));
 
+  const locales: { code: string; label: string; url?: string }[] = Array.isArray(form.header_locales) ? form.header_locales : [];
+  const mobileItems: { label: string; url: string }[] = Array.isArray(form.mobile_menu_items) ? form.mobile_menu_items : [];
+
   async function save() {
     const { error } = await supabase
       .from("header_footer_settings")
       .update({
         header_logo_url: form.header_logo_url,
+        header_logo_dark_url: form.header_logo_dark_url,
+        header_logo_height: Number(form.header_logo_height) || 56,
+        header_show_brand_text: !!form.header_show_brand_text,
+        header_brand_text: form.header_brand_text,
         header_cta_label: form.header_cta_label,
         header_cta_url: form.header_cta_url,
+        header_cta_variant: form.header_cta_variant || "gradient",
         header_show_menus: form.header_show_menus,
+        header_sticky: !!form.header_sticky,
+        header_transparent_on_hero: !!form.header_transparent_on_hero,
+        header_shadow_style: form.header_shadow_style || "soft",
+        header_show_locale_switcher: !!form.header_show_locale_switcher,
+        header_locales: locales,
+        mobile_menu_items: mobileItems,
+        mobile_show_social: form.mobile_show_social !== false,
         header_bg_color: form.header_bg_color,
         header_text_color: form.header_text_color,
         header_cta_bg_color: form.header_cta_bg_color,
