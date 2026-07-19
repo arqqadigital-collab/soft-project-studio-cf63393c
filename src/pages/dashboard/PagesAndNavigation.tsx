@@ -58,8 +58,22 @@ export default function PagesAndNavigation() {
   const [expanded, setExpanded] = useState<Record<string, boolean>>({});
   const [edit, setEdit] = useState<EditTarget | null>(null);
   const [activeDrag, setActiveDrag] = useState<{ kind: DragKind; label: string } | null>(null);
+  const [tab, setTab] = useState<"pages" | "navigation">("pages");
+  const [pageSearch, setPageSearch] = useState("");
 
   const groups = tree.data ?? [];
+
+  const allPages = useQuery({
+    queryKey: ["all-pages-flat"],
+    queryFn: async () => {
+      const { data, error } = await supabase
+        .from("pages")
+        .select("id,title,nav_label,route_path,status,page_kind,menu_column_id")
+        .order("title", { ascending: true });
+      if (error) throw error;
+      return data ?? [];
+    },
+  });
 
   function toggle(id: string) {
     setExpanded((s) => ({ ...s, [id]: !s[id] }));
