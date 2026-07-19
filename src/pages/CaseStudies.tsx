@@ -5,7 +5,7 @@ import { Link } from "react-router-dom";
 import { Footer } from "@/components/Footer";
 import { SeoHead } from "@/components/SeoHead";
 import { supabase } from "@/integrations/supabase/client";
-import { useListPageHero } from "@/hooks/use-list-page-hero";
+import { useCaseStudiesContent } from "@/lib/caseStudiesContent";
 
 type CaseStudyRow = {
   id: string;
@@ -54,7 +54,9 @@ function Cover({ url, className }: { url: string | null; className?: string }) {
 }
 
 export default function CaseStudies() {
-  const { data: hero } = useListPageHero("case-studies");
+  const content = useCaseStudiesContent();
+  const hero = content.Hero;
+  const heroVisible = content._visible.Hero;
   const [rows, setRows] = useState<CaseStudyRow[]>([]);
   const [loading, setLoading] = useState(true);
   const [active, setActive] = useState<string>("All");
@@ -96,7 +98,7 @@ export default function CaseStudies() {
         ogType="website"
       />
 
-      {hero?.is_visible !== false && (
+      {heroVisible && (
         <section className="relative overflow-hidden bg-background pb-16 pt-32 md:pb-24 md:pt-40">
           <div className="mx-auto max-w-7xl px-6">
             <motion.div
