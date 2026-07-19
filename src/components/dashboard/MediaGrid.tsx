@@ -672,13 +672,25 @@ function MediaDetailsDialog({
             </div>
           </div>
         </div>
-        <DialogFooter className="flex justify-between sm:justify-between">
+        <DialogFooter className="flex flex-wrap justify-between gap-2 sm:justify-between">
           {builtin ? (
             <span className="text-xs text-muted-foreground">Built-in asset — cannot be modified</span>
           ) : (
             <Button variant="destructive" onClick={del}><Trash2 className="mr-1 h-4 w-4" /> Delete</Button>
           )}
-          <div className="flex gap-2">
+          <div className="flex flex-wrap gap-2">
+            {!builtin && (
+              <label>
+                <input
+                  type="file"
+                  className="sr-only"
+                  onChange={(e) => e.target.files?.[0] && replaceFile(e.target.files[0])}
+                />
+                <Button asChild variant="outline" disabled={replacing}>
+                  <span><RefreshCw className="mr-1 h-4 w-4" /> {replacing ? "Replacing…" : "Replace file"}</span>
+                </Button>
+              </label>
+            )}
             <Button variant="outline" onClick={() => onOpenChange(false)}><X className="mr-1 h-4 w-4" /> Close</Button>
             <Button onClick={save} disabled={saving || builtin}>{saving ? "Saving…" : "Save"}</Button>
           </div>
