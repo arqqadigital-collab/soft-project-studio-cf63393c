@@ -1,4 +1,5 @@
 import { createContext, useContext, useEffect, useMemo, useState, type ReactNode } from "react";
+import { useLocation } from "react-router-dom";
 import i18n, { isRTL, normalizeLocale, type Locale } from "./index";
 
 type LanguageContextValue = {
@@ -10,8 +11,22 @@ type LanguageContextValue = {
 
 const LanguageContext = createContext<LanguageContextValue | null>(null);
 
+// Routes where we always force LTR regardless of locale (admin/auth surfaces).
+function isForcedLtrPath(pathname: string) {
+  return (
+    pathname === "/dashboard" ||
+    pathname.startsWith("/dashboard/") ||
+    pathname === "/admin" ||
+    pathname === "/login" ||
+    pathname === "/set-password" ||
+    pathname === "/reset-password" ||
+    pathname === "/accept-invite"
+  );
+}
+
 export function LanguageProvider({ children }: { children: ReactNode }) {
   const [locale, setLocaleState] = useState<Locale>(() => normalizeLocale(i18n.language));
+  const { pathname } = useLocation();
 
   useEffect(() => {
     const onChanged = (lng: string) => setLocaleState(normalizeLocale(lng));
@@ -22,11 +37,13 @@ export function LanguageProvider({ children }: { children: ReactNode }) {
   }, []);
 
   useEffect(() => {
-    const dir = isRTL(locale) ? "rtl" : "ltr";
+    const forceLtr = isForcedLtrPath(pathname);
+    const dir = !forceLtr && isRTL(locale) ? "rtl" : "ltr";
     document.documentElement.setAttribute("lang", locale);
     document.documentElement.setAttribute("dir", dir);
     document.documentElement.classList.toggle("rtl", dir === "rtl");
-  }, [locale]);
+  }, [locale, pathname]);
+
 
   const value = useMemo<LanguageContextValue>(
     () => ({
