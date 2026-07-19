@@ -27,6 +27,7 @@ interface Row {
   slug: string;
   description?: string | null;
   parent_id?: string | null;
+  translations?: { ar?: { name?: string; description?: string } } | null;
 }
 
 export default function Taxonomy() {
@@ -55,6 +56,7 @@ export default function Taxonomy() {
 function TermsPanel({ kind, hasExtras }: { kind: Kind; hasExtras: boolean }) {
   const qc = useQueryClient();
   const [name, setName] = useState("");
+  const [nameAr, setNameAr] = useState("");
   const [slug, setSlug] = useState("");
   const [description, setDescription] = useState("");
   const [parentId, setParentId] = useState<string | null>(null);
@@ -64,7 +66,7 @@ function TermsPanel({ kind, hasExtras }: { kind: Kind; hasExtras: boolean }) {
   const list = useQuery({
     queryKey: [kind],
     queryFn: async () => {
-      const cols = hasExtras ? "id, name, slug, description, parent_id" : "id, name, slug";
+      const cols = hasExtras ? "id, name, slug, description, parent_id, translations" : "id, name, slug, translations";
       const { data, error } = await supabase.from(kind).select(cols).order("name");
       if (error) throw error;
       return (data ?? []) as unknown as Row[];
@@ -90,13 +92,14 @@ function TermsPanel({ kind, hasExtras }: { kind: Kind; hasExtras: boolean }) {
   });
 
   function resetForm() {
-    setName(""); setSlug(""); setDescription(""); setParentId(null);
+    setName(""); setNameAr(""); setSlug(""); setDescription(""); setParentId(null);
     setEditing(null); setSlugTouched(false);
   }
 
   function startEdit(r: Row) {
     setEditing(r);
     setName(r.name);
+    setNameAr(r.translations?.ar?.name ?? "");
     setSlug(r.slug);
     setDescription(r.description ?? "");
     setParentId(r.parent_id ?? null);
@@ -108,6 +111,8 @@ function TermsPanel({ kind, hasExtras }: { kind: Kind; hasExtras: boolean }) {
       const finalSlug = (slug || toSlug(name)).trim();
       if (!name.trim() || !finalSlug) throw new Error("Name and slug required");
       const payload: any = { name: name.trim(), slug: finalSlug };
+      const ar = nameAr.trim();
+      payload.translations = ar ? { ar: { name: ar } } : {};
       if (hasExtras) {
         payload.description = description.trim() || null;
         payload.parent_id = parentId;
@@ -152,13 +157,22 @@ function TermsPanel({ kind, hasExtras }: { kind: Kind; hasExtras: boolean }) {
         </CardHeader>
         <CardContent className="space-y-3">
           <div className="space-y-1.5">
-            <Label className="text-xs">Name</Label>
+            <Label className="text-xs">Name (English)</Label>
             <Input
               value={name}
               onChange={(e) => {
                 setName(e.target.value);
                 if (!slugTouched) setSlug(toSlug(e.target.value));
               }}
+            />
+          </div>
+          <div className="space-y-1.5">
+            <Label className="text-xs">الاسم (Arabic)</Label>
+            <Input
+              dir="rtl"
+              value={nameAr}
+              onChange={(e) => setNameAr(e.target.value)}
+              placeholder="مثال: الرعاية الصحية"
             />
           </div>
           <div className="space-y-1.5">
