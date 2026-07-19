@@ -92,13 +92,14 @@ function TermsPanel({ kind, hasExtras }: { kind: Kind; hasExtras: boolean }) {
   });
 
   function resetForm() {
-    setName(""); setSlug(""); setDescription(""); setParentId(null);
+    setName(""); setNameAr(""); setSlug(""); setDescription(""); setParentId(null);
     setEditing(null); setSlugTouched(false);
   }
 
   function startEdit(r: Row) {
     setEditing(r);
     setName(r.name);
+    setNameAr(r.translations?.ar?.name ?? "");
     setSlug(r.slug);
     setDescription(r.description ?? "");
     setParentId(r.parent_id ?? null);
@@ -110,6 +111,8 @@ function TermsPanel({ kind, hasExtras }: { kind: Kind; hasExtras: boolean }) {
       const finalSlug = (slug || toSlug(name)).trim();
       if (!name.trim() || !finalSlug) throw new Error("Name and slug required");
       const payload: any = { name: name.trim(), slug: finalSlug };
+      const ar = nameAr.trim();
+      payload.translations = ar ? { ar: { name: ar } } : {};
       if (hasExtras) {
         payload.description = description.trim() || null;
         payload.parent_id = parentId;
