@@ -89,20 +89,31 @@ type JourneyStep = { icon: string; title: string; description: string; image: st
 
 function ExpandingJourney({ steps }: { steps: JourneyStep[] }) {
   const [active, setActive] = useState(0);
+  const [isDesktop, setIsDesktop] = useState(false);
+  useEffect(() => {
+    const mq = window.matchMedia("(min-width: 768px)");
+    const onChange = () => setIsDesktop(mq.matches);
+    onChange();
+    mq.addEventListener("change", onChange);
+    return () => mq.removeEventListener("change", onChange);
+  }, []);
   return (
     <div className="mt-14 flex flex-col gap-3 md:flex-row md:gap-4 md:h-[520px]">
       {steps.map((step, i) => {
         const Icon = iconFor(step.icon);
         const isActive = active === i;
+        // On mobile every card is fully expanded; on desktop we animate flexGrow.
+        const mobileExpanded = !isDesktop;
+        const showExpanded = isActive || mobileExpanded;
         return (
           <motion.div
             key={step.title}
-            onMouseEnter={() => setActive(i)}
+            onMouseEnter={() => isDesktop && setActive(i)}
             onClick={() => setActive(i)}
-            animate={{ flexGrow: isActive ? 4 : 1 }}
+            animate={isDesktop ? { flexGrow: isActive ? 4 : 1 } : { flexGrow: 1 }}
             transition={{ duration: 0.55, ease: [0.4, 0, 0.2, 1] }}
-            className={`group relative cursor-pointer overflow-hidden rounded-3xl border border-border bg-card/70 md:h-full ${isActive ? 'md:p-8' : 'md:p-4'}`}
-            style={{ flexBasis: 0, minWidth: 0 }}
+            className={`group relative cursor-pointer overflow-hidden rounded-3xl border border-border bg-card/70 min-h-[360px] md:min-h-0 md:h-full ${showExpanded ? 'md:p-8' : 'md:p-4'}`}
+            style={{ flexBasis: isDesktop ? 0 : "auto", minWidth: 0 }}
           >
             <div
               className="absolute inset-0 bg-cover bg-center bg-no-repeat transition-transform duration-700 group-hover:scale-105"
@@ -110,32 +121,32 @@ function ExpandingJourney({ steps }: { steps: JourneyStep[] }) {
               aria-hidden="true"
             />
             <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(5,12,24,0.35)_0%,rgba(5,12,24,0.72)_48%,rgba(5,12,24,0.94)_100%)]" aria-hidden="true" />
-            <div className={`relative flex h-full min-h-[320px] flex-col ${isActive ? 'p-7' : 'p-4'}`}>
+            <div className={`relative flex h-full min-h-[320px] flex-col ${showExpanded ? 'p-6 md:p-7' : 'p-4'}`}>
               <div
-                className="flex h-14 w-14 items-center justify-center rounded-2xl text-white shadow-[var(--shadow-brand)]"
+                className="flex h-12 w-12 items-center justify-center rounded-2xl text-white shadow-[var(--shadow-brand)] md:h-14 md:w-14"
                 style={{ background: "var(--gradient-brand)" }}
               >
-                <Icon className="h-7 w-7" />
+                <Icon className="h-6 w-6 md:h-7 md:w-7" />
               </div>
 
-              <div className="mt-6 flex h-[calc(100%-3.5rem)] flex-col">
+              <div className="mt-6 flex flex-1 flex-col">
                 <motion.div
-                  animate={{ opacity: isActive ? 1 : 0 }}
-                  transition={{ duration: 0.3, delay: isActive ? 0.25 : 0 }}
+                  animate={{ opacity: showExpanded ? 1 : 0 }}
+                  transition={{ duration: 0.3, delay: showExpanded ? 0.25 : 0 }}
                   className="flex-1"
                 >
-                  {isActive && (
+                  {showExpanded && (
                     <>
                       <div className="text-xs font-bold uppercase tracking-[0.2em] text-white/70">
                         Step {i + 1}
                       </div>
-                      <h3 className="mt-2 text-2xl font-bold text-white md:text-3xl">{step.title}</h3>
-                      <p className="mt-4 max-w-md text-base leading-relaxed text-white/85">{step.description}</p>
+                      <h3 className="mt-2 text-xl font-bold text-white md:text-3xl">{step.title}</h3>
+                      <p className="mt-3 max-w-md text-sm leading-relaxed text-white/85 md:mt-4 md:text-base">{step.description}</p>
                     </>
                   )}
                 </motion.div>
 
-                {!isActive && (
+                {!showExpanded && (
                   <div className="mt-auto">
                     <div className="text-[10px] font-bold uppercase tracking-[0.2em] text-white/65">
                       Step {i + 1}
@@ -583,19 +594,19 @@ export function SecretaProductLayout({ content }: { content: any }) {
             </p>
           )}
 
-          <div className="mt-12 flex flex-col items-center justify-center gap-4 sm:flex-row">
+          <div className="mt-10 flex flex-col items-stretch justify-center gap-3 sm:mt-12 sm:flex-row sm:items-center sm:gap-4">
             <a
               href={finalCta.primaryHref}
-              className="inline-flex items-center gap-3 rounded-full px-10 py-5 text-base font-semibold text-white shadow-[var(--shadow-brand)] transition-transform hover:scale-105"
+              className="inline-flex items-center justify-center gap-2 rounded-full px-6 py-3 text-sm font-semibold text-white shadow-[var(--shadow-brand)] transition-transform hover:scale-105 sm:gap-3 sm:px-10 sm:py-5 sm:text-base"
               style={{ background: "var(--gradient-brand)" }}
             >
               {finalCta.primaryLabel}
-              <ArrowRight className="h-5 w-5" />
+              <ArrowRight className="h-4 w-4 sm:h-5 sm:w-5" />
             </a>
             {finalCta.secondaryLabel && (
               <a
                 href={finalCta.secondaryHref}
-                className="inline-flex items-center gap-3 rounded-full border border-white/30 bg-white/5 px-10 py-5 text-base font-semibold text-white backdrop-blur transition-colors hover:bg-white/15"
+                className="inline-flex items-center justify-center gap-2 rounded-full border border-white/30 bg-white/5 px-6 py-3 text-sm font-semibold text-white backdrop-blur transition-colors hover:bg-white/15 sm:gap-3 sm:px-10 sm:py-5 sm:text-base"
               >
                 {finalCta.secondaryLabel}
               </a>
