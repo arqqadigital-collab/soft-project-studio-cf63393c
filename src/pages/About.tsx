@@ -253,7 +253,7 @@ export default function About() {
                 {cta.primaryLabel && cta.primaryHref && (
                   <Link
                     to={cta.primaryHref}
-                    className="inline-flex items-center gap-3 rounded-full px-10 py-5 text-base font-semibold text-white shadow-[var(--shadow-brand)] transition-transform hover:scale-105"
+                    className="inline-flex items-center gap-3 rounded-full px-6 py-3 text-sm font-semibold sm:px-10 sm:py-5 sm:text-base text-white shadow-[var(--shadow-brand)] transition-transform hover:scale-105"
                     style={{ background: "var(--gradient-brand)" }}
                   >
                     {cta.primaryLabel}

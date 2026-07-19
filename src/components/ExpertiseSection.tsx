@@ -52,7 +52,7 @@ export function ExpertiseSection() {
             </h3>
             <a
               href={c.overlay_cta_href}
-              className="mt-6 inline-flex items-center gap-3 rounded-full px-8 py-4 text-sm font-semibold text-white shadow-[var(--shadow-brand)] transition-transform hover:scale-105 md:mt-8 md:text-base"
+              className="mt-6 inline-flex items-center gap-3 rounded-full px-6 py-3 text-sm font-semibold sm:px-8 sm:py-4 text-white shadow-[var(--shadow-brand)] transition-transform hover:scale-105 md:mt-8 md:text-base"
               style={{ background: "var(--gradient-brand)" }}
             >
               {c.overlay_cta_label}

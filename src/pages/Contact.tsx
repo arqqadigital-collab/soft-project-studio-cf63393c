@@ -155,7 +155,7 @@ export default function Contact() {
           <div className="mt-8 flex justify-center">
             <a
               href={page?.hero_cta_href || "#contact-form"}
-              className="inline-flex items-center gap-3 rounded-full px-8 py-4 text-sm font-semibold text-white shadow-[var(--shadow-brand)] transition-transform hover:scale-105"
+              className="inline-flex items-center gap-3 rounded-full px-6 py-3 text-sm font-semibold sm:px-8 sm:py-4 text-white shadow-[var(--shadow-brand)] transition-transform hover:scale-105"
               style={{ background: "var(--gradient-brand)" }}
             >
               {page?.hero_cta_label ?? "Request a Consultation"}
@@ -256,7 +256,7 @@ export default function Contact() {
             <button
               type="submit"
               disabled={submitting}
-              className="mt-8 inline-flex items-center gap-3 rounded-full px-8 py-4 text-sm font-semibold text-white shadow-[var(--shadow-brand)] transition-transform hover:scale-105 disabled:opacity-60"
+              className="mt-8 inline-flex items-center gap-3 rounded-full px-6 py-3 text-sm font-semibold sm:px-8 sm:py-4 text-white shadow-[var(--shadow-brand)] transition-transform hover:scale-105 disabled:opacity-60"
               style={{ background: "var(--gradient-brand)" }}
             >
               {submitting ? "Sending…" : (page?.form_submit_label ?? "Contact Us")}

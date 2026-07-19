@@ -186,7 +186,7 @@ export default function LIS() {
                   {hero.ctaLabel && (
                     <a
                       href={hero.ctaHref || "#contact"}
-                      className="inline-flex items-center gap-2 rounded-full px-8 py-4 text-sm font-semibold text-white shadow-[var(--shadow-brand)] transition-transform hover:scale-105"
+                      className="inline-flex items-center gap-2 rounded-full px-6 py-3 text-sm font-semibold sm:px-8 sm:py-4 text-white shadow-[var(--shadow-brand)] transition-transform hover:scale-105"
                       style={{ background: "var(--gradient-brand)" }}
                     >
                       {hero.ctaLabel} <ArrowRight className="h-4 w-4" />
@@ -195,7 +195,7 @@ export default function LIS() {
                   {hero.ctaLabel2 && (
                     <a
                       href={hero.ctaHref2 || "#contact"}
-                      className="inline-flex items-center gap-2 rounded-full border border-white/30 bg-white/5 px-8 py-4 text-sm font-semibold text-white backdrop-blur transition-colors hover:bg-white/15"
+                      className="inline-flex items-center gap-2 rounded-full border border-white/30 bg-white/5 px-6 py-3 text-sm font-semibold sm:px-8 sm:py-4 text-white backdrop-blur transition-colors hover:bg-white/15"
                     >
                       {hero.ctaLabel2}
                     </a>
@@ -504,7 +504,7 @@ export default function LIS() {
               {cta.primaryLabel && (
                 <a
                   href={cta.primaryHref || "#"}
-                  className="inline-flex items-center gap-3 rounded-full px-10 py-5 text-base font-semibold text-white shadow-[var(--shadow-brand)] transition-transform hover:scale-105"
+                  className="inline-flex items-center gap-3 rounded-full px-6 py-3 text-sm font-semibold sm:px-10 sm:py-5 sm:text-base text-white shadow-[var(--shadow-brand)] transition-transform hover:scale-105"
                   style={{ background: "var(--gradient-brand)" }}
                 >
                   {cta.primaryLabel} <ArrowRight className="h-5 w-5" />
@@ -513,7 +513,7 @@ export default function LIS() {
               {cta.secondaryLabel && (
                 <a
                   href={cta.secondaryHref || "#"}
-                  className="inline-flex items-center gap-3 rounded-full border border-white/30 bg-white/5 px-10 py-5 text-base font-semibold text-white backdrop-blur transition-colors hover:bg-white/15"
+                  className="inline-flex items-center gap-3 rounded-full border border-white/30 bg-white/5 px-6 py-3 text-sm font-semibold sm:px-10 sm:py-5 sm:text-base text-white backdrop-blur transition-colors hover:bg-white/15"
                 >
                   {cta.secondaryLabel}
                 </a>

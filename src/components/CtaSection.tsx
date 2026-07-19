@@ -54,7 +54,7 @@ export function CtaSection() {
               <textarea placeholder="Tell us about your project..." value={form.message} onChange={(e) => setForm({ ...form, message: e.target.value })} maxLength={1000} required rows={5} className="w-full resize-none rounded-3xl border border-border bg-background px-5 py-4 text-sm text-foreground outline-none transition focus:border-[var(--brand-blue)]" />
             </Field>
           </div>
-          <button type="submit" className="mt-8 inline-flex items-center gap-3 rounded-full px-8 py-4 text-sm font-semibold text-white shadow-[var(--shadow-brand)] transition-transform hover:scale-105" style={{ background: "var(--gradient-brand)" }}>
+          <button type="submit" className="mt-8 inline-flex items-center gap-3 rounded-full px-6 py-3 text-sm font-semibold sm:px-8 sm:py-4 text-white shadow-[var(--shadow-brand)] transition-transform hover:scale-105" style={{ background: "var(--gradient-brand)" }}>
             Send Message
             <Send className="h-4 w-4" />
           </button>
