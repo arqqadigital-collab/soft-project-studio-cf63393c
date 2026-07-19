@@ -98,7 +98,7 @@ export default function CaseStudies() {
         ogType="website"
       />
 
-      {hero?.is_visible !== false && (
+      {heroVisible && (
         <section className="relative overflow-hidden bg-background pb-16 pt-32 md:pb-24 md:pt-40">
           <div className="mx-auto max-w-7xl px-6">
             <motion.div
