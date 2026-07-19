@@ -276,7 +276,7 @@ Deno.serve(async (req) => {
   try {
     await requireAdmin(req);
     const body = await req.json().catch(() => ({}));
-    const mode = body?.mode as "page" | "all_pages" | "header_footer" | "menus" | "homepage" | "raw";
+    const mode = body?.mode as "page" | "all_pages" | "header_footer" | "menus" | "homepage" | "raw" | "contact";
 
     if (mode === "raw") {
       const src = body?.payload ?? {};
