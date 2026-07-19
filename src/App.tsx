@@ -4,6 +4,7 @@ import { BrandingApplier } from "@/components/BrandingApplier";
 import { AuthProvider } from "@/hooks/use-auth";
 import { ProtectedRoute } from "@/components/ProtectedRoute";
 import Login from "./pages/Login";
+import SetPassword from "./pages/SetPassword";
 import Dashboard from "./pages/Dashboard";
 import AdminRedirect from "./pages/AdminRedirect";
 import Index from "./pages/Index";
@@ -129,6 +130,9 @@ export default function App() {
         <Route path="/preview/:kind/:id" element={<PublicPreview />} />
         <Route path="/contact" element={<Contact />} />
         <Route path="/login" element={<Login />} />
+        <Route path="/set-password" element={<SetPassword />} />
+        <Route path="/reset-password" element={<SetPassword />} />
+        <Route path="/accept-invite" element={<SetPassword />} />
         <Route path="/admin" element={<AdminRedirect />} />
         <Route
           path="/dashboard/*"

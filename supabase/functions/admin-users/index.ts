@@ -106,9 +106,15 @@ Deno.serve(async (req) => {
     }
 
     if (action === 'invite') {
-      const { email, role } = body;
+      const { email, role, redirect_to } = body;
       if (!email || typeof email !== 'string') return jsonResponse({ error: 'email required' }, 400);
-      const { data, error } = await admin.auth.admin.inviteUserByEmail(email);
+      const origin = req.headers.get('origin') || req.headers.get('referer') || '';
+      const base = (redirect_to || origin || '').replace(/\/$/, '');
+      const redirectTo = base ? `${base}/set-password` : undefined;
+      const { data, error } = await admin.auth.admin.inviteUserByEmail(
+        email,
+        redirectTo ? { redirectTo } : undefined,
+      );
       if (error) throw error;
       if (data.user && role) {
         await admin.from('user_roles').upsert({ user_id: data.user.id, role }, { onConflict: 'user_id,role' });
