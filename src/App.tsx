@@ -81,6 +81,7 @@ export default function App() {
 
   return (
     <AuthProvider>
+      <BrandingApplier />
       {!hideHeader && <Header />}
       <Routes>
         <Route path="/" element={<Index />} />
