@@ -96,7 +96,7 @@ function MegaPanel({ menu }: { menu: Menu }) {
           );
         })}
       </div>
-      <div className="p-3">
+      <div className="p-3 rtl:order-1">
         {active && active.items.length > 0 ? (
           <div className="space-y-1">
             <div className="px-3 pb-2 pt-1 text-xs font-semibold uppercase tracking-wider text-white/40">
