@@ -196,16 +196,20 @@ function merge<T>(base: T, over: any): T {
 }
 
 export function useSectionContent<K extends SectionKey>(key: K): SectionContent<K> {
+  const { locale } = useLocale();
   const { data } = useQuery({
-    queryKey: ["homepage-section", key],
+    queryKey: ["homepage-section", key, locale],
     queryFn: async () => {
       const { data, error } = await supabase
         .from("homepage_sections")
-        .select("content")
+        .select("content, translations")
         .eq("section_key", key)
         .maybeSingle();
       if (error) throw error;
-      return (data?.content ?? {}) as any;
+      const base = (data?.content ?? {}) as any;
+      const translations = (data?.translations ?? {}) as Record<string, any>;
+      const overlay = locale !== "en" ? translations?.[locale] ?? null : null;
+      return overlay ? merge(base, overlay) : base;
     },
   });
   return merge(DEFAULTS[key] as any, data ?? {});
