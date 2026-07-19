@@ -1,12 +1,13 @@
 import { useState, useMemo } from "react";
 import { useNavigate } from "react-router-dom";
-import { useQueryClient } from "@tanstack/react-query";
+import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { toast } from "sonner";
 import {
   Plus, Trash2, Pencil, ChevronDown, ChevronRight, FileText,
   Eye, EyeOff, FolderPlus, LayoutGrid, ExternalLink,
-  Home, Mail, Lock, Link as LinkIcon, GripVertical,
+  Home, Mail, Lock, Link as LinkIcon, GripVertical, Search,
 } from "lucide-react";
+import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
 import {
   DndContext,
   DragOverlay,
