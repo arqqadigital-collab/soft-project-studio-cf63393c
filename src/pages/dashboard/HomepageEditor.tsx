@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { toast } from "sonner";
-import { Save, Image as ImageIcon, ExternalLink, Eye, EyeOff } from "lucide-react";
+import { Save, Image as ImageIcon, ExternalLink, Eye, EyeOff, Sparkles, Loader2, Languages } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -90,9 +90,14 @@ function ColorField({
 export default function HomepageEditor() {
   const qc = useQueryClient();
   const [form, setForm] = useState<HeroForm>(EMPTY);
+  const [arForm, setArForm] = useState<Pick<HeroForm, "heading_line1" | "heading_line2" | "subheadline" | "cta_label">>({
+    heading_line1: "", heading_line2: "", subheadline: "", cta_label: "",
+  });
+  const [lang, setLang] = useState<"en" | "ar">("en");
   const [rowId, setRowId] = useState<string | null>(null);
   const [heroVisible, setHeroVisible] = useState(true);
   const [saving, setSaving] = useState(false);
+  const [translating, setTranslating] = useState(false);
   const [pickerOpen, setPickerOpen] = useState(false);
 
   const { data, isLoading } = useQuery({
@@ -133,23 +138,37 @@ export default function HomepageEditor() {
         text_align: (d.text_align ?? "center") as Align,
         vertical_position: (d.vertical_position ?? "center") as VPos,
       });
+      const ar = (d.translations?.ar ?? {}) as any;
+      setArForm({
+        heading_line1: ar.heading_line1 ?? "",
+        heading_line2: ar.heading_line2 ?? "",
+        subheadline: ar.subheadline ?? "",
+        cta_label: ar.cta_label ?? "",
+      });
     }
   }, [data]);
 
   function patch<K extends keyof HeroForm>(key: K, value: HeroForm[K]) {
     setForm((f) => ({ ...f, [key]: value }));
   }
+  function patchAr<K extends keyof typeof arForm>(key: K, value: string) {
+    setArForm((f) => ({ ...f, [key]: value }));
+  }
 
   async function save() {
     if (!rowId) return;
     setSaving(true);
     try {
+      const existingTranslations = ((data as any)?.translations ?? {}) as Record<string, any>;
+      const arClean = Object.fromEntries(Object.entries(arForm).filter(([, v]) => (v ?? "").toString().trim() !== ""));
+      const translations = { ...existingTranslations, ar: { ...(existingTranslations.ar ?? {}), ...arClean } };
       const { error } = await supabase
         .from("homepage_hero")
         .update({
           ...form,
           is_visible: heroVisible,
           background_url: form.background_url || null,
+          translations,
         })
         .eq("id", rowId);
       if (error) throw error;
@@ -163,6 +182,33 @@ export default function HomepageEditor() {
     }
   }
 
+  async function translateHomepage(missingOnly: boolean) {
+    const msg = missingOnly
+      ? "Translate homepage hero + sections that are missing Arabic?"
+      : "Auto-translate the entire homepage (hero + all sections) to Arabic? This OVERWRITES existing Arabic content.";
+    if (!confirm(msg)) return;
+    setTranslating(true);
+    const t = toast.loading("Translating homepage to Arabic…");
+    try {
+      const { data: res, error } = await supabase.functions.invoke("translate-content", {
+        body: { mode: "homepage", missingOnly },
+      });
+      if (error) {
+        const detail = await (error as any)?.context?.text?.().catch(() => "");
+        throw new Error(detail || (error as Error).message || "Edge function error");
+      }
+      const r = res as { ok: number; fail: number; total: number };
+      toast.success(`Translated ${r.ok}/${r.total}${r.fail ? ` (${r.fail} failed)` : ""}`, { id: t });
+      qc.invalidateQueries({ queryKey: ["homepage-hero"] });
+      qc.invalidateQueries({ queryKey: ["homepage-hero-public"] });
+      qc.invalidateQueries({ predicate: (q) => Array.isArray(q.queryKey) && String(q.queryKey[0]).startsWith("homepage-section") });
+    } catch (e: any) {
+      toast.error(e?.message ?? "Translation failed", { id: t });
+    } finally {
+      setTranslating(false);
+    }
+  }
+
   if (isLoading) return <div className="text-sm text-muted-foreground">Loading…</div>;
 
   return (
@@ -172,11 +218,19 @@ export default function HomepageEditor() {
           <h1 className="text-2xl font-semibold">Homepage</h1>
           <p className="text-sm text-muted-foreground">Edit the hero section shown at the top of the home page.</p>
         </div>
-        <div className="flex gap-2">
+        <div className="flex flex-wrap gap-2">
           <Button asChild variant="outline" size="sm">
             <a href="/" target="_blank" rel="noreferrer">
               <ExternalLink className="mr-1 h-4 w-4" /> View live
             </a>
+          </Button>
+          <Button variant="outline" size="sm" onClick={() => translateHomepage(true)} disabled={translating}>
+            {translating ? <Loader2 className="mr-1 h-4 w-4 animate-spin" /> : <Sparkles className="mr-1 h-4 w-4" />}
+            Fill missing AR
+          </Button>
+          <Button variant="outline" size="sm" onClick={() => translateHomepage(false)} disabled={translating}>
+            {translating ? <Loader2 className="mr-1 h-4 w-4 animate-spin" /> : <Sparkles className="mr-1 h-4 w-4" />}
+            Translate to Arabic
           </Button>
           <Button size="sm" onClick={save} disabled={saving}>
             <Save className="mr-1 h-4 w-4" /> Save
@@ -212,7 +266,23 @@ export default function HomepageEditor() {
             </TabsContent>
           ))}
           <TabsContent value="hero" className="mt-3">
-      <div className="mb-3 flex justify-end">
+      <div className="mb-3 flex items-center justify-between gap-2">
+        <div className="inline-flex overflow-hidden rounded-md border">
+          <button
+            type="button"
+            onClick={() => setLang("en")}
+            className={`inline-flex items-center gap-1 px-3 py-1.5 text-xs font-semibold ${lang === "en" ? "bg-primary text-primary-foreground" : "bg-background hover:bg-muted"}`}
+          >
+            <Languages className="h-3.5 w-3.5" /> EN
+          </button>
+          <button
+            type="button"
+            onClick={() => setLang("ar")}
+            className={`inline-flex items-center gap-1 border-s border-border px-3 py-1.5 text-xs font-semibold ${lang === "ar" ? "bg-primary text-primary-foreground" : "bg-background hover:bg-muted"}`}
+          >
+            AR — العربية
+          </button>
+        </div>
         <Button variant="outline" size="sm" onClick={() => setHeroVisible((v) => !v)}>
           {heroVisible ? <><Eye className="mr-1 h-4 w-4" /> Hero visible</> : <><EyeOff className="mr-1 h-4 w-4" /> Hero hidden</>}
         </Button>
@@ -220,19 +290,32 @@ export default function HomepageEditor() {
       <div className={`grid gap-4 lg:grid-cols-[1fr_340px] ${heroVisible ? "" : "opacity-60"}`}>
         <div className="space-y-4">
           <Card>
-            <CardHeader className="pb-3"><CardTitle className="text-sm">Text content</CardTitle></CardHeader>
+            <CardHeader className="pb-3"><CardTitle className="text-sm">
+              Text content {lang === "ar" ? "— العربية" : ""}
+            </CardTitle></CardHeader>
             <CardContent className="space-y-3">
+              {lang === "ar" && (
+                <p className="rounded-md border border-dashed p-2 text-xs text-muted-foreground">
+                  Leave a field empty to fall back to the English value on the live site.
+                </p>
+              )}
               <div className="space-y-1.5">
                 <Label className="text-xs">Line 1</Label>
-                <Input value={form.heading_line1} onChange={(e) => patch("heading_line1", e.target.value)} />
+                {lang === "en"
+                  ? <Input value={form.heading_line1} onChange={(e) => patch("heading_line1", e.target.value)} />
+                  : <Input dir="rtl" value={arForm.heading_line1} onChange={(e) => patchAr("heading_line1", e.target.value)} placeholder={form.heading_line1} />}
               </div>
               <div className="space-y-1.5">
                 <Label className="text-xs">Line 2 (gradient)</Label>
-                <Input value={form.heading_line2} onChange={(e) => patch("heading_line2", e.target.value)} />
+                {lang === "en"
+                  ? <Input value={form.heading_line2} onChange={(e) => patch("heading_line2", e.target.value)} />
+                  : <Input dir="rtl" value={arForm.heading_line2} onChange={(e) => patchAr("heading_line2", e.target.value)} placeholder={form.heading_line2} />}
               </div>
               <div className="space-y-1.5">
                 <Label className="text-xs">Subheadline</Label>
-                <Textarea value={form.subheadline} onChange={(e) => patch("subheadline", e.target.value)} rows={3} />
+                {lang === "en"
+                  ? <Textarea value={form.subheadline} onChange={(e) => patch("subheadline", e.target.value)} rows={3} />
+                  : <Textarea dir="rtl" value={arForm.subheadline} onChange={(e) => patchAr("subheadline", e.target.value)} rows={3} placeholder={form.subheadline} />}
               </div>
             </CardContent>
           </Card>
@@ -295,7 +378,9 @@ export default function HomepageEditor() {
             <CardContent className="space-y-3">
               <div className="space-y-1.5">
                 <Label className="text-xs">Button label</Label>
-                <Input value={form.cta_label} onChange={(e) => patch("cta_label", e.target.value)} />
+                {lang === "en"
+                  ? <Input value={form.cta_label} onChange={(e) => patch("cta_label", e.target.value)} />
+                  : <Input dir="rtl" value={arForm.cta_label} onChange={(e) => patchAr("cta_label", e.target.value)} placeholder={form.cta_label} />}
               </div>
               <div className="space-y-1.5">
                 <Label className="text-xs">Button link (URL or path like /contact)</Label>
