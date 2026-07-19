@@ -23,14 +23,10 @@ const DEFAULT_TOKENS: StyleTokens = {
   btn_style: "solid",
 };
 
-const CATEGORY_PREFIXES = [
-  { label: "Healthcare", value: "/healthcare" },
-  { label: "Solutions", value: "/solutions" },
-  { label: "Industries", value: "/industries" },
-  { label: "Services", value: "/services" },
-  { label: "Company", value: "/company" },
-  { label: "Blog", value: "/blog" },
-  { label: "Case Studies", value: "/case-studies" },
+const LISTING_PAGES = [
+  { label: "Blog", prefix: "/blog" },
+  { label: "Case Studies", prefix: "/case-studies" },
+  { label: "Events & Webinars", prefix: "/events" },
 ];
 
 function TokenControls({ value, onChange }: { value: StyleTokens; onChange: (v: StyleTokens) => void }) {
