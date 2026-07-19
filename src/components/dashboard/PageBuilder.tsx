@@ -9,7 +9,7 @@ import {
   DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import {
-  Trash2, ArrowUp, ArrowDown, Eye, EyeOff, Plus, Copy, Languages,
+  Trash2, ArrowUp, ArrowDown, Eye, EyeOff, Plus, Copy, Languages, Sparkles, Loader2,
 } from "lucide-react";
 import { SECTION_REGISTRY, SECTION_KINDS, type SectionKind, type SectionDef } from "@/lib/pageSections";
 import { PageDefaultsProvider } from "@/lib/contentSections";
