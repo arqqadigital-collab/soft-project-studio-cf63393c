@@ -873,16 +873,21 @@ function EditDialog({
   target, onClose, onSaved,
 }: { target: EditTarget | null; onClose: () => void; onSaved: () => void }) {
   const [busy, setBusy] = useState(false);
+  const [locale, setLocale] = useState<"en" | "ar">("en");
   const [label, setLabel] = useState("");
   const [url, setUrl] = useState("");
   const [newTab, setNewTab] = useState(false);
   const [description, setDescription] = useState("");
+  const [labelAr, setLabelAr] = useState("");
+  const [descriptionAr, setDescriptionAr] = useState("");
+  const [translations, setTranslations] = useState<any>({});
 
   const key = useMemo(() => {
     if (!target) return "";
     return `${target.kind}:${(target as any).id ?? "new"}:${(target as any).group_id ?? (target as any).column_id ?? ""}`;
   }, [target]);
   const [lastKey, setLastKey] = useState("");
+
   if (target && key !== lastKey) {
     setLabel(target.label);
     if (target.kind === "link") {
@@ -898,38 +903,66 @@ function EditDialog({
       setNewTab(false);
       setDescription("");
     }
+    setLabelAr("");
+    setDescriptionAr("");
+    setTranslations({});
+    setLocale("en");
     setLastKey(key);
+
+    // Fetch existing translations for AR overlay
+    if (target.id) {
+      const table =
+        target.kind === "group" ? "menu_groups"
+        : target.kind === "column" ? "menu_columns"
+        : "menu_links";
+      supabase.from(table as any).select("translations").eq("id", target.id).maybeSingle().then(({ data }) => {
+        const t = (data as any)?.translations ?? {};
+        setTranslations(t);
+        setLabelAr(t?.ar?.label ?? "");
+        if (target.kind === "column") setDescriptionAr(t?.ar?.description ?? "");
+      });
+    }
   }
   if (!target && lastKey) setLastKey("");
   if (!target) return null;
 
   async function save() {
     if (!target) return;
-    if (!label.trim()) return toast.error("Label is required");
+    if (!label.trim()) return toast.error("English label is required");
     if (target.kind === "link" && !url.trim()) return toast.error("URL is required");
     setBusy(true);
     try {
+      // Build merged translations
+      const arObj: any = { ...(translations?.ar ?? {}) };
+      if (labelAr.trim()) arObj.label = labelAr.trim(); else delete arObj.label;
+      if (target.kind === "column") {
+        if (descriptionAr.trim()) arObj.description = descriptionAr.trim(); else delete arObj.description;
+      }
+      const nextTr = { ...(translations ?? {}) };
+      if (Object.keys(arObj).length > 0) nextTr.ar = arObj;
+      else delete nextTr.ar;
+
       if (target.kind === "group") {
         if (target.id) {
-          const { error } = await supabase.from("menu_groups").update({ label: label.trim() }).eq("id", target.id);
+          const { error } = await supabase.from("menu_groups").update({ label: label.trim(), translations: nextTr }).eq("id", target.id);
           if (error) throw error;
         } else {
           const { data: max } = await supabase.from("menu_groups").select("position").order("position", { ascending: false }).limit(1).maybeSingle();
-          const { error } = await supabase.from("menu_groups").insert({ label: label.trim(), position: ((max?.position ?? -1) + 1), is_visible: true });
+          const { error } = await supabase.from("menu_groups").insert({ label: label.trim(), position: ((max?.position ?? -1) + 1), is_visible: true, translations: nextTr });
           if (error) throw error;
         }
       } else if (target.kind === "column") {
         const desc = description.trim() || null;
         if (target.id) {
-          const { error } = await supabase.from("menu_columns").update({ label: label.trim(), description: desc }).eq("id", target.id);
+          const { error } = await supabase.from("menu_columns").update({ label: label.trim(), description: desc, translations: nextTr }).eq("id", target.id);
           if (error) throw error;
         } else {
           const { data: max } = await supabase.from("menu_columns").select("position").eq("group_id", target.group_id).order("position", { ascending: false }).limit(1).maybeSingle();
-          const { error } = await supabase.from("menu_columns").insert({ label: label.trim(), description: desc, group_id: target.group_id, position: ((max?.position ?? -1) + 1), is_visible: true });
+          const { error } = await supabase.from("menu_columns").insert({ label: label.trim(), description: desc, group_id: target.group_id, position: ((max?.position ?? -1) + 1), is_visible: true, translations: nextTr });
           if (error) throw error;
         }
       } else {
-        const patch = { label: label.trim(), url: url.trim(), target: newTab ? "_blank" : "_self" };
+        const patch: any = { label: label.trim(), url: url.trim(), target: newTab ? "_blank" : "_self", translations: nextTr };
         if (target.id) {
           const { error } = await supabase.from("menu_links").update(patch).eq("id", target.id);
           if (error) throw error;
@@ -954,45 +987,96 @@ function EditDialog({
     : target.kind === "column" ? (target.id ? "Edit Column" : "New Column")
     : (target.id ? "Edit Link" : "New Link");
 
+  const isAr = locale === "ar";
+
   return (
     <Dialog open onOpenChange={(o) => !o && onClose()}>
       <DialogContent>
-        <DialogHeader><DialogTitle>{title}</DialogTitle></DialogHeader>
-        <div className="space-y-3">
-          <div>
-            <Label>Label</Label>
-            <Input value={label} onChange={(e) => setLabel(e.target.value)} placeholder="Displayed in menu" autoFocus />
+        <DialogHeader>
+          <div className="flex items-center justify-between gap-3">
+            <DialogTitle>{title}</DialogTitle>
+            <div className="inline-flex overflow-hidden rounded-md border border-border me-6">
+              <button
+                type="button"
+                onClick={() => setLocale("en")}
+                className={`px-3 py-1 text-xs font-semibold ${!isAr ? "bg-primary text-primary-foreground" : "bg-background hover:bg-muted"}`}
+              >EN</button>
+              <button
+                type="button"
+                onClick={() => setLocale("ar")}
+                className={`border-s border-border px-3 py-1 text-xs font-semibold ${isAr ? "bg-primary text-primary-foreground" : "bg-background hover:bg-muted"}`}
+              >AR — العربية</button>
+            </div>
           </div>
-          {target.kind === "column" && (
-            <div>
-              <Label>Description</Label>
-              <Input
-                value={description}
-                onChange={(e) => setDescription(e.target.value)}
-                placeholder="Short subtitle shown under the tab in the mega menu"
-              />
-              <p className="mt-1 text-xs text-muted-foreground">
-                Optional. Appears as a small line under the tab title.
-              </p>
+        </DialogHeader>
+        <div className="space-y-3">
+          {isAr && (
+            <div className="rounded-md border border-amber-300/40 bg-amber-50 px-3 py-2 text-xs text-amber-900 dark:border-amber-500/30 dark:bg-amber-500/10 dark:text-amber-200">
+              Editing Arabic overlay. Empty fields fall back to English. URL and other non-text settings stay in the English tab.
             </div>
           )}
-          {target.kind === "link" && (
+          {!isAr ? (
             <>
               <div>
-                <Label>URL</Label>
+                <Label>Label (English)</Label>
+                <Input value={label} onChange={(e) => setLabel(e.target.value)} placeholder="Displayed in menu" autoFocus />
+              </div>
+              {target.kind === "column" && (
+                <div>
+                  <Label>Description (English)</Label>
+                  <Input
+                    value={description}
+                    onChange={(e) => setDescription(e.target.value)}
+                    placeholder="Short subtitle shown under the tab in the mega menu"
+                  />
+                  <p className="mt-1 text-xs text-muted-foreground">Optional. Appears as a small line under the tab title.</p>
+                </div>
+              )}
+              {target.kind === "link" && (
+                <>
+                  <div>
+                    <Label>URL</Label>
+                    <Input
+                      value={url}
+                      onChange={(e) => setUrl(e.target.value)}
+                      placeholder="https://... or /internal-path or #anchor"
+                    />
+                    <p className="mt-1 text-xs text-muted-foreground">
+                      External URLs (https://…), internal paths (/pricing), or anchors (#faq) all work.
+                    </p>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <Switch checked={newTab} onCheckedChange={setNewTab} id="newtab" />
+                    <Label htmlFor="newtab" className="cursor-pointer">Open in new tab</Label>
+                  </div>
+                </>
+              )}
+            </>
+          ) : (
+            <>
+              <div>
+                <Label>Label (Arabic)</Label>
                 <Input
-                  value={url}
-                  onChange={(e) => setUrl(e.target.value)}
-                  placeholder="https://... or /internal-path or #anchor"
+                  dir="rtl"
+                  value={labelAr}
+                  onChange={(e) => setLabelAr(e.target.value)}
+                  placeholder={label ? `مثال: ${label}` : "التسمية بالعربية"}
+                  autoFocus
                 />
-                <p className="mt-1 text-xs text-muted-foreground">
-                  External URLs (https://…), internal paths (/pricing), or anchors (#faq) all work.
-                </p>
+                <p className="mt-1 text-xs text-muted-foreground">Leave empty to fall back to English: <b>{label || "—"}</b></p>
               </div>
-              <div className="flex items-center gap-2">
-                <Switch checked={newTab} onCheckedChange={setNewTab} id="newtab" />
-                <Label htmlFor="newtab" className="cursor-pointer">Open in new tab</Label>
-              </div>
+              {target.kind === "column" && (
+                <div>
+                  <Label>Description (Arabic)</Label>
+                  <Input
+                    dir="rtl"
+                    value={descriptionAr}
+                    onChange={(e) => setDescriptionAr(e.target.value)}
+                    placeholder="وصف قصير يظهر تحت العنوان"
+                  />
+                  <p className="mt-1 text-xs text-muted-foreground">Falls back to English: <b>{description || "—"}</b></p>
+                </div>
+              )}
             </>
           )}
         </div>
