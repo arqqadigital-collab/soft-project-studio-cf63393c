@@ -5,7 +5,7 @@ import { Link } from "react-router-dom";
 import { Footer } from "@/components/Footer";
 import { SeoHead } from "@/components/SeoHead";
 import { supabase } from "@/integrations/supabase/client";
-import { useListPageHero } from "@/hooks/use-list-page-hero";
+import { useEventsContent } from "@/lib/eventsContent";
 
 type EventRow = {
   id: string;
@@ -78,7 +78,9 @@ function labelType(t: string) {
 }
 
 export default function Events() {
-  const { data: hero } = useListPageHero("events");
+  const content = useEventsContent();
+  const hero = content.Hero;
+  const heroVisible = content._visible.Hero;
   const [rows, setRows] = useState<EventRow[]>([]);
   const [loading, setLoading] = useState(true);
   const [active, setActive] = useState<string>("All");
@@ -120,7 +122,7 @@ export default function Events() {
         ogType="website"
       />
 
-      {hero?.is_visible !== false && (
+      {heroVisible && (
         <section className="relative overflow-hidden bg-background pb-16 pt-32 md:pb-24 md:pt-40">
           <div className="mx-auto max-w-7xl px-6">
             <motion.div
