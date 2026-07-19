@@ -442,8 +442,8 @@ export default function PagesAndNavigation() {
                       onSubToggle={toggle}
                       onEditGroup={() => setEdit({ kind: "group", id: g.id, label: g.label })}
                       onDeleteGroup={() => remove("menu_groups", g.id, g.label)}
-                      onAddColumn={() => setEdit({ kind: "column", group_id: g.id, label: "" })}
-                      onEditColumn={(c) => setEdit({ kind: "column", id: c.id, group_id: g.id, label: c.label })}
+                      onAddColumn={() => setEdit({ kind: "column", group_id: g.id, label: "", description: "" })}
+                      onEditColumn={(c) => setEdit({ kind: "column", id: c.id, group_id: g.id, label: c.label, description: c.description ?? "" })}
                       onDeleteColumn={(c) => remove("menu_columns", c.id, c.label)}
                       onToggleGroupVisible={() => toggleVisible("menu_groups", g.id, g.is_visible)}
                       onToggleColumnVisible={(c) => toggleVisible("menu_columns", c.id, c.is_visible)}
