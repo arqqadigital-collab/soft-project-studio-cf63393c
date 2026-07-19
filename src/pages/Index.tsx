@@ -81,7 +81,9 @@ export default function Index() {
     },
   });
 
-  const hero = { ...HERO_DEFAULTS, ...(heroRow ?? {}) } as typeof HERO_DEFAULTS & { is_visible?: boolean };
+  const { locale } = useLocale();
+  const arOverlay = (locale === "ar" ? ((heroRow as any)?.translations?.ar ?? {}) : {}) as Record<string, any>;
+  const hero = { ...HERO_DEFAULTS, ...(heroRow ?? {}), ...arOverlay } as typeof HERO_DEFAULTS & { is_visible?: boolean };
   const heroVisible = (heroRow as any)?.is_visible !== false;
   const isVisible = useHomepageVisibility();
   const bgSrc = hero.background_url || headerVideo;
