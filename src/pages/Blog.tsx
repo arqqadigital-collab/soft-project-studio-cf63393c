@@ -118,17 +118,21 @@ export default function Blog() {
       const { data, error } = await supabase
         .from("posts")
         .select(
-          "id,title,slug,excerpt,featured_image_url,published_at,created_at,translations,category:categories(name,slug),author:profiles!posts_author_id_fkey(full_name)"
+          "id,title,slug,excerpt,featured_image_url,published_at,created_at,translations,category:categories(name,slug,translations),author:profiles!posts_author_id_fkey(full_name)"
         )
         .eq("status", "published")
         .order("published_at", { ascending: false, nullsFirst: false })
         .limit(50);
       if (cancelled) return;
       if (!error && data) {
-        setPosts((data as unknown as PostRow[]).map((post) => ({
-          ...post,
-          ...(locale === "en" ? {} : post.translations?.[locale] ?? {}),
-        })));
+        setPosts((data as unknown as PostRow[]).map((post) => {
+          const catAr = locale !== "en" ? post.category?.translations?.[locale]?.name : undefined;
+          return {
+            ...post,
+            ...(locale === "en" ? {} : post.translations?.[locale] ?? {}),
+            category: post.category ? { ...post.category, name: catAr ?? post.category.name } : null,
+          };
+        }));
       }
       setLoading(false);
     })();
