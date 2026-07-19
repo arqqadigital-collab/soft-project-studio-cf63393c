@@ -12,6 +12,7 @@ import {
   Shield,
   Palette,
   Activity,
+} from "lucide-react";
 import {
   Sidebar,
   SidebarContent,
