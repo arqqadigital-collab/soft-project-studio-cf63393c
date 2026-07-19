@@ -1,0 +1,1 @@
+ALTER TABLE public.homepage_sections ADD COLUMN IF NOT EXISTS translations jsonb NOT NULL DEFAULT '{}'::jsonb;

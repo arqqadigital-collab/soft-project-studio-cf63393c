@@ -8,6 +8,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { MediaPickerDialog } from "@/components/dashboard/MediaPickerDialog";
 import { DEFAULTS, type SectionKey } from "@/lib/homepageContent";
 
@@ -214,15 +215,17 @@ function collectImages(data: any): string[] {
 export function SectionEditor({ sectionKey }: { sectionKey: SectionKey }) {
   const qc = useQueryClient();
   const [content, setContent] = useState<any>(DEFAULTS[sectionKey]);
+  const [arContent, setArContent] = useState<any>(DEFAULTS[sectionKey]);
   const [visible, setVisible] = useState(true);
   const [saving, setSaving] = useState(false);
+  const [lang, setLang] = useState<"en" | "ar">("en");
 
   const { data, isLoading } = useQuery({
     queryKey: ["homepage-section-edit", sectionKey],
     queryFn: async () => {
       const { data, error } = await supabase
         .from("homepage_sections")
-        .select("content, is_visible")
+        .select("content, is_visible, translations")
         .eq("section_key", sectionKey)
         .maybeSingle();
       if (error) throw error;
@@ -232,8 +235,10 @@ export function SectionEditor({ sectionKey }: { sectionKey: SectionKey }) {
 
   useEffect(() => {
     if (data !== undefined && data !== null) {
-      const merged = mergeDeep(structuredClone(DEFAULTS[sectionKey]), (data as any).content ?? {});
-      setContent(merged);
+      const base = mergeDeep(structuredClone(DEFAULTS[sectionKey]), (data as any).content ?? {});
+      const ar = mergeDeep(structuredClone(base), (data as any).translations?.ar ?? {});
+      setContent(base);
+      setArContent(ar);
       setVisible((data as any).is_visible !== false);
     }
   }, [data, sectionKey]);
@@ -241,9 +246,11 @@ export function SectionEditor({ sectionKey }: { sectionKey: SectionKey }) {
   async function save() {
     setSaving(true);
     try {
+      const existingTranslations = ((data as any)?.translations ?? {}) as Record<string, any>;
+      const translations = { ...existingTranslations, ar: arContent };
       const { error } = await supabase
         .from("homepage_sections")
-        .update({ content, is_visible: visible })
+        .update({ content, translations, is_visible: visible })
         .eq("section_key", sectionKey);
       if (error) throw error;
       qc.invalidateQueries({ queryKey: ["homepage-section", sectionKey] });
@@ -270,11 +277,22 @@ export function SectionEditor({ sectionKey }: { sectionKey: SectionKey }) {
   }
 
   function resetToDefaults() {
-    setContent(structuredClone(DEFAULTS[sectionKey]));
-    toast.info("Reset to defaults — click Save to apply");
+    if (lang === "en") {
+      setContent(structuredClone(DEFAULTS[sectionKey]));
+    } else {
+      setArContent(structuredClone(content));
+    }
+    toast.info("Reset — click Save to apply");
   }
 
-  const images = useMemo(() => collectImages(content), [content]);
+  function copyEnglishToArabic() {
+    setArContent(structuredClone(content));
+    toast.info("Copied English into Arabic — translate and Save");
+  }
+
+  const activeContent = lang === "en" ? content : arContent;
+  const setActive = lang === "en" ? setContent : setArContent;
+  const images = useMemo(() => collectImages(activeContent), [activeContent]);
 
   if (isLoading) return <div className="text-sm text-muted-foreground">Loading…</div>;
 
@@ -286,18 +304,37 @@ export function SectionEditor({ sectionKey }: { sectionKey: SectionKey }) {
           <Button variant="outline" size="sm" onClick={toggleVisible}>
             {visible ? <><Eye className="mr-1 h-4 w-4" /> Visible</> : <><EyeOff className="mr-1 h-4 w-4" /> Hidden</>}
           </Button>
-          <Button variant="outline" size="sm" onClick={resetToDefaults}>Reset defaults</Button>
+          <Button variant="outline" size="sm" onClick={resetToDefaults}>
+            {lang === "en" ? "Reset defaults" : "Reset from English"}
+          </Button>
+          {lang === "ar" && (
+            <Button variant="outline" size="sm" onClick={copyEnglishToArabic}>Copy from English</Button>
+          )}
           <Button size="sm" onClick={save} disabled={saving}>
             <Save className="mr-1 h-4 w-4" /> Save
           </Button>
         </div>
       </div>
-      <Card className={visible ? "" : "opacity-60"}>
-        <CardHeader className="pb-3"><CardTitle className="text-sm">{LABELS[sectionKey]}</CardTitle></CardHeader>
-        <CardContent>
-          <ObjectFields obj={content} onChange={setContent} />
-        </CardContent>
-      </Card>
+
+      <Tabs value={lang} onValueChange={(v) => setLang(v as "en" | "ar")}>
+        <TabsList>
+          <TabsTrigger value="en">English</TabsTrigger>
+          <TabsTrigger value="ar">Arabic (العربية)</TabsTrigger>
+        </TabsList>
+        <TabsContent value={lang} className="mt-3">
+          <Card className={visible ? "" : "opacity-60"} dir={lang === "ar" ? "rtl" : "ltr"}>
+            <CardHeader className="pb-3">
+              <CardTitle className="text-sm">
+                {LABELS[sectionKey]} — {lang === "en" ? "English" : "Arabic"}
+              </CardTitle>
+            </CardHeader>
+            <CardContent>
+              <ObjectFields obj={activeContent} onChange={setActive} />
+            </CardContent>
+          </Card>
+        </TabsContent>
+      </Tabs>
+
       {images.length > 0 && (
         <div className="rounded-md border border-border">
           <div className="border-b border-border px-3 py-2 text-xs font-medium text-muted-foreground">

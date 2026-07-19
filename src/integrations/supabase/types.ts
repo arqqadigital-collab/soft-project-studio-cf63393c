@@ -709,6 +709,7 @@ export type Database = {
           content: Json
           is_visible: boolean
           section_key: string
+          translations: Json
           updated_at: string
           updated_by: string | null
         }
@@ -716,6 +717,7 @@ export type Database = {
           content?: Json
           is_visible?: boolean
           section_key: string
+          translations?: Json
           updated_at?: string
           updated_by?: string | null
         }
@@ -723,6 +725,7 @@ export type Database = {
           content?: Json
           is_visible?: boolean
           section_key?: string
+          translations?: Json
           updated_at?: string
           updated_by?: string | null
         }
