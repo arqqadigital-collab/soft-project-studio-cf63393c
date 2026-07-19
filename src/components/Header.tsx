@@ -49,7 +49,7 @@ export function Header() {
   const { data: tree = [] } = useMenuTree();
   const [scrolled, setScrolled] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
-  const [localeOpen, setLocaleOpen] = useState(false);
+  
 
   const sticky = settings?.header_sticky ?? true;
   const transparentOnHero = settings?.header_transparent_on_hero ?? false;
@@ -81,8 +81,6 @@ export function Header() {
   const showBrandText = settings?.header_show_brand_text ?? false;
   const brandText = settings?.header_brand_text ?? "";
   const shadowStyle = settings?.header_shadow_style ?? "soft";
-  const showLocales = settings?.header_show_locale_switcher ?? false;
-  const locales = settings?.header_locales ?? [];
   const mobileExtra = settings?.mobile_menu_items ?? [];
   const mobileShowSocial = settings?.mobile_show_social ?? true;
   const social = settings?.footer_social ?? [];
