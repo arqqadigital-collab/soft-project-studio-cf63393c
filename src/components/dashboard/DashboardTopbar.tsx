@@ -38,6 +38,18 @@ export function DashboardTopbar() {
         <Input placeholder="Search..." className="pl-9" />
       </div>
       <div className="ml-auto flex items-center gap-2">
+        <Button
+          variant="outline"
+          size="sm"
+          onClick={() => setLocale(nextLocale)}
+          className="h-9 gap-1.5 font-semibold"
+          aria-label={`Switch editor language to ${nextLocale.toUpperCase()}`}
+          title={`Editing in ${locale.toUpperCase()} — click to switch to ${nextLocale.toUpperCase()}`}
+        >
+          <Languages className="h-4 w-4" />
+          <span className="text-xs uppercase tracking-wide">{locale}</span>
+          <span className="text-xs text-muted-foreground">→ {nextLocale}</span>
+        </Button>
         <Button variant="ghost" size="icon" aria-label="Notifications">
           <Bell className="h-4 w-4" />
         </Button>
