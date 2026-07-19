@@ -218,11 +218,19 @@ export default function HomepageEditor() {
           <h1 className="text-2xl font-semibold">Homepage</h1>
           <p className="text-sm text-muted-foreground">Edit the hero section shown at the top of the home page.</p>
         </div>
-        <div className="flex gap-2">
+        <div className="flex flex-wrap gap-2">
           <Button asChild variant="outline" size="sm">
             <a href="/" target="_blank" rel="noreferrer">
               <ExternalLink className="mr-1 h-4 w-4" /> View live
             </a>
+          </Button>
+          <Button variant="outline" size="sm" onClick={() => translateHomepage(true)} disabled={translating}>
+            {translating ? <Loader2 className="mr-1 h-4 w-4 animate-spin" /> : <Sparkles className="mr-1 h-4 w-4" />}
+            Fill missing AR
+          </Button>
+          <Button variant="outline" size="sm" onClick={() => translateHomepage(false)} disabled={translating}>
+            {translating ? <Loader2 className="mr-1 h-4 w-4 animate-spin" /> : <Sparkles className="mr-1 h-4 w-4" />}
+            Translate to Arabic
           </Button>
           <Button size="sm" onClick={save} disabled={saving}>
             <Save className="mr-1 h-4 w-4" /> Save
