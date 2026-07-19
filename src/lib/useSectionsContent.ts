@@ -1,9 +1,18 @@
 import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
+import { useLocale } from "@/i18n/LanguageProvider";
 
 function merge<T>(base: T, over: any): T {
   if (over === undefined || over === null) return base;
-  if (Array.isArray(base) || Array.isArray(over)) return (over ?? base) as T;
+  if (Array.isArray(base) || Array.isArray(over)) {
+    // Array overlay: element-wise merge when both are arrays, preserving base length/order
+    if (Array.isArray(base) && Array.isArray(over)) {
+      return base.map((item, i) =>
+        over[i] !== undefined ? merge(item, over[i]) : item,
+      ) as any;
+    }
+    return (over ?? base) as T;
+  }
   if (typeof base === "object" && base !== null && typeof over === "object") {
     const out: any = { ...(base as any) };
     for (const k of Object.keys(over)) {
@@ -16,14 +25,17 @@ function merge<T>(base: T, over: any): T {
 
 /**
  * Generic reader for a page's `page_sections`, merged over a defaults object
- * keyed by section_name. Returns `{ ...merged, _visible }`.
+ * keyed by section_name. Applies the active locale's translation overlay from
+ * `page_sections.translations[locale]` on top of `page_sections.data`.
+ * Returns `{ ...merged, _visible }`.
  */
 export function useSectionsContent<T extends Record<string, any>>(
   slug: string,
   defaults: T,
 ): T & { _visible: Record<keyof T, boolean> } {
+  const { locale } = useLocale();
   const { data } = useQuery({
-    queryKey: ["page-sections", slug],
+    queryKey: ["page-sections", slug, locale],
     queryFn: async () => {
       const { data: page, error: pageErr } = await supabase
         .from("pages")
@@ -35,7 +47,7 @@ export function useSectionsContent<T extends Record<string, any>>(
 
       const { data: sections, error: secErr } = await supabase
         .from("page_sections")
-        .select("data, position, is_visible")
+        .select("data, translations, position, is_visible")
         .eq("page_id", page.id)
         .order("position");
       if (secErr) throw secErr;
@@ -43,10 +55,13 @@ export function useSectionsContent<T extends Record<string, any>>(
       const byName: Record<string, any> = {};
       const visibleByName: Record<string, boolean> = {};
       for (const row of sections ?? []) {
-        const d = (row.data ?? {}) as any;
-        const name = d.section_name;
+        const baseData = (row.data ?? {}) as any;
+        const translations = (row.translations ?? {}) as Record<string, any>;
+        const overlay = locale !== "en" ? translations?.[locale] ?? null : null;
+        const effective = overlay ? merge(baseData, overlay) : baseData;
+        const name = baseData.section_name; // keep name from base to match defaults
         if (typeof name === "string" && name.length > 0) {
-          byName[name] = d;
+          byName[name] = effective;
           visibleByName[name] = row.is_visible !== false;
         }
       }
