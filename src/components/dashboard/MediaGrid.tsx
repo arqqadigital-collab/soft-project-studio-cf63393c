@@ -479,6 +479,49 @@ function MediaDetailsDialog({
   const [tags, setTags] = useState<string[]>(media?.tags ?? []);
   const [newTag, setNewTag] = useState("");
   const [saving, setSaving] = useState(false);
+  const [replacing, setReplacing] = useState(false);
+  const { user } = useAuth();
+
+  async function replaceFile(file: File) {
+    if (!media || !user) return;
+    setReplacing(true);
+    try {
+      const oldUrl = media.file_url;
+      const ext = file.name.split(".").pop() || "bin";
+      const key = `${user.id}/${crypto.randomUUID()}.${ext}`;
+      const up = await supabase.storage.from("media").upload(key, file, { contentType: file.type });
+      if (up.error) throw up.error;
+      const signed = await supabase.storage.from("media").createSignedUrl(key, SIGNED_URL_TTL);
+      if (signed.error) throw signed.error;
+      const newUrl = signed.data.signedUrl;
+
+      const { error: upErr } = await supabase.from("media").update({
+        file_name: file.name,
+        file_url: newUrl,
+        file_type: file.type,
+        file_size: file.size,
+      }).eq("id", media.id);
+      if (upErr) throw upErr;
+
+      const { data: n, error: rpcErr } = await supabase.rpc("replace_media_url", { _old: oldUrl, _new: newUrl });
+      if (rpcErr) throw rpcErr;
+
+      // Best-effort remove the old storage object
+      try {
+        const oldPath = oldUrl.split("/object/sign/media/")[1]?.split("?")[0];
+        if (oldPath) await supabase.storage.from("media").remove([decodeURIComponent(oldPath)]);
+      } catch {}
+
+      toast.success(`Replaced. Updated ${n ?? 0} reference(s).`);
+      qc.invalidateQueries({ queryKey: ["media"] });
+      qc.invalidateQueries({ queryKey: ["media-usage"] });
+      onOpenChange(false);
+    } catch (e: any) {
+      toast.error(e.message ?? "Replace failed");
+    } finally {
+      setReplacing(false);
+    }
+  }
 
   const usage = useQuery({
     queryKey: ["media-usage", media?.id, media?.file_url],
