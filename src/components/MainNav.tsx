@@ -134,6 +134,7 @@ export function MainNav() {
         .map((c) => ({
           id: c.id,
           label: c.label,
+          description: c.description,
           items: c.items
             .map<Leaf | null>((it) => {
               if (it.kind === "page") {
