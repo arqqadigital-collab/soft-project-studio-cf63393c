@@ -740,6 +740,7 @@ export type Database = {
           page_key: string
           title_highlight: string | null
           title_prefix: string | null
+          translations: Json
           updated_at: string
         }
         Insert: {
@@ -750,6 +751,7 @@ export type Database = {
           page_key: string
           title_highlight?: string | null
           title_prefix?: string | null
+          translations?: Json
           updated_at?: string
         }
         Update: {
@@ -760,6 +762,7 @@ export type Database = {
           page_key?: string
           title_highlight?: string | null
           title_prefix?: string | null
+          translations?: Json
           updated_at?: string
         }
         Relationships: []
