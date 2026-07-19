@@ -9,12 +9,20 @@ import { Label } from "@/components/ui/label";
 import { Switch } from "@/components/ui/switch";
 import { Button } from "@/components/ui/button";
 import { toast } from "sonner";
+import { Sparkles, Loader2 } from "lucide-react";
 
 const PAGES = [
   { key: "blog", label: "Blog", url: "/blog" },
   { key: "case-studies", label: "Case Studies", url: "/case-studies" },
   { key: "events", label: "Events & Webinars", url: "/events" },
 ] as const;
+
+type ArFields = {
+  eyebrow?: string;
+  title_prefix?: string;
+  title_highlight?: string;
+  description?: string;
+};
 
 type Row = {
   page_key: string;
@@ -23,6 +31,7 @@ type Row = {
   title_highlight: string | null;
   description: string | null;
   is_visible: boolean;
+  translations?: { ar?: ArFields } | null;
 };
 
 function Editor({ pageKey }: { pageKey: string }) {
@@ -41,11 +50,16 @@ function Editor({ pageKey }: { pageKey: string }) {
   });
 
   const [form, setForm] = useState<Row | null>(null);
+  const [ar, setAr] = useState<ArFields>({});
+  const [lang, setLang] = useState<"en" | "ar">("en");
   const [saving, setSaving] = useState(false);
+  const [translating, setTranslating] = useState(false);
 
   useEffect(() => {
-    if (data) setForm(data);
-    else if (!isLoading)
+    if (data) {
+      setForm(data);
+      setAr((data.translations?.ar ?? {}) as ArFields);
+    } else if (!isLoading) {
       setForm({
         page_key: pageKey,
         eyebrow: "",
@@ -53,7 +67,10 @@ function Editor({ pageKey }: { pageKey: string }) {
         title_highlight: "",
         description: "",
         is_visible: true,
+        translations: {},
       });
+      setAr({});
+    }
   }, [data, isLoading, pageKey]);
 
   if (!form) return <div className="text-muted-foreground text-sm">Loading…</div>;
@@ -61,11 +78,15 @@ function Editor({ pageKey }: { pageKey: string }) {
   const set = <K extends keyof Row>(k: K, v: Row[K]) =>
     setForm((f) => (f ? { ...f, [k]: v } : f));
 
+  const setArField = <K extends keyof ArFields>(k: K, v: string) =>
+    setAr((a) => ({ ...a, [k]: v }));
+
   const save = async () => {
     setSaving(true);
-    const { error } = await supabase.from("list_page_hero").upsert(form, {
-      onConflict: "page_key",
-    });
+    const payload = { ...form, translations: { ...(form.translations ?? {}), ar } };
+    const { error } = await supabase
+      .from("list_page_hero")
+      .upsert(payload, { onConflict: "page_key" });
     setSaving(false);
     if (error) {
       toast.error(error.message);
@@ -76,27 +97,68 @@ function Editor({ pageKey }: { pageKey: string }) {
     qc.invalidateQueries({ queryKey: ["list_page_hero", pageKey] });
   };
 
+  const translate = async () => {
+    setTranslating(true);
+    try {
+      const src = {
+        eyebrow: form.eyebrow ?? "",
+        title_prefix: form.title_prefix ?? "",
+        title_highlight: form.title_highlight ?? "",
+        description: form.description ?? "",
+      };
+      const { data: res, error } = await supabase.functions.invoke("translate-content", {
+        body: { mode: "raw", payload: src },
+      });
+      if (error) throw error;
+      const out = (res as any)?.ar ?? res;
+      setAr(out);
+      setLang("ar");
+      toast.success("Translated to Arabic. Click Save.");
+    } catch (e: any) {
+      toast.error(e?.message ?? "Translation failed");
+    } finally {
+      setTranslating(false);
+    }
+  };
+
+  const val = (k: keyof ArFields, en: string | null) =>
+    lang === "ar" ? (ar[k] ?? "") : (en ?? "");
+
+  const onChange = (k: keyof ArFields, v: string) => {
+    if (lang === "ar") setArField(k, v);
+    else set(k as any, v as any);
+  };
+
   return (
     <div className="space-y-5 max-w-2xl">
+      <div className="flex items-center justify-between gap-2 flex-wrap">
+        <Tabs value={lang} onValueChange={(v) => setLang(v as "en" | "ar")}>
+          <TabsList>
+            <TabsTrigger value="en">English</TabsTrigger>
+            <TabsTrigger value="ar">Arabic (العربية)</TabsTrigger>
+          </TabsList>
+        </Tabs>
+        <Button variant="outline" size="sm" onClick={translate} disabled={translating}>
+          {translating ? <Loader2 className="mr-1 h-4 w-4 animate-spin" /> : <Sparkles className="mr-1 h-4 w-4" />}
+          Translate to Arabic
+        </Button>
+      </div>
+
       <div className="flex items-center justify-between rounded-md border p-3">
         <div>
           <div className="font-medium">Show hero section</div>
-          <div className="text-xs text-muted-foreground">
-            Toggle the entire top hero on this page.
-          </div>
+          <div className="text-xs text-muted-foreground">Toggle the entire top hero on this page.</div>
         </div>
-        <Switch
-          checked={form.is_visible}
-          onCheckedChange={(v) => set("is_visible", v)}
-        />
+        <Switch checked={form.is_visible} onCheckedChange={(v) => set("is_visible", v)} />
       </div>
 
       <div className="space-y-2">
-        <Label>Eyebrow (small label above title)</Label>
+        <Label>Eyebrow {lang === "ar" && "(Arabic)"}</Label>
         <Input
-          value={form.eyebrow ?? ""}
-          onChange={(e) => set("eyebrow", e.target.value)}
-          placeholder="Insights & Updates"
+          dir={lang === "ar" ? "rtl" : "ltr"}
+          value={val("eyebrow", form.eyebrow)}
+          onChange={(e) => onChange("eyebrow", e.target.value)}
+          placeholder={lang === "ar" ? "رؤى وتحديثات" : "Insights & Updates"}
         />
       </div>
 
@@ -104,31 +166,30 @@ function Editor({ pageKey }: { pageKey: string }) {
         <div className="space-y-2">
           <Label>Title — plain part</Label>
           <Input
-            value={form.title_prefix ?? ""}
-            onChange={(e) => set("title_prefix", e.target.value)}
-            placeholder="Our"
+            dir={lang === "ar" ? "rtl" : "ltr"}
+            value={val("title_prefix", form.title_prefix)}
+            onChange={(e) => onChange("title_prefix", e.target.value)}
+            placeholder={lang === "ar" ? "مدونتنا" : "Our"}
           />
         </div>
         <div className="space-y-2">
           <Label>Title — highlighted part</Label>
           <Input
-            value={form.title_highlight ?? ""}
-            onChange={(e) => set("title_highlight", e.target.value)}
-            placeholder="Blog"
+            dir={lang === "ar" ? "rtl" : "ltr"}
+            value={val("title_highlight", form.title_highlight)}
+            onChange={(e) => onChange("title_highlight", e.target.value)}
+            placeholder={lang === "ar" ? "" : "Blog"}
           />
         </div>
       </div>
-      <p className="text-xs text-muted-foreground -mt-2">
-        Renders as: <strong>{form.title_prefix}</strong>{" "}
-        <span style={{ color: "var(--brand-blue)" }}>{form.title_highlight}</span>
-      </p>
 
       <div className="space-y-2">
         <Label>Description</Label>
         <Textarea
+          dir={lang === "ar" ? "rtl" : "ltr"}
           rows={4}
-          value={form.description ?? ""}
-          onChange={(e) => set("description", e.target.value)}
+          value={val("description", form.description)}
+          onChange={(e) => onChange("description", e.target.value)}
         />
       </div>
 
@@ -149,8 +210,7 @@ export default function ListPageHeros() {
       <div>
         <h1 className="text-2xl font-semibold">List Page Heros</h1>
         <p className="text-sm text-muted-foreground">
-          Edit the headline, eyebrow, and description shown at the top of the Blog,
-          Case Studies, and Events pages.
+          Edit the headline, eyebrow, and description shown at the top of the Blog, Case Studies, and Events pages. Use the English/Arabic tabs to manage both languages.
         </p>
       </div>
       <Tabs key={initial} defaultValue={initial}>
