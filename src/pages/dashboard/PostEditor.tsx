@@ -64,6 +64,9 @@ export default function PostEditor() {
   const [tagInput, setTagInput] = useState("");
   const [pickerOpen, setPickerOpen] = useState(false);
   const dirtyRef = useRef(false);
+  const [locale, setLocale] = useState<EditorLocale>("en");
+  const [ar, setAr] = useState<{ title?: string; excerpt?: string; content?: string }>({});
+  const [translations, setTranslations] = useState<Record<string, any>>({});
 
   // Load categories
   const categories = useQuery({
