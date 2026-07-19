@@ -37,6 +37,27 @@ export function PageBuilder({ pageId, pageSlug }: { pageId: string; pageSlug?: s
   const qc = useQueryClient();
   const [activeTab, setActiveTab] = useState<string | undefined>(undefined);
   const [locale, setLocale] = useState<LocaleCode>("en");
+  const [translating, setTranslating] = useState(false);
+
+  async function translateAll() {
+    if (!confirm("Auto-translate ALL sections on this page to Arabic? This will OVERWRITE any existing Arabic content for this page.")) return;
+    setTranslating(true);
+    const t = toast.loading("Translating sections to Arabic…");
+    try {
+      const { data, error } = await supabase.functions.invoke("translate-content", {
+        body: { mode: "page", pageId },
+      });
+      if (error) throw error;
+      const res = data as { ok: number; fail: number; total: number };
+      toast.success(`Translated ${res.ok}/${res.total} sections${res.fail ? ` (${res.fail} failed)` : ""}`, { id: t });
+      invalidate();
+      setLocale("ar");
+    } catch (e: any) {
+      toast.error(e?.message ?? "Translation failed", { id: t });
+    } finally {
+      setTranslating(false);
+    }
+  }
 
   const q = useQuery({
     queryKey: ["page-sections-admin", pageId],
