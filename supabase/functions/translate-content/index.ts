@@ -1,5 +1,5 @@
-// Translate page sections to Arabic using Lovable AI Gateway.
-// Overwrite mode: replaces any existing translations.ar for each section.
+// Translate page sections + header/footer + menus to Arabic using Lovable AI Gateway.
+// Overwrite mode: replaces any existing translations.ar for each row.
 import { createClient } from "npm:@supabase/supabase-js@2";
 import { corsHeaders } from "npm:@supabase/supabase-js@2/cors";
 
@@ -44,21 +44,75 @@ async function translateJson(input: unknown): Promise<any> {
   try {
     return JSON.parse(content);
   } catch {
-    // strip fences if any
     const cleaned = content.replace(/^```(?:json)?/i, "").replace(/```$/, "").trim();
     return JSON.parse(cleaned);
   }
 }
 
+async function mergeAr(table: string, id: string, ar: any) {
+  const { data: existing } = await admin
+    .from(table).select("translations").eq("id", id).maybeSingle();
+  const next = { ...(((existing as any)?.translations as any) ?? {}), ar };
+  const { error } = await admin.from(table).update({ translations: next }).eq("id", id);
+  if (error) throw error;
+}
+
 async function translateSection(row: { id: string; data: any }) {
   const ar = await translateJson(row.data ?? {});
-  // Merge into translations to preserve other locales
-  const { data: existing } = await admin
-    .from("page_sections").select("translations").eq("id", row.id).maybeSingle();
-  const nextTranslations = { ...((existing?.translations as any) ?? {}), ar };
-  const { error } = await admin
-    .from("page_sections").update({ translations: nextTranslations }).eq("id", row.id);
+  await mergeAr("page_sections", row.id, ar);
+}
+
+async function translateHeaderFooter() {
+  const { data, error } = await admin
+    .from("header_footer_settings").select("*").eq("singleton", true).maybeSingle();
   if (error) throw error;
+  if (!data) return { ok: 0, fail: 0, total: 0 };
+  const payload = {
+    header_brand_text: (data as any).header_brand_text ?? "",
+    header_cta_label: (data as any).header_cta_label ?? "",
+    footer_tagline: (data as any).footer_tagline ?? "",
+    footer_copyright: (data as any).footer_copyright ?? "",
+    footer_columns: (data as any).footer_columns ?? [],
+    mobile_menu_items: (data as any).mobile_menu_items ?? [],
+  };
+  const ar = await translateJson(payload);
+  await mergeAr("header_footer_settings", (data as any).id, ar);
+  return { ok: 1, fail: 0, total: 1 };
+}
+
+async function translateMenus() {
+  let ok = 0, fail = 0, total = 0;
+  const errors: string[] = [];
+  for (const table of ["menu_groups", "menu_columns", "menu_links"] as const) {
+    const { data, error } = await admin.from(table).select("id, label, description");
+    if (error) throw error;
+    for (const row of (data ?? []) as any[]) {
+      total++;
+      try {
+        const payload: any = { label: row.label ?? "" };
+        if (table === "menu_columns") payload.description = row.description ?? "";
+        const ar = await translateJson(payload);
+        await mergeAr(table, row.id, ar);
+        ok++;
+      } catch (e) {
+        fail++; errors.push(`${table}/${row.id}: ${(e as Error).message}`);
+      }
+    }
+  }
+  // Also translate page nav_label + title for pages in menus
+  const { data: pgs } = await admin
+    .from("pages").select("id, title, nav_label").not("menu_column_id", "is", null);
+  for (const p of (pgs ?? []) as any[]) {
+    total++;
+    try {
+      const ar = await translateJson({ title: p.title ?? "", nav_label: p.nav_label ?? p.title ?? "" });
+      await mergeAr("pages", p.id, ar);
+      ok++;
+    } catch (e) {
+      fail++; errors.push(`pages/${p.id}: ${(e as Error).message}`);
+    }
+  }
+  return { ok, fail, total, errors };
 }
 
 async function requireAdmin(req: Request): Promise<string> {
@@ -83,14 +137,23 @@ Deno.serve(async (req) => {
   try {
     await requireAdmin(req);
     const body = await req.json().catch(() => ({}));
-    const mode = body?.mode as "page" | "all_pages";
+    const mode = body?.mode as "page" | "all_pages" | "header_footer" | "menus";
+
+    if (mode === "header_footer") {
+      const r = await translateHeaderFooter();
+      return new Response(JSON.stringify(r), { headers: { ...corsHeaders, "Content-Type": "application/json" } });
+    }
+    if (mode === "menus") {
+      const r = await translateMenus();
+      return new Response(JSON.stringify(r), { headers: { ...corsHeaders, "Content-Type": "application/json" } });
+    }
 
     let query = admin.from("page_sections").select("id, data, page_id");
     if (mode === "page") {
       if (!body?.pageId) throw new Response(JSON.stringify({ error: "pageId required" }), { status: 400 });
       query = query.eq("page_id", body.pageId);
     } else if (mode !== "all_pages") {
-      throw new Response(JSON.stringify({ error: "mode must be 'page' or 'all_pages'" }), { status: 400 });
+      throw new Response(JSON.stringify({ error: "mode must be 'page', 'all_pages', 'header_footer', or 'menus'" }), { status: 400 });
     }
 
     const { data: rows, error } = await query;
@@ -98,7 +161,6 @@ Deno.serve(async (req) => {
 
     let ok = 0, fail = 0;
     const errors: string[] = [];
-    // Sequential to respect rate limits
     for (const row of rows ?? []) {
       try {
         await translateSection(row as any);
