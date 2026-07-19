@@ -10,6 +10,9 @@ import { Card } from "@/components/ui/card";
 import { Label } from "@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { toSlug as slugify } from "@/lib/slug";
+import { LocaleTabs, LocaleHint, type EditorLocale } from "@/components/dashboard/LocaleTabs";
+
+const TRANSLATABLE = ["title", "summary", "challenge", "solution", "results"] as const;
 
 export default function CaseStudyEditor() {
   const { id } = useParams();
