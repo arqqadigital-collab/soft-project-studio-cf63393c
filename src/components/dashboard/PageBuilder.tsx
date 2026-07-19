@@ -39,13 +39,16 @@ export function PageBuilder({ pageId, pageSlug }: { pageId: string; pageSlug?: s
   const [locale, setLocale] = useState<LocaleCode>("en");
   const [translating, setTranslating] = useState(false);
 
-  async function translateAll() {
-    if (!confirm("Auto-translate ALL sections on this page to Arabic? This will OVERWRITE any existing Arabic content for this page.")) return;
+  async function translateAll(missingOnly = false) {
+    const msg = missingOnly
+      ? "Translate only sections that are missing or incomplete in Arabic?"
+      : "Auto-translate ALL sections on this page to Arabic? This will OVERWRITE any existing Arabic content for this page.";
+    if (!confirm(msg)) return;
     setTranslating(true);
-    const t = toast.loading("Translating sections to Arabic…");
+    const t = toast.loading(missingOnly ? "Filling missing Arabic…" : "Translating sections to Arabic…");
     try {
       const { data, error } = await supabase.functions.invoke("translate-content", {
-        body: { mode: "page", pageId },
+        body: { mode: "page", pageId, missingOnly },
       });
       if (error) {
         const detail = await (error as any)?.context?.text?.().catch(() => "");
@@ -167,7 +170,17 @@ export function PageBuilder({ pageId, pageSlug }: { pageId: string; pageSlug?: s
           <Button
             size="sm"
             variant="outline"
-            onClick={translateAll}
+            onClick={() => translateAll(true)}
+            disabled={translating || rows.length === 0}
+            title="Translate only sections whose Arabic is missing or incomplete"
+          >
+            {translating ? <Loader2 className="mr-1 h-4 w-4 animate-spin" /> : <Sparkles className="mr-1 h-4 w-4" />}
+            Fill missing AR
+          </Button>
+          <Button
+            size="sm"
+            variant="outline"
+            onClick={() => translateAll(false)}
             disabled={translating || rows.length === 0}
             title="Auto-translate all sections on this page to Arabic (overwrites existing Arabic)"
           >
