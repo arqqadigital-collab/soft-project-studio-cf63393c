@@ -224,7 +224,7 @@ Deno.serve(async (req) => {
   try {
     await requireAdmin(req);
     const body = await req.json().catch(() => ({}));
-    const mode = body?.mode as "page" | "all_pages" | "header_footer" | "menus";
+    const mode = body?.mode as "page" | "all_pages" | "header_footer" | "menus" | "homepage";
 
     if (mode === "header_footer") {
       const r = await translateHeaderFooter();
@@ -234,13 +234,17 @@ Deno.serve(async (req) => {
       const r = await translateMenus();
       return new Response(JSON.stringify(r), { headers: { ...corsHeaders, "Content-Type": "application/json" } });
     }
+    if (mode === "homepage") {
+      const r = await translateHomepage(!!body?.missingOnly);
+      return new Response(JSON.stringify(r), { headers: { ...corsHeaders, "Content-Type": "application/json" } });
+    }
 
     let query = admin.from("page_sections").select("id, data, page_id, translations");
     if (mode === "page") {
       if (!body?.pageId) throw new Response(JSON.stringify({ error: "pageId required" }), { status: 400 });
       query = query.eq("page_id", body.pageId);
     } else if (mode !== "all_pages") {
-      throw new Response(JSON.stringify({ error: "mode must be 'page', 'all_pages', 'header_footer', or 'menus'" }), { status: 400 });
+      throw new Response(JSON.stringify({ error: "mode must be 'page', 'all_pages', 'header_footer', 'menus', or 'homepage'" }), { status: 400 });
     }
 
     const { data: rows, error } = await query;
