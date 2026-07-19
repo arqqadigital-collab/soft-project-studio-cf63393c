@@ -176,3 +176,23 @@
   display: none;
 }
 
+
+/* -------- Arabic / RTL support -------- */
+@import url("https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;500;600;700;800&display=swap");
+
+html[lang="ar"],
+html.rtl {
+  font-family: "Cairo", "IBM Plex Sans Arabic", ui-sans-serif, system-ui, sans-serif;
+}
+
+html[dir="rtl"] .rtl-flip {
+  transform: scaleX(-1);
+}
+
+/* Flip directional lucide chevrons/arrows automatically in RTL */
+html[dir="rtl"] svg.lucide-chevron-right,
+html[dir="rtl"] svg.lucide-chevron-left,
+html[dir="rtl"] svg.lucide-arrow-right,
+html[dir="rtl"] svg.lucide-arrow-left {
+  transform: scaleX(-1);
+}
