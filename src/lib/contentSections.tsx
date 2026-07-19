@@ -7,6 +7,8 @@ import { Trash2, Plus, Image as ImageIcon } from "lucide-react";
 import { MediaPickerDialog } from "@/components/dashboard/MediaPickerDialog";
 import { CLINICAL_AI_DEFAULTS } from "@/lib/clinicalAiContent";
 import { AI_IMAGING_DEFAULTS } from "@/lib/aiImagingContent";
+import { PE_DEFAULTS } from "@/lib/patientEngagementContent";
+import { RC_DEFAULTS } from "@/lib/revenueCycleContent";
 import { BLOOD_BANK_DEFAULTS } from "@/lib/bloodBankContent";
 import { CLINIC_DEFAULTS } from "@/lib/clinicContent";
 import { DENTAL_DEFAULTS } from "@/lib/dentalContent";
