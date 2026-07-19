@@ -1,5 +1,5 @@
 import { useNavigate } from "react-router-dom";
-import { Bell, LogOut, Search, User as UserIcon } from "lucide-react";
+import { Bell, Languages, LogOut, Search, User as UserIcon } from "lucide-react";
 import { SidebarTrigger } from "@/components/ui/sidebar";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
@@ -15,6 +15,7 @@ import {
 import { useAuth } from "@/hooks/use-auth";
 import { useRoles } from "@/hooks/use-role";
 import { supabase } from "@/integrations/supabase/client";
+import { useLocale } from "@/i18n/LanguageProvider";
 
 export function DashboardTopbar() {
   const { user } = useAuth();
