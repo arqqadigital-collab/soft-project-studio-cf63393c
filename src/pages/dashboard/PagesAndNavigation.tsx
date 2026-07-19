@@ -854,12 +854,13 @@ function EditDialog({
           if (error) throw error;
         }
       } else if (target.kind === "column") {
+        const desc = description.trim() || null;
         if (target.id) {
-          const { error } = await supabase.from("menu_columns").update({ label: label.trim() }).eq("id", target.id);
+          const { error } = await supabase.from("menu_columns").update({ label: label.trim(), description: desc }).eq("id", target.id);
           if (error) throw error;
         } else {
           const { data: max } = await supabase.from("menu_columns").select("position").eq("group_id", target.group_id).order("position", { ascending: false }).limit(1).maybeSingle();
-          const { error } = await supabase.from("menu_columns").insert({ label: label.trim(), group_id: target.group_id, position: ((max?.position ?? -1) + 1), is_visible: true });
+          const { error } = await supabase.from("menu_columns").insert({ label: label.trim(), description: desc, group_id: target.group_id, position: ((max?.position ?? -1) + 1), is_visible: true });
           if (error) throw error;
         }
       } else {
