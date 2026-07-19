@@ -188,7 +188,7 @@ export default function PACS() {
               initial={{ opacity: 0, y: 30 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8 }}
-              className="mx-auto flex max-w-5xl flex-col items-center text-center"
+              className="mx-auto flex w-full max-w-5xl flex-col items-center text-center"
             >
               <h1 className="text-3xl font-bold leading-[1.1] tracking-tight text-white sm:text-4xl md:text-5xl lg:text-6xl">
                 {hero.headline}{" "}

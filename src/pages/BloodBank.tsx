@@ -160,9 +160,9 @@ export default function BloodBank() {
                 initial={{ opacity: 0, y: 30 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.8 }}
-                className="mx-auto flex max-w-5xl flex-col items-center text-center"
+                className="mx-auto flex w-full max-w-5xl flex-col items-center text-center"
               >
-                <h1 className="whitespace-nowrap text-2xl font-bold leading-[1.1] tracking-tight text-white sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl">
+                <h1 className="text-3xl font-bold leading-[1.1] tracking-tight text-white sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl">
                   {c.Hero.headline}{" "}
                   <span className="bg-clip-text text-transparent" style={{ backgroundImage: "var(--gradient-brand)" }}>
                     {c.Hero.headlineAccent}
