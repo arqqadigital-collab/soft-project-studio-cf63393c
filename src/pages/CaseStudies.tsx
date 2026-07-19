@@ -5,7 +5,7 @@ import { Link } from "react-router-dom";
 import { Footer } from "@/components/Footer";
 import { SeoHead } from "@/components/SeoHead";
 import { supabase } from "@/integrations/supabase/client";
-import { useListPageHero } from "@/hooks/use-list-page-hero";
+import { useCaseStudiesContent } from "@/lib/caseStudiesContent";
 
 type CaseStudyRow = {
   id: string;
