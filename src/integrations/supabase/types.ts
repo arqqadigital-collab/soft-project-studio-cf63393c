@@ -233,6 +233,7 @@ export type Database = {
           name: string
           parent_id: string | null
           slug: string
+          translations: Json
           updated_at: string
         }
         Insert: {
@@ -242,6 +243,7 @@ export type Database = {
           name: string
           parent_id?: string | null
           slug: string
+          translations?: Json
           updated_at?: string
         }
         Update: {
@@ -251,6 +253,7 @@ export type Database = {
           name?: string
           parent_id?: string | null
           slug?: string
+          translations?: Json
           updated_at?: string
         }
         Relationships: [

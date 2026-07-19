@@ -3,6 +3,7 @@ import { motion } from "framer-motion";
 import { Clock, ArrowRight, Calendar } from "lucide-react";
 import { Link } from "react-router-dom";
 import { format } from "date-fns";
+import { ar as arLocale } from "date-fns/locale";
 import { Button } from "@/components/ui/button";
 import { Footer } from "@/components/Footer";
 import { supabase } from "@/integrations/supabase/client";
@@ -19,7 +20,7 @@ type PostRow = {
   featured_image_url: string | null;
   published_at: string | null;
   created_at: string;
-  category: { name: string; slug: string } | null;
+  category: { name: string; slug: string; translations?: Record<string, { name?: string }> | null } | null;
   author: { full_name: string | null } | null;
   translations?: Record<string, Partial<Pick<PostRow, "title" | "excerpt">>> | null;
 };
