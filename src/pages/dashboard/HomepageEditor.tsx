@@ -266,7 +266,23 @@ export default function HomepageEditor() {
             </TabsContent>
           ))}
           <TabsContent value="hero" className="mt-3">
-      <div className="mb-3 flex justify-end">
+      <div className="mb-3 flex items-center justify-between gap-2">
+        <div className="inline-flex overflow-hidden rounded-md border">
+          <button
+            type="button"
+            onClick={() => setLang("en")}
+            className={`inline-flex items-center gap-1 px-3 py-1.5 text-xs font-semibold ${lang === "en" ? "bg-primary text-primary-foreground" : "bg-background hover:bg-muted"}`}
+          >
+            <Languages className="h-3.5 w-3.5" /> EN
+          </button>
+          <button
+            type="button"
+            onClick={() => setLang("ar")}
+            className={`inline-flex items-center gap-1 border-s border-border px-3 py-1.5 text-xs font-semibold ${lang === "ar" ? "bg-primary text-primary-foreground" : "bg-background hover:bg-muted"}`}
+          >
+            AR — العربية
+          </button>
+        </div>
         <Button variant="outline" size="sm" onClick={() => setHeroVisible((v) => !v)}>
           {heroVisible ? <><Eye className="mr-1 h-4 w-4" /> Hero visible</> : <><EyeOff className="mr-1 h-4 w-4" /> Hero hidden</>}
         </Button>
@@ -274,19 +290,32 @@ export default function HomepageEditor() {
       <div className={`grid gap-4 lg:grid-cols-[1fr_340px] ${heroVisible ? "" : "opacity-60"}`}>
         <div className="space-y-4">
           <Card>
-            <CardHeader className="pb-3"><CardTitle className="text-sm">Text content</CardTitle></CardHeader>
+            <CardHeader className="pb-3"><CardTitle className="text-sm">
+              Text content {lang === "ar" ? "— العربية" : ""}
+            </CardTitle></CardHeader>
             <CardContent className="space-y-3">
+              {lang === "ar" && (
+                <p className="rounded-md border border-dashed p-2 text-xs text-muted-foreground">
+                  Leave a field empty to fall back to the English value on the live site.
+                </p>
+              )}
               <div className="space-y-1.5">
                 <Label className="text-xs">Line 1</Label>
-                <Input value={form.heading_line1} onChange={(e) => patch("heading_line1", e.target.value)} />
+                {lang === "en"
+                  ? <Input value={form.heading_line1} onChange={(e) => patch("heading_line1", e.target.value)} />
+                  : <Input dir="rtl" value={arForm.heading_line1} onChange={(e) => patchAr("heading_line1", e.target.value)} placeholder={form.heading_line1} />}
               </div>
               <div className="space-y-1.5">
                 <Label className="text-xs">Line 2 (gradient)</Label>
-                <Input value={form.heading_line2} onChange={(e) => patch("heading_line2", e.target.value)} />
+                {lang === "en"
+                  ? <Input value={form.heading_line2} onChange={(e) => patch("heading_line2", e.target.value)} />
+                  : <Input dir="rtl" value={arForm.heading_line2} onChange={(e) => patchAr("heading_line2", e.target.value)} placeholder={form.heading_line2} />}
               </div>
               <div className="space-y-1.5">
                 <Label className="text-xs">Subheadline</Label>
-                <Textarea value={form.subheadline} onChange={(e) => patch("subheadline", e.target.value)} rows={3} />
+                {lang === "en"
+                  ? <Textarea value={form.subheadline} onChange={(e) => patch("subheadline", e.target.value)} rows={3} />
+                  : <Textarea dir="rtl" value={arForm.subheadline} onChange={(e) => patchAr("subheadline", e.target.value)} rows={3} placeholder={form.subheadline} />}
               </div>
             </CardContent>
           </Card>
