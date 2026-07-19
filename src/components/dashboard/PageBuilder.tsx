@@ -201,7 +201,7 @@ export function PageBuilder({ pageId, pageSlug }: { pageId: string; pageSlug?: s
             const def = SECTION_REGISTRY[row.kind];
             if (!def) return null;
             const arOverlay = (row.translations ?? {})[locale] ?? null;
-            const initial = locale === "en" ? (row.data ?? {}) : mergeDeep(row.data ?? {}, arOverlay ?? {});
+            const initial = locale === "en" ? (row.data ?? {}) : (arOverlay ?? {});
             return (
               <TabsContent key={row.id} value={row.id} className="mt-4">
                 <Card className={row.is_visible ? "" : "opacity-60"}>
@@ -316,11 +316,31 @@ function SectionEditForm({
           type="text"
           value={draft.section_name ?? ""}
           onChange={(e) => setDraft({ ...draft, section_name: e.target.value })}
-          placeholder={def.label}
+          placeholder={locale === "en" ? def.label : initial.section_name ?? def.label}
           className="mt-1 w-full rounded border border-border bg-background px-2 py-1 text-sm"
         />
       </div>
-      <Edit data={draft} onChange={setDraft} />
+      <Edit data={locale === "en" ? draft : mergeDeep(initial, draft)} onChange={(next) => {
+        if (locale === "en") {
+          setDraft(next);
+          return;
+        }
+        const overlay: any = {};
+        const diff = (base: any, value: any): any => {
+          if (Array.isArray(value)) return value;
+          if (value && typeof value === "object") {
+            const result: any = {};
+            for (const key of Object.keys(value)) {
+              const child = diff(base?.[key], value[key]);
+              if (child !== undefined) result[key] = child;
+            }
+            return Object.keys(result).length ? result : undefined;
+          }
+          return value !== base ? value : undefined;
+        };
+        Object.assign(overlay, diff(initial, next) ?? {});
+        setDraft(overlay);
+      }} />
       {images.length > 0 && (
         <div className="rounded-md border border-border">
           <div className="border-b border-border px-3 py-2 text-xs font-medium text-muted-foreground">

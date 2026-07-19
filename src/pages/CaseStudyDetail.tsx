@@ -5,6 +5,7 @@ import { Link, useNavigate, useParams } from "react-router-dom";
 import { Footer } from "@/components/Footer";
 import { SeoHead } from "@/components/SeoHead";
 import { supabase } from "@/integrations/supabase/client";
+import { useLocale } from "@/i18n/LanguageProvider";
 
 type CaseStudyDetail = {
   id: string;
@@ -20,6 +21,7 @@ type CaseStudyDetail = {
   published_at: string | null;
   created_at: string;
   tags: string[] | null;
+  translations?: Record<string, Partial<Pick<CaseStudyDetail, "title" | "summary" | "challenge" | "solution" | "results">>> | null;
 };
 
 function CoverPlaceholder({ className }: { className?: string }) {
@@ -47,6 +49,7 @@ function Section({ title, body }: { title: string; body: string }) {
 }
 
 export default function CaseStudyDetail() {
+  const { locale } = useLocale();
   const { slug = "" } = useParams<{ slug: string }>();
   const navigate = useNavigate();
   const [cs, setCs] = useState<CaseStudyDetail | null>(null);
@@ -61,7 +64,7 @@ export default function CaseStudyDetail() {
       const { data } = await supabase
         .from("case_studies")
         .select(
-          "id,title,slug,summary,client_name,industry,challenge,solution,results,cover_image_url,published_at,created_at,tags"
+          "id,title,slug,summary,client_name,industry,challenge,solution,results,cover_image_url,published_at,created_at,tags,translations"
         )
         .eq("slug", slug)
         .eq("status", "published")
@@ -82,13 +85,14 @@ export default function CaseStudyDetail() {
         setLoading(false);
         return;
       }
-      setCs(data as CaseStudyDetail);
+      const base = data as CaseStudyDetail;
+      setCs({ ...base, ...(locale === "en" ? {} : base.translations?.[locale] ?? {}) });
       setLoading(false);
     })();
     return () => {
       cancelled = true;
     };
-  }, [slug, navigate]);
+  }, [slug, navigate, locale]);
 
   if (loading) {
     return (

@@ -23,6 +23,10 @@ function merge<T>(base: T, over: any): T {
   return (over ?? base) as T;
 }
 
+function hasOwn(value: unknown, key: string): boolean {
+  return !!value && typeof value === "object" && Object.prototype.hasOwnProperty.call(value, key);
+}
+
 /**
  * Generic reader for a page's `page_sections`, merged over a defaults object
  * keyed by section_name. Applies the active locale's translation overlay from
@@ -74,7 +78,13 @@ export function useSectionsContent<T extends Record<string, any>>(
   const visibility = (data?.visibleByName ?? {}) as Record<string, boolean>;
   const merged: any = { _visible: {} as Record<keyof T, boolean> };
   for (const key of Object.keys(defaults) as (keyof T)[]) {
-    merged[key] = merge(defaults[key] as any, overrides[key as string] ?? {});
+    const override = overrides[key as string] ?? {};
+    merged[key] = merge(defaults[key] as any, override);
+    // A translated section name is only a dashboard label; it must never
+    // change which coded section receives this content.
+    if (hasOwn(defaults[key], "section_name")) {
+      merged[key].section_name = (defaults[key] as any).section_name;
+    }
     merged._visible[key] = visibility[key as string] ?? true;
   }
   return merged;
