@@ -12,8 +12,6 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { toSlug as slugify } from "@/lib/slug";
 import { LocaleTabs, LocaleHint, type EditorLocale } from "@/components/dashboard/LocaleTabs";
 
-const TRANSLATABLE = ["title", "summary", "challenge", "solution", "results"] as const;
-
 export default function CaseStudyEditor() {
   const { id } = useParams();
   const navigate = useNavigate();
