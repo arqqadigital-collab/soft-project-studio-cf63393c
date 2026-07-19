@@ -167,6 +167,48 @@
   animation-play-state: paused;
 }
 
+/* ============================================================
+   RTL (Arabic) global fixes
+   ============================================================ */
+
+/* Auto-mirror directional lucide icons in RTL contexts so
+   "next / read more →" arrows point the correct way. Excludes
+   the dashboard which is force-LTR. */
+html[dir="rtl"] .lucide-arrow-right,
+html[dir="rtl"] .lucide-arrow-left,
+html[dir="rtl"] .lucide-chevron-right,
+html[dir="rtl"] .lucide-chevron-left,
+html[dir="rtl"] .lucide-chevrons-right,
+html[dir="rtl"] .lucide-chevrons-left,
+html[dir="rtl"] .lucide-arrow-up-right,
+html[dir="rtl"] .lucide-arrow-up-left,
+html[dir="rtl"] .lucide-arrow-down-right,
+html[dir="rtl"] .lucide-arrow-down-left,
+html[dir="rtl"] .lucide-move-right,
+html[dir="rtl"] .lucide-move-left,
+html[dir="rtl"] .lucide-corner-down-right,
+html[dir="rtl"] .lucide-corner-down-left {
+  transform: scaleX(-1);
+}
+
+/* Icons that intentionally opt out of auto-flip */
+html[dir="rtl"] .rtl-no-flip {
+  transform: none !important;
+}
+
+/* Reverse marquee direction in RTL so scroll motion matches
+   Arabic reading direction. */
+html[dir="rtl"] .animate-marquee {
+  animation-direction: reverse;
+}
+
+/* Framer-motion / inline slide-in animations that use
+   translateX assume LTR. This helper class flips the axis. */
+html[dir="rtl"] .rtl-flip-x {
+  transform: scaleX(-1);
+}
+
+
 .scrollbar-hide {
   -ms-overflow-style: none;
   scrollbar-width: none;

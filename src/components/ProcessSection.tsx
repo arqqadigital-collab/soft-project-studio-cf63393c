@@ -45,7 +45,7 @@ export function ProcessSection() {
               </h2>
             </div>
             <div className="flex flex-col items-start gap-6 md:items-end">
-              <p className="max-w-md text-left text-base text-muted-foreground md:text-lg">{c.body}</p>
+              <p className="max-w-md text-start text-base text-muted-foreground md:text-lg">{c.body}</p>
               <a
                 href={c.cta_href}
                 className="inline-flex items-center gap-2 rounded-full px-6 py-3 text-sm font-semibold text-white shadow-[var(--shadow-brand)] transition-transform hover:scale-105"

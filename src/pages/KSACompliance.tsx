@@ -396,7 +396,7 @@ export default function KSACompliance() {
           <div className="mt-12 space-y-4">
             {c.FAQ.items.map((f: any) => (
               <details key={f.question} className="group rounded-2xl border border-border bg-card p-6 transition-shadow open:shadow-[var(--shadow-brand)]">
-                <summary className="flex cursor-pointer list-none items-start justify-between gap-4 text-left">
+                <summary className="flex cursor-pointer list-none items-start justify-between gap-4 text-start">
                   <span className="flex items-start gap-3 text-base font-semibold text-foreground md:text-lg">
                     <CheckCircle2 className="mt-0.5 h-5 w-5 shrink-0 text-[color:var(--brand-blue)]" />
                     {f.question}
@@ -405,7 +405,7 @@ export default function KSACompliance() {
                     +
                   </span>
                 </summary>
-                <p className="mt-4 pl-8 text-sm leading-relaxed text-foreground/75 md:text-base">{f.answer}</p>
+                <p className="mt-4 ps-8 text-sm leading-relaxed text-foreground/75 md:text-base">{f.answer}</p>
               </details>
             ))}
           </div>

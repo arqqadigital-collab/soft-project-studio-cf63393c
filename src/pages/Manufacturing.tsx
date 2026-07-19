@@ -278,7 +278,7 @@ export default function Manufacturing() {
             </h2>
             <div className="mt-12 grid grid-cols-1 gap-5 md:grid-cols-2">
               {c["Why SBS"].bullets.map((w: string) => (
-                <div key={w} className="flex items-start gap-3 rounded-2xl border border-white/10 bg-white/[0.03] p-6 text-left">
+                <div key={w} className="flex items-start gap-3 rounded-2xl border border-white/10 bg-white/[0.03] p-6 text-start">
                   <CheckCircle2 className="mt-0.5 h-5 w-5 flex-shrink-0 text-[var(--brand-blue)]" />
                   <p className="text-sm leading-relaxed text-white/85">{w}</p>
                 </div>

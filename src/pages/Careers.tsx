@@ -191,7 +191,7 @@ export default function Careers() {
 
                       <div className="hidden md:block md:w-1/2" />
 
-                      <div className="ml-24 w-full md:ml-0 md:w-1/2 md:px-12">
+                      <div className="ms-24 w-full md:ms-0 md:w-1/2 md:px-12">
                         <div className="rounded-2xl border border-border bg-card p-6 shadow-sm md:p-8">
                           <h3 className="text-xl font-bold text-foreground md:text-2xl">
                             {step.title}

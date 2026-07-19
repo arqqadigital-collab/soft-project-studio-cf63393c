@@ -194,8 +194,14 @@ function LogoSlider({ platforms }: { platforms: Platform[] }) {
   const scroll = (direction: "left" | "right") => {
     const el = scrollRef.current;
     if (!el) return;
-    const amount = direction === "left" ? -el.clientWidth * 0.8 : el.clientWidth * 0.8;
-    el.scrollBy({ left: amount, behavior: "smooth" });
+    const isRTL = typeof document !== "undefined" && document.documentElement.dir === "rtl";
+    const base = el.clientWidth * 0.8;
+    const signed = direction === "left" ? -base : base;
+    // In RTL, visual "left" button should move content to the previous
+    // (visually-right) items. scrollBy handles the sign correctly in
+    // modern browsers when the container has dir=rtl, but to be safe
+    // we invert here so the arrow always matches perceived direction.
+    el.scrollBy({ left: isRTL ? -signed : signed, behavior: "smooth" });
   };
 
   return (
@@ -203,9 +209,9 @@ function LogoSlider({ platforms }: { platforms: Platform[] }) {
       <button
         onClick={() => scroll("left")}
         disabled={!canScrollLeft}
-        className="absolute -left-4 top-1/2 z-10 hidden h-10 w-10 -translate-y-1/2 items-center justify-center rounded-full border border-border bg-background shadow-md transition-opacity hover:bg-muted md:flex"
+        className="absolute -start-4 top-1/2 z-10 hidden h-10 w-10 -translate-y-1/2 items-center justify-center rounded-full border border-border bg-background shadow-md transition-opacity hover:bg-muted md:flex"
         style={{ opacity: canScrollLeft ? 1 : 0.3 }}
-        aria-label="Scroll left"
+        aria-label="Scroll previous"
       >
         <ChevronLeft className="h-5 w-5" />
       </button>
@@ -231,12 +237,13 @@ function LogoSlider({ platforms }: { platforms: Platform[] }) {
       <button
         onClick={() => scroll("right")}
         disabled={!canScrollRight}
-        className="absolute -right-4 top-1/2 z-10 hidden h-10 w-10 -translate-y-1/2 items-center justify-center rounded-full border border-border bg-background shadow-md transition-opacity hover:bg-muted md:flex"
+        className="absolute -end-4 top-1/2 z-10 hidden h-10 w-10 -translate-y-1/2 items-center justify-center rounded-full border border-border bg-background shadow-md transition-opacity hover:bg-muted md:flex"
         style={{ opacity: canScrollRight ? 1 : 0.3 }}
-        aria-label="Scroll right"
+        aria-label="Scroll next"
       >
         <ChevronRight className="h-5 w-5" />
       </button>
+
     </div>
   );
 }
@@ -543,7 +550,7 @@ export function SecretaProductLayout({ content }: { content: any }) {
                 key={f.q}
                 className="group rounded-2xl border border-border bg-card p-6 transition-shadow open:shadow-[var(--shadow-brand)]"
               >
-                <summary className="flex cursor-pointer list-none items-start justify-between gap-4 text-left">
+                <summary className="flex cursor-pointer list-none items-start justify-between gap-4 text-start">
                   <span className="flex items-start gap-3 text-base font-semibold text-foreground md:text-lg">
                     <CheckCircle2 className="mt-0.5 h-5 w-5 shrink-0 text-[color:var(--brand-blue)]" />
                     {f.q}
@@ -555,7 +562,7 @@ export function SecretaProductLayout({ content }: { content: any }) {
                     +
                   </span>
                 </summary>
-                <p className="mt-4 pl-8 text-sm leading-relaxed text-foreground/75 md:text-base">{f.a}</p>
+                <p className="mt-4 ps-8 text-sm leading-relaxed text-foreground/75 md:text-base">{f.a}</p>
               </details>
             ))}
           </div>

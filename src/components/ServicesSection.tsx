@@ -30,7 +30,7 @@ export function ServicesSection() {
             </AnimatePresence>
             <div className="absolute inset-0 bg-gradient-to-r from-black/85 via-black/50 to-black/20" />
 
-            <div className="absolute right-4 top-4 flex gap-2 md:right-10 md:top-10">
+            <div className="absolute end-4 top-4 flex gap-2 md:end-10 md:top-10">
               <button onClick={prev} aria-label="Previous" className="flex h-10 w-10 items-center justify-center rounded-full border border-white/30 bg-white/10 text-white backdrop-blur transition hover:bg-white/20 md:h-12 md:w-12">
                 <ChevronLeft className="h-5 w-5" />
               </button>
@@ -55,7 +55,7 @@ export function ServicesSection() {
                 {services.map((s, i) => {
                   const isActive = i === active;
                   return (
-                    <button key={i} onClick={() => setActive(i)} className="group relative h-20 w-[140px] shrink-0 overflow-hidden rounded-xl text-left transition" style={{ boxShadow: isActive ? "0 0 0 2px var(--brand-green)" : "0 0 0 1px rgba(255,255,255,0.2)" }}>
+                    <button key={i} onClick={() => setActive(i)} className="group relative h-20 w-[140px] shrink-0 overflow-hidden rounded-xl text-start transition" style={{ boxShadow: isActive ? "0 0 0 2px var(--brand-green)" : "0 0 0 1px rgba(255,255,255,0.2)" }}>
                       <img src={s.image_url} alt={s.title} className="absolute inset-0 h-full w-full object-cover transition-transform group-hover:scale-105" />
                       <div className="absolute inset-0" style={{ background: isActive ? "linear-gradient(to top, rgba(0,0,0,0.85), rgba(0,0,0,0.2))" : "linear-gradient(to top, rgba(0,0,0,0.75), rgba(0,0,0,0.35))" }} />
                       <span className="absolute inset-x-0 bottom-0 line-clamp-2 p-2 text-[11px] font-semibold leading-tight text-white">{s.title}</span>
@@ -68,7 +68,7 @@ export function ServicesSection() {
                 {services.map((s, i) => {
                   const isActive = i === active;
                   return (
-                    <button key={i} onClick={() => setActive(i)} className="group relative h-24 overflow-hidden rounded-2xl text-left transition" style={{ boxShadow: isActive ? "0 0 0 2px var(--brand-green)" : "0 0 0 1px rgba(255,255,255,0.2)" }}>
+                    <button key={i} onClick={() => setActive(i)} className="group relative h-24 overflow-hidden rounded-2xl text-start transition" style={{ boxShadow: isActive ? "0 0 0 2px var(--brand-green)" : "0 0 0 1px rgba(255,255,255,0.2)" }}>
                       <img src={s.image_url} alt={s.title} className="absolute inset-0 h-full w-full object-cover transition-transform group-hover:scale-105" />
                       <div className="absolute inset-0 transition" style={{ background: isActive ? "linear-gradient(to top, rgba(0,0,0,0.85), rgba(0,0,0,0.2))" : "linear-gradient(to top, rgba(0,0,0,0.75), rgba(0,0,0,0.35))" }} />
                       <span className="absolute inset-x-0 bottom-0 p-3 text-sm font-semibold leading-tight text-white">{s.title}</span>

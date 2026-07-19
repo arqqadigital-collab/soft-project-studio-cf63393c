@@ -174,7 +174,7 @@ export default function ArticleDetail() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5 }}
-            className="text-left"
+            className="text-start"
           >
             <Link
               to="/blog"
@@ -206,7 +206,7 @@ export default function ArticleDetail() {
               </span>
             </div>
 
-            <h1 className="mt-5 text-left text-3xl font-bold leading-tight tracking-tight text-foreground md:text-4xl lg:text-5xl">
+            <h1 className="mt-5 text-start text-3xl font-bold leading-tight tracking-tight text-foreground md:text-4xl lg:text-5xl">
               {post.title}
             </h1>
 
