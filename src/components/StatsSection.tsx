@@ -62,7 +62,7 @@ export function StatsSection() {
         <div
           ref={ref}
           className={`mt-16 grid gap-6 grid-cols-1 sm:grid-cols-2 ${
-            c.items.length >= 3 ? "lg:grid-cols-3" : c.items.length === 2 ? "lg:grid-cols-2" : "lg:grid-cols-1"
+            c.items.length >= 3 ? "lg:grid-cols-3" : c.items.length >= 2 ? "lg:grid-cols-2" : "lg:grid-cols-1"
           }`}
         >
           {c.items.map((stat, i) => (
