@@ -29,6 +29,7 @@ export default function Login() {
   async function handleSubmit(e: FormEvent) {
     e.preventDefault();
     setError(null);
+    setInfo(null);
     setSubmitting(true);
     const { error } = await supabase.auth.signInWithPassword({ email, password });
     setSubmitting(false);
@@ -37,6 +38,25 @@ export default function Login() {
       return;
     }
     navigate(from, { replace: true });
+  }
+
+  async function handleForgotPassword() {
+    setError(null);
+    setInfo(null);
+    if (!email) {
+      setError("Enter your email above, then click Forgot password.");
+      return;
+    }
+    setResetting(true);
+    const { error } = await supabase.auth.resetPasswordForEmail(email, {
+      redirectTo: `${window.location.origin}/reset-password`,
+    });
+    setResetting(false);
+    if (error) {
+      setError(error.message);
+      return;
+    }
+    setInfo("Check your inbox for a password reset link.");
   }
 
   return (
@@ -87,6 +107,7 @@ export default function Login() {
         </div>
 
         {error && <p className="text-sm text-destructive">{error}</p>}
+        {info && <p className="text-sm text-emerald-600 dark:text-emerald-400">{info}</p>}
 
         <button
           type="submit"
@@ -94,6 +115,15 @@ export default function Login() {
           className="w-full rounded-md bg-primary px-4 py-2 text-sm font-medium text-primary-foreground transition-colors hover:bg-primary/90 disabled:opacity-60"
         >
           {submitting ? "Signing in..." : "Sign in"}
+        </button>
+
+        <button
+          type="button"
+          onClick={handleForgotPassword}
+          disabled={resetting}
+          className="w-full text-center text-sm text-muted-foreground underline-offset-4 hover:text-foreground hover:underline disabled:opacity-60"
+        >
+          {resetting ? "Sending reset link…" : "Forgot password?"}
         </button>
       </form>
     </main>
