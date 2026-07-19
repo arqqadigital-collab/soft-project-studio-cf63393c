@@ -56,6 +56,7 @@ export default function Taxonomy() {
 function TermsPanel({ kind, hasExtras }: { kind: Kind; hasExtras: boolean }) {
   const qc = useQueryClient();
   const [name, setName] = useState("");
+  const [nameAr, setNameAr] = useState("");
   const [slug, setSlug] = useState("");
   const [description, setDescription] = useState("");
   const [parentId, setParentId] = useState<string | null>(null);
@@ -65,7 +66,7 @@ function TermsPanel({ kind, hasExtras }: { kind: Kind; hasExtras: boolean }) {
   const list = useQuery({
     queryKey: [kind],
     queryFn: async () => {
-      const cols = hasExtras ? "id, name, slug, description, parent_id" : "id, name, slug";
+      const cols = hasExtras ? "id, name, slug, description, parent_id, translations" : "id, name, slug, translations";
       const { data, error } = await supabase.from(kind).select(cols).order("name");
       if (error) throw error;
       return (data ?? []) as unknown as Row[];
