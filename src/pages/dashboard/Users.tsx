@@ -42,7 +42,7 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
 import { toast } from "sonner";
 import { format } from "date-fns";
-import { Trash2, UserPlus } from "lucide-react";
+import { KeyRound, Mail, Trash2, UserPlus } from "lucide-react";
 import type { AppRole } from "@/hooks/use-role";
 
 type AdminUser = {
@@ -69,6 +69,10 @@ export default function UsersPage() {
   const [inviteOpen, setInviteOpen] = useState(false);
   const [inviteEmail, setInviteEmail] = useState("");
   const [inviteRole, setInviteRole] = useState<AppRole>("author");
+  const [creationMode, setCreationMode] = useState<"invite" | "password">("invite");
+  const [newPassword, setNewPassword] = useState("");
+  const [passwordUser, setPasswordUser] = useState<AdminUser | null>(null);
+  const [replacementPassword, setReplacementPassword] = useState("");
 
   const usersQ = useQuery({
     queryKey: ["admin-users"],
@@ -110,7 +114,50 @@ export default function UsersPage() {
       setInviteOpen(false);
       setInviteEmail("");
       setInviteRole("author");
+      setNewPassword("");
       qc.invalidateQueries({ queryKey: ["admin-users"] });
+    },
+    onError: (e: any) => toast.error(e.message),
+  });
+
+  const createUser = useMutation({
+    mutationFn: async () => callAdmin({
+      action: "create",
+      email: inviteEmail,
+      password: newPassword,
+      role: inviteRole,
+    }),
+    onSuccess: () => {
+      toast.success("User created");
+      setInviteOpen(false);
+      setInviteEmail("");
+      setInviteRole("author");
+      setNewPassword("");
+      qc.invalidateQueries({ queryKey: ["admin-users"] });
+    },
+    onError: (e: any) => toast.error(e.message),
+  });
+
+  const sendReset = useMutation({
+    mutationFn: async (email: string) => callAdmin({
+      action: "send_reset",
+      email,
+      redirect_to: window.location.origin,
+    }),
+    onSuccess: () => toast.success("Password reset email sent"),
+    onError: (e: any) => toast.error(e.message),
+  });
+
+  const setPassword = useMutation({
+    mutationFn: async () => callAdmin({
+      action: "set_password",
+      user_id: passwordUser?.id,
+      password: replacementPassword,
+    }),
+    onSuccess: () => {
+      toast.success("Password updated");
+      setPasswordUser(null);
+      setReplacementPassword("");
     },
     onError: (e: any) => toast.error(e.message),
   });
@@ -124,13 +171,31 @@ export default function UsersPage() {
         </div>
         <Dialog open={inviteOpen} onOpenChange={setInviteOpen}>
           <DialogTrigger asChild>
-            <Button><UserPlus className="mr-2 h-4 w-4" /> Invite user</Button>
+            <Button><UserPlus className="mr-2 h-4 w-4" /> Add user</Button>
           </DialogTrigger>
           <DialogContent>
             <DialogHeader>
-              <DialogTitle>Invite a user</DialogTitle>
+              <DialogTitle>Add a user</DialogTitle>
             </DialogHeader>
             <div className="space-y-3">
+              <div className="grid grid-cols-2 rounded-md border border-border p-1">
+                <Button
+                  type="button"
+                  size="sm"
+                  variant={creationMode === "invite" ? "secondary" : "ghost"}
+                  onClick={() => setCreationMode("invite")}
+                >
+                  Email invitation
+                </Button>
+                <Button
+                  type="button"
+                  size="sm"
+                  variant={creationMode === "password" ? "secondary" : "ghost"}
+                  onClick={() => setCreationMode("password")}
+                >
+                  Set password
+                </Button>
+              </div>
               <Input
                 type="email"
                 placeholder="user@example.com"
@@ -145,14 +210,26 @@ export default function UsersPage() {
                   ))}
                 </SelectContent>
               </Select>
+              {creationMode === "password" && (
+                <Input
+                  type="password"
+                  minLength={8}
+                  maxLength={128}
+                  placeholder="Password (minimum 8 characters)"
+                  value={newPassword}
+                  onChange={(e) => setNewPassword(e.target.value)}
+                />
+              )}
             </div>
             <DialogFooter>
               <Button variant="outline" onClick={() => setInviteOpen(false)}>Cancel</Button>
               <Button
-                onClick={() => invite.mutate()}
-                disabled={!inviteEmail || invite.isPending}
+                onClick={() => creationMode === "invite" ? invite.mutate() : createUser.mutate()}
+                disabled={!inviteEmail || (creationMode === "password" && newPassword.length < 8) || invite.isPending || createUser.isPending}
               >
-                {invite.isPending ? "Sending…" : "Send invite"}
+                {invite.isPending || createUser.isPending
+                  ? "Saving…"
+                  : creationMode === "invite" ? "Send invite" : "Create user"}
               </Button>
             </DialogFooter>
           </DialogContent>
@@ -177,6 +254,7 @@ export default function UsersPage() {
                   <TableHead>Role</TableHead>
                   <TableHead>Joined</TableHead>
                   <TableHead>Last sign-in</TableHead>
+                  <TableHead className="w-36">Password</TableHead>
                   <TableHead className="w-16" />
                 </TableRow>
               </TableHeader>
@@ -222,6 +300,29 @@ export default function UsersPage() {
                         {u.last_sign_in_at ? format(new Date(u.last_sign_in_at), "PP") : "—"}
                       </TableCell>
                       <TableCell>
+                        <div className="flex gap-1">
+                          <Button
+                            variant="ghost"
+                            size="icon"
+                            title="Send password reset email"
+                            aria-label={`Send password reset email to ${u.email}`}
+                            disabled={!u.email || sendReset.isPending}
+                            onClick={() => u.email && sendReset.mutate(u.email)}
+                          >
+                            <Mail className="h-4 w-4" />
+                          </Button>
+                          <Button
+                            variant="ghost"
+                            size="icon"
+                            title="Set password"
+                            aria-label={`Set password for ${u.email}`}
+                            onClick={() => setPasswordUser(u)}
+                          >
+                            <KeyRound className="h-4 w-4" />
+                          </Button>
+                        </div>
+                      </TableCell>
+                      <TableCell>
                         <AlertDialog>
                           <AlertDialogTrigger asChild>
                             <Button variant="ghost" size="icon">
@@ -252,6 +353,34 @@ export default function UsersPage() {
           )}
         </CardContent>
       </Card>
+
+      <Dialog open={!!passwordUser} onOpenChange={(open) => !open && setPasswordUser(null)}>
+        <DialogContent>
+          <DialogHeader>
+            <DialogTitle>Set password</DialogTitle>
+          </DialogHeader>
+          <div className="space-y-2">
+            <p className="text-sm text-muted-foreground">{passwordUser?.email}</p>
+            <Input
+              type="password"
+              minLength={8}
+              maxLength={128}
+              placeholder="New password (minimum 8 characters)"
+              value={replacementPassword}
+              onChange={(e) => setReplacementPassword(e.target.value)}
+            />
+          </div>
+          <DialogFooter>
+            <Button variant="outline" onClick={() => setPasswordUser(null)}>Cancel</Button>
+            <Button
+              onClick={() => setPassword.mutate()}
+              disabled={replacementPassword.length < 8 || setPassword.isPending}
+            >
+              {setPassword.isPending ? "Saving…" : "Save password"}
+            </Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
     </div>
   );
 }
