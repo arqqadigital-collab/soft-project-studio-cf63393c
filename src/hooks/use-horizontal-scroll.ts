@@ -40,6 +40,13 @@ export function useHorizontalScroll(
     };
   }, []);
 
-  const x = useTransform(scrollYProgress, progressRange, [0, -maxScroll]);
+  const isRTL =
+    typeof document !== "undefined" && document.documentElement.dir === "rtl";
+  const x = useTransform(
+    scrollYProgress,
+    progressRange,
+    isRTL ? [0, maxScroll] : [0, -maxScroll],
+  );
   return { viewportRef, trackRef, x };
 }
+
