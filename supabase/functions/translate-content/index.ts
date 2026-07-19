@@ -175,7 +175,7 @@ async function translateMenus() {
 
   // Translate the small menu tree in one request instead of making one AI call per row.
   // This keeps the function well below its wall-clock timeout.
-  const translated = await translateJson({
+  const translated = await translateJsonValidated({
     groups: groups.map((row) => ({ label: row.label ?? "" })),
     columns: columns.map((row) => ({ label: row.label ?? "", description: row.description ?? "" })),
     links: links.map((row) => ({ label: row.label ?? "" })),
