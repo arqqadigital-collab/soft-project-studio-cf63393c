@@ -380,7 +380,7 @@ export default function Zoho() {
                   className="overflow-hidden rounded-2xl border border-[var(--brand-blue)]/10 bg-white shadow-sm transition-shadow data-[state=open]:shadow-md"
                 >
                   <AccordionTrigger className="group px-6 py-5 hover:no-underline md:px-8 md:py-6 [&>svg]:hidden">
-                    <div className="flex flex-1 items-center gap-4 text-left">
+                    <div className="flex flex-1 items-center gap-4 text-start">
                       <CheckCircle2 className="h-5 w-5 flex-shrink-0 text-[var(--brand-blue)]" />
                       <span className="text-base font-bold md:text-lg" style={{ color: "var(--brand-dark)" }}>
                         {f.q}
@@ -391,7 +391,7 @@ export default function Zoho() {
                     </span>
                   </AccordionTrigger>
                   <AccordionContent className="px-6 pb-6 md:px-8 md:pb-7">
-                    <div className="pl-9 text-sm leading-relaxed text-muted-foreground">{f.a}</div>
+                    <div className="ps-9 text-sm leading-relaxed text-muted-foreground">{f.a}</div>
                   </AccordionContent>
                 </AccordionItem>
               ))}

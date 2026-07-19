@@ -133,11 +133,11 @@ function ExpandingJourney({ steps }: { steps: JourneyStep[] }) {
                 </motion.div>
 
                 {!showExpanded && (
-                  <div className="mt-auto text-left">
+                  <div className="mt-auto text-start">
                     <div className="text-[10px] font-bold uppercase tracking-[0.15em] text-white/65">
                       Step {i + 1}
                     </div>
-                    <h3 className="mt-2 text-left text-sm font-semibold leading-snug text-white md:text-base">
+                    <h3 className="mt-2 text-start text-sm font-semibold leading-snug text-white md:text-base">
                       {step.title}
                     </h3>
                   </div>
@@ -423,7 +423,7 @@ export default function AIImaging() {
           <p className="mx-auto mt-6 max-w-3xl text-base leading-relaxed text-foreground/70 md:text-lg">
             {c.Integrations.body}
           </p>
-          <div className="mt-14 grid gap-6 text-left md:grid-cols-2 lg:grid-cols-3">
+          <div className="mt-14 grid gap-6 text-start md:grid-cols-2 lg:grid-cols-3">
             {c.Integrations.groups.map((group: any) => (
               <div
                 key={group.title}
@@ -474,7 +474,7 @@ export default function AIImaging() {
                 key={f.q}
                 className="group rounded-2xl border border-border bg-card p-6 transition-shadow open:shadow-[var(--shadow-brand)]"
               >
-                <summary className="flex cursor-pointer list-none items-start justify-between gap-4 text-left">
+                <summary className="flex cursor-pointer list-none items-start justify-between gap-4 text-start">
                   <span className="flex items-start gap-3 text-base font-semibold text-foreground md:text-lg">
                     <CheckCircle2 className="mt-0.5 h-5 w-5 shrink-0 text-[color:var(--brand-blue)]" />
                     {f.q}
@@ -486,7 +486,7 @@ export default function AIImaging() {
                     +
                   </span>
                 </summary>
-                <p className="mt-4 pl-8 text-sm leading-relaxed text-foreground/75 md:text-base">{f.a}</p>
+                <p className="mt-4 ps-8 text-sm leading-relaxed text-foreground/75 md:text-base">{f.a}</p>
               </details>
             ))}
           </div>

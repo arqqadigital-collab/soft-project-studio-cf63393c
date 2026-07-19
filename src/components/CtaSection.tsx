@@ -92,7 +92,7 @@ export function CtaSection() {
 
 function Field({ label, children }: { label: string; children: React.ReactNode }) {
   return (
-    <label className="block text-left">
+    <label className="block text-start">
       <span className="mb-2 block text-sm font-medium text-foreground">{label}</span>
       {children}
     </label>

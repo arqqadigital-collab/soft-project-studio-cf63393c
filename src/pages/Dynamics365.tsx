@@ -121,7 +121,7 @@ export default function Dynamics365() {
 
             <p className="mt-6 text-base leading-relaxed text-white/70 md:text-lg">{c.Introduction.body}</p>
 
-            <div className="mt-10 grid grid-cols-1 gap-4 text-left sm:grid-cols-2">
+            <div className="mt-10 grid grid-cols-1 gap-4 text-start sm:grid-cols-2">
               {c.Introduction.bullets.map((line: string) => (
                 <div key={line} className="flex items-start gap-3 rounded-xl border border-white/10 bg-white/[0.03] p-4">
                   <CheckCircle2 className="mt-0.5 h-5 w-5 shrink-0 text-[var(--brand-blue)]" />

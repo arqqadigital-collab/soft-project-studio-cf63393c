@@ -75,7 +75,7 @@ function MegaPanel({ menu }: { menu: Menu }) {
               type="button"
               onMouseEnter={() => setActiveIdx(idx)}
               onFocus={() => setActiveIdx(idx)}
-              className={`flex w-full items-start gap-3 rounded-xl p-3 text-left transition-colors ${
+              className={`flex w-full items-start gap-3 rounded-xl p-3 text-start transition-colors ${
                 isActive ? "bg-white/10" : "hover:bg-white/5"
               }`}
             >

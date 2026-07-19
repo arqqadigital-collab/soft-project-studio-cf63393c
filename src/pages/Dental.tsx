@@ -131,12 +131,12 @@ function FaqItem({ q, a }: { q: string; a: string }) {
     <div className="border-b border-border">
       <button
         onClick={() => setOpen((o) => !o)}
-        className="flex w-full items-center justify-between gap-4 py-5 text-left"
+        className="flex w-full items-center justify-between gap-4 py-5 text-start"
       >
         <span className="text-base font-semibold text-foreground md:text-lg">{q}</span>
         <ChevronDown className={`h-5 w-5 shrink-0 text-muted-foreground transition-transform ${open ? "rotate-180" : ""}`} />
       </button>
-      {open && <p className="pb-5 pr-9 text-sm leading-relaxed text-muted-foreground md:text-base">{a}</p>}
+      {open && <p className="pb-5 pe-9 text-sm leading-relaxed text-muted-foreground md:text-base">{a}</p>}
     </div>
   );
 }

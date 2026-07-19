@@ -105,9 +105,9 @@ function ExpandingJourney({ steps }: { steps: any[] }) {
                   )}
                 </motion.div>
                 {!showExpanded && (
-                  <div className="mt-auto text-left">
+                  <div className="mt-auto text-start">
                     <div className="whitespace-nowrap text-xs font-bold uppercase tracking-[0.15em] text-white/65">Step {i + 1}</div>
-                    <h3 className="mt-2 text-left text-lg font-semibold text-white md:text-xl">{step.title}</h3>
+                    <h3 className="mt-2 text-start text-lg font-semibold text-white md:text-xl">{step.title}</h3>
                   </div>
                 )}
               </div>
@@ -313,14 +313,14 @@ export default function MedicationDosage() {
             <div className="mt-12 space-y-4">
               {c.FAQ.items.map((f: any) => (
                 <details key={f.q} className="group rounded-2xl border border-border bg-card p-6 transition-shadow open:shadow-[var(--shadow-brand)]">
-                  <summary className="flex cursor-pointer list-none items-start justify-between gap-4 text-left">
+                  <summary className="flex cursor-pointer list-none items-start justify-between gap-4 text-start">
                     <span className="flex items-start gap-3 text-base font-semibold text-foreground md:text-lg">
                       <CheckCircle2 className="mt-0.5 h-5 w-5 shrink-0 text-[color:var(--brand-blue)]" />
                       {f.q}
                     </span>
                     <span className="mt-1 inline-flex h-6 w-6 shrink-0 items-center justify-center rounded-full border border-border text-foreground/60 transition-transform group-open:rotate-45" aria-hidden>+</span>
                   </summary>
-                  <p className="mt-4 pl-8 text-sm leading-relaxed text-foreground/75 md:text-base">{f.a}</p>
+                  <p className="mt-4 ps-8 text-sm leading-relaxed text-foreground/75 md:text-base">{f.a}</p>
                 </details>
               ))}
             </div>

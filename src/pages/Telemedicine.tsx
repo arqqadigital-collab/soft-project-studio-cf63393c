@@ -384,7 +384,7 @@ export default function Telemedicine() {
           <p className="mx-auto mt-6 max-w-3xl text-base leading-relaxed text-foreground/70 md:text-lg">
             {integrations.body}
           </p>
-          <div className="mt-14 grid gap-6 text-left md:grid-cols-2 lg:grid-cols-3">
+          <div className="mt-14 grid gap-6 text-start md:grid-cols-2 lg:grid-cols-3">
             {(integrations.groups || []).map((group: any) => {
               const Icon = iconFor(group.icon);
               return (
@@ -436,7 +436,7 @@ export default function Telemedicine() {
                 key={f.q}
                 className="group rounded-2xl border border-border bg-card p-6 transition-shadow open:shadow-[var(--shadow-brand)]"
               >
-                <summary className="flex cursor-pointer list-none items-start justify-between gap-4 text-left">
+                <summary className="flex cursor-pointer list-none items-start justify-between gap-4 text-start">
                   <span className="flex items-start gap-3 text-base font-semibold text-foreground md:text-lg">
                     <CheckCircle2 className="mt-0.5 h-5 w-5 shrink-0 text-[color:var(--brand-blue)]" />
                     {f.q}
@@ -448,7 +448,7 @@ export default function Telemedicine() {
                     +
                   </span>
                 </summary>
-                <p className="mt-4 pl-8 text-sm leading-relaxed text-foreground/75 md:text-base">{f.a}</p>
+                <p className="mt-4 ps-8 text-sm leading-relaxed text-foreground/75 md:text-base">{f.a}</p>
               </details>
             ))}
           </div>

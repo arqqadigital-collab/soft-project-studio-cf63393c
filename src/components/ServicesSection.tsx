@@ -55,7 +55,7 @@ export function ServicesSection() {
                 {services.map((s, i) => {
                   const isActive = i === active;
                   return (
-                    <button key={i} onClick={() => setActive(i)} className="group relative h-20 w-[140px] shrink-0 overflow-hidden rounded-xl text-left transition" style={{ boxShadow: isActive ? "0 0 0 2px var(--brand-green)" : "0 0 0 1px rgba(255,255,255,0.2)" }}>
+                    <button key={i} onClick={() => setActive(i)} className="group relative h-20 w-[140px] shrink-0 overflow-hidden rounded-xl text-start transition" style={{ boxShadow: isActive ? "0 0 0 2px var(--brand-green)" : "0 0 0 1px rgba(255,255,255,0.2)" }}>
                       <img src={s.image_url} alt={s.title} className="absolute inset-0 h-full w-full object-cover transition-transform group-hover:scale-105" />
                       <div className="absolute inset-0" style={{ background: isActive ? "linear-gradient(to top, rgba(0,0,0,0.85), rgba(0,0,0,0.2))" : "linear-gradient(to top, rgba(0,0,0,0.75), rgba(0,0,0,0.35))" }} />
                       <span className="absolute inset-x-0 bottom-0 line-clamp-2 p-2 text-[11px] font-semibold leading-tight text-white">{s.title}</span>
@@ -68,7 +68,7 @@ export function ServicesSection() {
                 {services.map((s, i) => {
                   const isActive = i === active;
                   return (
-                    <button key={i} onClick={() => setActive(i)} className="group relative h-24 overflow-hidden rounded-2xl text-left transition" style={{ boxShadow: isActive ? "0 0 0 2px var(--brand-green)" : "0 0 0 1px rgba(255,255,255,0.2)" }}>
+                    <button key={i} onClick={() => setActive(i)} className="group relative h-24 overflow-hidden rounded-2xl text-start transition" style={{ boxShadow: isActive ? "0 0 0 2px var(--brand-green)" : "0 0 0 1px rgba(255,255,255,0.2)" }}>
                       <img src={s.image_url} alt={s.title} className="absolute inset-0 h-full w-full object-cover transition-transform group-hover:scale-105" />
                       <div className="absolute inset-0 transition" style={{ background: isActive ? "linear-gradient(to top, rgba(0,0,0,0.85), rgba(0,0,0,0.2))" : "linear-gradient(to top, rgba(0,0,0,0.75), rgba(0,0,0,0.35))" }} />
                       <span className="absolute inset-x-0 bottom-0 p-3 text-sm font-semibold leading-tight text-white">{s.title}</span>

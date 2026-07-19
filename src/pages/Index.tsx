@@ -47,7 +47,7 @@ const HEADING_SIZE_CLASS: Record<"sm" | "md" | "lg" | "xl", string> = {
   xl: "text-4xl md:text-6xl lg:text-7xl",
 };
 const ALIGN_TEXT: Record<"left" | "center" | "right", string> = {
-  left: "text-left items-start",
+  left: "text-start items-start",
   center: "text-center items-center",
   right: "text-right items-end",
 };
