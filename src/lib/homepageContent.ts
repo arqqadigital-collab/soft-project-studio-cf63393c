@@ -1,5 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
+import { useLocale } from "@/i18n/LanguageProvider";
 
 // Import default assets so we can reference them as URL strings
 import expertiseImg from "@/assets/expertise.png";
