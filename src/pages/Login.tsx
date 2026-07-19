@@ -53,7 +53,11 @@ export default function Login() {
     });
     setResetting(false);
     if (error) {
-      setError(error.message);
+      setError(
+        error.message.toLowerCase().includes("rate limit")
+          ? "Too many reset emails were requested. Please wait a few minutes, then try again."
+          : error.message
+      );
       return;
     }
     setInfo("Check your inbox for a password reset link.");
