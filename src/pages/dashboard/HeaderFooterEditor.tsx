@@ -82,14 +82,29 @@ export default function HeaderFooterEditor() {
 
   const set = (patch: any) => setForm((f: any) => ({ ...f, ...patch }));
 
+  const locales: { code: string; label: string; url?: string }[] = Array.isArray(form.header_locales) ? form.header_locales : [];
+  const mobileItems: { label: string; url: string }[] = Array.isArray(form.mobile_menu_items) ? form.mobile_menu_items : [];
+
   async function save() {
     const { error } = await supabase
       .from("header_footer_settings")
       .update({
         header_logo_url: form.header_logo_url,
+        header_logo_dark_url: form.header_logo_dark_url,
+        header_logo_height: Number(form.header_logo_height) || 56,
+        header_show_brand_text: !!form.header_show_brand_text,
+        header_brand_text: form.header_brand_text,
         header_cta_label: form.header_cta_label,
         header_cta_url: form.header_cta_url,
+        header_cta_variant: form.header_cta_variant || "gradient",
         header_show_menus: form.header_show_menus,
+        header_sticky: !!form.header_sticky,
+        header_transparent_on_hero: !!form.header_transparent_on_hero,
+        header_shadow_style: form.header_shadow_style || "soft",
+        header_show_locale_switcher: !!form.header_show_locale_switcher,
+        header_locales: locales,
+        mobile_menu_items: mobileItems,
+        mobile_show_social: form.mobile_show_social !== false,
         header_bg_color: form.header_bg_color,
         header_text_color: form.header_text_color,
         header_cta_bg_color: form.header_cta_bg_color,
@@ -124,19 +139,64 @@ export default function HeaderFooterEditor() {
 
         <TabsContent value="header" className="space-y-4">
           <Card className="p-4 space-y-4">
-            <h2 className="text-lg font-semibold">Branding & CTA</h2>
+            <h2 className="text-lg font-semibold">Logo & Brand</h2>
             <div className="grid gap-4 md:grid-cols-2">
               <div className="space-y-2">
-                <Label>Logo URL</Label>
+                <Label>Logo URL (default / on solid header)</Label>
                 <Input value={form.header_logo_url ?? ""} onChange={(e) => set({ header_logo_url: e.target.value })} placeholder="/logo.png" />
               </div>
               <div className="space-y-2">
+                <Label>Logo URL (alternate / on transparent hero)</Label>
+                <Input value={form.header_logo_dark_url ?? ""} onChange={(e) => set({ header_logo_dark_url: e.target.value })} placeholder="Optional light-variant logo" />
+              </div>
+              <div className="space-y-2">
+                <Label>Logo height (px)</Label>
+                <Input
+                  type="number"
+                  min={24}
+                  max={120}
+                  value={form.header_logo_height ?? 56}
+                  onChange={(e) => set({ header_logo_height: Number(e.target.value) })}
+                />
+              </div>
+              <div className="space-y-2">
+                <div className="flex items-center gap-3">
+                  <Switch checked={!!form.header_show_brand_text} onCheckedChange={(v) => set({ header_show_brand_text: v })} />
+                  <Label>Show brand text next to logo</Label>
+                </div>
+                <Input
+                  value={form.header_brand_text ?? ""}
+                  onChange={(e) => set({ header_brand_text: e.target.value })}
+                  placeholder="e.g. SBS"
+                  disabled={!form.header_show_brand_text}
+                />
+              </div>
+            </div>
+          </Card>
+
+          <Card className="p-4 space-y-4">
+            <h2 className="text-lg font-semibold">CTA Button</h2>
+            <div className="grid gap-4 md:grid-cols-2">
+              <div className="space-y-2">
                 <Label>CTA Label</Label>
-                <Input value={form.header_cta_label ?? ""} onChange={(e) => set({ header_cta_label: e.target.value })} placeholder="Get Started" />
+                <Input value={form.header_cta_label ?? ""} onChange={(e) => set({ header_cta_label: e.target.value })} placeholder="Book Demo" />
               </div>
               <div className="space-y-2">
                 <Label>CTA URL</Label>
                 <Input value={form.header_cta_url ?? ""} onChange={(e) => set({ header_cta_url: e.target.value })} placeholder="/contact" />
+              </div>
+              <div className="space-y-2">
+                <Label>Button style</Label>
+                <select
+                  className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm"
+                  value={form.header_cta_variant ?? "gradient"}
+                  onChange={(e) => set({ header_cta_variant: e.target.value })}
+                >
+                  <option value="gradient">Gradient (brand)</option>
+                  <option value="primary">Solid primary</option>
+                  <option value="outline">Outline</option>
+                  <option value="ghost">Ghost / text</option>
+                </select>
               </div>
               <div className="flex items-center gap-3 pt-6">
                 <Switch checked={form.header_show_menus} onCheckedChange={(v) => set({ header_show_menus: v })} />
@@ -144,6 +204,111 @@ export default function HeaderFooterEditor() {
               </div>
             </div>
           </Card>
+
+          <Card className="p-4 space-y-4">
+            <h2 className="text-lg font-semibold">Behavior</h2>
+            <div className="grid gap-4 md:grid-cols-2">
+              <div className="flex items-center gap-3">
+                <Switch checked={!!form.header_sticky} onCheckedChange={(v) => set({ header_sticky: v })} />
+                <div>
+                  <Label>Sticky on scroll</Label>
+                  <p className="text-xs text-muted-foreground">Header stays fixed at the top when the user scrolls.</p>
+                </div>
+              </div>
+              <div className="flex items-center gap-3">
+                <Switch checked={!!form.header_transparent_on_hero} onCheckedChange={(v) => set({ header_transparent_on_hero: v })} />
+                <div>
+                  <Label>Transparent over hero</Label>
+                  <p className="text-xs text-muted-foreground">Removes background above the fold; solidifies after scroll.</p>
+                </div>
+              </div>
+              <div className="space-y-2 md:col-span-2">
+                <Label>Shadow when scrolled</Label>
+                <select
+                  className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm"
+                  value={form.header_shadow_style ?? "soft"}
+                  onChange={(e) => set({ header_shadow_style: e.target.value })}
+                >
+                  <option value="none">None</option>
+                  <option value="soft">Soft</option>
+                  <option value="strong">Strong</option>
+                </select>
+              </div>
+            </div>
+          </Card>
+
+          <Card className="p-4 space-y-4">
+            <div className="flex items-center gap-3">
+              <Switch checked={!!form.header_show_locale_switcher} onCheckedChange={(v) => set({ header_show_locale_switcher: v })} />
+              <h2 className="text-lg font-semibold">Language / region switcher</h2>
+            </div>
+            <p className="text-sm text-muted-foreground">Add the locales you want visible in the switcher.</p>
+            <div className="space-y-2">
+              {locales.map((l, i) => (
+                <div key={i} className="flex items-center gap-2">
+                  <Input placeholder="en" value={l.code} maxLength={5} onChange={(e) => {
+                    const arr = [...locales]; arr[i] = { ...arr[i], code: e.target.value };
+                    set({ header_locales: arr });
+                  }} className="max-w-[100px]" />
+                  <Input placeholder="English" value={l.label} onChange={(e) => {
+                    const arr = [...locales]; arr[i] = { ...arr[i], label: e.target.value };
+                    set({ header_locales: arr });
+                  }} />
+                  <Input placeholder="/en (optional URL)" value={l.url ?? ""} onChange={(e) => {
+                    const arr = [...locales]; arr[i] = { ...arr[i], url: e.target.value };
+                    set({ header_locales: arr });
+                  }} />
+                  <Button variant="ghost" size="icon" onClick={() => set({ header_locales: locales.filter((_, j) => j !== i) })}>
+                    <Trash2 className="h-4 w-4 text-destructive" />
+                  </Button>
+                </div>
+              ))}
+              <Button variant="outline" size="sm" onClick={() => set({ header_locales: [...locales, { code: "", label: "", url: "" }] })}>
+                <Plus className="mr-1 h-4 w-4" /> Add locale
+              </Button>
+            </div>
+          </Card>
+
+          <Card className="p-4 space-y-4">
+            <h2 className="text-lg font-semibold">Mobile menu</h2>
+            <p className="text-sm text-muted-foreground">Extra links shown only inside the mobile drawer, plus a toggle for social icons.</p>
+            <div className="flex items-center gap-3">
+              <Switch checked={form.mobile_show_social !== false} onCheckedChange={(v) => set({ mobile_show_social: v })} />
+              <Label>Show social icons in mobile drawer</Label>
+            </div>
+            <div className="space-y-2">
+              <Label>Mobile-only links</Label>
+              {mobileItems.map((m, i) => (
+                <div key={i} className="flex items-center gap-2">
+                  <Input placeholder="Label" value={m.label} onChange={(e) => {
+                    const arr = [...mobileItems]; arr[i] = { ...arr[i], label: e.target.value };
+                    set({ mobile_menu_items: arr });
+                  }} />
+                  <Input placeholder="/url" value={m.url} onChange={(e) => {
+                    const arr = [...mobileItems]; arr[i] = { ...arr[i], url: e.target.value };
+                    set({ mobile_menu_items: arr });
+                  }} />
+                  <div className="flex gap-1">
+                    <Button variant="ghost" size="icon" disabled={i === 0} onClick={() => {
+                      const arr = [...mobileItems]; const t = arr[i - 1]; arr[i - 1] = arr[i]; arr[i] = t;
+                      set({ mobile_menu_items: arr });
+                    }}>↑</Button>
+                    <Button variant="ghost" size="icon" disabled={i === mobileItems.length - 1} onClick={() => {
+                      const arr = [...mobileItems]; const t = arr[i + 1]; arr[i + 1] = arr[i]; arr[i] = t;
+                      set({ mobile_menu_items: arr });
+                    }}>↓</Button>
+                    <Button variant="ghost" size="icon" onClick={() => set({ mobile_menu_items: mobileItems.filter((_, j) => j !== i) })}>
+                      <Trash2 className="h-4 w-4 text-destructive" />
+                    </Button>
+                  </div>
+                </div>
+              ))}
+              <Button variant="outline" size="sm" onClick={() => set({ mobile_menu_items: [...mobileItems, { label: "", url: "" }] })}>
+                <Plus className="mr-1 h-4 w-4" /> Add mobile link
+              </Button>
+            </div>
+          </Card>
+
 
           <Card className="p-4 space-y-4">
             <h2 className="text-lg font-semibold">Colors</h2>

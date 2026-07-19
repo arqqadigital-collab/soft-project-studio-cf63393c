@@ -518,14 +518,26 @@ export type Database = {
           footer_social: Json
           footer_tagline: string | null
           header_bg_color: string | null
+          header_brand_text: string | null
           header_cta_bg_color: string | null
           header_cta_label: string | null
           header_cta_text_color: string | null
           header_cta_url: string | null
+          header_cta_variant: string
+          header_locales: Json
+          header_logo_dark_url: string | null
+          header_logo_height: number
           header_logo_url: string | null
+          header_shadow_style: string
+          header_show_brand_text: boolean
+          header_show_locale_switcher: boolean
           header_show_menus: boolean
+          header_sticky: boolean
           header_text_color: string | null
+          header_transparent_on_hero: boolean
           id: string
+          mobile_menu_items: Json
+          mobile_show_social: boolean
           singleton: boolean
           updated_at: string
         }
@@ -537,14 +549,26 @@ export type Database = {
           footer_social?: Json
           footer_tagline?: string | null
           header_bg_color?: string | null
+          header_brand_text?: string | null
           header_cta_bg_color?: string | null
           header_cta_label?: string | null
           header_cta_text_color?: string | null
           header_cta_url?: string | null
+          header_cta_variant?: string
+          header_locales?: Json
+          header_logo_dark_url?: string | null
+          header_logo_height?: number
           header_logo_url?: string | null
+          header_shadow_style?: string
+          header_show_brand_text?: boolean
+          header_show_locale_switcher?: boolean
           header_show_menus?: boolean
+          header_sticky?: boolean
           header_text_color?: string | null
+          header_transparent_on_hero?: boolean
           id?: string
+          mobile_menu_items?: Json
+          mobile_show_social?: boolean
           singleton?: boolean
           updated_at?: string
         }
@@ -556,14 +580,26 @@ export type Database = {
           footer_social?: Json
           footer_tagline?: string | null
           header_bg_color?: string | null
+          header_brand_text?: string | null
           header_cta_bg_color?: string | null
           header_cta_label?: string | null
           header_cta_text_color?: string | null
           header_cta_url?: string | null
+          header_cta_variant?: string
+          header_locales?: Json
+          header_logo_dark_url?: string | null
+          header_logo_height?: number
           header_logo_url?: string | null
+          header_shadow_style?: string
+          header_show_brand_text?: boolean
+          header_show_locale_switcher?: boolean
           header_show_menus?: boolean
+          header_sticky?: boolean
           header_text_color?: string | null
+          header_transparent_on_hero?: boolean
           id?: string
+          mobile_menu_items?: Json
+          mobile_show_social?: boolean
           singleton?: boolean
           updated_at?: string
         }
