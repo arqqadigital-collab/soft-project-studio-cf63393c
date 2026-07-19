@@ -5,7 +5,7 @@ import { toast } from "sonner";
 import {
   Plus, Trash2, Pencil, ChevronDown, ChevronRight, FileText,
   Eye, EyeOff, FolderPlus, LayoutGrid, ExternalLink,
-  Home, Mail, Lock, Link as LinkIcon, GripVertical, Search,
+  Home, Mail, Lock, Link as LinkIcon, GripVertical, Search, Sparkles, Loader2,
 } from "lucide-react";
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
 import {
@@ -60,6 +60,25 @@ export default function PagesAndNavigation() {
   const [activeDrag, setActiveDrag] = useState<{ kind: DragKind; label: string } | null>(null);
   const [tab, setTab] = useState<"pages" | "navigation">("pages");
   const [pageSearch, setPageSearch] = useState("");
+  const [translatingAll, setTranslatingAll] = useState(false);
+
+  async function translateAllPages() {
+    if (!confirm("Auto-translate ALL sections across ALL pages into Arabic?\n\nThis will OVERWRITE any existing Arabic content site-wide and may take several minutes.")) return;
+    setTranslatingAll(true);
+    const t = toast.loading("Translating every page to Arabic. This can take a few minutes…");
+    try {
+      const { data, error } = await supabase.functions.invoke("translate-content", {
+        body: { mode: "all_pages" },
+      });
+      if (error) throw error;
+      const res = data as { ok: number; fail: number; total: number };
+      toast.success(`Translated ${res.ok}/${res.total} sections${res.fail ? ` (${res.fail} failed)` : ""}`, { id: t });
+    } catch (e: any) {
+      toast.error(e?.message ?? "Translation failed", { id: t });
+    } finally {
+      setTranslatingAll(false);
+    }
+  }
 
   const groups = tree.data ?? [];
 
@@ -291,6 +310,12 @@ export default function PagesAndNavigation() {
           </p>
         </div>
         <div className="flex gap-2">
+          {tab === "pages" && (
+            <Button variant="outline" onClick={translateAllPages} disabled={translatingAll} title="Auto-translate every page section into Arabic (overwrites existing Arabic content)">
+              {translatingAll ? <Loader2 className="mr-1 h-4 w-4 animate-spin" /> : <Sparkles className="mr-1 h-4 w-4" />}
+              Translate all to Arabic
+            </Button>
+          )}
           {tab === "navigation" && (
             <Button variant="outline" onClick={() => setEdit({ kind: "group", label: "" })}>
               <FolderPlus className="mr-1 h-4 w-4" /> New Group

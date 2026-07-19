@@ -9,7 +9,7 @@ import {
   DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import {
-  Trash2, ArrowUp, ArrowDown, Eye, EyeOff, Plus, Copy, Languages,
+  Trash2, ArrowUp, ArrowDown, Eye, EyeOff, Plus, Copy, Languages, Sparkles, Loader2,
 } from "lucide-react";
 import { SECTION_REGISTRY, SECTION_KINDS, type SectionKind, type SectionDef } from "@/lib/pageSections";
 import { PageDefaultsProvider } from "@/lib/contentSections";
@@ -37,6 +37,27 @@ export function PageBuilder({ pageId, pageSlug }: { pageId: string; pageSlug?: s
   const qc = useQueryClient();
   const [activeTab, setActiveTab] = useState<string | undefined>(undefined);
   const [locale, setLocale] = useState<LocaleCode>("en");
+  const [translating, setTranslating] = useState(false);
+
+  async function translateAll() {
+    if (!confirm("Auto-translate ALL sections on this page to Arabic? This will OVERWRITE any existing Arabic content for this page.")) return;
+    setTranslating(true);
+    const t = toast.loading("Translating sections to Arabic…");
+    try {
+      const { data, error } = await supabase.functions.invoke("translate-content", {
+        body: { mode: "page", pageId },
+      });
+      if (error) throw error;
+      const res = data as { ok: number; fail: number; total: number };
+      toast.success(`Translated ${res.ok}/${res.total} sections${res.fail ? ` (${res.fail} failed)` : ""}`, { id: t });
+      invalidate();
+      setLocale("ar");
+    } catch (e: any) {
+      toast.error(e?.message ?? "Translation failed", { id: t });
+    } finally {
+      setTranslating(false);
+    }
+  }
 
   const q = useQuery({
     queryKey: ["page-sections-admin", pageId],
@@ -140,6 +161,16 @@ export function PageBuilder({ pageId, pageSlug }: { pageId: string; pageSlug?: s
               AR — العربية
             </button>
           </div>
+          <Button
+            size="sm"
+            variant="outline"
+            onClick={translateAll}
+            disabled={translating || rows.length === 0}
+            title="Auto-translate all sections on this page to Arabic (overwrites existing Arabic)"
+          >
+            {translating ? <Loader2 className="mr-1 h-4 w-4 animate-spin" /> : <Sparkles className="mr-1 h-4 w-4" />}
+            Translate to Arabic
+          </Button>
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
               <Button size="sm"><Plus className="mr-1 h-4 w-4" /> Add section</Button>
