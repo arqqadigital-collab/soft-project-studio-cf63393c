@@ -148,5 +148,5 @@ export const PE_DEFAULTS = {
 } as const;
 
 export function usePatientEngagementContent() {
-  return useSectionsContent("patient-engagement", PE_DEFAULTS as any);
+  return useSectionsContent("healthcare-patient-engagement", PE_DEFAULTS as any);
 }
