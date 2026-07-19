@@ -27,6 +27,7 @@ interface Row {
   slug: string;
   description?: string | null;
   parent_id?: string | null;
+  translations?: { ar?: { name?: string; description?: string } } | null;
 }
 
 export default function Taxonomy() {
