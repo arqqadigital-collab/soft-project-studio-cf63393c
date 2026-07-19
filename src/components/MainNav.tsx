@@ -12,7 +12,7 @@ type Leaf = {
 type Column = { id: string; label: string; description?: string | null; items: Leaf[] };
 type Menu = { id: string; label: string; columns: Column[] };
 
-const simpleLinks = ["Contact"];
+
 
 function isExternal(url: string | null | undefined) {
   return !!url && /^https?:\/\//i.test(url);
@@ -161,6 +161,20 @@ export function MainNav() {
   return (
     <nav className="hidden items-center gap-8 lg:flex">
       {menus.map((menu) => {
+        const totalItems = menu.columns.reduce((n, c) => n + c.items.length, 0);
+        // Render as a plain link when the group is just a single link.
+        if (menu.columns.length === 1 && totalItems === 1) {
+          const leaf = menu.columns[0].items[0];
+          return (
+            <LeafLink
+              key={menu.id}
+              item={leaf}
+              className="text-sm font-medium text-white/80 transition-colors hover:text-white"
+            >
+              {menu.label}
+            </LeafLink>
+          );
+        }
         const hasRightPanel = menu.columns.some((c) => c.items.length > 0);
         const width = hasRightPanel ? "w-[640px]" : "w-[360px]";
         return (
@@ -182,16 +196,6 @@ export function MainNav() {
           </div>
         );
       })}
-
-      {simpleLinks.map((link) => (
-        <Link
-          key={link}
-          to="/contact"
-          className="text-sm font-medium text-white/80 transition-colors hover:text-white"
-        >
-          {link}
-        </Link>
-      ))}
     </nav>
   );
 }
