@@ -32,21 +32,30 @@ const ICONS: Record<string, LucideIcon> = {
 const Icon = (name?: string) => ICONS[name ?? ""] ?? ClipboardList;
 
 function ExpandingJourney({ steps }: { steps: any[] }) {
-  const [active, setActive] = useState(0);
+    const [active, setActive] = useState(0);
+  const [isDesktop, setIsDesktop] = useState(false);
+  useEffect(() => {
+    const mq = window.matchMedia("(min-width: 768px)");
+    const onChange = () => setIsDesktop(mq.matches);
+    onChange();
+    mq.addEventListener("change", onChange);
+    return () => mq.removeEventListener("change", onChange);
+  }, []);
   return (
     <div className="mt-14 flex flex-col gap-3 md:h-[520px] md:flex-row md:gap-4">
       {steps.map((step: any, i: number) => {
         const I = Icon(step.icon);
         const isActive = active === i;
+        const showExpanded = isActive || !isDesktop;
         return (
           <motion.div
             key={step.title}
             onMouseEnter={() => setActive(i)}
             onClick={() => setActive(i)}
-            animate={{ flexGrow: isActive ? 4 : 1 }}
+            animate={isDesktop ? { flexGrow: isActive ? 4 : 1 } : { flexGrow: 1 }}
             transition={{ duration: 0.55, ease: [0.4, 0, 0.2, 1] }}
             className="group relative cursor-pointer overflow-hidden rounded-3xl border border-border md:h-full"
-            style={{ flexBasis: 0, minWidth: 0 }}
+            style={{ flexBasis: isDesktop ? 0 : 'auto', minWidth: 0 }}
           >
             <div
               className="absolute inset-0 bg-cover bg-center bg-no-repeat transition-transform duration-700 group-hover:scale-105"
@@ -54,7 +63,7 @@ function ExpandingJourney({ steps }: { steps: any[] }) {
               aria-hidden="true"
             />
             <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(5,12,24,0.35)_0%,rgba(5,12,24,0.72)_48%,rgba(5,12,24,0.94)_100%)]" aria-hidden="true" />
-            <div className={`relative flex h-full min-h-[320px] flex-col ${isActive ? "p-6" : "p-3"}`}>
+            <div className={`relative flex h-full min-h-[320px] flex-col ${showExpanded ? "p-6" : "p-3"}`}>
               <div
                 className="flex h-11 w-11 items-center justify-center rounded-xl text-white shadow-[var(--shadow-brand)]"
                 style={{ background: "var(--gradient-brand)" }}
@@ -63,11 +72,11 @@ function ExpandingJourney({ steps }: { steps: any[] }) {
               </div>
               <div className="mt-5 flex h-[calc(100%-2.75rem)] flex-col">
                 <motion.div
-                  animate={{ opacity: isActive ? 1 : 0 }}
-                  transition={{ duration: 0.3, delay: isActive ? 0.25 : 0 }}
+                  animate={{ opacity: showExpanded ? 1 : 0 }}
+                  transition={{ duration: 0.3, delay: showExpanded ? 0.25 : 0 }}
                   className="flex-1"
                 >
-                  {isActive && (
+                  {showExpanded && (
                     <>
                       <div className="text-[10px] font-bold uppercase tracking-[0.2em] text-white/70">Stage {i + 1}</div>
                       <h3 className="mt-2 text-lg font-bold leading-tight text-white md:text-xl">{step.title}</h3>
@@ -75,7 +84,7 @@ function ExpandingJourney({ steps }: { steps: any[] }) {
                     </>
                   )}
                 </motion.div>
-                {!isActive && (
+                {!showExpanded && (
                   <div className="mt-auto">
                     <div className="text-[9px] font-bold uppercase tracking-[0.2em] text-white/65">Stage {i + 1}</div>
                     <h3 className="mt-1.5 text-xs font-semibold leading-snug text-white md:text-sm">{step.title}</h3>
