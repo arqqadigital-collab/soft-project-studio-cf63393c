@@ -54,7 +54,9 @@ function Cover({ url, className }: { url: string | null; className?: string }) {
 }
 
 export default function CaseStudies() {
-  const { data: hero } = useListPageHero("case-studies");
+  const content = useCaseStudiesContent();
+  const hero = content.Hero;
+  const heroVisible = content._visible.Hero;
   const [rows, setRows] = useState<CaseStudyRow[]>([]);
   const [loading, setLoading] = useState(true);
   const [active, setActive] = useState<string>("All");
