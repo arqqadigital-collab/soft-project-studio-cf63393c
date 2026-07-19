@@ -7,7 +7,7 @@ import { Toaster } from "@/components/ui/sonner";
 export default function DashboardLayout() {
   return (
     <SidebarProvider>
-      <div className="flex min-h-screen w-full bg-muted/30">
+      <div dir="ltr" className="flex min-h-screen w-full bg-muted/30">
         <DashboardSidebar />
         <SidebarInset className="flex min-w-0 flex-1 flex-col">
           <DashboardTopbar />
