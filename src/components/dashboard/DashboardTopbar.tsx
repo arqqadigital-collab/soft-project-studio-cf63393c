@@ -20,8 +20,10 @@ import { useLocale } from "@/i18n/LanguageProvider";
 export function DashboardTopbar() {
   const { user } = useAuth();
   const { highest } = useRoles();
+  const { locale, setLocale } = useLocale();
   const navigate = useNavigate();
   const initials = (user?.email?.[0] ?? "U").toUpperCase();
+  const nextLocale = locale === "ar" ? "en" : "ar";
 
   async function logout() {
     await supabase.auth.signOut();
