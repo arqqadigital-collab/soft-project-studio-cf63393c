@@ -295,6 +295,10 @@ Deno.serve(async (req) => {
       const r = await translateHomepage(!!body?.missingOnly);
       return new Response(JSON.stringify(r), { headers: { ...corsHeaders, "Content-Type": "application/json" } });
     }
+    if (mode === "contact") {
+      const r = await translateContact(!!body?.missingOnly);
+      return new Response(JSON.stringify(r), { headers: { ...corsHeaders, "Content-Type": "application/json" } });
+    }
 
     let query = admin.from("page_sections").select("id, data, page_id, translations");
     if (mode === "page") {
