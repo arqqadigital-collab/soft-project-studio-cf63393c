@@ -157,13 +157,22 @@ function TermsPanel({ kind, hasExtras }: { kind: Kind; hasExtras: boolean }) {
         </CardHeader>
         <CardContent className="space-y-3">
           <div className="space-y-1.5">
-            <Label className="text-xs">Name</Label>
+            <Label className="text-xs">Name (English)</Label>
             <Input
               value={name}
               onChange={(e) => {
                 setName(e.target.value);
                 if (!slugTouched) setSlug(toSlug(e.target.value));
               }}
+            />
+          </div>
+          <div className="space-y-1.5">
+            <Label className="text-xs">الاسم (Arabic)</Label>
+            <Input
+              dir="rtl"
+              value={nameAr}
+              onChange={(e) => setNameAr(e.target.value)}
+              placeholder="مثال: الرعاية الصحية"
             />
           </div>
           <div className="space-y-1.5">
