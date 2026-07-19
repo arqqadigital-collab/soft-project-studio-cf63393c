@@ -10,6 +10,7 @@ import { Card } from "@/components/ui/card";
 import { Label } from "@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { toSlug as slugify } from "@/lib/slug";
+import { LocaleTabs, LocaleHint, type EditorLocale } from "@/components/dashboard/LocaleTabs";
 
 function toLocal(dt: string | null) {
   if (!dt) return "";
@@ -26,23 +27,33 @@ export default function EventEditor() {
     title: "", slug: "", description: "", event_type: "webinar",
     starts_at: null, ends_at: null, location: "", virtual_link: "",
     registration_url: "", cover_image_url: "", status: "draft",
+    translations: {} as Record<string, any>,
   });
   const [loading, setLoading] = useState(!isNew);
+  const [locale, setLocale] = useState<EditorLocale>("en");
+  const [ar, setAr] = useState<Record<string, string>>({});
 
   useEffect(() => {
     if (isNew) return;
     (async () => {
       const { data, error } = await supabase.from("events").select("*").eq("id", id!).maybeSingle();
       if (error) toast.error(error.message);
-      if (data) setF(data);
+      if (data) {
+        setF(data);
+        setAr(((data as any).translations?.ar ?? {}) as Record<string, string>);
+      }
       setLoading(false);
     })();
   }, [id, isNew]);
 
   const set = (patch: any) => setF((x: any) => ({ ...x, ...patch }));
+  const getV = (k: string) => (locale === "ar" ? (ar[k] ?? "") : (f[k] ?? ""));
+  const setV = (k: string, v: string) =>
+    locale === "ar" ? setAr((x) => ({ ...x, [k]: v })) : set({ [k]: v });
 
   async function save() {
-    const payload = { ...f, slug: f.slug || slugify(f.title) };
+    const translations = { ...(f.translations ?? {}), ar };
+    const payload = { ...f, translations, slug: f.slug || slugify(f.title) };
     if (!payload.title) return toast.error("Title required");
     if (isNew) {
       const { data, error } = await supabase.from("events").insert(payload).select("id").single();
@@ -67,21 +78,32 @@ export default function EventEditor() {
           </Button>
           <h1 className="text-2xl font-semibold">{isNew ? "New Event" : "Edit Event"}</h1>
         </div>
-        <Button onClick={save}><Save className="mr-1 h-4 w-4" /> Save</Button>
+        <div className="flex items-center gap-2">
+          <LocaleTabs locale={locale} onChange={setLocale} />
+          <Button onClick={save}><Save className="mr-1 h-4 w-4" /> Save</Button>
+        </div>
       </div>
 
+      <LocaleHint locale={locale} />
+
       <div className="grid gap-4 lg:grid-cols-[1fr_320px]">
-        <Card className="p-4 space-y-4">
-          <div className="space-y-2"><Label>Title</Label><Input value={f.title} onChange={(e) => set({ title: e.target.value })} /></div>
-          <div className="space-y-2"><Label>Slug</Label><Input value={f.slug} onChange={(e) => set({ slug: e.target.value })} placeholder="auto from title" /></div>
-          <div className="space-y-2"><Label>Description</Label><Textarea rows={6} value={f.description ?? ""} onChange={(e) => set({ description: e.target.value })} /></div>
+        <Card className="p-4 space-y-4" dir={locale === "ar" ? "rtl" : "ltr"}>
+          <div className="space-y-2"><Label>Title{locale === "ar" ? " (AR)" : ""}</Label><Input value={getV("title")} onChange={(e) => setV("title", e.target.value)} placeholder={locale === "ar" ? f.title : undefined} /></div>
+          {locale === "en" && <div className="space-y-2"><Label>Slug</Label><Input value={f.slug} onChange={(e) => set({ slug: e.target.value })} placeholder="auto from title" /></div>}
+          <div className="space-y-2"><Label>Description{locale === "ar" ? " (AR)" : ""}</Label><Textarea rows={6} value={getV("description")} onChange={(e) => setV("description", e.target.value)} placeholder={locale === "ar" ? f.description ?? "" : undefined} /></div>
+          {locale === "en" && (
+            <>
+              <div className="grid gap-4 md:grid-cols-2">
+                <div className="space-y-2"><Label>Starts</Label><Input type="datetime-local" value={toLocal(f.starts_at)} onChange={(e) => set({ starts_at: e.target.value ? new Date(e.target.value).toISOString() : null })} /></div>
+                <div className="space-y-2"><Label>Ends</Label><Input type="datetime-local" value={toLocal(f.ends_at)} onChange={(e) => set({ ends_at: e.target.value ? new Date(e.target.value).toISOString() : null })} /></div>
+              </div>
+            </>
+          )}
           <div className="grid gap-4 md:grid-cols-2">
-            <div className="space-y-2"><Label>Starts</Label><Input type="datetime-local" value={toLocal(f.starts_at)} onChange={(e) => set({ starts_at: e.target.value ? new Date(e.target.value).toISOString() : null })} /></div>
-            <div className="space-y-2"><Label>Ends</Label><Input type="datetime-local" value={toLocal(f.ends_at)} onChange={(e) => set({ ends_at: e.target.value ? new Date(e.target.value).toISOString() : null })} /></div>
-            <div className="space-y-2"><Label>Location</Label><Input value={f.location ?? ""} onChange={(e) => set({ location: e.target.value })} placeholder="City, venue" /></div>
-            <div className="space-y-2"><Label>Virtual link</Label><Input value={f.virtual_link ?? ""} onChange={(e) => set({ virtual_link: e.target.value })} placeholder="https://…" /></div>
+            <div className="space-y-2"><Label>Location{locale === "ar" ? " (AR)" : ""}</Label><Input value={getV("location")} onChange={(e) => setV("location", e.target.value)} placeholder={locale === "ar" ? f.location ?? "" : "City, venue"} /></div>
+            {locale === "en" && <div className="space-y-2"><Label>Virtual link</Label><Input value={f.virtual_link ?? ""} onChange={(e) => set({ virtual_link: e.target.value })} placeholder="https://…" /></div>}
           </div>
-          <div className="space-y-2"><Label>Registration URL</Label><Input value={f.registration_url ?? ""} onChange={(e) => set({ registration_url: e.target.value })} /></div>
+          {locale === "en" && <div className="space-y-2"><Label>Registration URL</Label><Input value={f.registration_url ?? ""} onChange={(e) => set({ registration_url: e.target.value })} /></div>}
         </Card>
 
         <Card className="p-4 space-y-4 h-fit">

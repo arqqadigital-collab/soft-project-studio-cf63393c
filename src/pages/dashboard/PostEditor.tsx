@@ -20,6 +20,7 @@ import { RichTextEditor } from "@/components/dashboard/RichTextEditor";
 import { MediaPickerDialog } from "@/components/dashboard/MediaPickerDialog";
 import { SeoEditor } from "@/components/dashboard/SeoEditor";
 import { RevisionsPanel } from "@/components/dashboard/RevisionsPanel";
+import { LocaleTabs, LocaleHint, type EditorLocale } from "@/components/dashboard/LocaleTabs";
 
 type Status = "draft" | "published" | "scheduled" | "trashed";
 
@@ -63,6 +64,9 @@ export default function PostEditor() {
   const [tagInput, setTagInput] = useState("");
   const [pickerOpen, setPickerOpen] = useState(false);
   const dirtyRef = useRef(false);
+  const [locale, setLocale] = useState<EditorLocale>("en");
+  const [ar, setAr] = useState<{ title?: string; excerpt?: string; content?: string }>({});
+  const [translations, setTranslations] = useState<Record<string, any>>({});
 
   // Load categories
   const categories = useQuery({
@@ -106,6 +110,9 @@ export default function PostEditor() {
       setPreviewToken(d.preview_token ?? null);
       setSlugTouched(true);
       dirtyRef.current = false;
+      const t = (d.translations ?? {}) as Record<string, any>;
+      setTranslations(t);
+      setAr((t.ar ?? {}) as any);
     }
   }, [existing.data]);
 
@@ -158,6 +165,7 @@ export default function PostEditor() {
       category_id: form.category_id || null,
       published_at: form.published_at,
       author_id: user.id,
+      translations: { ...translations, ar },
     };
     try {
       let pid = postId;
@@ -208,6 +216,7 @@ export default function PostEditor() {
           <ArrowLeft className="mr-1 h-4 w-4" /> Back
         </Button>
         <div className="flex items-center gap-2">
+          <LocaleTabs locale={locale} onChange={setLocale} />
           {lastSavedAt && (
             <span className="text-xs text-muted-foreground">
               Saved {lastSavedAt.toLocaleTimeString()}
@@ -243,24 +252,31 @@ export default function PostEditor() {
         </div>
       </div>
 
+      <LocaleHint locale={locale} />
+
       <div className="grid gap-4 lg:grid-cols-[1fr_320px]">
         <div className="space-y-4">
           <Card>
-            <CardContent className="space-y-4 pt-6">
+            <CardContent className="space-y-4 pt-6" dir={locale === "ar" ? "rtl" : "ltr"}>
               <Input
-                value={form.title}
-                onChange={(e) => patch("title", e.target.value)}
-                placeholder="Post title"
+                value={locale === "ar" ? (ar.title ?? "") : form.title}
+                onChange={(e) => {
+                  if (locale === "ar") { setAr((x) => ({ ...x, title: e.target.value })); dirtyRef.current = true; }
+                  else patch("title", e.target.value);
+                }}
+                placeholder={locale === "ar" ? form.title || "عنوان المقال" : "Post title"}
                 className="border-none px-0 text-2xl font-semibold shadow-none focus-visible:ring-0"
               />
-              <div className="flex items-center gap-2 text-sm text-muted-foreground">
-                <span>/blog/</span>
-                <Input
-                  value={form.slug}
-                  onChange={(e) => { setSlugTouched(true); patch("slug", toSlug(e.target.value)); }}
-                  className="h-8"
-                />
-              </div>
+              {locale === "en" && (
+                <div className="flex items-center gap-2 text-sm text-muted-foreground">
+                  <span>/blog/</span>
+                  <Input
+                    value={form.slug}
+                    onChange={(e) => { setSlugTouched(true); patch("slug", toSlug(e.target.value)); }}
+                    className="h-8"
+                  />
+                </div>
+              )}
             </CardContent>
           </Card>
 
@@ -270,15 +286,25 @@ export default function PostEditor() {
               <TabsTrigger value="excerpt">Excerpt</TabsTrigger>
               <TabsTrigger value="seo">SEO</TabsTrigger>
             </TabsList>
-            <TabsContent value="content" className="mt-3">
-              <RichTextEditor value={form.content} onChange={(html) => patch("content", html)} />
+            <TabsContent value="content" className="mt-3" dir={locale === "ar" ? "rtl" : "ltr"}>
+              <RichTextEditor
+                key={locale}
+                value={locale === "ar" ? (ar.content ?? "") : form.content}
+                onChange={(html) => {
+                  if (locale === "ar") { setAr((x) => ({ ...x, content: html })); dirtyRef.current = true; }
+                  else patch("content", html);
+                }}
+              />
             </TabsContent>
-            <TabsContent value="excerpt" className="mt-3">
+            <TabsContent value="excerpt" className="mt-3" dir={locale === "ar" ? "rtl" : "ltr"}>
               <Textarea
                 rows={5}
-                value={form.excerpt}
-                onChange={(e) => patch("excerpt", e.target.value)}
-                placeholder="Optional summary shown in post lists…"
+                value={locale === "ar" ? (ar.excerpt ?? "") : form.excerpt}
+                onChange={(e) => {
+                  if (locale === "ar") { setAr((x) => ({ ...x, excerpt: e.target.value })); dirtyRef.current = true; }
+                  else patch("excerpt", e.target.value);
+                }}
+                placeholder={locale === "ar" ? form.excerpt || "ملخص المقال…" : "Optional summary shown in post lists…"}
               />
             </TabsContent>
             <TabsContent value="seo" className="mt-3">
