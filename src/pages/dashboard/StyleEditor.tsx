@@ -23,14 +23,10 @@ const DEFAULT_TOKENS: StyleTokens = {
   btn_style: "solid",
 };
 
-const CATEGORY_PREFIXES = [
-  { label: "Healthcare", value: "/healthcare" },
-  { label: "Solutions", value: "/solutions" },
-  { label: "Industries", value: "/industries" },
-  { label: "Services", value: "/services" },
-  { label: "Company", value: "/company" },
-  { label: "Blog", value: "/blog" },
-  { label: "Case Studies", value: "/case-studies" },
+const LISTING_PAGES = [
+  { label: "Blog", prefix: "/blog" },
+  { label: "Case Studies", prefix: "/case-studies" },
+  { label: "Events & Webinars", prefix: "/events" },
 ];
 
 function TokenControls({ value, onChange }: { value: StyleTokens; onChange: (v: StyleTokens) => void }) {
@@ -206,21 +202,21 @@ export default function StyleEditor() {
     onError: (e: any) => toast.error(e.message ?? "Save failed"),
   });
 
-  const addOverride = () => {
-    setTokens((t) => ({
-      ...t,
-      overrides: [...(t.overrides ?? []), { prefix: "/healthcare", tokens: { ...(t.default ?? DEFAULT_TOKENS) } }],
-    }));
+  const getOverride = (prefix: string): StyleTokens => {
+    const existing = (tokens.overrides ?? []).find((o) => o.prefix === prefix);
+    return existing?.tokens ?? { ...(tokens.default ?? DEFAULT_TOKENS) };
   };
-  const updateOverride = (i: number, patch: Partial<{ prefix: string; tokens: StyleTokens }>) => {
+  const setOverride = (prefix: string, next: StyleTokens) => {
     setTokens((t) => {
       const list = [...(t.overrides ?? [])];
-      list[i] = { ...list[i], ...patch } as any;
+      const idx = list.findIndex((o) => o.prefix === prefix);
+      if (idx >= 0) list[idx] = { prefix, tokens: next };
+      else list.push({ prefix, tokens: next });
       return { ...t, overrides: list };
     });
   };
-  const removeOverride = (i: number) => {
-    setTokens((t) => ({ ...t, overrides: (t.overrides ?? []).filter((_, idx) => idx !== i) }));
+  const clearOverride = (prefix: string) => {
+    setTokens((t) => ({ ...t, overrides: (t.overrides ?? []).filter((o) => o.prefix !== prefix) }));
   };
 
   return (
@@ -228,7 +224,7 @@ export default function StyleEditor() {
       <div className="flex items-center justify-between">
         <div>
           <h1 className="text-2xl font-bold">Card & Button Style Editor</h1>
-          <p className="text-sm text-muted-foreground">Control the look of cards and buttons across the entire site, with optional per-category overrides.</p>
+          <p className="text-sm text-muted-foreground">Site-wide defaults, plus dedicated card styling for Blog, Case Studies, and Events.</p>
         </div>
         <Button onClick={() => save.mutate()} disabled={save.isPending}>
           {save.isPending ? "Saving…" : "Save"}
@@ -249,42 +245,35 @@ export default function StyleEditor() {
         </CardContent>
       </Card>
 
-      <Card>
-        <CardHeader className="flex flex-row items-center justify-between">
-          <div>
-            <CardTitle>Category overrides</CardTitle>
-            <CardDescription>Match by URL prefix (e.g. /healthcare). First match wins.</CardDescription>
-          </div>
-          <Button variant="outline" size="sm" onClick={addOverride}><Plus className="mr-1 h-4 w-4" />Add override</Button>
-        </CardHeader>
-        <CardContent className="space-y-6">
-          {(tokens.overrides ?? []).length === 0 && (
-            <p className="text-sm text-muted-foreground">No overrides yet. Site-wide defaults apply everywhere.</p>
-          )}
-          {(tokens.overrides ?? []).map((o, i) => (
-            <div key={i} className="rounded-lg border p-4 space-y-4">
-              <div className="flex items-end gap-2">
-                <div className="flex-1">
-                  <Label>URL prefix</Label>
-                  <div className="flex gap-2">
-                    <Select value={CATEGORY_PREFIXES.find(c => c.value === o.prefix)?.value ?? "custom"} onValueChange={(v) => v !== "custom" && updateOverride(i, { prefix: v })}>
-                      <SelectTrigger className="w-48"><SelectValue /></SelectTrigger>
-                      <SelectContent>
-                        {CATEGORY_PREFIXES.map(c => <SelectItem key={c.value} value={c.value}>{c.label}</SelectItem>)}
-                        <SelectItem value="custom">Custom…</SelectItem>
-                      </SelectContent>
-                    </Select>
-                    <Input value={o.prefix} onChange={(e) => updateOverride(i, { prefix: e.target.value })} placeholder="/healthcare" />
-                  </div>
-                </div>
-                <Button variant="ghost" size="icon" onClick={() => removeOverride(i)}><Trash2 className="h-4 w-4" /></Button>
+      {LISTING_PAGES.map((page) => {
+        const active = (tokens.overrides ?? []).some((o) => o.prefix === page.prefix);
+        const current = getOverride(page.prefix);
+        return (
+          <Card key={page.prefix}>
+            <CardHeader className="flex flex-row items-center justify-between">
+              <div>
+                <CardTitle>{page.label} cards</CardTitle>
+                <CardDescription>Override card styling on <code>{page.prefix}</code>.</CardDescription>
               </div>
-              <TokenControls value={o.tokens} onChange={(v) => updateOverride(i, { tokens: v })} />
-              <Preview tokens={o.tokens} />
-            </div>
-          ))}
-        </CardContent>
-      </Card>
+              {active ? (
+                <Button variant="ghost" size="sm" onClick={() => clearOverride(page.prefix)}>
+                  <Trash2 className="mr-1 h-4 w-4" />Reset to default
+                </Button>
+              ) : (
+                <Button variant="outline" size="sm" onClick={() => setOverride(page.prefix, current)}>
+                  <Plus className="mr-1 h-4 w-4" />Customize
+                </Button>
+              )}
+            </CardHeader>
+            {active && (
+              <CardContent className="space-y-6">
+                <TokenControls value={current} onChange={(v) => setOverride(page.prefix, v)} />
+                <Preview tokens={current} />
+              </CardContent>
+            )}
+          </Card>
+        );
+      })}
     </div>
   );
 }
