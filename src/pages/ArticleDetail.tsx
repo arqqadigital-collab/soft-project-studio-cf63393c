@@ -1,8 +1,9 @@
 import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
-import { ArrowLeft, Calendar, Clock } from "lucide-react";
+import { ArrowLeft, Calendar } from "lucide-react";
 import { Link, useParams, useNavigate } from "react-router-dom";
 import { format } from "date-fns";
+import { ar as arLocale } from "date-fns/locale";
 import { Footer } from "@/components/Footer";
 import { supabase } from "@/integrations/supabase/client";
 import { SeoHead } from "@/components/SeoHead";
