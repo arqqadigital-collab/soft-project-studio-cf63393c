@@ -4,7 +4,9 @@ import { useLocale } from "@/i18n/LanguageProvider";
 
 export function ClientsSection() {
   const c = useSectionContent("clients");
+  const { isRTL } = useLocale();
   const loop = [...c.logos, ...c.logos];
+
 
   return (
     <section id="section-clients" className="bg-background py-24 md:py-32">
