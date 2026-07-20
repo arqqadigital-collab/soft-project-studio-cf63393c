@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from "react";
 import { Globe, Check } from "lucide-react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { useLocale } from "@/i18n/LanguageProvider";
+import { useAltLanguagePath } from "@/i18n/AltLanguagePath";
 import { findCounterpart, useRouteMap } from "@/lib/routeMap";
 import type { Locale } from "@/i18n";
 
