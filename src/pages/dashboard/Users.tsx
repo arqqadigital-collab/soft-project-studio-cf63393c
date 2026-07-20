@@ -69,7 +69,6 @@ export default function UsersPage() {
   const [inviteOpen, setInviteOpen] = useState(false);
   const [inviteEmail, setInviteEmail] = useState("");
   const [inviteRole, setInviteRole] = useState<AppRole>("author");
-  const [creationMode, setCreationMode] = useState<"invite" | "password">("invite");
   const [newPassword, setNewPassword] = useState("");
   const [passwordUser, setPasswordUser] = useState<AdminUser | null>(null);
   const [replacementPassword, setReplacementPassword] = useState("");
@@ -96,25 +95,6 @@ export default function UsersPage() {
     mutationFn: async (user_id: string) => callAdmin({ action: "delete", user_id }),
     onSuccess: () => {
       toast.success("User deleted");
-      qc.invalidateQueries({ queryKey: ["admin-users"] });
-    },
-    onError: (e: any) => toast.error(e.message),
-  });
-
-  const invite = useMutation({
-    mutationFn: async () =>
-      callAdmin({
-        action: "invite",
-        email: inviteEmail,
-        role: inviteRole,
-        redirect_to: window.location.origin,
-      }),
-    onSuccess: () => {
-      toast.success("Invitation sent");
-      setInviteOpen(false);
-      setInviteEmail("");
-      setInviteRole("author");
-      setNewPassword("");
       qc.invalidateQueries({ queryKey: ["admin-users"] });
     },
     onError: (e: any) => toast.error(e.message),
@@ -178,24 +158,6 @@ export default function UsersPage() {
               <DialogTitle>Add a user</DialogTitle>
             </DialogHeader>
             <div className="space-y-3">
-              <div className="grid grid-cols-2 rounded-md border border-border p-1">
-                <Button
-                  type="button"
-                  size="sm"
-                  variant={creationMode === "invite" ? "secondary" : "ghost"}
-                  onClick={() => setCreationMode("invite")}
-                >
-                  Email invitation
-                </Button>
-                <Button
-                  type="button"
-                  size="sm"
-                  variant={creationMode === "password" ? "secondary" : "ghost"}
-                  onClick={() => setCreationMode("password")}
-                >
-                  Set password
-                </Button>
-              </div>
               <Input
                 type="email"
                 placeholder="user@example.com"
@@ -210,31 +172,28 @@ export default function UsersPage() {
                   ))}
                 </SelectContent>
               </Select>
-              {creationMode === "password" && (
-                <Input
-                  type="password"
-                  minLength={8}
-                  maxLength={128}
-                  placeholder="Password (minimum 8 characters)"
-                  value={newPassword}
-                  onChange={(e) => setNewPassword(e.target.value)}
-                />
-              )}
+              <Input
+                type="password"
+                minLength={8}
+                maxLength={128}
+                placeholder="Password (minimum 8 characters)"
+                value={newPassword}
+                onChange={(e) => setNewPassword(e.target.value)}
+              />
             </div>
             <DialogFooter>
               <Button variant="outline" onClick={() => setInviteOpen(false)}>Cancel</Button>
               <Button
-                onClick={() => creationMode === "invite" ? invite.mutate() : createUser.mutate()}
-                disabled={!inviteEmail || (creationMode === "password" && newPassword.length < 8) || invite.isPending || createUser.isPending}
+                onClick={() => createUser.mutate()}
+                disabled={!inviteEmail || newPassword.length < 8 || createUser.isPending}
               >
-                {invite.isPending || createUser.isPending
-                  ? "Saving…"
-                  : creationMode === "invite" ? "Send invite" : "Create user"}
+                {createUser.isPending ? "Saving…" : "Create user"}
               </Button>
             </DialogFooter>
           </DialogContent>
         </Dialog>
       </div>
+
 
       <Card>
         <CardHeader><CardTitle>All users</CardTitle></CardHeader>
