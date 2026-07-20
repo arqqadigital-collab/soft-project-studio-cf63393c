@@ -13,7 +13,14 @@ import {
   Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle,
 } from "@/components/ui/dialog";
 
-type EntityType = "post" | "page";
+type EntityType = "post" | "page" | "case_study" | "event";
+
+const TABLE_BY_TYPE: Record<EntityType, "posts" | "pages" | "case_studies" | "events"> = {
+  post: "posts",
+  page: "pages",
+  case_study: "case_studies",
+  event: "events",
+};
 
 interface Revision {
   id: string;
