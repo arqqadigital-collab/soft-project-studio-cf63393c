@@ -20,6 +20,9 @@ type CaseStudyRow = {
   cover_image_url: string | null;
   published_at: string | null;
   created_at: string;
+  category_id: string | null;
+  categories?: { name: string } | null;
+  category_name?: string | null;
   translations?: Record<string, Partial<Pick<CaseStudyRow, "title" | "summary">>> | null;
 };
 
