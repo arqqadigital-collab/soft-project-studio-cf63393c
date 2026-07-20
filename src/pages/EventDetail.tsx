@@ -23,6 +23,7 @@ type EventDetail = {
   registration_url: string | null;
   cover_image_url: string | null;
   published_at: string | null;
+  category?: { name: string; translations?: Record<string, { name?: string }> | null } | null;
   translations?: Record<string, Partial<Pick<EventDetail, "title" | "description" | "location">>> | null;
 };
 
@@ -72,14 +73,19 @@ export default function EventDetail() {
       setLoading(true);
       const { data } = await supabase
         .from("events")
-        .select("*")
+        .select("*,category:categories(name,translations)")
         .or(typeof window !== "undefined" && window.location.pathname.startsWith("/ar/") ? `slug_ar.eq.${slug},slug.eq.${slug}` : `slug.eq.${slug}`)
         .eq("status", "published")
         .maybeSingle();
       if (cancelled) return;
       if (data) {
-        const base = data as EventDetail;
-        setEv({ ...base, ...(locale === "en" ? {} : base.translations?.[locale] ?? {}) });
+        const base = data as unknown as EventDetail;
+        const categoryName = locale === "en" ? undefined : base.category?.translations?.[locale]?.name;
+        setEv({
+          ...base,
+          ...(locale === "en" ? {} : base.translations?.[locale] ?? {}),
+          category: base.category ? { ...base.category, name: categoryName ?? base.category.name } : null,
+        });
         setLoading(false);
         return;
       }
@@ -149,7 +155,7 @@ export default function EventDetail() {
               className="w-fit rounded-full px-3 py-1 text-xs font-semibold uppercase tracking-wider"
               style={{ color: "var(--brand-blue)", background: "oklch(0.62 0.13 230 / 0.1)" }}
             >
-              {labelType(ev.event_type)}
+              {ev.category?.name ?? labelType(ev.event_type)}
             </span>
             <h1 className="mt-5 text-3xl font-bold leading-tight tracking-tight text-foreground md:text-5xl">
               {ev.title}

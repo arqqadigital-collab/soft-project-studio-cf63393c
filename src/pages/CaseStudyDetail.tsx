@@ -23,6 +23,7 @@ type CaseStudyDetail = {
   published_at: string | null;
   created_at: string;
   tags: string[] | null;
+  category?: { name: string; translations?: Record<string, { name?: string }> | null } | null;
   translations?: Record<string, Partial<Pick<CaseStudyDetail, "title" | "summary" | "challenge" | "solution" | "results">>> | null;
 };
 
@@ -69,7 +70,7 @@ export default function CaseStudyDetail() {
       const { data } = await supabase
         .from("case_studies")
         .select(
-          "id,title,slug,summary,client_name,industry,challenge,solution,results,cover_image_url,published_at,created_at,tags,translations"
+          "id,title,slug,summary,client_name,industry,challenge,solution,results,cover_image_url,published_at,created_at,tags,translations,category:categories(name,translations)"
         )
         .or(typeof window !== "undefined" && window.location.pathname.startsWith("/ar/") ? `slug_ar.eq.${slug},slug.eq.${slug}` : `slug.eq.${slug}`)
         .eq("status", "published")
@@ -90,8 +91,13 @@ export default function CaseStudyDetail() {
         setLoading(false);
         return;
       }
-      const base = data as CaseStudyDetail;
-      setCs({ ...base, ...(locale === "en" ? {} : base.translations?.[locale] ?? {}) });
+       const base = data as unknown as CaseStudyDetail;
+       const categoryName = locale === "en" ? undefined : base.category?.translations?.[locale]?.name;
+       setCs({
+         ...base,
+         ...(locale === "en" ? {} : base.translations?.[locale] ?? {}),
+         category: base.category ? { ...base.category, name: categoryName ?? base.category.name } : null,
+       });
       setLoading(false);
     })();
     return () => {
@@ -145,7 +151,7 @@ export default function CaseStudyDetail() {
             transition={{ duration: 0.6, ease: "easeOut" }}
             className="mt-6"
           >
-            {cs.industry && (
+            {(cs.category?.name ?? cs.industry) && (
               <span
                 className="inline-block rounded-full px-3 py-1 text-xs font-semibold uppercase tracking-wider"
                 style={{
@@ -153,7 +159,7 @@ export default function CaseStudyDetail() {
                   background: "oklch(0.72 0.17 145 / 0.12)",
                 }}
               >
-                {cs.industry}
+                {cs.category?.name ?? cs.industry}
               </span>
             )}
             <h1 className="mt-5 text-4xl font-bold leading-[1.1] tracking-tight text-foreground md:text-5xl">
