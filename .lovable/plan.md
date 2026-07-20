@@ -1,67 +1,46 @@
-## Goal
-1. Track **which page** every form submission came from (Footer CTA + Contact page + any future form).
-2. Build a **Submissions Inbox** in the dashboard so you can browse, filter, and export leads without opening Supabase.
+# Forms Dashboard Tab
 
----
+Consolidate all form management into one place with editable labels/placeholders in English and Arabic.
 
-## Part 1 — Capture the source page
+## New sidebar entry
 
-**Database (migration)**
-Add two columns to `contact_submissions`:
-- `page_path` (text) — e.g. `/ar/من-نحن` or `/healthcare/his`
-- `page_title` (text) — e.g. "About Us" or "HIS" (whatever the browser tab shows at submit time)
+Replace the standalone "Submissions" link with a **Forms** section at `/dashboard/forms` containing three sub-tabs:
 
-Both nullable so old rows stay valid. No RLS changes — existing insert policy already allows anonymous inserts.
+1. **Submissions** — the existing inbox (moved, not rewritten)
+2. **Contact form** — field editor for the `/contact` page form
+3. **Footer CTA form** — field editor for the site-wide bottom CTA form
 
-**Frontend (auto-fill, no user-visible field)**
-- `FooterCta.tsx` → include `page_path: window.location.pathname` and `page_title: document.title` in the insert payload.
-- `Contact.tsx` → same two fields.
-- Wrap in a tiny helper `src/lib/submissionMeta.ts` so future forms use one line.
+## What's editable per form
 
-No UI change on the public site. Nothing shown to visitors.
+For each form, an EN/AR tab lets the admin edit:
 
----
+- Heading + subheading (Footer CTA only — Contact page already has its own hero)
+- Field labels: Name, Email, Phone, Company, Message
+- Field placeholders (same 5)
+- Submit button label
+- Success message (title + body shown after submit)
+- Consent/privacy note under the button
+- Toggle: which fields are required (name/email always required)
 
-## Part 2 — Submissions Inbox (dashboard)
+## Where it's stored
 
-**New page:** `src/pages/dashboard/Submissions.tsx` at route `/dashboard/submissions`.
+New table `form_settings` with one row per form key (`contact_form`, `footer_cta`):
 
-**Layout**
-```text
-Submissions                                       [Export CSV]
-────────────────────────────────────────────────────────────
-Source: [All ▾]  Page: [All ▾]  Search: [_______]  [Refresh]
-────────────────────────────────────────────────────────────
-Date        Name        Email           Source        Page          
-2026-07-20  Ahmed …     a@x.com         Footer CTA    /ar/about     [View]
-2026-07-19  Sara …      s@y.com         Contact form  /contact      [View]
-...
-```
+- `key` (unique)
+- `labels` jsonb — EN copy
+- `labels_ar` jsonb — AR overlay
+- `required_fields` text[] 
+- `updated_at`
 
-**Features**
-- List newest first, 50 per page, pagination.
-- **Filters:** Source (`contact_form` / `footer_cta` / all), Page (dropdown built from distinct `page_path` values), free-text search over name/email/message.
-- **Row → drawer:** full details (name, email, phone, area, message, page_path, page_title, source, user_agent, timestamp).
-- **Export CSV** of the current filtered view.
-- **Mark as read / archived** using existing `status` column on `contact_submissions` (if not present, migration adds it).
-- Admin-only via existing `RoleGate`.
+Seeded with the current hardcoded strings so nothing visually changes until an admin edits.
 
-**Sidebar entry**
-Add "Submissions" under the Content section of `DashboardSidebar.tsx` with an inbox icon.
+## Runtime wiring
 
----
+`ContactForm.tsx` reads its copy from `form_settings` via a new `useFormSettings(key)` hook. Falls back to hardcoded defaults if the row is missing. AR overlay applied when `locale === 'ar'`. Auto-translate button on each form editor calls the existing `translate-content` edge function.
 
 ## Technical notes
-- Reuses `contact_submissions` — no new table.
-- Query built with Supabase JS client (typed, no raw SQL).
-- CSV export is client-side (no edge function needed).
-- All strings ready for EN/AR toggle if you later want to localize the inbox UI, but the dashboard itself stays LTR/EN per your earlier decision.
 
----
-
-## Files touched
-- **Migration:** add `page_path`, `page_title`, `status` (if missing) to `contact_submissions`.
-- **New:** `src/lib/submissionMeta.ts`, `src/pages/dashboard/Submissions.tsx`.
-- **Edited:** `src/components/FooterCta.tsx`, `src/pages/Contact.tsx`, `src/components/dashboard/DashboardSidebar.tsx`, `src/pages/Dashboard.tsx` (route registration).
-
-Say **go** and I'll run the migration, then ship the inbox + auto-capture in one pass.
+- Migration: create `form_settings` table with GRANTs (admin write / public read), RLS, updated_at trigger, seed 2 rows.
+- Files added: `src/pages/dashboard/Forms.tsx` (tabbed shell), `src/pages/dashboard/forms/FormEditor.tsx` (reusable EN/AR editor), `src/hooks/useFormSettings.ts`.
+- Files updated: `src/components/ContactForm.tsx` (consume settings), `DashboardSidebar.tsx` (rename entry), `App.tsx` (new route; keep `/dashboard/submissions` redirecting to `/dashboard/forms`).
+- No changes to submission storage, email delivery, or spam protection.
