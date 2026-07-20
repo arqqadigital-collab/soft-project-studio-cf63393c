@@ -1,0 +1,1 @@
+UPDATE public.contact_submissions SET source = 'footer_cta' WHERE source = 'homepage_cta';
