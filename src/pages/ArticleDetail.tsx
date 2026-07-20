@@ -79,7 +79,7 @@ export default function ArticleDetail() {
         .select(
           "id,title,slug,content,excerpt,featured_image_url,published_at,created_at,translations,category:categories(name,slug,translations),author:profiles!posts_author_id_fkey(full_name)"
         )
-        .eq("slug", slug)
+        .or(typeof window !== "undefined" && window.location.pathname.startsWith("/ar/") ? `slug_ar.eq.${slug},slug.eq.${slug}` : `slug.eq.${slug}`)
         .eq("status", "published")
         .maybeSingle();
       if (cancelled) return;
