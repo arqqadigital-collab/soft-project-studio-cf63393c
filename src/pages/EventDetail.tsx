@@ -7,6 +7,7 @@ import { SeoHead } from "@/components/SeoHead";
 import { Button } from "@/components/ui/button";
 import { supabase } from "@/integrations/supabase/client";
 import { useLocale } from "@/i18n/LanguageProvider";
+import { useSetAltLanguagePath } from "@/i18n/AltLanguagePath";
 import { useListPageHero } from "@/hooks/use-list-page-hero";
 
 
