@@ -19,6 +19,7 @@ import SeoDashboard from "./dashboard/SeoDashboard";
 import HomepageEditor from "./dashboard/HomepageEditor";
 import HeaderFooterEditor from "./dashboard/HeaderFooterEditor";
 import FooterCtaEditor from "./dashboard/FooterCtaEditor";
+import Submissions from "./dashboard/Submissions";
 import CaseStudiesList from "./dashboard/CaseStudiesList";
 import CaseStudyEditor from "./dashboard/CaseStudyEditor";
 import EventsList from "./dashboard/EventsList";
@@ -60,6 +61,10 @@ export default function Dashboard() {
         <Route
           path="footer-cta"
           element={<RoleGate allow={["admin", "editor"]}><FooterCtaEditor /></RoleGate>}
+        />
+        <Route
+          path="submissions"
+          element={<RoleGate allow={["admin", "editor"]}><Submissions /></RoleGate>}
         />
         <Route
           path="case-studies"

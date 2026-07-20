@@ -4,6 +4,7 @@ import { z } from "zod";
 import { toast } from "sonner";
 import { supabase } from "@/integrations/supabase/client";
 import { useFooterCta } from "@/lib/footerCta";
+import { submissionMeta } from "@/lib/submissionMeta";
 import { useLocale } from "@/hooks/useLocale";
 
 const formSchema = z.object({
@@ -57,7 +58,7 @@ export function FooterCta() {
           message: parsed.data.message ?? "",
           consent: true,
           source: "footer_cta",
-          user_agent: typeof navigator !== "undefined" ? navigator.userAgent : null,
+          ...submissionMeta(),
         })
         .select("id")
         .single();

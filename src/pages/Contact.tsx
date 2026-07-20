@@ -5,6 +5,7 @@ import { z } from "zod";
 import { toast } from "sonner";
 import { Footer } from "@/components/Footer";
 import { supabase } from "@/integrations/supabase/client";
+import { submissionMeta } from "@/lib/submissionMeta";
 import { useLocale } from "@/hooks/useLocale";
 import contactHero from "@/assets/contact/contact-hero.jpg";
 
@@ -158,7 +159,8 @@ export default function Contact() {
           area: parsed.data.area,
           message: parsed.data.message ?? "",
           consent: parsed.data.consent,
-          user_agent: typeof navigator !== "undefined" ? navigator.userAgent : null,
+          source: "contact_form",
+          ...submissionMeta(),
         })
         .select("id")
         .single();
