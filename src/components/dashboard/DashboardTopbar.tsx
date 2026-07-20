@@ -1,5 +1,5 @@
 import { useNavigate } from "react-router-dom";
-import { Bell, Languages, LogOut, Search, User as UserIcon } from "lucide-react";
+import { Languages, LogOut, Search, User as UserIcon } from "lucide-react";
 import { SidebarTrigger } from "@/components/ui/sidebar";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
@@ -49,9 +49,6 @@ export function DashboardTopbar() {
           <Languages className="h-4 w-4" />
           <span className="text-xs uppercase tracking-wide">{locale}</span>
           <span className="text-xs text-muted-foreground">→ {nextLocale}</span>
-        </Button>
-        <Button variant="ghost" size="icon" aria-label="Notifications">
-          <Bell className="h-4 w-4" />
         </Button>
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
