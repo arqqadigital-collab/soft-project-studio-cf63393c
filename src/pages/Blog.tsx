@@ -11,6 +11,8 @@ import { SeoHead } from "@/components/SeoHead";
 import { Helmet } from "react-helmet-async";
 import { useBlogContent } from "@/lib/blogContent";
 import { useLocale } from "@/i18n/LanguageProvider";
+import { useListPageHero } from "@/hooks/use-list-page-hero";
+
 
 type PostRow = {
   id: string;
