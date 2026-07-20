@@ -18,6 +18,7 @@ type PageDetail = {
   template: "default" | "full-width" | "landing";
   created_at: string;
   updated_at: string;
+  translations?: any;
 };
 
 type SeoMeta = {
