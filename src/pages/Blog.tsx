@@ -341,10 +341,8 @@ export default function Blog() {
                       {post.excerpt && (
                         <p className="mt-3 flex-1 text-sm text-muted-foreground">{post.excerpt}</p>
                       )}
-                      <div className="mt-6 flex flex-wrap items-center justify-between gap-4 border-t border-border pt-5">
-                        <AuthorBadge name={post.author?.full_name} />
+                      <div className="mt-6 flex flex-wrap items-center justify-end gap-4 border-t border-border pt-5">
                         <CardMeta
-                          readTime={readTimeFor(post.excerpt, L.min_read ?? (locale === "ar" ? "دقائق قراءة" : "Min Read"))}
                           date={format(
                             new Date(post.published_at ?? post.created_at),
                             "MMM d, yyyy",
@@ -352,6 +350,7 @@ export default function Blog() {
                           )}
                         />
                       </div>
+
                     </div>
                   </Link>
                 </motion.article>
