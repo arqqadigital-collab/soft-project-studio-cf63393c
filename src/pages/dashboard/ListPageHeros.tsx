@@ -91,6 +91,7 @@ function Editor({ pageKey }: { pageKey: string }) {
         title_highlight: "",
         description: "",
         is_visible: true,
+        card_labels: { ...(DEFAULT_LABELS[pageKey]?.en ?? {}) },
         translations: {},
       });
       setAr({});
@@ -102,8 +103,22 @@ function Editor({ pageKey }: { pageKey: string }) {
   const set = <K extends keyof Row>(k: K, v: Row[K]) =>
     setForm((f) => (f ? { ...f, [k]: v } : f));
 
-  const setArField = <K extends keyof ArFields>(k: K, v: string) =>
+  const setArField = <K extends keyof ArTextFields>(k: K, v: string) =>
     setAr((a) => ({ ...a, [k]: v }));
+
+  const setLabel = (k: string, v: string) => {
+    if (lang === "ar") {
+      setAr((a) => ({ ...a, card_labels: { ...(a.card_labels ?? {}), [k]: v } }));
+    } else {
+      setForm((f) => (f ? { ...f, card_labels: { ...(f.card_labels ?? {}), [k]: v } } : f));
+    }
+  };
+
+  const labelValue = (k: string): string => {
+    if (lang === "ar") return ar.card_labels?.[k] ?? "";
+    return form.card_labels?.[k] ?? "";
+  };
+
 
   const save = async () => {
     setSaving(true);
