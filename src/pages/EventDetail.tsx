@@ -43,9 +43,10 @@ function labelType(t: string) {
   return t.charAt(0).toUpperCase() + t.slice(1);
 }
 
-function formatDateTime(iso: string | null) {
+function formatDateTime(iso: string | null, locale: string = "en") {
   if (!iso) return "TBA";
-  return new Date(iso).toLocaleString(undefined, {
+  const bcp = locale === "ar" ? "ar-EG" : "en-US";
+  return new Date(iso).toLocaleString(bcp, {
     weekday: "long",
     year: "numeric",
     month: "long",
@@ -163,11 +164,11 @@ export default function EventDetail() {
 
             <div className="mt-6 flex flex-wrap items-center gap-x-6 gap-y-2 text-sm text-muted-foreground">
               <span className="flex items-center gap-2">
-                <Calendar className="h-4 w-4" /> {formatDateTime(ev.starts_at)}
+                <Calendar className="h-4 w-4" /> {formatDateTime(ev.starts_at, locale)}
               </span>
               {ev.ends_at && (
                 <span className="flex items-center gap-2">
-                  <Clock className="h-4 w-4" /> {L.detail_ends_prefix || "Ends"} {formatDateTime(ev.ends_at)}
+                  <Clock className="h-4 w-4" /> {L.detail_ends_prefix || "Ends"} {formatDateTime(ev.ends_at, locale)}
                 </span>
               )}
 
