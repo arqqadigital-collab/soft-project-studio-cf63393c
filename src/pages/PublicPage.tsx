@@ -26,6 +26,7 @@ type SeoMeta = {
   canonical_url: string | null;
   noindex: boolean | null;
   nofollow: boolean | null;
+  translations?: any;
 };
 
 export default function PublicPage() {
