@@ -101,6 +101,7 @@ export default function PostEditor() {
       setForm({
         title: d.title ?? "",
         slug: d.slug ?? "",
+        slug_ar: d.slug_ar ?? "",
         content: d.content ?? "",
         excerpt: d.excerpt ?? "",
         featured_image_url: d.featured_image_url ?? "",
