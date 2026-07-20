@@ -1,5 +1,6 @@
 import { Link } from "react-router-dom";
 import logo from "@/assets/logo.png";
+import { FooterCta } from "@/components/FooterCta";
 import {
   useHeaderFooter,
   DEFAULT_FOOTER_COLUMNS,
