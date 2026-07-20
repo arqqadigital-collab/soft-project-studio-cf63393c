@@ -91,13 +91,9 @@ function AuthorBadge({ name }: { name: string | null | undefined }) {
   );
 }
 
-function CardMeta({ readTime, date }: { readTime: string; date: string }) {
+function CardMeta({ date }: { date: string }) {
   return (
     <div className="flex items-center gap-4 text-xs text-muted-foreground">
-      <span className="flex items-center gap-1">
-        <Clock className="h-3.5 w-3.5" />
-        {readTime}
-      </span>
       <span className="flex items-center gap-1">
         <Calendar className="h-3.5 w-3.5" />
         {date}
@@ -105,6 +101,7 @@ function CardMeta({ readTime, date }: { readTime: string; date: string }) {
     </div>
   );
 }
+
 
 export default function Blog() {
   const { locale } = useLocale();
@@ -279,10 +276,8 @@ export default function Blog() {
                   {featured.excerpt && (
                     <p className="mt-4 text-muted-foreground">{featured.excerpt}</p>
                   )}
-                  <div className="mt-8 flex flex-wrap items-center justify-between gap-4">
-                    <AuthorBadge name={featured.author?.full_name} />
+                  <div className="mt-8 flex flex-wrap items-center justify-end gap-4">
                     <CardMeta
-                      readTime={readTimeFor(featured.excerpt, L.min_read ?? (locale === "ar" ? "دقائق قراءة" : "Min Read"))}
                       date={format(
                         new Date(featured.published_at ?? featured.created_at),
                         "MMMM d, yyyy",
@@ -290,6 +285,7 @@ export default function Blog() {
                       )}
                     />
                   </div>
+
                   <div className="mt-8">
                     <Button asChild className="group/btn inline-flex items-center gap-2">
                       <Link to={`/blog/${featured.slug}`}>
@@ -345,10 +341,8 @@ export default function Blog() {
                       {post.excerpt && (
                         <p className="mt-3 flex-1 text-sm text-muted-foreground">{post.excerpt}</p>
                       )}
-                      <div className="mt-6 flex flex-wrap items-center justify-between gap-4 border-t border-border pt-5">
-                        <AuthorBadge name={post.author?.full_name} />
+                      <div className="mt-6 flex flex-wrap items-center justify-end gap-4 border-t border-border pt-5">
                         <CardMeta
-                          readTime={readTimeFor(post.excerpt, L.min_read ?? (locale === "ar" ? "دقائق قراءة" : "Min Read"))}
                           date={format(
                             new Date(post.published_at ?? post.created_at),
                             "MMM d, yyyy",
@@ -356,6 +350,7 @@ export default function Blog() {
                           )}
                         />
                       </div>
+
                     </div>
                   </Link>
                 </motion.article>
