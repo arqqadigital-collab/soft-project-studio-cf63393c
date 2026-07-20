@@ -12,6 +12,7 @@ import { Switch } from "@/components/ui/switch";
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
 import { MediaPickerDialog } from "@/components/dashboard/MediaPickerDialog";
 import { useMenuTree } from "@/lib/menuTree";
+import { SectionEditor } from "@/components/dashboard/SectionEditor";
 
 type FooterLink = { label: string; href: string };
 type FooterColumn = { title: string; links: FooterLink[] };
