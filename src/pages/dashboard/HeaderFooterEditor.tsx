@@ -590,16 +590,12 @@ export default function HeaderFooterEditor() {
                   {col.links.map((link, li) => (
                     <div key={li} className="flex items-center gap-2 pl-4">
                       <Input
-                        placeholder="Label"
-                        value={link.label}
-                        onChange={(e) => {
-                          const c = [...columns];
-                          const links = [...c[ci].links];
-                          links[li] = { ...links[li], label: e.target.value };
-                          c[ci] = { ...c[ci], links };
-                          set({ footer_columns: c });
-                        }}
+                        placeholder={loc === "ar" ? "التسمية" : "Label"}
+                        value={linkLabel(ci, li)}
+                        onChange={(e) => setLinkLabel(ci, li, e.target.value)}
+                        dir={loc === "ar" ? "rtl" : "ltr"}
                       />
+
                       <Input
                         placeholder="/href"
                         value={link.href}
