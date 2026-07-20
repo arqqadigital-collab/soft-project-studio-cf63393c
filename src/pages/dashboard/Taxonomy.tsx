@@ -35,34 +35,23 @@ export default function Taxonomy() {
   return (
     <div className="mx-auto max-w-5xl space-y-4">
       <div>
-        <h1 className="text-2xl font-semibold tracking-tight">Categories &amp; Tags</h1>
-        <p className="text-sm text-muted-foreground">Organize posts into topics and keywords.</p>
+        <h1 className="text-2xl font-semibold tracking-tight">Categories</h1>
+        <p className="text-sm text-muted-foreground">Organize posts into topics.</p>
       </div>
-      <Tabs defaultValue="categories">
-        <TabsList>
-          <TabsTrigger value="categories">Categories</TabsTrigger>
-          <TabsTrigger value="tags">Tags</TabsTrigger>
+      <Tabs defaultValue="blog">
+        <TabsList className="grid w-full grid-cols-3">
+          <TabsTrigger value="blog">Blog</TabsTrigger>
+          <TabsTrigger value="case_study">Case Studies</TabsTrigger>
+          <TabsTrigger value="event">Events</TabsTrigger>
         </TabsList>
-        <TabsContent value="categories" className="mt-4">
-          <Tabs defaultValue="blog">
-            <TabsList className="grid w-full grid-cols-3">
-              <TabsTrigger value="blog">Blog</TabsTrigger>
-              <TabsTrigger value="case_study">Case Studies</TabsTrigger>
-              <TabsTrigger value="event">Events</TabsTrigger>
-            </TabsList>
-            <TabsContent value="blog" className="mt-4">
-              <TermsPanel kind="categories" hasExtras contentType="blog" />
-            </TabsContent>
-            <TabsContent value="case_study" className="mt-4">
-              <TermsPanel kind="categories" hasExtras contentType="case_study" />
-            </TabsContent>
-            <TabsContent value="event" className="mt-4">
-              <TermsPanel kind="categories" hasExtras contentType="event" />
-            </TabsContent>
-          </Tabs>
+        <TabsContent value="blog" className="mt-4">
+          <TermsPanel kind="categories" hasExtras contentType="blog" />
         </TabsContent>
-        <TabsContent value="tags" className="mt-4">
-          <TermsPanel kind="tags" hasExtras={false} />
+        <TabsContent value="case_study" className="mt-4">
+          <TermsPanel kind="categories" hasExtras contentType="case_study" />
+        </TabsContent>
+        <TabsContent value="event" className="mt-4">
+          <TermsPanel kind="categories" hasExtras contentType="event" />
         </TabsContent>
       </Tabs>
     </div>
