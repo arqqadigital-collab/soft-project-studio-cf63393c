@@ -145,13 +145,16 @@ export function Header() {
         {showMenus && <MainNav />}
 
         <div className="flex items-center gap-2">
-          <LanguageSwitcher
-            buttonClassName={
-              isTransparent
-                ? "inline-flex items-center gap-1.5 rounded-full border border-white/25 px-2.5 py-1.5 text-xs font-medium text-white hover:bg-white/10 md:text-sm md:px-3 md:py-2"
-                : "inline-flex items-center gap-1.5 rounded-full border border-white/15 px-2.5 py-1.5 text-xs font-medium text-white/85 hover:bg-white/10 md:text-sm md:px-3 md:py-2"
-            }
-          />
+          {settings?.header_show_locale_switcher !== false && (
+            <LanguageSwitcher
+              buttonClassName={
+                isTransparent
+                  ? "inline-flex items-center gap-1.5 rounded-full border border-white/25 px-2.5 py-1.5 text-xs font-medium text-white hover:bg-white/10 md:text-sm md:px-3 md:py-2"
+                  : "inline-flex items-center gap-1.5 rounded-full border border-white/15 px-2.5 py-1.5 text-xs font-medium text-white/85 hover:bg-white/10 md:text-sm md:px-3 md:py-2"
+              }
+            />
+          )}
+
 
 
           <a
