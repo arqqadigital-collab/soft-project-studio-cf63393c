@@ -1,4 +1,6 @@
 import { useSectionContent } from "@/lib/homepageContent";
+import { useLocale } from "@/i18n/LanguageProvider";
+
 
 export function ClientsSection() {
   const c = useSectionContent("clients");
