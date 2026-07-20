@@ -77,6 +77,8 @@ export function SeoEditor({
   useEffect(() => {
     if (existing.data) {
       const d: any = existing.data;
+      const tr = (d.translations || {}) as any;
+      const ar = tr.ar || {};
       setRowId(d.id);
       setForm({
         meta_title: d.meta_title ?? "",
@@ -86,6 +88,8 @@ export function SeoEditor({
         focus_keyword: d.focus_keyword ?? "",
         noindex: !!d.noindex,
         nofollow: !!d.nofollow,
+        meta_title_ar: ar.meta_title ?? "",
+        meta_description_ar: ar.meta_description ?? "",
       });
     } else if (existing.isFetched) {
       setRowId(null);
