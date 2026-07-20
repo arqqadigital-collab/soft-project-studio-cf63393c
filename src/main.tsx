@@ -20,7 +20,9 @@ createRoot(document.getElementById("root")!).render(
       <QueryClientProvider client={queryClient}>
         <BrowserRouter>
           <LanguageProvider>
-            <App />
+            <AltLanguagePathProvider>
+              <App />
+            </AltLanguagePathProvider>
           </LanguageProvider>
         </BrowserRouter>
       </QueryClientProvider>
