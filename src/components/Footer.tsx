@@ -22,10 +22,12 @@ export function Footer() {
     `© ${new Date().getFullYear()} Superior Business Solutions. All rights reserved.`;
 
   return (
-    <footer
-      className="px-6 py-16 md:px-12 md:py-20"
-      style={{ background: "var(--brand-blue)" }}
-    >
+    <>
+      <FooterCta />
+      <footer
+        className="px-6 py-16 md:px-12 md:py-20"
+        style={{ background: "var(--brand-blue)" }}
+      >
       <div className="mx-auto max-w-6xl">
         <div className="grid gap-12 md:grid-cols-2 lg:grid-cols-4">
           {/* Brand */}
