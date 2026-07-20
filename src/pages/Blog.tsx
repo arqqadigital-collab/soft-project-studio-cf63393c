@@ -110,10 +110,14 @@ export default function Blog() {
   const { locale } = useLocale();
   const [posts, setPosts] = useState<PostRow[]>([]);
   const [loading, setLoading] = useState(true);
-  const [activeCategory, setActiveCategory] = useState<string>("All");
   const content = useBlogContent();
+  const { data: listHero } = useListPageHero("blog");
+  const L = listHero?.card_labels ?? {};
+  const ALL = L.all_filter ?? "All";
+  const [activeCategory, setActiveCategory] = useState<string>(ALL);
   const hero = content.Hero;
   const heroVisible = content._visible.Hero;
+
 
   useEffect(() => {
     let cancelled = false;
