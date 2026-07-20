@@ -94,7 +94,16 @@ export function Header() {
   const shadowStyle = settings?.header_shadow_style ?? "soft";
   const mobileExtra = settings?.mobile_menu_items ?? [];
   const mobileShowSocial = settings?.mobile_show_social ?? true;
+  const mobileShowCta = settings?.mobile_show_cta ?? true;
+  const mobileShowLang = settings?.mobile_show_lang ?? true;
+  const mobileShowLogo = settings?.mobile_show_logo ?? true;
+  const mobileSide = settings?.mobile_drawer_side ?? "end";
+  const mobileWidth = Math.min(100, Math.max(50, settings?.mobile_drawer_width_pct ?? 86));
+  const mobileBg = settings?.mobile_drawer_bg_color || undefined;
+  const mobileText = settings?.mobile_drawer_text_color || undefined;
+  const mobileMoreLabel = settings?.mobile_more_label || "More";
   const social = settings?.footer_social ?? [];
+
 
   const headerStyle: React.CSSProperties = {};
   if (!isTransparent && settings?.header_bg_color) headerStyle.background = settings.header_bg_color;
