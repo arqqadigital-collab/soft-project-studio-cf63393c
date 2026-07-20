@@ -108,6 +108,13 @@ export function SeoEditor({
     }
     setSaving(true);
     try {
+      const translations: any = {};
+      if (form.meta_title_ar || form.meta_description_ar) {
+        translations.ar = {
+          ...(form.meta_title_ar ? { meta_title: form.meta_title_ar } : {}),
+          ...(form.meta_description_ar ? { meta_description: form.meta_description_ar } : {}),
+        };
+      }
       const payload = {
         entity_type: entityType,
         entity_id: entityId,
@@ -118,6 +125,7 @@ export function SeoEditor({
         focus_keyword: form.focus_keyword || null,
         noindex: form.noindex,
         nofollow: form.nofollow,
+        translations,
       } as any;
       if (rowId) {
         const { error } = await supabase.from("seo_meta").update(payload).eq("id", rowId);
