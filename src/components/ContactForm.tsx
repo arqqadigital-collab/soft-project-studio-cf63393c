@@ -224,6 +224,24 @@ export function ContactForm({
 
 
       <div className={heading || subheading ? "mt-8 space-y-5" : "space-y-5"}>
+        {/* Honeypot field — hidden from real users, catches bots */}
+        <div
+          aria-hidden="true"
+          style={{ position: "absolute", left: "-10000px", top: "auto", width: 1, height: 1, overflow: "hidden" }}
+        >
+          <label>
+            Website (leave blank)
+            <input
+              type="text"
+              name="website"
+              tabIndex={-1}
+              autoComplete="off"
+              value={honeypot}
+              onChange={(e) => setHoneypot(e.target.value)}
+            />
+          </label>
+        </div>
+
         <label className="block">
           <span className={labelCls}>{t("Name", "الاسم")}{requiredStar}</span>
           <input
