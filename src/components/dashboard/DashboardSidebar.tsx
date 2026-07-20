@@ -9,6 +9,7 @@ import {
   Newspaper,
   BookMarked,
   CalendarDays,
+  Tags,
   Shield,
   Palette,
   Activity,
@@ -55,6 +56,7 @@ const groups: { label: string; items: Item[] }[] = [
       { title: "Blogs", url: "/dashboard/posts", icon: Newspaper },
       { title: "Case Studies", url: "/dashboard/case-studies", icon: BookMarked, allow: ["admin", "editor", "author"] },
       { title: "Events & Webinars", url: "/dashboard/events", icon: CalendarDays, allow: ["admin", "editor", "author"] },
+      { title: "Categories & Tags", url: "/dashboard/taxonomy", icon: Tags, allow: ["admin", "editor", "author"] },
     ],
   },
   {
