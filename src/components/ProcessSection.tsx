@@ -2,6 +2,8 @@ import { useEffect, useRef, useState } from "react";
 import { motion, useScroll, useTransform } from "framer-motion";
 import { ArrowUpRight } from "lucide-react";
 import { useSectionContent } from "@/lib/homepageContent";
+import { useLocale } from "@/i18n/LanguageProvider";
+
 
 export function ProcessSection() {
   const ref = useRef<HTMLDivElement>(null);
