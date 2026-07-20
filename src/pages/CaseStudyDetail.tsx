@@ -77,7 +77,7 @@ export default function CaseStudyDetail() {
       const { data } = await supabase
         .from("case_studies")
         .select(
-          "id,title,slug,summary,client_name,industry,challenge,solution,results,cover_image_url,published_at,created_at,tags,translations,category:categories(name,translations)"
+          "id,title,slug,slug_ar,summary,client_name,industry,challenge,solution,results,cover_image_url,published_at,created_at,tags,translations,category:categories(name,translations)"
         )
         .or(typeof window !== "undefined" && window.location.pathname.startsWith("/ar/") ? `slug_ar.eq.${slug},slug.eq.${slug}` : `slug.eq.${slug}`)
         .eq("status", "published")
