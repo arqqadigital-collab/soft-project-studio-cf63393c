@@ -3,6 +3,12 @@
   publish = "dist"
 
 [[redirects]]
+  from = "/__l5e/*"
+  to = "https://cdn.lovable.dev/__l5e/:splat"
+  status = 200
+  force = true
+
+[[redirects]]
   from = "/*"
   to = "/index.html"
   status = 200
