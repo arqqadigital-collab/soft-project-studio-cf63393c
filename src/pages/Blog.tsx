@@ -11,6 +11,8 @@ import { SeoHead } from "@/components/SeoHead";
 import { Helmet } from "react-helmet-async";
 import { useBlogContent } from "@/lib/blogContent";
 import { useLocale } from "@/i18n/LanguageProvider";
+import { useListPageHero } from "@/hooks/use-list-page-hero";
+
 
 type PostRow = {
   id: string;
@@ -44,11 +46,12 @@ function initialsOf(name: string | null | undefined) {
     .join("");
 }
 
-function readTimeFor(excerpt: string | null, locale: string) {
+function readTimeFor(excerpt: string | null, minReadSuffix: string) {
   const words = (excerpt ?? "").split(/\s+/).filter(Boolean).length;
   const minutes = Math.max(3, Math.ceil(words / 200));
-  return locale === "ar" ? `${minutes} دقائق قراءة` : `${minutes} Min Read`;
+  return `${minutes} ${minReadSuffix}`;
 }
+
 
 function CoverPlaceholder({ className }: { className?: string }) {
   return (
@@ -107,10 +110,14 @@ export default function Blog() {
   const { locale } = useLocale();
   const [posts, setPosts] = useState<PostRow[]>([]);
   const [loading, setLoading] = useState(true);
-  const [activeCategory, setActiveCategory] = useState<string>("All");
   const content = useBlogContent();
+  const { data: listHero } = useListPageHero("blog");
+  const L = listHero?.card_labels ?? {};
+  const ALL = L.all_filter ?? "All";
+  const [activeCategory, setActiveCategory] = useState<string>(ALL);
   const hero = content.Hero;
   const heroVisible = content._visible.Hero;
+
 
   useEffect(() => {
     let cancelled = false;
@@ -146,13 +153,14 @@ export default function Blog() {
     posts.forEach((p) => {
       if (p.category) set.set(p.category.slug, p.category.name);
     });
-    return ["All", ...Array.from(set.values())];
-  }, [posts]);
+    return [ALL, ...Array.from(set.values())];
+  }, [posts, ALL]);
 
   const filtered = useMemo(() => {
-    if (activeCategory === "All") return posts;
+    if (activeCategory === ALL) return posts;
     return posts.filter((p) => p.category?.name === activeCategory);
-  }, [posts, activeCategory]);
+  }, [posts, activeCategory, ALL]);
+
 
   const featured = filtered[0];
   const rest = filtered.slice(1);
@@ -229,15 +237,16 @@ export default function Blog() {
 
       {loading && (
         <div className="pb-24 text-center text-sm text-muted-foreground">
-          {locale === "ar" ? "جارٍ تحميل المقالات…" : "Loading articles…"}
+          {L.loading ?? (locale === "ar" ? "جارٍ تحميل المقالات…" : "Loading articles…")}
         </div>
       )}
 
       {!loading && !featured && (
         <div className="pb-24 text-center text-sm text-muted-foreground">
-          {locale === "ar" ? "لا توجد مقالات منشورة بعد." : "No published articles yet."}
+          {L.empty ?? (locale === "ar" ? "لا توجد مقالات منشورة بعد." : "No published articles yet.")}
         </div>
       )}
+
 
       {/* Featured post */}
       {featured && (
@@ -273,7 +282,7 @@ export default function Blog() {
                   <div className="mt-8 flex flex-wrap items-center justify-between gap-4">
                     <AuthorBadge name={featured.author?.full_name} />
                     <CardMeta
-                      readTime={readTimeFor(featured.excerpt, locale)}
+                      readTime={readTimeFor(featured.excerpt, L.min_read ?? (locale === "ar" ? "دقائق قراءة" : "Min Read"))}
                       date={format(
                         new Date(featured.published_at ?? featured.created_at),
                         "MMMM d, yyyy",
@@ -284,11 +293,12 @@ export default function Blog() {
                   <div className="mt-8">
                     <Button asChild className="group/btn inline-flex items-center gap-2">
                       <Link to={`/blog/${featured.slug}`}>
-                        {locale === "ar" ? "اقرأ المقال" : "Read Article"}
+                        {L.read_more ?? (locale === "ar" ? "اقرأ المقال" : "Read Article")}
                         <ArrowRight className="h-4 w-4 transition-transform group-hover/btn:translate-x-1 rtl:rotate-180" />
                       </Link>
                     </Button>
                   </div>
+
                 </div>
               </div>
             </motion.article>
@@ -301,7 +311,7 @@ export default function Blog() {
         <section className="bg-background pb-24 md:pb-32">
           <div className="mx-auto max-w-7xl px-6">
             <div className="mb-10 flex items-center justify-between">
-              <h2 className="text-2xl font-bold text-foreground md:text-3xl">{locale === "ar" ? "أحدث المقالات" : "Latest Articles"}</h2>
+              <h2 className="text-2xl font-bold text-foreground md:text-3xl">{L.latest_heading ?? (locale === "ar" ? "أحدث المقالات" : "Latest Articles")}</h2>
             </div>
 
             <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-3">
@@ -338,7 +348,7 @@ export default function Blog() {
                       <div className="mt-6 flex flex-wrap items-center justify-between gap-4 border-t border-border pt-5">
                         <AuthorBadge name={post.author?.full_name} />
                         <CardMeta
-                          readTime={readTimeFor(post.excerpt, locale)}
+                          readTime={readTimeFor(post.excerpt, L.min_read ?? (locale === "ar" ? "دقائق قراءة" : "Min Read"))}
                           date={format(
                             new Date(post.published_at ?? post.created_at),
                             "MMM d, yyyy",

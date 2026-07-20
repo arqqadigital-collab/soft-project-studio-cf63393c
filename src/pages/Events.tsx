@@ -7,6 +7,8 @@ import { SeoHead } from "@/components/SeoHead";
 import { supabase } from "@/integrations/supabase/client";
 import { useEventsContent } from "@/lib/eventsContent";
 import { useLocale } from "@/i18n/LanguageProvider";
+import { useListPageHero } from "@/hooks/use-list-page-hero";
+
 
 type EventRow = {
   id: string;
@@ -59,34 +61,44 @@ function Cover({ url, className }: { url: string | null; className?: string }) {
   );
 }
 
-function formatDate(iso: string | null) {
-  if (!iso) return "TBA";
+function formatDate(iso: string | null, tba: string) {
+  if (!iso) return tba;
   return new Date(iso).toLocaleDateString(undefined, { year: "numeric", month: "long", day: "numeric" });
 }
 
-function durationOf(start: string | null, end: string | null) {
+function durationOf(start: string | null, end: string | null, labels: { min: string; hours: string; full: string }) {
   if (!start || !end) return null;
   const ms = new Date(end).getTime() - new Date(start).getTime();
   const mins = Math.round(ms / 60000);
   if (mins <= 0) return null;
-  if (mins < 60) return `${mins} Min`;
+  if (mins < 60) return `${mins} ${labels.min}`;
   const hours = mins / 60;
-  if (hours < 8) return hours % 1 === 0 ? `${hours} Hours` : `${hours.toFixed(1)} Hours`;
-  return "Full Day";
+  if (hours < 8) return hours % 1 === 0 ? `${hours} ${labels.hours}` : `${hours.toFixed(1)} ${labels.hours}`;
+  return labels.full;
 }
 
 function labelType(t: string) {
   return t.charAt(0).toUpperCase() + t.slice(1);
 }
 
+
 export default function Events() {
   const { locale } = useLocale();
   const content = useEventsContent();
   const hero = content.Hero;
   const heroVisible = content._visible.Hero;
+  const { data: listHero } = useListPageHero("events");
+  const L = listHero?.card_labels ?? {};
+  const ALL = L.all_filter ?? "All";
+  const durLabels = {
+    min: L.minutes_suffix ?? "Min",
+    hours: L.hours_suffix ?? "Hours",
+    full: L.full_day ?? "Full Day",
+  };
+  const tba = L.tba ?? "TBA";
   const [rows, setRows] = useState<EventRow[]>([]);
   const [loading, setLoading] = useState(true);
-  const [active, setActive] = useState<string>("All");
+  const [active, setActive] = useState<string>(ALL);
 
   useEffect(() => {
     let cancelled = false;
@@ -112,13 +124,14 @@ export default function Events() {
   const categories = useMemo(() => {
     const set = new Set<string>();
     rows.forEach((r) => r.event_type && set.add(labelType(r.event_type)));
-    return ["All", ...Array.from(set)];
-  }, [rows]);
+    return [ALL, ...Array.from(set)];
+  }, [rows, ALL]);
 
   const filtered = useMemo(() => {
-    if (active === "All") return rows;
+    if (active === ALL) return rows;
     return rows.filter((r) => labelType(r.event_type) === active);
-  }, [rows, active]);
+  }, [rows, active, ALL]);
+
 
   return (
     <main className="min-h-screen bg-background">
@@ -179,11 +192,11 @@ export default function Events() {
       )}
 
       {loading && (
-        <div className="pb-24 text-center text-sm text-muted-foreground">Loading events…</div>
+        <div className="pb-24 text-center text-sm text-muted-foreground">{L.loading ?? "Loading events…"}</div>
       )}
 
       {!loading && filtered.length === 0 && (
-        <div className="pb-24 text-center text-sm text-muted-foreground">No published events yet.</div>
+        <div className="pb-24 text-center text-sm text-muted-foreground">{L.empty ?? "No published events yet."}</div>
       )}
 
       <section className="bg-background pb-24 md:pb-32">
@@ -191,7 +204,8 @@ export default function Events() {
           <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-3">
             {filtered.map((ev, idx) => {
               const isOnline = !!ev.virtual_link || (ev.location ?? "").toLowerCase() === "online";
-              const dur = durationOf(ev.starts_at, ev.ends_at);
+              const dur = durationOf(ev.starts_at, ev.ends_at, durLabels);
+
               return (
                 <motion.article
                   key={ev.id}
@@ -222,7 +236,7 @@ export default function Events() {
                       <div className="mt-6 flex flex-wrap items-center gap-x-4 gap-y-1 border-t border-border pt-5 text-xs text-muted-foreground">
                         <span className="flex items-center gap-1">
                           <Calendar className="h-3.5 w-3.5" />
-                          {formatDate(ev.starts_at)}
+                          {formatDate(ev.starts_at, tba)}
                         </span>
                         {dur && (
                           <span className="flex items-center gap-1">
@@ -241,7 +255,7 @@ export default function Events() {
                         className="mt-4 inline-flex items-center gap-2 text-sm font-semibold"
                         style={{ color: "var(--brand-blue)" }}
                       >
-                        See more
+                        {L.see_more ?? "See more"}
                         <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
                       </span>
                     </div>

@@ -10,6 +10,22 @@ import { Switch } from "@/components/ui/switch";
 import { Button } from "@/components/ui/button";
 import { toast } from "sonner";
 import { Sparkles, Loader2 } from "lucide-react";
+import { DEFAULT_LABELS, type CardLabels } from "@/hooks/use-list-page-hero";
+
+const LABEL_FIELD_META: Record<string, { label: string; hint?: string }> = {
+  read_more: { label: "Read-more button", hint: 'e.g. "Read Article"' },
+  see_more: { label: "See-more link", hint: 'e.g. "See more"' },
+  min_read: { label: "Read-time suffix", hint: 'Shown after the number, e.g. "Min Read"' },
+  minutes_suffix: { label: "Minutes suffix", hint: 'e.g. "Min"' },
+  hours_suffix: { label: "Hours suffix", hint: 'e.g. "Hours"' },
+  full_day: { label: "Full-day label", hint: 'Shown for all-day events' },
+  latest_heading: { label: "Latest section heading" },
+  loading: { label: "Loading message" },
+  empty: { label: "Empty state message" },
+  all_filter: { label: 'Filter chip: "All"' },
+  tba: { label: 'Date TBA label' },
+};
+
 
 const PAGES = [
   { key: "blog", label: "Blog", url: "/blog" },
@@ -17,12 +33,18 @@ const PAGES = [
   { key: "events", label: "Events & Webinars", url: "/events" },
 ] as const;
 
-type ArFields = {
+type ArTextFields = {
   eyebrow?: string;
   title_prefix?: string;
   title_highlight?: string;
   description?: string;
 };
+
+type ArFields = ArTextFields & {
+  card_labels?: CardLabels;
+};
+
+
 
 type Row = {
   page_key: string;
@@ -31,6 +53,7 @@ type Row = {
   title_highlight: string | null;
   description: string | null;
   is_visible: boolean;
+  card_labels: CardLabels;
   translations?: { ar?: ArFields } | null;
 };
 
@@ -48,6 +71,7 @@ function Editor({ pageKey }: { pageKey: string }) {
       return data as Row | null;
     },
   });
+
 
   const [form, setForm] = useState<Row | null>(null);
   const [ar, setAr] = useState<ArFields>({});
@@ -67,6 +91,7 @@ function Editor({ pageKey }: { pageKey: string }) {
         title_highlight: "",
         description: "",
         is_visible: true,
+        card_labels: { ...(DEFAULT_LABELS[pageKey]?.en ?? {}) },
         translations: {},
       });
       setAr({});
@@ -78,8 +103,22 @@ function Editor({ pageKey }: { pageKey: string }) {
   const set = <K extends keyof Row>(k: K, v: Row[K]) =>
     setForm((f) => (f ? { ...f, [k]: v } : f));
 
-  const setArField = <K extends keyof ArFields>(k: K, v: string) =>
+  const setArField = <K extends keyof ArTextFields>(k: K, v: string) =>
     setAr((a) => ({ ...a, [k]: v }));
+
+  const setLabel = (k: string, v: string) => {
+    if (lang === "ar") {
+      setAr((a) => ({ ...a, card_labels: { ...(a.card_labels ?? {}), [k]: v } }));
+    } else {
+      setForm((f) => (f ? { ...f, card_labels: { ...(f.card_labels ?? {}), [k]: v } } : f));
+    }
+  };
+
+  const labelValue = (k: string): string => {
+    if (lang === "ar") return ar.card_labels?.[k] ?? "";
+    return form.card_labels?.[k] ?? "";
+  };
+
 
   const save = async () => {
     setSaving(true);
@@ -105,6 +144,7 @@ function Editor({ pageKey }: { pageKey: string }) {
         title_prefix: form.title_prefix ?? "",
         title_highlight: form.title_highlight ?? "",
         description: form.description ?? "",
+        card_labels: { ...(DEFAULT_LABELS[pageKey]?.en ?? {}), ...(form.card_labels ?? {}) },
       };
       const { data: res, error } = await supabase.functions.invoke("translate-content", {
         body: { mode: "raw", payload: src },
@@ -121,13 +161,18 @@ function Editor({ pageKey }: { pageKey: string }) {
     }
   };
 
-  const val = (k: keyof ArFields, en: string | null) =>
+
+  const val = (k: keyof ArTextFields, en: string | null) =>
     lang === "ar" ? (ar[k] ?? "") : (en ?? "");
 
-  const onChange = (k: keyof ArFields, v: string) => {
+  const onChange = (k: keyof ArTextFields, v: string) => {
     if (lang === "ar") setArField(k, v);
-    else set(k as any, v as any);
+    else set(k as keyof Row, v as unknown as Row[keyof Row]);
   };
+
+  const defaults = DEFAULT_LABELS[pageKey] ?? { en: {}, ar: {} };
+  const labelKeys = Object.keys(defaults.en);
+
 
   return (
     <div className="space-y-5 max-w-2xl">
@@ -193,12 +238,45 @@ function Editor({ pageKey }: { pageKey: string }) {
         />
       </div>
 
+      {labelKeys.length > 0 && (
+        <div className="space-y-3 rounded-lg border p-4">
+          <div>
+            <div className="font-medium">Card labels &amp; UI text</div>
+            <div className="text-xs text-muted-foreground">
+              Edit the small text on cards (buttons, filters, "min read", empty states). Switch to the Arabic tab above to translate them.
+            </div>
+          </div>
+          <div className="grid gap-3 sm:grid-cols-2">
+            {labelKeys.map((k) => {
+              const meta = LABEL_FIELD_META[k] ?? { label: k };
+              const enPlaceholder = defaults.en[k] ?? "";
+              const arPlaceholder = defaults.ar[k] ?? "";
+              return (
+                <div key={k} className="space-y-1">
+                  <Label className="text-xs">
+                    {meta.label} {lang === "ar" && "(Arabic)"}
+                  </Label>
+                  <Input
+                    dir={lang === "ar" ? "rtl" : "ltr"}
+                    value={labelValue(k)}
+                    onChange={(e) => setLabel(k, e.target.value)}
+                    placeholder={lang === "ar" ? arPlaceholder : enPlaceholder}
+                  />
+                  {meta.hint && <p className="text-[10px] text-muted-foreground">{meta.hint}</p>}
+                </div>
+              );
+            })}
+          </div>
+        </div>
+      )}
+
       <div className="flex gap-2">
         <Button onClick={save} disabled={saving}>
           {saving ? "Saving…" : "Save changes"}
         </Button>
       </div>
     </div>
+
   );
 }
 

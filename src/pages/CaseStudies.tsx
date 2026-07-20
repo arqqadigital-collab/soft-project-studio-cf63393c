@@ -7,6 +7,8 @@ import { SeoHead } from "@/components/SeoHead";
 import { supabase } from "@/integrations/supabase/client";
 import { useCaseStudiesContent } from "@/lib/caseStudiesContent";
 import { useLocale } from "@/i18n/LanguageProvider";
+import { useListPageHero } from "@/hooks/use-list-page-hero";
+
 
 type CaseStudyRow = {
   id: string;
@@ -60,9 +62,13 @@ export default function CaseStudies() {
   const content = useCaseStudiesContent();
   const hero = content.Hero;
   const heroVisible = content._visible.Hero;
+  const { data: listHero } = useListPageHero("case-studies");
+  const L = listHero?.card_labels ?? {};
+  const ALL = L.all_filter ?? "All";
   const [rows, setRows] = useState<CaseStudyRow[]>([]);
   const [loading, setLoading] = useState(true);
-  const [active, setActive] = useState<string>("All");
+  const [active, setActive] = useState<string>(ALL);
+
 
   useEffect(() => {
     let cancelled = false;
@@ -88,13 +94,14 @@ export default function CaseStudies() {
   const categories = useMemo(() => {
     const set = new Set<string>();
     rows.forEach((r) => r.industry && set.add(r.industry));
-    return ["All", ...Array.from(set)];
-  }, [rows]);
+    return [ALL, ...Array.from(set)];
+  }, [rows, ALL]);
 
   const filtered = useMemo(() => {
-    if (active === "All") return rows;
+    if (active === ALL) return rows;
     return rows.filter((r) => (r.industry ?? "") === active);
-  }, [rows, active]);
+  }, [rows, active, ALL]);
+
 
   return (
     <main className="min-h-screen bg-background">
@@ -161,15 +168,16 @@ export default function CaseStudies() {
 
       {loading && (
         <div className="pb-24 text-center text-sm text-muted-foreground">
-          Loading case studies…
+          {L.loading ?? "Loading case studies…"}
         </div>
       )}
 
       {!loading && filtered.length === 0 && (
         <div className="pb-24 text-center text-sm text-muted-foreground">
-          No published case studies yet.
+          {L.empty ?? "No published case studies yet."}
         </div>
       )}
+
 
       <section className="bg-background pb-24 md:pb-32">
         <div className="mx-auto max-w-7xl px-6">
@@ -209,7 +217,7 @@ export default function CaseStudies() {
                       className="mt-4 inline-flex items-center gap-2 text-sm font-semibold"
                       style={{ color: "var(--brand-blue)" }}
                     >
-                      See more
+                      {L.see_more ?? "See more"}
                       <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
                     </span>
                   </div>
