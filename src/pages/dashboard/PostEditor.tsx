@@ -161,6 +161,7 @@ export default function PostEditor() {
     const payload: any = {
       title: form.title,
       slug: form.slug || toSlug(form.title),
+      slug_ar: form.slug_ar ? toSlugAr(form.slug_ar) : null,
       content: form.content,
       excerpt: form.excerpt || null,
       featured_image_url: form.featured_image_url || null,
