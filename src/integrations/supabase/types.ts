@@ -1272,6 +1272,7 @@ export type Database = {
           nofollow: boolean
           noindex: boolean
           og_image_url: string | null
+          translations: Json
           updated_at: string
         }
         Insert: {
@@ -1286,6 +1287,7 @@ export type Database = {
           nofollow?: boolean
           noindex?: boolean
           og_image_url?: string | null
+          translations?: Json
           updated_at?: string
         }
         Update: {
@@ -1300,6 +1302,7 @@ export type Database = {
           nofollow?: boolean
           noindex?: boolean
           og_image_url?: string | null
+          translations?: Json
           updated_at?: string
         }
         Relationships: []
