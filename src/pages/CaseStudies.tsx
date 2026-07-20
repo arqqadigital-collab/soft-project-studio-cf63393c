@@ -62,9 +62,13 @@ export default function CaseStudies() {
   const content = useCaseStudiesContent();
   const hero = content.Hero;
   const heroVisible = content._visible.Hero;
+  const { data: listHero } = useListPageHero("case-studies");
+  const L = listHero?.card_labels ?? {};
+  const ALL = L.all_filter ?? "All";
   const [rows, setRows] = useState<CaseStudyRow[]>([]);
   const [loading, setLoading] = useState(true);
-  const [active, setActive] = useState<string>("All");
+  const [active, setActive] = useState<string>(ALL);
+
 
   useEffect(() => {
     let cancelled = false;
