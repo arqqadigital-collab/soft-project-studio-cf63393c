@@ -9,6 +9,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
 import { Card } from "@/components/ui/card";
+import { AreasTab } from "@/pages/dashboard/ContactEditor";
 import type { FormLabels } from "@/hooks/useFormSettings";
 
 const FIELDS: { key: keyof FormLabels; label: string; type: "input" | "textarea" }[] = [
