@@ -58,6 +58,7 @@ export default function CaseStudyEditor() {
   const [previewToken, setPreviewToken] = useState<string | null>(null);
   const [form, setForm] = useState<CsForm>(EMPTY);
   const [slugTouched, setSlugTouched] = useState(false);
+  const [slugArTouched, setSlugArTouched] = useState(false);
   const [saving, setSaving] = useState(false);
   const [lastSavedAt, setLastSavedAt] = useState<Date | null>(null);
   const [tagInput, setTagInput] = useState("");
@@ -100,6 +101,7 @@ export default function CaseStudyEditor() {
       });
       setPreviewToken(d.preview_token ?? null);
       setSlugTouched(true);
+      if (d.slug_ar) setSlugArTouched(true);
       dirtyRef.current = false;
       const t = (d.translations ?? {}) as Record<string, any>;
       setTranslations(t);
@@ -115,6 +117,12 @@ export default function CaseStudyEditor() {
   useEffect(() => {
     if (!slugTouched) setForm((f) => ({ ...f, slug: toSlug(f.title) }));
   }, [form.title, slugTouched]);
+
+  useEffect(() => {
+    if (!slugArTouched && ar.title) {
+      setForm((f) => ({ ...f, slug_ar: toSlugAr(ar.title as string) }));
+    }
+  }, [ar.title, slugArTouched]);
 
   const canPublish = useMemo(
     () => form.title.trim().length > 0 && form.slug.trim().length > 0,
@@ -255,7 +263,7 @@ export default function CaseStudyEditor() {
                   <span>/ar/case-studies/</span>
                   <Input
                     value={form.slug_ar}
-                    onChange={(e) => patch("slug_ar", e.target.value)}
+                    onChange={(e) => { setSlugArTouched(true); patch("slug_ar", e.target.value); }}
                     onBlur={(e) => patch("slug_ar", toSlugAr(e.target.value))}
                     placeholder="اسم-الدراسة-بالعربية"
                     className="h-8"
