@@ -101,26 +101,30 @@ export function getRouteMap(): RouteMapRow[] {
 /** Find the counterpart URL for the current pathname (EN <-> AR). Never returns null — falls back to preserving the path. */
 export function findCounterpart(pathname: string, targetLocale: "en" | "ar"): string {
   const map = getRouteMap();
-  const isAr = pathname === "/ar" || pathname.startsWith("/ar/");
+  // Browsers/React Router may hand us percent-encoded Arabic paths.
+  // Decode so DEFAULT_ROUTE_MAP lookups (which store raw Arabic) match.
+  let decoded = pathname;
+  try { decoded = decodeURI(pathname); } catch { /* ignore malformed */ }
+  const isAr = decoded === "/ar" || decoded.startsWith("/ar/");
 
   if (isAr) {
-    if (targetLocale === "ar") return pathname;
-    const arPath = pathname === "/ar" ? "/" : pathname.slice(3) || "/";
+    if (targetLocale === "ar") return decoded;
+    const arPath = decoded === "/ar" ? "/" : decoded.slice(3) || "/";
     const row = map.find((r) => (r.path_ar ?? r.path_en) === arPath);
     if (row) return row.path_en;
     // Dynamic routes — preserve path (slug may not match; detail pages publish
     // their exact counterpart via AltLanguagePathProvider).
     return arPath;
   } else {
-    if (targetLocale === "en") return pathname;
-    const row = map.find((r) => r.path_en === pathname);
+    if (targetLocale === "en") return decoded;
+    const row = map.find((r) => r.path_en === decoded);
     if (row) return arFullPath(row);
     // Dynamic routes — preserve path structure under /ar.
-    if (pathname.startsWith("/blog/")) return `/ar/blog/${pathname.slice(6)}`;
-    if (pathname.startsWith("/events/")) return `/ar/events/${pathname.slice(8)}`;
-    if (pathname.startsWith("/case-studies/")) return `/ar/case-studies/${pathname.slice(14)}`;
-    if (pathname.startsWith("/p/")) return `/ar/p/${pathname.slice(3)}`;
-    return `/ar${pathname === "/" ? "" : pathname}`;
+    if (decoded.startsWith("/blog/")) return `/ar/blog/${decoded.slice(6)}`;
+    if (decoded.startsWith("/events/")) return `/ar/events/${decoded.slice(8)}`;
+    if (decoded.startsWith("/case-studies/")) return `/ar/case-studies/${decoded.slice(14)}`;
+    if (decoded.startsWith("/p/")) return `/ar/p/${decoded.slice(3)}`;
+    return `/ar${decoded === "/" ? "" : decoded}`;
   }
 }
 
