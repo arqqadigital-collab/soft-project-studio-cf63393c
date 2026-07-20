@@ -20,6 +20,7 @@ import HomepageEditor from "./dashboard/HomepageEditor";
 import HeaderFooterEditor from "./dashboard/HeaderFooterEditor";
 
 import Submissions from "./dashboard/Submissions";
+import Forms from "./dashboard/Forms";
 import CaseStudiesList from "./dashboard/CaseStudiesList";
 import CaseStudyEditor from "./dashboard/CaseStudyEditor";
 import EventsList from "./dashboard/EventsList";
@@ -59,8 +60,12 @@ export default function Dashboard() {
           element={<RoleGate allow={["admin", "editor"]}><HeaderFooterEditor /></RoleGate>}
         />
         <Route
+          path="forms"
+          element={<RoleGate allow={["admin", "editor"]}><Forms /></RoleGate>}
+        />
+        <Route
           path="submissions"
-          element={<RoleGate allow={["admin", "editor"]}><Submissions /></RoleGate>}
+          element={<Navigate to="/dashboard/forms" replace />}
         />
         <Route
           path="case-studies"
