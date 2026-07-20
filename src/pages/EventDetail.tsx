@@ -15,6 +15,7 @@ type EventDetail = {
   id: string;
   title: string;
   slug: string;
+  slug_ar?: string | null;
   description: string | null;
   event_type: string;
   starts_at: string | null;
