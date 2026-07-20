@@ -68,7 +68,7 @@ const groups: { label: string; items: Item[] }[] = [
     label: "Administration",
     items: [
       { title: "Admin", url: "/dashboard/users", icon: Shield, allow: ["admin"] },
-      { title: "Activity Log", url: "/dashboard/activity", icon: Activity, allow: ["admin"] },
+
     ],
   },
 ];

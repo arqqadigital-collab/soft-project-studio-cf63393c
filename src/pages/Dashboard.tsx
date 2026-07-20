@@ -10,7 +10,7 @@ import PageEditor from "./dashboard/PageEditor";
 import MediaLibrary from "./dashboard/MediaLibrary";
 import Taxonomy from "./dashboard/Taxonomy";
 import Users from "./dashboard/Users";
-import ActivityLog from "./dashboard/ActivityLog";
+
 import Analytics from "./dashboard/Analytics";
 import SettingsPage from "./dashboard/Settings";
 import BrandingPage from "./dashboard/Branding";
@@ -104,10 +104,8 @@ export default function Dashboard() {
           path="users"
           element={<RoleGate allow={["admin"]}><Users /></RoleGate>}
         />
-        <Route
-          path="activity"
-          element={<RoleGate allow={["admin"]}><ActivityLog /></RoleGate>}
-        />
+
+
         <Route
           path="seo"
           element={<RoleGate allow={["admin", "editor"]}><SeoDashboard /></RoleGate>}
