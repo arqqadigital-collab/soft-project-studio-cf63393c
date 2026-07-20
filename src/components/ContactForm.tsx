@@ -6,6 +6,7 @@ import { toast } from "sonner";
 import { supabase } from "@/integrations/supabase/client";
 import { submissionMeta } from "@/lib/submissionMeta";
 import { useLocale } from "@/hooks/useLocale";
+import { useFormSettings, pickLabel } from "@/hooks/useFormSettings";
 
 const NAME_RE = /^[\p{L}\p{M}][\p{L}\p{M}\s'.\-]{1,99}$/u;
 const PHONE_RE = /^[+()\d][\d\s().\-]{5,29}$/;
@@ -81,6 +82,13 @@ export function ContactForm({
 }: ContactFormProps) {
   const { locale } = useLocale();
   const isAr = locale === "ar";
+  const settingsQ = useFormSettings(source);
+  const s = settingsQ.data;
+  const L = (k: keyof NonNullable<typeof s>["labels"], fallback: string) =>
+    pickLabel(s?.labels?.[k] || fallback, s?.labels_ar?.[k], isAr) || fallback;
+  const defaultHeading = s?.labels?.heading ? L("heading", "") : "";
+  const defaultSubheading = s?.labels?.subheading ? L("subheading", "") : "";
+
   const [form, setForm] = useState({
     name: "",
     email: "",
@@ -131,14 +139,12 @@ export function ContactForm({
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
 
-    // Honeypot: silently drop bot submissions that filled the hidden field
     if (honeypot.trim() !== "") {
       setSubmitted(true);
       setForm({ name: "", email: "", phone: "", area: "", message: "", consent: false });
       return;
     }
 
-    // Time-trap: humans take at least a few seconds to fill this form
     const elapsed = Date.now() - mountedAtRef.current;
     if (elapsed < 2500) {
       toast.error(t("Please take a moment to complete the form.", "يرجى أخذ لحظة لإكمال النموذج."));
@@ -172,7 +178,7 @@ export function ContactForm({
           .invoke("send-contact-notification", { body: { submission_id: inserted.id } })
           .catch((err) => console.warn("notification invoke failed", err));
       }
-      toast.success(successMessage || t("Thanks! We'll get back to you within one business day.", "شكرًا لك! سنعاود التواصل خلال يوم عمل واحد."));
+      toast.success(successMessage || L("success_message", t("Thanks! We'll get back to you within one business day.", "شكرًا لك! سنعاود التواصل خلال يوم عمل واحد.")));
       setForm({ name: "", email: "", phone: "", area: "", message: "", consent: false });
       setSubmitted(true);
     } catch (err: any) {
@@ -183,15 +189,17 @@ export function ContactForm({
   }
 
   const requiredStar = <span style={{ color: "var(--brand-green)" }}> *</span>;
+  const finalHeading = heading ?? (defaultHeading || undefined);
+  const finalSubheading = subheading ?? (defaultSubheading || undefined);
 
   return (
     <form onSubmit={handleSubmit} className={className}>
-      {heading && (
+      {finalHeading && (
         <h2 className={isDark ? "text-2xl font-bold text-white md:text-3xl" : "text-2xl font-bold text-foreground md:text-3xl"}>
-          {heading}
+          {finalHeading}
         </h2>
       )}
-      {subheading && <p className={helperCls}>{subheading}</p>}
+      {finalSubheading && <p className={helperCls}>{finalSubheading}</p>}
 
       {submitted && (
         <div
@@ -206,25 +214,24 @@ export function ContactForm({
           <CheckCircle2 className="mt-0.5 h-5 w-5 shrink-0" />
           <div className="flex-1">
             <p className="font-semibold">
-              {t("Message sent successfully", "تم إرسال الرسالة بنجاح")}
+              {L("success_title", t("Message sent successfully", "تم إرسال الرسالة بنجاح"))}
             </p>
             <p className="mt-1 opacity-90">
-              {successMessage || t("Thanks! We'll get back to you within one business day.", "شكرًا لك! سنعاود التواصل خلال يوم عمل واحد.")}
+              {successMessage || L("success_message", t("Thanks! We'll get back to you within one business day.", "شكرًا لك! سنعاود التواصل خلال يوم عمل واحد."))}
             </p>
             <button
               type="button"
               onClick={() => setSubmitted(false)}
               className="mt-2 text-xs font-semibold underline underline-offset-2"
             >
-              {t("Send another message", "إرسال رسالة أخرى")}
+              {L("send_another", t("Send another message", "إرسال رسالة أخرى"))}
             </button>
           </div>
         </div>
       )}
 
-
-      <div className={heading || subheading ? "mt-8 space-y-5" : "space-y-5"}>
-        {/* Honeypot field — hidden from real users, catches bots */}
+      <div className={finalHeading || finalSubheading ? "mt-8 space-y-5" : "space-y-5"}>
+        {/* Honeypot */}
         <div
           aria-hidden="true"
           style={{ position: "absolute", left: "-10000px", top: "auto", width: 1, height: 1, overflow: "hidden" }}
@@ -243,11 +250,12 @@ export function ContactForm({
         </div>
 
         <label className="block">
-          <span className={labelCls}>{t("Name", "الاسم")}{requiredStar}</span>
+          <span className={labelCls}>{L("name_label", t("Name", "الاسم"))}{requiredStar}</span>
           <input
             type="text"
             value={form.name}
             onChange={(e) => setForm({ ...form, name: e.target.value })}
+            placeholder={L("name_placeholder", "")}
             maxLength={100}
             required
             className={inputCls}
@@ -255,11 +263,12 @@ export function ContactForm({
         </label>
 
         <label className="block">
-          <span className={labelCls}>{t("Email", "البريد الإلكتروني")}{requiredStar}</span>
+          <span className={labelCls}>{L("email_label", t("Email", "البريد الإلكتروني"))}{requiredStar}</span>
           <input
             type="email"
             value={form.email}
             onChange={(e) => setForm({ ...form, email: e.target.value })}
+            placeholder={L("email_placeholder", "")}
             maxLength={255}
             required
             className={inputCls}
@@ -267,11 +276,12 @@ export function ContactForm({
         </label>
 
         <label className="block">
-          <span className={labelCls}>{t("Phone Number", "رقم الهاتف")}{requiredStar}</span>
+          <span className={labelCls}>{L("phone_label", t("Phone Number", "رقم الهاتف"))}{requiredStar}</span>
           <input
             type="tel"
             value={form.phone}
             onChange={(e) => setForm({ ...form, phone: e.target.value })}
+            placeholder={L("phone_placeholder", "")}
             maxLength={30}
             required
             className={inputCls}
@@ -279,7 +289,7 @@ export function ContactForm({
         </label>
 
         <label className="block">
-          <span className={labelCls}>{t("Area of Inquiry", "مجال الاستفسار")}{requiredStar}</span>
+          <span className={labelCls}>{L("area_label", t("Area of Inquiry", "مجال الاستفسار"))}{requiredStar}</span>
           <select
             value={form.area}
             onChange={(e) => setForm({ ...form, area: e.target.value })}
@@ -287,7 +297,7 @@ export function ContactForm({
             className={`${inputCls} appearance-none`}
           >
             <option value="" className="text-foreground">
-              {t("Select an area...", "اختر مجالًا...")}
+              {L("area_placeholder", t("Select an area...", "اختر مجالًا..."))}
             </option>
             {areas.map((a: any) => (
               <option key={a.id} value={a.label} className="text-foreground">
@@ -298,10 +308,11 @@ export function ContactForm({
         </label>
 
         <label className="block">
-          <span className={labelCls}>{t("Message", "الرسالة")}</span>
+          <span className={labelCls}>{L("message_label", t("Message", "الرسالة"))}</span>
           <textarea
             value={form.message}
             onChange={(e) => setForm({ ...form, message: e.target.value })}
+            placeholder={L("message_placeholder", "")}
             maxLength={1000}
             rows={5}
             className={`${inputCls} resize-none`}
@@ -317,10 +328,10 @@ export function ContactForm({
             className="mt-1 h-4 w-4 rounded border-border"
           />
           <span>
-            {t(
+            {L("consent_text", t(
               "I agree to be contacted about my inquiry and consent to the processing of my data.",
               "أوافق على أن يتم التواصل معي بشأن استفساري وعلى معالجة بياناتي."
-            )}
+            ))}
           </span>
         </label>
       </div>
@@ -334,7 +345,9 @@ export function ContactForm({
           color: buttonFg || "#ffffff",
         }}
       >
-        {submitting ? t("Sending…", "جارٍ الإرسال…") : (submitLabel || t("Contact Us", "تواصل معنا"))}
+        {submitting
+          ? L("submitting_label", t("Sending…", "جارٍ الإرسال…"))
+          : (submitLabel || L("submit_label", t("Contact Us", "تواصل معنا")))}
         <Send className="h-4 w-4" />
       </button>
     </form>
