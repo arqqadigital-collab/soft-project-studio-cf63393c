@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Send } from "lucide-react";
+import { Send, CheckCircle2 } from "lucide-react";
 import { useQuery } from "@tanstack/react-query";
 import { z } from "zod";
 import { toast } from "sonner";
@@ -57,6 +57,7 @@ export function ContactForm({
     consent: false,
   });
   const [submitting, setSubmitting] = useState(false);
+  const [submitted, setSubmitted] = useState(false);
 
   const areasQ = useQuery({
     queryKey: ["contact_areas_public"],
@@ -123,6 +124,7 @@ export function ContactForm({
       }
       toast.success(successMessage || t("Thanks! We'll get back to you within one business day.", "شكرًا لك! سنعاود التواصل خلال يوم عمل واحد."));
       setForm({ name: "", email: "", phone: "", area: "", message: "", consent: false });
+      setSubmitted(true);
     } catch (err: any) {
       toast.error(err.message || t("Failed to send. Please try again.", "فشل الإرسال. حاول مرة أخرى."));
     } finally {
@@ -140,6 +142,36 @@ export function ContactForm({
         </h2>
       )}
       {subheading && <p className={helperCls}>{subheading}</p>}
+
+      {submitted && (
+        <div
+          role="status"
+          aria-live="polite"
+          className={
+            isDark
+              ? "mt-6 flex items-start gap-3 rounded-xl border border-emerald-300/40 bg-emerald-400/15 p-4 text-sm text-emerald-50"
+              : "mt-6 flex items-start gap-3 rounded-xl border border-emerald-200 bg-emerald-50 p-4 text-sm text-emerald-900"
+          }
+        >
+          <CheckCircle2 className="mt-0.5 h-5 w-5 shrink-0" />
+          <div className="flex-1">
+            <p className="font-semibold">
+              {t("Message sent successfully", "تم إرسال الرسالة بنجاح")}
+            </p>
+            <p className="mt-1 opacity-90">
+              {successMessage || t("Thanks! We'll get back to you within one business day.", "شكرًا لك! سنعاود التواصل خلال يوم عمل واحد.")}
+            </p>
+            <button
+              type="button"
+              onClick={() => setSubmitted(false)}
+              className="mt-2 text-xs font-semibold underline underline-offset-2"
+            >
+              {t("Send another message", "إرسال رسالة أخرى")}
+            </button>
+          </div>
+        </div>
+      )}
+
 
       <div className={heading || subheading ? "mt-8 space-y-5" : "space-y-5"}>
         <label className="block">
