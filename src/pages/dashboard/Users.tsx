@@ -118,15 +118,8 @@ export default function UsersPage() {
     onError: (e: any) => toast.error(e.message),
   });
 
-  const sendReset = useMutation({
-    mutationFn: async (email: string) => callAdmin({
-      action: "send_reset",
-      email,
-      redirect_to: window.location.origin,
-    }),
-    onSuccess: () => toast.success("Password reset email sent"),
-    onError: (e: any) => toast.error(e.message),
-  });
+
+
 
   const setPassword = useMutation({
     mutationFn: async () => callAdmin({
