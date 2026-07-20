@@ -91,6 +91,8 @@ export function ContactForm({
   });
   const [submitting, setSubmitting] = useState(false);
   const [submitted, setSubmitted] = useState(false);
+  const [honeypot, setHoneypot] = useState("");
+  const mountedAtRef = useRef<number>(Date.now());
 
   const areasQ = useQuery({
     queryKey: ["contact_areas_public"],
