@@ -20,6 +20,7 @@ import {
 } from "@/components/ui/alert-dialog";
 
 type Kind = "categories" | "tags";
+type CategoryContentType = "blog" | "case_study" | "event";
 
 interface Row {
   id: string;
@@ -43,7 +44,22 @@ export default function Taxonomy() {
           <TabsTrigger value="tags">Tags</TabsTrigger>
         </TabsList>
         <TabsContent value="categories" className="mt-4">
-          <TermsPanel kind="categories" hasExtras />
+          <Tabs defaultValue="blog">
+            <TabsList className="grid w-full grid-cols-3">
+              <TabsTrigger value="blog">Blog</TabsTrigger>
+              <TabsTrigger value="case_study">Case Studies</TabsTrigger>
+              <TabsTrigger value="event">Events</TabsTrigger>
+            </TabsList>
+            <TabsContent value="blog" className="mt-4">
+              <TermsPanel kind="categories" hasExtras contentType="blog" />
+            </TabsContent>
+            <TabsContent value="case_study" className="mt-4">
+              <TermsPanel kind="categories" hasExtras contentType="case_study" />
+            </TabsContent>
+            <TabsContent value="event" className="mt-4">
+              <TermsPanel kind="categories" hasExtras contentType="event" />
+            </TabsContent>
+          </Tabs>
         </TabsContent>
         <TabsContent value="tags" className="mt-4">
           <TermsPanel kind="tags" hasExtras={false} />
@@ -53,7 +69,15 @@ export default function Taxonomy() {
   );
 }
 
-function TermsPanel({ kind, hasExtras }: { kind: Kind; hasExtras: boolean }) {
+function TermsPanel({
+  kind,
+  hasExtras,
+  contentType,
+}: {
+  kind: Kind;
+  hasExtras: boolean;
+  contentType?: CategoryContentType;
+}) {
   const qc = useQueryClient();
   const [name, setName] = useState("");
   const [nameAr, setNameAr] = useState("");
@@ -64,20 +88,23 @@ function TermsPanel({ kind, hasExtras }: { kind: Kind; hasExtras: boolean }) {
   const [slugTouched, setSlugTouched] = useState(false);
 
   const list = useQuery({
-    queryKey: [kind],
+    queryKey: [kind, contentType ?? "all"],
     queryFn: async () => {
-      const cols = hasExtras ? "id, name, slug, description, parent_id, translations" : "id, name, slug, translations";
-      const { data, error } = await supabase.from(kind).select(cols).order("name");
+      const cols = hasExtras ? "id, name, slug, description, parent_id, translations, content_type" : "id, name, slug, translations";
+      let query = supabase.from(kind).select(cols);
+      if (kind === "categories" && contentType) query = query.eq("content_type", contentType);
+      const { data, error } = await query.order("name");
       if (error) throw error;
       return (data ?? []) as unknown as Row[];
     },
   });
 
   const countsQ = useQuery({
-    queryKey: [`${kind}-counts`],
+    queryKey: [`${kind}-counts`, contentType ?? "all"],
     queryFn: async () => {
       if (kind === "categories") {
-        const { data, error } = await supabase.from("posts").select("category_id");
+        const table = contentType === "case_study" ? "case_studies" : contentType === "event" ? "events" : "posts";
+        const { data, error } = await supabase.from(table).select("category_id");
         if (error) throw error;
         const m: Record<string, number> = {};
         for (const r of data ?? []) if (r.category_id) m[r.category_id] = (m[r.category_id] ?? 0) + 1;
@@ -111,6 +138,7 @@ function TermsPanel({ kind, hasExtras }: { kind: Kind; hasExtras: boolean }) {
       const finalSlug = (slug || toSlug(name)).trim();
       if (!name.trim() || !finalSlug) throw new Error("Name and slug required");
       const payload: any = { name: name.trim(), slug: finalSlug };
+      if (kind === "categories" && contentType) payload.content_type = contentType;
       const ar = nameAr.trim();
       payload.translations = ar ? { ar: { name: ar } } : {};
       if (hasExtras) {
@@ -128,7 +156,7 @@ function TermsPanel({ kind, hasExtras }: { kind: Kind; hasExtras: boolean }) {
     onSuccess: () => {
       toast.success(editing ? "Updated" : "Created");
       resetForm();
-      qc.invalidateQueries({ queryKey: [kind] });
+      qc.invalidateQueries({ queryKey: [kind, contentType ?? "all"] });
     },
     onError: (e: any) => toast.error(e.message || "Failed"),
   });
@@ -140,8 +168,8 @@ function TermsPanel({ kind, hasExtras }: { kind: Kind; hasExtras: boolean }) {
     },
     onSuccess: () => {
       toast.success("Deleted");
-      qc.invalidateQueries({ queryKey: [kind] });
-      qc.invalidateQueries({ queryKey: [`${kind}-counts`] });
+      qc.invalidateQueries({ queryKey: [kind, contentType ?? "all"] });
+      qc.invalidateQueries({ queryKey: [`${kind}-counts`, contentType ?? "all"] });
     },
     onError: (e: any) => toast.error(e.message || "Delete failed"),
   });

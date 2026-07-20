@@ -67,9 +67,9 @@ export default function CaseStudyEditor() {
   const [translations, setTranslations] = useState<Record<string, any>>({});
 
   const categories = useQuery({
-    queryKey: ["categories-all"],
+    queryKey: ["categories", "case_study"],
     queryFn: async () => {
-      const { data, error } = await supabase.from("categories").select("id, name").order("name");
+      const { data, error } = await supabase.from("categories").select("id, name").eq("content_type", "case_study").order("name");
       if (error) throw error;
       return data;
     },

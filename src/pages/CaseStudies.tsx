@@ -21,8 +21,8 @@ type CaseStudyRow = {
   published_at: string | null;
   created_at: string;
   category_id: string | null;
-  categories?: { name: string } | null;
-  category_name?: string | null;
+  categories?: { name: string; slug: string; translations?: Record<string, { name?: string }> | null } | null;
+  category?: { name: string; slug: string } | null;
   translations?: Record<string, Partial<Pick<CaseStudyRow, "title" | "summary">>> | null;
 };
 
@@ -70,7 +70,7 @@ export default function CaseStudies() {
   const ALL = L.all_filter ?? "All";
   const [rows, setRows] = useState<CaseStudyRow[]>([]);
   const [loading, setLoading] = useState(true);
-  const [active, setActive] = useState<string>(ALL);
+  const [active, setActive] = useState<string>("__all__");
 
 
   useEffect(() => {
@@ -78,16 +78,21 @@ export default function CaseStudies() {
     (async () => {
       const { data, error } = await supabase
         .from("case_studies")
-        .select("id,title,slug,summary,client_name,industry,cover_image_url,published_at,created_at,translations,category_id,categories(name)")
+        .select("id,title,slug,summary,client_name,industry,cover_image_url,published_at,created_at,translations,category_id,categories(name,slug,translations)")
         .eq("status", "published")
         .order("published_at", { ascending: false, nullsFirst: false })
         .limit(100);
       if (cancelled) return;
-      if (!error && data) setRows((data as any[]).map((row) => ({
-        ...row,
-        category_name: row.categories?.name ?? null,
-        ...(locale === "en" ? {} : row.translations?.[locale] ?? {}),
-      })));
+      if (!error && data) setRows((data as any[]).map((row) => {
+        const translatedCategory = locale === "en" ? undefined : row.categories?.translations?.[locale]?.name;
+        return {
+          ...row,
+          category: row.categories
+            ? { name: translatedCategory ?? row.categories.name, slug: row.categories.slug }
+            : null,
+          ...(locale === "en" ? {} : row.translations?.[locale] ?? {}),
+        };
+      }));
       setLoading(false);
     })();
     return () => {
@@ -96,18 +101,18 @@ export default function CaseStudies() {
   }, [locale]);
 
   const categories = useMemo(() => {
-    const set = new Set<string>();
+    const set = new Map<string, string>();
     rows.forEach((r) => {
-      const v = r.category_name ?? r.industry;
-      if (v) set.add(v);
+      if (r.category) set.set(r.category.slug, r.category.name);
+      else if (r.industry) set.set(`industry:${r.industry}`, r.industry);
     });
-    return [ALL, ...Array.from(set)];
+    return [{ id: "__all__", label: ALL }, ...Array.from(set, ([id, label]) => ({ id, label }))];
   }, [rows, ALL]);
 
   const filtered = useMemo(() => {
-    if (active === ALL) return rows;
-    return rows.filter((r) => (r.category_name ?? r.industry ?? "") === active);
-  }, [rows, active, ALL]);
+    if (active === "__all__") return rows;
+    return rows.filter((r) => (r.category?.slug ?? (r.industry ? `industry:${r.industry}` : "")) === active);
+  }, [rows, active]);
 
 
   return (
@@ -155,16 +160,16 @@ export default function CaseStudies() {
               >
                 {categories.map((cat) => (
                   <button
-                    key={cat}
+                    key={cat.id}
                     type="button"
-                    onClick={() => setActive(cat)}
+                    onClick={() => setActive(cat.id)}
                     className={`listing-category-filter rounded-full px-5 py-2 text-sm font-medium transition-colors ${
-                      active === cat
+                      active === cat.id
                         ? "bg-primary text-primary-foreground"
                         : "border border-border bg-card text-card-foreground hover:bg-muted"
                     }`}
                   >
-                    {cat}
+                    {cat.label}
                   </button>
                 ))}
               </motion.div>
@@ -201,7 +206,7 @@ export default function CaseStudies() {
               >
                 <Link to={`/case-studies/${study.slug}`} className="flex flex-1 flex-col">
                   <div className="flex flex-col p-6 md:p-8">
-                    {(study.category_name ?? study.industry) && (
+                    {(study.category?.name ?? study.industry) && (
                       <span
                         className="listing-category w-fit rounded-full px-3 py-1 text-xs font-semibold uppercase tracking-wider"
                         style={{
@@ -209,7 +214,7 @@ export default function CaseStudies() {
                           background: "oklch(0.72 0.17 145 / 0.12)",
                         }}
                       >
-                        {study.category_name ?? study.industry}
+                        {study.category?.name ?? study.industry}
                       </span>
                     )}
                     <h3 className="mt-4 text-xl font-semibold leading-snug text-card-foreground transition-colors group-hover:text-[var(--brand-blue)] md:text-2xl">

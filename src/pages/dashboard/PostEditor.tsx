@@ -70,9 +70,9 @@ export default function PostEditor() {
 
   // Load categories
   const categories = useQuery({
-    queryKey: ["categories-all"],
+    queryKey: ["categories", "blog"],
     queryFn: async () => {
-      const { data, error } = await supabase.from("categories").select("id, name").order("name");
+      const { data, error } = await supabase.from("categories").select("id, name").eq("content_type", "blog").order("name");
       if (error) throw error;
       return data;
     },
