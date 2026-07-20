@@ -1,6 +1,6 @@
 {
   "rewrites": [
-    { "source": "/__l5e/:path*", "destination": "https://cdn.lovable.dev/__l5e/:path*" },
+    { "source": "/__l5e/:path*", "destination": "https://id-preview--a99ff590-db4e-4b0a-82d4-1f1ff73a8b78.lovable.app/__l5e/:path*" },
     { "source": "/(.*)", "destination": "/index.html" }
   ]
 }
