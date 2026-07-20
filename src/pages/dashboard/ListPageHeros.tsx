@@ -10,6 +10,22 @@ import { Switch } from "@/components/ui/switch";
 import { Button } from "@/components/ui/button";
 import { toast } from "sonner";
 import { Sparkles, Loader2 } from "lucide-react";
+import { DEFAULT_LABELS, type CardLabels } from "@/hooks/use-list-page-hero";
+
+const LABEL_FIELD_META: Record<string, { label: string; hint?: string }> = {
+  read_more: { label: "Read-more button", hint: 'e.g. "Read Article"' },
+  see_more: { label: "See-more link", hint: 'e.g. "See more"' },
+  min_read: { label: "Read-time suffix", hint: 'Shown after the number, e.g. "Min Read"' },
+  minutes_suffix: { label: "Minutes suffix", hint: 'e.g. "Min"' },
+  hours_suffix: { label: "Hours suffix", hint: 'e.g. "Hours"' },
+  full_day: { label: "Full-day label", hint: 'Shown for all-day events' },
+  latest_heading: { label: "Latest section heading" },
+  loading: { label: "Loading message" },
+  empty: { label: "Empty state message" },
+  all_filter: { label: 'Filter chip: "All"' },
+  tba: { label: 'Date TBA label' },
+};
+
 
 const PAGES = [
   { key: "blog", label: "Blog", url: "/blog" },
