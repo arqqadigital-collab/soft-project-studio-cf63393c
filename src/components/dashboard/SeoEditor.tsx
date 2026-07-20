@@ -30,6 +30,8 @@ interface SeoForm {
   focus_keyword: string;
   noindex: boolean;
   nofollow: boolean;
+  meta_title_ar: string;
+  meta_description_ar: string;
 }
 
 const EMPTY: SeoForm = {
@@ -40,6 +42,8 @@ const EMPTY: SeoForm = {
   focus_keyword: "",
   noindex: false,
   nofollow: false,
+  meta_title_ar: "",
+  meta_description_ar: "",
 };
 
 export function SeoEditor({
