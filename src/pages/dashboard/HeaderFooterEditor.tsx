@@ -12,6 +12,7 @@ import { Switch } from "@/components/ui/switch";
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
 import { MediaPickerDialog } from "@/components/dashboard/MediaPickerDialog";
 import { useMenuTree } from "@/lib/menuTree";
+import { SectionEditor } from "@/components/dashboard/SectionEditor";
 
 type FooterLink = { label: string; href: string };
 type FooterColumn = { title: string; links: FooterLink[] };
@@ -300,6 +301,7 @@ export default function HeaderFooterEditor() {
         <TabsList>
           <TabsTrigger value="header">Header</TabsTrigger>
           <TabsTrigger value="footer">Footer</TabsTrigger>
+          <TabsTrigger value="footer_cta">Footer CTA</TabsTrigger>
         </TabsList>
 
         <TabsContent value="header" className="space-y-4">
@@ -728,6 +730,17 @@ export default function HeaderFooterEditor() {
               ))}
             </div>
           </Card>
+        </TabsContent>
+
+        <TabsContent value="footer_cta" className="space-y-4">
+          <div className="space-y-1">
+            <h2 className="text-lg font-semibold">Footer CTA section</h2>
+            <p className="text-sm text-muted-foreground">
+              The "Let's Get Started" section shown above the footer on every page (except Contact).
+              Edit the copy, testimonials, background video, and Arabic translations here.
+            </p>
+          </div>
+          <SectionEditor sectionKey="cta" />
         </TabsContent>
       </Tabs>
     </div>
