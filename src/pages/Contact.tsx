@@ -159,7 +159,8 @@ export default function Contact() {
           area: parsed.data.area,
           message: parsed.data.message ?? "",
           consent: parsed.data.consent,
-          user_agent: typeof navigator !== "undefined" ? navigator.userAgent : null,
+          source: "contact_form",
+          ...submissionMeta(),
         })
         .select("id")
         .single();
