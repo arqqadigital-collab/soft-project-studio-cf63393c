@@ -411,6 +411,7 @@ export type Database = {
           message: string
           name: string
           phone: string
+          source: string
           status: string
           updated_at: string
           user_agent: string | null
@@ -424,6 +425,7 @@ export type Database = {
           message?: string
           name: string
           phone?: string
+          source?: string
           status?: string
           updated_at?: string
           user_agent?: string | null
@@ -437,6 +439,7 @@ export type Database = {
           message?: string
           name?: string
           phone?: string
+          source?: string
           status?: string
           updated_at?: string
           user_agent?: string | null
@@ -530,6 +533,72 @@ export type Database = {
           translations?: Json
           updated_at?: string
           virtual_link?: string | null
+        }
+        Relationships: []
+      }
+      footer_cta: {
+        Row: {
+          bg_color: string | null
+          button_bg_color: string | null
+          button_label: string | null
+          button_text_color: string | null
+          button_url: string | null
+          created_at: string
+          description: string | null
+          enabled: boolean
+          excluded_paths: string[]
+          eyebrow: string | null
+          form_success_message: string | null
+          id: string
+          layout: string
+          show_form: boolean
+          singleton: boolean
+          text_color: string | null
+          title: string
+          translations: Json
+          updated_at: string
+        }
+        Insert: {
+          bg_color?: string | null
+          button_bg_color?: string | null
+          button_label?: string | null
+          button_text_color?: string | null
+          button_url?: string | null
+          created_at?: string
+          description?: string | null
+          enabled?: boolean
+          excluded_paths?: string[]
+          eyebrow?: string | null
+          form_success_message?: string | null
+          id?: string
+          layout?: string
+          show_form?: boolean
+          singleton?: boolean
+          text_color?: string | null
+          title?: string
+          translations?: Json
+          updated_at?: string
+        }
+        Update: {
+          bg_color?: string | null
+          button_bg_color?: string | null
+          button_label?: string | null
+          button_text_color?: string | null
+          button_url?: string | null
+          created_at?: string
+          description?: string | null
+          enabled?: boolean
+          excluded_paths?: string[]
+          eyebrow?: string | null
+          form_success_message?: string | null
+          id?: string
+          layout?: string
+          show_form?: boolean
+          singleton?: boolean
+          text_color?: string | null
+          title?: string
+          translations?: Json
+          updated_at?: string
         }
         Relationships: []
       }
