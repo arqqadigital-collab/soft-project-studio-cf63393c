@@ -177,52 +177,65 @@ export function Header() {
             <nav className="space-y-6">
               {tree
                 .filter((g) => g.is_visible)
-                .map((g) => (
-                  <div key={g.id}>
-                    <div className="mb-2 text-xs font-semibold uppercase tracking-wider text-white/40">
-                      {g.label}
+                .map((g) => {
+                  const isOpen = !!openGroups[g.id];
+                  return (
+                    <div key={g.id} className="border-b border-white/10 pb-2">
+                      <button
+                        type="button"
+                        onClick={() => toggleGroup(g.id)}
+                        aria-expanded={isOpen}
+                        className="flex w-full items-center justify-between rounded-lg px-1 py-2 text-left text-sm font-semibold uppercase tracking-wider text-white/70 hover:text-white"
+                      >
+                        <span>{g.label}</span>
+                        <ChevronDown
+                          className={`h-4 w-4 transition-transform ${isOpen ? "rotate-180" : ""}`}
+                        />
+                      </button>
+                      {isOpen && (
+                        <div className="mt-1 space-y-1 ps-2">
+                          {g.columns
+                            .filter((c) => c.is_visible)
+                            .flatMap((c) => c.items)
+                            .map((it) => {
+                              if (it.kind === "page") {
+                                const p = it.page;
+                                if (p.status !== "published" || !p.route_path) return null;
+                                return (
+                                  <Link
+                                    key={p.id}
+                                    to={p.route_path}
+                                    onClick={() => setMobileOpen(false)}
+                                    className="block rounded-lg px-3 py-2 text-sm text-white/85 hover:bg-white/10"
+                                  >
+                                    {p.nav_label || p.title}
+                                  </Link>
+                                );
+                              }
+                              const l = it.link;
+                              if (!l.is_visible) return null;
+                              return (
+                                <a
+                                  key={l.id}
+                                  href={l.url}
+                                  target={l.target === "_blank" ? "_blank" : undefined}
+                                  rel={l.target === "_blank" ? "noreferrer" : undefined}
+                                  onClick={() => setMobileOpen(false)}
+                                  className="block rounded-lg px-3 py-2 text-sm text-white/85 hover:bg-white/10"
+                                >
+                                  {l.label}
+                                </a>
+                              );
+                            })}
+                        </div>
+                      )}
                     </div>
-                    <div className="space-y-1">
-                      {g.columns
-                        .filter((c) => c.is_visible)
-                        .flatMap((c) => c.items)
-                        .map((it) => {
-                          if (it.kind === "page") {
-                            const p = it.page;
-                            if (p.status !== "published" || !p.route_path) return null;
-                            return (
-                              <Link
-                                key={p.id}
-                                to={p.route_path}
-                                onClick={() => setMobileOpen(false)}
-                                className="block rounded-lg px-3 py-2 text-sm text-white/85 hover:bg-white/10"
-                              >
-                                {p.nav_label || p.title}
-                              </Link>
-                            );
-                          }
-                          const l = it.link;
-                          if (!l.is_visible) return null;
-                          return (
-                            <a
-                              key={l.id}
-                              href={l.url}
-                              target={l.target === "_blank" ? "_blank" : undefined}
-                              rel={l.target === "_blank" ? "noreferrer" : undefined}
-                              onClick={() => setMobileOpen(false)}
-                              className="block rounded-lg px-3 py-2 text-sm text-white/85 hover:bg-white/10"
-                            >
-                              {l.label}
-                            </a>
-                          );
-                        })}
-                    </div>
-                  </div>
-                ))}
+                  );
+                })}
 
               {mobileExtra.length > 0 && (
                 <div>
-                  <div className="mb-2 text-xs font-semibold uppercase tracking-wider text-white/40">
+                  <div className="mb-2 px-1 text-xs font-semibold uppercase tracking-wider text-white/40">
                     More
                   </div>
                   <div className="space-y-1">
