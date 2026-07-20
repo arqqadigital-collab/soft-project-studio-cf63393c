@@ -78,7 +78,7 @@ export default function EventEditor() {
   const categories = useQuery({
     queryKey: ["categories", "event"],
     queryFn: async () => {
-      const { data, error } = await supabase.from("categories").select("id, name").eq("content_type", "event").order("name");
+      const { data, error } = await (supabase.from("categories") as any).select("id, name").eq("content_type", "event").order("name");
       if (error) throw error;
       return data;
     },

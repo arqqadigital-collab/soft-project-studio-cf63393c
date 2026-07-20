@@ -90,8 +90,8 @@ function TermsPanel({
   const list = useQuery({
     queryKey: [kind, contentType ?? "all"],
     queryFn: async () => {
-      const cols = hasExtras ? "id, name, slug, description, parent_id, translations, content_type" : "id, name, slug, translations";
-      let query = supabase.from(kind).select(cols);
+      const cols = hasExtras ? "id, name, slug, description, parent_id, translations" : "id, name, slug, translations";
+      let query = (supabase.from(kind) as any).select(cols);
       if (kind === "categories" && contentType) query = query.eq("content_type", contentType);
       const { data, error } = await query.order("name");
       if (error) throw error;

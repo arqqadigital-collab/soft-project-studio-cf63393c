@@ -43,7 +43,7 @@ export default function PostsList() {
   const categories = useQuery({
     queryKey: ["categories", "blog"],
     queryFn: async () => {
-      const { data, error } = await supabase.from("categories").select("id, name").eq("content_type", "blog").order("name");
+      const { data, error } = await (supabase.from("categories") as any).select("id, name").eq("content_type", "blog").order("name");
       if (error) throw error;
       return data;
     },

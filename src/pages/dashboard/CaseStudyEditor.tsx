@@ -69,7 +69,7 @@ export default function CaseStudyEditor() {
   const categories = useQuery({
     queryKey: ["categories", "case_study"],
     queryFn: async () => {
-      const { data, error } = await supabase.from("categories").select("id, name").eq("content_type", "case_study").order("name");
+      const { data, error } = await (supabase.from("categories") as any).select("id, name").eq("content_type", "case_study").order("name");
       if (error) throw error;
       return data;
     },
