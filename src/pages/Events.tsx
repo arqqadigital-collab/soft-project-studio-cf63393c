@@ -61,25 +61,26 @@ function Cover({ url, className }: { url: string | null; className?: string }) {
   );
 }
 
-function formatDate(iso: string | null) {
-  if (!iso) return "TBA";
+function formatDate(iso: string | null, tba: string) {
+  if (!iso) return tba;
   return new Date(iso).toLocaleDateString(undefined, { year: "numeric", month: "long", day: "numeric" });
 }
 
-function durationOf(start: string | null, end: string | null) {
+function durationOf(start: string | null, end: string | null, labels: { min: string; hours: string; full: string }) {
   if (!start || !end) return null;
   const ms = new Date(end).getTime() - new Date(start).getTime();
   const mins = Math.round(ms / 60000);
   if (mins <= 0) return null;
-  if (mins < 60) return `${mins} Min`;
+  if (mins < 60) return `${mins} ${labels.min}`;
   const hours = mins / 60;
-  if (hours < 8) return hours % 1 === 0 ? `${hours} Hours` : `${hours.toFixed(1)} Hours`;
-  return "Full Day";
+  if (hours < 8) return hours % 1 === 0 ? `${hours} ${labels.hours}` : `${hours.toFixed(1)} ${labels.hours}`;
+  return labels.full;
 }
 
 function labelType(t: string) {
   return t.charAt(0).toUpperCase() + t.slice(1);
 }
+
 
 export default function Events() {
   const { locale } = useLocale();
