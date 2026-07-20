@@ -92,6 +92,7 @@ export function Footer() {
           <p className="text-sm text-white/80">{copyright}</p>
         </div>
       </div>
-    </footer>
+      </footer>
+    </>
   );
 }

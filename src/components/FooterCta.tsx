@@ -39,6 +39,7 @@ export function FooterCta() {
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
+    if (!cta) return;
     const parsed = formSchema.safeParse(form);
     if (!parsed.success) {
       toast.error(parsed.error.errors[0]?.message ?? "Please fix form errors");
