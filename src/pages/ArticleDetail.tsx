@@ -70,6 +70,11 @@ export default function ArticleDetail() {
   const [loading, setLoading] = useState(true);
   const [notFound, setNotFound] = useState(false);
 
+  useSetAltLanguagePath({
+    en: post ? `/blog/${post.slug}` : null,
+    ar: post ? `/ar/blog/${post.slug_ar || post.slug}` : null,
+  });
+
 
   useEffect(() => {
     let cancelled = false;
