@@ -104,8 +104,9 @@ export default function Index() {
     },
   });
 
-  const seoTitle = seo?.meta_title || hero.heading_line1 || "Home";
-  const seoDesc = seo?.meta_description || hero.subheadline;
+  const seoAr = (seo?.translations as any)?.ar || {};
+  const seoTitle = (locale === "ar" ? seoAr.meta_title : null) || seo?.meta_title || hero.heading_line1 || "Home";
+  const seoDesc = (locale === "ar" ? seoAr.meta_description : null) || seo?.meta_description || hero.subheadline;
 
   return (
     <>
