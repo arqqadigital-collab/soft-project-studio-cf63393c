@@ -9,6 +9,7 @@ import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { Switch } from "@/components/ui/switch";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
 import { MediaPickerDialog } from "@/components/dashboard/MediaPickerDialog";
 
 type EntityType = "post" | "page" | "homepage";
@@ -29,6 +30,8 @@ interface SeoForm {
   focus_keyword: string;
   noindex: boolean;
   nofollow: boolean;
+  meta_title_ar: string;
+  meta_description_ar: string;
 }
 
 const EMPTY: SeoForm = {
@@ -39,6 +42,8 @@ const EMPTY: SeoForm = {
   focus_keyword: "",
   noindex: false,
   nofollow: false,
+  meta_title_ar: "",
+  meta_description_ar: "",
 };
 
 export function SeoEditor({
@@ -72,6 +77,8 @@ export function SeoEditor({
   useEffect(() => {
     if (existing.data) {
       const d: any = existing.data;
+      const tr = (d.translations || {}) as any;
+      const ar = tr.ar || {};
       setRowId(d.id);
       setForm({
         meta_title: d.meta_title ?? "",
@@ -81,6 +88,8 @@ export function SeoEditor({
         focus_keyword: d.focus_keyword ?? "",
         noindex: !!d.noindex,
         nofollow: !!d.nofollow,
+        meta_title_ar: ar.meta_title ?? "",
+        meta_description_ar: ar.meta_description ?? "",
       });
     } else if (existing.isFetched) {
       setRowId(null);
@@ -99,6 +108,13 @@ export function SeoEditor({
     }
     setSaving(true);
     try {
+      const translations: any = {};
+      if (form.meta_title_ar || form.meta_description_ar) {
+        translations.ar = {
+          ...(form.meta_title_ar ? { meta_title: form.meta_title_ar } : {}),
+          ...(form.meta_description_ar ? { meta_description: form.meta_description_ar } : {}),
+        };
+      }
       const payload = {
         entity_type: entityType,
         entity_id: entityId,
@@ -109,6 +125,7 @@ export function SeoEditor({
         focus_keyword: form.focus_keyword || null,
         noindex: form.noindex,
         nofollow: form.nofollow,
+        translations,
       } as any;
       if (rowId) {
         const { error } = await supabase.from("seo_meta").update(payload).eq("id", rowId);
@@ -150,31 +167,64 @@ export function SeoEditor({
           <CardTitle className="text-sm">Search engine listing</CardTitle>
         </CardHeader>
         <CardContent className="space-y-4">
-          <div className="space-y-1.5">
-            <Label className="text-xs">Meta title</Label>
-            <Input
-              value={form.meta_title}
-              onChange={(e) => patch("meta_title", e.target.value)}
-              placeholder={fallbackTitle || "Overrides the page title"}
-              maxLength={70}
-            />
-            <p className={`text-xs ${titleLen > 60 ? "text-destructive" : "text-muted-foreground"}`}>
-              {titleLen}/60 recommended
-            </p>
-          </div>
-          <div className="space-y-1.5">
-            <Label className="text-xs">Meta description</Label>
-            <Textarea
-              rows={3}
-              value={form.meta_description}
-              onChange={(e) => patch("meta_description", e.target.value)}
-              placeholder="Shown in Google search results"
-              maxLength={200}
-            />
-            <p className={`text-xs ${descLen > 160 ? "text-destructive" : "text-muted-foreground"}`}>
-              {descLen}/160 recommended
-            </p>
-          </div>
+          <Tabs defaultValue="en" className="w-full">
+            <TabsList className="mb-2">
+              <TabsTrigger value="en">English</TabsTrigger>
+              <TabsTrigger value="ar">العربية</TabsTrigger>
+            </TabsList>
+            <TabsContent value="en" className="space-y-4">
+              <div className="space-y-1.5">
+                <Label className="text-xs">Meta title (EN)</Label>
+                <Input
+                  value={form.meta_title}
+                  onChange={(e) => patch("meta_title", e.target.value)}
+                  placeholder={fallbackTitle || "Overrides the page title"}
+                  maxLength={70}
+                />
+                <p className={`text-xs ${titleLen > 60 ? "text-destructive" : "text-muted-foreground"}`}>
+                  {titleLen}/60 recommended
+                </p>
+              </div>
+              <div className="space-y-1.5">
+                <Label className="text-xs">Meta description (EN)</Label>
+                <Textarea
+                  rows={3}
+                  value={form.meta_description}
+                  onChange={(e) => patch("meta_description", e.target.value)}
+                  placeholder="Shown in Google search results"
+                  maxLength={200}
+                />
+                <p className={`text-xs ${descLen > 160 ? "text-destructive" : "text-muted-foreground"}`}>
+                  {descLen}/160 recommended
+                </p>
+              </div>
+            </TabsContent>
+            <TabsContent value="ar" className="space-y-4">
+              <div className="space-y-1.5">
+                <Label className="text-xs">عنوان الميتا (AR)</Label>
+                <Input
+                  dir="rtl"
+                  value={form.meta_title_ar}
+                  onChange={(e) => patch("meta_title_ar", e.target.value)}
+                  placeholder="عنوان الصفحة بالعربية"
+                  maxLength={70}
+                />
+                <p className="text-xs text-muted-foreground">{form.meta_title_ar.length}/60 recommended</p>
+              </div>
+              <div className="space-y-1.5">
+                <Label className="text-xs">وصف الميتا (AR)</Label>
+                <Textarea
+                  dir="rtl"
+                  rows={3}
+                  value={form.meta_description_ar}
+                  onChange={(e) => patch("meta_description_ar", e.target.value)}
+                  placeholder="يظهر في نتائج بحث Google"
+                  maxLength={200}
+                />
+                <p className="text-xs text-muted-foreground">{form.meta_description_ar.length}/160 recommended</p>
+              </div>
+            </TabsContent>
+          </Tabs>
           <div className="grid gap-4 sm:grid-cols-2">
             <div className="space-y-1.5">
               <Label className="text-xs">Focus keyword</Label>

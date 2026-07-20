@@ -7,6 +7,7 @@ import { SeoHead } from "@/components/SeoHead";
 import { logPageView } from "@/lib/analytics";
 import { PageRenderer, usePageSections } from "@/components/PageRenderer";
 import { sanitizeHtml } from "@/lib/sanitize";
+import { useLocale } from "@/i18n/LanguageProvider";
 
 type PageDetail = {
   id: string;
@@ -26,6 +27,7 @@ type SeoMeta = {
   canonical_url: string | null;
   noindex: boolean | null;
   nofollow: boolean | null;
+  translations?: any;
 };
 
 export default function PublicPage() {
@@ -68,7 +70,7 @@ export default function PublicPage() {
 
       const { data: seoRow } = await supabase
         .from("seo_meta")
-        .select("meta_title,meta_description,og_image_url,canonical_url,noindex,nofollow")
+        .select("meta_title,meta_description,og_image_url,canonical_url,noindex,nofollow,translations")
         .eq("entity_type", "page")
         .eq("entity_id", p.id)
         .maybeSingle();
@@ -120,9 +122,10 @@ export default function PublicPage() {
 function RenderedPage({ page, seo }: { page: PageDetail; seo: SeoMeta | null }) {
   const sections = usePageSections(page.id);
   const hasSections = (sections.data ?? []).length > 0;
-
-  const title = seo?.meta_title || page.title;
-  const description = seo?.meta_description || undefined;
+  const { locale } = useLocale();
+  const ar = (seo?.translations as any)?.ar || {};
+  const title = (locale === "ar" ? ar.meta_title : null) || seo?.meta_title || page.title;
+  const description = (locale === "ar" ? ar.meta_description : null) || seo?.meta_description || undefined;
   const ogImage = seo?.og_image_url || page.featured_image_url || undefined;
   const canonical = seo?.canonical_url || undefined;
 

@@ -34,6 +34,7 @@ type SeoMeta = {
   canonical_url: string | null;
   noindex: boolean | null;
   nofollow: boolean | null;
+  translations?: any;
 };
 
 function CoverPlaceholder({ className }: { className?: string }) {
@@ -110,7 +111,7 @@ export default function ArticleDetail() {
 
       const { data: seoRow } = await supabase
         .from("seo_meta")
-        .select("meta_title,meta_description,og_image_url,canonical_url,noindex,nofollow")
+        .select("meta_title,meta_description,og_image_url,canonical_url,noindex,nofollow,translations")
         .eq("entity_type", "post")
         .eq("entity_id", p.id)
         .maybeSingle();
@@ -152,8 +153,9 @@ export default function ArticleDetail() {
   }
 
 
-  const title = seo?.meta_title || post.title;
-  const description = seo?.meta_description || post.excerpt || undefined;
+  const seoAr = (seo?.translations as any)?.ar || {};
+  const title = (locale === "ar" ? seoAr.meta_title : null) || seo?.meta_title || post.title;
+  const description = (locale === "ar" ? seoAr.meta_description : null) || seo?.meta_description || post.excerpt || undefined;
   const ogImage = seo?.og_image_url || post.featured_image_url || undefined;
   const canonical = seo?.canonical_url || undefined;
   const publishedDate = post.published_at ?? post.created_at;

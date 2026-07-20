@@ -1,0 +1,1 @@
+ALTER TABLE public.seo_meta ADD COLUMN IF NOT EXISTS translations JSONB NOT NULL DEFAULT '{}'::jsonb;
