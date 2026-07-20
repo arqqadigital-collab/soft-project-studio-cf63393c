@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { toast } from "sonner";
-import { Save, Plus, Trash2, ExternalLink } from "lucide-react";
+import { Save, Plus, Trash2, ExternalLink, ImageIcon } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -10,11 +10,59 @@ import { Card } from "@/components/ui/card";
 import { Label } from "@/components/ui/label";
 import { Switch } from "@/components/ui/switch";
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
+import { MediaPickerDialog } from "@/components/dashboard/MediaPickerDialog";
 import { useMenuTree } from "@/lib/menuTree";
 
 type FooterLink = { label: string; href: string };
 type FooterColumn = { title: string; links: FooterLink[] };
 type SocialLink = { platform: string; url: string };
+
+function LogoField({
+  label,
+  value,
+  onChange,
+  hint,
+}: {
+  label: string;
+  value: string;
+  onChange: (v: string) => void;
+  hint?: string;
+}) {
+  const [open, setOpen] = useState(false);
+  return (
+    <div className="space-y-2">
+      <Label>{label}</Label>
+      <div className="flex items-center gap-3 rounded-lg border bg-muted/30 p-3">
+        <div className="flex h-16 w-24 shrink-0 items-center justify-center overflow-hidden rounded border bg-background">
+          {value ? (
+            <img src={value} alt={label} className="max-h-full max-w-full object-contain" />
+          ) : (
+            <ImageIcon className="h-6 w-6 text-muted-foreground" />
+          )}
+        </div>
+        <div className="flex flex-1 flex-wrap gap-2">
+          <Button type="button" variant="outline" size="sm" onClick={() => setOpen(true)}>
+            {value ? "Change logo" : "Choose from media"}
+          </Button>
+          {value && (
+            <Button type="button" variant="ghost" size="sm" onClick={() => onChange("")}>
+              <Trash2 className="mr-1 h-4 w-4 text-destructive" /> Remove
+            </Button>
+          )}
+        </div>
+      </div>
+      {hint && <p className="text-xs text-muted-foreground">{hint}</p>}
+      <MediaPickerDialog
+        open={open}
+        onOpenChange={setOpen}
+        onPick={(m) => {
+          onChange(m.file_url);
+          setOpen(false);
+        }}
+      />
+    </div>
+  );
+}
 
 function ColorField({
   label,
