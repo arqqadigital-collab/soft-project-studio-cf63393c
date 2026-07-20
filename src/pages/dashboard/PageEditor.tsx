@@ -37,6 +37,8 @@ interface PageForm {
   nav_label: string;
   page_kind: PageKind;
   route_path: string;
+  title_ar: string;
+  nav_label_ar: string;
 }
 
 const EMPTY: PageForm = {
@@ -51,6 +53,8 @@ const EMPTY: PageForm = {
   nav_label: "",
   page_kind: "cms",
   route_path: "",
+  title_ar: "",
+  nav_label_ar: "",
 };
 
 function defaultRouteForSlug(slug: string): string {
@@ -114,6 +118,7 @@ export default function PageEditor() {
   useEffect(() => {
     if (existing.data) {
       const d: any = existing.data;
+      const ar = (d.translations && d.translations.ar) || {};
       setForm({
         title: d.title, slug: d.slug, content: d.content ?? "",
         featured_image_url: d.featured_image_url ?? "",
@@ -122,6 +127,8 @@ export default function PageEditor() {
         nav_label: d.nav_label ?? "",
         page_kind: (d.page_kind as PageKind) ?? "cms",
         route_path: d.route_path ?? "",
+        title_ar: ar.title ?? "",
+        nav_label_ar: ar.nav_label ?? "",
       });
       setPreviewToken(d.preview_token ?? null);
       setSlugTouched(true);
@@ -155,6 +162,15 @@ export default function PageEditor() {
     if (!user) return;
     if (!form.title.trim()) { if (!opts?.silent) toast.error("Title is required"); return; }
     setSaving(true);
+    const existingTx = (existing.data as any)?.translations ?? {};
+    const translations = {
+      ...existingTx,
+      ar: {
+        ...(existingTx.ar ?? {}),
+        title: form.title_ar || null,
+        nav_label: form.nav_label_ar || null,
+      },
+    };
     const payload: any = {
       title: form.title,
       slug: form.slug || toSlug(form.title),
@@ -168,6 +184,7 @@ export default function PageEditor() {
       page_kind: form.page_kind,
       route_path: form.route_path || defaultRouteForSlug(form.slug || toSlug(form.title)),
       author_id: user.id,
+      translations,
     };
     try {
       let pid = pageId;
@@ -251,9 +268,19 @@ export default function PageEditor() {
               <Input
                 value={form.title}
                 onChange={(e) => patch("title", e.target.value)}
-                placeholder="Page title"
+                placeholder="Page title (English)"
                 className="border-none px-0 text-2xl font-semibold shadow-none focus-visible:ring-0"
               />
+              <div className="flex items-center gap-2">
+                <span className="rounded bg-secondary px-1.5 py-0.5 text-[10px] font-semibold uppercase text-muted-foreground">AR</span>
+                <Input
+                  value={form.title_ar}
+                  onChange={(e) => patch("title_ar", e.target.value)}
+                  placeholder="عنوان الصفحة (بالعربية)"
+                  dir="rtl"
+                  className="border-none px-0 text-xl font-semibold shadow-none focus-visible:ring-0"
+                />
+              </div>
               <div className="flex items-center gap-2 text-sm text-muted-foreground">
                 <span>slug</span>
                 <Input
@@ -370,11 +397,20 @@ export default function PageEditor() {
                 <p className="text-xs text-muted-foreground">Where this page appears in the navbar. Leave unassigned to hide from menu.</p>
               </div>
               <div className="space-y-1.5">
-                <Label className="text-xs">Nav label (optional)</Label>
+                <Label className="text-xs">Nav label — English (optional)</Label>
                 <Input
                   value={form.nav_label}
                   onChange={(e) => patch("nav_label", e.target.value)}
                   placeholder="Short label shown in the menu"
+                />
+              </div>
+              <div className="space-y-1.5">
+                <Label className="text-xs">Nav label — Arabic (optional)</Label>
+                <Input
+                  value={form.nav_label_ar}
+                  onChange={(e) => patch("nav_label_ar", e.target.value)}
+                  placeholder="التسمية في القائمة"
+                  dir="rtl"
                 />
               </div>
               <div className="space-y-1.5">

@@ -142,7 +142,7 @@ export default function PagesAndNavigation() {
     queryFn: async () => {
       const { data, error } = await supabase
         .from("pages")
-        .select("id,title,nav_label,route_path,status,page_kind,menu_column_id")
+        .select("id,title,nav_label,route_path,status,page_kind,menu_column_id,translations")
         .order("title", { ascending: true });
       if (error) throw error;
       return data ?? [];
@@ -419,6 +419,22 @@ export default function PagesAndNavigation() {
                 placeholder="Search pages by title, nav label, or route…"
                 className="h-8 border-0 shadow-none focus-visible:ring-0"
               />
+              <div className="inline-flex overflow-hidden rounded-md border border-border text-xs">
+                <button
+                  type="button"
+                  onClick={() => setNavLocale("en")}
+                  className={`px-3 py-1.5 font-semibold ${navLocale === "en" ? "bg-primary text-primary-foreground" : "bg-background text-muted-foreground hover:bg-muted"}`}
+                >
+                  EN
+                </button>
+                <button
+                  type="button"
+                  onClick={() => setNavLocale("ar")}
+                  className={`px-3 py-1.5 font-semibold ${navLocale === "ar" ? "bg-primary text-primary-foreground" : "bg-background text-muted-foreground hover:bg-muted"}`}
+                >
+                  AR
+                </button>
+              </div>
             </div>
             {allPages.isLoading ? (
               <div className="p-6 text-sm text-muted-foreground">Loading…</div>
@@ -430,14 +446,22 @@ export default function PagesAndNavigation() {
               <div className="divide-y divide-border">
                 {filteredPages.map((p) => {
                   const inMenu = !!p.menu_column_id;
+                  const ar = ((p as any).translations?.ar) || {};
+                  const arTitle = ar.title as string | undefined;
+                  const arNav = ar.nav_label as string | undefined;
+                  const displayName = navLocale === "ar"
+                    ? (arNav || arTitle || p.nav_label || p.title)
+                    : (p.nav_label || p.title);
+                  const missingAr = navLocale === "ar" && !arTitle && !arNav;
                   return (
                     <div key={p.id} className="flex items-center gap-2 px-4 py-2">
                       <FileText className="h-4 w-4 text-muted-foreground" />
                       <button
                         onClick={() => navigate(`/dashboard/pages/${p.id}`)}
                         className="font-medium hover:underline"
+                        dir={navLocale === "ar" ? "rtl" : "ltr"}
                       >
-                        {p.nav_label || p.title}
+                        {displayName}
                       </button>
                       <span className="text-xs text-muted-foreground">{p.route_path}</span>
                       <span
@@ -461,6 +485,11 @@ export default function PagesAndNavigation() {
                       {!inMenu && (
                         <span className="rounded-full bg-amber-500/15 px-2 py-0.5 text-[10px] uppercase text-amber-700 dark:text-amber-400">
                           Not in menu
+                        </span>
+                      )}
+                      {missingAr && (
+                        <span className="rounded-full bg-amber-500/15 px-2 py-0.5 text-[10px] uppercase text-amber-700 dark:text-amber-400">
+                          Missing AR
                         </span>
                       )}
                       <div className="ml-auto flex items-center gap-1">

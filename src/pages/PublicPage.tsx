@@ -18,6 +18,7 @@ type PageDetail = {
   template: "default" | "full-width" | "landing";
   created_at: string;
   updated_at: string;
+  translations?: any;
 };
 
 type SeoMeta = {
@@ -47,7 +48,7 @@ export default function PublicPage() {
       const isAr = typeof window !== "undefined" && window.location.pathname.startsWith("/ar/");
       let { data, error } = await supabase
         .from("pages")
-        .select("id,title,slug,content,featured_image_url,template,created_at,updated_at")
+        .select("id,title,slug,content,featured_image_url,template,created_at,updated_at,translations")
         .or(isAr ? `slug_ar.eq.${slug},slug.eq.${slug}` : `slug.eq.${slug}`)
         .eq("status", "published")
         .maybeSingle();
@@ -126,7 +127,9 @@ function RenderedPage({ page, seo }: { page: PageDetail; seo: SeoMeta | null }) 
   const hasSections = (sections.data ?? []).length > 0;
   const { locale } = useLocale();
   const ar = (seo?.translations as any)?.ar || {};
-  const title = (locale === "ar" ? ar.meta_title : null) || seo?.meta_title || page.title;
+  const pageAr = (page.translations as any)?.ar || {};
+  const displayTitle = locale === "ar" && pageAr.title ? pageAr.title : page.title;
+  const title = (locale === "ar" ? ar.meta_title : null) || seo?.meta_title || displayTitle;
   const description = (locale === "ar" ? ar.meta_description : null) || seo?.meta_description || undefined;
   const ogImage = seo?.og_image_url || page.featured_image_url || undefined;
   const canonical = seo?.canonical_url || undefined;
@@ -155,13 +158,13 @@ function RenderedPage({ page, seo }: { page: PageDetail; seo: SeoMeta | null }) 
             <div className={`mx-auto ${containerClass} px-6`}>
               {!isLanding && (
                 <h1 className="text-3xl font-bold leading-tight tracking-tight text-foreground md:text-4xl lg:text-5xl">
-                  {page.title}
+                  {displayTitle}
                 </h1>
               )}
               {page.featured_image_url && !isLanding && (
                 <img
                   src={page.featured_image_url}
-                  alt={page.title}
+                  alt={displayTitle}
                   className="mt-8 aspect-[16/9] w-full rounded-3xl object-cover"
                 />
               )}
