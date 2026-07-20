@@ -491,9 +491,27 @@ export default function PagesAndNavigation() {
         </TabsContent>
 
         <TabsContent value="navigation" className="mt-4">
-          <p className="mb-3 text-sm text-muted-foreground">
-            Drag to reorder or move between columns. Groups → Columns → Pages / Links.
-          </p>
+          <div className="mb-3 flex items-center justify-between gap-3">
+            <p className="text-sm text-muted-foreground">
+              Drag to reorder or move between columns. Groups → Columns → Pages / Links.
+            </p>
+            <div className="inline-flex overflow-hidden rounded-md border border-border text-xs">
+              <button
+                type="button"
+                onClick={() => setNavLocale("en")}
+                className={`px-3 py-1.5 font-semibold ${navLocale === "en" ? "bg-primary text-primary-foreground" : "bg-background text-muted-foreground hover:bg-muted"}`}
+              >
+                EN
+              </button>
+              <button
+                type="button"
+                onClick={() => setNavLocale("ar")}
+                className={`px-3 py-1.5 font-semibold ${navLocale === "ar" ? "bg-primary text-primary-foreground" : "bg-background text-muted-foreground hover:bg-muted"}`}
+              >
+                AR
+              </button>
+            </div>
+          </div>
           <DndContext sensors={sensors} collisionDetection={closestCenter} onDragStart={onDragStart} onDragEnd={onDragEnd}>
             <Card className="divide-y divide-border">
               {tree.isLoading ? (
