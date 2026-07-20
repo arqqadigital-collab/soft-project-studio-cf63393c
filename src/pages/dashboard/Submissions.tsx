@@ -33,7 +33,8 @@ type Row = {
 const SOURCES = [
   { value: "all", label: "All sources" },
   { value: "contact_form", label: "Contact form" },
-  { value: "footer_cta", label: "Footer CTA" },
+  { value: "footer_form", label: "Footer form" },
+  { value: "footer_cta", label: "Footer CTA (legacy)" },
 ];
 
 const STATUSES = [
@@ -295,7 +296,7 @@ export default function Submissions() {
                       </a>
                     </td>
                     <td className="px-3 py-2">
-                      <Badge variant={r.source === "footer_cta" ? "default" : "secondary"}>
+                      <Badge variant={r.source === "contact_form" ? "secondary" : "default"}>
                         {sourceLabel(r.source)}
                       </Badge>
                     </td>
