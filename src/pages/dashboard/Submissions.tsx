@@ -89,6 +89,7 @@ export default function Submissions() {
   const [search, setSearch] = useState("");
   const [pageNum, setPageNum] = useState(0);
   const [selected, setSelected] = useState<Row | null>(null);
+  const [toDelete, setToDelete] = useState<Row | null>(null);
 
   const { data, isLoading, refetch, isFetching } = useQuery({
     queryKey: ["submissions", source, status, page, search, pageNum],
