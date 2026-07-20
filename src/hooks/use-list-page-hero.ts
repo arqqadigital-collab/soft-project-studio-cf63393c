@@ -29,6 +29,11 @@ export const DEFAULT_LABELS: Record<string, { en: CardLabels; ar: CardLabels }> 
       loading: "Loading articles…",
       empty: "No published articles yet.",
       all_filter: "All",
+      detail_back: "Back to Blog",
+      detail_by_prefix: "By",
+      detail_no_content: "No content.",
+      detail_not_found_title: "Article not found",
+      detail_not_found_desc: "This article doesn't exist or hasn't been published yet.",
     },
     ar: {
       read_more: "اقرأ المقال",
@@ -37,6 +42,11 @@ export const DEFAULT_LABELS: Record<string, { en: CardLabels; ar: CardLabels }> 
       loading: "جارٍ تحميل المقالات…",
       empty: "لا توجد مقالات منشورة بعد.",
       all_filter: "الكل",
+      detail_back: "العودة إلى المدونة",
+      detail_by_prefix: "بقلم",
+      detail_no_content: "لا يوجد محتوى.",
+      detail_not_found_title: "المقال غير موجود",
+      detail_not_found_desc: "هذا المقال غير موجود أو لم يتم نشره بعد.",
     },
   },
   "case-studies": {
@@ -45,12 +55,24 @@ export const DEFAULT_LABELS: Record<string, { en: CardLabels; ar: CardLabels }> 
       loading: "Loading case studies…",
       empty: "No published case studies yet.",
       all_filter: "All",
+      detail_back: "All case studies",
+      detail_not_found_title: "Case study not found",
+      detail_not_found_link: "Back to all case studies",
+      challenge_heading: "The Challenge",
+      solution_heading: "Our Solution",
+      results_heading: "Results",
     },
     ar: {
       see_more: "عرض المزيد",
       loading: "جارٍ تحميل دراسات الحالة…",
       empty: "لا توجد دراسات حالة منشورة بعد.",
       all_filter: "الكل",
+      detail_back: "كل دراسات الحالة",
+      detail_not_found_title: "دراسة الحالة غير موجودة",
+      detail_not_found_link: "العودة إلى كل دراسات الحالة",
+      challenge_heading: "التحدي",
+      solution_heading: "الحل",
+      results_heading: "النتائج",
     },
   },
   events: {
@@ -63,6 +85,12 @@ export const DEFAULT_LABELS: Record<string, { en: CardLabels; ar: CardLabels }> 
       minutes_suffix: "Min",
       hours_suffix: "Hours",
       full_day: "Full Day",
+      detail_back: "All events",
+      detail_not_found_title: "Event not found.",
+      detail_not_found_link: "Back to events",
+      detail_ends_prefix: "Ends",
+      detail_register: "Register Now",
+      detail_join_online: "Join Online",
     },
     ar: {
       see_more: "عرض المزيد",
@@ -73,9 +101,16 @@ export const DEFAULT_LABELS: Record<string, { en: CardLabels; ar: CardLabels }> 
       minutes_suffix: "دقيقة",
       hours_suffix: "ساعات",
       full_day: "يوم كامل",
+      detail_back: "كل الفعاليات",
+      detail_not_found_title: "الفعالية غير موجودة.",
+      detail_not_found_link: "العودة إلى الفعاليات",
+      detail_ends_prefix: "تنتهي",
+      detail_register: "سجّل الآن",
+      detail_join_online: "انضم عبر الإنترنت",
     },
   },
 };
+
 
 export function useListPageHero(pageKey: string) {
   const { locale } = useLocale();
