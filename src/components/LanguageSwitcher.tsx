@@ -1,6 +1,8 @@
 import { useEffect, useRef, useState } from "react";
 import { Globe, Check } from "lucide-react";
+import { useLocation, useNavigate } from "react-router-dom";
 import { useLocale } from "@/i18n/LanguageProvider";
+import { findCounterpart, useRouteMap } from "@/lib/routeMap";
 import type { Locale } from "@/i18n";
 
 const OPTIONS: { code: Locale; label: string; short: string }[] = [
@@ -14,7 +16,11 @@ type Props = {
 };
 
 export function LanguageSwitcher({ className = "", buttonClassName = "" }: Props) {
-  const { locale, setLocale } = useLocale();
+  const { locale } = useLocale();
+  const { pathname } = useLocation();
+  const navigate = useNavigate();
+  // Ensures route_map is loaded so counterpart resolution uses CMS overrides.
+  useRouteMap();
   const [open, setOpen] = useState(false);
   const ref = useRef<HTMLDivElement>(null);
 
@@ -26,6 +32,12 @@ export function LanguageSwitcher({ className = "", buttonClassName = "" }: Props
     document.addEventListener("mousedown", onClick);
     return () => document.removeEventListener("mousedown", onClick);
   }, [open]);
+
+  const go = (target: Locale) => {
+    if (target === locale) return;
+    const dest = findCounterpart(pathname, target) ?? (target === "ar" ? "/ar" : "/");
+    navigate(dest);
+  };
 
   return (
     <div ref={ref} className={`relative ${className}`}>
@@ -51,7 +63,7 @@ export function LanguageSwitcher({ className = "", buttonClassName = "" }: Props
                 key={o.code}
                 type="button"
                 onClick={() => {
-                  setLocale(o.code);
+                  go(o.code);
                   setOpen(false);
                 }}
                 className={`flex w-full items-center justify-between px-4 py-2 text-sm ${
