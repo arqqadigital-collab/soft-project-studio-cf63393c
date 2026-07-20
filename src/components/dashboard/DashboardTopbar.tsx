@@ -1,5 +1,5 @@
 import { useNavigate } from "react-router-dom";
-import { Bell, Languages, LogOut, Search, User as UserIcon } from "lucide-react";
+import { Languages, LogOut, Search, User as UserIcon } from "lucide-react";
 import { SidebarTrigger } from "@/components/ui/sidebar";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
