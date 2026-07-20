@@ -1,5 +1,5 @@
 import { useNavigate } from "react-router-dom";
-import { Languages, LogOut, Search, User as UserIcon } from "lucide-react";
+import { LogOut, Search, User as UserIcon } from "lucide-react";
 import { SidebarTrigger } from "@/components/ui/sidebar";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
@@ -15,15 +15,12 @@ import {
 import { useAuth } from "@/hooks/use-auth";
 import { useRoles } from "@/hooks/use-role";
 import { supabase } from "@/integrations/supabase/client";
-import { useLocale } from "@/i18n/LanguageProvider";
 
 export function DashboardTopbar() {
   const { user } = useAuth();
   const { highest } = useRoles();
-  const { locale, setLocale } = useLocale();
   const navigate = useNavigate();
   const initials = (user?.email?.[0] ?? "U").toUpperCase();
-  const nextLocale = locale === "ar" ? "en" : "ar";
 
   async function logout() {
     await supabase.auth.signOut();
@@ -38,18 +35,7 @@ export function DashboardTopbar() {
         <Input placeholder="Search..." className="pl-9" />
       </div>
       <div className="ml-auto flex items-center gap-2">
-        <Button
-          variant="outline"
-          size="sm"
-          onClick={() => setLocale(nextLocale)}
-          className="h-9 gap-1.5 font-semibold"
-          aria-label={`Switch editor language to ${nextLocale.toUpperCase()}`}
-          title={`Editing in ${locale.toUpperCase()} — click to switch to ${nextLocale.toUpperCase()}`}
-        >
-          <Languages className="h-4 w-4" />
-          <span className="text-xs uppercase tracking-wide">{locale}</span>
-          <span className="text-xs text-muted-foreground">→ {nextLocale}</span>
-        </Button>
+
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
             <Button variant="ghost" className="h-9 gap-2 px-2">
