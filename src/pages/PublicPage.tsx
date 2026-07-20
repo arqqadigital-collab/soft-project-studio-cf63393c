@@ -7,6 +7,7 @@ import { SeoHead } from "@/components/SeoHead";
 import { logPageView } from "@/lib/analytics";
 import { PageRenderer, usePageSections } from "@/components/PageRenderer";
 import { sanitizeHtml } from "@/lib/sanitize";
+import { useLocale } from "@/i18n/LanguageProvider";
 
 type PageDetail = {
   id: string;
