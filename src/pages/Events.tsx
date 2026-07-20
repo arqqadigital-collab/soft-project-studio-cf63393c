@@ -14,6 +14,7 @@ type EventRow = {
   id: string;
   title: string;
   slug: string;
+  slug_ar: string | null;
   description: string | null;
   event_type: string;
   starts_at: string | null;
@@ -107,7 +108,7 @@ export default function Events() {
     (async () => {
       const { data, error } = await supabase
         .from("events")
-        .select("id,title,slug,description,event_type,starts_at,ends_at,location,virtual_link,cover_image_url,published_at,translations,category_id,category:categories(name,slug,translations)")
+        .select("id,title,slug,slug_ar,description,event_type,starts_at,ends_at,location,virtual_link,cover_image_url,published_at,translations,category_id,category:categories(name,slug,translations)")
         .eq("status", "published")
         .order("starts_at", { ascending: true, nullsFirst: false })
         .limit(100);
@@ -225,7 +226,7 @@ export default function Events() {
                   whileInView="visible"
                   viewport={{ once: true, amount: 0.2 }}
                 >
-                  <Link to={`/events/${ev.slug}`} className="flex flex-1 flex-col">
+                  <Link to={`${locale === "ar" ? "/ar" : ""}/events/${(locale === "ar" && ev.slug_ar) || ev.slug}`} className="flex flex-1 flex-col">
                     <Cover url={ev.cover_image_url} className="aspect-[16/10] w-full" />
                     <div className="flex flex-1 flex-col p-6">
                       <span

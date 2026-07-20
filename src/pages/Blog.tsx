@@ -18,6 +18,7 @@ type PostRow = {
   id: string;
   title: string;
   slug: string;
+  slug_ar: string | null;
   excerpt: string | null;
   featured_image_url: string | null;
   published_at: string | null;
@@ -122,7 +123,7 @@ export default function Blog() {
       const { data, error } = await supabase
         .from("posts")
         .select(
-          "id,title,slug,excerpt,featured_image_url,published_at,created_at,translations,category:categories(name,slug,translations),author:profiles!posts_author_id_fkey(full_name)"
+          "id,title,slug,slug_ar,excerpt,featured_image_url,published_at,created_at,translations,category:categories(name,slug,translations),author:profiles!posts_author_id_fkey(full_name)"
         )
         .eq("status", "published")
         .order("published_at", { ascending: false, nullsFirst: false })
@@ -288,7 +289,7 @@ export default function Blog() {
 
                   <div className="mt-8">
                     <Button asChild className="group/btn inline-flex items-center gap-2">
-                      <Link to={`/blog/${featured.slug}`}>
+                      <Link to={`${locale === "ar" ? "/ar" : ""}/blog/${(locale === "ar" && featured.slug_ar) || featured.slug}`}>
                         {L.read_more ?? (locale === "ar" ? "اقرأ المقال" : "Read Article")}
                         <ArrowRight className="h-4 w-4 transition-transform group-hover/btn:translate-x-1 rtl:rotate-180" />
                       </Link>
@@ -321,7 +322,7 @@ export default function Blog() {
                   whileInView="visible"
                   viewport={{ once: true, amount: 0.2 }}
                 >
-                  <Link to={`/blog/${post.slug}`} className="flex flex-1 flex-col">
+                  <Link to={`${locale === "ar" ? "/ar" : ""}/blog/${(locale === "ar" && post.slug_ar) || post.slug}`} className="flex flex-1 flex-col">
                     <Cover url={post.featured_image_url} className="aspect-[16/10] w-full" />
                     <div className="flex flex-1 flex-col p-6">
                       {post.category && (
