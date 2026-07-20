@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { Link, useLocation } from "react-router-dom";
-import { Menu as MenuIcon, X, Globe, Linkedin, Twitter, Facebook, Instagram, Youtube, Github } from "lucide-react";
+import { Menu as MenuIcon, X, Globe, ChevronDown, Linkedin, Twitter, Facebook, Instagram, Youtube, Github } from "lucide-react";
 import logo from "@/assets/logo.png";
 import { MainNav } from "@/components/MainNav";
 import { LanguageSwitcher } from "@/components/LanguageSwitcher";
@@ -49,6 +49,8 @@ export function Header() {
   const { data: tree = [] } = useMenuTree();
   const [scrolled, setScrolled] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
+  const [openGroups, setOpenGroups] = useState<Record<string, boolean>>({});
+  const toggleGroup = (id: string) => setOpenGroups((s) => ({ ...s, [id]: !s[id] }));
   
 
   const location = useLocation();
@@ -127,7 +129,13 @@ export function Header() {
         {showMenus && <MainNav />}
 
         <div className="flex items-center gap-2">
-          <LanguageSwitcher className="hidden lg:block" />
+          <LanguageSwitcher
+            buttonClassName={
+              isTransparent
+                ? "inline-flex items-center gap-1.5 rounded-full border border-white/25 px-2.5 py-1.5 text-xs font-medium text-white hover:bg-white/10 md:text-sm md:px-3 md:py-2"
+                : "inline-flex items-center gap-1.5 rounded-full border border-white/15 px-2.5 py-1.5 text-xs font-medium text-white/85 hover:bg-white/10 md:text-sm md:px-3 md:py-2"
+            }
+          />
 
 
           <a
@@ -169,52 +177,65 @@ export function Header() {
             <nav className="space-y-6">
               {tree
                 .filter((g) => g.is_visible)
-                .map((g) => (
-                  <div key={g.id}>
-                    <div className="mb-2 text-xs font-semibold uppercase tracking-wider text-white/40">
-                      {g.label}
+                .map((g) => {
+                  const isOpen = !!openGroups[g.id];
+                  return (
+                    <div key={g.id} className="border-b border-white/10 pb-2">
+                      <button
+                        type="button"
+                        onClick={() => toggleGroup(g.id)}
+                        aria-expanded={isOpen}
+                        className="flex w-full items-center justify-between rounded-lg px-1 py-2 text-left text-sm font-semibold uppercase tracking-wider text-white/70 hover:text-white"
+                      >
+                        <span>{g.label}</span>
+                        <ChevronDown
+                          className={`h-4 w-4 transition-transform ${isOpen ? "rotate-180" : ""}`}
+                        />
+                      </button>
+                      {isOpen && (
+                        <div className="mt-1 space-y-1 ps-2">
+                          {g.columns
+                            .filter((c) => c.is_visible)
+                            .flatMap((c) => c.items)
+                            .map((it) => {
+                              if (it.kind === "page") {
+                                const p = it.page;
+                                if (p.status !== "published" || !p.route_path) return null;
+                                return (
+                                  <Link
+                                    key={p.id}
+                                    to={p.route_path}
+                                    onClick={() => setMobileOpen(false)}
+                                    className="block rounded-lg px-3 py-2 text-sm text-white/85 hover:bg-white/10"
+                                  >
+                                    {p.nav_label || p.title}
+                                  </Link>
+                                );
+                              }
+                              const l = it.link;
+                              if (!l.is_visible) return null;
+                              return (
+                                <a
+                                  key={l.id}
+                                  href={l.url}
+                                  target={l.target === "_blank" ? "_blank" : undefined}
+                                  rel={l.target === "_blank" ? "noreferrer" : undefined}
+                                  onClick={() => setMobileOpen(false)}
+                                  className="block rounded-lg px-3 py-2 text-sm text-white/85 hover:bg-white/10"
+                                >
+                                  {l.label}
+                                </a>
+                              );
+                            })}
+                        </div>
+                      )}
                     </div>
-                    <div className="space-y-1">
-                      {g.columns
-                        .filter((c) => c.is_visible)
-                        .flatMap((c) => c.items)
-                        .map((it) => {
-                          if (it.kind === "page") {
-                            const p = it.page;
-                            if (p.status !== "published" || !p.route_path) return null;
-                            return (
-                              <Link
-                                key={p.id}
-                                to={p.route_path}
-                                onClick={() => setMobileOpen(false)}
-                                className="block rounded-lg px-3 py-2 text-sm text-white/85 hover:bg-white/10"
-                              >
-                                {p.nav_label || p.title}
-                              </Link>
-                            );
-                          }
-                          const l = it.link;
-                          if (!l.is_visible) return null;
-                          return (
-                            <a
-                              key={l.id}
-                              href={l.url}
-                              target={l.target === "_blank" ? "_blank" : undefined}
-                              rel={l.target === "_blank" ? "noreferrer" : undefined}
-                              onClick={() => setMobileOpen(false)}
-                              className="block rounded-lg px-3 py-2 text-sm text-white/85 hover:bg-white/10"
-                            >
-                              {l.label}
-                            </a>
-                          );
-                        })}
-                    </div>
-                  </div>
-                ))}
+                  );
+                })}
 
               {mobileExtra.length > 0 && (
                 <div>
-                  <div className="mb-2 text-xs font-semibold uppercase tracking-wider text-white/40">
+                  <div className="mb-2 px-1 text-xs font-semibold uppercase tracking-wider text-white/40">
                     More
                   </div>
                   <div className="space-y-1">
@@ -242,14 +263,6 @@ export function Header() {
               {ctaLabel}
             </a>
 
-            <div className="mt-6">
-              <div className="mb-2 text-xs font-semibold uppercase tracking-wider text-white/40">
-                Language / اللغة
-              </div>
-              <LanguageSwitcher
-                buttonClassName="inline-flex items-center gap-1.5 rounded-full border border-white/15 px-3 py-2 text-sm font-medium text-white/85 hover:bg-white/10"
-              />
-            </div>
 
 
             {mobileShowSocial && social.length > 0 && (
