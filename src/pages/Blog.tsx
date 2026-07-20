@@ -237,15 +237,16 @@ export default function Blog() {
 
       {loading && (
         <div className="pb-24 text-center text-sm text-muted-foreground">
-          {locale === "ar" ? "جارٍ تحميل المقالات…" : "Loading articles…"}
+          {L.loading ?? (locale === "ar" ? "جارٍ تحميل المقالات…" : "Loading articles…")}
         </div>
       )}
 
       {!loading && !featured && (
         <div className="pb-24 text-center text-sm text-muted-foreground">
-          {locale === "ar" ? "لا توجد مقالات منشورة بعد." : "No published articles yet."}
+          {L.empty ?? (locale === "ar" ? "لا توجد مقالات منشورة بعد." : "No published articles yet.")}
         </div>
       )}
+
 
       {/* Featured post */}
       {featured && (
