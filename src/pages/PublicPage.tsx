@@ -43,10 +43,12 @@ export default function PublicPage() {
     (async () => {
       setLoading(true);
       setNotFound(false);
-      const { data, error } = await supabase
+      // Try slug_ar first when arriving from Arabic route, otherwise slug.
+      const isAr = typeof window !== "undefined" && window.location.pathname.startsWith("/ar/");
+      let { data, error } = await supabase
         .from("pages")
         .select("id,title,slug,content,featured_image_url,template,created_at,updated_at")
-        .eq("slug", slug)
+        .or(isAr ? `slug_ar.eq.${slug},slug.eq.${slug}` : `slug.eq.${slug}`)
         .eq("status", "published")
         .maybeSingle();
       if (cancelled) return;
