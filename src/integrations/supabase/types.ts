@@ -247,6 +247,7 @@ export type Database = {
       }
       categories: {
         Row: {
+          content_type: string
           created_at: string
           description: string | null
           id: string
@@ -257,6 +258,7 @@ export type Database = {
           updated_at: string
         }
         Insert: {
+          content_type?: string
           created_at?: string
           description?: string | null
           id?: string
@@ -267,6 +269,7 @@ export type Database = {
           updated_at?: string
         }
         Update: {
+          content_type?: string
           created_at?: string
           description?: string | null
           id?: string
