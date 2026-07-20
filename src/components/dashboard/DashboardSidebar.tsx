@@ -9,6 +9,7 @@ import {
   Newspaper,
   BookMarked,
   CalendarDays,
+  Tags,
   Shield,
   Palette,
   Activity,
