@@ -138,15 +138,15 @@ export function useListPageHero(pageKey: string) {
       const row = data as Row;
       const enLabels = { ...defaults.en, ...(row.card_labels ?? {}) };
       let merged: ListPageHero = { ...row, card_labels: enLabels };
-      if (locale === "ar" && row.translations?.ar) {
-        const ar = row.translations.ar;
+      if (locale === "ar") {
+        const ar = row.translations?.ar ?? {};
         merged = {
           ...merged,
           eyebrow: ar.eyebrow ?? merged.eyebrow,
           title_prefix: ar.title_prefix ?? merged.title_prefix,
           title_highlight: ar.title_highlight ?? merged.title_highlight,
           description: ar.description ?? merged.description,
-          card_labels: { ...defaults.en, ...defaults.ar, ...enLabels, ...(ar.card_labels ?? {}) },
+          card_labels: { ...defaults.en, ...enLabels, ...defaults.ar, ...(ar.card_labels ?? {}) },
         };
       }
       return merged;

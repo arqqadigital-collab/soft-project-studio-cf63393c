@@ -20,6 +20,9 @@ type CaseStudyRow = {
   cover_image_url: string | null;
   published_at: string | null;
   created_at: string;
+  category_id: string | null;
+  categories?: { name: string } | null;
+  category_name?: string | null;
   translations?: Record<string, Partial<Pick<CaseStudyRow, "title" | "summary">>> | null;
 };
 
@@ -75,13 +78,14 @@ export default function CaseStudies() {
     (async () => {
       const { data, error } = await supabase
         .from("case_studies")
-        .select("id,title,slug,summary,client_name,industry,cover_image_url,published_at,created_at,translations")
+        .select("id,title,slug,summary,client_name,industry,cover_image_url,published_at,created_at,translations,category_id,categories(name)")
         .eq("status", "published")
         .order("published_at", { ascending: false, nullsFirst: false })
         .limit(100);
       if (cancelled) return;
-      if (!error && data) setRows((data as CaseStudyRow[]).map((row) => ({
+      if (!error && data) setRows((data as any[]).map((row) => ({
         ...row,
+        category_name: row.categories?.name ?? null,
         ...(locale === "en" ? {} : row.translations?.[locale] ?? {}),
       })));
       setLoading(false);
@@ -93,13 +97,16 @@ export default function CaseStudies() {
 
   const categories = useMemo(() => {
     const set = new Set<string>();
-    rows.forEach((r) => r.industry && set.add(r.industry));
+    rows.forEach((r) => {
+      const v = r.category_name ?? r.industry;
+      if (v) set.add(v);
+    });
     return [ALL, ...Array.from(set)];
   }, [rows, ALL]);
 
   const filtered = useMemo(() => {
     if (active === ALL) return rows;
-    return rows.filter((r) => (r.industry ?? "") === active);
+    return rows.filter((r) => (r.category_name ?? r.industry ?? "") === active);
   }, [rows, active, ALL]);
 
 
@@ -194,7 +201,7 @@ export default function CaseStudies() {
               >
                 <Link to={`/case-studies/${study.slug}`} className="flex flex-1 flex-col">
                   <div className="flex flex-col p-6 md:p-8">
-                    {study.industry && (
+                    {(study.category_name ?? study.industry) && (
                       <span
                         className="listing-category w-fit rounded-full px-3 py-1 text-xs font-semibold uppercase tracking-wider"
                         style={{
@@ -202,7 +209,7 @@ export default function CaseStudies() {
                           background: "oklch(0.72 0.17 145 / 0.12)",
                         }}
                       >
-                        {study.industry}
+                        {study.category_name ?? study.industry}
                       </span>
                     )}
                     <h3 className="mt-4 text-xl font-semibold leading-snug text-card-foreground transition-colors group-hover:text-[var(--brand-blue)] md:text-2xl">
