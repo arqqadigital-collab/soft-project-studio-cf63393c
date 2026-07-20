@@ -226,14 +226,18 @@ export default function HeaderFooterEditor() {
           <Card className="p-4 space-y-4">
             <h2 className="text-lg font-semibold">Logo & Brand</h2>
             <div className="grid gap-4 md:grid-cols-2">
-              <div className="space-y-2">
-                <Label>Logo URL (default / on solid header)</Label>
-                <Input value={form.header_logo_url ?? ""} onChange={(e) => set({ header_logo_url: e.target.value })} placeholder="/logo.png" />
-              </div>
-              <div className="space-y-2">
-                <Label>Logo URL (alternate / on transparent hero)</Label>
-                <Input value={form.header_logo_dark_url ?? ""} onChange={(e) => set({ header_logo_dark_url: e.target.value })} placeholder="Optional light-variant logo" />
-              </div>
+              <LogoField
+                label="Logo (default / on solid header)"
+                value={form.header_logo_url ?? ""}
+                onChange={(v) => set({ header_logo_url: v })}
+                hint="Shown on the solid header background."
+              />
+              <LogoField
+                label="Logo (alternate / on transparent hero)"
+                value={form.header_logo_dark_url ?? ""}
+                onChange={(v) => set({ header_logo_dark_url: v })}
+                hint="Optional light-variant logo used when header is transparent over the hero."
+              />
               <div className="space-y-2">
                 <Label>Logo height (px)</Label>
                 <Input
