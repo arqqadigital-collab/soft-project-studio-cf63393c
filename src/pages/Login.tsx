@@ -28,7 +28,6 @@ export default function Login() {
   async function handleSubmit(e: FormEvent) {
     e.preventDefault();
     setError(null);
-    setInfo(null);
     setSubmitting(true);
     const { error } = await supabase.auth.signInWithPassword({ email, password });
     setSubmitting(false);
@@ -39,31 +38,6 @@ export default function Login() {
     navigate(from, { replace: true });
   }
 
-  async function handleForgotPassword() {
-    if (resetInFlight.current) return;
-    setError(null);
-    setInfo(null);
-    if (!email) {
-      setError("Enter your email above, then click Forgot password.");
-      return;
-    }
-    resetInFlight.current = true;
-    setResetting(true);
-    const { error } = await supabase.auth.resetPasswordForEmail(email.trim().toLowerCase(), {
-      redirectTo: `${window.location.origin}/reset-password`,
-    });
-    resetInFlight.current = false;
-    setResetting(false);
-    if (error) {
-      setError(
-        error.status === 429 || error.message.toLowerCase().includes("rate limit")
-          ? "The email service has reached its sending limit. Please wait before trying again, or ask an administrator to set your password."
-          : error.message
-      );
-      return;
-    }
-    setInfo("Check your inbox for a password reset link.");
-  }
 
   return (
     <main className="flex min-h-screen items-center justify-center bg-background px-4">
