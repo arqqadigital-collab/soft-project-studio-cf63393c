@@ -100,7 +100,12 @@ export default function ArticleDetail() {
       }
       const base = data as unknown as PostDetail;
       const translated = locale === "en" ? null : base.translations?.[locale];
-      const p = { ...base, ...(translated ?? {}) } as PostDetail;
+      const catTr = locale !== "en" ? base.category?.translations?.[locale]?.name : undefined;
+      const p = {
+        ...base,
+        ...(translated ?? {}),
+        category: base.category ? { ...base.category, name: catTr ?? base.category.name } : null,
+      } as PostDetail;
       setPost(p);
 
       const { data: seoRow } = await supabase
