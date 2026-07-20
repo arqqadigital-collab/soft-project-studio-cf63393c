@@ -230,6 +230,23 @@ export default function HeaderFooterEditor() {
           <p className="text-sm text-muted-foreground">Site-wide header and footer configuration.</p>
         </div>
         <div className="flex items-center gap-2">
+          <div className="mr-2 inline-flex rounded-md border p-0.5">
+            <button
+              type="button"
+              onClick={() => setLoc("en")}
+              className={`rounded px-3 py-1 text-xs font-medium ${loc === "en" ? "bg-primary text-primary-foreground" : "text-muted-foreground hover:bg-muted"}`}
+            >
+              EN
+            </button>
+            <button
+              type="button"
+              onClick={() => setLoc("ar")}
+              className={`rounded px-3 py-1 text-xs font-medium ${loc === "ar" ? "bg-primary text-primary-foreground" : "text-muted-foreground hover:bg-muted"}`}
+            >
+              AR
+            </button>
+          </div>
+
           <Button
             variant="outline"
             onClick={async () => {
