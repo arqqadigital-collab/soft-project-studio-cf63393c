@@ -64,9 +64,10 @@ function Cover({ url, className }: { url: string | null; className?: string }) {
   );
 }
 
-function formatDate(iso: string | null, tba: string) {
+function formatDate(iso: string | null, tba: string, locale: string = "en") {
   if (!iso) return tba;
-  return new Date(iso).toLocaleDateString(undefined, { year: "numeric", month: "long", day: "numeric" });
+  const bcp = locale === "ar" ? "ar-EG" : "en-US";
+  return new Date(iso).toLocaleDateString(bcp, { year: "numeric", month: "long", day: "numeric" });
 }
 
 function durationOf(start: string | null, end: string | null, labels: { min: string; hours: string; full: string }) {
@@ -246,7 +247,7 @@ export default function Events() {
                       <div className="mt-6 flex flex-wrap items-center gap-x-4 gap-y-1 border-t border-border pt-5 text-xs text-muted-foreground">
                         <span className="flex items-center gap-1">
                           <Calendar className="h-3.5 w-3.5" />
-                          {formatDate(ev.starts_at, tba)}
+                          {formatDate(ev.starts_at, tba, locale)}
                         </span>
                       </div>
                       <span
