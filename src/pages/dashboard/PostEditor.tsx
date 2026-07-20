@@ -271,13 +271,25 @@ export default function PostEditor() {
                 placeholder={locale === "ar" ? form.title || "عنوان المقال" : "Post title"}
                 className="border-none px-0 text-2xl font-semibold shadow-none focus-visible:ring-0"
               />
-              {locale === "en" && (
+              {locale === "en" ? (
                 <div className="flex items-center gap-2 text-sm text-muted-foreground">
                   <span>/blog/</span>
                   <Input
                     value={form.slug}
                     onChange={(e) => { setSlugTouched(true); patch("slug", toSlug(e.target.value)); }}
                     className="h-8"
+                  />
+                </div>
+              ) : (
+                <div className="flex items-center gap-2 text-sm text-muted-foreground" dir="ltr">
+                  <span>/ar/blog/</span>
+                  <Input
+                    value={form.slug_ar}
+                    onChange={(e) => patch("slug_ar", e.target.value)}
+                    onBlur={(e) => patch("slug_ar", toSlugAr(e.target.value))}
+                    placeholder="اسم-المقال-بالعربية"
+                    className="h-8"
+                    dir="rtl"
                   />
                 </div>
               )}
