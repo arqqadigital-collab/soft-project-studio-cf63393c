@@ -136,7 +136,7 @@ export function RevisionsPanel({ entityType, entityId, restorableFields, onResto
     queryKey: ["revisions-current", entityType, entityId],
     enabled: !!entityId && !!preview,
     queryFn: async () => {
-      const table = entityType === "post" ? "posts" : "pages";
+      const table = TABLE_BY_TYPE[entityType];
       const { data, error } = await supabase.from(table).select("*").eq("id", entityId!).maybeSingle();
       if (error) throw error;
       return data as Record<string, any> | null;
