@@ -71,7 +71,7 @@ export default function CaseStudyDetail() {
         .select(
           "id,title,slug,summary,client_name,industry,challenge,solution,results,cover_image_url,published_at,created_at,tags,translations"
         )
-        .eq("slug", slug)
+        .or(typeof window !== "undefined" && window.location.pathname.startsWith("/ar/") ? `slug_ar.eq.${slug},slug.eq.${slug}` : `slug.eq.${slug}`)
         .eq("status", "published")
         .maybeSingle();
       if (cancelled) return;

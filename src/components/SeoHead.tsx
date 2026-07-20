@@ -1,4 +1,6 @@
 import { Helmet } from "react-helmet-async";
+import { useLocation } from "react-router-dom";
+import { findCounterpart, isArabicPath } from "@/lib/routeMap";
 
 export type SeoHeadProps = {
   title: string;
@@ -21,9 +23,16 @@ export function SeoHead({
   nofollow,
   jsonLd,
 }: SeoHeadProps) {
-  const url =
-    canonical ??
-    (typeof window !== "undefined" ? window.location.href : undefined);
+  const { pathname } = useLocation();
+  const origin =
+    typeof window !== "undefined" ? window.location.origin : "";
+  const url = canonical ?? (origin ? `${origin}${pathname}` : undefined);
+
+  const arRel = findCounterpart(pathname, "ar");
+  const enRel = findCounterpart(pathname, "en");
+  const arUrl = arRel && origin ? `${origin}${arRel}` : null;
+  const enUrl = enRel && origin ? `${origin}${enRel}` : null;
+  const isAr = isArabicPath(pathname);
 
   const robotsParts: string[] = [];
   if (noindex) robotsParts.push("noindex"); else robotsParts.push("index");
@@ -32,12 +41,17 @@ export function SeoHead({
 
   return (
     <Helmet>
+      <html lang={isAr ? "ar" : "en"} dir={isAr ? "rtl" : "ltr"} />
       <title>{title}</title>
       {description && <meta name="description" content={description} />}
       {url && <link rel="canonical" href={url} />}
+      {enUrl && <link rel="alternate" hrefLang="en" href={enUrl} />}
+      {arUrl && <link rel="alternate" hrefLang="ar" href={arUrl} />}
+      {enUrl && <link rel="alternate" hrefLang="x-default" href={enUrl} />}
       <meta name="robots" content={robots} />
 
       <meta property="og:type" content={ogType} />
+      <meta property="og:locale" content={isAr ? "ar_AR" : "en_US"} />
       <meta property="og:title" content={title} />
       {description && <meta property="og:description" content={description} />}
       {url && <meta property="og:url" content={url} />}
@@ -61,3 +75,4 @@ export function SeoHead({
     </Helmet>
   );
 }
+

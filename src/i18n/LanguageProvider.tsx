@@ -1,6 +1,7 @@
 import { createContext, useContext, useEffect, useMemo, useState, type ReactNode } from "react";
 import { useLocation } from "react-router-dom";
 import i18n, { isRTL, normalizeLocale, type Locale } from "./index";
+import { isArabicPath } from "@/lib/routeMap";
 
 type LanguageContextValue = {
   locale: Locale;
@@ -25,30 +26,42 @@ function isForcedLtrPath(pathname: string) {
 }
 
 export function LanguageProvider({ children }: { children: ReactNode }) {
-  const [locale, setLocaleState] = useState<Locale>(() => normalizeLocale(i18n.language));
   const { pathname } = useLocation();
 
+  // URL is the source of truth for public routes. Admin/auth routes fall back
+  // to the manual toggle (used by the dashboard's EN/AR content editor tabs).
+  const forcedLtr = isForcedLtrPath(pathname);
+  const urlLocale: Locale = !forcedLtr && isArabicPath(pathname) ? "ar" : "en";
+
+  const [manualLocale, setManualLocale] = useState<Locale>(() => normalizeLocale(i18n.language));
+  const activeLocale: Locale = forcedLtr ? manualLocale : urlLocale;
+
   useEffect(() => {
-    const onChanged = (lng: string) => setLocaleState(normalizeLocale(lng));
+    const onChanged = (lng: string) => setManualLocale(normalizeLocale(lng));
     i18n.on("languageChanged", onChanged);
     return () => {
       i18n.off("languageChanged", onChanged);
     };
   }, []);
 
+  // Keep i18next language in sync with URL-derived locale for public routes.
   useEffect(() => {
-    const forceLtr = isForcedLtrPath(pathname);
-    const dir = !forceLtr && isRTL(locale) ? "rtl" : "ltr";
-    document.documentElement.setAttribute("lang", locale);
+    if (!forcedLtr && i18n.language !== urlLocale) i18n.changeLanguage(urlLocale);
+  }, [urlLocale, forcedLtr]);
+
+  useEffect(() => {
+    const dir = !forcedLtr && isRTL(activeLocale) ? "rtl" : "ltr";
+    document.documentElement.setAttribute("lang", activeLocale);
     document.documentElement.setAttribute("dir", dir);
     document.documentElement.classList.toggle("rtl", dir === "rtl");
-  }, [locale, pathname]);
-
+  }, [activeLocale, forcedLtr]);
 
   const value = useMemo<LanguageContextValue>(
     () => ({
-      locale,
+      locale: activeLocale,
       setLocale: (l) => {
+        // Only meaningful on forced-LTR (admin) surfaces; public routes are
+        // switched via URL navigation from LanguageSwitcher.
         i18n.changeLanguage(l);
         try {
           localStorage.setItem("sbs.locale", l);
@@ -56,10 +69,10 @@ export function LanguageProvider({ children }: { children: ReactNode }) {
           // ignore
         }
       },
-      dir: isRTL(locale) ? "rtl" : "ltr",
-      isRTL: isRTL(locale),
+      dir: !forcedLtr && isRTL(activeLocale) ? "rtl" : "ltr",
+      isRTL: !forcedLtr && isRTL(activeLocale),
     }),
-    [locale],
+    [activeLocale, forcedLtr],
   );
 
   return <LanguageContext.Provider value={value}>{children}</LanguageContext.Provider>;

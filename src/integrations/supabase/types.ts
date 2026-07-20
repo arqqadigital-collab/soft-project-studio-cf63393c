@@ -175,6 +175,7 @@ export type Database = {
           published_at: string | null
           results: string | null
           slug: string
+          slug_ar: string | null
           solution: string | null
           status: Database["public"]["Enums"]["post_status"]
           summary: string | null
@@ -195,6 +196,7 @@ export type Database = {
           published_at?: string | null
           results?: string | null
           slug: string
+          slug_ar?: string | null
           solution?: string | null
           status?: Database["public"]["Enums"]["post_status"]
           summary?: string | null
@@ -215,6 +217,7 @@ export type Database = {
           published_at?: string | null
           results?: string | null
           slug?: string
+          slug_ar?: string | null
           solution?: string | null
           status?: Database["public"]["Enums"]["post_status"]
           summary?: string | null
@@ -480,6 +483,7 @@ export type Database = {
           published_at: string | null
           registration_url: string | null
           slug: string
+          slug_ar: string | null
           starts_at: string | null
           status: Database["public"]["Enums"]["post_status"]
           title: string
@@ -499,6 +503,7 @@ export type Database = {
           published_at?: string | null
           registration_url?: string | null
           slug: string
+          slug_ar?: string | null
           starts_at?: string | null
           status?: Database["public"]["Enums"]["post_status"]
           title: string
@@ -518,6 +523,7 @@ export type Database = {
           published_at?: string | null
           registration_url?: string | null
           slug?: string
+          slug_ar?: string | null
           starts_at?: string | null
           status?: Database["public"]["Enums"]["post_status"]
           title?: string
@@ -928,6 +934,7 @@ export type Database = {
         Row: {
           column_id: string
           created_at: string
+          href_ar: string | null
           id: string
           is_visible: boolean
           label: string
@@ -940,6 +947,7 @@ export type Database = {
         Insert: {
           column_id: string
           created_at?: string
+          href_ar?: string | null
           id?: string
           is_visible?: boolean
           label: string
@@ -952,6 +960,7 @@ export type Database = {
         Update: {
           column_id?: string
           created_at?: string
+          href_ar?: string | null
           id?: string
           is_visible?: boolean
           label?: string
@@ -1062,6 +1071,7 @@ export type Database = {
           route_path: string | null
           section_id: string | null
           slug: string
+          slug_ar: string | null
           status: Database["public"]["Enums"]["page_status"]
           template: Database["public"]["Enums"]["page_template"]
           title: string
@@ -1084,6 +1094,7 @@ export type Database = {
           route_path?: string | null
           section_id?: string | null
           slug: string
+          slug_ar?: string | null
           status?: Database["public"]["Enums"]["page_status"]
           template?: Database["public"]["Enums"]["page_template"]
           title: string
@@ -1106,6 +1117,7 @@ export type Database = {
           route_path?: string | null
           section_id?: string | null
           slug?: string
+          slug_ar?: string | null
           status?: Database["public"]["Enums"]["page_status"]
           template?: Database["public"]["Enums"]["page_template"]
           title?: string
@@ -1178,6 +1190,7 @@ export type Database = {
           preview_token: string
           published_at: string | null
           slug: string
+          slug_ar: string | null
           status: Database["public"]["Enums"]["post_status"]
           title: string
           translations: Json
@@ -1194,6 +1207,7 @@ export type Database = {
           preview_token?: string
           published_at?: string | null
           slug: string
+          slug_ar?: string | null
           status?: Database["public"]["Enums"]["post_status"]
           title: string
           translations?: Json
@@ -1210,6 +1224,7 @@ export type Database = {
           preview_token?: string
           published_at?: string | null
           slug?: string
+          slug_ar?: string | null
           status?: Database["public"]["Enums"]["post_status"]
           title?: string
           translations?: Json
@@ -1255,6 +1270,39 @@ export type Database = {
           created_at?: string
           full_name?: string | null
           id?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      route_map: {
+        Row: {
+          created_at: string
+          id: string
+          path_ar: string | null
+          path_en: string
+          route_key: string
+          title_ar: string | null
+          title_en: string | null
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          path_ar?: string | null
+          path_en: string
+          route_key: string
+          title_ar?: string | null
+          title_en?: string | null
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          path_ar?: string | null
+          path_en?: string
+          route_key?: string
+          title_ar?: string | null
+          title_en?: string | null
           updated_at?: string
         }
         Relationships: []
@@ -1382,6 +1430,7 @@ export type Database = {
           entity_id: string | null
           entity_type: string
           id: string
+          locale: string
           new_slug: string
           old_slug: string
         }
@@ -1390,6 +1439,7 @@ export type Database = {
           entity_id?: string | null
           entity_type: string
           id?: string
+          locale?: string
           new_slug: string
           old_slug: string
         }
@@ -1398,6 +1448,7 @@ export type Database = {
           entity_id?: string | null
           entity_type?: string
           id?: string
+          locale?: string
           new_slug?: string
           old_slug?: string
         }
