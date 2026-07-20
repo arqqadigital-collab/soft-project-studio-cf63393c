@@ -48,7 +48,7 @@ export default function PublicPage() {
       const isAr = typeof window !== "undefined" && window.location.pathname.startsWith("/ar/");
       let { data, error } = await supabase
         .from("pages")
-        .select("id,title,slug,content,featured_image_url,template,created_at,updated_at")
+        .select("id,title,slug,content,featured_image_url,template,created_at,updated_at,translations")
         .or(isAr ? `slug_ar.eq.${slug},slug.eq.${slug}` : `slug.eq.${slug}`)
         .eq("status", "published")
         .maybeSingle();
