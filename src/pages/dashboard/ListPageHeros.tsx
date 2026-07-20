@@ -33,13 +33,17 @@ const PAGES = [
   { key: "events", label: "Events & Webinars", url: "/events" },
 ] as const;
 
-type ArFields = {
+type ArTextFields = {
   eyebrow?: string;
   title_prefix?: string;
   title_highlight?: string;
   description?: string;
+};
+
+type ArFields = ArTextFields & {
   card_labels?: CardLabels;
 };
+
 
 
 type Row = {
