@@ -8,6 +8,7 @@ import { supabase } from "@/integrations/supabase/client";
 import { submissionMeta } from "@/lib/submissionMeta";
 import { useLocale } from "@/hooks/useLocale";
 import contactHero from "@/assets/contact/contact-hero.jpg";
+import { ContactForm } from "@/components/ContactForm";
 
 const ICONS: Record<string, LucideIcon> = {
   mail: Mail,
