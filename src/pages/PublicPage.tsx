@@ -127,7 +127,9 @@ function RenderedPage({ page, seo }: { page: PageDetail; seo: SeoMeta | null }) 
   const hasSections = (sections.data ?? []).length > 0;
   const { locale } = useLocale();
   const ar = (seo?.translations as any)?.ar || {};
-  const title = (locale === "ar" ? ar.meta_title : null) || seo?.meta_title || page.title;
+  const pageAr = (page.translations as any)?.ar || {};
+  const displayTitle = locale === "ar" && pageAr.title ? pageAr.title : page.title;
+  const title = (locale === "ar" ? ar.meta_title : null) || seo?.meta_title || displayTitle;
   const description = (locale === "ar" ? ar.meta_description : null) || seo?.meta_description || undefined;
   const ogImage = seo?.og_image_url || page.featured_image_url || undefined;
   const canonical = seo?.canonical_url || undefined;
