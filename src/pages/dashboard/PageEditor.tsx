@@ -5,7 +5,7 @@ import { toast } from "sonner";
 import { ArrowLeft, Save, Send, Image as ImageIcon, Eye, ExternalLink } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/hooks/use-auth";
-import { toSlug } from "@/lib/slug";
+import { toSlug, toSlugAr } from "@/lib/slug";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -39,6 +39,7 @@ interface PageForm {
   route_path: string;
   title_ar: string;
   nav_label_ar: string;
+  slug_ar: string;
 }
 
 const EMPTY: PageForm = {
@@ -55,6 +56,7 @@ const EMPTY: PageForm = {
   route_path: "",
   title_ar: "",
   nav_label_ar: "",
+  slug_ar: "",
 };
 
 function defaultRouteForSlug(slug: string): string {
@@ -129,6 +131,7 @@ export default function PageEditor() {
         route_path: d.route_path ?? "",
         title_ar: ar.title ?? "",
         nav_label_ar: ar.nav_label ?? "",
+        slug_ar: d.slug_ar ?? "",
       });
       setPreviewToken(d.preview_token ?? null);
       setSlugTouched(true);
@@ -185,6 +188,7 @@ export default function PageEditor() {
       route_path: form.route_path || defaultRouteForSlug(form.slug || toSlug(form.title)),
       author_id: user.id,
       translations,
+      slug_ar: form.slug_ar ? toSlugAr(form.slug_ar) : null,
     };
     try {
       let pid = pageId;
@@ -282,7 +286,7 @@ export default function PageEditor() {
                 />
               </div>
               <div className="flex items-center gap-2 text-sm text-muted-foreground">
-                <span>slug</span>
+                <span className="w-14 shrink-0">slug</span>
                 <Input
                   value={form.slug}
                   onChange={(e) => { setSlugTouched(true); patch("slug", toSlug(e.target.value)); }}
@@ -290,7 +294,23 @@ export default function PageEditor() {
                 />
               </div>
               <div className="flex items-center gap-2 text-sm text-muted-foreground">
-                <span>URL</span>
+                <span className="w-14 shrink-0">slug (AR)</span>
+                <Input
+                  value={form.slug_ar}
+                  onChange={(e) => patch("slug_ar", e.target.value)}
+                  onBlur={(e) => patch("slug_ar", toSlugAr(e.target.value))}
+                  placeholder="من-نحن"
+                  dir="rtl"
+                  className="h-8"
+                />
+                {form.slug_ar && (
+                  <span className="rounded bg-secondary px-1.5 py-0.5 text-[10px] text-muted-foreground" dir="ltr">
+                    /ar/{toSlugAr(form.slug_ar)}
+                  </span>
+                )}
+              </div>
+              <div className="flex items-center gap-2 text-sm text-muted-foreground">
+                <span className="w-14 shrink-0">URL</span>
                 <Input
                   value={form.route_path}
                   onChange={(e) => { setRouteTouched(true); patch("route_path", e.target.value); }}
