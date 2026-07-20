@@ -12,7 +12,17 @@ import {
   SheetTitle,
   SheetDescription,
 } from "@/components/ui/sheet";
-import { Download, RefreshCw, Mail, Archive, CheckCircle2, Inbox } from "lucide-react";
+import { Download, RefreshCw, Mail, Archive, CheckCircle2, Inbox, Trash2 } from "lucide-react";
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+} from "@/components/ui/alert-dialog";
 
 type Row = {
   id: string;
@@ -79,6 +89,7 @@ export default function Submissions() {
   const [search, setSearch] = useState("");
   const [pageNum, setPageNum] = useState(0);
   const [selected, setSelected] = useState<Row | null>(null);
+  const [toDelete, setToDelete] = useState<Row | null>(null);
 
   const { data, isLoading, refetch, isFetching } = useQuery({
     queryKey: ["submissions", source, status, page, search, pageNum],
@@ -140,6 +151,18 @@ export default function Submissions() {
     toast.success(`Marked as ${next}`);
     await qc.invalidateQueries({ queryKey: ["submissions"] });
     if (selected?.id === id) setSelected({ ...selected, status: next });
+  }
+
+  async function deleteSubmission(id: string) {
+    const { error } = await supabase.from("contact_submissions").delete().eq("id", id);
+    if (error) {
+      toast.error(error.message);
+      return;
+    }
+    toast.success("Submission deleted");
+    setToDelete(null);
+    if (selected?.id === id) setSelected(null);
+    await qc.invalidateQueries({ queryKey: ["submissions"] });
   }
 
   function exportCsv() {
@@ -329,6 +352,17 @@ export default function Submissions() {
                       >
                         View
                       </Button>
+                      <Button
+                        size="sm"
+                        variant="ghost"
+                        className="text-destructive hover:text-destructive"
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          setToDelete(r);
+                        }}
+                      >
+                        <Trash2 className="h-4 w-4" />
+                      </Button>
                     </td>
                   </tr>
                 ))
@@ -421,12 +455,19 @@ export default function Submissions() {
                     </Button>
                   </div>
                 </Field>
-                <div className="pt-2">
+                <div className="pt-2 space-y-2">
                   <a href={`mailto:${selected.email}`}>
                     <Button className="w-full">
                       <Mail className="h-4 w-4" /> Reply via email
                     </Button>
                   </a>
+                  <Button
+                    variant="destructive"
+                    className="w-full"
+                    onClick={() => setToDelete(selected)}
+                  >
+                    <Trash2 className="h-4 w-4" /> Delete submission
+                  </Button>
                 </div>
                 {selected.user_agent && (
                   <Field label="User agent">
@@ -440,6 +481,26 @@ export default function Submissions() {
           )}
         </SheetContent>
       </Sheet>
+
+      <AlertDialog open={!!toDelete} onOpenChange={(o) => !o && setToDelete(null)}>
+        <AlertDialogContent>
+          <AlertDialogHeader>
+            <AlertDialogTitle>Delete this submission?</AlertDialogTitle>
+            <AlertDialogDescription>
+              This permanently removes the submission from {toDelete?.name || "—"} ({toDelete?.email || "—"}). This cannot be undone.
+            </AlertDialogDescription>
+          </AlertDialogHeader>
+          <AlertDialogFooter>
+            <AlertDialogCancel>Cancel</AlertDialogCancel>
+            <AlertDialogAction
+              className="bg-destructive text-destructive-foreground hover:bg-destructive/90"
+              onClick={() => toDelete && deleteSubmission(toDelete.id)}
+            >
+              Delete
+            </AlertDialogAction>
+          </AlertDialogFooter>
+        </AlertDialogContent>
+      </AlertDialog>
     </div>
   );
 }
