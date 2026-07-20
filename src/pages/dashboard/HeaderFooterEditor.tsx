@@ -324,11 +324,13 @@ export default function HeaderFooterEditor() {
                   <Label>Show brand text next to logo</Label>
                 </div>
                 <Input
-                  value={form.header_brand_text ?? ""}
-                  onChange={(e) => set({ header_brand_text: e.target.value })}
-                  placeholder="e.g. SBS"
+                  value={txt("header_brand_text")}
+                  onChange={(e) => setTxt("header_brand_text", e.target.value)}
+                  placeholder={loc === "ar" ? "مثال: SBS" : "e.g. SBS"}
                   disabled={!form.header_show_brand_text}
+                  dir={loc === "ar" ? "rtl" : "ltr"}
                 />
+
               </div>
             </div>
           </Card>
