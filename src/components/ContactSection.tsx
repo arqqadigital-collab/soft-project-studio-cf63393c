@@ -9,7 +9,7 @@ type Props = {
 };
 
 export function ContactSection({
-  source = "footer_form",
+  source = "footer_cta",
   eyebrow,
   heading,
   subheading,
