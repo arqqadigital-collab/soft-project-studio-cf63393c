@@ -1,4 +1,4 @@
-import { FormEvent, useEffect, useRef, useState } from "react";
+import { FormEvent, useEffect, useState } from "react";
 import { Navigate, useLocation, useNavigate } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/hooks/use-auth";
@@ -13,10 +13,8 @@ export default function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState<string | null>(null);
-  const [info, setInfo] = useState<string | null>(null);
   const [submitting, setSubmitting] = useState(false);
-  const [resetting, setResetting] = useState(false);
-  const resetInFlight = useRef(false);
+
 
   const from = (location.state as { from?: { pathname?: string } } | null)?.from?.pathname ?? "/dashboard";
 
