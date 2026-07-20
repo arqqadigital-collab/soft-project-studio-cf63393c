@@ -57,6 +57,7 @@ export function ContactForm({
     consent: false,
   });
   const [submitting, setSubmitting] = useState(false);
+  const [submitted, setSubmitted] = useState(false);
 
   const areasQ = useQuery({
     queryKey: ["contact_areas_public"],
