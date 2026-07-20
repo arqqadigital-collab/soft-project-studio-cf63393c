@@ -153,8 +153,9 @@ export default function ArticleDetail() {
   }
 
 
-  const title = seo?.meta_title || post.title;
-  const description = seo?.meta_description || post.excerpt || undefined;
+  const seoAr = (seo?.translations as any)?.ar || {};
+  const title = (locale === "ar" ? seoAr.meta_title : null) || seo?.meta_title || post.title;
+  const description = (locale === "ar" ? seoAr.meta_description : null) || seo?.meta_description || post.excerpt || undefined;
   const ogImage = seo?.og_image_url || post.featured_image_url || undefined;
   const canonical = seo?.canonical_url || undefined;
   const publishedDate = post.published_at ?? post.created_at;
