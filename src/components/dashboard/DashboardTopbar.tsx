@@ -50,9 +50,6 @@ export function DashboardTopbar() {
           <span className="text-xs uppercase tracking-wide">{locale}</span>
           <span className="text-xs text-muted-foreground">→ {nextLocale}</span>
         </Button>
-        <Button variant="ghost" size="icon" aria-label="Notifications">
-          <Bell className="h-4 w-4" />
-        </Button>
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
             <Button variant="ghost" className="h-9 gap-2 px-2">
