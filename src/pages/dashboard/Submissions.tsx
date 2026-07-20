@@ -455,12 +455,19 @@ export default function Submissions() {
                     </Button>
                   </div>
                 </Field>
-                <div className="pt-2">
+                <div className="pt-2 space-y-2">
                   <a href={`mailto:${selected.email}`}>
                     <Button className="w-full">
                       <Mail className="h-4 w-4" /> Reply via email
                     </Button>
                   </a>
+                  <Button
+                    variant="destructive"
+                    className="w-full"
+                    onClick={() => setToDelete(selected)}
+                  >
+                    <Trash2 className="h-4 w-4" /> Delete submission
+                  </Button>
                 </div>
                 {selected.user_agent && (
                   <Field label="User agent">
