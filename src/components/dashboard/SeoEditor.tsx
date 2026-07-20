@@ -225,6 +225,10 @@ export function SeoEditor({
               </div>
             </TabsContent>
           </Tabs>
+          <div className="grid gap-4 sm:grid-cols-2">
+            <div className="space-y-1.5">
+              <Label className="text-xs">Focus keyword</Label>
+              <Input
                 value={form.focus_keyword}
                 onChange={(e) => patch("focus_keyword", e.target.value)}
                 placeholder="Primary keyword"
