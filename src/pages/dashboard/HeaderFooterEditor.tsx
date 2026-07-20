@@ -577,13 +577,12 @@ export default function HeaderFooterEditor() {
                 <div key={ci} className="rounded-lg border p-3 space-y-2">
                   <div className="flex items-center gap-2">
                     <Input
-                      value={col.title}
-                      onChange={(e) => {
-                        const c = [...columns]; c[ci] = { ...c[ci], title: e.target.value };
-                        set({ footer_columns: c });
-                      }}
+                      value={colTitle(ci)}
+                      onChange={(e) => setColTitle(ci, e.target.value)}
                       className="font-semibold"
+                      dir={loc === "ar" ? "rtl" : "ltr"}
                     />
+
                     <Button variant="ghost" size="icon" onClick={() => set({ footer_columns: columns.filter((_, i) => i !== ci) })}>
                       <Trash2 className="h-4 w-4 text-destructive" />
                     </Button>
