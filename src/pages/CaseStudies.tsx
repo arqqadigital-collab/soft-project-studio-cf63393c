@@ -168,15 +168,16 @@ export default function CaseStudies() {
 
       {loading && (
         <div className="pb-24 text-center text-sm text-muted-foreground">
-          Loading case studies…
+          {L.loading ?? "Loading case studies…"}
         </div>
       )}
 
       {!loading && filtered.length === 0 && (
         <div className="pb-24 text-center text-sm text-muted-foreground">
-          No published case studies yet.
+          {L.empty ?? "No published case studies yet."}
         </div>
       )}
+
 
       <section className="bg-background pb-24 md:pb-32">
         <div className="mx-auto max-w-7xl px-6">
