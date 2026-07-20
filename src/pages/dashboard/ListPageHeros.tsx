@@ -299,7 +299,7 @@ export default function ListPageHeros() {
   return (
     <div className="space-y-6">
       <div>
-        <h1 className="text-2xl font-semibold">List Page Heros</h1>
+        <h1 className="text-2xl font-semibold">Cards</h1>
         <p className="text-sm text-muted-foreground">
           Edit the headline, eyebrow, and description shown at the top of the Blog, Case Studies, and Events pages. Use the English/Arabic tabs to manage both languages.
         </p>
