@@ -129,7 +129,7 @@ export default function PostsList() {
             <SelectTrigger className="w-[180px]"><SelectValue placeholder="Category" /></SelectTrigger>
             <SelectContent>
               <SelectItem value="all">All categories</SelectItem>
-              {categories.data?.map((c) => (
+              {categories.data?.map((c: { id: string; name: string }) => (
                 <SelectItem key={c.id} value={c.id}>{c.name}</SelectItem>
               ))}
             </SelectContent>

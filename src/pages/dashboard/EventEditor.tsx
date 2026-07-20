@@ -367,7 +367,7 @@ export default function EventEditor() {
                 <SelectTrigger><SelectValue placeholder="Uncategorized" /></SelectTrigger>
                 <SelectContent>
                   <SelectItem value="none">Uncategorized</SelectItem>
-                  {categories.data?.map((c) => (
+                  {categories.data?.map((c: { id: string; name: string }) => (
                     <SelectItem key={c.id} value={c.id}>{c.name}</SelectItem>
                   ))}
                 </SelectContent>
