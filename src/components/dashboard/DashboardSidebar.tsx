@@ -5,6 +5,7 @@ import {
   FileStack,
   Image as ImageIcon,
   PanelsTopLeft,
+  Inbox,
   Settings,
   Newspaper,
   BookMarked,
