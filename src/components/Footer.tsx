@@ -6,9 +6,13 @@ import {
   DEFAULT_FOOTER_TAGLINE,
   type FooterColumn,
 } from "@/lib/headerFooter";
+import { useLocale } from "@/i18n/LanguageProvider";
+import { localizePath, useRouteMap } from "@/lib/routeMap";
 
 export function Footer() {
   const { data: settings } = useHeaderFooter();
+  const { locale } = useLocale();
+  const { data: routeMap } = useRouteMap();
 
   const logoSrc = settings?.footer_logo_url || logo;
   const tagline = settings?.footer_tagline || DEFAULT_FOOTER_TAGLINE;
@@ -68,14 +72,14 @@ export function Footer() {
                   <li key={link.label}>
                     {link.to ? (
                       <Link
-                        to={link.to}
+                        to={localizePath(link.to, locale, routeMap)}
                         className="text-base text-white/85 transition-colors hover:text-white"
                       >
                         {link.label}
                       </Link>
                     ) : (
                       <a
-                        href={link.href ?? "#"}
+                        href={localizePath(link.href ?? "#", locale, routeMap)}
                         className="text-base text-white/85 transition-colors hover:text-white"
                       >
                         {link.label}

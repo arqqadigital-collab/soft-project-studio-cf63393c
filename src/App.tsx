@@ -53,7 +53,7 @@ import Contact from "./pages/Contact";
 import ArticleDetail from "./pages/ArticleDetail";
 import PublicPage from "./pages/PublicPage";
 import PublicPreview from "./pages/PublicPreview";
-import { DEFAULT_ROUTE_MAP, type RouteKey } from "@/lib/routeMap";
+import { DEFAULT_ROUTE_MAP, useRouteMap, type RouteKey } from "@/lib/routeMap";
 
 function NotFound() {
   return (
@@ -143,6 +143,16 @@ function buildArabicRoutes() {
 
 const AR_ROUTES = buildArabicRoutes();
 
+/** Resolves Arabic paths edited in the CMS after the app was built. */
+function CmsArabicRoute() {
+  const { pathname } = useLocation();
+  const { data: routeMap = DEFAULT_ROUTE_MAP } = useRouteMap();
+  const arPath = pathname === "/ar" ? "/" : pathname.slice(3) || "/";
+  const row = routeMap.find((item) => (item.path_ar ?? item.path_en) === arPath || item.path_en === arPath);
+  const Component = row ? ROUTE_COMPONENTS[row.route_key] : undefined;
+  return Component ? <Component /> : <NotFound />;
+}
+
 export default function App() {
   const location = useLocation();
   const hideHeader =
@@ -217,6 +227,7 @@ export default function App() {
         <Route path="/ar/المدونة/:slug" element={<ArticleDetail />} />
         <Route path="/ar/دراسات-الحالة/:slug" element={<CaseStudyDetail />} />
         <Route path="/ar/p/:slug" element={<PublicPage />} />
+        <Route path="/ar/*" element={<CmsArabicRoute />} />
 
         <Route path="/login" element={<Login />} />
         <Route path="/set-password" element={<SetPassword />} />

@@ -149,7 +149,7 @@ export default function ArticleDetail() {
             {L.detail_not_found_desc || "This article doesn't exist or hasn't been published yet."}
           </p>
           <Link
-            to="/blog"
+            to={locale === "ar" ? "/ar/المدونة" : "/blog"}
             className="mt-6 inline-flex items-center gap-2 text-sm font-medium text-primary hover:underline"
           >
             <ArrowLeft className="h-4 w-4" /> {L.detail_back || "Back to Blog"}
@@ -199,7 +199,7 @@ export default function ArticleDetail() {
             className="text-start"
           >
             <Link
-              to="/blog"
+              to={locale === "ar" ? "/ar/المدونة" : "/blog"}
               className="inline-flex items-center gap-2 text-sm font-medium text-muted-foreground transition-colors hover:text-foreground"
             >
               <ArrowLeft className="h-4 w-4" />
