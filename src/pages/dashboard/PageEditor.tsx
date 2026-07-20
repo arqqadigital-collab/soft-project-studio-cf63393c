@@ -39,6 +39,7 @@ interface PageForm {
   route_path: string;
   title_ar: string;
   nav_label_ar: string;
+  slug_ar: string;
 }
 
 const EMPTY: PageForm = {
@@ -55,6 +56,7 @@ const EMPTY: PageForm = {
   route_path: "",
   title_ar: "",
   nav_label_ar: "",
+  slug_ar: "",
 };
 
 function defaultRouteForSlug(slug: string): string {
