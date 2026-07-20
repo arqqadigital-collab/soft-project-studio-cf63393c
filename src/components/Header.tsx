@@ -263,8 +263,9 @@ export function Header() {
               {mobileExtra.length > 0 && (
                 <div>
                   <div className="mb-2 px-1 text-xs font-semibold uppercase tracking-wider text-white/40">
-                    More
+                    {mobileMoreLabel}
                   </div>
+
                   <div className="space-y-1">
                     {mobileExtra.map((m, i) => (
                       <a
