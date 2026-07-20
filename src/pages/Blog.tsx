@@ -153,13 +153,14 @@ export default function Blog() {
     posts.forEach((p) => {
       if (p.category) set.set(p.category.slug, p.category.name);
     });
-    return ["All", ...Array.from(set.values())];
-  }, [posts]);
+    return [ALL, ...Array.from(set.values())];
+  }, [posts, ALL]);
 
   const filtered = useMemo(() => {
-    if (activeCategory === "All") return posts;
+    if (activeCategory === ALL) return posts;
     return posts.filter((p) => p.category?.name === activeCategory);
-  }, [posts, activeCategory]);
+  }, [posts, activeCategory, ALL]);
+
 
   const featured = filtered[0];
   const rest = filtered.slice(1);
