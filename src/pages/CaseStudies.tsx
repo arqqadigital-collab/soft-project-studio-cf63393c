@@ -7,6 +7,8 @@ import { SeoHead } from "@/components/SeoHead";
 import { supabase } from "@/integrations/supabase/client";
 import { useCaseStudiesContent } from "@/lib/caseStudiesContent";
 import { useLocale } from "@/i18n/LanguageProvider";
+import { useListPageHero } from "@/hooks/use-list-page-hero";
+
 
 type CaseStudyRow = {
   id: string;
