@@ -15,16 +15,15 @@ function absoluteAssetUrls(): Plugin {
   return {
     name: "lovable-absolute-asset-urls",
     enforce: "pre",
-    load(id) {
+    transform(code, id) {
       const clean = id.split("?")[0];
       if (!clean.endsWith(".asset.json")) return null;
       try {
-        const raw = fs.readFileSync(clean, "utf8");
-        const json = JSON.parse(raw);
+        const json = JSON.parse(fs.readFileSync(clean, "utf8"));
         if (typeof json.url === "string" && json.url.startsWith("/__l5e/")) {
           json.url = BASE.replace(/\/$/, "") + json.url;
         }
-        return `export default ${JSON.stringify(json)};`;
+        return { code: JSON.stringify(json), map: null };
       } catch {
         return null;
       }
