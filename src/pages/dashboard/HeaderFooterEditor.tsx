@@ -480,10 +480,11 @@ export default function HeaderFooterEditor() {
           <Card className="p-4 space-y-4">
             <h2 className="text-lg font-semibold">Footer</h2>
             <div className="grid gap-4 md:grid-cols-2">
-              <div className="space-y-2">
-                <Label>Logo URL</Label>
-                <Input value={form.footer_logo_url ?? ""} onChange={(e) => set({ footer_logo_url: e.target.value })} />
-              </div>
+              <LogoField
+                label="Footer logo"
+                value={form.footer_logo_url ?? ""}
+                onChange={(v) => set({ footer_logo_url: v })}
+              />
               <div className="space-y-2">
                 <Label>Tagline</Label>
                 <Input value={form.footer_tagline ?? ""} onChange={(e) => set({ footer_tagline: e.target.value })} />
