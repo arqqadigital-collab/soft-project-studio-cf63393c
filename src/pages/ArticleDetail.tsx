@@ -22,7 +22,7 @@ type PostDetail = {
   featured_image_url: string | null;
   published_at: string | null;
   created_at: string;
-  category: { name: string; slug: string } | null;
+  category: { name: string; slug: string; translations?: Record<string, { name?: string }> | null } | null;
   author: { full_name: string | null } | null;
   translations?: Record<string, Partial<Pick<PostDetail, "title" | "content" | "excerpt">>> | null;
 };
@@ -76,7 +76,7 @@ export default function ArticleDetail() {
       const { data, error } = await supabase
         .from("posts")
         .select(
-          "id,title,slug,content,excerpt,featured_image_url,published_at,created_at,translations,category:categories(name,slug),author:profiles!posts_author_id_fkey(full_name)"
+          "id,title,slug,content,excerpt,featured_image_url,published_at,created_at,translations,category:categories(name,slug,translations),author:profiles!posts_author_id_fkey(full_name)"
         )
         .eq("slug", slug)
         .eq("status", "published")
@@ -100,7 +100,12 @@ export default function ArticleDetail() {
       }
       const base = data as unknown as PostDetail;
       const translated = locale === "en" ? null : base.translations?.[locale];
-      const p = { ...base, ...(translated ?? {}) } as PostDetail;
+      const catTr = locale !== "en" ? base.category?.translations?.[locale]?.name : undefined;
+      const p = {
+        ...base,
+        ...(translated ?? {}),
+        category: base.category ? { ...base.category, name: catTr ?? base.category.name } : null,
+      } as PostDetail;
       setPost(p);
 
       const { data: seoRow } = await supabase
