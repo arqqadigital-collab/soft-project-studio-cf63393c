@@ -40,7 +40,8 @@ import {
 import {
   DropdownMenu, DropdownMenuTrigger, DropdownMenuContent, DropdownMenuItem,
 } from "@/components/ui/dropdown-menu";
-import { useMenuTree, type MenuTreeGroup, type MenuItem } from "@/lib/menuTree";
+import { useMenuTree, fetchMenuTree, type MenuTreeGroup, type MenuItem } from "@/lib/menuTree";
+import { useQuery } from "@tanstack/react-query";
 
 type Col = MenuTreeGroup["columns"][number];
 
