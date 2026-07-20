@@ -63,6 +63,15 @@ export type HeaderFooterSettings = {
   header_locales: LocaleOption[];
   mobile_menu_items: MobileMenuItem[];
   mobile_show_social: boolean;
+  mobile_drawer_side: "start" | "end";
+  mobile_drawer_width_pct: number;
+  mobile_drawer_bg_color: string | null;
+  mobile_drawer_text_color: string | null;
+  mobile_show_cta: boolean;
+  mobile_show_lang: boolean;
+  mobile_show_logo: boolean;
+  mobile_more_label: string | null;
+  mobile_default_expanded: boolean;
   header_bg_color: string | null;
   header_text_color: string | null;
   header_cta_bg_color: string | null;
@@ -73,6 +82,7 @@ export type HeaderFooterSettings = {
   footer_social: SocialLink[];
   footer_copyright: string | null;
 };
+
 
 function arr<T>(v: unknown): T[] {
   return Array.isArray(v) ? (v as T[]) : [];
