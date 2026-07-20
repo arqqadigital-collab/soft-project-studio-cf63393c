@@ -27,6 +27,7 @@ type Status = "draft" | "published" | "scheduled" | "trashed";
 interface PostForm {
   title: string;
   slug: string;
+  slug_ar: string;
   content: string;
   excerpt: string;
   featured_image_url: string;
@@ -39,6 +40,7 @@ interface PostForm {
 const EMPTY: PostForm = {
   title: "",
   slug: "",
+  slug_ar: "",
   content: "",
   excerpt: "",
   featured_image_url: "",
