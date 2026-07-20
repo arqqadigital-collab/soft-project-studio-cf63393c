@@ -4,7 +4,7 @@
 
 [[redirects]]
   from = "/__l5e/*"
-  to = "https://cdn.lovable.dev/__l5e/:splat"
+  to = "https://id-preview--a99ff590-db4e-4b0a-82d4-1f1ff73a8b78.lovable.app/__l5e/:splat"
   status = 200
   force = true
 
