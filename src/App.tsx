@@ -53,6 +53,7 @@ import Contact from "./pages/Contact";
 import ArticleDetail from "./pages/ArticleDetail";
 import PublicPage from "./pages/PublicPage";
 import PublicPreview from "./pages/PublicPreview";
+import { DEFAULT_ROUTE_MAP, type RouteKey } from "@/lib/routeMap";
 
 function NotFound() {
   return (
@@ -76,6 +77,72 @@ function NotFound() {
   );
 }
 
+// Component registry keyed by route_map.route_key.
+const ROUTE_COMPONENTS: Record<RouteKey, React.ComponentType> = {
+  "home": Index,
+  "about": About,
+  "careers": Careers,
+  "contact": Contact,
+  "blog": Blog,
+  "events": Events,
+  "case-studies": CaseStudies,
+  "healthcare.his": HIS,
+  "healthcare.clinic": ClinicManagement,
+  "healthcare.emergency": EmergencyDepartment,
+  "healthcare.physiotherapy": Physiotherapy,
+  "healthcare.telemedicine": Telemedicine,
+  "healthcare.operations": HospitalOperations,
+  "healthcare.dental": Dental,
+  "healthcare.lis": LIS,
+  "healthcare.ris": RIS,
+  "healthcare.rcm": RCM,
+  "healthcare.blood-bank": BloodBank,
+  "healthcare.medication-dosage": MedicationDosage,
+  "healthcare.pacs": PACS,
+  "healthcare.ai-imaging": AIImaging,
+  "healthcare.uae-compliance": UAECompliance,
+  "healthcare.ksa-compliance": KSACompliance,
+  "healthcare.emram": EMRAM,
+  "healthcare.clinical-ai": ClinicalAI,
+  "healthcare.patient-engagement": PatientEngagement,
+  "healthcare.revenue-cycle": RevenueCycle,
+  "erp.dynamics-365": Dynamics365,
+  "erp.odoo": Odoo,
+  "erp.zoho": Zoho,
+  "erp.manufacturing": Manufacturing,
+  "erp.retail": Retail,
+  "erp.education": Education,
+  "erp.logistics": Logistics,
+  "services.cybersecurity": Cybersecurity,
+  "services.consulting": Consulting,
+  "services.implementation": Implementation,
+  "services.staff-aug": StaffAug,
+  "services.learning": Learning,
+};
+
+// Build Arabic routes: each entry registers both the translated slug and the
+// EN slug under /ar as a fallback (so untranslated deep links still resolve).
+function buildArabicRoutes() {
+  const out: { path: string; C: React.ComponentType }[] = [];
+  const seen = new Set<string>();
+  for (const row of DEFAULT_ROUTE_MAP) {
+    const C = ROUTE_COMPONENTS[row.route_key];
+    if (!C) continue;
+    const arPath = `/ar${row.path_ar && row.path_ar !== "/" ? row.path_ar : ""}` || "/ar";
+    const enFallback = `/ar${row.path_en && row.path_en !== "/" ? row.path_en : ""}` || "/ar";
+    for (const p of [arPath, enFallback]) {
+      const path = p === "" ? "/ar" : p;
+      if (!seen.has(path)) {
+        seen.add(path);
+        out.push({ path, C });
+      }
+    }
+  }
+  return out;
+}
+
+const AR_ROUTES = buildArabicRoutes();
+
 export default function App() {
   const location = useLocation();
   const hideHeader =
@@ -93,6 +160,7 @@ export default function App() {
       <StyleApplier />
       {!hideHeader && <Header />}
       <Routes>
+        {/* English (default) routes */}
         <Route path="/" element={<Index />} />
         <Route path="/about" element={<About />} />
         <Route path="/careers" element={<Careers />} />
@@ -132,12 +200,24 @@ export default function App() {
         <Route path="/blog/:slug" element={<ArticleDetail />} />
         <Route path="/events" element={<Events />} />
         <Route path="/events/:slug" element={<EventDetail />} />
-
         <Route path="/case-studies" element={<CaseStudies />} />
         <Route path="/case-studies/:slug" element={<CaseStudyDetail />} />
         <Route path="/p/:slug" element={<PublicPage />} />
         <Route path="/preview/:kind/:id" element={<PublicPreview />} />
         <Route path="/contact" element={<Contact />} />
+
+        {/* Arabic routes — translated slugs + EN-slug fallbacks under /ar */}
+        {AR_ROUTES.map(({ path, C }) => (
+          <Route key={path} path={path} element={<C />} />
+        ))}
+        <Route path="/ar/blog/:slug" element={<ArticleDetail />} />
+        <Route path="/ar/events/:slug" element={<EventDetail />} />
+        <Route path="/ar/case-studies/:slug" element={<CaseStudyDetail />} />
+        <Route path="/ar/الفعاليات/:slug" element={<EventDetail />} />
+        <Route path="/ar/المدونة/:slug" element={<ArticleDetail />} />
+        <Route path="/ar/دراسات-الحالة/:slug" element={<CaseStudyDetail />} />
+        <Route path="/ar/p/:slug" element={<PublicPage />} />
+
         <Route path="/login" element={<Login />} />
         <Route path="/set-password" element={<SetPassword />} />
         <Route path="/reset-password" element={<SetPassword />} />
