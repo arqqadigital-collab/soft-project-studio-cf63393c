@@ -441,10 +441,8 @@ export default function HeaderFooterEditor() {
               <Label>Mobile-only links</Label>
               {mobileItems.map((m, i) => (
                 <div key={i} className="flex items-center gap-2">
-                  <Input placeholder="Label" value={m.label} onChange={(e) => {
-                    const arr = [...mobileItems]; arr[i] = { ...arr[i], label: e.target.value };
-                    set({ mobile_menu_items: arr });
-                  }} />
+                  <Input placeholder={loc === "ar" ? "التسمية" : "Label"} value={mobLabel(i)} onChange={(e) => setMobLabel(i, e.target.value)} dir={loc === "ar" ? "rtl" : "ltr"} />
+
                   <Input placeholder="/url" value={m.url} onChange={(e) => {
                     const arr = [...mobileItems]; arr[i] = { ...arr[i], url: e.target.value };
                     set({ mobile_menu_items: arr });
