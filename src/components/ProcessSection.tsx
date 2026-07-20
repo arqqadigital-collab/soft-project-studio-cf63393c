@@ -2,6 +2,8 @@ import { useEffect, useRef, useState } from "react";
 import { motion, useScroll, useTransform } from "framer-motion";
 import { ArrowUpRight } from "lucide-react";
 import { useSectionContent } from "@/lib/homepageContent";
+import { useLocale } from "@/i18n/LanguageProvider";
+
 
 export function ProcessSection() {
   const ref = useRef<HTMLDivElement>(null);
@@ -10,6 +12,7 @@ export function ProcessSection() {
   const [maxScroll, setMaxScroll] = useState(0);
   const c = useSectionContent("process");
   const cards = c.cards;
+  const { isRTL, locale } = useLocale();
 
   const { scrollYProgress } = useScroll({ target: ref, offset: ["start start", "end end"] });
 
@@ -20,15 +23,16 @@ export function ProcessSection() {
       if (!track || !viewport) return;
       setMaxScroll(Math.max(0, track.scrollWidth - viewport.clientWidth));
     };
-    measure();
+    const raf = requestAnimationFrame(measure);
     const ro = new ResizeObserver(measure);
     if (trackRef.current) ro.observe(trackRef.current);
     if (viewportRef.current) ro.observe(viewportRef.current);
     window.addEventListener("resize", measure);
-    return () => { ro.disconnect(); window.removeEventListener("resize", measure); };
-  }, [cards.length]);
+    return () => { cancelAnimationFrame(raf); ro.disconnect(); window.removeEventListener("resize", measure); };
+  }, [cards.length, locale, isRTL]);
 
-  const x = useTransform(scrollYProgress, [0, 1], [0, -maxScroll]);
+  const x = useTransform(scrollYProgress, [0, 1], isRTL ? [0, maxScroll] : [0, -maxScroll]);
+
 
   return (
     <section id="section-process" ref={ref} className="relative bg-background overflow-x-clip" style={{ height: "300vh" }}>
@@ -67,7 +71,7 @@ export function ProcessSection() {
                 <div className="relative z-10 flex h-full w-full flex-col justify-end p-7 pb-16 md:p-10 md:pb-20">
                   <h3 className="max-w-md text-2xl font-bold leading-tight text-white md:text-3xl">{card.title}</h3>
                   <a href={card.link_href || "#"} className="mt-6 inline-flex w-fit items-center gap-2 rounded-full px-6 py-3 text-sm font-semibold text-white shadow-[var(--shadow-brand)] transition-transform hover:scale-105" style={{ background: "var(--gradient-brand)" }}>
-                    Explore
+                    {isRTL ? "استكشف" : "Explore"}
                     <ArrowUpRight className="h-4 w-4" />
                   </a>
                 </div>
