@@ -40,6 +40,14 @@ type ArFields = {
   description?: string;
 };
 
+type ArFields = {
+  eyebrow?: string;
+  title_prefix?: string;
+  title_highlight?: string;
+  description?: string;
+  card_labels?: CardLabels;
+};
+
 type Row = {
   page_key: string;
   eyebrow: string | null;
@@ -47,6 +55,7 @@ type Row = {
   title_highlight: string | null;
   description: string | null;
   is_visible: boolean;
+  card_labels: CardLabels;
   translations?: { ar?: ArFields } | null;
 };
 
@@ -64,6 +73,7 @@ function Editor({ pageKey }: { pageKey: string }) {
       return data as Row | null;
     },
   });
+
 
   const [form, setForm] = useState<Row | null>(null);
   const [ar, setAr] = useState<ArFields>({});
