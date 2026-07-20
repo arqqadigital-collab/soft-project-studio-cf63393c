@@ -12,7 +12,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
 import { MediaPickerDialog } from "@/components/dashboard/MediaPickerDialog";
 
-type EntityType = "post" | "page" | "homepage";
+type EntityType = "post" | "page" | "homepage" | "case_study" | "event";
 
 interface Props {
   entityType: EntityType;
