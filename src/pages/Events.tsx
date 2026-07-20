@@ -87,9 +87,18 @@ export default function Events() {
   const content = useEventsContent();
   const hero = content.Hero;
   const heroVisible = content._visible.Hero;
+  const { data: listHero } = useListPageHero("events");
+  const L = listHero?.card_labels ?? {};
+  const ALL = L.all_filter ?? "All";
+  const durLabels = {
+    min: L.minutes_suffix ?? "Min",
+    hours: L.hours_suffix ?? "Hours",
+    full: L.full_day ?? "Full Day",
+  };
+  const tba = L.tba ?? "TBA";
   const [rows, setRows] = useState<EventRow[]>([]);
   const [loading, setLoading] = useState(true);
-  const [active, setActive] = useState<string>("All");
+  const [active, setActive] = useState<string>(ALL);
 
   useEffect(() => {
     let cancelled = false;
@@ -115,13 +124,14 @@ export default function Events() {
   const categories = useMemo(() => {
     const set = new Set<string>();
     rows.forEach((r) => r.event_type && set.add(labelType(r.event_type)));
-    return ["All", ...Array.from(set)];
-  }, [rows]);
+    return [ALL, ...Array.from(set)];
+  }, [rows, ALL]);
 
   const filtered = useMemo(() => {
-    if (active === "All") return rows;
+    if (active === ALL) return rows;
     return rows.filter((r) => labelType(r.event_type) === active);
-  }, [rows, active]);
+  }, [rows, active, ALL]);
+
 
   return (
     <main className="min-h-screen bg-background">
