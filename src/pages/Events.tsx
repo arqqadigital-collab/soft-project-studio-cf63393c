@@ -248,18 +248,6 @@ export default function Events() {
                           <Calendar className="h-3.5 w-3.5" />
                           {formatDate(ev.starts_at, tba)}
                         </span>
-                        {dur && (
-                          <span className="flex items-center gap-1">
-                            <Clock className="h-3.5 w-3.5" />
-                            {dur}
-                          </span>
-                        )}
-                        {ev.location && (
-                          <span className="flex items-center gap-1">
-                            {isOnline ? <Video className="h-3.5 w-3.5" /> : <MapPin className="h-3.5 w-3.5" />}
-                            {ev.location}
-                          </span>
-                        )}
                       </div>
                       <span
                         className="mt-4 inline-flex items-center gap-2 text-sm font-semibold"
