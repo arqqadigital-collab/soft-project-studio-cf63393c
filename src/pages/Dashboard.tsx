@@ -63,6 +63,10 @@ export default function Dashboard() {
           element={<RoleGate allow={["admin", "editor"]}><FooterCtaEditor /></RoleGate>}
         />
         <Route
+          path="submissions"
+          element={<RoleGate allow={["admin", "editor"]}><Submissions /></RoleGate>}
+        />
+        <Route
           path="case-studies"
           element={<RoleGate allow={["admin", "editor", "author"]}><CaseStudiesList /></RoleGate>}
         />
