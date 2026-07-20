@@ -68,6 +68,11 @@ export default function EventDetail() {
   const [loading, setLoading] = useState(true);
   const [notFound, setNotFound] = useState(false);
 
+  useSetAltLanguagePath({
+    en: ev ? `/events/${ev.slug}` : null,
+    ar: ev ? `/ar/events/${ev.slug_ar || ev.slug}` : null,
+  });
+
 
   useEffect(() => {
     if (!slug) return;
