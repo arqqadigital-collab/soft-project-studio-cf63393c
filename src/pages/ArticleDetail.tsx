@@ -22,7 +22,7 @@ type PostDetail = {
   featured_image_url: string | null;
   published_at: string | null;
   created_at: string;
-  category: { name: string; slug: string } | null;
+  category: { name: string; slug: string; translations?: Record<string, { name?: string }> | null } | null;
   author: { full_name: string | null } | null;
   translations?: Record<string, Partial<Pick<PostDetail, "title" | "content" | "excerpt">>> | null;
 };
