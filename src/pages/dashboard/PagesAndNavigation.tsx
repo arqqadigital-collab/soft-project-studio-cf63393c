@@ -142,7 +142,7 @@ export default function PagesAndNavigation() {
     queryFn: async () => {
       const { data, error } = await supabase
         .from("pages")
-        .select("id,title,nav_label,route_path,status,page_kind,menu_column_id")
+        .select("id,title,nav_label,route_path,status,page_kind,menu_column_id,translations")
         .order("title", { ascending: true });
       if (error) throw error;
       return data ?? [];
