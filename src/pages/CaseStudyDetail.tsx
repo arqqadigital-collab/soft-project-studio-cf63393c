@@ -124,7 +124,7 @@ export default function CaseStudyDetail() {
     return (
       <main className="min-h-screen bg-background pt-40 text-center">
         <p className="text-lg font-semibold">{L.detail_not_found_title || "Case study not found"}</p>
-        <Link to="/case-studies" className="mt-4 inline-block text-sm text-primary underline">
+        <Link to={locale === "ar" ? "/ar/دراسات-الحالة" : "/case-studies"} className="mt-4 inline-block text-sm text-primary underline">
           {L.detail_not_found_link || "Back to all case studies"}
         </Link>
       </main>
@@ -144,7 +144,7 @@ export default function CaseStudyDetail() {
       <section className="relative overflow-hidden bg-background pt-32 md:pt-40">
         <div className="mx-auto max-w-4xl px-6">
           <Link
-            to="/case-studies"
+            to={locale === "ar" ? "/ar/دراسات-الحالة" : "/case-studies"}
             className="inline-flex items-center gap-2 text-sm text-muted-foreground hover:text-foreground"
           >
             <ArrowLeft className="h-4 w-4" />

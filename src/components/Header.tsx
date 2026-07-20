@@ -12,6 +12,8 @@ import {
   type ShadowStyle,
 } from "@/lib/headerFooter";
 import { useMenuTree } from "@/lib/menuTree";
+import { useLocale } from "@/i18n/LanguageProvider";
+import { localizePath, useRouteMap } from "@/lib/routeMap";
 
 const socialIcon: Record<string, React.ComponentType<{ className?: string }>> = {
   linkedin: Linkedin,
@@ -47,6 +49,9 @@ function shadowClass(style: ShadowStyle, scrolled: boolean) {
 export function Header() {
   const { data: settings } = useHeaderFooter();
   const { data: tree = [] } = useMenuTree();
+  const { locale } = useLocale();
+  const { data: routeMap } = useRouteMap();
+  const localized = (url: string | null | undefined) => localizePath(url, locale, routeMap);
   const [scrolled, setScrolled] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
   const defaultExpanded = settings?.mobile_default_expanded ?? false;
@@ -128,7 +133,7 @@ export function Header() {
         className={`${positionClass} left-0 right-0 top-0 z-50 flex items-center justify-between border-b px-6 py-4 transition-all duration-300 md:px-12 ${bgClass} ${shadowClass(shadowStyle, scrolled)}`}
         style={headerStyle}
       >
-        <a href="/" className="flex items-center gap-3">
+        <Link to={localized("/")} className="flex items-center gap-3">
           <img
             src={logoSrc}
             alt="SBS — Superior Business Solutions"
@@ -140,7 +145,7 @@ export function Header() {
               {brandText}
             </span>
           )}
-        </a>
+        </Link>
 
         {showMenus && <MainNav />}
 
@@ -157,13 +162,13 @@ export function Header() {
 
 
 
-          <a
-            href={ctaUrl}
+          <Link
+            to={localized(ctaUrl)}
             className={`hidden rounded-full px-6 py-2.5 text-sm font-semibold transition-transform md:inline-block ${ctaClasses(ctaVariant)}`}
             style={ctaStyle}
           >
             {ctaLabel}
-          </a>
+          </Link>
 
           <button
             type="button"
@@ -235,7 +240,7 @@ export function Header() {
                                 return (
                                   <Link
                                     key={p.id}
-                                    to={p.route_path}
+                                    to={localized(p.route_path)}
                                     onClick={() => setMobileOpen(false)}
                                     className="block rounded-lg px-3 py-2 text-sm text-white/85 hover:bg-white/10"
                                   >
@@ -246,16 +251,14 @@ export function Header() {
                               const l = it.link;
                               if (!l.is_visible) return null;
                               return (
-                                <a
+                                <Link
                                   key={l.id}
-                                  href={l.url}
-                                  target={l.target === "_blank" ? "_blank" : undefined}
-                                  rel={l.target === "_blank" ? "noreferrer" : undefined}
+                                  to={localized(l.url)}
                                   onClick={() => setMobileOpen(false)}
                                   className="block rounded-lg px-3 py-2 text-sm text-white/85 hover:bg-white/10"
                                 >
                                   {l.label}
-                                </a>
+                                </Link>
                               );
                             })}
                         </div>
@@ -272,14 +275,14 @@ export function Header() {
 
                   <div className="space-y-1">
                     {mobileExtra.map((m, i) => (
-                      <a
+                      <Link
                         key={i}
-                        href={m.url}
+                        to={localized(m.url)}
                         onClick={() => setMobileOpen(false)}
                         className="block rounded-lg px-3 py-2 text-sm text-white/85 hover:bg-white/10"
                       >
                         {m.label}
-                      </a>
+                      </Link>
                     ))}
                   </div>
                 </div>
@@ -287,14 +290,14 @@ export function Header() {
             </nav>
 
             {mobileShowCta && (
-              <a
-                href={ctaUrl}
+              <Link
+                to={localized(ctaUrl)}
                 onClick={() => setMobileOpen(false)}
                 className={`mt-8 block rounded-full px-6 py-3 text-center text-sm font-semibold transition-transform ${ctaClasses(ctaVariant)}`}
                 style={ctaStyle}
               >
                 {ctaLabel}
-              </a>
+              </Link>
             )}
 
 

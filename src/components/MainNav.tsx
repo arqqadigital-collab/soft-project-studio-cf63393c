@@ -2,6 +2,8 @@ import { useState } from "react";
 import { Link } from "react-router-dom";
 import { ChevronDown, ChevronRight } from "lucide-react";
 import { useMenuTree } from "@/lib/menuTree";
+import { useLocale } from "@/i18n/LanguageProvider";
+import { localizePath, useRouteMap } from "@/lib/routeMap";
 
 type Leaf = {
   id: string;
@@ -124,6 +126,8 @@ function MegaPanel({ menu }: { menu: Menu }) {
 
 export function MainNav() {
   const { data: tree = [] } = useMenuTree();
+  const { locale } = useLocale();
+  const { data: routeMap } = useRouteMap();
 
   const menus: Menu[] = tree
     .filter((g) => g.is_visible)
@@ -143,14 +147,14 @@ export function MainNav() {
                 if (p.status !== "published" || !p.route_path) return null;
                 const leaf: Leaf = { id: p.id, label: p.nav_label || p.title };
                 if (isExternal(p.route_path)) leaf.href = p.route_path;
-                else leaf.to = p.route_path;
+                else leaf.to = localizePath(p.route_path, locale, routeMap);
                 return leaf;
               }
               const l = it.link;
               if (!l.is_visible) return null;
               const leaf: Leaf = { id: l.id, label: l.label };
               if (l.target === "_blank" || isExternal(l.url)) leaf.href = l.url;
-              else if (l.url.startsWith("/")) leaf.to = l.url;
+              else if (l.url.startsWith("/")) leaf.to = localizePath(l.url, locale, routeMap);
               else leaf.href = l.url;
               return leaf;
             })

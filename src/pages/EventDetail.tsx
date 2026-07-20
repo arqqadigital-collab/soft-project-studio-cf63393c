@@ -129,7 +129,7 @@ export default function EventDetail() {
     return (
       <main className="min-h-screen bg-background pt-32 text-center">
         <p className="text-lg text-foreground">{L.detail_not_found_title || "Event not found."}</p>
-        <Link to={locale === "ar" ? "/ar/events" : "/events"} className="mt-4 inline-block text-sm text-[var(--brand-blue)]">
+        <Link to={locale === "ar" ? "/ar/الفعاليات" : "/events"} className="mt-4 inline-block text-sm text-[var(--brand-blue)]">
           {L.detail_not_found_link || "Back to events"}
         </Link>
       </main>
@@ -146,7 +146,7 @@ export default function EventDetail() {
       <section className="pb-10 pt-28 md:pt-36">
         <div className="mx-auto max-w-5xl px-6">
           <Link
-            to="/events"
+            to={locale === "ar" ? "/ar/الفعاليات" : "/events"}
             className="inline-flex items-center gap-2 text-sm font-medium text-muted-foreground transition-colors hover:text-foreground"
           >
             <ArrowLeft className="h-4 w-4" /> {L.detail_back || "All events"}

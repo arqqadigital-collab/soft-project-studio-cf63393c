@@ -124,6 +124,40 @@ export function findCounterpart(pathname: string, targetLocale: "en" | "ar"): st
   }
 }
 
+/** Keep internal navigation in the active locale, including CMS route-map overrides. */
+export function localizePath(
+  url: string | null | undefined,
+  locale: "en" | "ar",
+  routeMap: RouteMapRow[] = getRouteMap(),
+): string {
+  if (!url) return "#";
+  if (
+    url.startsWith("#") ||
+    url.startsWith("?") ||
+    url.startsWith("//") ||
+    /^[a-z][a-z\d+.-]*:/i.test(url)
+  ) {
+    return url;
+  }
+
+  const suffixIndex = url.search(/[?#]/);
+  const pathname = suffixIndex === -1 ? url : url.slice(0, suffixIndex);
+  const suffix = suffixIndex === -1 ? "" : url.slice(suffixIndex);
+  if (!pathname.startsWith("/")) return url;
+
+  if (locale === "ar") {
+    if (isArabicPath(pathname)) return url;
+    const row = routeMap.find((r) => r.path_en === pathname);
+    if (row) return `${arFullPath(row)}${suffix}`;
+    return `/ar${pathname === "/" ? "" : pathname}${suffix}`;
+  }
+
+  if (!isArabicPath(pathname)) return url;
+  const arPath = pathname === "/ar" ? "/" : pathname.slice(3) || "/";
+  const row = routeMap.find((r) => (r.path_ar ?? r.path_en) === arPath);
+  return `${row?.path_en ?? arPath}${suffix}`;
+}
+
 export function isArabicPath(pathname: string): boolean {
   return pathname === "/ar" || pathname.startsWith("/ar/");
 }
