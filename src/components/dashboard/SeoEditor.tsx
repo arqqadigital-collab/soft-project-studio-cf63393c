@@ -167,35 +167,64 @@ export function SeoEditor({
           <CardTitle className="text-sm">Search engine listing</CardTitle>
         </CardHeader>
         <CardContent className="space-y-4">
-          <div className="space-y-1.5">
-            <Label className="text-xs">Meta title</Label>
-            <Input
-              value={form.meta_title}
-              onChange={(e) => patch("meta_title", e.target.value)}
-              placeholder={fallbackTitle || "Overrides the page title"}
-              maxLength={70}
-            />
-            <p className={`text-xs ${titleLen > 60 ? "text-destructive" : "text-muted-foreground"}`}>
-              {titleLen}/60 recommended
-            </p>
-          </div>
-          <div className="space-y-1.5">
-            <Label className="text-xs">Meta description</Label>
-            <Textarea
-              rows={3}
-              value={form.meta_description}
-              onChange={(e) => patch("meta_description", e.target.value)}
-              placeholder="Shown in Google search results"
-              maxLength={200}
-            />
-            <p className={`text-xs ${descLen > 160 ? "text-destructive" : "text-muted-foreground"}`}>
-              {descLen}/160 recommended
-            </p>
-          </div>
-          <div className="grid gap-4 sm:grid-cols-2">
-            <div className="space-y-1.5">
-              <Label className="text-xs">Focus keyword</Label>
-              <Input
+          <Tabs defaultValue="en" className="w-full">
+            <TabsList className="mb-2">
+              <TabsTrigger value="en">English</TabsTrigger>
+              <TabsTrigger value="ar">العربية</TabsTrigger>
+            </TabsList>
+            <TabsContent value="en" className="space-y-4">
+              <div className="space-y-1.5">
+                <Label className="text-xs">Meta title (EN)</Label>
+                <Input
+                  value={form.meta_title}
+                  onChange={(e) => patch("meta_title", e.target.value)}
+                  placeholder={fallbackTitle || "Overrides the page title"}
+                  maxLength={70}
+                />
+                <p className={`text-xs ${titleLen > 60 ? "text-destructive" : "text-muted-foreground"}`}>
+                  {titleLen}/60 recommended
+                </p>
+              </div>
+              <div className="space-y-1.5">
+                <Label className="text-xs">Meta description (EN)</Label>
+                <Textarea
+                  rows={3}
+                  value={form.meta_description}
+                  onChange={(e) => patch("meta_description", e.target.value)}
+                  placeholder="Shown in Google search results"
+                  maxLength={200}
+                />
+                <p className={`text-xs ${descLen > 160 ? "text-destructive" : "text-muted-foreground"}`}>
+                  {descLen}/160 recommended
+                </p>
+              </div>
+            </TabsContent>
+            <TabsContent value="ar" className="space-y-4">
+              <div className="space-y-1.5">
+                <Label className="text-xs">عنوان الميتا (AR)</Label>
+                <Input
+                  dir="rtl"
+                  value={form.meta_title_ar}
+                  onChange={(e) => patch("meta_title_ar", e.target.value)}
+                  placeholder="عنوان الصفحة بالعربية"
+                  maxLength={70}
+                />
+                <p className="text-xs text-muted-foreground">{form.meta_title_ar.length}/60 recommended</p>
+              </div>
+              <div className="space-y-1.5">
+                <Label className="text-xs">وصف الميتا (AR)</Label>
+                <Textarea
+                  dir="rtl"
+                  rows={3}
+                  value={form.meta_description_ar}
+                  onChange={(e) => patch("meta_description_ar", e.target.value)}
+                  placeholder="يظهر في نتائج بحث Google"
+                  maxLength={200}
+                />
+                <p className="text-xs text-muted-foreground">{form.meta_description_ar.length}/160 recommended</p>
+              </div>
+            </TabsContent>
+          </Tabs>
                 value={form.focus_keyword}
                 onChange={(e) => patch("focus_keyword", e.target.value)}
                 placeholder="Primary keyword"
