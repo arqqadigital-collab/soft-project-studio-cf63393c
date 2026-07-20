@@ -12,6 +12,7 @@ export function ProcessSection() {
   const [maxScroll, setMaxScroll] = useState(0);
   const c = useSectionContent("process");
   const cards = c.cards;
+  const { isRTL, locale } = useLocale();
 
   const { scrollYProgress } = useScroll({ target: ref, offset: ["start start", "end end"] });
 
@@ -22,15 +23,16 @@ export function ProcessSection() {
       if (!track || !viewport) return;
       setMaxScroll(Math.max(0, track.scrollWidth - viewport.clientWidth));
     };
-    measure();
+    const raf = requestAnimationFrame(measure);
     const ro = new ResizeObserver(measure);
     if (trackRef.current) ro.observe(trackRef.current);
     if (viewportRef.current) ro.observe(viewportRef.current);
     window.addEventListener("resize", measure);
-    return () => { ro.disconnect(); window.removeEventListener("resize", measure); };
-  }, [cards.length]);
+    return () => { cancelAnimationFrame(raf); ro.disconnect(); window.removeEventListener("resize", measure); };
+  }, [cards.length, locale, isRTL]);
 
-  const x = useTransform(scrollYProgress, [0, 1], [0, -maxScroll]);
+  const x = useTransform(scrollYProgress, [0, 1], isRTL ? [0, maxScroll] : [0, -maxScroll]);
+
 
   return (
     <section id="section-process" ref={ref} className="relative bg-background overflow-x-clip" style={{ height: "300vh" }}>
