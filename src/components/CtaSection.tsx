@@ -23,38 +23,10 @@ export function CtaSection() {
       </div>
 
       <div className="mx-auto mt-16 grid max-w-6xl gap-8 lg:grid-cols-2">
-        <form onSubmit={handleSubmit} className="rounded-3xl border border-white/60 bg-white/70 p-8 shadow-xl backdrop-blur md:p-10">
-          <div className="grid gap-5 sm:grid-cols-2">
-            <Field label="First name">
-              <input type="text" placeholder="First name" value={form.firstName} onChange={(e) => setForm({ ...form, firstName: e.target.value })} maxLength={50} required className="w-full rounded-full border border-border bg-background px-5 py-3 text-sm text-foreground outline-none transition focus:border-[var(--brand-blue)]" />
-            </Field>
-            <Field label="Last name">
-              <input type="text" placeholder="Last name" value={form.lastName} onChange={(e) => setForm({ ...form, lastName: e.target.value })} maxLength={50} required className="w-full rounded-full border border-border bg-background px-5 py-3 text-sm text-foreground outline-none transition focus:border-[var(--brand-blue)]" />
-            </Field>
-          </div>
-          <div className="mt-5">
-            <Field label="Email">
-              <input type="email" placeholder="Email" value={form.email} onChange={(e) => setForm({ ...form, email: e.target.value })} maxLength={120} required className="w-full rounded-full border border-border bg-background px-5 py-3 text-sm text-foreground outline-none transition focus:border-[var(--brand-blue)]" />
-            </Field>
-          </div>
-          <div className="mt-5">
-            <Field label="Area of inquiry">
-              <select value={form.area} onChange={(e) => setForm({ ...form, area: e.target.value })} required className="w-full appearance-none rounded-full border border-border bg-background px-5 py-3 text-sm text-foreground outline-none transition focus:border-[var(--brand-blue)]">
-                <option value="">Select an area...</option>
-                {c.inquiry_areas.map((a) => (<option key={a} value={a}>{a}</option>))}
-              </select>
-            </Field>
-          </div>
-          <div className="mt-5">
-            <Field label="Message">
-              <textarea placeholder="Tell us about your project..." value={form.message} onChange={(e) => setForm({ ...form, message: e.target.value })} maxLength={1000} required rows={5} className="w-full resize-none rounded-3xl border border-border bg-background px-5 py-4 text-sm text-foreground outline-none transition focus:border-[var(--brand-blue)]" />
-            </Field>
-          </div>
-          <button type="submit" className="mt-8 inline-flex items-center gap-3 rounded-full px-6 py-3 text-sm font-semibold sm:px-8 sm:py-4 text-white shadow-[var(--shadow-brand)] transition-transform hover:scale-105" style={{ background: "var(--gradient-brand)" }}>
-            Send Message
-            <Send className="h-4 w-4" />
-          </button>
-        </form>
+        <div className="rounded-3xl border border-white/60 bg-white/70 p-8 shadow-xl backdrop-blur md:p-10">
+          <ContactForm source="homepage_cta" variant="light" />
+        </div>
+
 
         <div className="relative overflow-hidden rounded-3xl shadow-xl">
           <video src={c.video_url} autoPlay muted loop playsInline className="absolute inset-0 h-full w-full object-cover" />
