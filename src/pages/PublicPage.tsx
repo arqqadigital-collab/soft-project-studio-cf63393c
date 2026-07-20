@@ -158,13 +158,13 @@ function RenderedPage({ page, seo }: { page: PageDetail; seo: SeoMeta | null }) 
             <div className={`mx-auto ${containerClass} px-6`}>
               {!isLanding && (
                 <h1 className="text-3xl font-bold leading-tight tracking-tight text-foreground md:text-4xl lg:text-5xl">
-                  {page.title}
+                  {displayTitle}
                 </h1>
               )}
               {page.featured_image_url && !isLanding && (
                 <img
                   src={page.featured_image_url}
-                  alt={page.title}
+                  alt={displayTitle}
                   className="mt-8 aspect-[16/9] w-full rounded-3xl object-cover"
                 />
               )}
