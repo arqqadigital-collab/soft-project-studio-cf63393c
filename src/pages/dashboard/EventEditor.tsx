@@ -397,31 +397,6 @@ export default function EventEditor() {
             </CardContent>
           </Card>
 
-          <Card>
-            <CardHeader className="pb-3"><CardTitle className="text-sm">Tags</CardTitle></CardHeader>
-            <CardContent className="space-y-2">
-              <div className="flex flex-wrap gap-1">
-                {form.tags.map((t) => (
-                  <Badge key={t} variant="secondary" className="cursor-pointer" onClick={() => patch("tags", form.tags.filter((x) => x !== t))}>
-                    {t} ×
-                  </Badge>
-                ))}
-                {form.tags.length === 0 && <span className="text-xs text-muted-foreground">No tags yet</span>}
-              </div>
-              <Input
-                value={tagInput}
-                placeholder="Type a tag and press Enter"
-                onChange={(e) => setTagInput(e.target.value)}
-                onKeyDown={(e) => {
-                  if (e.key === "Enter" || e.key === ",") {
-                    e.preventDefault();
-                    addTag(tagInput);
-                    setTagInput("");
-                  }
-                }}
-              />
-            </CardContent>
-          </Card>
 
           <Card>
             <CardHeader className="pb-3"><CardTitle className="text-sm">Featured image</CardTitle></CardHeader>
