@@ -98,22 +98,24 @@ export function getRouteMap(): RouteMapRow[] {
   return cache ?? DEFAULT_ROUTE_MAP;
 }
 
-/** Find the counterpart URL for the current pathname (EN <-> AR). */
-export function findCounterpart(pathname: string, targetLocale: "en" | "ar"): string | null {
+/** Find the counterpart URL for the current pathname (EN <-> AR). Never returns null — falls back to preserving the path. */
+export function findCounterpart(pathname: string, targetLocale: "en" | "ar"): string {
   const map = getRouteMap();
   const isAr = pathname === "/ar" || pathname.startsWith("/ar/");
 
   if (isAr) {
-    // Strip /ar prefix
-    const arPath = pathname === "/ar" ? "/" : pathname.slice(3) || "/";
     if (targetLocale === "ar") return pathname;
+    const arPath = pathname === "/ar" ? "/" : pathname.slice(3) || "/";
     const row = map.find((r) => (r.path_ar ?? r.path_en) === arPath);
-    return row ? row.path_en : null;
+    if (row) return row.path_en;
+    // Dynamic routes — preserve path (slug may not match; detail pages publish
+    // their exact counterpart via AltLanguagePathProvider).
+    return arPath;
   } else {
     if (targetLocale === "en") return pathname;
     const row = map.find((r) => r.path_en === pathname);
     if (row) return arFullPath(row);
-    // Dynamic routes (blog/:slug, events/:slug, etc.) — best effort prefix
+    // Dynamic routes — preserve path structure under /ar.
     if (pathname.startsWith("/blog/")) return `/ar/blog/${pathname.slice(6)}`;
     if (pathname.startsWith("/events/")) return `/ar/events/${pathname.slice(8)}`;
     if (pathname.startsWith("/case-studies/")) return `/ar/case-studies/${pathname.slice(14)}`;

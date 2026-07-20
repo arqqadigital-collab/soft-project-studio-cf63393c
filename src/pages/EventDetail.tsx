@@ -7,6 +7,7 @@ import { SeoHead } from "@/components/SeoHead";
 import { Button } from "@/components/ui/button";
 import { supabase } from "@/integrations/supabase/client";
 import { useLocale } from "@/i18n/LanguageProvider";
+import { useSetAltLanguagePath } from "@/i18n/AltLanguagePath";
 import { useListPageHero } from "@/hooks/use-list-page-hero";
 
 
@@ -14,6 +15,7 @@ type EventDetail = {
   id: string;
   title: string;
   slug: string;
+  slug_ar?: string | null;
   description: string | null;
   event_type: string;
   starts_at: string | null;
@@ -65,6 +67,11 @@ export default function EventDetail() {
   const [ev, setEv] = useState<EventDetail | null>(null);
   const [loading, setLoading] = useState(true);
   const [notFound, setNotFound] = useState(false);
+
+  useSetAltLanguagePath({
+    en: ev ? `/events/${ev.slug}` : null,
+    ar: ev ? `/ar/events/${ev.slug_ar || ev.slug}` : null,
+  });
 
 
   useEffect(() => {
@@ -122,7 +129,7 @@ export default function EventDetail() {
     return (
       <main className="min-h-screen bg-background pt-32 text-center">
         <p className="text-lg text-foreground">{L.detail_not_found_title || "Event not found."}</p>
-        <Link to="/events" className="mt-4 inline-block text-sm text-[var(--brand-blue)]">
+        <Link to={locale === "ar" ? "/ar/events" : "/events"} className="mt-4 inline-block text-sm text-[var(--brand-blue)]">
           {L.detail_not_found_link || "Back to events"}
         </Link>
       </main>

@@ -7,6 +7,7 @@ import App from "./App";
 import "./styles.css";
 import "./i18n";
 import { LanguageProvider } from "./i18n/LanguageProvider";
+import { AltLanguagePathProvider } from "./i18n/AltLanguagePath";
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -20,7 +21,9 @@ createRoot(document.getElementById("root")!).render(
       <QueryClientProvider client={queryClient}>
         <BrowserRouter>
           <LanguageProvider>
-            <App />
+            <AltLanguagePathProvider>
+              <App />
+            </AltLanguagePathProvider>
           </LanguageProvider>
         </BrowserRouter>
       </QueryClientProvider>

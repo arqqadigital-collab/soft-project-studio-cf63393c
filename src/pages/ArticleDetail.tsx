@@ -10,6 +10,7 @@ import { SeoHead } from "@/components/SeoHead";
 import { logPageView } from "@/lib/analytics";
 import { sanitizeHtml } from "@/lib/sanitize";
 import { useLocale } from "@/i18n/LanguageProvider";
+import { useSetAltLanguagePath } from "@/i18n/AltLanguagePath";
 import { useListPageHero } from "@/hooks/use-list-page-hero";
 
 
@@ -17,6 +18,7 @@ type PostDetail = {
   id: string;
   title: string;
   slug: string;
+  slug_ar?: string | null;
   content: string | null;
   excerpt: string | null;
   featured_image_url: string | null;
@@ -68,6 +70,11 @@ export default function ArticleDetail() {
   const [loading, setLoading] = useState(true);
   const [notFound, setNotFound] = useState(false);
 
+  useSetAltLanguagePath({
+    en: post ? `/blog/${post.slug}` : null,
+    ar: post ? `/ar/blog/${post.slug_ar || post.slug}` : null,
+  });
+
 
   useEffect(() => {
     let cancelled = false;
@@ -77,7 +84,7 @@ export default function ArticleDetail() {
       const { data, error } = await supabase
         .from("posts")
         .select(
-          "id,title,slug,content,excerpt,featured_image_url,published_at,created_at,translations,category:categories(name,slug,translations),author:profiles!posts_author_id_fkey(full_name)"
+          "id,title,slug,slug_ar,content,excerpt,featured_image_url,published_at,created_at,translations,category:categories(name,slug,translations),author:profiles!posts_author_id_fkey(full_name)"
         )
         .or(typeof window !== "undefined" && window.location.pathname.startsWith("/ar/") ? `slug_ar.eq.${slug},slug.eq.${slug}` : `slug.eq.${slug}`)
         .eq("status", "published")

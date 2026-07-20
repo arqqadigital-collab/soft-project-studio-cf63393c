@@ -6,6 +6,7 @@ import { Footer } from "@/components/Footer";
 import { SeoHead } from "@/components/SeoHead";
 import { supabase } from "@/integrations/supabase/client";
 import { useLocale } from "@/i18n/LanguageProvider";
+import { useSetAltLanguagePath } from "@/i18n/AltLanguagePath";
 import { useListPageHero } from "@/hooks/use-list-page-hero";
 
 
@@ -13,6 +14,7 @@ type CaseStudyDetail = {
   id: string;
   title: string;
   slug: string;
+  slug_ar?: string | null;
   summary: string | null;
   client_name: string | null;
   industry: string | null;
@@ -61,6 +63,11 @@ export default function CaseStudyDetail() {
   const [loading, setLoading] = useState(true);
   const [notFound, setNotFound] = useState(false);
 
+  useSetAltLanguagePath({
+    en: cs ? `/case-studies/${cs.slug}` : null,
+    ar: cs ? `/ar/case-studies/${cs.slug_ar || cs.slug}` : null,
+  });
+
 
   useEffect(() => {
     let cancelled = false;
@@ -70,7 +77,7 @@ export default function CaseStudyDetail() {
       const { data } = await supabase
         .from("case_studies")
         .select(
-          "id,title,slug,summary,client_name,industry,challenge,solution,results,cover_image_url,published_at,created_at,tags,translations,category:categories(name,translations)"
+          "id,title,slug,slug_ar,summary,client_name,industry,challenge,solution,results,cover_image_url,published_at,created_at,tags,translations,category:categories(name,translations)"
         )
         .or(typeof window !== "undefined" && window.location.pathname.startsWith("/ar/") ? `slug_ar.eq.${slug},slug.eq.${slug}` : `slug.eq.${slug}`)
         .eq("status", "published")
