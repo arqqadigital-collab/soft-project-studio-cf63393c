@@ -736,6 +736,7 @@ export type Database = {
       }
       list_page_hero: {
         Row: {
+          card_labels: Json
           created_at: string
           description: string | null
           eyebrow: string | null
@@ -747,6 +748,7 @@ export type Database = {
           updated_at: string
         }
         Insert: {
+          card_labels?: Json
           created_at?: string
           description?: string | null
           eyebrow?: string | null
@@ -758,6 +760,7 @@ export type Database = {
           updated_at?: string
         }
         Update: {
+          card_labels?: Json
           created_at?: string
           description?: string | null
           eyebrow?: string | null
