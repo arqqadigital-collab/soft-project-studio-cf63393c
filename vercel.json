@@ -1,3 +1,6 @@
 {
-  "rewrites": [{ "source": "/(.*)", "destination": "/index.html" }]
+  "rewrites": [
+    { "source": "/__l5e/:path*", "destination": "https://cdn.lovable.dev/__l5e/:path*" },
+    { "source": "/(.*)", "destination": "/index.html" }
+  ]
 }
