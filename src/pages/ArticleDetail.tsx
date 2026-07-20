@@ -206,21 +206,13 @@ export default function ArticleDetail() {
               )}
               <span className="flex items-center gap-1">
                 <Calendar className="h-3.5 w-3.5" />
-                {format(new Date(publishedDate), "MMMM d, yyyy")}
-              </span>
-              <span className="flex items-center gap-1">
-                <Clock className="h-3.5 w-3.5" />
-                {readTimeMinutes(post.content)} {L.min_read || "Min Read"}
+                {format(new Date(publishedDate), "MMMM d, yyyy", locale === "ar" ? { locale: arLocale } : undefined)}
               </span>
             </div>
 
             <h1 className="mt-5 text-start text-3xl font-bold leading-tight tracking-tight text-foreground md:text-4xl lg:text-5xl">
               {post.title}
             </h1>
-
-            {post.author?.full_name && (
-              <p className="mt-4 text-sm text-muted-foreground">{L.detail_by_prefix || "By"} {post.author.full_name}</p>
-            )}
 
           </motion.div>
         </div>
