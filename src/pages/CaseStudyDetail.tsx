@@ -63,6 +63,11 @@ export default function CaseStudyDetail() {
   const [loading, setLoading] = useState(true);
   const [notFound, setNotFound] = useState(false);
 
+  useSetAltLanguagePath({
+    en: cs ? `/case-studies/${cs.slug}` : null,
+    ar: cs ? `/ar/case-studies/${cs.slug_ar || cs.slug}` : null,
+  });
+
 
   useEffect(() => {
     let cancelled = false;
