@@ -53,6 +53,8 @@ const EMPTY: PageForm = {
   nav_label: "",
   page_kind: "cms",
   route_path: "",
+  title_ar: "",
+  nav_label_ar: "",
 };
 
 function defaultRouteForSlug(slug: string): string {
