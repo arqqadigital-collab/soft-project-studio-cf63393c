@@ -165,13 +165,16 @@ export type Database = {
       case_studies: {
         Row: {
           author_id: string | null
+          category_id: string | null
           challenge: string | null
           client_name: string | null
           cover_image_url: string | null
           created_at: string
+          excerpt: string | null
           gallery: Json
           id: string
           industry: string | null
+          preview_token: string
           published_at: string | null
           results: string | null
           slug: string
@@ -186,13 +189,16 @@ export type Database = {
         }
         Insert: {
           author_id?: string | null
+          category_id?: string | null
           challenge?: string | null
           client_name?: string | null
           cover_image_url?: string | null
           created_at?: string
+          excerpt?: string | null
           gallery?: Json
           id?: string
           industry?: string | null
+          preview_token?: string
           published_at?: string | null
           results?: string | null
           slug: string
@@ -207,13 +213,16 @@ export type Database = {
         }
         Update: {
           author_id?: string | null
+          category_id?: string | null
           challenge?: string | null
           client_name?: string | null
           cover_image_url?: string | null
           created_at?: string
+          excerpt?: string | null
           gallery?: Json
           id?: string
           industry?: string | null
+          preview_token?: string
           published_at?: string | null
           results?: string | null
           slug?: string
@@ -226,7 +235,15 @@ export type Database = {
           translations?: Json
           updated_at?: string
         }
-        Relationships: []
+        Relationships: [
+          {
+            foreignKeyName: "case_studies_category_id_fkey"
+            columns: ["category_id"]
+            isOneToOne: false
+            referencedRelation: "categories"
+            referencedColumns: ["id"]
+          },
+        ]
       }
       categories: {
         Row: {
@@ -482,19 +499,23 @@ export type Database = {
       events: {
         Row: {
           author_id: string | null
+          category_id: string | null
           cover_image_url: string | null
           created_at: string
           description: string | null
           ends_at: string | null
           event_type: Database["public"]["Enums"]["event_type"]
+          excerpt: string | null
           id: string
           location: string | null
+          preview_token: string
           published_at: string | null
           registration_url: string | null
           slug: string
           slug_ar: string | null
           starts_at: string | null
           status: Database["public"]["Enums"]["post_status"]
+          tags: string[]
           title: string
           translations: Json
           updated_at: string
@@ -502,19 +523,23 @@ export type Database = {
         }
         Insert: {
           author_id?: string | null
+          category_id?: string | null
           cover_image_url?: string | null
           created_at?: string
           description?: string | null
           ends_at?: string | null
           event_type?: Database["public"]["Enums"]["event_type"]
+          excerpt?: string | null
           id?: string
           location?: string | null
+          preview_token?: string
           published_at?: string | null
           registration_url?: string | null
           slug: string
           slug_ar?: string | null
           starts_at?: string | null
           status?: Database["public"]["Enums"]["post_status"]
+          tags?: string[]
           title: string
           translations?: Json
           updated_at?: string
@@ -522,25 +547,37 @@ export type Database = {
         }
         Update: {
           author_id?: string | null
+          category_id?: string | null
           cover_image_url?: string | null
           created_at?: string
           description?: string | null
           ends_at?: string | null
           event_type?: Database["public"]["Enums"]["event_type"]
+          excerpt?: string | null
           id?: string
           location?: string | null
+          preview_token?: string
           published_at?: string | null
           registration_url?: string | null
           slug?: string
           slug_ar?: string | null
           starts_at?: string | null
           status?: Database["public"]["Enums"]["post_status"]
+          tags?: string[]
           title?: string
           translations?: Json
           updated_at?: string
           virtual_link?: string | null
         }
-        Relationships: []
+        Relationships: [
+          {
+            foreignKeyName: "events_category_id_fkey"
+            columns: ["category_id"]
+            isOneToOne: false
+            referencedRelation: "categories"
+            referencedColumns: ["id"]
+          },
+        ]
       }
       form_settings: {
         Row: {
@@ -1570,7 +1607,7 @@ export type Database = {
       page_status: "draft" | "published" | "trashed"
       page_template: "default" | "full-width" | "landing"
       post_status: "draft" | "published" | "scheduled" | "trashed"
-      seo_entity: "post" | "page" | "homepage"
+      seo_entity: "post" | "page" | "homepage" | "case_study" | "event"
       view_entity: "post" | "page"
     }
     CompositeTypes: {
@@ -1704,7 +1741,7 @@ export const Constants = {
       page_status: ["draft", "published", "trashed"],
       page_template: ["default", "full-width", "landing"],
       post_status: ["draft", "published", "scheduled", "trashed"],
-      seo_entity: ["post", "page", "homepage"],
+      seo_entity: ["post", "page", "homepage", "case_study", "event"],
       view_entity: ["post", "page"],
     },
   },
