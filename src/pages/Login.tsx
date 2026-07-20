@@ -87,7 +87,6 @@ export default function Login() {
         </div>
 
         {error && <p className="text-sm text-destructive">{error}</p>}
-        {info && <p className="text-sm text-emerald-600 dark:text-emerald-400">{info}</p>}
 
         <button
           type="submit"
@@ -97,14 +96,6 @@ export default function Login() {
           {submitting ? "Signing in..." : "Sign in"}
         </button>
 
-        <button
-          type="button"
-          onClick={handleForgotPassword}
-          disabled={resetting}
-          className="w-full text-center text-sm text-muted-foreground underline-offset-4 hover:text-foreground hover:underline disabled:opacity-60"
-        >
-          {resetting ? "Sending reset link…" : "Forgot password?"}
-        </button>
       </form>
     </main>
   );
