@@ -7,12 +7,45 @@ import { supabase } from "@/integrations/supabase/client";
 import { submissionMeta } from "@/lib/submissionMeta";
 import { useLocale } from "@/hooks/useLocale";
 
+const NAME_RE = /^[\p{L}\p{M}][\p{L}\p{M}\s'.\-]{1,99}$/u;
+const PHONE_RE = /^[+()\d][\d\s().\-]{5,29}$/;
+const URL_RE = /(https?:\/\/|www\.)/i;
+const DISPOSABLE_DOMAINS = new Set([
+  "mailinator.com","guerrillamail.com","10minutemail.com","tempmail.com",
+  "trashmail.com","yopmail.com","sharklasers.com","getnada.com","dispostable.com",
+]);
+
 const submissionSchema = z.object({
-  name: z.string().trim().min(1, "Name is required").max(100),
-  email: z.string().trim().email("Invalid email").max(255),
-  phone: z.string().trim().min(1, "Phone is required").max(30),
+  name: z
+    .string()
+    .trim()
+    .min(2, "Please enter your full name")
+    .max(100)
+    .regex(NAME_RE, "Name contains invalid characters"),
+  email: z
+    .string()
+    .trim()
+    .toLowerCase()
+    .email("Please enter a valid email address")
+    .max(255)
+    .refine((v) => {
+      const domain = v.split("@")[1] ?? "";
+      return !DISPOSABLE_DOMAINS.has(domain);
+    }, "Please use a permanent email address"),
+  phone: z
+    .string()
+    .trim()
+    .min(6, "Please enter a valid phone number")
+    .max(30)
+    .regex(PHONE_RE, "Phone number contains invalid characters"),
   area: z.string().trim().min(1, "Please select an area"),
-  message: z.string().trim().max(1000).optional().default(""),
+  message: z
+    .string()
+    .trim()
+    .max(1000)
+    .optional()
+    .default("")
+    .refine((v) => !v || !URL_RE.test(v) || v.length > 20, "Message looks like spam"),
   consent: z.literal(true, { errorMap: () => ({ message: "Consent required" }) }),
 });
 
