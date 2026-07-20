@@ -34,6 +34,7 @@ type SeoMeta = {
   canonical_url: string | null;
   noindex: boolean | null;
   nofollow: boolean | null;
+  translations?: any;
 };
 
 function CoverPlaceholder({ className }: { className?: string }) {
