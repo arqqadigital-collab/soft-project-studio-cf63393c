@@ -162,6 +162,15 @@ export default function PageEditor() {
     if (!user) return;
     if (!form.title.trim()) { if (!opts?.silent) toast.error("Title is required"); return; }
     setSaving(true);
+    const existingTx = (existing.data as any)?.translations ?? {};
+    const translations = {
+      ...existingTx,
+      ar: {
+        ...(existingTx.ar ?? {}),
+        title: form.title_ar || null,
+        nav_label: form.nav_label_ar || null,
+      },
+    };
     const payload: any = {
       title: form.title,
       slug: form.slug || toSlug(form.title),
@@ -175,6 +184,7 @@ export default function PageEditor() {
       page_kind: form.page_kind,
       route_path: form.route_path || defaultRouteForSlug(form.slug || toSlug(form.title)),
       author_id: user.id,
+      translations,
     };
     try {
       let pid = pageId;
