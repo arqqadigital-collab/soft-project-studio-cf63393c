@@ -1,6 +1,5 @@
-import { Link, useLocation } from "react-router-dom";
+import { Link } from "react-router-dom";
 import logo from "@/assets/logo.png";
-import { ContactSection } from "@/components/ContactSection";
 import {
   useHeaderFooter,
   DEFAULT_FOOTER_COLUMNS,
@@ -8,13 +7,8 @@ import {
   type FooterColumn,
 } from "@/lib/headerFooter";
 
-const CONTACT_EXCLUDED = ["/contact", "/ar/تواصل-معنا", "/ar/contact"];
-
 export function Footer() {
   const { data: settings } = useHeaderFooter();
-  const { pathname } = useLocation();
-  const normalized = pathname.replace(/\/+$/, "") || "/";
-  const showContact = !CONTACT_EXCLUDED.some((p) => (p.replace(/\/+$/, "") || "/") === normalized);
 
   const logoSrc = settings?.footer_logo_url || logo;
   const tagline = settings?.footer_tagline || DEFAULT_FOOTER_TAGLINE;
@@ -29,7 +23,7 @@ export function Footer() {
 
   return (
     <>
-      {showContact && <ContactSection source="footer_form" />}
+
       <footer
         className="px-6 py-16 md:px-12 md:py-20"
         style={{ background: "var(--brand-blue)" }}
