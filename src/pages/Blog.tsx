@@ -91,13 +91,9 @@ function AuthorBadge({ name }: { name: string | null | undefined }) {
   );
 }
 
-function CardMeta({ readTime, date }: { readTime: string; date: string }) {
+function CardMeta({ date }: { date: string }) {
   return (
     <div className="flex items-center gap-4 text-xs text-muted-foreground">
-      <span className="flex items-center gap-1">
-        <Clock className="h-3.5 w-3.5" />
-        {readTime}
-      </span>
       <span className="flex items-center gap-1">
         <Calendar className="h-3.5 w-3.5" />
         {date}
@@ -105,6 +101,7 @@ function CardMeta({ readTime, date }: { readTime: string; date: string }) {
     </div>
   );
 }
+
 
 export default function Blog() {
   const { locale } = useLocale();
