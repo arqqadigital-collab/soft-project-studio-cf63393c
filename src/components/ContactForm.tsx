@@ -130,6 +130,21 @@ export function ContactForm({
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
+
+    // Honeypot: silently drop bot submissions that filled the hidden field
+    if (honeypot.trim() !== "") {
+      setSubmitted(true);
+      setForm({ name: "", email: "", phone: "", area: "", message: "", consent: false });
+      return;
+    }
+
+    // Time-trap: humans take at least a few seconds to fill this form
+    const elapsed = Date.now() - mountedAtRef.current;
+    if (elapsed < 2500) {
+      toast.error(t("Please take a moment to complete the form.", "يرجى أخذ لحظة لإكمال النموذج."));
+      return;
+    }
+
     const parsed = submissionSchema.safeParse(form);
     if (!parsed.success) {
       toast.error(parsed.error.errors[0]?.message ?? "Please fix form errors");
