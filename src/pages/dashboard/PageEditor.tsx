@@ -286,7 +286,7 @@ export default function PageEditor() {
                 />
               </div>
               <div className="flex items-center gap-2 text-sm text-muted-foreground">
-                <span>slug</span>
+                <span className="w-14 shrink-0">slug</span>
                 <Input
                   value={form.slug}
                   onChange={(e) => { setSlugTouched(true); patch("slug", toSlug(e.target.value)); }}
@@ -294,7 +294,23 @@ export default function PageEditor() {
                 />
               </div>
               <div className="flex items-center gap-2 text-sm text-muted-foreground">
-                <span>URL</span>
+                <span className="w-14 shrink-0">slug (AR)</span>
+                <Input
+                  value={form.slug_ar}
+                  onChange={(e) => patch("slug_ar", e.target.value)}
+                  onBlur={(e) => patch("slug_ar", toSlugAr(e.target.value))}
+                  placeholder="من-نحن"
+                  dir="rtl"
+                  className="h-8"
+                />
+                {form.slug_ar && (
+                  <span className="rounded bg-secondary px-1.5 py-0.5 text-[10px] text-muted-foreground" dir="ltr">
+                    /ar/{toSlugAr(form.slug_ar)}
+                  </span>
+                )}
+              </div>
+              <div className="flex items-center gap-2 text-sm text-muted-foreground">
+                <span className="w-14 shrink-0">URL</span>
                 <Input
                   value={form.route_path}
                   onChange={(e) => { setRouteTouched(true); patch("route_path", e.target.value); }}
