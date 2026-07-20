@@ -41,9 +41,9 @@ export default function PostsList() {
   const [selected, setSelected] = useState<Set<string>>(new Set());
 
   const categories = useQuery({
-    queryKey: ["categories-all"],
+    queryKey: ["categories", "blog"],
     queryFn: async () => {
-      const { data, error } = await supabase.from("categories").select("id, name").order("name");
+      const { data, error } = await (supabase.from("categories") as any).select("id, name").eq("content_type", "blog").order("name");
       if (error) throw error;
       return data;
     },
@@ -129,7 +129,7 @@ export default function PostsList() {
             <SelectTrigger className="w-[180px]"><SelectValue placeholder="Category" /></SelectTrigger>
             <SelectContent>
               <SelectItem value="all">All categories</SelectItem>
-              {categories.data?.map((c) => (
+              {categories.data?.map((c: { id: string; name: string }) => (
                 <SelectItem key={c.id} value={c.id}>{c.name}</SelectItem>
               ))}
             </SelectContent>

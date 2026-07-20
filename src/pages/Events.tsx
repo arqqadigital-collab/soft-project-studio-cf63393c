@@ -22,6 +22,8 @@ type EventRow = {
   virtual_link: string | null;
   cover_image_url: string | null;
   published_at: string | null;
+  category_id: string | null;
+  category?: { name: string; slug: string; translations?: Record<string, { name?: string }> | null } | null;
   translations?: Record<string, Partial<Pick<EventRow, "title" | "description" | "location">>> | null;
 };
 
@@ -98,22 +100,26 @@ export default function Events() {
   const tba = L.tba ?? "TBA";
   const [rows, setRows] = useState<EventRow[]>([]);
   const [loading, setLoading] = useState(true);
-  const [active, setActive] = useState<string>(ALL);
+  const [active, setActive] = useState<string>("__all__");
 
   useEffect(() => {
     let cancelled = false;
     (async () => {
       const { data, error } = await supabase
         .from("events")
-        .select("id,title,slug,description,event_type,starts_at,ends_at,location,virtual_link,cover_image_url,published_at,translations")
+        .select("id,title,slug,description,event_type,starts_at,ends_at,location,virtual_link,cover_image_url,published_at,translations,category_id,category:categories(name,slug,translations)")
         .eq("status", "published")
         .order("starts_at", { ascending: true, nullsFirst: false })
         .limit(100);
       if (cancelled) return;
-      if (!error && data) setRows((data as EventRow[]).map((row) => ({
-        ...row,
-        ...(locale === "en" ? {} : row.translations?.[locale] ?? {}),
-      })));
+      if (!error && data) setRows((data as unknown as EventRow[]).map((row) => {
+        const translatedCategory = locale === "en" ? undefined : row.category?.translations?.[locale]?.name;
+        return {
+          ...row,
+          ...(locale === "en" ? {} : row.translations?.[locale] ?? {}),
+          category: row.category ? { ...row.category, name: translatedCategory ?? row.category.name } : null,
+        };
+      }));
       setLoading(false);
     })();
     return () => {
@@ -122,15 +128,18 @@ export default function Events() {
   }, [locale]);
 
   const categories = useMemo(() => {
-    const set = new Set<string>();
-    rows.forEach((r) => r.event_type && set.add(labelType(r.event_type)));
-    return [ALL, ...Array.from(set)];
+    const set = new Map<string, string>();
+    rows.forEach((r) => {
+      if (r.category) set.set(r.category.slug, r.category.name);
+      else if (r.event_type) set.set(`type:${r.event_type}`, labelType(r.event_type));
+    });
+    return [{ id: "__all__", label: ALL }, ...Array.from(set, ([id, label]) => ({ id, label }))];
   }, [rows, ALL]);
 
   const filtered = useMemo(() => {
-    if (active === ALL) return rows;
-    return rows.filter((r) => labelType(r.event_type) === active);
-  }, [rows, active, ALL]);
+    if (active === "__all__") return rows;
+    return rows.filter((r) => (r.category?.slug ?? `type:${r.event_type}`) === active);
+  }, [rows, active]);
 
 
   return (
@@ -173,16 +182,16 @@ export default function Events() {
               >
                 {categories.map((cat) => (
                   <button
-                    key={cat}
+                    key={cat.id}
                     type="button"
-                    onClick={() => setActive(cat)}
+                    onClick={() => setActive(cat.id)}
                     className={`listing-category-filter rounded-full px-5 py-2 text-sm font-medium transition-colors ${
-                      active === cat
+                      active === cat.id
                         ? "bg-primary text-primary-foreground"
                         : "border border-border bg-card text-card-foreground hover:bg-muted"
                     }`}
                   >
-                    {cat}
+                    {cat.label}
                   </button>
                 ))}
               </motion.div>
@@ -223,7 +232,7 @@ export default function Events() {
                         className="listing-category w-fit rounded-full px-3 py-1 text-xs font-semibold uppercase tracking-wider"
                         style={{ color: "var(--brand-blue)", background: "oklch(0.62 0.13 230 / 0.1)" }}
                       >
-                        {labelType(ev.event_type)}
+                        {ev.category?.name ?? labelType(ev.event_type)}
                       </span>
                       <h3 className="mt-4 text-xl font-semibold leading-snug text-card-foreground transition-colors group-hover:text-[var(--brand-blue)]">
                         {ev.title}

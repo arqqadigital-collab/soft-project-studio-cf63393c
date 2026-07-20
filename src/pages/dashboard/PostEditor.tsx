@@ -70,9 +70,9 @@ export default function PostEditor() {
 
   // Load categories
   const categories = useQuery({
-    queryKey: ["categories-all"],
+    queryKey: ["categories", "blog"],
     queryFn: async () => {
-      const { data, error } = await supabase.from("categories").select("id, name").order("name");
+      const { data, error } = await (supabase.from("categories") as any).select("id, name").eq("content_type", "blog").order("name");
       if (error) throw error;
       return data;
     },
@@ -353,7 +353,7 @@ export default function PostEditor() {
                 <SelectTrigger><SelectValue placeholder="Uncategorized" /></SelectTrigger>
                 <SelectContent>
                   <SelectItem value="none">Uncategorized</SelectItem>
-                  {categories.data?.map((c) => (
+                  {categories.data?.map((c: { id: string; name: string }) => (
                     <SelectItem key={c.id} value={c.id}>{c.name}</SelectItem>
                   ))}
                 </SelectContent>

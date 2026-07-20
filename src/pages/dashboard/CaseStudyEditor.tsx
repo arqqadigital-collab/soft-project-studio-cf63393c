@@ -67,9 +67,9 @@ export default function CaseStudyEditor() {
   const [translations, setTranslations] = useState<Record<string, any>>({});
 
   const categories = useQuery({
-    queryKey: ["categories-all"],
+    queryKey: ["categories", "case_study"],
     queryFn: async () => {
-      const { data, error } = await supabase.from("categories").select("id, name").order("name");
+      const { data, error } = await (supabase.from("categories") as any).select("id, name").eq("content_type", "case_study").order("name");
       if (error) throw error;
       return data;
     },
@@ -336,7 +336,7 @@ export default function CaseStudyEditor() {
                 <SelectTrigger><SelectValue placeholder="Uncategorized" /></SelectTrigger>
                 <SelectContent>
                   <SelectItem value="none">Uncategorized</SelectItem>
-                  {categories.data?.map((c) => (
+                  {categories.data?.map((c: { id: string; name: string }) => (
                     <SelectItem key={c.id} value={c.id}>{c.name}</SelectItem>
                   ))}
                 </SelectContent>
