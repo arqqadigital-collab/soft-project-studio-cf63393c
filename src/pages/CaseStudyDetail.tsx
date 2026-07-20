@@ -6,6 +6,8 @@ import { Footer } from "@/components/Footer";
 import { SeoHead } from "@/components/SeoHead";
 import { supabase } from "@/integrations/supabase/client";
 import { useLocale } from "@/i18n/LanguageProvider";
+import { useListPageHero } from "@/hooks/use-list-page-hero";
+
 
 type CaseStudyDetail = {
   id: string;
@@ -50,11 +52,14 @@ function Section({ title, body }: { title: string; body: string }) {
 
 export default function CaseStudyDetail() {
   const { locale } = useLocale();
+  const { data: hero } = useListPageHero("case-studies");
+  const L = hero?.card_labels ?? {};
   const { slug = "" } = useParams<{ slug: string }>();
   const navigate = useNavigate();
   const [cs, setCs] = useState<CaseStudyDetail | null>(null);
   const [loading, setLoading] = useState(true);
   const [notFound, setNotFound] = useState(false);
+
 
   useEffect(() => {
     let cancelled = false;
@@ -97,7 +102,7 @@ export default function CaseStudyDetail() {
   if (loading) {
     return (
       <main className="min-h-screen bg-background pt-40 text-center text-sm text-muted-foreground">
-        Loading…
+        {L.loading || "Loading…"}
       </main>
     );
   }
@@ -105,13 +110,14 @@ export default function CaseStudyDetail() {
   if (notFound || !cs) {
     return (
       <main className="min-h-screen bg-background pt-40 text-center">
-        <p className="text-lg font-semibold">Case study not found</p>
+        <p className="text-lg font-semibold">{L.detail_not_found_title || "Case study not found"}</p>
         <Link to="/case-studies" className="mt-4 inline-block text-sm text-primary underline">
-          Back to all case studies
+          {L.detail_not_found_link || "Back to all case studies"}
         </Link>
       </main>
     );
   }
+
 
   return (
     <main className="min-h-screen bg-background">
@@ -129,8 +135,9 @@ export default function CaseStudyDetail() {
             className="inline-flex items-center gap-2 text-sm text-muted-foreground hover:text-foreground"
           >
             <ArrowLeft className="h-4 w-4" />
-            All case studies
+            {L.detail_back || "All case studies"}
           </Link>
+
 
           <motion.div
             initial={{ opacity: 0, y: 24 }}
@@ -185,9 +192,10 @@ export default function CaseStudyDetail() {
       </section>
 
       <article className="mx-auto max-w-3xl px-6 pb-24 pt-4 md:pb-32">
-        {cs.challenge && <Section title="The Challenge" body={cs.challenge} />}
-        {cs.solution && <Section title="Our Solution" body={cs.solution} />}
-        {cs.results && <Section title="Results" body={cs.results} />}
+        {cs.challenge && <Section title={L.challenge_heading || "The Challenge"} body={cs.challenge} />}
+        {cs.solution && <Section title={L.solution_heading || "Our Solution"} body={cs.solution} />}
+        {cs.results && <Section title={L.results_heading || "Results"} body={cs.results} />}
+
       </article>
 
       <Footer />
