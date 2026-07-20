@@ -188,6 +188,7 @@ export default function PageEditor() {
       route_path: form.route_path || defaultRouteForSlug(form.slug || toSlug(form.title)),
       author_id: user.id,
       translations,
+      slug_ar: form.slug_ar ? toSlug(form.slug_ar, { preserveUnicode: true }) : null,
     };
     try {
       let pid = pageId;
