@@ -238,12 +238,45 @@ function Editor({ pageKey }: { pageKey: string }) {
         />
       </div>
 
+      {labelKeys.length > 0 && (
+        <div className="space-y-3 rounded-lg border p-4">
+          <div>
+            <div className="font-medium">Card labels &amp; UI text</div>
+            <div className="text-xs text-muted-foreground">
+              Edit the small text on cards (buttons, filters, "min read", empty states). Switch to the Arabic tab above to translate them.
+            </div>
+          </div>
+          <div className="grid gap-3 sm:grid-cols-2">
+            {labelKeys.map((k) => {
+              const meta = LABEL_FIELD_META[k] ?? { label: k };
+              const enPlaceholder = defaults.en[k] ?? "";
+              const arPlaceholder = defaults.ar[k] ?? "";
+              return (
+                <div key={k} className="space-y-1">
+                  <Label className="text-xs">
+                    {meta.label} {lang === "ar" && "(Arabic)"}
+                  </Label>
+                  <Input
+                    dir={lang === "ar" ? "rtl" : "ltr"}
+                    value={labelValue(k)}
+                    onChange={(e) => setLabel(k, e.target.value)}
+                    placeholder={lang === "ar" ? arPlaceholder : enPlaceholder}
+                  />
+                  {meta.hint && <p className="text-[10px] text-muted-foreground">{meta.hint}</p>}
+                </div>
+              );
+            })}
+          </div>
+        </div>
+      )}
+
       <div className="flex gap-2">
         <Button onClick={save} disabled={saving}>
           {saving ? "Saving…" : "Save changes"}
         </Button>
       </div>
     </div>
+
   );
 }
 
