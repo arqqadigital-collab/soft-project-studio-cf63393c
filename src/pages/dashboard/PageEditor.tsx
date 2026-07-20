@@ -37,6 +37,8 @@ interface PageForm {
   nav_label: string;
   page_kind: PageKind;
   route_path: string;
+  title_ar: string;
+  nav_label_ar: string;
 }
 
 const EMPTY: PageForm = {
