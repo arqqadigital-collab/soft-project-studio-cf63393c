@@ -160,13 +160,17 @@ function Editor({ pageKey }: { pageKey: string }) {
     }
   };
 
-  const val = (k: keyof ArFields, en: string | null) =>
+  const val = (k: keyof ArTextFields, en: string | null) =>
     lang === "ar" ? (ar[k] ?? "") : (en ?? "");
 
-  const onChange = (k: keyof ArFields, v: string) => {
+  const onChange = (k: keyof ArTextFields, v: string) => {
     if (lang === "ar") setArField(k, v);
-    else set(k as any, v as any);
+    else set(k as keyof Row, v as unknown as Row[keyof Row]);
   };
+
+  const defaults = DEFAULT_LABELS[pageKey] ?? { en: {}, ar: {} };
+  const labelKeys = Object.keys(defaults.en);
+
 
   return (
     <div className="space-y-5 max-w-2xl">
