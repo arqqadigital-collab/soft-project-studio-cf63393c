@@ -54,7 +54,14 @@ type DragKind = "group" | "column" | "item";
 export default function PagesAndNavigation() {
   const qc = useQueryClient();
   const navigate = useNavigate();
-  const tree = useMenuTree();
+  const [navLocale, setNavLocale] = useState<"en" | "ar">("en");
+  const treeEn = useMenuTree();
+  const treeAr = useQuery({
+    queryKey: ["menu-tree", "ar"],
+    queryFn: () => fetchMenuTree("ar"),
+    enabled: navLocale === "ar",
+  });
+  const tree = navLocale === "ar" ? treeAr : treeEn;
   const [expanded, setExpanded] = useState<Record<string, boolean>>({});
   const [edit, setEdit] = useState<EditTarget | null>(null);
   const [activeDrag, setActiveDrag] = useState<{ kind: DragKind; label: string } | null>(null);
