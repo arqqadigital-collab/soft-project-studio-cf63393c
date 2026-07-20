@@ -263,14 +263,6 @@ export function Header() {
               {ctaLabel}
             </a>
 
-            <div className="mt-6">
-              <div className="mb-2 text-xs font-semibold uppercase tracking-wider text-white/40">
-                Language / اللغة
-              </div>
-              <LanguageSwitcher
-                buttonClassName="inline-flex items-center gap-1.5 rounded-full border border-white/15 px-3 py-2 text-sm font-medium text-white/85 hover:bg-white/10"
-              />
-            </div>
 
 
             {mobileShowSocial && social.length > 0 && (
