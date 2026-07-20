@@ -38,15 +38,9 @@ type ArFields = {
   title_prefix?: string;
   title_highlight?: string;
   description?: string;
-};
-
-type ArFields = {
-  eyebrow?: string;
-  title_prefix?: string;
-  title_highlight?: string;
-  description?: string;
   card_labels?: CardLabels;
 };
+
 
 type Row = {
   page_key: string;
