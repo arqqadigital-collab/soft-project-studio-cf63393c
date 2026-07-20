@@ -94,13 +94,14 @@ export default function CaseStudies() {
   const categories = useMemo(() => {
     const set = new Set<string>();
     rows.forEach((r) => r.industry && set.add(r.industry));
-    return ["All", ...Array.from(set)];
-  }, [rows]);
+    return [ALL, ...Array.from(set)];
+  }, [rows, ALL]);
 
   const filtered = useMemo(() => {
-    if (active === "All") return rows;
+    if (active === ALL) return rows;
     return rows.filter((r) => (r.industry ?? "") === active);
-  }, [rows, active]);
+  }, [rows, active, ALL]);
+
 
   return (
     <main className="min-h-screen bg-background">
