@@ -71,7 +71,7 @@ export function ProcessSection() {
                 <div className="relative z-10 flex h-full w-full flex-col justify-end p-7 pb-16 md:p-10 md:pb-20">
                   <h3 className="max-w-md text-2xl font-bold leading-tight text-white md:text-3xl">{card.title}</h3>
                   <a href={card.link_href || "#"} className="mt-6 inline-flex w-fit items-center gap-2 rounded-full px-6 py-3 text-sm font-semibold text-white shadow-[var(--shadow-brand)] transition-transform hover:scale-105" style={{ background: "var(--gradient-brand)" }}>
-                    Explore
+                    {isRTL ? "استكشف" : "Explore"}
                     <ArrowUpRight className="h-4 w-4" />
                   </a>
                 </div>
