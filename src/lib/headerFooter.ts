@@ -97,12 +97,14 @@ function applyOverlay(base: Record<string, unknown>, overlay: Record<string, unk
     "header_cta_label",
     "footer_tagline",
     "footer_copyright",
+    "mobile_more_label",
   ];
   for (const k of textKeys) {
     if (typeof overlay[k] === "string" && (overlay[k] as string).length > 0) {
       out[k] = overlay[k];
     }
   }
+
   // footer_columns: array of { title, links: [{ label, ...}] }
   const baseCols = arr<FooterColumn>(base.footer_columns);
   const trCols = arr<Partial<FooterColumn>>(overlay.footer_columns);
