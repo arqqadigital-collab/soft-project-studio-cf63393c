@@ -282,14 +282,17 @@ export function Header() {
               )}
             </nav>
 
-            <a
-              href={ctaUrl}
-              onClick={() => setMobileOpen(false)}
-              className={`mt-8 block rounded-full px-6 py-3 text-center text-sm font-semibold transition-transform ${ctaClasses(ctaVariant)}`}
-              style={ctaStyle}
-            >
-              {ctaLabel}
-            </a>
+            {mobileShowCta && (
+              <a
+                href={ctaUrl}
+                onClick={() => setMobileOpen(false)}
+                className={`mt-8 block rounded-full px-6 py-3 text-center text-sm font-semibold transition-transform ${ctaClasses(ctaVariant)}`}
+                style={ctaStyle}
+              >
+                {ctaLabel}
+              </a>
+            )}
+
 
 
 
