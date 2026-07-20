@@ -189,9 +189,10 @@ export function Header() {
                 <img src={lightLogo} alt="Logo" style={{ height: 40 }} className="w-auto" />
               ) : <span />}
               <div className="flex items-center gap-1">
-                {mobileShowLang && (
+                {mobileShowLang && settings?.header_show_locale_switcher !== false && (
                   <LanguageSwitcher buttonClassName="inline-flex items-center gap-1.5 rounded-full border border-white/20 px-3 py-1.5 text-xs font-medium text-white/85 hover:bg-white/10" />
                 )}
+
                 <button
                   type="button"
                   aria-label="Close menu"
