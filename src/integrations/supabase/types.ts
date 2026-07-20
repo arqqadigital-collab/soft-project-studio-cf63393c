@@ -542,6 +542,33 @@ export type Database = {
         }
         Relationships: []
       }
+      form_settings: {
+        Row: {
+          id: string
+          key: string
+          labels: Json
+          labels_ar: Json
+          required_fields: string[]
+          updated_at: string
+        }
+        Insert: {
+          id?: string
+          key: string
+          labels?: Json
+          labels_ar?: Json
+          required_fields?: string[]
+          updated_at?: string
+        }
+        Update: {
+          id?: string
+          key?: string
+          labels?: Json
+          labels_ar?: Json
+          required_fields?: string[]
+          updated_at?: string
+        }
+        Relationships: []
+      }
       header_footer_settings: {
         Row: {
           created_at: string
