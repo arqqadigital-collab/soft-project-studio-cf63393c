@@ -263,7 +263,7 @@ export default function CaseStudyEditor() {
                   <span>/ar/case-studies/</span>
                   <Input
                     value={form.slug_ar}
-                    onChange={(e) => patch("slug_ar", e.target.value)}
+                    onChange={(e) => { setSlugArTouched(true); patch("slug_ar", e.target.value); }}
                     onBlur={(e) => patch("slug_ar", toSlugAr(e.target.value))}
                     placeholder="اسم-الدراسة-بالعربية"
                     className="h-8"

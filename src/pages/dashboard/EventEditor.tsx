@@ -275,7 +275,7 @@ export default function EventEditor() {
                   <span>/ar/events/</span>
                   <Input
                     value={form.slug_ar}
-                    onChange={(e) => patch("slug_ar", e.target.value)}
+                    onChange={(e) => { setSlugArTouched(true); patch("slug_ar", e.target.value); }}
                     onBlur={(e) => patch("slug_ar", toSlugAr(e.target.value))}
                     placeholder="اسم-الفعالية-بالعربية"
                     className="h-8"
