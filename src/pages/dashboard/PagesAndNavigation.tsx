@@ -40,7 +40,7 @@ import {
 import {
   DropdownMenu, DropdownMenuTrigger, DropdownMenuContent, DropdownMenuItem,
 } from "@/components/ui/dropdown-menu";
-import { useMenuTree, type MenuTreeGroup, type MenuItem } from "@/lib/menuTree";
+import { useMenuTree, fetchMenuTree, type MenuTreeGroup, type MenuItem } from "@/lib/menuTree";
 
 type Col = MenuTreeGroup["columns"][number];
 
@@ -54,7 +54,14 @@ type DragKind = "group" | "column" | "item";
 export default function PagesAndNavigation() {
   const qc = useQueryClient();
   const navigate = useNavigate();
-  const tree = useMenuTree();
+  const [navLocale, setNavLocale] = useState<"en" | "ar">("en");
+  const treeEn = useMenuTree();
+  const treeAr = useQuery({
+    queryKey: ["menu-tree", "ar"],
+    queryFn: () => fetchMenuTree("ar"),
+    enabled: navLocale === "ar",
+  });
+  const tree = navLocale === "ar" ? treeAr : treeEn;
   const [expanded, setExpanded] = useState<Record<string, boolean>>({});
   const [edit, setEdit] = useState<EditTarget | null>(null);
   const [activeDrag, setActiveDrag] = useState<{ kind: DragKind; label: string } | null>(null);
@@ -484,9 +491,27 @@ export default function PagesAndNavigation() {
         </TabsContent>
 
         <TabsContent value="navigation" className="mt-4">
-          <p className="mb-3 text-sm text-muted-foreground">
-            Drag to reorder or move between columns. Groups → Columns → Pages / Links.
-          </p>
+          <div className="mb-3 flex items-center justify-between gap-3">
+            <p className="text-sm text-muted-foreground">
+              Drag to reorder or move between columns. Groups → Columns → Pages / Links.
+            </p>
+            <div className="inline-flex overflow-hidden rounded-md border border-border text-xs">
+              <button
+                type="button"
+                onClick={() => setNavLocale("en")}
+                className={`px-3 py-1.5 font-semibold ${navLocale === "en" ? "bg-primary text-primary-foreground" : "bg-background text-muted-foreground hover:bg-muted"}`}
+              >
+                EN
+              </button>
+              <button
+                type="button"
+                onClick={() => setNavLocale("ar")}
+                className={`px-3 py-1.5 font-semibold ${navLocale === "ar" ? "bg-primary text-primary-foreground" : "bg-background text-muted-foreground hover:bg-muted"}`}
+              >
+                AR
+              </button>
+            </div>
+          </div>
           <DndContext sensors={sensors} collisionDetection={closestCenter} onDragStart={onDragStart} onDragEnd={onDragEnd}>
             <Card className="divide-y divide-border">
               {tree.isLoading ? (
