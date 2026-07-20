@@ -131,6 +131,7 @@ export default function PageEditor() {
         route_path: d.route_path ?? "",
         title_ar: ar.title ?? "",
         nav_label_ar: ar.nav_label ?? "",
+        slug_ar: d.slug_ar ?? "",
       });
       setPreviewToken(d.preview_token ?? null);
       setSlugTouched(true);
