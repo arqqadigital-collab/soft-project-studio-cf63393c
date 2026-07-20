@@ -58,7 +58,7 @@ export function FooterCta() {
           message: parsed.data.message ?? "",
           consent: true,
           source: "footer_cta",
-          user_agent: typeof navigator !== "undefined" ? navigator.userAgent : null,
+          ...submissionMeta(),
         })
         .select("id")
         .single();
