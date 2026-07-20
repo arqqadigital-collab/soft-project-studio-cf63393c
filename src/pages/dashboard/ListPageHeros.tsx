@@ -144,6 +144,7 @@ function Editor({ pageKey }: { pageKey: string }) {
         title_prefix: form.title_prefix ?? "",
         title_highlight: form.title_highlight ?? "",
         description: form.description ?? "",
+        card_labels: { ...(DEFAULT_LABELS[pageKey]?.en ?? {}), ...(form.card_labels ?? {}) },
       };
       const { data: res, error } = await supabase.functions.invoke("translate-content", {
         body: { mode: "raw", payload: src },
@@ -159,6 +160,7 @@ function Editor({ pageKey }: { pageKey: string }) {
       setTranslating(false);
     }
   };
+
 
   const val = (k: keyof ArTextFields, en: string | null) =>
     lang === "ar" ? (ar[k] ?? "") : (en ?? "");
