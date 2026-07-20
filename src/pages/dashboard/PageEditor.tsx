@@ -397,11 +397,20 @@ export default function PageEditor() {
                 <p className="text-xs text-muted-foreground">Where this page appears in the navbar. Leave unassigned to hide from menu.</p>
               </div>
               <div className="space-y-1.5">
-                <Label className="text-xs">Nav label (optional)</Label>
+                <Label className="text-xs">Nav label — English (optional)</Label>
                 <Input
                   value={form.nav_label}
                   onChange={(e) => patch("nav_label", e.target.value)}
                   placeholder="Short label shown in the menu"
+                />
+              </div>
+              <div className="space-y-1.5">
+                <Label className="text-xs">Nav label — Arabic (optional)</Label>
+                <Input
+                  value={form.nav_label_ar}
+                  onChange={(e) => patch("nav_label_ar", e.target.value)}
+                  placeholder="التسمية في القائمة"
+                  dir="rtl"
                 />
               </div>
               <div className="space-y-1.5">
