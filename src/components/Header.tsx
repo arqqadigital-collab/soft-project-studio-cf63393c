@@ -49,6 +49,8 @@ export function Header() {
   const { data: tree = [] } = useMenuTree();
   const [scrolled, setScrolled] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
+  const [openGroups, setOpenGroups] = useState<Record<string, boolean>>({});
+  const toggleGroup = (id: string) => setOpenGroups((s) => ({ ...s, [id]: !s[id] }));
   
 
   const location = useLocation();
