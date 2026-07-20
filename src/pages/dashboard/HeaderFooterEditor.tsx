@@ -204,6 +204,16 @@ export default function HeaderFooterEditor() {
         header_locales: locales,
         mobile_menu_items: mobileItems,
         mobile_show_social: form.mobile_show_social !== false,
+        mobile_drawer_side: form.mobile_drawer_side || "end",
+        mobile_drawer_width_pct: Number(form.mobile_drawer_width_pct) || 86,
+        mobile_drawer_bg_color: form.mobile_drawer_bg_color || null,
+        mobile_drawer_text_color: form.mobile_drawer_text_color || null,
+        mobile_show_cta: form.mobile_show_cta !== false,
+        mobile_show_lang: form.mobile_show_lang !== false,
+        mobile_show_logo: form.mobile_show_logo !== false,
+        mobile_more_label: form.mobile_more_label || "More",
+        mobile_default_expanded: !!form.mobile_default_expanded,
+
         header_bg_color: form.header_bg_color,
         header_text_color: form.header_text_color,
         header_cta_bg_color: form.header_cta_bg_color,
@@ -432,11 +442,78 @@ export default function HeaderFooterEditor() {
 
           <Card className="p-4 space-y-4">
             <h2 className="text-lg font-semibold">Mobile menu</h2>
-            <p className="text-sm text-muted-foreground">Extra links shown only inside the mobile drawer, plus a toggle for social icons.</p>
-            <div className="flex items-center gap-3">
-              <Switch checked={form.mobile_show_social !== false} onCheckedChange={(v) => set({ mobile_show_social: v })} />
-              <Label>Show social icons in mobile drawer</Label>
+            <p className="text-sm text-muted-foreground">Control the drawer that opens on mobile / tablet.</p>
+
+            <div className="grid gap-4 md:grid-cols-2">
+              <div className="space-y-2">
+                <Label>Drawer opens from</Label>
+                <select
+                  className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm"
+                  value={form.mobile_drawer_side ?? "end"}
+                  onChange={(e) => set({ mobile_drawer_side: e.target.value })}
+                >
+                  <option value="end">Right (end)</option>
+                  <option value="start">Left (start)</option>
+                </select>
+                <p className="text-xs text-muted-foreground">Auto-mirrors in RTL.</p>
+              </div>
+              <div className="space-y-2">
+                <Label>Drawer width ({form.mobile_drawer_width_pct ?? 86}%)</Label>
+                <input
+                  type="range"
+                  min={50}
+                  max={100}
+                  value={form.mobile_drawer_width_pct ?? 86}
+                  onChange={(e) => set({ mobile_drawer_width_pct: Number(e.target.value) })}
+                  className="w-full"
+                />
+              </div>
+              <ColorField
+                label="Drawer background"
+                value={form.mobile_drawer_bg_color ?? ""}
+                onChange={(v) => set({ mobile_drawer_bg_color: v })}
+              />
+              <ColorField
+                label="Drawer text"
+                value={form.mobile_drawer_text_color ?? ""}
+                onChange={(v) => set({ mobile_drawer_text_color: v })}
+              />
             </div>
+
+            <div className="grid gap-3 md:grid-cols-2">
+              <div className="flex items-center gap-3">
+                <Switch checked={form.mobile_show_logo !== false} onCheckedChange={(v) => set({ mobile_show_logo: v })} />
+                <Label>Show logo in drawer</Label>
+              </div>
+              <div className="flex items-center gap-3">
+                <Switch checked={form.mobile_show_lang !== false} onCheckedChange={(v) => set({ mobile_show_lang: v })} />
+                <Label>Show language switcher</Label>
+              </div>
+              <div className="flex items-center gap-3">
+                <Switch checked={form.mobile_show_cta !== false} onCheckedChange={(v) => set({ mobile_show_cta: v })} />
+                <Label>Show CTA button in drawer</Label>
+              </div>
+              <div className="flex items-center gap-3">
+                <Switch checked={form.mobile_show_social !== false} onCheckedChange={(v) => set({ mobile_show_social: v })} />
+                <Label>Show social icons</Label>
+              </div>
+              <div className="flex items-center gap-3">
+                <Switch checked={!!form.mobile_default_expanded} onCheckedChange={(v) => set({ mobile_default_expanded: v })} />
+                <Label>Expand all menu groups by default</Label>
+              </div>
+            </div>
+
+            <div className="space-y-2">
+              <Label>"More" section heading</Label>
+              <Input
+                value={txt("mobile_more_label")}
+                onChange={(e) => setTxt("mobile_more_label", e.target.value)}
+                placeholder={loc === "ar" ? "المزيد" : "More"}
+                dir={loc === "ar" ? "rtl" : "ltr"}
+              />
+              <p className="text-xs text-muted-foreground">Shown above the mobile-only links list.</p>
+            </div>
+
             <div className="space-y-2">
               <Label>Mobile-only links</Label>
               {mobileItems.map((m, i) => (

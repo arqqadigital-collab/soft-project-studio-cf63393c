@@ -554,7 +554,16 @@ export type Database = {
           header_text_color: string | null
           header_transparent_on_hero: boolean
           id: string
+          mobile_default_expanded: boolean
+          mobile_drawer_bg_color: string | null
+          mobile_drawer_side: string
+          mobile_drawer_text_color: string | null
+          mobile_drawer_width_pct: number
           mobile_menu_items: Json
+          mobile_more_label: string
+          mobile_show_cta: boolean
+          mobile_show_lang: boolean
+          mobile_show_logo: boolean
           mobile_show_social: boolean
           singleton: boolean
           translations: Json
@@ -586,7 +595,16 @@ export type Database = {
           header_text_color?: string | null
           header_transparent_on_hero?: boolean
           id?: string
+          mobile_default_expanded?: boolean
+          mobile_drawer_bg_color?: string | null
+          mobile_drawer_side?: string
+          mobile_drawer_text_color?: string | null
+          mobile_drawer_width_pct?: number
           mobile_menu_items?: Json
+          mobile_more_label?: string
+          mobile_show_cta?: boolean
+          mobile_show_lang?: boolean
+          mobile_show_logo?: boolean
           mobile_show_social?: boolean
           singleton?: boolean
           translations?: Json
@@ -618,7 +636,16 @@ export type Database = {
           header_text_color?: string | null
           header_transparent_on_hero?: boolean
           id?: string
+          mobile_default_expanded?: boolean
+          mobile_drawer_bg_color?: string | null
+          mobile_drawer_side?: string
+          mobile_drawer_text_color?: string | null
+          mobile_drawer_width_pct?: number
           mobile_menu_items?: Json
+          mobile_more_label?: string
+          mobile_show_cta?: boolean
+          mobile_show_lang?: boolean
+          mobile_show_logo?: boolean
           mobile_show_social?: boolean
           singleton?: boolean
           translations?: Json

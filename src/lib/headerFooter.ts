@@ -63,6 +63,15 @@ export type HeaderFooterSettings = {
   header_locales: LocaleOption[];
   mobile_menu_items: MobileMenuItem[];
   mobile_show_social: boolean;
+  mobile_drawer_side: "start" | "end";
+  mobile_drawer_width_pct: number;
+  mobile_drawer_bg_color: string | null;
+  mobile_drawer_text_color: string | null;
+  mobile_show_cta: boolean;
+  mobile_show_lang: boolean;
+  mobile_show_logo: boolean;
+  mobile_more_label: string | null;
+  mobile_default_expanded: boolean;
   header_bg_color: string | null;
   header_text_color: string | null;
   header_cta_bg_color: string | null;
@@ -73,6 +82,7 @@ export type HeaderFooterSettings = {
   footer_social: SocialLink[];
   footer_copyright: string | null;
 };
+
 
 function arr<T>(v: unknown): T[] {
   return Array.isArray(v) ? (v as T[]) : [];
@@ -87,12 +97,14 @@ function applyOverlay(base: Record<string, unknown>, overlay: Record<string, unk
     "header_cta_label",
     "footer_tagline",
     "footer_copyright",
+    "mobile_more_label",
   ];
   for (const k of textKeys) {
     if (typeof overlay[k] === "string" && (overlay[k] as string).length > 0) {
       out[k] = overlay[k];
     }
   }
+
   // footer_columns: array of { title, links: [{ label, ...}] }
   const baseCols = arr<FooterColumn>(base.footer_columns);
   const trCols = arr<Partial<FooterColumn>>(overlay.footer_columns);
@@ -155,6 +167,16 @@ export function useHeaderFooter() {
         header_locales: arr<LocaleOption>(d.header_locales),
         mobile_menu_items: arr<MobileMenuItem>(d.mobile_menu_items),
         mobile_show_social: (d.mobile_show_social as boolean) ?? true,
+        mobile_drawer_side: ((d.mobile_drawer_side as "start" | "end") ?? "end"),
+        mobile_drawer_width_pct: (d.mobile_drawer_width_pct as number) ?? 86,
+        mobile_drawer_bg_color: (d.mobile_drawer_bg_color as string) ?? null,
+        mobile_drawer_text_color: (d.mobile_drawer_text_color as string) ?? null,
+        mobile_show_cta: (d.mobile_show_cta as boolean) ?? true,
+        mobile_show_lang: (d.mobile_show_lang as boolean) ?? true,
+        mobile_show_logo: (d.mobile_show_logo as boolean) ?? true,
+        mobile_more_label: (d.mobile_more_label as string) ?? "More",
+        mobile_default_expanded: (d.mobile_default_expanded as boolean) ?? false,
+
         header_bg_color: (d.header_bg_color as string) ?? null,
         header_text_color: (d.header_text_color as string) ?? null,
         header_cta_bg_color: (d.header_cta_bg_color as string) ?? null,

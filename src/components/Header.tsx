@@ -49,8 +49,15 @@ export function Header() {
   const { data: tree = [] } = useMenuTree();
   const [scrolled, setScrolled] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
+  const defaultExpanded = settings?.mobile_default_expanded ?? false;
   const [openGroups, setOpenGroups] = useState<Record<string, boolean>>({});
+  useEffect(() => {
+    if (defaultExpanded && tree.length) {
+      setOpenGroups(Object.fromEntries(tree.map((g) => [g.id, true])));
+    }
+  }, [defaultExpanded, tree]);
   const toggleGroup = (id: string) => setOpenGroups((s) => ({ ...s, [id]: !s[id] }));
+
   
 
   const location = useLocation();
@@ -87,7 +94,16 @@ export function Header() {
   const shadowStyle = settings?.header_shadow_style ?? "soft";
   const mobileExtra = settings?.mobile_menu_items ?? [];
   const mobileShowSocial = settings?.mobile_show_social ?? true;
+  const mobileShowCta = settings?.mobile_show_cta ?? true;
+  const mobileShowLang = settings?.mobile_show_lang ?? true;
+  const mobileShowLogo = settings?.mobile_show_logo ?? true;
+  const mobileSide = settings?.mobile_drawer_side ?? "end";
+  const mobileWidth = Math.min(100, Math.max(50, settings?.mobile_drawer_width_pct ?? 86));
+  const mobileBg = settings?.mobile_drawer_bg_color || undefined;
+  const mobileText = settings?.mobile_drawer_text_color || undefined;
+  const mobileMoreLabel = settings?.mobile_more_label || "More";
   const social = settings?.footer_social ?? [];
+
 
   const headerStyle: React.CSSProperties = {};
   if (!isTransparent && settings?.header_bg_color) headerStyle.background = settings.header_bg_color;
@@ -161,18 +177,29 @@ export function Header() {
       {mobileOpen && (
         <div className="fixed inset-0 z-[60] lg:hidden">
           <div className="absolute inset-0 bg-black/60 backdrop-blur-sm" onClick={() => setMobileOpen(false)} />
-          <div className="absolute end-0 top-0 h-full w-[86%] max-w-sm overflow-y-auto bg-[var(--brand-dark)] p-6 shadow-2xl">
+          <div
+            className={`absolute top-0 h-full overflow-y-auto p-6 shadow-2xl ${mobileSide === "start" ? "start-0" : "end-0"} ${mobileBg ? "" : "bg-[var(--brand-dark)]"}`}
+            style={{ width: `${mobileWidth}%`, maxWidth: 480, background: mobileBg, color: mobileText }}
+          >
             <div className="mb-6 flex items-center justify-between">
-              <img src={lightLogo} alt="Logo" style={{ height: 40 }} className="w-auto" />
-              <button
-                type="button"
-                aria-label="Close menu"
-                onClick={() => setMobileOpen(false)}
-                className="rounded-full p-2 text-white hover:bg-white/10"
-              >
-                <X className="h-6 w-6" />
-              </button>
+              {mobileShowLogo ? (
+                <img src={lightLogo} alt="Logo" style={{ height: 40 }} className="w-auto" />
+              ) : <span />}
+              <div className="flex items-center gap-1">
+                {mobileShowLang && (
+                  <LanguageSwitcher buttonClassName="inline-flex items-center gap-1.5 rounded-full border border-white/20 px-3 py-1.5 text-xs font-medium text-white/85 hover:bg-white/10" />
+                )}
+                <button
+                  type="button"
+                  aria-label="Close menu"
+                  onClick={() => setMobileOpen(false)}
+                  className="rounded-full p-2 text-white hover:bg-white/10"
+                >
+                  <X className="h-6 w-6" />
+                </button>
+              </div>
             </div>
+
 
             <nav className="space-y-6">
               {tree
@@ -236,8 +263,9 @@ export function Header() {
               {mobileExtra.length > 0 && (
                 <div>
                   <div className="mb-2 px-1 text-xs font-semibold uppercase tracking-wider text-white/40">
-                    More
+                    {mobileMoreLabel}
                   </div>
+
                   <div className="space-y-1">
                     {mobileExtra.map((m, i) => (
                       <a
@@ -254,14 +282,17 @@ export function Header() {
               )}
             </nav>
 
-            <a
-              href={ctaUrl}
-              onClick={() => setMobileOpen(false)}
-              className={`mt-8 block rounded-full px-6 py-3 text-center text-sm font-semibold transition-transform ${ctaClasses(ctaVariant)}`}
-              style={ctaStyle}
-            >
-              {ctaLabel}
-            </a>
+            {mobileShowCta && (
+              <a
+                href={ctaUrl}
+                onClick={() => setMobileOpen(false)}
+                className={`mt-8 block rounded-full px-6 py-3 text-center text-sm font-semibold transition-transform ${ctaClasses(ctaVariant)}`}
+                style={ctaStyle}
+              >
+                {ctaLabel}
+              </a>
+            )}
+
 
 
 
