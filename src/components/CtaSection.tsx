@@ -24,7 +24,7 @@ export function CtaSection() {
 
       <div className="mx-auto mt-16 grid max-w-6xl gap-8 lg:grid-cols-2">
         <div className="rounded-3xl border border-white/60 bg-white/70 p-8 shadow-xl backdrop-blur md:p-10">
-          <ContactForm source="homepage_cta" variant="light" />
+          <ContactForm source="footer_cta" variant="light" />
         </div>
 
 
