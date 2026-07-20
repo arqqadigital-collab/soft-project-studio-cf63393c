@@ -8,6 +8,7 @@ import { supabase } from "@/integrations/supabase/client";
 import { submissionMeta } from "@/lib/submissionMeta";
 import { useLocale } from "@/hooks/useLocale";
 import contactHero from "@/assets/contact/contact-hero.jpg";
+import { ContactForm } from "@/components/ContactForm";
 
 const ICONS: Record<string, LucideIcon> = {
   mail: Mail,
@@ -227,101 +228,15 @@ export default function Contact() {
       {/* Form */}
       <section id="contact-form" className="px-6 py-20 md:px-12 md:py-28">
         <div className="mx-auto grid max-w-6xl gap-10 lg:grid-cols-[1.1fr_1fr]">
-          <form
-            onSubmit={handleSubmit}
-            className="rounded-3xl border border-border bg-card p-8 shadow-xl md:p-10"
-          >
-            <h2 className="text-2xl font-bold text-foreground md:text-3xl">
-              {page?.form_heading ?? "Send us a message"}
-            </h2>
-            <p className="mt-2 text-sm text-muted-foreground">
-              {page?.form_subheading ?? "Fields marked * are required."}
-            </p>
-
-            <div className="mt-8 space-y-5">
-              <Field label="Name" required>
-                <input
-                  type="text"
-                  value={form.name}
-                  onChange={(e) => setForm({ ...form, name: e.target.value })}
-                  maxLength={100}
-                  required
-                  className="w-full rounded-xl border border-border bg-background px-4 py-3 text-sm text-foreground outline-none transition focus:border-[var(--brand-blue)]"
-                />
-              </Field>
-
-              <Field label="Email" required>
-                <input
-                  type="email"
-                  value={form.email}
-                  onChange={(e) => setForm({ ...form, email: e.target.value })}
-                  maxLength={255}
-                  required
-                  className="w-full rounded-xl border border-border bg-background px-4 py-3 text-sm text-foreground outline-none transition focus:border-[var(--brand-blue)]"
-                />
-              </Field>
-
-              <Field label="Phone Number" required>
-                <input
-                  type="tel"
-                  value={form.phone}
-                  onChange={(e) => setForm({ ...form, phone: e.target.value })}
-                  maxLength={30}
-                  required
-                  className="w-full rounded-xl border border-border bg-background px-4 py-3 text-sm text-foreground outline-none transition focus:border-[var(--brand-blue)]"
-                />
-              </Field>
-
-              <Field label="Area of Inquiry" required>
-                <select
-                  value={form.area}
-                  onChange={(e) => setForm({ ...form, area: e.target.value })}
-                  required
-                  className="w-full appearance-none rounded-xl border border-border bg-background px-4 py-3 text-sm text-foreground outline-none transition focus:border-[var(--brand-blue)]"
-                >
-                  <option value="">Select an area...</option>
-                  {areas.map((a) => (
-                    <option key={a.id} value={a.label}>
-                      {a.label}
-                    </option>
-                  ))}
-                </select>
-              </Field>
-
-              <Field label="Message">
-                <textarea
-                  value={form.message}
-                  onChange={(e) => setForm({ ...form, message: e.target.value })}
-                  maxLength={1000}
-                  rows={5}
-                  className="w-full resize-none rounded-2xl border border-border bg-background px-4 py-3 text-sm text-foreground outline-none transition focus:border-[var(--brand-blue)]"
-                />
-              </Field>
-
-              <label className="flex items-start gap-3 text-sm text-muted-foreground">
-                <input
-                  type="checkbox"
-                  checked={form.consent}
-                  onChange={(e) => setForm({ ...form, consent: e.target.checked })}
-                  required
-                  className="mt-1 h-4 w-4 rounded border-border"
-                />
-                <span>
-                  I agree to be contacted about my inquiry and consent to the processing of my data.
-                </span>
-              </label>
-            </div>
-
-            <button
-              type="submit"
-              disabled={submitting}
-              className="mt-8 inline-flex items-center gap-3 rounded-full px-6 py-3 text-sm font-semibold sm:px-8 sm:py-4 text-white shadow-[var(--shadow-brand)] transition-transform hover:scale-105 disabled:opacity-60"
-              style={{ background: "var(--gradient-brand)" }}
-            >
-              {submitting ? "Sending…" : (page?.form_submit_label ?? "Contact Us")}
-              <Send className="h-4 w-4" />
-            </button>
-          </form>
+          <div className="rounded-3xl border border-border bg-card p-8 shadow-xl md:p-10">
+            <ContactForm
+              source="contact_form"
+              variant="light"
+              heading={page?.form_heading ?? "Send us a message"}
+              subheading={page?.form_subheading ?? "Fields marked * are required."}
+              submitLabel={page?.form_submit_label ?? undefined}
+            />
+          </div>
 
           {/* Quick info */}
           <div className="flex flex-col justify-start gap-6">
@@ -340,6 +255,7 @@ export default function Contact() {
           </div>
         </div>
       </section>
+
 
       {/* Offices */}
       <section
