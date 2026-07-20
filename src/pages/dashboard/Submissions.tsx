@@ -33,8 +33,7 @@ type Row = {
 const SOURCES = [
   { value: "all", label: "All sources" },
   { value: "contact_form", label: "Contact form" },
-  { value: "footer_form", label: "Footer form" },
-  { value: "footer_cta", label: "Footer CTA (legacy)" },
+  { value: "footer_cta", label: "Footer CTA" },
 ];
 
 const STATUSES = [
