@@ -153,6 +153,18 @@ export default function Submissions() {
     if (selected?.id === id) setSelected({ ...selected, status: next });
   }
 
+  async function deleteSubmission(id: string) {
+    const { error } = await supabase.from("contact_submissions").delete().eq("id", id);
+    if (error) {
+      toast.error(error.message);
+      return;
+    }
+    toast.success("Submission deleted");
+    setToDelete(null);
+    if (selected?.id === id) setSelected(null);
+    await qc.invalidateQueries({ queryKey: ["submissions"] });
+  }
+
   function exportCsv() {
     if (!rows.length) {
       toast.info("Nothing to export");
