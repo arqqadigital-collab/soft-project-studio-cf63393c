@@ -282,7 +282,7 @@ export default function Blog() {
                   <div className="mt-8 flex flex-wrap items-center justify-between gap-4">
                     <AuthorBadge name={featured.author?.full_name} />
                     <CardMeta
-                      readTime={readTimeFor(featured.excerpt, locale)}
+                      readTime={readTimeFor(featured.excerpt, L.min_read ?? (locale === "ar" ? "دقائق قراءة" : "Min Read"))}
                       date={format(
                         new Date(featured.published_at ?? featured.created_at),
                         "MMMM d, yyyy",
@@ -293,11 +293,12 @@ export default function Blog() {
                   <div className="mt-8">
                     <Button asChild className="group/btn inline-flex items-center gap-2">
                       <Link to={`/blog/${featured.slug}`}>
-                        {locale === "ar" ? "اقرأ المقال" : "Read Article"}
+                        {L.read_more ?? (locale === "ar" ? "اقرأ المقال" : "Read Article")}
                         <ArrowRight className="h-4 w-4 transition-transform group-hover/btn:translate-x-1 rtl:rotate-180" />
                       </Link>
                     </Button>
                   </div>
+
                 </div>
               </div>
             </motion.article>
