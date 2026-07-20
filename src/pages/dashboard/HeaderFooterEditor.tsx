@@ -557,12 +557,13 @@ export default function HeaderFooterEditor() {
               />
               <div className="space-y-2">
                 <Label>Tagline</Label>
-                <Input value={form.footer_tagline ?? ""} onChange={(e) => set({ footer_tagline: e.target.value })} />
+                <Input value={txt("footer_tagline")} onChange={(e) => setTxt("footer_tagline", e.target.value)} dir={loc === "ar" ? "rtl" : "ltr"} />
               </div>
               <div className="space-y-2 md:col-span-2">
                 <Label>Copyright</Label>
-                <Input value={form.footer_copyright ?? ""} onChange={(e) => set({ footer_copyright: e.target.value })} placeholder="© 2026 Company" />
+                <Input value={txt("footer_copyright")} onChange={(e) => setTxt("footer_copyright", e.target.value)} placeholder={loc === "ar" ? "© 2026 الشركة" : "© 2026 Company"} dir={loc === "ar" ? "rtl" : "ltr"} />
               </div>
+
             </div>
 
             <div className="space-y-2">
