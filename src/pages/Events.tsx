@@ -255,7 +255,7 @@ export default function Events() {
                         className="mt-4 inline-flex items-center gap-2 text-sm font-semibold"
                         style={{ color: "var(--brand-blue)" }}
                       >
-                        See more
+                        {L.see_more ?? "See more"}
                         <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
                       </span>
                     </div>
