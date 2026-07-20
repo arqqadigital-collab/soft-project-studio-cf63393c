@@ -98,8 +98,11 @@ export default function DashboardHome() {
       </div>
 
       <Card>
-        <CardHeader>
+        <CardHeader className="flex flex-row items-center justify-between">
           <CardTitle>Recent activity</CardTitle>
+          {recent.data?.length ? (
+            <span className="text-xs text-muted-foreground">{recent.data.length} posts</span>
+          ) : null}
         </CardHeader>
         <CardContent>
           {recent.isLoading ? (
@@ -107,7 +110,7 @@ export default function DashboardHome() {
           ) : !recent.data?.length ? (
             <p className="text-sm text-muted-foreground">No posts yet.</p>
           ) : (
-            <ul className="divide-y divide-border">
+            <ul className="max-h-[480px] divide-y divide-border overflow-y-auto pr-1">
               {recent.data.map((p) => (
                 <li key={p.id} className="flex items-center justify-between py-3">
                   <Link to={`/dashboard/posts/${p.id}`} className="truncate font-medium hover:underline">
