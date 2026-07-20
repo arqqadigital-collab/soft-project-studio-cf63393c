@@ -69,7 +69,7 @@ export default function PublicPage() {
 
       const { data: seoRow } = await supabase
         .from("seo_meta")
-        .select("meta_title,meta_description,og_image_url,canonical_url,noindex,nofollow")
+        .select("meta_title,meta_description,og_image_url,canonical_url,noindex,nofollow,translations")
         .eq("entity_type", "page")
         .eq("entity_id", p.id)
         .maybeSingle();
