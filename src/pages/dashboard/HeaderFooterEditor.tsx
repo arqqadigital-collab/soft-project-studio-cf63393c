@@ -340,7 +340,7 @@ export default function HeaderFooterEditor() {
             <div className="grid gap-4 md:grid-cols-2">
               <div className="space-y-2">
                 <Label>CTA Label</Label>
-                <Input value={form.header_cta_label ?? ""} onChange={(e) => set({ header_cta_label: e.target.value })} placeholder="Book Demo" />
+                <Input value={txt("header_cta_label")} onChange={(e) => setTxt("header_cta_label", e.target.value)} placeholder={loc === "ar" ? "احجز عرضًا" : "Book Demo"} dir={loc === "ar" ? "rtl" : "ltr"} />
               </div>
               <div className="space-y-2">
                 <Label>CTA URL</Label>
