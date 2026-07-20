@@ -279,10 +279,8 @@ export default function Blog() {
                   {featured.excerpt && (
                     <p className="mt-4 text-muted-foreground">{featured.excerpt}</p>
                   )}
-                  <div className="mt-8 flex flex-wrap items-center justify-between gap-4">
-                    <AuthorBadge name={featured.author?.full_name} />
+                  <div className="mt-8 flex flex-wrap items-center justify-end gap-4">
                     <CardMeta
-                      readTime={readTimeFor(featured.excerpt, L.min_read ?? (locale === "ar" ? "دقائق قراءة" : "Min Read"))}
                       date={format(
                         new Date(featured.published_at ?? featured.created_at),
                         "MMMM d, yyyy",
@@ -290,6 +288,7 @@ export default function Blog() {
                       )}
                     />
                   </div>
+
                   <div className="mt-8">
                     <Button asChild className="group/btn inline-flex items-center gap-2">
                       <Link to={`/blog/${featured.slug}`}>
