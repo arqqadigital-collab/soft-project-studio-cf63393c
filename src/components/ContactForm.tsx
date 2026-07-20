@@ -124,6 +124,7 @@ export function ContactForm({
       }
       toast.success(successMessage || t("Thanks! We'll get back to you within one business day.", "شكرًا لك! سنعاود التواصل خلال يوم عمل واحد."));
       setForm({ name: "", email: "", phone: "", area: "", message: "", consent: false });
+      setSubmitted(true);
     } catch (err: any) {
       toast.error(err.message || t("Failed to send. Please try again.", "فشل الإرسال. حاول مرة أخرى."));
     } finally {
