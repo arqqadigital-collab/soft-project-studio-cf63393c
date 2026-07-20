@@ -236,7 +236,7 @@ export default function Events() {
                       <div className="mt-6 flex flex-wrap items-center gap-x-4 gap-y-1 border-t border-border pt-5 text-xs text-muted-foreground">
                         <span className="flex items-center gap-1">
                           <Calendar className="h-3.5 w-3.5" />
-                          {formatDate(ev.starts_at)}
+                          {formatDate(ev.starts_at, tba)}
                         </span>
                         {dur && (
                           <span className="flex items-center gap-1">
