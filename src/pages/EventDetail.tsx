@@ -73,7 +73,7 @@ export default function EventDetail() {
       const { data } = await supabase
         .from("events")
         .select("*")
-        .eq("slug", slug)
+        .or(typeof window !== "undefined" && window.location.pathname.startsWith("/ar/") ? `slug_ar.eq.${slug},slug.eq.${slug}` : `slug.eq.${slug}`)
         .eq("status", "published")
         .maybeSingle();
       if (cancelled) return;
