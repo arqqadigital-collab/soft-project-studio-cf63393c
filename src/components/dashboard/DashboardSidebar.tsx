@@ -50,7 +50,6 @@ const groups: { label: string; items: Item[] }[] = [
       { title: "Site Settings", url: "/dashboard/settings", icon: Settings, allow: ["admin"] },
       { title: "Branding", url: "/dashboard/branding", icon: Palette, allow: ["admin"] },
 
-      { title: "List Page Heros", url: "/dashboard/list-heros", icon: PanelsTopLeft, allow: ["admin", "editor"] },
       { title: "Media Library", url: "/dashboard/media", icon: ImageIcon },
 
     ],
