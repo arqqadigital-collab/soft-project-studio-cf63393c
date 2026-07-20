@@ -177,18 +177,29 @@ export function Header() {
       {mobileOpen && (
         <div className="fixed inset-0 z-[60] lg:hidden">
           <div className="absolute inset-0 bg-black/60 backdrop-blur-sm" onClick={() => setMobileOpen(false)} />
-          <div className="absolute end-0 top-0 h-full w-[86%] max-w-sm overflow-y-auto bg-[var(--brand-dark)] p-6 shadow-2xl">
+          <div
+            className={`absolute top-0 h-full overflow-y-auto p-6 shadow-2xl ${mobileSide === "start" ? "start-0" : "end-0"} ${mobileBg ? "" : "bg-[var(--brand-dark)]"}`}
+            style={{ width: `${mobileWidth}%`, maxWidth: 480, background: mobileBg, color: mobileText }}
+          >
             <div className="mb-6 flex items-center justify-between">
-              <img src={lightLogo} alt="Logo" style={{ height: 40 }} className="w-auto" />
-              <button
-                type="button"
-                aria-label="Close menu"
-                onClick={() => setMobileOpen(false)}
-                className="rounded-full p-2 text-white hover:bg-white/10"
-              >
-                <X className="h-6 w-6" />
-              </button>
+              {mobileShowLogo ? (
+                <img src={lightLogo} alt="Logo" style={{ height: 40 }} className="w-auto" />
+              ) : <span />}
+              <div className="flex items-center gap-1">
+                {mobileShowLang && (
+                  <LanguageSwitcher buttonClassName="inline-flex items-center gap-1.5 rounded-full border border-white/20 px-3 py-1.5 text-xs font-medium text-white/85 hover:bg-white/10" />
+                )}
+                <button
+                  type="button"
+                  aria-label="Close menu"
+                  onClick={() => setMobileOpen(false)}
+                  className="rounded-full p-2 text-white hover:bg-white/10"
+                >
+                  <X className="h-6 w-6" />
+                </button>
+              </div>
             </div>
+
 
             <nav className="space-y-6">
               {tree
