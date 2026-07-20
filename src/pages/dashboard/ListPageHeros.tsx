@@ -24,7 +24,20 @@ const LABEL_FIELD_META: Record<string, { label: string; hint?: string }> = {
   empty: { label: "Empty state message" },
   all_filter: { label: 'Filter chip: "All"' },
   tba: { label: 'Date TBA label' },
+  detail_back: { label: "Detail — back link", hint: 'e.g. "Back to Blog", "All events"' },
+  detail_by_prefix: { label: "Detail — author prefix", hint: 'Shown before the author name, e.g. "By"' },
+  detail_no_content: { label: "Detail — empty body message" },
+  detail_not_found_title: { label: "Detail — not-found title" },
+  detail_not_found_desc: { label: "Detail — not-found description" },
+  detail_not_found_link: { label: "Detail — not-found back link" },
+  detail_ends_prefix: { label: "Detail — end-time prefix", hint: 'e.g. "Ends"' },
+  detail_register: { label: "Detail — register button" },
+  detail_join_online: { label: "Detail — join-online button" },
+  challenge_heading: { label: "Detail — Challenge heading" },
+  solution_heading: { label: "Detail — Solution heading" },
+  results_heading: { label: "Detail — Results heading" },
 };
+
 
 
 const PAGES = [

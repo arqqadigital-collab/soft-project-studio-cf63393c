@@ -9,6 +9,8 @@ import { SeoHead } from "@/components/SeoHead";
 import { logPageView } from "@/lib/analytics";
 import { sanitizeHtml } from "@/lib/sanitize";
 import { useLocale } from "@/i18n/LanguageProvider";
+import { useListPageHero } from "@/hooks/use-list-page-hero";
+
 
 type PostDetail = {
   id: string;
@@ -46,13 +48,16 @@ function CoverPlaceholder({ className }: { className?: string }) {
   );
 }
 
-function readTimeFor(content: string | null) {
+function readTimeMinutes(content: string | null) {
   const words = (content ?? "").replace(/<[^>]+>/g, " ").split(/\s+/).filter(Boolean).length;
-  return `${Math.max(3, Math.ceil(words / 200))} Min Read`;
+  return Math.max(3, Math.ceil(words / 200));
 }
+
 
 export default function ArticleDetail() {
   const { locale } = useLocale();
+  const { data: hero } = useListPageHero("blog");
+  const L = hero?.card_labels ?? {};
   const params = useParams<{ slug: string }>();
   const navigate = useNavigate();
   const slug = params.slug ?? "";
@@ -60,6 +65,7 @@ export default function ArticleDetail() {
   const [seo, setSeo] = useState<SeoMeta | null>(null);
   const [loading, setLoading] = useState(true);
   const [notFound, setNotFound] = useState(false);
+
 
   useEffect(() => {
     let cancelled = false;
@@ -124,20 +130,21 @@ export default function ArticleDetail() {
     return (
       <main className="flex min-h-screen items-center justify-center bg-background px-4">
         <div className="max-w-md text-center">
-          <h1 className="text-4xl font-bold text-foreground">Article not found</h1>
+          <h1 className="text-4xl font-bold text-foreground">{L.detail_not_found_title || "Article not found"}</h1>
           <p className="mt-3 text-sm text-muted-foreground">
-            This article doesn't exist or hasn't been published yet.
+            {L.detail_not_found_desc || "This article doesn't exist or hasn't been published yet."}
           </p>
           <Link
             to="/blog"
             className="mt-6 inline-flex items-center gap-2 text-sm font-medium text-primary hover:underline"
           >
-            <ArrowLeft className="h-4 w-4" /> Back to Blog
+            <ArrowLeft className="h-4 w-4" /> {L.detail_back || "Back to Blog"}
           </Link>
         </div>
       </main>
     );
   }
+
 
   const title = seo?.meta_title || post.title;
   const description = seo?.meta_description || post.excerpt || undefined;
@@ -181,7 +188,7 @@ export default function ArticleDetail() {
               className="inline-flex items-center gap-2 text-sm font-medium text-muted-foreground transition-colors hover:text-foreground"
             >
               <ArrowLeft className="h-4 w-4" />
-              Back to Blog
+              {L.detail_back || "Back to Blog"}
             </Link>
 
             <div className="mt-6 flex flex-wrap items-center gap-4 text-xs text-muted-foreground">
@@ -202,7 +209,7 @@ export default function ArticleDetail() {
               </span>
               <span className="flex items-center gap-1">
                 <Clock className="h-3.5 w-3.5" />
-                {readTimeFor(post.content)}
+                {readTimeMinutes(post.content)} {L.min_read || "Min Read"}
               </span>
             </div>
 
@@ -211,8 +218,9 @@ export default function ArticleDetail() {
             </h1>
 
             {post.author?.full_name && (
-              <p className="mt-4 text-sm text-muted-foreground">By {post.author.full_name}</p>
+              <p className="mt-4 text-sm text-muted-foreground">{L.detail_by_prefix || "By"} {post.author.full_name}</p>
             )}
+
           </motion.div>
         </div>
       </section>
@@ -246,7 +254,7 @@ export default function ArticleDetail() {
               dangerouslySetInnerHTML={{ __html: sanitizeHtml(post.content) }}
             />
           ) : (
-            <p className="text-muted-foreground">No content.</p>
+            <p className="text-muted-foreground">{L.detail_no_content || "No content."}</p>
           )}
         </div>
       </article>

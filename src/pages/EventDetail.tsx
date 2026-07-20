@@ -7,6 +7,8 @@ import { SeoHead } from "@/components/SeoHead";
 import { Button } from "@/components/ui/button";
 import { supabase } from "@/integrations/supabase/client";
 import { useLocale } from "@/i18n/LanguageProvider";
+import { useListPageHero } from "@/hooks/use-list-page-hero";
+
 
 type EventDetail = {
   id: string;
@@ -54,11 +56,14 @@ function formatDateTime(iso: string | null) {
 
 export default function EventDetail() {
   const { locale } = useLocale();
+  const { data: hero } = useListPageHero("events");
+  const L = hero?.card_labels ?? {};
   const { slug } = useParams();
   const navigate = useNavigate();
   const [ev, setEv] = useState<EventDetail | null>(null);
   const [loading, setLoading] = useState(true);
   const [notFound, setNotFound] = useState(false);
+
 
   useEffect(() => {
     if (!slug) return;
@@ -101,7 +106,7 @@ export default function EventDetail() {
   if (loading) {
     return (
       <main className="min-h-screen bg-background pt-32 text-center text-sm text-muted-foreground">
-        Loading…
+        {L.loading || "Loading…"}
       </main>
     );
   }
@@ -109,13 +114,14 @@ export default function EventDetail() {
   if (notFound || !ev) {
     return (
       <main className="min-h-screen bg-background pt-32 text-center">
-        <p className="text-lg text-foreground">Event not found.</p>
+        <p className="text-lg text-foreground">{L.detail_not_found_title || "Event not found."}</p>
         <Link to="/events" className="mt-4 inline-block text-sm text-[var(--brand-blue)]">
-          Back to events
+          {L.detail_not_found_link || "Back to events"}
         </Link>
       </main>
     );
   }
+
 
   const isOnline = !!ev.virtual_link || (ev.location ?? "").toLowerCase() === "online";
 
@@ -129,8 +135,9 @@ export default function EventDetail() {
             to="/events"
             className="inline-flex items-center gap-2 text-sm font-medium text-muted-foreground transition-colors hover:text-foreground"
           >
-            <ArrowLeft className="h-4 w-4" /> All events
+            <ArrowLeft className="h-4 w-4" /> {L.detail_back || "All events"}
           </Link>
+
 
           <motion.div
             initial={{ opacity: 0, y: 24 }}
@@ -154,9 +161,10 @@ export default function EventDetail() {
               </span>
               {ev.ends_at && (
                 <span className="flex items-center gap-2">
-                  <Clock className="h-4 w-4" /> Ends {formatDateTime(ev.ends_at)}
+                  <Clock className="h-4 w-4" /> {L.detail_ends_prefix || "Ends"} {formatDateTime(ev.ends_at)}
                 </span>
               )}
+
               {ev.location && (
                 <span className="flex items-center gap-2">
                   {isOnline ? <Video className="h-4 w-4" /> : <MapPin className="h-4 w-4" />}
@@ -194,17 +202,18 @@ export default function EventDetail() {
             {ev.registration_url && (
               <a href={ev.registration_url} target="_blank" rel="noopener noreferrer">
                 <Button className="inline-flex items-center gap-2">
-                  Register Now <ExternalLink className="h-4 w-4" />
+                  {L.detail_register || "Register Now"} <ExternalLink className="h-4 w-4" />
                 </Button>
               </a>
             )}
             {ev.virtual_link && (
               <a href={ev.virtual_link} target="_blank" rel="noopener noreferrer">
                 <Button variant="outline" className="inline-flex items-center gap-2">
-                  Join Online <Video className="h-4 w-4" />
+                  {L.detail_join_online || "Join Online"} <Video className="h-4 w-4" />
                 </Button>
               </a>
             )}
+
           </div>
         </div>
       </section>
