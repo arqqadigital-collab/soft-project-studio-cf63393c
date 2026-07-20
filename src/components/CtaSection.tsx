@@ -1,19 +1,15 @@
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Send, Star } from "lucide-react";
+import { Star } from "lucide-react";
 import { useSectionContent } from "@/lib/homepageContent";
+import { ContactForm } from "@/components/ContactForm";
 
 export function CtaSection() {
   const c = useSectionContent("cta");
   const [active, setActive] = useState(0);
-  const [form, setForm] = useState({ firstName: "", lastName: "", email: "", area: "", message: "" });
-
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    setForm({ firstName: "", lastName: "", email: "", area: "", message: "" });
-  };
 
   const t = c.testimonials[active] ?? c.testimonials[0];
+
 
   return (
     <section id="section-cta" className="relative overflow-hidden px-6 py-24 md:px-12 md:py-32" style={{ background: "linear-gradient(180deg, hsl(var(--background)) 0%, color-mix(in oklab, var(--brand-blue) 6%, hsl(var(--background))) 100%)" }}>
