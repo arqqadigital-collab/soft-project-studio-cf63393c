@@ -53,8 +53,7 @@ export default function DashboardHome() {
       const { data, error } = await supabase
         .from("posts")
         .select("id, title, status, updated_at")
-        .order("updated_at", { ascending: false })
-        .limit(6);
+        .order("updated_at", { ascending: false });
       if (error) throw error;
       return data;
     },
