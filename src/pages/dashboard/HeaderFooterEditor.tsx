@@ -101,9 +101,12 @@ function ColorField({
   );
 }
 
+type Loc = "en" | "ar";
+
 export default function HeaderFooterEditor() {
   const qc = useQueryClient();
   const [form, setForm] = useState<any>(null);
+  const [loc, setLoc] = useState<Loc>("en");
   const { data: navTree = [] } = useMenuTree();
 
   const q = useQuery({
@@ -125,13 +128,61 @@ export default function HeaderFooterEditor() {
 
   if (!form) return <p className="text-sm text-muted-foreground">Loading…</p>;
 
+  const tr: Record<string, any> = (form.translations && typeof form.translations === "object") ? form.translations : {};
+  const arObj: Record<string, any> = (tr.ar && typeof tr.ar === "object") ? tr.ar : {};
+
+  // Base (EN) arrays
   const columns: FooterColumn[] = Array.isArray(form.footer_columns) ? form.footer_columns : [];
   const social: SocialLink[] = Array.isArray(form.footer_social) ? form.footer_social : [];
-
-  const set = (patch: any) => setForm((f: any) => ({ ...f, ...patch }));
-
   const locales: { code: string; label: string; url?: string }[] = Array.isArray(form.header_locales) ? form.header_locales : [];
   const mobileItems: { label: string; url: string }[] = Array.isArray(form.mobile_menu_items) ? form.mobile_menu_items : [];
+
+  // AR overlays
+  const arColumns: Partial<FooterColumn>[] = Array.isArray(arObj.footer_columns) ? arObj.footer_columns : [];
+  const arMobile: Partial<{ label: string }>[] = Array.isArray(arObj.mobile_menu_items) ? arObj.mobile_menu_items : [];
+
+  const set = (patch: any) => setForm((f: any) => ({ ...f, ...patch }));
+  const setAr = (patch: Record<string, any>) =>
+    setForm((f: any) => ({ ...f, translations: { ...(f.translations ?? {}), ar: { ...((f.translations ?? {}).ar ?? {}), ...patch } } }));
+
+  // Text-field helpers that route to EN base or AR overlay
+  const txt = (key: string): string => (loc === "en" ? (form[key] ?? "") : (arObj[key] ?? ""));
+  const setTxt = (key: string, v: string) => (loc === "en" ? set({ [key]: v }) : setAr({ [key]: v }));
+
+  // Column title (per locale)
+  const colTitle = (i: number) => (loc === "en" ? columns[i]?.title ?? "" : (arColumns[i]?.title as string) ?? "");
+  const setColTitle = (i: number, v: string) => {
+    if (loc === "en") {
+      const c = [...columns]; c[i] = { ...c[i], title: v }; set({ footer_columns: c });
+    } else {
+      const c = [...arColumns]; c[i] = { ...(c[i] ?? {}), title: v }; setAr({ footer_columns: c });
+    }
+  };
+  const linkLabel = (ci: number, li: number) =>
+    loc === "en"
+      ? columns[ci]?.links[li]?.label ?? ""
+      : ((arColumns[ci] as any)?.links?.[li]?.label as string) ?? "";
+  const setLinkLabel = (ci: number, li: number, v: string) => {
+    if (loc === "en") {
+      const c = [...columns];
+      const links = [...c[ci].links]; links[li] = { ...links[li], label: v };
+      c[ci] = { ...c[ci], links }; set({ footer_columns: c });
+    } else {
+      const c = [...arColumns];
+      const col: any = { ...(c[ci] ?? {}) };
+      const links = Array.isArray(col.links) ? [...col.links] : [];
+      links[li] = { ...(links[li] ?? {}), label: v };
+      col.links = links; c[ci] = col; setAr({ footer_columns: c });
+    }
+  };
+  const mobLabel = (i: number) => (loc === "en" ? mobileItems[i]?.label ?? "" : (arMobile[i]?.label as string) ?? "");
+  const setMobLabel = (i: number, v: string) => {
+    if (loc === "en") {
+      const arr = [...mobileItems]; arr[i] = { ...arr[i], label: v }; set({ mobile_menu_items: arr });
+    } else {
+      const arr = [...arMobile]; arr[i] = { ...(arr[i] ?? {}), label: v }; setAr({ mobile_menu_items: arr });
+    }
+  };
 
   async function save() {
     const { error } = await supabase
@@ -162,12 +213,14 @@ export default function HeaderFooterEditor() {
         footer_columns: columns,
         footer_social: social,
         footer_copyright: form.footer_copyright,
+        translations: form.translations ?? {},
       })
       .eq("id", form.id);
     if (error) return toast.error(error.message);
     toast.success("Saved");
     qc.invalidateQueries({ queryKey: ["header-footer"] });
   }
+
 
   return (
     <div className="space-y-4">
@@ -177,6 +230,23 @@ export default function HeaderFooterEditor() {
           <p className="text-sm text-muted-foreground">Site-wide header and footer configuration.</p>
         </div>
         <div className="flex items-center gap-2">
+          <div className="mr-2 inline-flex rounded-md border p-0.5">
+            <button
+              type="button"
+              onClick={() => setLoc("en")}
+              className={`rounded px-3 py-1 text-xs font-medium ${loc === "en" ? "bg-primary text-primary-foreground" : "text-muted-foreground hover:bg-muted"}`}
+            >
+              EN
+            </button>
+            <button
+              type="button"
+              onClick={() => setLoc("ar")}
+              className={`rounded px-3 py-1 text-xs font-medium ${loc === "ar" ? "bg-primary text-primary-foreground" : "text-muted-foreground hover:bg-muted"}`}
+            >
+              AR
+            </button>
+          </div>
+
           <Button
             variant="outline"
             onClick={async () => {
@@ -254,11 +324,13 @@ export default function HeaderFooterEditor() {
                   <Label>Show brand text next to logo</Label>
                 </div>
                 <Input
-                  value={form.header_brand_text ?? ""}
-                  onChange={(e) => set({ header_brand_text: e.target.value })}
-                  placeholder="e.g. SBS"
+                  value={txt("header_brand_text")}
+                  onChange={(e) => setTxt("header_brand_text", e.target.value)}
+                  placeholder={loc === "ar" ? "مثال: SBS" : "e.g. SBS"}
                   disabled={!form.header_show_brand_text}
+                  dir={loc === "ar" ? "rtl" : "ltr"}
                 />
+
               </div>
             </div>
           </Card>
@@ -268,7 +340,7 @@ export default function HeaderFooterEditor() {
             <div className="grid gap-4 md:grid-cols-2">
               <div className="space-y-2">
                 <Label>CTA Label</Label>
-                <Input value={form.header_cta_label ?? ""} onChange={(e) => set({ header_cta_label: e.target.value })} placeholder="Book Demo" />
+                <Input value={txt("header_cta_label")} onChange={(e) => setTxt("header_cta_label", e.target.value)} placeholder={loc === "ar" ? "احجز عرضًا" : "Book Demo"} dir={loc === "ar" ? "rtl" : "ltr"} />
               </div>
               <div className="space-y-2">
                 <Label>CTA URL</Label>
@@ -369,10 +441,8 @@ export default function HeaderFooterEditor() {
               <Label>Mobile-only links</Label>
               {mobileItems.map((m, i) => (
                 <div key={i} className="flex items-center gap-2">
-                  <Input placeholder="Label" value={m.label} onChange={(e) => {
-                    const arr = [...mobileItems]; arr[i] = { ...arr[i], label: e.target.value };
-                    set({ mobile_menu_items: arr });
-                  }} />
+                  <Input placeholder={loc === "ar" ? "التسمية" : "Label"} value={mobLabel(i)} onChange={(e) => setMobLabel(i, e.target.value)} dir={loc === "ar" ? "rtl" : "ltr"} />
+
                   <Input placeholder="/url" value={m.url} onChange={(e) => {
                     const arr = [...mobileItems]; arr[i] = { ...arr[i], url: e.target.value };
                     set({ mobile_menu_items: arr });
@@ -487,12 +557,13 @@ export default function HeaderFooterEditor() {
               />
               <div className="space-y-2">
                 <Label>Tagline</Label>
-                <Input value={form.footer_tagline ?? ""} onChange={(e) => set({ footer_tagline: e.target.value })} />
+                <Input value={txt("footer_tagline")} onChange={(e) => setTxt("footer_tagline", e.target.value)} dir={loc === "ar" ? "rtl" : "ltr"} />
               </div>
               <div className="space-y-2 md:col-span-2">
                 <Label>Copyright</Label>
-                <Input value={form.footer_copyright ?? ""} onChange={(e) => set({ footer_copyright: e.target.value })} placeholder="© 2026 Company" />
+                <Input value={txt("footer_copyright")} onChange={(e) => setTxt("footer_copyright", e.target.value)} placeholder={loc === "ar" ? "© 2026 الشركة" : "© 2026 Company"} dir={loc === "ar" ? "rtl" : "ltr"} />
               </div>
+
             </div>
 
             <div className="space-y-2">
@@ -506,13 +577,12 @@ export default function HeaderFooterEditor() {
                 <div key={ci} className="rounded-lg border p-3 space-y-2">
                   <div className="flex items-center gap-2">
                     <Input
-                      value={col.title}
-                      onChange={(e) => {
-                        const c = [...columns]; c[ci] = { ...c[ci], title: e.target.value };
-                        set({ footer_columns: c });
-                      }}
+                      value={colTitle(ci)}
+                      onChange={(e) => setColTitle(ci, e.target.value)}
                       className="font-semibold"
+                      dir={loc === "ar" ? "rtl" : "ltr"}
                     />
+
                     <Button variant="ghost" size="icon" onClick={() => set({ footer_columns: columns.filter((_, i) => i !== ci) })}>
                       <Trash2 className="h-4 w-4 text-destructive" />
                     </Button>
@@ -520,16 +590,12 @@ export default function HeaderFooterEditor() {
                   {col.links.map((link, li) => (
                     <div key={li} className="flex items-center gap-2 pl-4">
                       <Input
-                        placeholder="Label"
-                        value={link.label}
-                        onChange={(e) => {
-                          const c = [...columns];
-                          const links = [...c[ci].links];
-                          links[li] = { ...links[li], label: e.target.value };
-                          c[ci] = { ...c[ci], links };
-                          set({ footer_columns: c });
-                        }}
+                        placeholder={loc === "ar" ? "التسمية" : "Label"}
+                        value={linkLabel(ci, li)}
+                        onChange={(e) => setLinkLabel(ci, li, e.target.value)}
+                        dir={loc === "ar" ? "rtl" : "ltr"}
                       />
+
                       <Input
                         placeholder="/href"
                         value={link.href}
