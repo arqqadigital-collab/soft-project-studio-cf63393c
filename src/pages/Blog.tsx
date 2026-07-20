@@ -46,11 +46,12 @@ function initialsOf(name: string | null | undefined) {
     .join("");
 }
 
-function readTimeFor(excerpt: string | null, locale: string) {
+function readTimeFor(excerpt: string | null, minReadSuffix: string) {
   const words = (excerpt ?? "").split(/\s+/).filter(Boolean).length;
   const minutes = Math.max(3, Math.ceil(words / 200));
-  return locale === "ar" ? `${minutes} دقائق قراءة` : `${minutes} Min Read`;
+  return `${minutes} ${minReadSuffix}`;
 }
+
 
 function CoverPlaceholder({ className }: { className?: string }) {
   return (
