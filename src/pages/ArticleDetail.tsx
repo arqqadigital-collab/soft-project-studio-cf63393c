@@ -18,6 +18,7 @@ type PostDetail = {
   id: string;
   title: string;
   slug: string;
+  slug_ar?: string | null;
   content: string | null;
   excerpt: string | null;
   featured_image_url: string | null;
