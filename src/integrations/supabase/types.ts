@@ -410,6 +410,8 @@ export type Database = {
           id: string
           message: string
           name: string
+          page_path: string | null
+          page_title: string | null
           phone: string
           source: string
           status: string
@@ -424,6 +426,8 @@ export type Database = {
           id?: string
           message?: string
           name: string
+          page_path?: string | null
+          page_title?: string | null
           phone?: string
           source?: string
           status?: string
@@ -438,6 +442,8 @@ export type Database = {
           id?: string
           message?: string
           name?: string
+          page_path?: string | null
+          page_title?: string | null
           phone?: string
           source?: string
           status?: string
