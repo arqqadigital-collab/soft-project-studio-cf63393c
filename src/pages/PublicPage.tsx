@@ -121,9 +121,10 @@ export default function PublicPage() {
 function RenderedPage({ page, seo }: { page: PageDetail; seo: SeoMeta | null }) {
   const sections = usePageSections(page.id);
   const hasSections = (sections.data ?? []).length > 0;
-
-  const title = seo?.meta_title || page.title;
-  const description = seo?.meta_description || undefined;
+  const { locale } = useLocale();
+  const ar = (seo?.translations as any)?.ar || {};
+  const title = (locale === "ar" ? ar.meta_title : null) || seo?.meta_title || page.title;
+  const description = (locale === "ar" ? ar.meta_description : null) || seo?.meta_description || undefined;
   const ogImage = seo?.og_image_url || page.featured_image_url || undefined;
   const canonical = seo?.canonical_url || undefined;
 
