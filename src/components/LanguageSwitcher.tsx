@@ -18,10 +18,11 @@ type Props = {
 
 export function LanguageSwitcher({ className = "", buttonClassName = "" }: Props) {
   const { locale } = useLocale();
-  const { pathname } = useLocation();
+  const { pathname, search, hash } = useLocation();
   const navigate = useNavigate();
   // Ensures route_map is loaded so counterpart resolution uses CMS overrides.
   useRouteMap();
+  const alt = useAltLanguagePath();
   const [open, setOpen] = useState(false);
   const ref = useRef<HTMLDivElement>(null);
 
@@ -36,8 +37,11 @@ export function LanguageSwitcher({ className = "", buttonClassName = "" }: Props
 
   const go = (target: Locale) => {
     if (target === locale) return;
-    const dest = findCounterpart(pathname, target) ?? (target === "ar" ? "/ar" : "/");
-    navigate(dest);
+    // Prefer per-page counterpart published by detail pages (e.g. blog posts
+    // with a different Arabic slug). Fall back to route-map + path preserve.
+    const explicit = target === "ar" ? alt.ar : alt.en;
+    const dest = explicit || findCounterpart(pathname, target);
+    navigate(`${dest}${search}${hash}`);
   };
 
   return (
