@@ -5,7 +5,7 @@ import { toast } from "sonner";
 import { ArrowLeft, Save, Send, ExternalLink, Image as ImageIcon, Eye } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/hooks/use-auth";
-import { toSlug } from "@/lib/slug";
+import { toSlug, toSlugAr } from "@/lib/slug";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -24,6 +24,7 @@ type Status = "draft" | "published" | "scheduled" | "trashed";
 interface EvForm {
   title: string;
   slug: string;
+  slug_ar: string;
   description: string;
   excerpt: string;
   event_type: string;
@@ -40,7 +41,7 @@ interface EvForm {
 }
 
 const EMPTY: EvForm = {
-  title: "", slug: "", description: "", excerpt: "", event_type: "webinar",
+  title: "", slug: "", slug_ar: "", description: "", excerpt: "", event_type: "webinar",
   starts_at: null, ends_at: null, location: "", virtual_link: "",
   registration_url: "", cover_image_url: "",
   status: "draft", category_id: null, published_at: null, tags: [],
@@ -98,7 +99,7 @@ export default function EventEditor() {
     if (existing.data) {
       const d: any = existing.data;
       setForm({
-        title: d.title ?? "", slug: d.slug ?? "",
+        title: d.title ?? "", slug: d.slug ?? "", slug_ar: d.slug_ar ?? "",
         description: d.description ?? "", excerpt: d.excerpt ?? "",
         event_type: d.event_type ?? "webinar",
         starts_at: d.starts_at, ends_at: d.ends_at,
@@ -145,6 +146,7 @@ export default function EventEditor() {
     const payload: any = {
       title: form.title,
       slug: form.slug || toSlug(form.title),
+      slug_ar: form.slug_ar ? toSlugAr(form.slug_ar) : null,
       description: form.description || null,
       excerpt: form.excerpt || null,
       event_type: form.event_type,
@@ -251,13 +253,25 @@ export default function EventEditor() {
                 placeholder={locale === "ar" ? form.title || "عنوان الفعالية" : "Event title"}
                 className="border-none px-0 text-2xl font-semibold shadow-none focus-visible:ring-0"
               />
-              {locale === "en" && (
+              {locale === "en" ? (
                 <div className="flex items-center gap-2 text-sm text-muted-foreground">
                   <span>/events/</span>
                   <Input
                     value={form.slug}
                     onChange={(e) => { setSlugTouched(true); patch("slug", toSlug(e.target.value)); }}
                     className="h-8"
+                  />
+                </div>
+              ) : (
+                <div className="flex items-center gap-2 text-sm text-muted-foreground" dir="ltr">
+                  <span>/ar/events/</span>
+                  <Input
+                    value={form.slug_ar}
+                    onChange={(e) => patch("slug_ar", e.target.value)}
+                    onBlur={(e) => patch("slug_ar", toSlugAr(e.target.value))}
+                    placeholder="اسم-الفعالية-بالعربية"
+                    className="h-8"
+                    dir="rtl"
                   />
                 </div>
               )}

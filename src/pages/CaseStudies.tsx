@@ -14,6 +14,7 @@ type CaseStudyRow = {
   id: string;
   title: string;
   slug: string;
+  slug_ar: string | null;
   summary: string | null;
   client_name: string | null;
   industry: string | null;
@@ -78,7 +79,7 @@ export default function CaseStudies() {
     (async () => {
       const { data, error } = await supabase
         .from("case_studies")
-        .select("id,title,slug,summary,client_name,industry,cover_image_url,published_at,created_at,translations,category_id,categories(name,slug,translations)")
+        .select("id,title,slug,slug_ar,summary,client_name,industry,cover_image_url,published_at,created_at,translations,category_id,categories(name,slug,translations)")
         .eq("status", "published")
         .order("published_at", { ascending: false, nullsFirst: false })
         .limit(100);
@@ -204,7 +205,7 @@ export default function CaseStudies() {
                 whileInView="visible"
                 viewport={{ once: true, amount: 0.2 }}
               >
-                <Link to={`/case-studies/${study.slug}`} className="flex flex-1 flex-col">
+                <Link to={`${locale === "ar" ? "/ar" : ""}/case-studies/${(locale === "ar" && study.slug_ar) || study.slug}`} className="flex flex-1 flex-col">
                   <div className="flex flex-col p-6 md:p-8">
                     {(study.category?.name ?? study.industry) && (
                       <span

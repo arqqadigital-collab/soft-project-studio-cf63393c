@@ -5,7 +5,7 @@ import { toast } from "sonner";
 import { ArrowLeft, Save, Send, ExternalLink, Image as ImageIcon, Eye } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/hooks/use-auth";
-import { toSlug } from "@/lib/slug";
+import { toSlug, toSlugAr } from "@/lib/slug";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -24,6 +24,7 @@ type Status = "draft" | "published" | "scheduled" | "trashed";
 interface CsForm {
   title: string;
   slug: string;
+  slug_ar: string;
   client_name: string;
   industry: string;
   summary: string;
@@ -39,7 +40,7 @@ interface CsForm {
 }
 
 const EMPTY: CsForm = {
-  title: "", slug: "", client_name: "", industry: "", summary: "", excerpt: "",
+  title: "", slug: "", slug_ar: "", client_name: "", industry: "", summary: "", excerpt: "",
   challenge: "", solution: "", results: "", cover_image_url: "",
   status: "draft", category_id: null, published_at: null, tags: [],
 };
@@ -89,7 +90,7 @@ export default function CaseStudyEditor() {
     if (existing.data) {
       const d: any = existing.data;
       setForm({
-        title: d.title ?? "", slug: d.slug ?? "",
+        title: d.title ?? "", slug: d.slug ?? "", slug_ar: d.slug_ar ?? "",
         client_name: d.client_name ?? "", industry: d.industry ?? "",
         summary: d.summary ?? "", excerpt: d.excerpt ?? "",
         challenge: d.challenge ?? "", solution: d.solution ?? "", results: d.results ?? "",
@@ -134,6 +135,7 @@ export default function CaseStudyEditor() {
     const payload: any = {
       title: form.title,
       slug: form.slug || toSlug(form.title),
+      slug_ar: form.slug_ar ? toSlugAr(form.slug_ar) : null,
       client_name: form.client_name || null,
       industry: form.industry || null,
       summary: form.summary || null,
@@ -239,13 +241,25 @@ export default function CaseStudyEditor() {
                 placeholder={locale === "ar" ? form.title || "عنوان دراسة الحالة" : "Case study title"}
                 className="border-none px-0 text-2xl font-semibold shadow-none focus-visible:ring-0"
               />
-              {locale === "en" && (
+              {locale === "en" ? (
                 <div className="flex items-center gap-2 text-sm text-muted-foreground">
                   <span>/case-studies/</span>
                   <Input
                     value={form.slug}
                     onChange={(e) => { setSlugTouched(true); patch("slug", toSlug(e.target.value)); }}
                     className="h-8"
+                  />
+                </div>
+              ) : (
+                <div className="flex items-center gap-2 text-sm text-muted-foreground" dir="ltr">
+                  <span>/ar/case-studies/</span>
+                  <Input
+                    value={form.slug_ar}
+                    onChange={(e) => patch("slug_ar", e.target.value)}
+                    onBlur={(e) => patch("slug_ar", toSlugAr(e.target.value))}
+                    placeholder="اسم-الدراسة-بالعربية"
+                    className="h-8"
+                    dir="rtl"
                   />
                 </div>
               )}
