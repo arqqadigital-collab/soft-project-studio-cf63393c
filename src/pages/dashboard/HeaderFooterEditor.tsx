@@ -301,6 +301,7 @@ export default function HeaderFooterEditor() {
         <TabsList>
           <TabsTrigger value="header">Header</TabsTrigger>
           <TabsTrigger value="footer">Footer</TabsTrigger>
+          <TabsTrigger value="footer_cta">Footer CTA</TabsTrigger>
         </TabsList>
 
         <TabsContent value="header" className="space-y-4">
