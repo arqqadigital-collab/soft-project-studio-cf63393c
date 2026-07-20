@@ -731,6 +731,17 @@ export default function HeaderFooterEditor() {
             </div>
           </Card>
         </TabsContent>
+
+        <TabsContent value="footer_cta" className="space-y-4">
+          <div className="space-y-1">
+            <h2 className="text-lg font-semibold">Footer CTA section</h2>
+            <p className="text-sm text-muted-foreground">
+              The "Let's Get Started" section shown above the footer on every page (except Contact).
+              Edit the copy, testimonials, background video, and Arabic translations here.
+            </p>
+          </div>
+          <SectionEditor sectionKey="cta" />
+        </TabsContent>
       </Tabs>
     </div>
   );
