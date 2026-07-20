@@ -192,11 +192,11 @@ export default function Events() {
       )}
 
       {loading && (
-        <div className="pb-24 text-center text-sm text-muted-foreground">Loading events…</div>
+        <div className="pb-24 text-center text-sm text-muted-foreground">{L.loading ?? "Loading events…"}</div>
       )}
 
       {!loading && filtered.length === 0 && (
-        <div className="pb-24 text-center text-sm text-muted-foreground">No published events yet.</div>
+        <div className="pb-24 text-center text-sm text-muted-foreground">{L.empty ?? "No published events yet."}</div>
       )}
 
       <section className="bg-background pb-24 md:pb-32">
@@ -204,7 +204,8 @@ export default function Events() {
           <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-3">
             {filtered.map((ev, idx) => {
               const isOnline = !!ev.virtual_link || (ev.location ?? "").toLowerCase() === "online";
-              const dur = durationOf(ev.starts_at, ev.ends_at);
+              const dur = durationOf(ev.starts_at, ev.ends_at, durLabels);
+
               return (
                 <motion.article
                   key={ev.id}
