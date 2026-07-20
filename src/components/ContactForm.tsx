@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Send } from "lucide-react";
+import { Send, CheckCircle2 } from "lucide-react";
 import { useQuery } from "@tanstack/react-query";
 import { z } from "zod";
 import { toast } from "sonner";
