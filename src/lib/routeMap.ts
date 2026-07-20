@@ -80,8 +80,8 @@ export function useRouteMap() {
     queryKey: ["route-map"],
     staleTime: 60_000,
     queryFn: async (): Promise<RouteMapRow[]> => {
-      const { data } = await supabase
-        .from("route_map" as any)
+      const { data } = await (supabase as any)
+        .from("route_map")
         .select("route_key, path_en, path_ar, title_en, title_ar");
       const overrides = new Map<string, RouteMapRow>();
       for (const r of (data ?? []) as RouteMapRow[]) overrides.set(r.route_key, r);
