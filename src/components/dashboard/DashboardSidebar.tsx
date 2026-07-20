@@ -50,7 +50,6 @@ const groups: { label: string; items: Item[] }[] = [
       { title: "Site Settings", url: "/dashboard/settings", icon: Settings, allow: ["admin"] },
       { title: "Branding", url: "/dashboard/branding", icon: Palette, allow: ["admin"] },
 
-      { title: "List Page Heros", url: "/dashboard/list-heros", icon: PanelsTopLeft, allow: ["admin", "editor"] },
       { title: "Media Library", url: "/dashboard/media", icon: ImageIcon },
 
     ],
@@ -62,6 +61,7 @@ const groups: { label: string; items: Item[] }[] = [
       { title: "Case Studies", url: "/dashboard/case-studies", icon: BookMarked, allow: ["admin", "editor", "author"] },
       { title: "Events & Webinars", url: "/dashboard/events", icon: CalendarDays, allow: ["admin", "editor", "author"] },
       { title: "Categories & Tags", url: "/dashboard/taxonomy", icon: Tags, allow: ["admin", "editor", "author"] },
+      { title: "Cards", url: "/dashboard/list-heros", icon: PanelsTopLeft, allow: ["admin", "editor"] },
     ],
   },
   {
