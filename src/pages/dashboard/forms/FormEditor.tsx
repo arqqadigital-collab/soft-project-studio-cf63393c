@@ -37,6 +37,7 @@ export default function FormEditor({ formKey, title }: { formKey: string; title:
   const qc = useQueryClient();
   const [saving, setSaving] = useState(false);
   const [translating, setTranslating] = useState(false);
+  const [locale, setLocale] = useState<"en" | "ar">("en");
   const [en, setEn] = useState<FormLabels>({});
   const [ar, setAr] = useState<FormLabels>({});
 
