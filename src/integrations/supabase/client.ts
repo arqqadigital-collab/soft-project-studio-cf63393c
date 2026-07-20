@@ -34,7 +34,7 @@ function createSupabaseFetch(supabaseKey: string): typeof fetch {
     // later from Supabase. Normalize those responses so media also works when
     // the built site is hosted on Vercel, Netlify, or another static host.
     if (response.headers.get('content-type')?.includes('application/json')) {
-      const text = await response.text();
+      const text = await response.clone().text();
       if (text.includes('"/__l5e/')) {
         try {
           const normalized = JSON.stringify(normalizeAssetUrls(JSON.parse(text)));
@@ -49,11 +49,6 @@ function createSupabaseFetch(supabaseKey: string): typeof fetch {
           // Preserve the original response if a non-standard JSON body is used.
         }
       }
-      return new Response(text, {
-        status: response.status,
-        statusText: response.statusText,
-        headers: response.headers,
-      });
     }
 
     return response;
