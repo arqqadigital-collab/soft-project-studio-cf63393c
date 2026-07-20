@@ -118,6 +118,7 @@ export default function PageEditor() {
   useEffect(() => {
     if (existing.data) {
       const d: any = existing.data;
+      const ar = (d.translations && d.translations.ar) || {};
       setForm({
         title: d.title, slug: d.slug, content: d.content ?? "",
         featured_image_url: d.featured_image_url ?? "",
@@ -126,6 +127,8 @@ export default function PageEditor() {
         nav_label: d.nav_label ?? "",
         page_kind: (d.page_kind as PageKind) ?? "cms",
         route_path: d.route_path ?? "",
+        title_ar: ar.title ?? "",
+        nav_label_ar: ar.nav_label ?? "",
       });
       setPreviewToken(d.preview_token ?? null);
       setSlugTouched(true);
