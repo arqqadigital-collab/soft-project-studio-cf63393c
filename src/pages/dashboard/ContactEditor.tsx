@@ -682,7 +682,7 @@ function OfficesTab({ locale }: { locale: Loc }) {
 
 /* ---------------- Inquiry Areas ---------------- */
 
-function AreasTab({ locale }: { locale: Loc }) {
+export function AreasTab({ locale }: { locale: Loc }) {
   const qc = useQueryClient();
   const [newLabel, setNewLabel] = useState("");
 

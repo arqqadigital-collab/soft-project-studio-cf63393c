@@ -9,6 +9,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
 import { Card } from "@/components/ui/card";
+import { AreasTab } from "@/pages/dashboard/ContactEditor";
 import type { FormLabels } from "@/hooks/useFormSettings";
 
 const FIELDS: { key: keyof FormLabels; label: string; type: "input" | "textarea" }[] = [
@@ -36,6 +37,7 @@ export default function FormEditor({ formKey, title }: { formKey: string; title:
   const qc = useQueryClient();
   const [saving, setSaving] = useState(false);
   const [translating, setTranslating] = useState(false);
+  const [locale, setLocale] = useState<"en" | "ar">("en");
   const [en, setEn] = useState<FormLabels>({});
   const [ar, setAr] = useState<FormLabels>({});
 
@@ -127,7 +129,7 @@ export default function FormEditor({ formKey, title }: { formKey: string; title:
         </div>
       </div>
 
-      <Tabs defaultValue="en">
+      <Tabs value={locale} onValueChange={(v) => setLocale(v as "en" | "ar")}>
         <TabsList>
           <TabsTrigger value="en">English</TabsTrigger>
           <TabsTrigger value="ar">العربية</TabsTrigger>
@@ -160,6 +162,16 @@ export default function FormEditor({ formKey, title }: { formKey: string; title:
           ))}
         </TabsContent>
       </Tabs>
+
+      <div className="mt-8 border-t pt-6">
+        <div className="mb-3">
+          <h3 className="text-lg font-semibold">Area of Inquiry — dropdown options</h3>
+          <p className="text-sm text-muted-foreground mt-1">
+            These options are shared by every form on the site (Contact and Footer CTA). Edit English labels on the English tab and Arabic on the العربية tab above.
+          </p>
+        </div>
+        <AreasTab locale={locale} />
+      </div>
     </Card>
   );
 }
