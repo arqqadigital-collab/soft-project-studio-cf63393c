@@ -14,6 +14,7 @@ type CaseStudyDetail = {
   id: string;
   title: string;
   slug: string;
+  slug_ar?: string | null;
   summary: string | null;
   client_name: string | null;
   industry: string | null;
