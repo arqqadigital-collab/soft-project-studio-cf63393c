@@ -49,8 +49,15 @@ export function Header() {
   const { data: tree = [] } = useMenuTree();
   const [scrolled, setScrolled] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
+  const defaultExpanded = settings?.mobile_default_expanded ?? false;
   const [openGroups, setOpenGroups] = useState<Record<string, boolean>>({});
+  useEffect(() => {
+    if (defaultExpanded && tree.length) {
+      setOpenGroups(Object.fromEntries(tree.map((g) => [g.id, true])));
+    }
+  }, [defaultExpanded, tree]);
   const toggleGroup = (id: string) => setOpenGroups((s) => ({ ...s, [id]: !s[id] }));
+
   
 
   const location = useLocation();
