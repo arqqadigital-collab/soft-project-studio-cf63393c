@@ -201,7 +201,7 @@ export default function CaseStudies() {
               >
                 <Link to={`/case-studies/${study.slug}`} className="flex flex-1 flex-col">
                   <div className="flex flex-col p-6 md:p-8">
-                    {study.industry && (
+                    {(study.category_name ?? study.industry) && (
                       <span
                         className="listing-category w-fit rounded-full px-3 py-1 text-xs font-semibold uppercase tracking-wider"
                         style={{
@@ -209,7 +209,7 @@ export default function CaseStudies() {
                           background: "oklch(0.72 0.17 145 / 0.12)",
                         }}
                       >
-                        {study.industry}
+                        {study.category_name ?? study.industry}
                       </span>
                     )}
                     <h3 className="mt-4 text-xl font-semibold leading-snug text-card-foreground transition-colors group-hover:text-[var(--brand-blue)] md:text-2xl">
