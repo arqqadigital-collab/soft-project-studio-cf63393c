@@ -6,8 +6,8 @@ import { HelmetProvider } from "react-helmet-async";
 import App from "./App";
 import "./styles.css";
 import "./i18n";
-import { LanguageProvider } from "./i18n/LanguageProvider";
-import { AltLanguagePathProvider } from "./i18n/AltLanguagePath";
+import { LanguageProvider } from "@/i18n/LanguageProvider";
+import { AltLanguagePathProvider } from "@/i18n/AltLanguagePath";
 
 const queryClient = new QueryClient({
   defaultOptions: {
