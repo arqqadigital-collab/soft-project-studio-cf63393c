@@ -1,4 +1,4 @@
-import { FormEvent, useEffect, useRef, useState } from "react";
+import { FormEvent, useEffect, useState } from "react";
 import { Navigate, useLocation, useNavigate } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/hooks/use-auth";
@@ -13,10 +13,8 @@ export default function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState<string | null>(null);
-  const [info, setInfo] = useState<string | null>(null);
   const [submitting, setSubmitting] = useState(false);
-  const [resetting, setResetting] = useState(false);
-  const resetInFlight = useRef(false);
+
 
   const from = (location.state as { from?: { pathname?: string } } | null)?.from?.pathname ?? "/dashboard";
 
@@ -30,7 +28,6 @@ export default function Login() {
   async function handleSubmit(e: FormEvent) {
     e.preventDefault();
     setError(null);
-    setInfo(null);
     setSubmitting(true);
     const { error } = await supabase.auth.signInWithPassword({ email, password });
     setSubmitting(false);
@@ -41,31 +38,6 @@ export default function Login() {
     navigate(from, { replace: true });
   }
 
-  async function handleForgotPassword() {
-    if (resetInFlight.current) return;
-    setError(null);
-    setInfo(null);
-    if (!email) {
-      setError("Enter your email above, then click Forgot password.");
-      return;
-    }
-    resetInFlight.current = true;
-    setResetting(true);
-    const { error } = await supabase.auth.resetPasswordForEmail(email.trim().toLowerCase(), {
-      redirectTo: `${window.location.origin}/reset-password`,
-    });
-    resetInFlight.current = false;
-    setResetting(false);
-    if (error) {
-      setError(
-        error.status === 429 || error.message.toLowerCase().includes("rate limit")
-          ? "The email service has reached its sending limit. Please wait before trying again, or ask an administrator to set your password."
-          : error.message
-      );
-      return;
-    }
-    setInfo("Check your inbox for a password reset link.");
-  }
 
   return (
     <main className="flex min-h-screen items-center justify-center bg-background px-4">
@@ -115,7 +87,6 @@ export default function Login() {
         </div>
 
         {error && <p className="text-sm text-destructive">{error}</p>}
-        {info && <p className="text-sm text-emerald-600 dark:text-emerald-400">{info}</p>}
 
         <button
           type="submit"
@@ -125,14 +96,6 @@ export default function Login() {
           {submitting ? "Signing in..." : "Sign in"}
         </button>
 
-        <button
-          type="button"
-          onClick={handleForgotPassword}
-          disabled={resetting}
-          className="w-full text-center text-sm text-muted-foreground underline-offset-4 hover:text-foreground hover:underline disabled:opacity-60"
-        >
-          {resetting ? "Sending reset link…" : "Forgot password?"}
-        </button>
       </form>
     </main>
   );

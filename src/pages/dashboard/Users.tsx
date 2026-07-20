@@ -42,7 +42,7 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
 import { toast } from "sonner";
 import { format } from "date-fns";
-import { KeyRound, Mail, Trash2, UserPlus } from "lucide-react";
+import { KeyRound, Trash2, UserPlus } from "lucide-react";
 import type { AppRole } from "@/hooks/use-role";
 
 type AdminUser = {
@@ -118,15 +118,8 @@ export default function UsersPage() {
     onError: (e: any) => toast.error(e.message),
   });
 
-  const sendReset = useMutation({
-    mutationFn: async (email: string) => callAdmin({
-      action: "send_reset",
-      email,
-      redirect_to: window.location.origin,
-    }),
-    onSuccess: () => toast.success("Password reset email sent"),
-    onError: (e: any) => toast.error(e.message),
-  });
+
+
 
   const setPassword = useMutation({
     mutationFn: async () => callAdmin({
@@ -259,27 +252,16 @@ export default function UsersPage() {
                         {u.last_sign_in_at ? format(new Date(u.last_sign_in_at), "PP") : "—"}
                       </TableCell>
                       <TableCell>
-                        <div className="flex gap-1">
-                          <Button
-                            variant="ghost"
-                            size="icon"
-                            title="Send password reset email"
-                            aria-label={`Send password reset email to ${u.email}`}
-                            disabled={!u.email || sendReset.isPending}
-                            onClick={() => u.email && sendReset.mutate(u.email)}
-                          >
-                            <Mail className="h-4 w-4" />
-                          </Button>
-                          <Button
-                            variant="ghost"
-                            size="icon"
-                            title="Set password"
-                            aria-label={`Set password for ${u.email}`}
-                            onClick={() => setPasswordUser(u)}
-                          >
-                            <KeyRound className="h-4 w-4" />
-                          </Button>
-                        </div>
+                        <Button
+                          variant="ghost"
+                          size="icon"
+                          title="Set password"
+                          aria-label={`Set password for ${u.email}`}
+                          onClick={() => setPasswordUser(u)}
+                        >
+                          <KeyRound className="h-4 w-4" />
+                        </Button>
+
                       </TableCell>
                       <TableCell>
                         <AlertDialog>
