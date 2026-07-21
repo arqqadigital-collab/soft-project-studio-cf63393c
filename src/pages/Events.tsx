@@ -227,7 +227,7 @@ export default function Events() {
                   whileInView="visible"
                   viewport={{ once: true, amount: 0.2 }}
                 >
-                  <Link to={`${locale === "ar" ? "/ar" : ""}/events/${(locale === "ar" && ev.slug_ar) || ev.slug}`} className="flex flex-1 flex-col">
+                  <Link to={`${locale === "ar" ? "/ar/الفعاليات" : "/events"}/${(locale === "ar" && ev.slug_ar) || ev.slug}`} className="flex flex-1 flex-col">
                     <Cover url={ev.cover_image_url} className="aspect-[16/10] w-full" />
                     <div className="flex flex-1 flex-col p-6">
                       <span
