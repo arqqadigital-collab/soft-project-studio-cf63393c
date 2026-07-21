@@ -1,6 +1,7 @@
 import { Routes, Route, Link, useLocation } from "react-router-dom";
 import { Header } from "@/components/Header";
 import { SiteHead } from "@/components/SiteHead";
+import { RouteSeo } from "@/components/RouteSeo";
 import { BrandingApplier } from "@/components/BrandingApplier";
 import { StyleApplier } from "@/components/StyleApplier";
 import { AuthProvider } from "@/hooks/use-auth";
@@ -168,6 +169,7 @@ export default function App() {
   return (
     <AuthProvider>
       <SiteHead />
+      <RouteSeo />
       <BrandingApplier />
       <StyleApplier />
       {!hideHeader && <Header />}
