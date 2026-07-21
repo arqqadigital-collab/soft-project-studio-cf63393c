@@ -136,6 +136,10 @@ export default function Dashboard() {
           path="list-heros"
           element={<RoleGate allow={["admin", "editor"]}><ListPageHeros /></RoleGate>}
         />
+        <Route
+          path="page-titles"
+          element={<RoleGate allow={["admin", "editor"]}><PageTitles /></RoleGate>}
+        />
         <Route path="profile" element={<Profile />} />
         <Route path="*" element={<Navigate to="/dashboard" replace />} />
       </Route>
