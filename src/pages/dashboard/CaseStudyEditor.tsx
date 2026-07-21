@@ -243,12 +243,15 @@ export default function CaseStudyEditor() {
         <div className="space-y-4">
           <Card>
             <CardContent className="space-y-4 pt-6" dir={locale === "ar" ? "rtl" : "ltr"}>
-              <Input
-                value={getV("title")}
-                onChange={(e) => setV("title", e.target.value)}
-                placeholder={locale === "ar" ? form.title || "عنوان دراسة الحالة" : "Case study title"}
-                className="border-none px-0 text-2xl font-semibold shadow-none focus-visible:ring-0"
-              />
+              <div className="space-y-1.5">
+                <Label className="text-xs">{locale === "ar" ? "عنوان دراسة الحالة" : "Case study title"}</Label>
+                <Input
+                  value={getV("title")}
+                  onChange={(e) => setV("title", e.target.value)}
+                  placeholder={locale === "ar" ? "عنوان دراسة الحالة" : "Case study title"}
+                  className="text-2xl font-semibold h-auto py-3"
+                />
+              </div>
               {locale === "en" ? (
                 <div className="flex items-center gap-2 text-sm text-muted-foreground">
                   <span>/case-studies/</span>
@@ -344,7 +347,7 @@ export default function CaseStudyEditor() {
                 <Label className="text-xs">Publish date</Label>
                 <Input
                   type="datetime-local"
-                  value={form.published_at ? form.published_at.slice(0, 16) : ""}
+                  value={(() => { if (!form.published_at) return ""; const d = new Date(form.published_at); return new Date(d.getTime() - d.getTimezoneOffset() * 60000).toISOString().slice(0, 16); })()}
                   onChange={(e) => patch("published_at", e.target.value ? new Date(e.target.value).toISOString() : null)}
                 />
               </div>
