@@ -24,6 +24,7 @@ import {
 import { Footer } from "@/components/Footer";
 import { CtaSection } from "@/components/CtaSection";
 import { useLogisticsContent } from "@/lib/logisticsContent";
+import { useLocale } from "@/i18n/LanguageProvider";
 
 const ICONS: Record<string, any> = {
   Warehouse, Boxes, PackageCheck, ShoppingCart, Truck, RefreshCw, Eye, Radar,
@@ -372,7 +373,7 @@ export default function Logistics() {
                 return (
                   <motion.div
                     key={p.n}
-                    initial={{ opacity: 0, x: idx % 2 === 0 ? -20 : 20 }}
+                    initial={{ opacity: 0, x: (idx % 2 === 0 ? -20 : 20) * (rtlSign) }}
                     whileInView={{ opacity: 1, x: 0 }}
                     viewport={{ once: true, margin: "-80px" }}
                     transition={{ duration: 0.5 }}

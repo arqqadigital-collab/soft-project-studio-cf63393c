@@ -28,6 +28,7 @@ import {
 import { Footer } from "@/components/Footer";
 import { CtaSection } from "@/components/CtaSection";
 import { useEducationContent } from "@/lib/educationContent";
+import { useLocale } from "@/i18n/LanguageProvider";
 
 const ICONS: Record<string, LucideIcon> = {
   GraduationCap, Layers, Boxes, Activity, Calculator, ScanSearch, Settings2,
@@ -261,7 +262,7 @@ export default function Education() {
             {c.Implementation.items.map((p: any, idx: number) => {
               const Icon = Ico(p.icon);
               return (
-                <motion.div key={p.n} initial={{ opacity: 0, x: idx % 2 === 0 ? -20 : 20 }} whileInView={{ opacity: 1, x: 0 }} viewport={{ once: true, margin: "-80px" }} transition={{ duration: 0.5 }} className="grid grid-cols-1 gap-6 rounded-2xl border border-border bg-card p-6 md:grid-cols-[120px_56px_1fr] md:items-start md:p-8">
+                <motion.div key={p.n} initial={{ opacity: 0, x: (idx % 2 === 0 ? -20 : 20) * (rtlSign) }} whileInView={{ opacity: 1, x: 0 }} viewport={{ once: true, margin: "-80px" }} transition={{ duration: 0.5 }} className="grid grid-cols-1 gap-6 rounded-2xl border border-border bg-card p-6 md:grid-cols-[120px_56px_1fr] md:items-start md:p-8">
                   <div className="text-5xl font-bold text-foreground/15 md:text-6xl">{p.n}</div>
                   <div className="flex h-12 w-12 items-center justify-center rounded-xl text-white shadow-[var(--shadow-brand)]" style={{ background: "var(--gradient-brand)" }}>
                     <Icon className="h-5 w-5" />

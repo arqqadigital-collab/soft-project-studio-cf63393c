@@ -5,6 +5,7 @@ import * as Icons from "lucide-react";
 import { Footer } from "@/components/Footer";
 import { CtaSection } from "@/components/CtaSection";
 import { useDynamicsContent } from "@/lib/dynamicsContent";
+import { useLocale } from "@/i18n/LanguageProvider";
 
 function LIcon({ name, className }: { name?: string; className?: string }) {
   const Cmp = (name && (Icons as any)[name]) || Icons.Sparkles;
@@ -214,7 +215,7 @@ export default function Dynamics365() {
               {c.Process.items.map((p: any, idx: number) => (
                 <motion.div
                   key={p.n}
-                  initial={{ opacity: 0, x: idx % 2 === 0 ? -20 : 20 }}
+                  initial={{ opacity: 0, x: (idx % 2 === 0 ? -20 : 20) * (rtlSign) }}
                   whileInView={{ opacity: 1, x: 0 }}
                   viewport={{ once: true, margin: "-80px" }}
                   transition={{ duration: 0.5 }}
