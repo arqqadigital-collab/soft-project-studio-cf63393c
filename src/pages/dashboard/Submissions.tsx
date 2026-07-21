@@ -38,6 +38,7 @@ type Row = {
   page_path: string | null;
   page_title: string | null;
   user_agent: string | null;
+  custom_data: Record<string, any> | null;
 };
 
 const SOURCES = [
@@ -430,6 +431,20 @@ export default function Submissions() {
                     {selected.message || "—"}
                   </div>
                 </Field>
+                {selected.custom_data && Object.keys(selected.custom_data).length > 0 && (
+                  <Field label="Additional fields">
+                    <div className="space-y-2">
+                      {Object.entries(selected.custom_data).map(([k, v]) => (
+                        <div key={k} className="rounded-md border bg-muted/30 p-2">
+                          <div className="text-xs font-mono text-muted-foreground">{k}</div>
+                          <div className="text-sm whitespace-pre-wrap break-words">
+                            {typeof v === "boolean" ? (v ? "✓ Yes" : "✗ No") : String(v ?? "—")}
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                  </Field>
+                )}
                 <Field label="Status">
                   <div className="flex gap-2">
                     <Button

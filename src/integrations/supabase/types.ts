@@ -426,6 +426,7 @@ export type Database = {
           area: string
           consent: boolean
           created_at: string
+          custom_data: Json
           email: string
           id: string
           message: string
@@ -442,6 +443,7 @@ export type Database = {
           area?: string
           consent?: boolean
           created_at?: string
+          custom_data?: Json
           email: string
           id?: string
           message?: string
@@ -458,6 +460,7 @@ export type Database = {
           area?: string
           consent?: boolean
           created_at?: string
+          custom_data?: Json
           email?: string
           id?: string
           message?: string
@@ -584,6 +587,7 @@ export type Database = {
       }
       form_settings: {
         Row: {
+          fields: Json
           id: string
           key: string
           labels: Json
@@ -592,6 +596,7 @@ export type Database = {
           updated_at: string
         }
         Insert: {
+          fields?: Json
           id?: string
           key: string
           labels?: Json
@@ -600,6 +605,7 @@ export type Database = {
           updated_at?: string
         }
         Update: {
+          fields?: Json
           id?: string
           key?: string
           labels?: Json
