@@ -2,7 +2,7 @@ import { useQuery } from "@tanstack/react-query";
 import { useLocation } from "react-router-dom";
 import { Helmet } from "react-helmet-async";
 import { supabase } from "@/integrations/supabase/client";
-import { useLocale } from "@/hooks/useLocale";
+import { findCounterpart } from "@/lib/routeMap";
 
 /**
  * Global route-level SEO. Matches the current pathname against pages.slug
@@ -15,7 +15,10 @@ export function RouteSeo() {
   const { locale } = useLocale();
 
   const isAr = pathname === "/ar" || pathname.startsWith("/ar/");
-  const inner = isAr ? (pathname === "/ar" ? "" : pathname.slice(4)) : pathname.slice(1);
+  // Resolve to the EN path so we can match pages.slug reliably even when
+  // the user is on an Arabic-translated URL.
+  const enPath = isAr ? findCounterpart(pathname, "en") : pathname;
+  const inner = (enPath || "/").slice(1);
   const decoded = (() => {
     try { return decodeURI(inner); } catch { return inner; }
   })();
