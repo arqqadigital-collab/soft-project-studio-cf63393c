@@ -38,6 +38,7 @@ type Row = {
   page_path: string | null;
   page_title: string | null;
   user_agent: string | null;
+  custom_data: Record<string, any> | null;
 };
 
 const SOURCES = [
