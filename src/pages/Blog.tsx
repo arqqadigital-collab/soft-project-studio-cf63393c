@@ -289,7 +289,7 @@ export default function Blog() {
 
                   <div className="mt-8">
                     <Button asChild className="group/btn inline-flex items-center gap-2">
-                      <Link to={`${locale === "ar" ? "/ar" : ""}/blog/${(locale === "ar" && featured.slug_ar) || featured.slug}`}>
+                      <Link to={`${locale === "ar" ? "/ar/المدونة" : "/blog"}/${(locale === "ar" && featured.slug_ar) || featured.slug}`}>
                         {L.read_more ?? (locale === "ar" ? "اقرأ المقال" : "Read Article")}
                         <ArrowRight className="h-4 w-4 transition-transform group-hover/btn:translate-x-1 rtl:rotate-180" />
                       </Link>
@@ -322,7 +322,7 @@ export default function Blog() {
                   whileInView="visible"
                   viewport={{ once: true, amount: 0.2 }}
                 >
-                  <Link to={`${locale === "ar" ? "/ar" : ""}/blog/${(locale === "ar" && post.slug_ar) || post.slug}`} className="flex flex-1 flex-col">
+                  <Link to={`${locale === "ar" ? "/ar/المدونة" : "/blog"}/${(locale === "ar" && post.slug_ar) || post.slug}`} className="flex flex-1 flex-col">
                     <Cover url={post.featured_image_url} className="aspect-[16/10] w-full" />
                     <div className="flex flex-1 flex-col p-6">
                       {post.category && (

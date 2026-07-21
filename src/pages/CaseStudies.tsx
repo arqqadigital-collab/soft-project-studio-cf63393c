@@ -205,7 +205,7 @@ export default function CaseStudies() {
                 whileInView="visible"
                 viewport={{ once: true, amount: 0.2 }}
               >
-                <Link to={`${locale === "ar" ? "/ar" : ""}/case-studies/${(locale === "ar" && study.slug_ar) || study.slug}`} className="flex flex-1 flex-col">
+                <Link to={`${locale === "ar" ? "/ar/دراسات-الحالة" : "/case-studies"}/${(locale === "ar" && study.slug_ar) || study.slug}`} className="flex flex-1 flex-col">
                   <div className="flex flex-col p-6 md:p-8">
                     {(study.category?.name ?? study.industry) && (
                       <span

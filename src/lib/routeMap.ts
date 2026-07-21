@@ -112,17 +112,19 @@ export function findCounterpart(pathname: string, targetLocale: "en" | "ar"): st
     const arPath = decoded === "/ar" ? "/" : decoded.slice(3) || "/";
     const row = map.find((r) => (r.path_ar ?? r.path_en) === arPath);
     if (row) return row.path_en;
-    // Dynamic routes — preserve path (slug may not match; detail pages publish
-    // their exact counterpart via AltLanguagePathProvider).
+    // Dynamic detail routes — translate Arabic segments back to English.
+    if (arPath.startsWith("/المدونة/")) return `/blog/${arPath.slice("/المدونة/".length)}`;
+    if (arPath.startsWith("/الفعاليات/")) return `/events/${arPath.slice("/الفعاليات/".length)}`;
+    if (arPath.startsWith("/دراسات-الحالة/")) return `/case-studies/${arPath.slice("/دراسات-الحالة/".length)}`;
     return arPath;
   } else {
     if (targetLocale === "en") return decoded;
     const row = map.find((r) => r.path_en === decoded);
     if (row) return arFullPath(row);
-    // Dynamic routes — preserve path structure under /ar.
-    if (decoded.startsWith("/blog/")) return `/ar/blog/${decoded.slice(6)}`;
-    if (decoded.startsWith("/events/")) return `/ar/events/${decoded.slice(8)}`;
-    if (decoded.startsWith("/case-studies/")) return `/ar/case-studies/${decoded.slice(14)}`;
+    // Dynamic routes — use localized Arabic segments.
+    if (decoded.startsWith("/blog/")) return `/ar/المدونة/${decoded.slice(6)}`;
+    if (decoded.startsWith("/events/")) return `/ar/الفعاليات/${decoded.slice(8)}`;
+    if (decoded.startsWith("/case-studies/")) return `/ar/دراسات-الحالة/${decoded.slice(14)}`;
     if (decoded.startsWith("/p/")) return `/ar/p/${decoded.slice(3)}`;
     return `/ar${decoded === "/" ? "" : decoded}`;
   }

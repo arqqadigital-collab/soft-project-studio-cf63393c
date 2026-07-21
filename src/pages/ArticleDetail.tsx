@@ -72,7 +72,7 @@ export default function ArticleDetail() {
 
   useSetAltLanguagePath({
     en: post ? `/blog/${post.slug}` : null,
-    ar: post ? `/ar/blog/${post.slug_ar || post.slug}` : null,
+    ar: post ? `/ar/المدونة/${post.slug_ar || post.slug}` : null,
   });
 
 

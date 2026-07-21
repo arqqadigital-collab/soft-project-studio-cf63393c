@@ -65,7 +65,7 @@ export default function CaseStudyDetail() {
 
   useSetAltLanguagePath({
     en: cs ? `/case-studies/${cs.slug}` : null,
-    ar: cs ? `/ar/case-studies/${cs.slug_ar || cs.slug}` : null,
+    ar: cs ? `/ar/دراسات-الحالة/${cs.slug_ar || cs.slug}` : null,
   });
 
 
