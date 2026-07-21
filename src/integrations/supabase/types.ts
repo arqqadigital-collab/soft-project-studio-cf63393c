@@ -1615,6 +1615,7 @@ export type Database = {
         Args: { _new: string; _old: string }
         Returns: number
       }
+      slugify_ar: { Args: { input: string }; Returns: string }
     }
     Enums: {
       app_role: "admin" | "editor" | "author" | "subscriber"
