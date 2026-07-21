@@ -255,12 +255,15 @@ export default function EventEditor() {
         <div className="space-y-4">
           <Card>
             <CardContent className="space-y-4 pt-6" dir={locale === "ar" ? "rtl" : "ltr"}>
-              <Input
-                value={getV("title")}
-                onChange={(e) => setV("title", e.target.value)}
-                placeholder={locale === "ar" ? form.title || "عنوان الفعالية" : "Event title"}
-                className="border-none px-0 text-2xl font-semibold shadow-none focus-visible:ring-0"
-              />
+              <div className="space-y-1.5">
+                <Label className="text-xs">{locale === "ar" ? "عنوان الفعالية" : "Event title"}</Label>
+                <Input
+                  value={getV("title")}
+                  onChange={(e) => setV("title", e.target.value)}
+                  placeholder={locale === "ar" ? "عنوان الفعالية" : "Event title"}
+                  className="text-2xl font-semibold h-auto py-3"
+                />
+              </div>
               {locale === "en" ? (
                 <div className="flex items-center gap-2 text-sm text-muted-foreground">
                   <span>/events/</span>
