@@ -169,6 +169,7 @@ export default function App() {
   return (
     <AuthProvider>
       <SiteHead />
+      <RouteSeo />
       <BrandingApplier />
       <StyleApplier />
       {!hideHeader && <Header />}
