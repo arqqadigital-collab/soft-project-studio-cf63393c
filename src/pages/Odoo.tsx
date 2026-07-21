@@ -22,7 +22,6 @@ import { Footer } from "@/components/Footer";
 import { CtaSection } from "@/components/CtaSection";
 import { ScrollRevealText } from "@/components/ScrollRevealText";
 import { useOdooContent } from "@/lib/odooContent";
-import { useLocale } from "@/i18n/LanguageProvider";
 
 const ICONS: Record<string, LucideIcon> = {
   Layers, Workflow, Network, BarChart3, Wrench, DatabaseZap,
@@ -215,7 +214,7 @@ export default function Odoo() {
               return (
                 <motion.div
                   key={p.n}
-                  initial={{ opacity: 0, x: (idx % 2 === 0 ? -20 : 20) * (rtlSign) }}
+                  initial={{ opacity: 0, x: (idx % 2 === 0 ? -20 : 20) * (typeof document !== 'undefined' && document.documentElement.dir === 'rtl' ? -1 : 1) }}
                   whileInView={{ opacity: 1, x: 0 }}
                   viewport={{ once: true, margin: "-80px" }}
                   transition={{ duration: 0.5 }}
