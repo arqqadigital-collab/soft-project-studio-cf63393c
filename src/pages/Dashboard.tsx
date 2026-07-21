@@ -27,6 +27,7 @@ import EventsList from "./dashboard/EventsList";
 import EventEditor from "./dashboard/EventEditor";
 import ContactEditor from "./dashboard/ContactEditor";
 import ListPageHeros from "./dashboard/ListPageHeros";
+import PageTitles from "./dashboard/PageTitles";
 import { RoleGate } from "@/components/dashboard/RoleGate";
 
 export default function Dashboard() {
