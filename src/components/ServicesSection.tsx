@@ -2,15 +2,19 @@ import { useState } from "react";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import { AnimatePresence, motion } from "framer-motion";
 import { useSectionContent } from "@/lib/homepageContent";
+import { useLocale } from "@/i18n/LanguageProvider";
 
 export function ServicesSection() {
   const c = useSectionContent("services");
   const services = c.items;
   const [active, setActive] = useState(0);
   const current = services[active] ?? services[0];
+  const { isRTL } = useLocale();
 
-  const next = () => setActive((i) => (i + 1) % services.length);
-  const prev = () => setActive((i) => (i - 1 + services.length) % services.length);
+  const advance = () => setActive((i) => (i + 1) % services.length);
+  const retreat = () => setActive((i) => (i - 1 + services.length) % services.length);
+  const onLeft = isRTL ? advance : retreat;
+  const onRight = isRTL ? retreat : advance;
 
   return (
     <section id="section-services" className="bg-background py-24 md:py-32">
