@@ -365,7 +365,7 @@ export default function EventEditor() {
                 <Label className="text-xs">Publish date</Label>
                 <Input
                   type="datetime-local"
-                  value={form.published_at ? form.published_at.slice(0, 16) : ""}
+                  value={toLocal(form.published_at)}
                   onChange={(e) => patch("published_at", e.target.value ? new Date(e.target.value).toISOString() : null)}
                 />
               </div>
