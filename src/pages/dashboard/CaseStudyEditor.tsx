@@ -347,7 +347,7 @@ export default function CaseStudyEditor() {
                 <Label className="text-xs">Publish date</Label>
                 <Input
                   type="datetime-local"
-                  value={form.published_at ? form.published_at.slice(0, 16) : ""}
+                  value={(() => { if (!form.published_at) return ""; const d = new Date(form.published_at); return new Date(d.getTime() - d.getTimezoneOffset() * 60000).toISOString().slice(0, 16); })()}
                   onChange={(e) => patch("published_at", e.target.value ? new Date(e.target.value).toISOString() : null)}
                 />
               </div>
