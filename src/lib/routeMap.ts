@@ -119,10 +119,10 @@ export function findCounterpart(pathname: string, targetLocale: "en" | "ar"): st
     if (targetLocale === "en") return decoded;
     const row = map.find((r) => r.path_en === decoded);
     if (row) return arFullPath(row);
-    // Dynamic routes — preserve path structure under /ar.
-    if (decoded.startsWith("/blog/")) return `/ar/blog/${decoded.slice(6)}`;
-    if (decoded.startsWith("/events/")) return `/ar/events/${decoded.slice(8)}`;
-    if (decoded.startsWith("/case-studies/")) return `/ar/case-studies/${decoded.slice(14)}`;
+    // Dynamic routes — use localized Arabic segments.
+    if (decoded.startsWith("/blog/")) return `/ar/المدونة/${decoded.slice(6)}`;
+    if (decoded.startsWith("/events/")) return `/ar/الفعاليات/${decoded.slice(8)}`;
+    if (decoded.startsWith("/case-studies/")) return `/ar/دراسات-الحالة/${decoded.slice(14)}`;
     if (decoded.startsWith("/p/")) return `/ar/p/${decoded.slice(3)}`;
     return `/ar${decoded === "/" ? "" : decoded}`;
   }
