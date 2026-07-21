@@ -289,7 +289,7 @@ export default function Blog() {
 
                   <div className="mt-8">
                     <Button asChild className="group/btn inline-flex items-center gap-2">
-                      <Link to={`${locale === "ar" ? "/ar" : ""}/blog/${(locale === "ar" && featured.slug_ar) || featured.slug}`}>
+                      <Link to={`${locale === "ar" ? "/ar/المدونة" : "/blog"}/${(locale === "ar" && featured.slug_ar) || featured.slug}`}>
                         {L.read_more ?? (locale === "ar" ? "اقرأ المقال" : "Read Article")}
                         <ArrowRight className="h-4 w-4 transition-transform group-hover/btn:translate-x-1 rtl:rotate-180" />
                       </Link>
