@@ -27,6 +27,7 @@ import EventsList from "./dashboard/EventsList";
 import EventEditor from "./dashboard/EventEditor";
 import ContactEditor from "./dashboard/ContactEditor";
 import ListPageHeros from "./dashboard/ListPageHeros";
+import PageTitles from "./dashboard/PageTitles";
 import { RoleGate } from "@/components/dashboard/RoleGate";
 
 export default function Dashboard() {
@@ -134,6 +135,10 @@ export default function Dashboard() {
         <Route
           path="list-heros"
           element={<RoleGate allow={["admin", "editor"]}><ListPageHeros /></RoleGate>}
+        />
+        <Route
+          path="page-titles"
+          element={<RoleGate allow={["admin", "editor"]}><PageTitles /></RoleGate>}
         />
         <Route path="profile" element={<Profile />} />
         <Route path="*" element={<Navigate to="/dashboard" replace />} />
