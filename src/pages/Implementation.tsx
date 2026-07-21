@@ -27,6 +27,7 @@ import {
 import { Footer } from "@/components/Footer";
 import { CtaSection } from "@/components/CtaSection";
 import { useImplementationContent } from "@/lib/implementationContent";
+import { useLocale } from "@/i18n/LanguageProvider";
 
 const ICONS: Record<string, LucideIcon> = {
   Search, PenTool, PlayCircle, GraduationCap, LifeBuoy,
@@ -78,6 +79,7 @@ function MethodologyTimeline({ data }: { data: any }) {
   const sectionRef = useRef<HTMLDivElement>(null);
   const trackRef = useRef<HTMLDivElement>(null);
   const [trackWidth, setTrackWidth] = useState(0);
+  const { isRTL, locale } = useLocale();
 
   const { scrollYProgress } = useScroll({
     target: sectionRef,
@@ -93,9 +95,9 @@ function MethodologyTimeline({ data }: { data: any }) {
     update();
     window.addEventListener("resize", update);
     return () => window.removeEventListener("resize", update);
-  }, [data]);
+  }, [data, locale, isRTL]);
 
-  const x = useTransform(scrollYProgress, [0, 1], [0, -trackWidth]);
+  const x = useTransform(scrollYProgress, [0, 1], isRTL ? [0, trackWidth] : [0, -trackWidth]);
   const sectionHeight = trackWidth > 0 ? `calc(100vh + ${trackWidth}px)` : "150vh";
 
   return (
