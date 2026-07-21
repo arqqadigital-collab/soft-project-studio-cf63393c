@@ -1439,7 +1439,9 @@ export type Database = {
           brand_dark_color: string | null
           created_at: string
           default_meta_description: string | null
+          default_meta_description_ar: string | null
           default_meta_title: string | null
+          default_meta_title_ar: string | null
           favicon_url: string | null
           heading_font: string | null
           id: string
@@ -1448,8 +1450,10 @@ export type Database = {
           primary_color: string | null
           singleton: boolean
           site_description: string | null
+          site_description_ar: string | null
           site_logo_url: string | null
           site_title: string | null
+          site_title_ar: string | null
           site_url: string | null
           style_tokens: Json
           updated_at: string
@@ -1461,7 +1465,9 @@ export type Database = {
           brand_dark_color?: string | null
           created_at?: string
           default_meta_description?: string | null
+          default_meta_description_ar?: string | null
           default_meta_title?: string | null
+          default_meta_title_ar?: string | null
           favicon_url?: string | null
           heading_font?: string | null
           id?: string
@@ -1470,8 +1476,10 @@ export type Database = {
           primary_color?: string | null
           singleton?: boolean
           site_description?: string | null
+          site_description_ar?: string | null
           site_logo_url?: string | null
           site_title?: string | null
+          site_title_ar?: string | null
           site_url?: string | null
           style_tokens?: Json
           updated_at?: string
@@ -1483,7 +1491,9 @@ export type Database = {
           brand_dark_color?: string | null
           created_at?: string
           default_meta_description?: string | null
+          default_meta_description_ar?: string | null
           default_meta_title?: string | null
+          default_meta_title_ar?: string | null
           favicon_url?: string | null
           heading_font?: string | null
           id?: string
@@ -1492,8 +1502,10 @@ export type Database = {
           primary_color?: string | null
           singleton?: boolean
           site_description?: string | null
+          site_description_ar?: string | null
           site_logo_url?: string | null
           site_title?: string | null
+          site_title_ar?: string | null
           site_url?: string | null
           style_tokens?: Json
           updated_at?: string
