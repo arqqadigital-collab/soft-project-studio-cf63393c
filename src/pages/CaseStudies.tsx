@@ -231,7 +231,7 @@ export default function CaseStudies() {
                       style={{ color: "var(--brand-blue)" }}
                     >
                       {L.see_more ?? "See more"}
-                      <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
+                      <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1 rtl:rotate-180" />
                     </span>
                   </div>
                   <Cover url={study.cover_image_url} className="aspect-[16/9] w-full" />

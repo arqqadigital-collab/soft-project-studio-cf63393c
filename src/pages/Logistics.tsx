@@ -372,7 +372,7 @@ export default function Logistics() {
                 return (
                   <motion.div
                     key={p.n}
-                    initial={{ opacity: 0, x: idx % 2 === 0 ? -20 : 20 }}
+                    initial={{ opacity: 0, x: (idx % 2 === 0 ? -20 : 20) * (typeof document !== 'undefined' && document.documentElement.dir === 'rtl' ? -1 : 1) }}
                     whileInView={{ opacity: 1, x: 0 }}
                     viewport={{ once: true, margin: "-80px" }}
                     transition={{ duration: 0.5 }}
