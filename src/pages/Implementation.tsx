@@ -27,6 +27,7 @@ import {
 import { Footer } from "@/components/Footer";
 import { CtaSection } from "@/components/CtaSection";
 import { useImplementationContent } from "@/lib/implementationContent";
+import { useLocale } from "@/i18n/LanguageProvider";
 
 const ICONS: Record<string, LucideIcon> = {
   Search, PenTool, PlayCircle, GraduationCap, LifeBuoy,
