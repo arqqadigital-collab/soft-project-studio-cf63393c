@@ -70,7 +70,7 @@ export default function EventDetail() {
 
   useSetAltLanguagePath({
     en: ev ? `/events/${ev.slug}` : null,
-    ar: ev ? `/ar/events/${ev.slug_ar || ev.slug}` : null,
+    ar: ev ? `/ar/الفعاليات/${ev.slug_ar || ev.slug}` : null,
   });
 
 
