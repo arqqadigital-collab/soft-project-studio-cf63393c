@@ -322,7 +322,7 @@ export default function Blog() {
                   whileInView="visible"
                   viewport={{ once: true, amount: 0.2 }}
                 >
-                  <Link to={`${locale === "ar" ? "/ar" : ""}/blog/${(locale === "ar" && post.slug_ar) || post.slug}`} className="flex flex-1 flex-col">
+                  <Link to={`${locale === "ar" ? "/ar/المدونة" : "/blog"}/${(locale === "ar" && post.slug_ar) || post.slug}`} className="flex flex-1 flex-col">
                     <Cover url={post.featured_image_url} className="aspect-[16/10] w-full" />
                     <div className="flex flex-1 flex-col p-6">
                       {post.category && (
