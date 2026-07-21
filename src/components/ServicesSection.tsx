@@ -35,10 +35,10 @@ export function ServicesSection() {
             <div className="absolute inset-0 bg-gradient-to-r from-black/85 via-black/50 to-black/20" />
 
             <div className="absolute end-4 top-4 flex gap-2 md:end-10 md:top-10">
-              <button onClick={prev} aria-label="Previous" className="flex h-10 w-10 items-center justify-center rounded-full border border-white/30 bg-white/10 text-white backdrop-blur transition hover:bg-white/20 md:h-12 md:w-12">
+              <button onClick={onLeft} aria-label={isRTL ? "Next" : "Previous"} className="flex h-10 w-10 items-center justify-center rounded-full border border-white/30 bg-white/10 text-white backdrop-blur transition hover:bg-white/20 md:h-12 md:w-12">
                 <ChevronLeft className="h-5 w-5" />
               </button>
-              <button onClick={next} aria-label="Next" className="flex h-10 w-10 items-center justify-center rounded-full border border-white/30 bg-white/10 text-white backdrop-blur transition hover:bg-white/20 md:h-12 md:w-12">
+              <button onClick={onRight} aria-label={isRTL ? "Previous" : "Next"} className="flex h-10 w-10 items-center justify-center rounded-full border border-white/30 bg-white/10 text-white backdrop-blur transition hover:bg-white/20 md:h-12 md:w-12">
                 <ChevronRight className="h-5 w-5" />
               </button>
             </div>
