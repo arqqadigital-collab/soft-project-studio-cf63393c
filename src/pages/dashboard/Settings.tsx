@@ -6,28 +6,37 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
 import { MediaPickerDialog } from "@/components/dashboard/MediaPickerDialog";
 import { toast } from "sonner";
 
 type Settings = {
   id?: string;
   site_title: string | null;
+  site_title_ar: string | null;
   site_description: string | null;
+  site_description_ar: string | null;
   site_url: string | null;
   site_logo_url: string | null;
   favicon_url: string | null;
   default_meta_title: string | null;
+  default_meta_title_ar: string | null;
   default_meta_description: string | null;
+  default_meta_description_ar: string | null;
 };
 
 const EMPTY: Settings = {
   site_title: "",
+  site_title_ar: "",
   site_description: "",
+  site_description_ar: "",
   site_url: "",
   site_logo_url: "",
   favicon_url: "",
   default_meta_title: "",
+  default_meta_title_ar: "",
   default_meta_description: "",
+  default_meta_description_ar: "",
 };
 
 type PickerTarget = "logo" | "favicon" | null;
@@ -64,6 +73,7 @@ export default function SettingsPage() {
     onSuccess: () => {
       toast.success("Settings saved");
       qc.invalidateQueries({ queryKey: ["site-settings"] });
+      qc.invalidateQueries({ queryKey: ["site-settings-head"] });
     },
     onError: (e: any) => toast.error(e.message),
   });
@@ -85,15 +95,35 @@ export default function SettingsPage() {
       <Card>
         <CardHeader><CardTitle>General</CardTitle></CardHeader>
         <CardContent className="space-y-4">
-          <div className="space-y-2">
-            <Label>Site title</Label>
-            <Input value={form.site_title ?? ""} onChange={(e) => update({ site_title: e.target.value })} />
-          </div>
-          <div className="space-y-2">
-            <Label>Site description</Label>
-            <Textarea rows={3} value={form.site_description ?? ""} onChange={(e) => update({ site_description: e.target.value })} />
-          </div>
-          <div className="space-y-2">
+          <Tabs defaultValue="en">
+            <TabsList>
+              <TabsTrigger value="en">English</TabsTrigger>
+              <TabsTrigger value="ar">العربية</TabsTrigger>
+            </TabsList>
+            <TabsContent value="en" className="space-y-4 pt-4">
+              <div className="space-y-2">
+                <Label>Site title (EN)</Label>
+                <Input value={form.site_title ?? ""} onChange={(e) => update({ site_title: e.target.value })} />
+                <p className="text-xs text-muted-foreground">Shown in the browser tab and as the fallback title site-wide.</p>
+              </div>
+              <div className="space-y-2">
+                <Label>Site description (EN)</Label>
+                <Textarea rows={3} value={form.site_description ?? ""} onChange={(e) => update({ site_description: e.target.value })} />
+              </div>
+            </TabsContent>
+            <TabsContent value="ar" className="space-y-4 pt-4" dir="rtl">
+              <div className="space-y-2">
+                <Label>عنوان الموقع (AR)</Label>
+                <Input value={form.site_title_ar ?? ""} onChange={(e) => update({ site_title_ar: e.target.value })} />
+              </div>
+              <div className="space-y-2">
+                <Label>وصف الموقع (AR)</Label>
+                <Textarea rows={3} value={form.site_description_ar ?? ""} onChange={(e) => update({ site_description_ar: e.target.value })} />
+              </div>
+            </TabsContent>
+          </Tabs>
+
+          <div className="space-y-2 pt-2">
             <Label>Site URL</Label>
             <Input
               value={form.site_url ?? ""}
@@ -139,15 +169,36 @@ export default function SettingsPage() {
 
       <Card>
         <CardHeader><CardTitle>Default SEO</CardTitle></CardHeader>
-        <CardContent className="space-y-4">
-          <div className="space-y-2">
-            <Label>Default meta title</Label>
-            <Input value={form.default_meta_title ?? ""} onChange={(e) => update({ default_meta_title: e.target.value })} />
-          </div>
-          <div className="space-y-2">
-            <Label>Default meta description</Label>
-            <Textarea rows={3} value={form.default_meta_description ?? ""} onChange={(e) => update({ default_meta_description: e.target.value })} />
-          </div>
+        <CardContent>
+          <p className="text-xs text-muted-foreground mb-4">
+            Used as fallback when a page has no SEO title/description of its own.
+          </p>
+          <Tabs defaultValue="en">
+            <TabsList>
+              <TabsTrigger value="en">English</TabsTrigger>
+              <TabsTrigger value="ar">العربية</TabsTrigger>
+            </TabsList>
+            <TabsContent value="en" className="space-y-4 pt-4">
+              <div className="space-y-2">
+                <Label>Default meta title (EN)</Label>
+                <Input value={form.default_meta_title ?? ""} onChange={(e) => update({ default_meta_title: e.target.value })} />
+              </div>
+              <div className="space-y-2">
+                <Label>Default meta description (EN)</Label>
+                <Textarea rows={3} value={form.default_meta_description ?? ""} onChange={(e) => update({ default_meta_description: e.target.value })} />
+              </div>
+            </TabsContent>
+            <TabsContent value="ar" className="space-y-4 pt-4" dir="rtl">
+              <div className="space-y-2">
+                <Label>العنوان الافتراضي (AR)</Label>
+                <Input value={form.default_meta_title_ar ?? ""} onChange={(e) => update({ default_meta_title_ar: e.target.value })} />
+              </div>
+              <div className="space-y-2">
+                <Label>الوصف الافتراضي (AR)</Label>
+                <Textarea rows={3} value={form.default_meta_description_ar ?? ""} onChange={(e) => update({ default_meta_description_ar: e.target.value })} />
+              </div>
+            </TabsContent>
+          </Tabs>
         </CardContent>
       </Card>
 
