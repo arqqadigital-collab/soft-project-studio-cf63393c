@@ -251,6 +251,7 @@ function LogoSlider({ platforms }: { platforms: Platform[] }) {
 
 export function SecretaProductLayout({ content }: { content: any }) {
   const v = content._visible;
+  const S = content._style ?? {};
   const hero = content.Hero;
   const intro = content.Introduction;
   const problem = content["The Problem"];
