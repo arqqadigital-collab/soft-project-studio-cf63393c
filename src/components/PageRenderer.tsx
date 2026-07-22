@@ -30,7 +30,7 @@ export function usePageSections(pageId: string | null | undefined) {
     queryFn: async () => {
       const { data, error } = await supabase
         .from("page_sections")
-        .select("id, kind, position, is_visible, data, translations")
+        .select("id, kind, position, is_visible, data, translations, style")
         .eq("page_id", pageId!)
         .order("position");
       if (error) throw error;
