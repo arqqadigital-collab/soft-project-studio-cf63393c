@@ -102,12 +102,15 @@ function Group({
 }
 
 export function SectionStyleEditor({ value, onChange, kind }: Props) {
-  // Merge saved overrides on top of per-section defaults so the controls
-  // always reflect what the section currently looks like on the site, even
-  // when the user hasn't tweaked anything yet.
+  // `defaults` is used ONLY to pre-fill the UI so controls reflect what the
+  // section currently looks like. It must NOT be merged into the saved value,
+  // otherwise touching one control (e.g. Button background) would silently
+  // persist every other default too — and the section's headline/body/etc.
+  // would visually change even though the user only edited the button.
   const defaults = getSectionDefaults(kind);
-  const s: SectionStyle = { ...defaults, ...(value ?? {}) };
-  const set = (patch: Partial<SectionStyle>) => onChange({ ...s, ...patch });
+  const saved: SectionStyle = value ?? {};
+  const s: SectionStyle = { ...defaults, ...saved };
+  const set = (patch: Partial<SectionStyle>) => onChange({ ...saved, ...patch });
 
   return (
     <div className="space-y-4 rounded-md border border-border bg-muted/20 p-4">
