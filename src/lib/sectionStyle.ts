@@ -105,7 +105,9 @@ export const DEFAULT_SECTION_STYLE: Required<Pick<SectionStyle,
   "padding_y" | "container" | "align" |
   "margin_top" | "margin_bottom" |
   "heading_size" | "body_size" |
-  "button_size" | "button_radius"
+  "button_size" | "button_radius" |
+  "bg_color" | "text_color" | "heading_color" | "accent_color" |
+  "button_bg" | "button_fg"
 >> = {
   padding_y: "lg",
   container: "default",
@@ -116,6 +118,12 @@ export const DEFAULT_SECTION_STYLE: Required<Pick<SectionStyle,
   body_size: "md",
   button_size: "md",
   button_radius: "rounded",
+  bg_color: "#fafcfc",
+  text_color: "#101a33",
+  heading_color: "#101a33",
+  accent_color: "#2b8fce",
+  button_bg: "#2b8fce",
+  button_fg: "#ffffff",
 };
 
 export const BRAND_SWATCHES = [
