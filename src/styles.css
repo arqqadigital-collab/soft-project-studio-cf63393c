@@ -273,12 +273,18 @@ html[dir="rtl"] svg.lucide-arrow-left {
   color: var(--section-accent, inherit) !important;
 }
 .section-styled .btn,
-.section-styled button:not([data-no-section-style]),
-.section-styled a[role="button"]:not([data-no-section-style]),
-.section-styled [class*="bg-primary"]:not([data-no-section-style]) {
+.section-styled button:not([data-no-section-style]):not([aria-haspopup]):not([role="tab"]):not([role="menuitem"]):not([role="switch"]),
+.section-styled a[role="button"]:not([data-no-section-style]) {
   background: var(--section-button-bg, inherit) !important;
   color: var(--section-button-fg, inherit) !important;
   border-radius: var(--section-button-radius, inherit);
   padding: var(--section-button-padding, inherit);
   font-size: var(--section-button-fontsize, inherit);
+}
+/* Never let button color vars leak into gradient-text headings that use
+   `bg-clip-text` (e.g. "Every Decision" in the hero). */
+.section-styled [class*="bg-clip-text"],
+.section-styled .bg-clip-text {
+  background: inherit !important;
+  -webkit-text-fill-color: initial;
 }
