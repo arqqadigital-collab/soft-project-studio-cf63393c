@@ -82,7 +82,10 @@ function Group({
 }
 
 export function SectionStyleEditor({ value, onChange }: Props) {
-  const s = value ?? {};
+  // Merge saved overrides on top of the sensible per-section defaults so the
+  // controls always reflect what the section currently looks like, even when
+  // the user hasn't tweaked anything yet.
+  const s: SectionStyle = { ...DEFAULT_SECTION_STYLE, ...(value ?? {}) };
   const set = (patch: Partial<SectionStyle>) => onChange({ ...s, ...patch });
 
   return (
