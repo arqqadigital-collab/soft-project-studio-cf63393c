@@ -72,7 +72,7 @@ export function PageBuilder({ pageId, pageSlug }: { pageId: string; pageSlug?: s
     queryFn: async () => {
       const { data, error } = await supabase
         .from("page_sections")
-        .select("id, kind, position, is_visible, data, translations")
+        .select("id, kind, position, is_visible, data, translations, style")
         .eq("page_id", pageId)
         .order("position");
       if (error) throw error;
@@ -117,6 +117,13 @@ export function PageBuilder({ pageId, pageSlug }: { pageId: string; pageSlug?: s
     const { error } = await supabase.from("page_sections").update({ translations: nextTranslations }).eq("id", id);
     if (error) return toast.error(error.message);
     toast.success(`${loc.toUpperCase()} translation saved`);
+    invalidate();
+  }
+
+  async function updateStyle(id: string, style: SectionStyle) {
+    const { error } = await supabase.from("page_sections").update({ style }).eq("id", id);
+    if (error) return toast.error(error.message);
+    toast.success("Design saved");
     invalidate();
   }
 
@@ -302,6 +309,12 @@ export function PageBuilder({ pageId, pageSlug }: { pageId: string; pageSlug?: s
                       def={def}
                       locale={locale}
                     />
+                    {locale === "en" && (
+                      <SectionStyleEditor
+                        value={(row.style ?? {}) as SectionStyle}
+                        onChange={(next) => updateStyle(row.id, next)}
+                      />
+                    )}
                   </CardContent>
                 </Card>
               </TabsContent>
