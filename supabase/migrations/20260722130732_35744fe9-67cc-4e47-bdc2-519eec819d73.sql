@@ -1,0 +1,2 @@
+ALTER TABLE public.page_sections ADD COLUMN IF NOT EXISTS style jsonb NOT NULL DEFAULT '{}'::jsonb;
+ALTER TABLE public.homepage_sections ADD COLUMN IF NOT EXISTS style jsonb NOT NULL DEFAULT '{}'::jsonb;
