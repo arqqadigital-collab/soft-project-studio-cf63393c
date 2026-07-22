@@ -243,6 +243,7 @@ export function SectionEditor({ sectionKey }: { sectionKey: SectionKey }) {
       setContent(base);
       setArContent(ar);
       setVisible((data as any).is_visible !== false);
+      setStyle(((data as any).style ?? {}) as SectionStyle);
     }
   }, [data, sectionKey]);
 
@@ -253,8 +254,13 @@ export function SectionEditor({ sectionKey }: { sectionKey: SectionKey }) {
       const translations = { ...existingTranslations, ar: arContent };
       const { error } = await supabase
         .from("homepage_sections")
-        .update({ content, translations, is_visible: visible })
+        .update({ content, translations, is_visible: visible, style })
         .eq("section_key", sectionKey);
+      if (error) throw error;
+      qc.invalidateQueries({ queryKey: ["homepage-section", sectionKey] });
+      qc.invalidateQueries({ queryKey: ["homepage-section-edit", sectionKey] });
+      qc.invalidateQueries({ queryKey: ["homepage-sections-visibility"] });
+      qc.invalidateQueries({ queryKey: ["homepage-sections-style"] });
       if (error) throw error;
       qc.invalidateQueries({ queryKey: ["homepage-section", sectionKey] });
       qc.invalidateQueries({ queryKey: ["homepage-section-edit", sectionKey] });
