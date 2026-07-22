@@ -240,25 +240,44 @@ html[dir="rtl"] svg.lucide-arrow-left {
 }
 
 /* -------- Per-section design overrides (SectionStyleEditor) -------- */
+/* When a section has design overrides, force the inner section to inherit
+   background/color so wrapper styling actually shows through the section
+   components' own Tailwind classes. */
+.section-styled {
+  background: var(--section-bg, transparent);
+  color: var(--section-fg, inherit);
+}
+.section-styled > section,
+.section-styled section,
+.section-styled > div > section {
+  background: transparent !important;
+  background-color: transparent !important;
+  background-image: none !important;
+  color: inherit;
+}
 .section-styled h1,
 .section-styled h2,
-.section-styled h3 {
-  color: var(--section-heading, inherit);
+.section-styled h3,
+.section-styled h4 {
+  color: var(--section-heading, inherit) !important;
   font-size: var(--section-heading-size, inherit);
 }
 .section-styled p,
 .section-styled li {
   font-size: var(--section-body-size, inherit);
+  color: var(--section-fg, inherit);
 }
 .section-styled a[data-brand-accent],
-.section-styled .text-brand-accent {
-  color: var(--section-accent, inherit);
+.section-styled .text-brand-accent,
+.section-styled [class*="text-primary"] {
+  color: var(--section-accent, inherit) !important;
 }
 .section-styled .btn,
 .section-styled button:not([data-no-section-style]),
-.section-styled a[role="button"]:not([data-no-section-style]) {
-  background: var(--section-button-bg, inherit);
-  color: var(--section-button-fg, inherit);
+.section-styled a[role="button"]:not([data-no-section-style]),
+.section-styled [class*="bg-primary"]:not([data-no-section-style]) {
+  background: var(--section-button-bg, inherit) !important;
+  color: var(--section-button-fg, inherit) !important;
   border-radius: var(--section-button-radius, inherit);
   padding: var(--section-button-padding, inherit);
   font-size: var(--section-button-fontsize, inherit);
