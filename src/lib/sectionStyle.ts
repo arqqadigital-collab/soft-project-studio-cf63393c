@@ -132,6 +132,44 @@ export const DEFAULT_SECTION_STYLE: Required<Pick<SectionStyle,
   button_fg: "#ffffff",
 };
 
+// Per-section-kind defaults reflecting what each section actually looks like
+// on the live site when no overrides are saved. Keys match SectionKind from
+// pageSections.tsx AND homepage SectionKey values so the editor can preload
+// the true "current" values for every section it manages.
+export const SECTION_STYLE_DEFAULTS: Record<string, Partial<typeof DEFAULT_SECTION_STYLE>> = {
+  // ---- Page builder section kinds ----
+  hero:              { padding_y: "xl", align: "center", heading_size: "3xl", container: "wide", bg_color: "#101a33", text_color: "#ffffff", heading_color: "#ffffff" },
+  Hero:              { padding_y: "xl", align: "center", heading_size: "3xl", container: "wide", bg_color: "#101a33", text_color: "#ffffff", heading_color: "#ffffff" },
+  features:          { padding_y: "lg", align: "left",   heading_size: "2xl" },
+  stats:             { padding_y: "md", align: "center", heading_size: "xl",  bg_color: "#101a33", text_color: "#ffffff", heading_color: "#ffffff" },
+  cta:               { padding_y: "lg", align: "center", heading_size: "2xl", bg_color: "linear-gradient(135deg, #2b8fce, #4bc16b)", text_color: "#ffffff", heading_color: "#ffffff", button_bg: "#ffffff", button_fg: "#101a33" },
+  "Final CTA":       { padding_y: "lg", align: "center", heading_size: "2xl", bg_color: "linear-gradient(135deg, #2b8fce, #4bc16b)", text_color: "#ffffff", heading_color: "#ffffff", button_bg: "#ffffff", button_fg: "#101a33" },
+  media:             { padding_y: "lg", container: "wide" },
+  logos:             { padding_y: "md", align: "center", bg_color: "#ffffff" },
+  faq:               { padding_y: "lg", container: "narrow", align: "left", heading_size: "2xl" },
+  FAQ:               { padding_y: "lg", container: "narrow", align: "left", heading_size: "2xl" },
+  Introduction:      { padding_y: "lg", align: "left",   heading_size: "2xl" },
+  "The Problem":     { padding_y: "lg", align: "left",   heading_size: "2xl", bg_color: "#ffffff" },
+  "The Platform":    { padding_y: "lg", align: "left",   heading_size: "2xl" },
+  "How It Works":    { padding_y: "lg", align: "left",   heading_size: "2xl", bg_color: "#ffffff" },
+  "Patient Journey": { padding_y: "lg", align: "left",   heading_size: "2xl" },
+  Outcomes:          { padding_y: "lg", align: "center", heading_size: "2xl", bg_color: "#101a33", text_color: "#ffffff", heading_color: "#ffffff" },
+  Integrations:      { padding_y: "lg", align: "center", heading_size: "xl",  bg_color: "#ffffff" },
+  // ---- Homepage section keys ----
+  expertise:         { padding_y: "lg", align: "left",   heading_size: "2xl" },
+  process:           { padding_y: "lg", align: "left",   heading_size: "2xl", bg_color: "#ffffff" },
+  services:          { padding_y: "lg", align: "left",   heading_size: "2xl" },
+  promise:           { padding_y: "lg", align: "center", heading_size: "2xl", bg_color: "#101a33", text_color: "#ffffff", heading_color: "#ffffff" },
+  clients:           { padding_y: "md", align: "center", bg_color: "#ffffff" },
+  success_stories:   { padding_y: "lg", align: "left",   heading_size: "2xl" },
+  partners:          { padding_y: "md", align: "center", bg_color: "#ffffff" },
+};
+
+export function getSectionDefaults(kind?: string | null): typeof DEFAULT_SECTION_STYLE {
+  if (!kind) return DEFAULT_SECTION_STYLE;
+  return { ...DEFAULT_SECTION_STYLE, ...(SECTION_STYLE_DEFAULTS[kind] ?? {}) };
+}
+
 // Solid colors used site-wide. `value` may be a hex or a CSS `background`
 // string (gradient), so bg_color / button_bg accept the same swatches.
 export const BRAND_SWATCHES = [

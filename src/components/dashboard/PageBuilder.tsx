@@ -311,6 +311,7 @@ export function PageBuilder({ pageId, pageSlug }: { pageId: string; pageSlug?: s
                     />
                     {locale === "en" && (
                       <SectionStyleEditor
+                        kind={row.kind}
                         value={(row.style ?? {}) as SectionStyle}
                         onChange={(next) => updateStyle(row.id, next)}
                       />

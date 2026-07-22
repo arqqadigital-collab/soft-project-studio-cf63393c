@@ -1,11 +1,12 @@
 import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
-import { BRAND_SWATCHES, GRADIENT_SWATCHES, DEFAULT_SECTION_STYLE, type SectionStyle } from "@/lib/sectionStyle";
+import { BRAND_SWATCHES, GRADIENT_SWATCHES, DEFAULT_SECTION_STYLE, getSectionDefaults, type SectionStyle } from "@/lib/sectionStyle";
 import { RotateCcw } from "lucide-react";
 
 type Props = {
   value: SectionStyle | null | undefined;
   onChange: (next: SectionStyle) => void;
+  kind?: string | null;
 };
 
 function Chip({
@@ -100,11 +101,12 @@ function Group({
   );
 }
 
-export function SectionStyleEditor({ value, onChange }: Props) {
-  // Merge saved overrides on top of the sensible per-section defaults so the
-  // controls always reflect what the section currently looks like, even when
-  // the user hasn't tweaked anything yet.
-  const s: SectionStyle = { ...DEFAULT_SECTION_STYLE, ...(value ?? {}) };
+export function SectionStyleEditor({ value, onChange, kind }: Props) {
+  // Merge saved overrides on top of per-section defaults so the controls
+  // always reflect what the section currently looks like on the site, even
+  // when the user hasn't tweaked anything yet.
+  const defaults = getSectionDefaults(kind);
+  const s: SectionStyle = { ...defaults, ...(value ?? {}) };
   const set = (patch: Partial<SectionStyle>) => onChange({ ...s, ...patch });
 
   return (

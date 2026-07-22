@@ -344,7 +344,7 @@ export function SectionEditor({ sectionKey }: { sectionKey: SectionKey }) {
         </TabsContent>
       </Tabs>
 
-      <SectionStyleEditor value={style} onChange={setStyle} />
+      <SectionStyleEditor kind={sectionKey} value={style} onChange={setStyle} />
 
       {images.length > 0 && (
         <div className="rounded-md border border-border">
