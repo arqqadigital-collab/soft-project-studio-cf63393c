@@ -98,6 +98,26 @@ export function resolveSectionStyle(style: SectionStyle | null | undefined) {
   };
 }
 
+// Sensible defaults that mirror how sections render out-of-the-box in code.
+// Used by the Design & layout editor so controls reflect the current look
+// instead of appearing empty when nothing has been saved yet.
+export const DEFAULT_SECTION_STYLE: Required<Pick<SectionStyle,
+  "padding_y" | "container" | "align" |
+  "margin_top" | "margin_bottom" |
+  "heading_size" | "body_size" |
+  "button_size" | "button_radius"
+>> = {
+  padding_y: "lg",
+  container: "default",
+  align: "left",
+  margin_top: "none",
+  margin_bottom: "none",
+  heading_size: "2xl",
+  body_size: "md",
+  button_size: "md",
+  button_radius: "rounded",
+};
+
 export const BRAND_SWATCHES = [
   { label: "Brand blue", value: "#2b8fce" },
   { label: "Brand green", value: "#4bc16b" },
