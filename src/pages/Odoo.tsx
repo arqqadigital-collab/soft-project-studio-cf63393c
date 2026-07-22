@@ -22,6 +22,7 @@ import { Footer } from "@/components/Footer";
 import { CtaSection } from "@/components/CtaSection";
 import { ScrollRevealText } from "@/components/ScrollRevealText";
 import { useOdooContent } from "@/lib/odooContent";
+import { StyledSection } from "@/components/StyledSection";
 
 const ICONS: Record<string, LucideIcon> = {
   Layers, Workflow, Network, BarChart3, Wrench, DatabaseZap,
@@ -44,7 +45,8 @@ export default function Odoo() {
   return (
     <>
       {v.Hero && (
-      <main className="relative min-h-[90vh] w-full overflow-hidden bg-background pt-20">
+        <StyledSection style={(c as any)._style?.["Hero"]}>
+<main className="relative min-h-[90vh] w-full overflow-hidden bg-background pt-20">
         <div className="absolute inset-0">
           <video
             src={hero.mediaUrl}
@@ -97,10 +99,12 @@ export default function Odoo() {
           </section>
         </div>
       </main>
+        </StyledSection>
       )}
 
       {v.Introduction && (
-      <section className="relative z-20 -mt-12 rounded-t-[2.5rem] bg-[#0a0e1a] px-6 py-20 shadow-[0_-20px_60px_-20px_rgba(0,0,0,0.4)] md:px-12 md:py-28">
+        <StyledSection style={(c as any)._style?.["Introduction"]}>
+<section className="relative z-20 -mt-12 rounded-t-[2.5rem] bg-[#0a0e1a] px-6 py-20 shadow-[0_-20px_60px_-20px_rgba(0,0,0,0.4)] md:px-12 md:py-28">
         <div className="mx-auto max-w-6xl">
           <div className="text-center">
             <h2 className="mx-auto max-w-4xl text-3xl font-bold leading-[1.15] tracking-tight text-white md:text-4xl lg:text-5xl">
@@ -136,10 +140,12 @@ export default function Odoo() {
           </div>
         </div>
       </section>
+        </StyledSection>
       )}
 
       {v["What We Build"] && (
-      <section id="services" className="relative z-20 -mt-12 rounded-t-[2.5rem] bg-background px-6 py-24 shadow-[0_-20px_60px_-20px_rgba(0,0,0,0.4)] md:px-12 md:py-32">
+        <StyledSection style={(c as any)._style?.["What We Build"]}>
+<section id="services" className="relative z-20 -mt-12 rounded-t-[2.5rem] bg-background px-6 py-24 shadow-[0_-20px_60px_-20px_rgba(0,0,0,0.4)] md:px-12 md:py-32">
         <div className="mx-auto max-w-6xl">
           <div className="text-center">
             <p className="text-sm font-semibold uppercase tracking-[0.25em]" style={{ color: "var(--brand-blue)" }}>
@@ -188,10 +194,12 @@ export default function Odoo() {
           </div>
         </div>
       </section>
+        </StyledSection>
       )}
 
       {v["Development Process"] && (
-      <section className="relative bg-[#0a0e1a] px-6 py-24 md:px-12 md:py-32">
+        <StyledSection style={(c as any)._style?.["Development Process"]}>
+<section className="relative bg-[#0a0e1a] px-6 py-24 md:px-12 md:py-32">
         <div className="mx-auto max-w-6xl">
           <div className="text-center">
             <p className="text-sm font-semibold uppercase tracking-[0.25em] text-[var(--brand-blue)]">
@@ -235,10 +243,12 @@ export default function Odoo() {
           </div>
         </div>
       </section>
+        </StyledSection>
       )}
 
       {v["Use Cases"] && (
-      <section className="relative bg-background px-6 py-24 md:px-12 md:py-32">
+        <StyledSection style={(c as any)._style?.["Use Cases"]}>
+<section className="relative bg-background px-6 py-24 md:px-12 md:py-32">
         <div className="mx-auto max-w-6xl">
           <div className="text-center">
             <p className="text-sm font-semibold uppercase tracking-[0.25em]" style={{ color: "var(--brand-blue)" }}>
@@ -288,10 +298,12 @@ export default function Odoo() {
           </div>
         </div>
       </section>
+        </StyledSection>
       )}
 
       {v["80/20 Statement"] && (
-      <section className="relative overflow-hidden bg-[#0a0e1a] px-6 py-24 md:px-12 md:py-32">
+        <StyledSection style={(c as any)._style?.["80/20 Statement"]}>
+<section className="relative overflow-hidden bg-[#0a0e1a] px-6 py-24 md:px-12 md:py-32">
         <img
           src={eighty.backgroundUrl}
           alt=""
@@ -313,10 +325,12 @@ export default function Odoo() {
           <p className="mx-auto mt-5 max-w-3xl text-base leading-relaxed text-white/75 md:text-lg">{eighty.body2}</p>
         </div>
       </section>
+        </StyledSection>
       )}
 
       {v["Who We Serve"] && (
-      <section className="relative bg-[#f6f7fb] px-6 py-24 md:px-12 md:py-32">
+        <StyledSection style={(c as any)._style?.["Who We Serve"]}>
+<section className="relative bg-[#f6f7fb] px-6 py-24 md:px-12 md:py-32">
         <div className="mx-auto max-w-6xl">
           <div className="text-center">
             <p className="text-sm font-semibold uppercase tracking-[0.25em]" style={{ color: "var(--brand-blue)" }}>
@@ -367,10 +381,12 @@ export default function Odoo() {
           </div>
         </div>
       </section>
+        </StyledSection>
       )}
 
       {v["ERP Objective"] && (
-      <section className="relative overflow-hidden bg-[#0a0e1a] px-6 py-32 md:px-12 md:py-48">
+        <StyledSection style={(c as any)._style?.["ERP Objective"]}>
+<section className="relative overflow-hidden bg-[#0a0e1a] px-6 py-32 md:px-12 md:py-48">
         <div className="absolute inset-0 bg-gradient-to-br from-[#0a0e1a] via-[#0d1322] to-[#0a0e1a]" aria-hidden="true" />
         <div className="relative z-10 mx-auto max-w-5xl text-center">
           <ScrollRevealText
@@ -382,10 +398,12 @@ export default function Odoo() {
           />
         </div>
       </section>
+        </StyledSection>
       )}
 
       {v["Discovery Session"] && (
-      <section id="contact" className="relative bg-background px-6 py-24 md:px-12 md:py-32">
+        <StyledSection style={(c as any)._style?.["Discovery Session"]}>
+<section id="contact" className="relative bg-background px-6 py-24 md:px-12 md:py-32">
         <div className="mx-auto grid max-w-6xl grid-cols-1 gap-12 md:grid-cols-2 md:items-center">
           <div>
             <p className="text-sm font-semibold uppercase tracking-[0.25em]" style={{ color: "var(--brand-blue)" }}>
@@ -420,6 +438,7 @@ export default function Odoo() {
           </ul>
         </div>
       </section>
+        </StyledSection>
       )}
 
       <div id="cta">

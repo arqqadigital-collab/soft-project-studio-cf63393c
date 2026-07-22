@@ -19,6 +19,7 @@ import { Footer } from "@/components/Footer";
 import { CtaSection } from "@/components/CtaSection";
 import { SeoHead } from "@/components/SeoHead";
 import { useCareersContent } from "@/lib/careersContent";
+import { StyledSection } from "@/components/StyledSection";
 
 const ICONS: Record<string, LucideIcon> = {
   Target,
@@ -49,7 +50,8 @@ export default function Careers() {
       />
 
       {v.Hero && (
-        <main className="pt-20 relative min-h-[90vh] w-full overflow-hidden bg-background">
+        <StyledSection style={(c as any)._style?.["Hero"]}>
+<main className="pt-20 relative min-h-[90vh] w-full overflow-hidden bg-background">
           <div className="absolute inset-0">
             <video
               src={hero.mediaUrl || aboutHeroVideo}
@@ -95,10 +97,12 @@ export default function Careers() {
             </section>
           </div>
         </main>
+        </StyledSection>
       )}
 
       {v.Promise && (
-        <section className="relative z-20 -mt-16 rounded-t-[2.5rem] bg-white px-6 pb-24 pt-24 shadow-[0_-20px_60px_-20px_rgba(0,0,0,0.4)] md:px-12">
+        <StyledSection style={(c as any)._style?.["Promise"]}>
+<section className="relative z-20 -mt-16 rounded-t-[2.5rem] bg-white px-6 pb-24 pt-24 shadow-[0_-20px_60px_-20px_rgba(0,0,0,0.4)] md:px-12">
           <div className="mx-auto max-w-6xl">
             {promise.intro && (
               <div className="mx-auto max-w-4xl text-center">
@@ -140,10 +144,12 @@ export default function Careers() {
             </div>
           </div>
         </section>
+        </StyledSection>
       )}
 
       {v["Hiring Journey"] && (
-        <section
+        <StyledSection style={(c as any)._style?.["Hiring Journey"]}>
+<section
           className="px-6 py-24 md:px-12"
           style={{ background: "color-mix(in oklab, var(--brand-blue) 4%, var(--background))" }}
         >
@@ -208,10 +214,12 @@ export default function Careers() {
             </div>
           </div>
         </section>
+        </StyledSection>
       )}
 
       {v["Final CTA"] && (
-        <section
+        <StyledSection style={(c as any)._style?.["Final CTA"]}>
+<section
           className="relative overflow-hidden px-6 py-24 md:px-12"
           style={{ backgroundColor: "#091628" }}
         >
@@ -254,6 +262,7 @@ export default function Careers() {
             </div>
           </div>
         </section>
+        </StyledSection>
       )}
 
       <CtaSection />

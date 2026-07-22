@@ -22,6 +22,7 @@ import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/
 import { Footer } from "@/components/Footer";
 import { CtaSection } from "@/components/CtaSection";
 import { useZohoContent } from "@/lib/zohoContent";
+import { StyledSection } from "@/components/StyledSection";
 
 const ICONS: Record<string, LucideIcon> = {
   Database, Mail, BarChart3, TrendingUp, ScanSearch, Layers, Workflow, Rocket, ShieldCheck, Users, Wallet, Cpu, Crown,
@@ -34,7 +35,8 @@ export default function Zoho() {
   return (
     <>
       {v.Hero && (
-        <main className="relative min-h-[90vh] w-full overflow-hidden bg-background pt-20">
+        <StyledSection style={(c as any)._style?.["Hero"]}>
+<main className="relative min-h-[90vh] w-full overflow-hidden bg-background pt-20">
           <div className="absolute inset-0">
             <video
               src={c.Hero.mediaUrl}
@@ -87,10 +89,12 @@ export default function Zoho() {
             </section>
           </div>
         </main>
+        </StyledSection>
       )}
 
       {v.Introduction && (
-        <section className="relative z-20 -mt-12 rounded-t-[2.5rem] bg-[#0a0e1a] px-6 py-20 shadow-[0_-20px_60px_-20px_rgba(0,0,0,0.4)] md:px-12 md:py-28">
+        <StyledSection style={(c as any)._style?.["Introduction"]}>
+<section className="relative z-20 -mt-12 rounded-t-[2.5rem] bg-[#0a0e1a] px-6 py-20 shadow-[0_-20px_60px_-20px_rgba(0,0,0,0.4)] md:px-12 md:py-28">
           <div className="mx-auto max-w-6xl">
             <div className="text-center">
               <h2 className="mx-auto max-w-4xl text-3xl font-bold leading-[1.15] tracking-tight text-white md:text-4xl lg:text-5xl">
@@ -129,10 +133,12 @@ export default function Zoho() {
             </div>
           </div>
         </section>
+        </StyledSection>
       )}
 
       {v["The Problem"] && (
-        <section className="relative z-20 bg-background px-6 py-24 md:px-12 md:py-32">
+        <StyledSection style={(c as any)._style?.["The Problem"]}>
+<section className="relative z-20 bg-background px-6 py-24 md:px-12 md:py-32">
           <div className="mx-auto max-w-6xl">
             <div className="text-center">
               <p className="text-sm font-semibold uppercase tracking-[0.25em]" style={{ color: "var(--brand-blue)" }}>
@@ -174,10 +180,12 @@ export default function Zoho() {
             </div>
           </div>
         </section>
+        </StyledSection>
       )}
 
       {v["How We Work"] && (
-        <section id="process" className="relative bg-[#0a0e1a] px-6 py-24 md:px-12 md:py-32">
+        <StyledSection style={(c as any)._style?.["How We Work"]}>
+<section id="process" className="relative bg-[#0a0e1a] px-6 py-24 md:px-12 md:py-32">
           <div className="mx-auto max-w-6xl">
             <div className="text-center">
               <p className="text-sm font-semibold uppercase tracking-[0.25em] text-[var(--brand-blue)]">
@@ -226,10 +234,12 @@ export default function Zoho() {
             </div>
           </div>
         </section>
+        </StyledSection>
       )}
 
       {v["Use Cases"] && (
-        <section className="relative bg-background px-6 py-24 md:px-12 md:py-32">
+        <StyledSection style={(c as any)._style?.["Use Cases"]}>
+<section className="relative bg-background px-6 py-24 md:px-12 md:py-32">
           <div className="mx-auto max-w-7xl">
             <div className="text-center">
               <p className="text-sm font-semibold uppercase tracking-[0.25em] text-[var(--brand-blue)]">
@@ -285,10 +295,12 @@ export default function Zoho() {
             </div>
           </div>
         </section>
+        </StyledSection>
       )}
 
       {v["Business Impact"] && (
-        <section className="relative bg-background px-6 py-24 md:px-12 md:py-32">
+        <StyledSection style={(c as any)._style?.["Business Impact"]}>
+<section className="relative bg-background px-6 py-24 md:px-12 md:py-32">
           <div className="mx-auto max-w-6xl">
             <div className="text-center">
               <p className="text-sm font-semibold uppercase tracking-[0.25em]" style={{ color: "var(--brand-blue)" }}>
@@ -329,10 +341,12 @@ export default function Zoho() {
             </div>
           </div>
         </section>
+        </StyledSection>
       )}
 
       {v.Objective && (
-        <section className="relative bg-[#0a0e1a] px-6 py-24 md:px-12 md:py-32">
+        <StyledSection style={(c as any)._style?.["Objective"]}>
+<section className="relative bg-[#0a0e1a] px-6 py-24 md:px-12 md:py-32">
           <div className="mx-auto max-w-5xl text-center">
             <h2 className="text-3xl font-bold leading-[1.15] tracking-tight md:text-4xl lg:text-5xl">
               <span className="text-white">{c.Objective.headline}</span>
@@ -357,10 +371,12 @@ export default function Zoho() {
             <p className="mt-4 text-xs text-white/50">{c.Objective.footnote}</p>
           </div>
         </section>
+        </StyledSection>
       )}
 
       {v.FAQ && (
-        <section className="relative bg-[#eff7fb] px-6 py-24 md:px-12 md:py-32">
+        <StyledSection style={(c as any)._style?.["FAQ"]}>
+<section className="relative bg-[#eff7fb] px-6 py-24 md:px-12 md:py-32">
           <div className="mx-auto max-w-4xl">
             <div className="text-center">
               <div className="inline-flex items-center gap-2 rounded-full border border-[var(--brand-blue)]/20 bg-white px-5 py-2 shadow-sm">
@@ -398,6 +414,7 @@ export default function Zoho() {
             </Accordion>
           </div>
         </section>
+        </StyledSection>
       )}
 
       <CtaSection />

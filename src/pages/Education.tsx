@@ -28,6 +28,7 @@ import {
 import { Footer } from "@/components/Footer";
 import { CtaSection } from "@/components/CtaSection";
 import { useEducationContent } from "@/lib/educationContent";
+import { StyledSection } from "@/components/StyledSection";
 
 const ICONS: Record<string, LucideIcon> = {
   GraduationCap, Layers, Boxes, Activity, Calculator, ScanSearch, Settings2,
@@ -43,7 +44,8 @@ export default function Education() {
   return (
     <>
       {v.Hero && (
-      <main className="relative min-h-[90vh] w-full overflow-hidden bg-background pt-20">
+        <StyledSection style={(c as any)._style?.["Hero"]}>
+<main className="relative min-h-[90vh] w-full overflow-hidden bg-background pt-20">
         <div className="absolute inset-0">
           <img src={c.Hero.image} alt="Modern university campus" className="absolute inset-0 h-full w-full object-cover" />
           <div className="absolute inset-0" style={{ background: "linear-gradient(180deg, rgba(5,11,24,0.82) 0%, rgba(7,20,43,0.7) 60%, rgba(5,11,24,0.95) 100%)" }} />
@@ -68,10 +70,12 @@ export default function Education() {
           </section>
         </div>
       </main>
+        </StyledSection>
       )}
 
       {v["The Problem"] && (
-      <section className="relative z-20 -mt-12 rounded-t-[2.5rem] bg-[#0a0e1a] px-6 py-20 shadow-[0_-20px_60px_-20px_rgba(0,0,0,0.4)] md:px-12 md:py-28">
+        <StyledSection style={(c as any)._style?.["The Problem"]}>
+<section className="relative z-20 -mt-12 rounded-t-[2.5rem] bg-[#0a0e1a] px-6 py-20 shadow-[0_-20px_60px_-20px_rgba(0,0,0,0.4)] md:px-12 md:py-28">
         <div className="mx-auto max-w-6xl">
           <div className="text-center">
             <span className="inline-flex items-center gap-2 rounded-full border border-red-400/25 bg-red-500/10 px-4 py-1.5 text-xs font-semibold uppercase tracking-wider text-red-400">
@@ -99,10 +103,12 @@ export default function Education() {
           </div>
         </div>
       </section>
+        </StyledSection>
       )}
 
       {v["Traditional Fail"] && (
-      <section className="relative bg-background">
+        <StyledSection style={(c as any)._style?.["Traditional Fail"]}>
+<section className="relative bg-background">
         <div className="grid min-h-[600px] grid-cols-1 md:grid-cols-2">
           <div className="flex items-center px-6 py-20 md:px-12 md:py-28">
             <div className="mx-auto max-w-xl">
@@ -124,10 +130,12 @@ export default function Education() {
           </div>
         </div>
       </section>
+        </StyledSection>
       )}
 
       {v.Approach && (
-      <section className="relative z-20 -mt-12 rounded-t-[2.5rem] bg-background px-6 py-24 shadow-[0_-20px_60px_-20px_rgba(0,0,0,0.4)] md:px-12 md:py-32">
+        <StyledSection style={(c as any)._style?.["Approach"]}>
+<section className="relative z-20 -mt-12 rounded-t-[2.5rem] bg-background px-6 py-24 shadow-[0_-20px_60px_-20px_rgba(0,0,0,0.4)] md:px-12 md:py-32">
         <div className="mx-auto max-w-6xl">
           <div className="text-center">
             <p className="text-sm font-semibold uppercase tracking-[0.25em]" style={{ color: "var(--brand-blue)" }}>{c.Approach.eyebrow}</p>
@@ -152,10 +160,12 @@ export default function Education() {
           </div>
         </div>
       </section>
+        </StyledSection>
       )}
 
       {v.Capabilities && (
-      <section id="capabilities" className="relative bg-[#0a0e1a] px-6 py-24 md:px-12 md:py-32">
+        <StyledSection style={(c as any)._style?.["Capabilities"]}>
+<section id="capabilities" className="relative bg-[#0a0e1a] px-6 py-24 md:px-12 md:py-32">
         <div className="mx-auto max-w-6xl">
           <div className="text-center">
             <p className="text-sm font-semibold uppercase tracking-[0.25em] text-[var(--brand-blue)]">{c.Capabilities.eyebrow}</p>
@@ -187,10 +197,12 @@ export default function Education() {
           </div>
         </div>
       </section>
+        </StyledSection>
       )}
 
       {v["Use Cases"] && (
-      <section className="relative bg-background px-6 py-24 md:px-12 md:py-32">
+        <StyledSection style={(c as any)._style?.["Use Cases"]}>
+<section className="relative bg-background px-6 py-24 md:px-12 md:py-32">
         <div className="mx-auto max-w-6xl">
           <div className="text-center">
             <p className="text-sm font-semibold uppercase tracking-[0.25em]" style={{ color: "var(--brand-blue)" }}>{c["Use Cases"].eyebrow}</p>
@@ -218,10 +230,12 @@ export default function Education() {
           <p className="mx-auto mt-10 max-w-3xl text-center text-sm text-muted-foreground">{c["Use Cases"].footnote}</p>
         </div>
       </section>
+        </StyledSection>
       )}
 
       {v["Business Impact"] && (
-      <section className="relative bg-[#0a0e1a] px-6 py-24 md:px-12 md:py-32">
+        <StyledSection style={(c as any)._style?.["Business Impact"]}>
+<section className="relative bg-[#0a0e1a] px-6 py-24 md:px-12 md:py-32">
         <div className="mx-auto max-w-6xl">
           <div className="text-center">
             <p className="text-sm font-semibold uppercase tracking-[0.25em] text-[var(--brand-blue)]">{c["Business Impact"].eyebrow}</p>
@@ -245,10 +259,12 @@ export default function Education() {
           </div>
         </div>
       </section>
+        </StyledSection>
       )}
 
       {v.Implementation && (
-      <section className="relative bg-background px-6 py-24 md:px-12 md:py-32">
+        <StyledSection style={(c as any)._style?.["Implementation"]}>
+<section className="relative bg-background px-6 py-24 md:px-12 md:py-32">
         <div className="mx-auto max-w-6xl">
           <div className="text-center">
             <p className="text-sm font-semibold uppercase tracking-[0.25em]" style={{ color: "var(--brand-blue)" }}>{c.Implementation.eyebrow}</p>
@@ -276,10 +292,12 @@ export default function Education() {
           </div>
         </div>
       </section>
+        </StyledSection>
       )}
 
       {v["Why SBS"] && (
-      <section className="relative bg-[#0a0e1a] px-6 py-24 md:px-12 md:py-32">
+        <StyledSection style={(c as any)._style?.["Why SBS"]}>
+<section className="relative bg-[#0a0e1a] px-6 py-24 md:px-12 md:py-32">
         <div className="mx-auto max-w-5xl text-center">
           <p className="text-sm font-semibold uppercase tracking-[0.25em] text-[var(--brand-blue)]">{c["Why SBS"].eyebrow}</p>
           <h2 className="mt-6 text-4xl font-bold leading-[1.1] tracking-tight text-white md:text-5xl">
@@ -296,10 +314,12 @@ export default function Education() {
           </div>
         </div>
       </section>
+        </StyledSection>
       )}
 
       {v["Final CTA"] && (
-      <section className="relative overflow-hidden bg-[#0a0e1a] px-6 py-24 md:px-12 md:py-32">
+        <StyledSection style={(c as any)._style?.["Final CTA"]}>
+<section className="relative overflow-hidden bg-[#0a0e1a] px-6 py-24 md:px-12 md:py-32">
         <div className="absolute inset-0 opacity-30">
           <img src={c["Final CTA"].image} alt="" className="h-full w-full object-cover" />
           <div className="absolute inset-0 bg-[#0a0e1a]/80" />
@@ -317,6 +337,7 @@ export default function Education() {
           </div>
         </div>
       </section>
+        </StyledSection>
       )}
 
       <CtaSection />

@@ -24,6 +24,7 @@ import { Footer } from "@/components/Footer";
 import { CtaSection } from "@/components/CtaSection";
 import { useHorizontalScroll } from "@/hooks/use-horizontal-scroll";
 import { useMedicationContent } from "@/lib/medicationContent";
+import { StyledSection } from "@/components/StyledSection";
 
 const ICONS: Record<string, LucideIcon> = {
   Stethoscope, Pill, ClipboardCheck, ScanLine, Lock, Boxes, RefreshCcw,
@@ -128,7 +129,8 @@ export default function MedicationDosage() {
   return (
     <>
       {v.Hero && (
-        <main className="pt-20 relative min-h-[90vh] w-full overflow-hidden bg-background">
+        <StyledSection style={(c as any)._style?.["Hero"]}>
+<main className="pt-20 relative min-h-[90vh] w-full overflow-hidden bg-background">
           <div className="absolute inset-0">
             {c.Hero.mediaUrl && (
               <video autoPlay muted loop playsInline className="absolute inset-0 h-full w-full object-cover" src={c.Hero.mediaUrl} />
@@ -168,10 +170,12 @@ export default function MedicationDosage() {
             </section>
           </div>
         </main>
+        </StyledSection>
       )}
 
       {v.Introduction && (
-        <section className="relative z-20 -mt-12 rounded-t-[2.5rem] bg-background px-6 py-24 shadow-[0_-20px_60px_-20px_rgba(0,0,0,0.4)] md:px-12 md:py-32">
+        <StyledSection style={(c as any)._style?.["Introduction"]}>
+<section className="relative z-20 -mt-12 rounded-t-[2.5rem] bg-background px-6 py-24 shadow-[0_-20px_60px_-20px_rgba(0,0,0,0.4)] md:px-12 md:py-32">
           <div className="mx-auto max-w-4xl text-center">
             <p className="text-sm font-semibold uppercase tracking-[0.25em]" style={{ color: "var(--brand-blue)" }}>{c.Introduction.eyebrow}</p>
             <h2 className="mt-6 text-3xl font-bold leading-[1.15] tracking-tight md:text-4xl lg:text-5xl">
@@ -181,10 +185,12 @@ export default function MedicationDosage() {
             <p className="mx-auto mt-8 max-w-3xl text-base leading-relaxed text-muted-foreground md:text-lg">{c.Introduction.body}</p>
           </div>
         </section>
+        </StyledSection>
       )}
 
       {v["The Problem"] && (
-        <section ref={problemRef} className="relative bg-[#0a0e1a]" style={{ height: "320vh" }}>
+        <StyledSection style={(c as any)._style?.["The Problem"]}>
+<section ref={problemRef} className="relative bg-[#0a0e1a]" style={{ height: "320vh" }}>
           <div className="sticky top-0 flex min-h-screen flex-col overflow-hidden pb-12 md:pb-16">
             <div className="mx-auto w-full max-w-7xl px-6 pt-14 md:px-12 md:pt-16">
               <span className="inline-flex items-center gap-2 rounded-full bg-red-500/10 px-3 py-1.5 text-xs font-semibold uppercase tracking-wider text-red-300 ring-1 ring-red-500/20">
@@ -217,10 +223,12 @@ export default function MedicationDosage() {
             </div>
           </div>
         </section>
+        </StyledSection>
       )}
 
       {v["The Platform"] && (
-        <section className="px-6 py-24 md:px-12" style={{ background: "color-mix(in oklab, var(--brand-blue) 4%, var(--background))" }}>
+        <StyledSection style={(c as any)._style?.["The Platform"]}>
+<section className="px-6 py-24 md:px-12" style={{ background: "color-mix(in oklab, var(--brand-blue) 4%, var(--background))" }}>
           <div className="mx-auto max-w-6xl">
             <div className="mx-auto max-w-3xl text-center">
               <span className="text-xs font-semibold uppercase tracking-[0.3em] text-[color:var(--brand-blue)]">{c["The Platform"].eyebrow}</span>
@@ -243,10 +251,12 @@ export default function MedicationDosage() {
             </div>
           </div>
         </section>
+        </StyledSection>
       )}
 
       {v["Patient Journey"] && (
-        <section className="relative px-6 py-24 md:px-12" style={{ backgroundImage: `url(${bgStepsLight})`, backgroundSize: "cover", backgroundPosition: "center", backgroundAttachment: "fixed" }}>
+        <StyledSection style={(c as any)._style?.["Patient Journey"]}>
+<section className="relative px-6 py-24 md:px-12" style={{ backgroundImage: `url(${bgStepsLight})`, backgroundSize: "cover", backgroundPosition: "center", backgroundAttachment: "fixed" }}>
           <div className="relative mx-auto max-w-7xl">
             <div className="mx-auto max-w-3xl text-center">
               <span className="inline-flex items-center gap-2 rounded-full bg-[color:var(--brand-blue)]/10 px-3 py-1.5 text-xs font-semibold uppercase tracking-wider text-[color:var(--brand-blue)]">
@@ -257,10 +267,12 @@ export default function MedicationDosage() {
             <ExpandingJourney steps={[...(c["Patient Journey"].items as any)]} />
           </div>
         </section>
+        </StyledSection>
       )}
 
       {v.Outcomes && (
-        <section className="relative overflow-hidden px-6 py-24 md:px-12" style={{ backgroundColor: "#091628" }}>
+        <StyledSection style={(c as any)._style?.["Outcomes"]}>
+<section className="relative overflow-hidden px-6 py-24 md:px-12" style={{ backgroundColor: "#091628" }}>
           <div className="absolute -left-32 top-1/2 h-96 w-96 -translate-y-1/2 rounded-full opacity-20 blur-3xl" style={{ background: "var(--gradient-brand)" }} aria-hidden />
           <div className="relative mx-auto max-w-6xl">
             <div className="mx-auto max-w-3xl text-center">
@@ -282,10 +294,12 @@ export default function MedicationDosage() {
             )}
           </div>
         </section>
+        </StyledSection>
       )}
 
       {v.Integrations && (
-        <section className="px-6 py-24 md:px-12">
+        <StyledSection style={(c as any)._style?.["Integrations"]}>
+<section className="px-6 py-24 md:px-12">
           <div className="mx-auto max-w-6xl text-center">
             <span className="inline-flex items-center gap-2 rounded-full bg-[color:var(--brand-blue)]/10 px-3 py-1.5 text-xs font-semibold uppercase tracking-wider text-[color:var(--brand-blue)]">
               <Network className="h-3.5 w-3.5" /> {c.Integrations.eyebrow}
@@ -299,10 +313,12 @@ export default function MedicationDosage() {
             </div>
           </div>
         </section>
+        </StyledSection>
       )}
 
       {v.FAQ && (
-        <section className="px-6 py-24 md:px-12" style={{ background: "color-mix(in oklab, var(--brand-blue) 4%, var(--background))" }}>
+        <StyledSection style={(c as any)._style?.["FAQ"]}>
+<section className="px-6 py-24 md:px-12" style={{ background: "color-mix(in oklab, var(--brand-blue) 4%, var(--background))" }}>
           <div className="mx-auto max-w-4xl">
             <div className="text-center">
               <span className="inline-flex items-center gap-2 rounded-full bg-[color:var(--brand-blue)]/10 px-3 py-1.5 text-xs font-semibold uppercase tracking-wider text-[color:var(--brand-blue)]">
@@ -326,10 +342,12 @@ export default function MedicationDosage() {
             </div>
           </div>
         </section>
+        </StyledSection>
       )}
 
       {v["Final CTA"] && (
-        <section id="contact" className="relative overflow-hidden px-6 py-24 md:px-12" style={{ backgroundColor: "#091628" }}>
+        <StyledSection style={(c as any)._style?.["Final CTA"]}>
+<section id="contact" className="relative overflow-hidden px-6 py-24 md:px-12" style={{ backgroundColor: "#091628" }}>
           {c["Final CTA"].mediaUrl && (
             <video src={c["Final CTA"].mediaUrl} autoPlay muted loop playsInline className="absolute inset-0 h-full w-full object-cover" aria-hidden="true" />
           )}
@@ -355,6 +373,7 @@ export default function MedicationDosage() {
             {c["Final CTA"].footnote && <p className="mt-8 text-sm italic text-white/70">{c["Final CTA"].footnote}</p>}
           </div>
         </section>
+        </StyledSection>
       )}
 
       <CtaSection />

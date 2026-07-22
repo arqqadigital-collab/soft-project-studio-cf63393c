@@ -24,6 +24,7 @@ import { Footer } from "@/components/Footer";
 import { CtaSection } from "@/components/CtaSection";
 import { useHorizontalScroll } from "@/hooks/use-horizontal-scroll";
 import { useClinicalAiContent } from "@/lib/clinicalAiContent";
+import { StyledSection } from "@/components/StyledSection";
 
 const ICONS: Record<string, LucideIcon> = {
   Mic, FileText, Stethoscope, Brain, Sparkles, ClipboardList, Languages,
@@ -143,7 +144,8 @@ export default function ClinicalAI() {
     <>
       {/* HERO */}
       {v.Hero && (
-      <main className="relative min-h-[90vh] w-full overflow-hidden bg-background pt-20">
+        <StyledSection style={(c as any)._style?.["Hero"]}>
+<main className="relative min-h-[90vh] w-full overflow-hidden bg-background pt-20">
         <div className="absolute inset-0">
           <video
             className="absolute inset-0 h-full w-full object-cover"
@@ -202,11 +204,13 @@ export default function ClinicalAI() {
           </section>
         </div>
       </main>
+        </StyledSection>
       )}
 
       {/* INTRO */}
       {v.Introduction && (
-      <section className="relative z-20 -mt-12 rounded-t-[2.5rem] bg-background px-6 py-24 shadow-[0_-20px_60px_-20px_rgba(0,0,0,0.4)] md:px-12 md:py-32">
+        <StyledSection style={(c as any)._style?.["Introduction"]}>
+<section className="relative z-20 -mt-12 rounded-t-[2.5rem] bg-background px-6 py-24 shadow-[0_-20px_60px_-20px_rgba(0,0,0,0.4)] md:px-12 md:py-32">
         <div className="mx-auto max-w-5xl text-center">
           <p className="text-sm font-semibold uppercase tracking-[0.25em]" style={{ color: "var(--brand-blue)" }}>
             {c.Introduction.eyebrow}
@@ -223,11 +227,13 @@ export default function ClinicalAI() {
           </p>
         </div>
       </section>
+        </StyledSection>
       )}
 
       {/* PROBLEM */}
       {v["The Problem"] && (
-      <section ref={problemRef} className="relative bg-[#0a0e1a]" style={{ height: "300vh" }}>
+        <StyledSection style={(c as any)._style?.["The Problem"]}>
+<section ref={problemRef} className="relative bg-[#0a0e1a]" style={{ height: "300vh" }}>
         <div className="sticky top-0 flex min-h-screen flex-col overflow-hidden">
           <div className="mx-auto w-full max-w-7xl px-6 pt-14 md:px-12 md:pt-16">
             <span className="inline-flex items-center gap-2 rounded-full bg-red-500/10 px-3 py-1.5 text-xs font-semibold uppercase tracking-wider text-red-300 ring-1 ring-red-500/20">
@@ -272,11 +278,13 @@ export default function ClinicalAI() {
           </div>
         </div>
       </section>
+        </StyledSection>
       )}
 
       {/* FEATURES */}
       {v["The Platform"] && (
-      <section
+        <StyledSection style={(c as any)._style?.["The Platform"]}>
+<section
         className="px-6 py-24 md:px-12"
         style={{ background: "color-mix(in oklab, var(--brand-blue) 4%, var(--background))" }}
       >
@@ -317,11 +325,13 @@ export default function ClinicalAI() {
           </div>
         </div>
       </section>
+        </StyledSection>
       )}
 
       {/* HOW IT WORKS */}
       {v["How It Works"] && (
-      <section className="bg-background px-6 py-24 md:px-12 md:py-32">
+        <StyledSection style={(c as any)._style?.["How It Works"]}>
+<section className="bg-background px-6 py-24 md:px-12 md:py-32">
         <div className="mx-auto max-w-6xl">
           <div className="mx-auto max-w-3xl text-center">
             <span className="text-xs font-semibold uppercase tracking-[0.3em] text-[color:var(--brand-blue)]">
@@ -337,11 +347,13 @@ export default function ClinicalAI() {
           <ExpandingJourney steps={c["How It Works"].items as unknown as JourneyStep[]} />
         </div>
       </section>
+        </StyledSection>
       )}
 
       {/* METRICS */}
       {v.Outcomes && (
-      <section className="relative overflow-hidden px-6 py-24 md:px-12" style={{ backgroundColor: "#091628" }}>
+        <StyledSection style={(c as any)._style?.["Outcomes"]}>
+<section className="relative overflow-hidden px-6 py-24 md:px-12" style={{ backgroundColor: "#091628" }}>
         <div
           className="absolute -left-32 top-1/2 h-96 w-96 -translate-y-1/2 rounded-full opacity-20 blur-3xl"
           style={{ background: "var(--gradient-brand)" }}
@@ -370,11 +382,13 @@ export default function ClinicalAI() {
           </div>
         </div>
       </section>
+        </StyledSection>
       )}
 
       {/* INTEGRATIONS */}
       {v.Integrations && (
-      <section className="px-6 py-24 md:px-12">
+        <StyledSection style={(c as any)._style?.["Integrations"]}>
+<section className="px-6 py-24 md:px-12">
         <div className="mx-auto max-w-5xl">
           <div className="text-center">
             <span className="inline-flex items-center gap-2 rounded-full bg-[color:var(--brand-blue)]/10 px-3 py-1.5 text-xs font-semibold uppercase tracking-wider text-[color:var(--brand-blue)]">
@@ -407,11 +421,13 @@ export default function ClinicalAI() {
           </div>
         </div>
       </section>
+        </StyledSection>
       )}
 
       {/* FAQ */}
       {v.FAQ && (
-      <section
+        <StyledSection style={(c as any)._style?.["FAQ"]}>
+<section
         className="px-6 py-24 md:px-12"
         style={{ background: "color-mix(in oklab, var(--brand-blue) 4%, var(--background))" }}
       >
@@ -447,11 +463,13 @@ export default function ClinicalAI() {
           </div>
         </div>
       </section>
+        </StyledSection>
       )}
 
       {/* FINAL CTA */}
       {v["Final CTA"] && (
-      <section
+        <StyledSection style={(c as any)._style?.["Final CTA"]}>
+<section
         id="contact"
         className="relative overflow-hidden px-6 py-24 md:px-12"
         style={{ backgroundColor: "#091628" }}
@@ -498,6 +516,7 @@ export default function ClinicalAI() {
           </p>
         </div>
       </section>
+        </StyledSection>
       )}
 
       <CtaSection />
