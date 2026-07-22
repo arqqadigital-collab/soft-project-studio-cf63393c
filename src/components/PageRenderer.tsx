@@ -2,8 +2,9 @@ import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
 import { SECTION_REGISTRY, type SectionKind } from "@/lib/pageSections";
 import { useLocale } from "@/i18n/LanguageProvider";
+import { StyledSection } from "@/components/StyledSection";
 
-type Row = { id: string; kind: string; position: number; is_visible: boolean; data: any; translations: any };
+type Row = { id: string; kind: string; position: number; is_visible: boolean; data: any; translations: any; style?: any };
 
 function mergeDeep(base: any, over: any): any {
   if (over === undefined || over === null) return base;
