@@ -52,7 +52,7 @@ export default function Dynamics365() {
     <>
       {/* HERO */}
       {v.Hero && (
-        <StyledSection style={c._style?.["Hero"]}>
+        <StyledSection style={(c as any)._style?.["Hero"]}>
 <main className="relative min-h-[90vh] w-full overflow-hidden bg-background pt-20">
           <div className="absolute inset-0">
             <video
@@ -113,7 +113,7 @@ export default function Dynamics365() {
 
       {/* INTRODUCTION */}
       {v.Introduction && (
-        <StyledSection style={c._style?.["Introduction"]}>
+        <StyledSection style={(c as any)._style?.["Introduction"]}>
 <section className="relative z-20 -mt-12 rounded-t-[2.5rem] bg-[#0a0e1a] px-6 py-20 shadow-[0_-20px_60px_-20px_rgba(0,0,0,0.4)] md:px-12 md:py-28">
           <div className="mx-auto max-w-4xl text-center">
             <h2 className="text-3xl font-bold leading-[1.1] tracking-tight text-white md:text-4xl lg:text-5xl">
@@ -142,7 +142,7 @@ export default function Dynamics365() {
 
       {/* WHAT WE DELIVER */}
       {v["What We Deliver"] && (
-        <StyledSection style={c._style?.["What We Deliver"]}>
+        <StyledSection style={(c as any)._style?.["What We Deliver"]}>
 <section id="services" className="relative z-20 -mt-12 rounded-t-[2.5rem] bg-background px-6 py-24 shadow-[0_-20px_60px_-20px_rgba(0,0,0,0.4)] md:px-12 md:py-32">
           <div className="mx-auto max-w-6xl">
             <div className="text-center">
@@ -200,7 +200,7 @@ export default function Dynamics365() {
 
       {/* GOVERNANCE PROCESS */}
       {v.Process && (
-        <StyledSection style={c._style?.["Process"]}>
+        <StyledSection style={(c as any)._style?.["Process"]}>
 <section className="relative bg-[#0a0e1a] px-6 py-24 md:px-12 md:py-32">
           <div className="mx-auto max-w-6xl">
             <div className="text-center">
@@ -250,7 +250,7 @@ export default function Dynamics365() {
 
       {/* USE CASES */}
       {v["Use Cases"] && (
-        <StyledSection style={c._style?.["Use Cases"]}>
+        <StyledSection style={(c as any)._style?.["Use Cases"]}>
 <section className="relative bg-background px-6 py-24 md:px-12 md:py-32">
           <div className="mx-auto max-w-6xl">
             <div className="text-center">
@@ -309,7 +309,7 @@ export default function Dynamics365() {
 
       {/* WHO WE SERVE */}
       {v["Who We Serve"] && (
-        <StyledSection style={c._style?.["Who We Serve"]}>
+        <StyledSection style={(c as any)._style?.["Who We Serve"]}>
 <section className="relative bg-[#f6f7fb] px-6 py-24 md:px-12 md:py-32">
           <div className="mx-auto max-w-6xl">
             <div className="text-center">
@@ -370,7 +370,7 @@ export default function Dynamics365() {
 
       {/* STANDARD VS STRATEGIC */}
       {v["Standard vs Strategic"] && (
-        <StyledSection style={c._style?.["Standard vs Strategic"]}>
+        <StyledSection style={(c as any)._style?.["Standard vs Strategic"]}>
 <section className="relative overflow-hidden bg-[#0a0e1a] px-6 py-24 md:px-12 md:py-32">
           <img
             src={c["Standard vs Strategic"].backgroundUrl}
@@ -402,7 +402,7 @@ export default function Dynamics365() {
 
       {/* DISCOVERY SESSION */}
       {v["Discovery Session"] && (
-        <StyledSection style={c._style?.["Discovery Session"]}>
+        <StyledSection style={(c as any)._style?.["Discovery Session"]}>
 <section id="contact" className="relative bg-background px-6 py-24 md:px-12 md:py-32">
           <div className="mx-auto grid max-w-6xl grid-cols-1 gap-12 md:grid-cols-2 md:items-center">
             <div>

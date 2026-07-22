@@ -50,7 +50,7 @@ export default function Careers() {
       />
 
       {v.Hero && (
-        <StyledSection style={c._style?.["Hero"]}>
+        <StyledSection style={(c as any)._style?.["Hero"]}>
 <main className="pt-20 relative min-h-[90vh] w-full overflow-hidden bg-background">
           <div className="absolute inset-0">
             <video
@@ -101,7 +101,7 @@ export default function Careers() {
       )}
 
       {v.Promise && (
-        <StyledSection style={c._style?.["Promise"]}>
+        <StyledSection style={(c as any)._style?.["Promise"]}>
 <section className="relative z-20 -mt-16 rounded-t-[2.5rem] bg-white px-6 pb-24 pt-24 shadow-[0_-20px_60px_-20px_rgba(0,0,0,0.4)] md:px-12">
           <div className="mx-auto max-w-6xl">
             {promise.intro && (
@@ -148,7 +148,7 @@ export default function Careers() {
       )}
 
       {v["Hiring Journey"] && (
-        <StyledSection style={c._style?.["Hiring Journey"]}>
+        <StyledSection style={(c as any)._style?.["Hiring Journey"]}>
 <section
           className="px-6 py-24 md:px-12"
           style={{ background: "color-mix(in oklab, var(--brand-blue) 4%, var(--background))" }}
@@ -218,7 +218,7 @@ export default function Careers() {
       )}
 
       {v["Final CTA"] && (
-        <StyledSection style={c._style?.["Final CTA"]}>
+        <StyledSection style={(c as any)._style?.["Final CTA"]}>
 <section
           className="relative overflow-hidden px-6 py-24 md:px-12"
           style={{ backgroundColor: "#091628" }}

@@ -45,7 +45,7 @@ export default function Odoo() {
   return (
     <>
       {v.Hero && (
-        <StyledSection style={c._style?.["Hero"]}>
+        <StyledSection style={(c as any)._style?.["Hero"]}>
 <main className="relative min-h-[90vh] w-full overflow-hidden bg-background pt-20">
         <div className="absolute inset-0">
           <video
@@ -103,7 +103,7 @@ export default function Odoo() {
       )}
 
       {v.Introduction && (
-        <StyledSection style={c._style?.["Introduction"]}>
+        <StyledSection style={(c as any)._style?.["Introduction"]}>
 <section className="relative z-20 -mt-12 rounded-t-[2.5rem] bg-[#0a0e1a] px-6 py-20 shadow-[0_-20px_60px_-20px_rgba(0,0,0,0.4)] md:px-12 md:py-28">
         <div className="mx-auto max-w-6xl">
           <div className="text-center">
@@ -144,7 +144,7 @@ export default function Odoo() {
       )}
 
       {v["What We Build"] && (
-        <StyledSection style={c._style?.["What We Build"]}>
+        <StyledSection style={(c as any)._style?.["What We Build"]}>
 <section id="services" className="relative z-20 -mt-12 rounded-t-[2.5rem] bg-background px-6 py-24 shadow-[0_-20px_60px_-20px_rgba(0,0,0,0.4)] md:px-12 md:py-32">
         <div className="mx-auto max-w-6xl">
           <div className="text-center">
@@ -198,7 +198,7 @@ export default function Odoo() {
       )}
 
       {v["Development Process"] && (
-        <StyledSection style={c._style?.["Development Process"]}>
+        <StyledSection style={(c as any)._style?.["Development Process"]}>
 <section className="relative bg-[#0a0e1a] px-6 py-24 md:px-12 md:py-32">
         <div className="mx-auto max-w-6xl">
           <div className="text-center">
@@ -247,7 +247,7 @@ export default function Odoo() {
       )}
 
       {v["Use Cases"] && (
-        <StyledSection style={c._style?.["Use Cases"]}>
+        <StyledSection style={(c as any)._style?.["Use Cases"]}>
 <section className="relative bg-background px-6 py-24 md:px-12 md:py-32">
         <div className="mx-auto max-w-6xl">
           <div className="text-center">
@@ -302,7 +302,7 @@ export default function Odoo() {
       )}
 
       {v["80/20 Statement"] && (
-        <StyledSection style={c._style?.["80/20 Statement"]}>
+        <StyledSection style={(c as any)._style?.["80/20 Statement"]}>
 <section className="relative overflow-hidden bg-[#0a0e1a] px-6 py-24 md:px-12 md:py-32">
         <img
           src={eighty.backgroundUrl}
@@ -329,7 +329,7 @@ export default function Odoo() {
       )}
 
       {v["Who We Serve"] && (
-        <StyledSection style={c._style?.["Who We Serve"]}>
+        <StyledSection style={(c as any)._style?.["Who We Serve"]}>
 <section className="relative bg-[#f6f7fb] px-6 py-24 md:px-12 md:py-32">
         <div className="mx-auto max-w-6xl">
           <div className="text-center">
@@ -385,7 +385,7 @@ export default function Odoo() {
       )}
 
       {v["ERP Objective"] && (
-        <StyledSection style={c._style?.["ERP Objective"]}>
+        <StyledSection style={(c as any)._style?.["ERP Objective"]}>
 <section className="relative overflow-hidden bg-[#0a0e1a] px-6 py-32 md:px-12 md:py-48">
         <div className="absolute inset-0 bg-gradient-to-br from-[#0a0e1a] via-[#0d1322] to-[#0a0e1a]" aria-hidden="true" />
         <div className="relative z-10 mx-auto max-w-5xl text-center">
@@ -402,7 +402,7 @@ export default function Odoo() {
       )}
 
       {v["Discovery Session"] && (
-        <StyledSection style={c._style?.["Discovery Session"]}>
+        <StyledSection style={(c as any)._style?.["Discovery Session"]}>
 <section id="contact" className="relative bg-background px-6 py-24 md:px-12 md:py-32">
         <div className="mx-auto grid max-w-6xl grid-cols-1 gap-12 md:grid-cols-2 md:items-center">
           <div>
