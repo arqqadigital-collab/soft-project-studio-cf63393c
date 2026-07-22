@@ -16,6 +16,8 @@ import { PartnersSection } from "@/components/PartnersSection";
 import { CtaSection } from "@/components/CtaSection";
 import { Footer } from "@/components/Footer";
 import { useHomepageVisibility } from "@/lib/homepageContent";
+import { useHomepageStyles } from "@/lib/homepageStyle";
+import { StyledSection } from "@/components/StyledSection";
 import { useLocale } from "@/hooks/useLocale";
 
 const HERO_DEFAULTS = {
@@ -86,6 +88,7 @@ export default function Index() {
   const hero = { ...HERO_DEFAULTS, ...(heroRow ?? {}), ...arOverlay } as typeof HERO_DEFAULTS & { is_visible?: boolean };
   const heroVisible = (heroRow as any)?.is_visible !== false;
   const isVisible = useHomepageVisibility();
+  const styleFor = useHomepageStyles();
   const bgSrc = hero.background_url || headerVideo;
   const isVideo = hero.background_url ? hero.background_type === "video" : true;
 
@@ -201,15 +204,15 @@ export default function Index() {
       )}
 
       <div className="relative z-20 rounded-t-[2.5rem] bg-background shadow-[0_-20px_60px_-20px_rgba(0,0,0,0.4)]">
-        {isVisible("expertise") && <ExpertiseSection />}
-        {isVisible("process") && <ProcessSection />}
-        {isVisible("services") && <ServicesSection />}
-        {isVisible("promise") && <PromiseSection />}
-        {isVisible("stats") && <StatsSection />}
-        {isVisible("clients") && <ClientsSection />}
-        {isVisible("success_stories") && <SuccessStoriesSection />}
-        {isVisible("partners") && <PartnersSection />}
-        {isVisible("cta") && <CtaSection />}
+        {isVisible("expertise") && <StyledSection style={styleFor("expertise")}><ExpertiseSection /></StyledSection>}
+        {isVisible("process") && <StyledSection style={styleFor("process")}><ProcessSection /></StyledSection>}
+        {isVisible("services") && <StyledSection style={styleFor("services")}><ServicesSection /></StyledSection>}
+        {isVisible("promise") && <StyledSection style={styleFor("promise")}><PromiseSection /></StyledSection>}
+        {isVisible("stats") && <StyledSection style={styleFor("stats")}><StatsSection /></StyledSection>}
+        {isVisible("clients") && <StyledSection style={styleFor("clients")}><ClientsSection /></StyledSection>}
+        {isVisible("success_stories") && <StyledSection style={styleFor("success_stories")}><SuccessStoriesSection /></StyledSection>}
+        {isVisible("partners") && <StyledSection style={styleFor("partners")}><PartnersSection /></StyledSection>}
+        {isVisible("cta") && <StyledSection style={styleFor("cta")}><CtaSection /></StyledSection>}
       </div>
       <Footer />
     </>

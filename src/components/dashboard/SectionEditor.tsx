@@ -11,6 +11,8 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { MediaPickerDialog } from "@/components/dashboard/MediaPickerDialog";
 import { DEFAULTS, type SectionKey } from "@/lib/homepageContent";
+import { SectionStyleEditor } from "@/components/dashboard/SectionStyleEditor";
+import type { SectionStyle } from "@/lib/sectionStyle";
 
 const LABELS: Record<SectionKey, string> = {
   expertise: "Expertise",
@@ -219,13 +221,14 @@ export function SectionEditor({ sectionKey }: { sectionKey: SectionKey }) {
   const [visible, setVisible] = useState(true);
   const [saving, setSaving] = useState(false);
   const [lang, setLang] = useState<"en" | "ar">("en");
+  const [style, setStyle] = useState<SectionStyle>({});
 
   const { data, isLoading } = useQuery({
     queryKey: ["homepage-section-edit", sectionKey],
     queryFn: async () => {
       const { data, error } = await supabase
         .from("homepage_sections")
-        .select("content, is_visible, translations")
+        .select("content, is_visible, translations, style")
         .eq("section_key", sectionKey)
         .maybeSingle();
       if (error) throw error;
@@ -240,6 +243,7 @@ export function SectionEditor({ sectionKey }: { sectionKey: SectionKey }) {
       setContent(base);
       setArContent(ar);
       setVisible((data as any).is_visible !== false);
+      setStyle(((data as any).style ?? {}) as SectionStyle);
     }
   }, [data, sectionKey]);
 
@@ -250,8 +254,13 @@ export function SectionEditor({ sectionKey }: { sectionKey: SectionKey }) {
       const translations = { ...existingTranslations, ar: arContent };
       const { error } = await supabase
         .from("homepage_sections")
-        .update({ content, translations, is_visible: visible })
+        .update({ content, translations, is_visible: visible, style })
         .eq("section_key", sectionKey);
+      if (error) throw error;
+      qc.invalidateQueries({ queryKey: ["homepage-section", sectionKey] });
+      qc.invalidateQueries({ queryKey: ["homepage-section-edit", sectionKey] });
+      qc.invalidateQueries({ queryKey: ["homepage-sections-visibility"] });
+      qc.invalidateQueries({ queryKey: ["homepage-sections-style"] });
       if (error) throw error;
       qc.invalidateQueries({ queryKey: ["homepage-section", sectionKey] });
       qc.invalidateQueries({ queryKey: ["homepage-section-edit", sectionKey] });
@@ -334,6 +343,8 @@ export function SectionEditor({ sectionKey }: { sectionKey: SectionKey }) {
           </Card>
         </TabsContent>
       </Tabs>
+
+      <SectionStyleEditor value={style} onChange={setStyle} />
 
       {images.length > 0 && (
         <div className="rounded-md border border-border">

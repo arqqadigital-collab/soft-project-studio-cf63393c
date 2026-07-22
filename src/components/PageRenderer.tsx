@@ -2,8 +2,9 @@ import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
 import { SECTION_REGISTRY, type SectionKind } from "@/lib/pageSections";
 import { useLocale } from "@/i18n/LanguageProvider";
+import { StyledSection } from "@/components/StyledSection";
 
-type Row = { id: string; kind: string; position: number; is_visible: boolean; data: any; translations: any };
+type Row = { id: string; kind: string; position: number; is_visible: boolean; data: any; translations: any; style?: any };
 
 function mergeDeep(base: any, over: any): any {
   if (over === undefined || over === null) return base;
@@ -29,7 +30,7 @@ export function usePageSections(pageId: string | null | undefined) {
     queryFn: async () => {
       const { data, error } = await supabase
         .from("page_sections")
-        .select("id, kind, position, is_visible, data, translations")
+        .select("id, kind, position, is_visible, data, translations, style")
         .eq("page_id", pageId!)
         .order("position");
       if (error) throw error;
@@ -61,7 +62,11 @@ export function PageRenderer({ pageId }: { pageId: string }) {
         const def = SECTION_REGISTRY[r.kind as SectionKind];
         if (!def) return null;
         const Render = def.Render;
-        return <Render key={r.id} data={r.data ?? {}} />;
+        return (
+          <StyledSection key={r.id} style={r.style}>
+            <Render data={r.data ?? {}} />
+          </StyledSection>
+        );
       })}
     </>
   );

@@ -827,6 +827,7 @@ export type Database = {
           content: Json
           is_visible: boolean
           section_key: string
+          style: Json
           translations: Json
           updated_at: string
           updated_by: string | null
@@ -835,6 +836,7 @@ export type Database = {
           content?: Json
           is_visible?: boolean
           section_key: string
+          style?: Json
           translations?: Json
           updated_at?: string
           updated_by?: string | null
@@ -843,6 +845,7 @@ export type Database = {
           content?: Json
           is_visible?: boolean
           section_key?: string
+          style?: Json
           translations?: Json
           updated_at?: string
           updated_by?: string | null
@@ -1071,6 +1074,7 @@ export type Database = {
           kind: string
           page_id: string
           position: number
+          style: Json
           translations: Json
           updated_at: string
         }
@@ -1082,6 +1086,7 @@ export type Database = {
           kind: string
           page_id: string
           position?: number
+          style?: Json
           translations?: Json
           updated_at?: string
         }
@@ -1093,6 +1098,7 @@ export type Database = {
           kind?: string
           page_id?: string
           position?: number
+          style?: Json
           translations?: Json
           updated_at?: string
         }
