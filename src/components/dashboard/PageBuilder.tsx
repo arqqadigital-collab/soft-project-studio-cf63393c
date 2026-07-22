@@ -13,9 +13,11 @@ import {
 } from "lucide-react";
 import { SECTION_REGISTRY, SECTION_KINDS, type SectionKind, type SectionDef } from "@/lib/pageSections";
 import { PageDefaultsProvider } from "@/lib/contentSections";
+import { SectionStyleEditor } from "@/components/dashboard/SectionStyleEditor";
+import type { SectionStyle } from "@/lib/sectionStyle";
 
 type LocaleCode = "en" | "ar";
-type Row = { id: string; kind: SectionKind; position: number; is_visible: boolean; data: any; translations: any };
+type Row = { id: string; kind: SectionKind; position: number; is_visible: boolean; data: any; translations: any; style?: SectionStyle | null };
 
 function mergeDeep(base: any, over: any): any {
   if (over === undefined || over === null) return base;
