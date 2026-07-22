@@ -296,16 +296,16 @@ export default function CaseStudyEditor() {
             </TabsList>
             <TabsContent value="content" className="mt-3 space-y-4" dir={locale === "ar" ? "rtl" : "ltr"}>
               <div className="space-y-2"><Label>Summary</Label>
-                <Textarea rows={3} value={getV("summary")} onChange={(e) => setV("summary", e.target.value)} />
+                <RichTextEditor value={getV("summary")} onChange={(v) => setV("summary", v)} placeholder="Short summary…" />
               </div>
               <div className="space-y-2"><Label>Challenge</Label>
-                <Textarea rows={5} value={getV("challenge")} onChange={(e) => setV("challenge", e.target.value)} />
+                <RichTextEditor value={getV("challenge")} onChange={(v) => setV("challenge", v)} placeholder="Describe the challenge…" />
               </div>
               <div className="space-y-2"><Label>Solution</Label>
-                <Textarea rows={5} value={getV("solution")} onChange={(e) => setV("solution", e.target.value)} />
+                <RichTextEditor value={getV("solution")} onChange={(v) => setV("solution", v)} placeholder="Describe the solution…" />
               </div>
               <div className="space-y-2"><Label>Results</Label>
-                <Textarea rows={5} value={getV("results")} onChange={(e) => setV("results", e.target.value)} />
+                <RichTextEditor value={getV("results")} onChange={(v) => setV("results", v)} placeholder="Describe the results…" />
               </div>
             </TabsContent>
             <TabsContent value="excerpt" className="mt-3" dir={locale === "ar" ? "rtl" : "ltr"}>
