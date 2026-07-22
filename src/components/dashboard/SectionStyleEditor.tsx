@@ -1,11 +1,12 @@
 import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
-import { BRAND_SWATCHES, GRADIENT_SWATCHES, DEFAULT_SECTION_STYLE, type SectionStyle } from "@/lib/sectionStyle";
+import { BRAND_SWATCHES, GRADIENT_SWATCHES, DEFAULT_SECTION_STYLE, getSectionDefaults, type SectionStyle } from "@/lib/sectionStyle";
 import { RotateCcw } from "lucide-react";
 
 type Props = {
   value: SectionStyle | null | undefined;
   onChange: (next: SectionStyle) => void;
+  kind?: string | null;
 };
 
 function Chip({
