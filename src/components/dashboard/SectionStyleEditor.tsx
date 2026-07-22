@@ -195,7 +195,7 @@ export function SectionStyleEditor({ value, onChange }: Props) {
             value={s.button_radius}
             onChange={(v) => set({ button_radius: v })}
           />
-          <ColorRow label="Button background" value={s.button_bg} onChange={(v) => set({ button_bg: v })} />
+          <ColorRow label="Button background" value={s.button_bg} onChange={(v) => set({ button_bg: v })} allowGradient />
           <ColorRow label="Button text color" value={s.button_fg} onChange={(v) => set({ button_fg: v })} />
         </div>
       </div>
