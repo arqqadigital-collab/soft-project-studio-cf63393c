@@ -327,7 +327,7 @@ export function SecretaProductLayout({ content }: { content: any }) {
           </section>
         </div>
       </main>
-      )}
+      </StyledSection>)}
 
       {v.Introduction && (<StyledSection style={S["Introduction"]}>
       <section className="relative z-20 -mt-12 rounded-t-[2.5rem] bg-background px-6 py-24 shadow-[0_-20px_60px_-20px_rgba(0,0,0,0.4)] md:px-12 md:py-32">
@@ -353,7 +353,7 @@ export function SecretaProductLayout({ content }: { content: any }) {
           </p>
         </div>
       </section>
-      )}
+      </StyledSection>)}
 
       {v["The Problem"] && (<StyledSection style={S["The Problem"]}>
       <section ref={problemRef} className="relative bg-[#0a0e1a]" style={{ height: "320vh" }}>
@@ -403,7 +403,7 @@ export function SecretaProductLayout({ content }: { content: any }) {
           </div>
         </div>
       </section>
-      )}
+      </StyledSection>)}
 
       {v["The Platform"] && (<StyledSection style={S["The Platform"]}>
       <section
@@ -449,7 +449,7 @@ export function SecretaProductLayout({ content }: { content: any }) {
           </div>
         </div>
       </section>
-      )}
+      </StyledSection>)}
 
       {v["Patient Journey"] && (<StyledSection style={S["Patient Journey"]}>
       <section
@@ -474,7 +474,7 @@ export function SecretaProductLayout({ content }: { content: any }) {
           <ExpandingJourney steps={journey.items as unknown as JourneyStep[]} />
         </div>
       </section>
-      )}
+      </StyledSection>)}
 
       {v.Outcomes && (<StyledSection style={S["Outcomes"]}>
       <section className="relative overflow-hidden px-6 py-24 md:px-12" style={{ backgroundColor: "#091628" }}>
@@ -508,7 +508,7 @@ export function SecretaProductLayout({ content }: { content: any }) {
           </div>
         </div>
       </section>
-      )}
+      </StyledSection>)}
 
       {v.Integrations && (<StyledSection style={S["Integrations"]}>
       <section className="px-6 py-24 md:px-12">
@@ -531,7 +531,7 @@ export function SecretaProductLayout({ content }: { content: any }) {
           <LogoSlider platforms={integrations.items as unknown as Platform[]} />
         </div>
       </section>
-      )}
+      </StyledSection>)}
 
       {v.FAQ && (<StyledSection style={S["FAQ"]}>
       <section
@@ -570,7 +570,7 @@ export function SecretaProductLayout({ content }: { content: any }) {
           </div>
         </div>
       </section>
-      )}
+      </StyledSection>)}
 
       {v["Final CTA"] && (<StyledSection style={S["Final CTA"]}>
       <section id="contact" className="relative overflow-hidden px-6 py-24 md:px-12" style={{ backgroundColor: "#091628" }}>
@@ -629,7 +629,7 @@ export function SecretaProductLayout({ content }: { content: any }) {
           )}
         </div>
       </section>
-      )}
+      </StyledSection>)}
 
       <CtaSection />
       <Footer />
