@@ -27,6 +27,7 @@ import bgStepsLight from "@/assets/bg-steps-light.png";
 
 import { Footer } from "@/components/Footer";
 import { CtaSection } from "@/components/CtaSection";
+import { StyledSection } from "@/components/StyledSection";
 
 import { useHorizontalScroll } from "@/hooks/use-horizontal-scroll";
 import { splitAccent } from "@/lib/hisContent";
