@@ -23,6 +23,7 @@ import { Footer } from "@/components/Footer";
 import { CtaSection } from "@/components/CtaSection";
 import { useHorizontalScroll } from "@/hooks/use-horizontal-scroll";
 import { useLisContent } from "@/lib/lisContent";
+import { StyledSection } from "@/components/StyledSection";
 
 const ICONS: Record<string, LucideIcon> = {
   FlaskConical,
@@ -166,7 +167,8 @@ export default function LIS() {
     <>
       {/* HERO */}
       {v.Hero && (
-        <main className="pt-20 relative min-h-[90vh] w-full overflow-hidden bg-background">
+        <StyledSection style={content._style?.["Hero"]}>
+<main className="pt-20 relative min-h-[90vh] w-full overflow-hidden bg-background">
           <div className="absolute inset-0">
             {hero.mediaKind === "video" ? (
               <video src={hero.mediaUrl} autoPlay muted loop playsInline className="h-full w-full object-cover" />
@@ -227,11 +229,13 @@ export default function LIS() {
             </section>
           </div>
         </main>
+        </StyledSection>
       )}
 
       {/* INTRO */}
       {v.Introduction && (
-        <section className="relative z-20 -mt-12 rounded-t-[2.5rem] bg-background px-6 py-24 shadow-[0_-20px_60px_-20px_rgba(0,0,0,0.4)] md:px-12 md:py-32">
+        <StyledSection style={content._style?.["Introduction"]}>
+<section className="relative z-20 -mt-12 rounded-t-[2.5rem] bg-background px-6 py-24 shadow-[0_-20px_60px_-20px_rgba(0,0,0,0.4)] md:px-12 md:py-32">
           <div className="mx-auto max-w-5xl text-center">
             {intro.eyebrow && (
               <p className="text-sm font-semibold uppercase tracking-[0.25em]" style={{ color: "var(--brand-blue)" }}>
@@ -256,11 +260,13 @@ export default function LIS() {
             )}
           </div>
         </section>
+        </StyledSection>
       )}
 
       {/* PROBLEM */}
       {v["The Problem"] && (
-        <section ref={problemRef} className="relative bg-[#0a0e1a]" style={{ height: "260vh" }}>
+        <StyledSection style={content._style?.["The Problem"]}>
+<section ref={problemRef} className="relative bg-[#0a0e1a]" style={{ height: "260vh" }}>
           <div className="sticky top-0 flex min-h-screen flex-col overflow-hidden">
             <div className="mx-auto w-full max-w-7xl px-6 pt-14 md:px-12 md:pt-16">
               <span className="inline-flex items-center gap-2 rounded-full bg-red-500/10 px-3 py-1.5 text-xs font-semibold uppercase tracking-wider text-red-300 ring-1 ring-red-500/20">
@@ -305,11 +311,13 @@ export default function LIS() {
             </div>
           </div>
         </section>
+        </StyledSection>
       )}
 
       {/* SOLUTION / FEATURES */}
       {v["The Platform"] && (
-        <section
+        <StyledSection style={content._style?.["The Platform"]}>
+<section
           className="px-6 py-24 md:px-12"
           style={{ background: "color-mix(in oklab, var(--brand-blue) 4%, var(--background))" }}
         >
@@ -355,11 +363,13 @@ export default function LIS() {
             </div>
           </div>
         </section>
+        </StyledSection>
       )}
 
       {/* HOW IT WORKS */}
       {v["Patient Journey"] && (
-        <section className="bg-background px-6 py-24 md:px-12 md:py-32">
+        <StyledSection style={content._style?.["Patient Journey"]}>
+<section className="bg-background px-6 py-24 md:px-12 md:py-32">
           <div className="mx-auto max-w-6xl">
             <div className="mx-auto max-w-3xl text-center">
               {journey.eyebrow && (
@@ -377,11 +387,13 @@ export default function LIS() {
             <ExpandingJourney steps={journey.items as any} />
           </div>
         </section>
+        </StyledSection>
       )}
 
       {/* METRICS */}
       {v.Outcomes && (
-        <section className="relative overflow-hidden px-6 py-24 md:px-12" style={{ backgroundColor: "#091628" }}>
+        <StyledSection style={content._style?.["Outcomes"]}>
+<section className="relative overflow-hidden px-6 py-24 md:px-12" style={{ backgroundColor: "#091628" }}>
           <div
             className="absolute -left-32 top-1/2 h-96 w-96 -translate-y-1/2 rounded-full opacity-20 blur-3xl"
             style={{ background: "var(--gradient-brand)" }}
@@ -409,11 +421,13 @@ export default function LIS() {
             </div>
           </div>
         </section>
+        </StyledSection>
       )}
 
       {/* INTEGRATIONS */}
       {v.Integrations && (
-        <section className="px-6 py-24 md:px-12">
+        <StyledSection style={content._style?.["Integrations"]}>
+<section className="px-6 py-24 md:px-12">
           <div className="mx-auto max-w-4xl text-center">
             {integrations.eyebrow && (
               <span className="inline-flex items-center gap-2 rounded-full bg-[color:var(--brand-blue)]/10 px-3 py-1.5 text-xs font-semibold uppercase tracking-wider text-[color:var(--brand-blue)]">
@@ -440,11 +454,13 @@ export default function LIS() {
             ) : null}
           </div>
         </section>
+        </StyledSection>
       )}
 
       {/* FAQ */}
       {v.FAQ && (
-        <section
+        <StyledSection style={content._style?.["FAQ"]}>
+<section
           className="px-6 py-24 md:px-12"
           style={{ background: "color-mix(in oklab, var(--brand-blue) 4%, var(--background))" }}
         >
@@ -482,11 +498,13 @@ export default function LIS() {
             </div>
           </div>
         </section>
+        </StyledSection>
       )}
 
       {/* FINAL CTA */}
       {v["Final CTA"] && (
-        <section
+        <StyledSection style={content._style?.["Final CTA"]}>
+<section
           id="contact"
           className="relative overflow-hidden px-6 py-24 md:px-12"
           style={{ backgroundColor: "#091628" }}
@@ -532,6 +550,7 @@ export default function LIS() {
             {cta.footnote && <p className="mt-8 text-sm italic text-white/60">{cta.footnote}</p>}
           </div>
         </section>
+        </StyledSection>
       )}
 
       <CtaSection />

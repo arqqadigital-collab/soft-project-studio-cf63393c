@@ -28,6 +28,7 @@ import { Footer } from "@/components/Footer";
 import { CtaSection } from "@/components/CtaSection";
 import { useImplementationContent } from "@/lib/implementationContent";
 import { useLocale } from "@/i18n/LanguageProvider";
+import { StyledSection } from "@/components/StyledSection";
 
 const ICONS: Record<string, LucideIcon> = {
   Search, PenTool, PlayCircle, GraduationCap, LifeBuoy,
@@ -175,7 +176,8 @@ export default function Implementation() {
   return (
     <>
       {v.Hero && (
-        <main className="relative min-h-[90vh] w-full overflow-hidden bg-background pt-20">
+        <StyledSection style={content._style?.["Hero"]}>
+<main className="relative min-h-[90vh] w-full overflow-hidden bg-background pt-20">
           <div className="absolute inset-0">
             <img src={hero.image} alt="SBS implementation and integration" className="absolute inset-0 h-full w-full object-cover" />
             <div className="absolute inset-0" style={{ background: "linear-gradient(180deg, rgba(5,11,24,0.88) 0%, rgba(7,20,43,0.75) 55%, rgba(5,11,24,0.95) 100%)" }} />
@@ -208,10 +210,12 @@ export default function Implementation() {
             </section>
           </div>
         </main>
+        </StyledSection>
       )}
 
       {v["The Problem"] && (
-        <section className="relative z-20 -mt-12 rounded-t-[2.5rem] bg-[#0a0e1a] px-6 py-20 shadow-[0_-20px_60px_-20px_rgba(0,0,0,0.4)] md:px-12 md:py-28">
+        <StyledSection style={content._style?.["The Problem"]}>
+<section className="relative z-20 -mt-12 rounded-t-[2.5rem] bg-[#0a0e1a] px-6 py-20 shadow-[0_-20px_60px_-20px_rgba(0,0,0,0.4)] md:px-12 md:py-28">
           <div className="mx-auto max-w-6xl">
             <div className="text-center">
               <span className="inline-flex items-center gap-2 rounded-full border border-red-400/25 bg-red-500/10 px-4 py-1.5 text-xs font-semibold uppercase tracking-wider text-red-400">
@@ -252,12 +256,14 @@ export default function Implementation() {
             )}
           </div>
         </section>
+        </StyledSection>
       )}
 
       {v.Methodology && <MethodologyTimeline data={c.Methodology} />}
 
       {v.Services && (
-        <section className="relative bg-[#0a0e1a] px-6 py-24 md:px-12 md:py-32">
+        <StyledSection style={content._style?.["Services"]}>
+<section className="relative bg-[#0a0e1a] px-6 py-24 md:px-12 md:py-32">
           <div className="mx-auto max-w-6xl">
             <div className="text-center">
               <p className="text-sm font-semibold uppercase tracking-[0.25em] text-[var(--brand-blue)]">
@@ -331,10 +337,12 @@ export default function Implementation() {
             </div>
           </div>
         </section>
+        </StyledSection>
       )}
 
       {v["Why SBS"] && (
-        <section className="relative bg-background px-6 py-24 md:px-12 md:py-32">
+        <StyledSection style={content._style?.["Why SBS"]}>
+<section className="relative bg-background px-6 py-24 md:px-12 md:py-32">
           <div className="mx-auto max-w-6xl">
             <div className="text-center">
               <p className="text-sm font-semibold uppercase tracking-[0.25em]" style={{ color: "var(--brand-blue)" }}>
@@ -363,10 +371,12 @@ export default function Implementation() {
             </div>
           </div>
         </section>
+        </StyledSection>
       )}
 
       {v.Stats && (
-        <section className="relative overflow-hidden px-6 py-20 md:px-12 md:py-24" style={{ background: "linear-gradient(135deg, #050b18 0%, #0a1c3a 100%)" }}>
+        <StyledSection style={content._style?.["Stats"]}>
+<section className="relative overflow-hidden px-6 py-20 md:px-12 md:py-24" style={{ background: "linear-gradient(135deg, #050b18 0%, #0a1c3a 100%)" }}>
           <div className="mx-auto max-w-6xl">
             <div className="text-center">
               <h2 className="text-3xl font-bold leading-tight text-white md:text-4xl">
@@ -376,10 +386,12 @@ export default function Implementation() {
             <StatsCounter items={stats.items ?? []} />
           </div>
         </section>
+        </StyledSection>
       )}
 
       {v.FAQ && (
-        <section className="relative bg-background px-6 py-24 md:px-12 md:py-32">
+        <StyledSection style={content._style?.["FAQ"]}>
+<section className="relative bg-background px-6 py-24 md:px-12 md:py-32">
           <div className="mx-auto max-w-4xl">
             <div className="text-center">
               <p className="text-sm font-semibold uppercase tracking-[0.25em]" style={{ color: "var(--brand-blue)" }}>
@@ -407,10 +419,12 @@ export default function Implementation() {
             </div>
           </div>
         </section>
+        </StyledSection>
       )}
 
       {v["Final CTA"] && (
-        <section id="contact" className="relative overflow-hidden px-6 py-24 md:px-12 md:py-32">
+        <StyledSection style={content._style?.["Final CTA"]}>
+<section id="contact" className="relative overflow-hidden px-6 py-24 md:px-12 md:py-32">
           <div className="absolute inset-0">
             <img src={cta.image} alt="" aria-hidden loading="lazy" width={1920} height={900} className="absolute inset-0 h-full w-full object-cover" />
             <div className="absolute inset-0" style={{ background: "linear-gradient(135deg, rgba(5,11,24,0.9) 0%, rgba(7,20,43,0.82) 100%)" }} />
@@ -436,6 +450,7 @@ export default function Implementation() {
             {cta.footnote && <p className="mt-5 text-xs text-white/60">{cta.footnote}</p>}
           </div>
         </section>
+        </StyledSection>
       )}
 
       <CtaSection />

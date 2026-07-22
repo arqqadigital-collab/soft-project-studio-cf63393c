@@ -24,6 +24,7 @@ import { Footer } from "@/components/Footer";
 import { CtaSection } from "@/components/CtaSection";
 import { useHorizontalScroll } from "@/hooks/use-horizontal-scroll";
 import { useUAEComplianceContent } from "@/lib/uaeComplianceContent";
+import { StyledSection } from "@/components/StyledSection";
 
 const ICONS: Record<string, LucideIcon> = {
   Building2, Hospital, Share2, Database, Globe2, FileBadge, MapPin,
@@ -140,7 +141,8 @@ export default function UAECompliance() {
   return (
     <>
       {v.Hero && (
-      <main className="pt-20 relative min-h-[90vh] w-full overflow-hidden bg-background">
+        <StyledSection style={content._style?.["Hero"]}>
+<main className="pt-20 relative min-h-[90vh] w-full overflow-hidden bg-background">
         <div className="absolute inset-0">
           {c.Hero.mediaKind === "video" ? (
             <video src={c.Hero.mediaUrl} autoPlay muted loop playsInline className="h-full w-full object-cover" />
@@ -192,10 +194,12 @@ export default function UAECompliance() {
           </section>
         </div>
       </main>
+        </StyledSection>
       )}
 
       {v.Introduction && (
-      <section className="relative z-20 -mt-12 rounded-t-[2.5rem] bg-background px-6 py-24 shadow-[0_-20px_60px_-20px_rgba(0,0,0,0.4)] md:px-12 md:py-32">
+        <StyledSection style={content._style?.["Introduction"]}>
+<section className="relative z-20 -mt-12 rounded-t-[2.5rem] bg-background px-6 py-24 shadow-[0_-20px_60px_-20px_rgba(0,0,0,0.4)] md:px-12 md:py-32">
         <div className="mx-auto max-w-5xl text-center">
           <p className="text-sm font-semibold uppercase tracking-[0.25em]" style={{ color: "var(--brand-blue)" }}>
             {c.Introduction.eyebrow}
@@ -212,10 +216,12 @@ export default function UAECompliance() {
           </p>
         </div>
       </section>
+        </StyledSection>
       )}
 
       {v["The Problem"] && (
-      <section ref={problemRef} className="relative bg-[#0a0e1a]" style={{ height: "300vh" }}>
+        <StyledSection style={content._style?.["The Problem"]}>
+<section ref={problemRef} className="relative bg-[#0a0e1a]" style={{ height: "300vh" }}>
         <div className="sticky top-0 flex min-h-screen flex-col overflow-hidden">
           <div className="mx-auto w-full max-w-7xl px-6 pt-14 md:px-12 md:pt-16">
             <span className="inline-flex items-center gap-2 rounded-full bg-red-500/10 px-3 py-1.5 text-xs font-semibold uppercase tracking-wider text-red-300 ring-1 ring-red-500/20">
@@ -253,10 +259,12 @@ export default function UAECompliance() {
           </div>
         </div>
       </section>
+        </StyledSection>
       )}
 
       {v["The Platform"] && (
-      <section className="px-6 py-24 md:px-12" style={{ background: "color-mix(in oklab, var(--brand-blue) 4%, var(--background))" }}>
+        <StyledSection style={content._style?.["The Platform"]}>
+<section className="px-6 py-24 md:px-12" style={{ background: "color-mix(in oklab, var(--brand-blue) 4%, var(--background))" }}>
         <div className="mx-auto max-w-6xl">
           <div className="mx-auto max-w-3xl text-center">
             <span className="text-xs font-semibold uppercase tracking-[0.3em] text-[color:var(--brand-blue)]">
@@ -297,10 +305,12 @@ export default function UAECompliance() {
           </div>
         </div>
       </section>
+        </StyledSection>
       )}
 
       {v["Patient Journey"] && (
-      <section className="bg-background px-6 py-24 md:px-12 md:py-32">
+        <StyledSection style={content._style?.["Patient Journey"]}>
+<section className="bg-background px-6 py-24 md:px-12 md:py-32">
         <div className="mx-auto max-w-6xl">
           <div className="mx-auto max-w-3xl text-center">
             <span className="text-xs font-semibold uppercase tracking-[0.3em] text-[color:var(--brand-blue)]">
@@ -316,10 +326,12 @@ export default function UAECompliance() {
           <ExpandingJourney steps={c["Patient Journey"].items as unknown as any[]} />
         </div>
       </section>
+        </StyledSection>
       )}
 
       {v.Outcomes && (
-      <section className="relative overflow-hidden px-6 py-24 md:px-12" style={{ backgroundColor: "#091628" }}>
+        <StyledSection style={content._style?.["Outcomes"]}>
+<section className="relative overflow-hidden px-6 py-24 md:px-12" style={{ backgroundColor: "#091628" }}>
         <div
           className="absolute -left-32 top-1/2 h-96 w-96 -translate-y-1/2 rounded-full opacity-20 blur-3xl"
           style={{ background: "var(--gradient-brand)" }}
@@ -348,10 +360,12 @@ export default function UAECompliance() {
           </div>
         </div>
       </section>
+        </StyledSection>
       )}
 
       {v.Integrations && (
-      <section className="px-6 py-24 md:px-12">
+        <StyledSection style={content._style?.["Integrations"]}>
+<section className="px-6 py-24 md:px-12">
         <div className="mx-auto max-w-5xl">
           <div className="text-center">
             <span className="inline-flex items-center gap-2 rounded-full bg-[color:var(--brand-blue)]/10 px-3 py-1.5 text-xs font-semibold uppercase tracking-wider text-[color:var(--brand-blue)]">
@@ -381,10 +395,12 @@ export default function UAECompliance() {
           </div>
         </div>
       </section>
+        </StyledSection>
       )}
 
       {v.FAQ && (
-      <section className="px-6 py-24 md:px-12" style={{ background: "color-mix(in oklab, var(--brand-blue) 4%, var(--background))" }}>
+        <StyledSection style={content._style?.["FAQ"]}>
+<section className="px-6 py-24 md:px-12" style={{ background: "color-mix(in oklab, var(--brand-blue) 4%, var(--background))" }}>
         <div className="mx-auto max-w-4xl">
           <div className="text-center">
             <span className="inline-flex items-center gap-2 rounded-full bg-[color:var(--brand-blue)]/10 px-3 py-1.5 text-xs font-semibold uppercase tracking-wider text-[color:var(--brand-blue)]">
@@ -411,10 +427,12 @@ export default function UAECompliance() {
           </div>
         </div>
       </section>
+        </StyledSection>
       )}
 
       {v["Final CTA"] && (
-      <section id="contact" className="relative overflow-hidden px-6 py-24 md:px-12" style={{ backgroundColor: "#091628" }}>
+        <StyledSection style={content._style?.["Final CTA"]}>
+<section id="contact" className="relative overflow-hidden px-6 py-24 md:px-12" style={{ backgroundColor: "#091628" }}>
         <div className="absolute inset-0">
           {c["Final CTA"].mediaKind === "video" ? (
             <video src={c["Final CTA"].mediaUrl} autoPlay muted loop playsInline className="absolute inset-0 h-full w-full object-cover" />
@@ -444,6 +462,7 @@ export default function UAECompliance() {
           <p className="mt-8 text-sm italic text-white/60">{c["Final CTA"].footnote}</p>
         </div>
       </section>
+        </StyledSection>
       )}
 
       <CtaSection />

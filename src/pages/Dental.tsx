@@ -23,6 +23,7 @@ import { Footer } from "@/components/Footer";
 import { CtaSection } from "@/components/CtaSection";
 import { useHorizontalScroll } from "@/hooks/use-horizontal-scroll";
 import { useDentalContent } from "@/lib/dentalContent";
+import { StyledSection } from "@/components/StyledSection";
 
 const ICONS: Record<string, LucideIcon> = {
   AlertTriangle, Smile, ClipboardList, CalendarCheck, Scan, BellRing,
@@ -160,7 +161,8 @@ export default function Dental() {
   return (
     <>
       {v.Hero && (
-        <main className="pt-20 relative min-h-[90vh] w-full overflow-hidden bg-[var(--brand-dark)]">
+        <StyledSection style={content._style?.["Hero"]}>
+<main className="pt-20 relative min-h-[90vh] w-full overflow-hidden bg-[var(--brand-dark)]">
           <div className="absolute inset-0">
             {hero.mediaUrl && (
               <video
@@ -212,10 +214,12 @@ export default function Dental() {
             </section>
           </div>
         </main>
+        </StyledSection>
       )}
 
       {v.Introduction && (
-        <section className="relative z-20 -mt-12 rounded-t-[2.5rem] bg-background px-6 py-24 shadow-[0_-20px_60px_-20px_rgba(0,0,0,0.4)] md:px-12 md:py-32">
+        <StyledSection style={content._style?.["Introduction"]}>
+<section className="relative z-20 -mt-12 rounded-t-[2.5rem] bg-background px-6 py-24 shadow-[0_-20px_60px_-20px_rgba(0,0,0,0.4)] md:px-12 md:py-32">
           <div className="mx-auto max-w-5xl text-center">
             <p className="text-sm font-semibold uppercase tracking-[0.25em]" style={{ color: "var(--brand-blue)" }}>
               {intro.eyebrow}
@@ -232,10 +236,12 @@ export default function Dental() {
             </p>
           </div>
         </section>
+        </StyledSection>
       )}
 
       {v["The Problem"] && (
-        <section ref={problemRef} className="relative bg-[#0a0e1a]" style={{ height: "360vh" }}>
+        <StyledSection style={content._style?.["The Problem"]}>
+<section ref={problemRef} className="relative bg-[#0a0e1a]" style={{ height: "360vh" }}>
           <div className="sticky top-0 flex min-h-screen flex-col overflow-hidden">
             <div className="mx-auto w-full max-w-7xl px-6 pt-14 md:px-12 md:pt-16">
               <span className="inline-flex items-center gap-2 rounded-full bg-red-500/10 px-3 py-1.5 text-xs font-semibold uppercase tracking-wider text-red-300 ring-1 ring-red-500/20">
@@ -285,10 +291,12 @@ export default function Dental() {
             </div>
           </div>
         </section>
+        </StyledSection>
       )}
 
       {v["The Platform"] && (
-        <section
+        <StyledSection style={content._style?.["The Platform"]}>
+<section
           className="px-6 py-24 md:px-12"
           style={{ background: "color-mix(in oklab, var(--brand-blue) 4%, var(--background))" }}
         >
@@ -338,10 +346,12 @@ export default function Dental() {
             </div>
           </div>
         </section>
+        </StyledSection>
       )}
 
       {v["Patient Journey"] && (
-        <section className="bg-background px-6 py-24 md:px-12 md:py-32">
+        <StyledSection style={content._style?.["Patient Journey"]}>
+<section className="bg-background px-6 py-24 md:px-12 md:py-32">
           <div className="mx-auto max-w-6xl">
             <div className="mx-auto max-w-3xl text-center">
               <span className="text-xs font-semibold uppercase tracking-[0.3em] text-[color:var(--brand-blue)]">
@@ -359,10 +369,12 @@ export default function Dental() {
             <ExpandingJourney steps={[...(journey.items ?? [])]} />
           </div>
         </section>
+        </StyledSection>
       )}
 
       {v.Outcomes && (
-        <section
+        <StyledSection style={content._style?.["Outcomes"]}>
+<section
           className="px-6 py-24 md:px-12"
           style={{ background: "linear-gradient(135deg, var(--brand-dark) 0%, #0d2a52 100%)" }}
         >
@@ -391,10 +403,12 @@ export default function Dental() {
             </div>
           </div>
         </section>
+        </StyledSection>
       )}
 
       {v.Integrations && (
-        <section className="bg-background px-6 py-24 md:px-12 md:py-32">
+        <StyledSection style={content._style?.["Integrations"]}>
+<section className="bg-background px-6 py-24 md:px-12 md:py-32">
           <div className="mx-auto max-w-6xl">
             <div className="mx-auto max-w-3xl text-center">
               <span className="text-xs font-semibold uppercase tracking-[0.3em] text-[color:var(--brand-blue)]">
@@ -446,10 +460,12 @@ export default function Dental() {
             </div>
           </div>
         </section>
+        </StyledSection>
       )}
 
       {v.FAQ && (
-        <section
+        <StyledSection style={content._style?.["FAQ"]}>
+<section
           className="px-6 py-24 md:px-12"
           style={{ background: "color-mix(in oklab, var(--brand-blue) 4%, var(--background))" }}
         >
@@ -467,10 +483,12 @@ export default function Dental() {
             </div>
           </div>
         </section>
+        </StyledSection>
       )}
 
       {v["Final CTA"] && (
-        <section
+        <StyledSection style={content._style?.["Final CTA"]}>
+<section
           id="contact"
           className="relative overflow-hidden px-6 py-28 md:px-12 md:py-36"
           style={{ backgroundColor: "#091628" }}
@@ -527,6 +545,7 @@ export default function Dental() {
             )}
           </div>
         </section>
+        </StyledSection>
       )}
 
       <CtaSection />

@@ -5,6 +5,7 @@ import * as Icons from "lucide-react";
 import { Footer } from "@/components/Footer";
 import { CtaSection } from "@/components/CtaSection";
 import { useDynamicsContent } from "@/lib/dynamicsContent";
+import { StyledSection } from "@/components/StyledSection";
 
 function LIcon({ name, className }: { name?: string; className?: string }) {
   const Cmp = (name && (Icons as any)[name]) || Icons.Sparkles;
@@ -51,7 +52,8 @@ export default function Dynamics365() {
     <>
       {/* HERO */}
       {v.Hero && (
-        <main className="relative min-h-[90vh] w-full overflow-hidden bg-background pt-20">
+        <StyledSection style={content._style?.["Hero"]}>
+<main className="relative min-h-[90vh] w-full overflow-hidden bg-background pt-20">
           <div className="absolute inset-0">
             <video
               autoPlay
@@ -106,11 +108,13 @@ export default function Dynamics365() {
             </section>
           </div>
         </main>
+        </StyledSection>
       )}
 
       {/* INTRODUCTION */}
       {v.Introduction && (
-        <section className="relative z-20 -mt-12 rounded-t-[2.5rem] bg-[#0a0e1a] px-6 py-20 shadow-[0_-20px_60px_-20px_rgba(0,0,0,0.4)] md:px-12 md:py-28">
+        <StyledSection style={content._style?.["Introduction"]}>
+<section className="relative z-20 -mt-12 rounded-t-[2.5rem] bg-[#0a0e1a] px-6 py-20 shadow-[0_-20px_60px_-20px_rgba(0,0,0,0.4)] md:px-12 md:py-28">
           <div className="mx-auto max-w-4xl text-center">
             <h2 className="text-3xl font-bold leading-[1.1] tracking-tight text-white md:text-4xl lg:text-5xl">
               {c.Introduction.headline}{" "}
@@ -133,11 +137,13 @@ export default function Dynamics365() {
             <p className="mt-10 text-sm text-white/60">{c.Introduction.footnote}</p>
           </div>
         </section>
+        </StyledSection>
       )}
 
       {/* WHAT WE DELIVER */}
       {v["What We Deliver"] && (
-        <section id="services" className="relative z-20 -mt-12 rounded-t-[2.5rem] bg-background px-6 py-24 shadow-[0_-20px_60px_-20px_rgba(0,0,0,0.4)] md:px-12 md:py-32">
+        <StyledSection style={content._style?.["What We Deliver"]}>
+<section id="services" className="relative z-20 -mt-12 rounded-t-[2.5rem] bg-background px-6 py-24 shadow-[0_-20px_60px_-20px_rgba(0,0,0,0.4)] md:px-12 md:py-32">
           <div className="mx-auto max-w-6xl">
             <div className="text-center">
               <p className="text-sm font-semibold uppercase tracking-[0.25em]" style={{ color: "var(--brand-blue)" }}>
@@ -189,11 +195,13 @@ export default function Dynamics365() {
             </div>
           </div>
         </section>
+        </StyledSection>
       )}
 
       {/* GOVERNANCE PROCESS */}
       {v.Process && (
-        <section className="relative bg-[#0a0e1a] px-6 py-24 md:px-12 md:py-32">
+        <StyledSection style={content._style?.["Process"]}>
+<section className="relative bg-[#0a0e1a] px-6 py-24 md:px-12 md:py-32">
           <div className="mx-auto max-w-6xl">
             <div className="text-center">
               <p className="text-sm font-semibold uppercase tracking-[0.25em] text-[var(--brand-blue)]">
@@ -237,11 +245,13 @@ export default function Dynamics365() {
             </div>
           </div>
         </section>
+        </StyledSection>
       )}
 
       {/* USE CASES */}
       {v["Use Cases"] && (
-        <section className="relative bg-background px-6 py-24 md:px-12 md:py-32">
+        <StyledSection style={content._style?.["Use Cases"]}>
+<section className="relative bg-background px-6 py-24 md:px-12 md:py-32">
           <div className="mx-auto max-w-6xl">
             <div className="text-center">
               <p className="text-sm font-semibold uppercase tracking-[0.25em]" style={{ color: "var(--brand-blue)" }}>
@@ -294,11 +304,13 @@ export default function Dynamics365() {
             </div>
           </div>
         </section>
+        </StyledSection>
       )}
 
       {/* WHO WE SERVE */}
       {v["Who We Serve"] && (
-        <section className="relative bg-[#f6f7fb] px-6 py-24 md:px-12 md:py-32">
+        <StyledSection style={content._style?.["Who We Serve"]}>
+<section className="relative bg-[#f6f7fb] px-6 py-24 md:px-12 md:py-32">
           <div className="mx-auto max-w-6xl">
             <div className="text-center">
               <p className="text-sm font-semibold uppercase tracking-[0.25em]" style={{ color: "var(--brand-blue)" }}>
@@ -353,11 +365,13 @@ export default function Dynamics365() {
             </div>
           </div>
         </section>
+        </StyledSection>
       )}
 
       {/* STANDARD VS STRATEGIC */}
       {v["Standard vs Strategic"] && (
-        <section className="relative overflow-hidden bg-[#0a0e1a] px-6 py-24 md:px-12 md:py-32">
+        <StyledSection style={content._style?.["Standard vs Strategic"]}>
+<section className="relative overflow-hidden bg-[#0a0e1a] px-6 py-24 md:px-12 md:py-32">
           <img
             src={c["Standard vs Strategic"].backgroundUrl}
             alt=""
@@ -383,11 +397,13 @@ export default function Dynamics365() {
             </p>
           </div>
         </section>
+        </StyledSection>
       )}
 
       {/* DISCOVERY SESSION */}
       {v["Discovery Session"] && (
-        <section id="contact" className="relative bg-background px-6 py-24 md:px-12 md:py-32">
+        <StyledSection style={content._style?.["Discovery Session"]}>
+<section id="contact" className="relative bg-background px-6 py-24 md:px-12 md:py-32">
           <div className="mx-auto grid max-w-6xl grid-cols-1 gap-12 md:grid-cols-2 md:items-center">
             <div>
               <p className="text-sm font-semibold uppercase tracking-[0.25em]" style={{ color: "var(--brand-blue)" }}>
@@ -425,6 +441,7 @@ export default function Dynamics365() {
             </ul>
           </div>
         </section>
+        </StyledSection>
       )}
 
       <div id="cta">

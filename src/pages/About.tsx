@@ -18,6 +18,7 @@ import { Footer } from "@/components/Footer";
 import { CtaSection } from "@/components/CtaSection";
 import { SeoHead } from "@/components/SeoHead";
 import { useAboutContent } from "@/lib/aboutContent";
+import { StyledSection } from "@/components/StyledSection";
 
 const ICONS: Record<string, LucideIcon> = {
   Target,
@@ -51,7 +52,8 @@ export default function About() {
 
       {/* Hero with video background */}
       {v.Hero && (
-        <main className="pt-20 relative min-h-[90vh] w-full overflow-hidden bg-background">
+        <StyledSection style={content._style?.["Hero"]}>
+<main className="pt-20 relative min-h-[90vh] w-full overflow-hidden bg-background">
           <div className="absolute inset-0">
             <video
               src={hero.mediaUrl || aboutHeroVideo}
@@ -100,6 +102,7 @@ export default function About() {
             </section>
           </div>
         </main>
+        </StyledSection>
       )}
 
       {/* Introduction + Mission & Vision */}
@@ -223,7 +226,8 @@ export default function About() {
 
       {/* Final CTA — dark section */}
       {v["Final CTA"] && (
-        <section
+        <StyledSection style={content._style?.["Final CTA"]}>
+<section
           className="relative overflow-hidden px-6 py-24 md:px-12"
           style={{ backgroundColor: "#091628" }}
         >
@@ -264,6 +268,7 @@ export default function About() {
             )}
           </div>
         </section>
+        </StyledSection>
       )}
 
       <CtaSection />

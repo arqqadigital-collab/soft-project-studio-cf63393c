@@ -24,6 +24,7 @@ import {
 import { Footer } from "@/components/Footer";
 import { CtaSection } from "@/components/CtaSection";
 import { useLogisticsContent } from "@/lib/logisticsContent";
+import { StyledSection } from "@/components/StyledSection";
 
 const ICONS: Record<string, any> = {
   Warehouse, Boxes, PackageCheck, ShoppingCart, Truck, RefreshCw, Eye, Radar,
@@ -38,7 +39,8 @@ export default function Logistics() {
     <>
       {/* HERO */}
       {v.Hero && (
-        <main className="relative min-h-[90vh] w-full overflow-hidden bg-background pt-20">
+        <StyledSection style={content._style?.["Hero"]}>
+<main className="relative min-h-[90vh] w-full overflow-hidden bg-background pt-20">
           <div className="absolute inset-0">
             <img src={c.Hero.image} alt="Logistics distribution hub" className="absolute inset-0 h-full w-full object-cover" />
             <div
@@ -87,11 +89,13 @@ export default function Logistics() {
             </section>
           </div>
         </main>
+        </StyledSection>
       )}
 
       {/* THE PROBLEM */}
       {v["The Problem"] && (
-        <section className="relative z-20 -mt-12 rounded-t-[2.5rem] bg-[#0a0e1a] px-6 py-20 shadow-[0_-20px_60px_-20px_rgba(0,0,0,0.4)] md:px-12 md:py-28">
+        <StyledSection style={content._style?.["The Problem"]}>
+<section className="relative z-20 -mt-12 rounded-t-[2.5rem] bg-[#0a0e1a] px-6 py-20 shadow-[0_-20px_60px_-20px_rgba(0,0,0,0.4)] md:px-12 md:py-28">
           <div className="mx-auto max-w-6xl">
             <div className="text-center">
               <span className="inline-flex items-center gap-2 rounded-full border border-red-400/25 bg-red-500/10 px-4 py-1.5 text-xs font-semibold uppercase tracking-wider text-red-400">
@@ -134,11 +138,13 @@ export default function Logistics() {
             </div>
           </div>
         </section>
+        </StyledSection>
       )}
 
       {/* TRADITIONAL FAIL */}
       {v["Traditional Fail"] && (
-        <section className="relative bg-background">
+        <StyledSection style={content._style?.["Traditional Fail"]}>
+<section className="relative bg-background">
           <div className="grid min-h-[600px] grid-cols-1 md:grid-cols-2">
             <div className="flex items-center px-6 py-20 md:px-12 md:py-28">
               <div className="mx-auto max-w-xl">
@@ -172,11 +178,13 @@ export default function Logistics() {
             </div>
           </div>
         </section>
+        </StyledSection>
       )}
 
       {/* APPROACH */}
       {v.Approach && (
-        <section className="relative z-20 -mt-12 rounded-t-[2.5rem] bg-background px-6 py-24 shadow-[0_-20px_60px_-20px_rgba(0,0,0,0.4)] md:px-12 md:py-32">
+        <StyledSection style={content._style?.["Approach"]}>
+<section className="relative z-20 -mt-12 rounded-t-[2.5rem] bg-background px-6 py-24 shadow-[0_-20px_60px_-20px_rgba(0,0,0,0.4)] md:px-12 md:py-32">
           <div className="mx-auto max-w-6xl">
             <div className="text-center">
               <h2 className="text-4xl font-bold leading-[1.1] tracking-tight md:text-5xl">
@@ -211,11 +219,13 @@ export default function Logistics() {
             </div>
           </div>
         </section>
+        </StyledSection>
       )}
 
       {/* CAPABILITIES */}
       {v.Capabilities && (
-        <section id="capabilities" className="relative bg-[#0a0e1a] px-6 py-24 md:px-12 md:py-32">
+        <StyledSection style={content._style?.["Capabilities"]}>
+<section id="capabilities" className="relative bg-[#0a0e1a] px-6 py-24 md:px-12 md:py-32">
           <div className="mx-auto max-w-6xl">
             <div className="text-center">
               <p className="text-sm font-semibold uppercase tracking-[0.25em] text-[var(--brand-blue)]">
@@ -262,11 +272,13 @@ export default function Logistics() {
             </div>
           </div>
         </section>
+        </StyledSection>
       )}
 
       {/* USE CASES */}
       {v["Use Cases"] && (
-        <section className="relative bg-background px-6 py-24 md:px-12 md:py-32">
+        <StyledSection style={content._style?.["Use Cases"]}>
+<section className="relative bg-background px-6 py-24 md:px-12 md:py-32">
           <div className="mx-auto max-w-6xl">
             <div className="text-center">
               <p className="text-sm font-semibold uppercase tracking-[0.25em]" style={{ color: "var(--brand-blue)" }}>
@@ -312,11 +324,13 @@ export default function Logistics() {
             </div>
           </div>
         </section>
+        </StyledSection>
       )}
 
       {/* BUSINESS IMPACT */}
       {v["Business Impact"] && (
-        <section className="relative bg-[#0a0e1a] px-6 py-24 md:px-12 md:py-32">
+        <StyledSection style={content._style?.["Business Impact"]}>
+<section className="relative bg-[#0a0e1a] px-6 py-24 md:px-12 md:py-32">
           <div className="mx-auto max-w-6xl">
             <div className="text-center">
               <p className="text-sm font-semibold uppercase tracking-[0.25em] text-[var(--brand-blue)]">{c["Business Impact"].eyebrow}</p>
@@ -348,11 +362,13 @@ export default function Logistics() {
             </div>
           </div>
         </section>
+        </StyledSection>
       )}
 
       {/* IMPLEMENTATION */}
       {v.Implementation && (
-        <section className="relative bg-background px-6 py-24 md:px-12 md:py-32">
+        <StyledSection style={content._style?.["Implementation"]}>
+<section className="relative bg-background px-6 py-24 md:px-12 md:py-32">
           <div className="mx-auto max-w-6xl">
             <div className="text-center">
               <p className="text-sm font-semibold uppercase tracking-[0.25em]" style={{ color: "var(--brand-blue)" }}>
@@ -395,11 +411,13 @@ export default function Logistics() {
             </div>
           </div>
         </section>
+        </StyledSection>
       )}
 
       {/* WHY SBS */}
       {v["Why SBS"] && (
-        <section className="relative bg-[#0a0e1a] px-6 py-24 md:px-12 md:py-32">
+        <StyledSection style={content._style?.["Why SBS"]}>
+<section className="relative bg-[#0a0e1a] px-6 py-24 md:px-12 md:py-32">
           <div className="mx-auto max-w-5xl text-center">
             <p className="text-sm font-semibold uppercase tracking-[0.25em] text-[var(--brand-blue)]">{c["Why SBS"].eyebrow}</p>
             <h2 className="mt-6 text-4xl font-bold leading-[1.1] tracking-tight text-white md:text-5xl">
@@ -418,11 +436,13 @@ export default function Logistics() {
             </div>
           </div>
         </section>
+        </StyledSection>
       )}
 
       {/* FINAL CTA */}
       {v["Final CTA"] && (
-        <section className="relative overflow-hidden bg-[#0a0e1a] px-6 py-24 md:px-12 md:py-32">
+        <StyledSection style={content._style?.["Final CTA"]}>
+<section className="relative overflow-hidden bg-[#0a0e1a] px-6 py-24 md:px-12 md:py-32">
           <div className="absolute inset-0 opacity-30">
             <img src={c["Final CTA"].image} alt="" className="h-full w-full object-cover" />
             <div className="absolute inset-0 bg-[#0a0e1a]/80" />
@@ -448,6 +468,7 @@ export default function Logistics() {
             </div>
           </div>
         </section>
+        </StyledSection>
       )}
 
       <CtaSection />
