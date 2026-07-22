@@ -134,7 +134,7 @@ export default function BloodBank() {
     <>
       {/* HERO */}
       {v.Hero && (
-        <StyledSection style={content._style?.["Hero"]}>
+        <StyledSection style={c._style?.["Hero"]}>
 <main className="pt-20 relative min-h-[90vh] w-full overflow-hidden bg-background">
           <div className="absolute inset-0">
             {c.Hero.mediaUrl && (
@@ -212,7 +212,7 @@ export default function BloodBank() {
 
       {/* INTRO */}
       {v.Introduction && (
-        <StyledSection style={content._style?.["Introduction"]}>
+        <StyledSection style={c._style?.["Introduction"]}>
 <section className="relative z-20 -mt-12 rounded-t-[2.5rem] bg-background px-6 py-24 shadow-[0_-20px_60px_-20px_rgba(0,0,0,0.4)] md:px-12 md:py-32">
           <div className="mx-auto max-w-4xl text-center">
             <p className="text-sm font-semibold uppercase tracking-[0.25em]" style={{ color: "var(--brand-blue)" }}>
@@ -234,7 +234,7 @@ export default function BloodBank() {
 
       {/* PROBLEM */}
       {v["The Problem"] && (
-        <StyledSection style={content._style?.["The Problem"]}>
+        <StyledSection style={c._style?.["The Problem"]}>
 <section ref={problemRef} className="relative bg-[#0a0e1a]" style={{ height: "320vh" }}>
           <div className="sticky top-0 flex min-h-screen flex-col overflow-hidden pb-12 md:pb-16">
             <div className="mx-auto w-full max-w-7xl px-6 pt-14 md:px-12 md:pt-16">
@@ -281,7 +281,7 @@ export default function BloodBank() {
 
       {/* PLATFORM / FEATURES */}
       {v["The Platform"] && (
-        <StyledSection style={content._style?.["The Platform"]}>
+        <StyledSection style={c._style?.["The Platform"]}>
 <section
           className="px-6 py-24 md:px-12"
           style={{ background: "color-mix(in oklab, var(--brand-blue) 4%, var(--background))" }}
@@ -331,7 +331,7 @@ export default function BloodBank() {
 
       {/* JOURNEY */}
       {v["Patient Journey"] && (
-        <StyledSection style={content._style?.["Patient Journey"]}>
+        <StyledSection style={c._style?.["Patient Journey"]}>
 <section
           className="relative px-6 py-24 md:px-12"
           style={{
@@ -358,7 +358,7 @@ export default function BloodBank() {
 
       {/* OUTCOMES */}
       {v.Outcomes && (
-        <StyledSection style={content._style?.["Outcomes"]}>
+        <StyledSection style={c._style?.["Outcomes"]}>
 <section className="relative overflow-hidden px-6 py-24 md:px-12" style={{ backgroundColor: "#091628" }}>
           <div
             className="absolute -left-32 top-1/2 h-96 w-96 -translate-y-1/2 rounded-full opacity-20 blur-3xl"
@@ -397,7 +397,7 @@ export default function BloodBank() {
 
       {/* INTEGRATIONS */}
       {v.Integrations && (
-        <StyledSection style={content._style?.["Integrations"]}>
+        <StyledSection style={c._style?.["Integrations"]}>
 <section className="px-6 py-24 md:px-12">
           <div className="mx-auto max-w-6xl text-center">
             <span className="inline-flex items-center gap-2 rounded-full bg-[color:var(--brand-blue)]/10 px-3 py-1.5 text-xs font-semibold uppercase tracking-wider text-[color:var(--brand-blue)]">
@@ -426,7 +426,7 @@ export default function BloodBank() {
 
       {/* FAQ */}
       {v.FAQ && (
-        <StyledSection style={content._style?.["FAQ"]}>
+        <StyledSection style={c._style?.["FAQ"]}>
 <section
           className="px-6 py-24 md:px-12"
           style={{ background: "color-mix(in oklab, var(--brand-blue) 4%, var(--background))" }}
@@ -468,7 +468,7 @@ export default function BloodBank() {
 
       {/* FINAL CTA */}
       {v["Final CTA"] && (
-        <StyledSection style={content._style?.["Final CTA"]}>
+        <StyledSection style={c._style?.["Final CTA"]}>
 <section
           id="contact"
           className="relative overflow-hidden px-6 py-24 md:px-12"

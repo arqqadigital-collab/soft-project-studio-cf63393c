@@ -35,7 +35,7 @@ export default function Zoho() {
   return (
     <>
       {v.Hero && (
-        <StyledSection style={content._style?.["Hero"]}>
+        <StyledSection style={c._style?.["Hero"]}>
 <main className="relative min-h-[90vh] w-full overflow-hidden bg-background pt-20">
           <div className="absolute inset-0">
             <video
@@ -93,7 +93,7 @@ export default function Zoho() {
       )}
 
       {v.Introduction && (
-        <StyledSection style={content._style?.["Introduction"]}>
+        <StyledSection style={c._style?.["Introduction"]}>
 <section className="relative z-20 -mt-12 rounded-t-[2.5rem] bg-[#0a0e1a] px-6 py-20 shadow-[0_-20px_60px_-20px_rgba(0,0,0,0.4)] md:px-12 md:py-28">
           <div className="mx-auto max-w-6xl">
             <div className="text-center">
@@ -137,7 +137,7 @@ export default function Zoho() {
       )}
 
       {v["The Problem"] && (
-        <StyledSection style={content._style?.["The Problem"]}>
+        <StyledSection style={c._style?.["The Problem"]}>
 <section className="relative z-20 bg-background px-6 py-24 md:px-12 md:py-32">
           <div className="mx-auto max-w-6xl">
             <div className="text-center">
@@ -184,7 +184,7 @@ export default function Zoho() {
       )}
 
       {v["How We Work"] && (
-        <StyledSection style={content._style?.["How We Work"]}>
+        <StyledSection style={c._style?.["How We Work"]}>
 <section id="process" className="relative bg-[#0a0e1a] px-6 py-24 md:px-12 md:py-32">
           <div className="mx-auto max-w-6xl">
             <div className="text-center">
@@ -238,7 +238,7 @@ export default function Zoho() {
       )}
 
       {v["Use Cases"] && (
-        <StyledSection style={content._style?.["Use Cases"]}>
+        <StyledSection style={c._style?.["Use Cases"]}>
 <section className="relative bg-background px-6 py-24 md:px-12 md:py-32">
           <div className="mx-auto max-w-7xl">
             <div className="text-center">
@@ -299,7 +299,7 @@ export default function Zoho() {
       )}
 
       {v["Business Impact"] && (
-        <StyledSection style={content._style?.["Business Impact"]}>
+        <StyledSection style={c._style?.["Business Impact"]}>
 <section className="relative bg-background px-6 py-24 md:px-12 md:py-32">
           <div className="mx-auto max-w-6xl">
             <div className="text-center">
@@ -345,7 +345,7 @@ export default function Zoho() {
       )}
 
       {v.Objective && (
-        <StyledSection style={content._style?.["Objective"]}>
+        <StyledSection style={c._style?.["Objective"]}>
 <section className="relative bg-[#0a0e1a] px-6 py-24 md:px-12 md:py-32">
           <div className="mx-auto max-w-5xl text-center">
             <h2 className="text-3xl font-bold leading-[1.15] tracking-tight md:text-4xl lg:text-5xl">
@@ -375,7 +375,7 @@ export default function Zoho() {
       )}
 
       {v.FAQ && (
-        <StyledSection style={content._style?.["FAQ"]}>
+        <StyledSection style={c._style?.["FAQ"]}>
 <section className="relative bg-[#eff7fb] px-6 py-24 md:px-12 md:py-32">
           <div className="mx-auto max-w-4xl">
             <div className="text-center">

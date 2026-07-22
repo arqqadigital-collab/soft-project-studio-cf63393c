@@ -52,7 +52,7 @@ export default function About() {
 
       {/* Hero with video background */}
       {v.Hero && (
-        <StyledSection style={content._style?.["Hero"]}>
+        <StyledSection style={c._style?.["Hero"]}>
 <main className="pt-20 relative min-h-[90vh] w-full overflow-hidden bg-background">
           <div className="absolute inset-0">
             <video
@@ -226,7 +226,7 @@ export default function About() {
 
       {/* Final CTA — dark section */}
       {v["Final CTA"] && (
-        <StyledSection style={content._style?.["Final CTA"]}>
+        <StyledSection style={c._style?.["Final CTA"]}>
 <section
           className="relative overflow-hidden px-6 py-24 md:px-12"
           style={{ backgroundColor: "#091628" }}
