@@ -140,8 +140,7 @@ export function RichTextEditor({
         open={pickerOpen}
         onOpenChange={setPickerOpen}
         onPick={(m) => {
-          const url = (m as any).url || (m as any).file_url;
-          if (url) editor.chain().focus().setImage({ src: url, alt: (m as any).alt_text ?? "" }).run();
+          if (m.file_url) editor.chain().focus().setImage({ src: m.file_url, alt: m.alt_text ?? "" }).run();
         }}
       />
     </div>
