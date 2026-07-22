@@ -238,3 +238,28 @@ html[dir="rtl"] svg.lucide-arrow-right,
 html[dir="rtl"] svg.lucide-arrow-left {
   transform: scaleX(-1);
 }
+
+/* -------- Per-section design overrides (SectionStyleEditor) -------- */
+.section-styled h1,
+.section-styled h2,
+.section-styled h3 {
+  color: var(--section-heading, inherit);
+  font-size: var(--section-heading-size, inherit);
+}
+.section-styled p,
+.section-styled li {
+  font-size: var(--section-body-size, inherit);
+}
+.section-styled a[data-brand-accent],
+.section-styled .text-brand-accent {
+  color: var(--section-accent, inherit);
+}
+.section-styled .btn,
+.section-styled button:not([data-no-section-style]),
+.section-styled a[role="button"]:not([data-no-section-style]) {
+  background: var(--section-button-bg, inherit);
+  color: var(--section-button-fg, inherit);
+  border-radius: var(--section-button-radius, inherit);
+  padding: var(--section-button-padding, inherit);
+  font-size: var(--section-button-fontsize, inherit);
+}
