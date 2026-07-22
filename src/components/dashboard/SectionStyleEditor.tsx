@@ -1,6 +1,6 @@
 import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
-import { BRAND_SWATCHES, DEFAULT_SECTION_STYLE, type SectionStyle } from "@/lib/sectionStyle";
+import { BRAND_SWATCHES, GRADIENT_SWATCHES, DEFAULT_SECTION_STYLE, type SectionStyle } from "@/lib/sectionStyle";
 import { RotateCcw } from "lucide-react";
 
 type Props = {
@@ -25,9 +25,10 @@ function Chip({
 }
 
 function ColorRow({
-  label, value, onChange,
-}: { label: string; value: string | undefined; onChange: (v: string) => void }) {
+  label, value, onChange, allowGradient,
+}: { label: string; value: string | undefined; onChange: (v: string) => void; allowGradient?: boolean }) {
   const isTransparent = !value;
+  const swatches = allowGradient ? [...BRAND_SWATCHES, ...GRADIENT_SWATCHES] : BRAND_SWATCHES;
   return (
     <div className="space-y-1.5">
       <div className="flex items-center justify-between gap-2">
@@ -39,11 +40,13 @@ function ColorRow({
             style={isTransparent ? undefined : { background: value }}
             title={value || "transparent"}
           />
-          <span className="w-16 text-right font-mono text-[10px] text-muted-foreground">{value || "—"}</span>
+          <span className="max-w-[160px] truncate text-right font-mono text-[10px] text-muted-foreground" title={value || ""}>
+            {value || "—"}
+          </span>
         </div>
       </div>
       <div className="flex flex-wrap items-center gap-1.5">
-        {BRAND_SWATCHES.map((s) => {
+        {swatches.map((s) => {
           const active = (value ?? "").toLowerCase() === s.value.toLowerCase();
           const transparent = s.value === "";
           return (
@@ -62,12 +65,17 @@ function ColorRow({
         })}
         <input
           type="color"
-          value={value || "#ffffff"}
+          value={value && value.startsWith("#") ? value : "#ffffff"}
           onChange={(e) => onChange(e.target.value)}
           className="h-7 w-7 cursor-pointer rounded border border-border bg-transparent"
           title="Custom color"
         />
       </div>
+      {allowGradient && (
+        <p className="text-[10px] text-muted-foreground">
+          Tip: solid colors and gradients both work here — pick a preset or paste any CSS background.
+        </p>
+      )}
     </div>
   );
 }
@@ -148,7 +156,7 @@ export function SectionStyleEditor({ value, onChange }: Props) {
       </div>
 
       <div className="grid gap-4 border-t border-border pt-4 sm:grid-cols-2">
-        <ColorRow label="Background color" value={s.bg_color} onChange={(v) => set({ bg_color: v })} />
+        <ColorRow label="Background color" value={s.bg_color} onChange={(v) => set({ bg_color: v })} allowGradient />
         <ColorRow label="Text color" value={s.text_color} onChange={(v) => set({ text_color: v })} />
         <ColorRow label="Headline color" value={s.heading_color} onChange={(v) => set({ heading_color: v })} />
         <ColorRow label="Accent color" value={s.accent_color} onChange={(v) => set({ accent_color: v })} />
@@ -187,7 +195,7 @@ export function SectionStyleEditor({ value, onChange }: Props) {
             value={s.button_radius}
             onChange={(v) => set({ button_radius: v })}
           />
-          <ColorRow label="Button background" value={s.button_bg} onChange={(v) => set({ button_bg: v })} />
+          <ColorRow label="Button background" value={s.button_bg} onChange={(v) => set({ button_bg: v })} allowGradient />
           <ColorRow label="Button text color" value={s.button_fg} onChange={(v) => set({ button_fg: v })} />
         </div>
       </div>
