@@ -62,7 +62,11 @@ export function PageRenderer({ pageId }: { pageId: string }) {
         const def = SECTION_REGISTRY[r.kind as SectionKind];
         if (!def) return null;
         const Render = def.Render;
-        return <Render key={r.id} data={r.data ?? {}} />;
+        return (
+          <StyledSection key={r.id} style={r.style}>
+            <Render data={r.data ?? {}} />
+          </StyledSection>
+        );
       })}
     </>
   );
