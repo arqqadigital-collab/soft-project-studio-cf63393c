@@ -27,9 +27,21 @@ function Chip({
 function ColorRow({
   label, value, onChange,
 }: { label: string; value: string | undefined; onChange: (v: string) => void }) {
+  const isTransparent = !value;
   return (
     <div className="space-y-1.5">
-      <Label className="text-xs">{label}</Label>
+      <div className="flex items-center justify-between gap-2">
+        <Label className="text-xs">{label}</Label>
+        <div className="flex items-center gap-1.5">
+          <span className="text-[10px] uppercase tracking-wider text-muted-foreground">Current</span>
+          <span
+            className={`h-5 w-5 rounded border border-border ${isTransparent ? "bg-[conic-gradient(from_45deg,#ddd_25%,#fff_25%_50%,#ddd_50%_75%,#fff_75%)] bg-[length:8px_8px]" : ""}`}
+            style={isTransparent ? undefined : { background: value }}
+            title={value || "transparent"}
+          />
+          <span className="w-16 text-right font-mono text-[10px] text-muted-foreground">{value || "—"}</span>
+        </div>
+      </div>
       <div className="flex flex-wrap items-center gap-1.5">
         {BRAND_SWATCHES.map((s) => {
           const active = (value ?? "").toLowerCase() === s.value.toLowerCase();
@@ -55,7 +67,6 @@ function ColorRow({
           className="h-7 w-7 cursor-pointer rounded border border-border bg-transparent"
           title="Custom color"
         />
-        <span className="ml-1 text-xs text-muted-foreground">{value || "—"}</span>
       </div>
     </div>
   );
