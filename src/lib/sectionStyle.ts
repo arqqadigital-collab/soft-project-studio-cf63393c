@@ -76,8 +76,14 @@ export function resolveSectionStyle(style: SectionStyle | null | undefined) {
   if (s.margin_bottom) classes.push(MARGIN_BOTTOM[s.margin_bottom]);
   if (s.align) classes.push(ALIGN[s.align]);
 
-  if (s.bg_color) inline.background = s.bg_color;
-  if (s.text_color) inline.color = s.text_color;
+  if (s.bg_color) {
+    inline.background = s.bg_color;
+    (inline as any)["--section-bg"] = s.bg_color;
+  }
+  if (s.text_color) {
+    inline.color = s.text_color;
+    (inline as any)["--section-fg"] = s.text_color;
+  }
   if (s.heading_color) (inline as any)["--section-heading"] = s.heading_color;
   if (s.accent_color) (inline as any)["--section-accent"] = s.accent_color;
   if (s.heading_size) (inline as any)["--section-heading-size"] = HEADING_SIZE[s.heading_size];
