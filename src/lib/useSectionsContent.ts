@@ -36,7 +36,7 @@ function hasOwn(value: unknown, key: string): boolean {
 export function useSectionsContent<T extends Record<string, any>>(
   slug: string,
   defaults: T,
-): T & { _visible: Record<keyof T, boolean> } {
+): T & { _visible: Record<keyof T, boolean>; _style: Record<keyof T, any> } {
   const { locale } = useLocale();
   const { data } = useQuery({
     queryKey: ["page-sections", slug, locale],
@@ -47,17 +47,18 @@ export function useSectionsContent<T extends Record<string, any>>(
         .eq("slug", slug)
         .maybeSingle();
       if (pageErr) throw pageErr;
-      if (!page?.id) return { byName: {}, visibleByName: {} };
+      if (!page?.id) return { byName: {}, visibleByName: {}, styleByName: {} };
 
       const { data: sections, error: secErr } = await supabase
         .from("page_sections")
-        .select("data, translations, position, is_visible")
+        .select("data, translations, position, is_visible, style")
         .eq("page_id", page.id)
         .order("position");
       if (secErr) throw secErr;
 
       const byName: Record<string, any> = {};
       const visibleByName: Record<string, boolean> = {};
+      const styleByName: Record<string, any> = {};
       for (const row of sections ?? []) {
         const baseData = (row.data ?? {}) as any;
         const translations = (row.translations ?? {}) as Record<string, any>;
@@ -67,16 +68,21 @@ export function useSectionsContent<T extends Record<string, any>>(
         if (typeof name === "string" && name.length > 0) {
           byName[name] = effective;
           visibleByName[name] = row.is_visible !== false;
+          styleByName[name] = (row as any).style ?? null;
         }
       }
-      return { byName, visibleByName };
+      return { byName, visibleByName, styleByName };
     },
     staleTime: 30_000,
   });
 
   const overrides = (data?.byName ?? {}) as Record<string, any>;
   const visibility = (data?.visibleByName ?? {}) as Record<string, boolean>;
-  const merged: any = { _visible: {} as Record<keyof T, boolean> };
+  const styles = (data?.styleByName ?? {}) as Record<string, any>;
+  const merged: any = {
+    _visible: {} as Record<keyof T, boolean>,
+    _style: {} as Record<keyof T, any>,
+  };
   for (const key of Object.keys(defaults) as (keyof T)[]) {
     const override = overrides[key as string] ?? {};
     merged[key] = merge(defaults[key] as any, override);
@@ -86,6 +92,7 @@ export function useSectionsContent<T extends Record<string, any>>(
       merged[key].section_name = (defaults[key] as any).section_name;
     }
     merged._visible[key] = visibility[key as string] ?? true;
+    merged._style[key] = styles[key as string] ?? null;
   }
   return merged;
 }

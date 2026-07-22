@@ -27,6 +27,7 @@ import bgStepsLight from "@/assets/bg-steps-light.png";
 
 import { Footer } from "@/components/Footer";
 import { CtaSection } from "@/components/CtaSection";
+import { StyledSection } from "@/components/StyledSection";
 
 import { useHorizontalScroll } from "@/hooks/use-horizontal-scroll";
 import { splitAccent } from "@/lib/hisContent";
@@ -250,6 +251,7 @@ function LogoSlider({ platforms }: { platforms: Platform[] }) {
 
 export function SecretaProductLayout({ content }: { content: any }) {
   const v = content._visible;
+  const S = content._style ?? {};
   const hero = content.Hero;
   const intro = content.Introduction;
   const problem = content["The Problem"];
@@ -271,7 +273,7 @@ export function SecretaProductLayout({ content }: { content: any }) {
 
   return (
     <>
-      {v.Hero && (
+      {v.Hero && (<StyledSection style={S["Hero"]}>
       <main className="pt-20 relative min-h-[90vh] w-full overflow-hidden bg-background">
         <div className="absolute inset-0">
           {hero.mediaUrl && (
@@ -325,9 +327,9 @@ export function SecretaProductLayout({ content }: { content: any }) {
           </section>
         </div>
       </main>
-      )}
+      </StyledSection>)}
 
-      {v.Introduction && (
+      {v.Introduction && (<StyledSection style={S["Introduction"]}>
       <section className="relative z-20 -mt-12 rounded-t-[2.5rem] bg-background px-6 py-24 shadow-[0_-20px_60px_-20px_rgba(0,0,0,0.4)] md:px-12 md:py-32">
         <div className="mx-auto max-w-5xl text-center">
           <p
@@ -351,9 +353,9 @@ export function SecretaProductLayout({ content }: { content: any }) {
           </p>
         </div>
       </section>
-      )}
+      </StyledSection>)}
 
-      {v["The Problem"] && (
+      {v["The Problem"] && (<StyledSection style={S["The Problem"]}>
       <section ref={problemRef} className="relative bg-[#0a0e1a]" style={{ height: "320vh" }}>
         <div className="sticky top-0 flex min-h-screen flex-col overflow-hidden pb-12 md:pb-16">
           <div className="mx-auto w-full max-w-7xl px-6 pt-14 md:px-12 md:pt-16">
@@ -401,9 +403,9 @@ export function SecretaProductLayout({ content }: { content: any }) {
           </div>
         </div>
       </section>
-      )}
+      </StyledSection>)}
 
-      {v["The Platform"] && (
+      {v["The Platform"] && (<StyledSection style={S["The Platform"]}>
       <section
         className="px-6 py-24 md:px-12"
         style={{ background: "color-mix(in oklab, var(--brand-blue) 4%, var(--background))" }}
@@ -447,9 +449,9 @@ export function SecretaProductLayout({ content }: { content: any }) {
           </div>
         </div>
       </section>
-      )}
+      </StyledSection>)}
 
-      {v["Patient Journey"] && (
+      {v["Patient Journey"] && (<StyledSection style={S["Patient Journey"]}>
       <section
         className="relative px-6 py-24 md:px-12"
         style={{
@@ -472,9 +474,9 @@ export function SecretaProductLayout({ content }: { content: any }) {
           <ExpandingJourney steps={journey.items as unknown as JourneyStep[]} />
         </div>
       </section>
-      )}
+      </StyledSection>)}
 
-      {v.Outcomes && (
+      {v.Outcomes && (<StyledSection style={S["Outcomes"]}>
       <section className="relative overflow-hidden px-6 py-24 md:px-12" style={{ backgroundColor: "#091628" }}>
         <div
           className="absolute -left-32 top-1/2 h-96 w-96 -translate-y-1/2 rounded-full opacity-20 blur-3xl"
@@ -506,9 +508,9 @@ export function SecretaProductLayout({ content }: { content: any }) {
           </div>
         </div>
       </section>
-      )}
+      </StyledSection>)}
 
-      {v.Integrations && (
+      {v.Integrations && (<StyledSection style={S["Integrations"]}>
       <section className="px-6 py-24 md:px-12">
         <div className="mx-auto max-w-6xl">
           <div className="mx-auto max-w-3xl text-center">
@@ -529,9 +531,9 @@ export function SecretaProductLayout({ content }: { content: any }) {
           <LogoSlider platforms={integrations.items as unknown as Platform[]} />
         </div>
       </section>
-      )}
+      </StyledSection>)}
 
-      {v.FAQ && (
+      {v.FAQ && (<StyledSection style={S["FAQ"]}>
       <section
         className="px-6 py-24 md:px-12"
         style={{ background: "color-mix(in oklab, var(--brand-blue) 4%, var(--background))" }}
@@ -568,9 +570,9 @@ export function SecretaProductLayout({ content }: { content: any }) {
           </div>
         </div>
       </section>
-      )}
+      </StyledSection>)}
 
-      {v["Final CTA"] && (
+      {v["Final CTA"] && (<StyledSection style={S["Final CTA"]}>
       <section id="contact" className="relative overflow-hidden px-6 py-24 md:px-12" style={{ backgroundColor: "#091628" }}>
         <div className="absolute inset-0">
           {finalCta.mediaUrl && (
@@ -627,7 +629,7 @@ export function SecretaProductLayout({ content }: { content: any }) {
           )}
         </div>
       </section>
-      )}
+      </StyledSection>)}
 
       <CtaSection />
       <Footer />
