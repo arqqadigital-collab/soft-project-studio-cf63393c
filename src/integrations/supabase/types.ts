@@ -1617,6 +1617,7 @@ export type Database = {
         }
         Returns: boolean
       }
+      publish_scheduled_content: { Args: never; Returns: undefined }
       replace_media_url: {
         Args: { _new: string; _old: string }
         Returns: number
