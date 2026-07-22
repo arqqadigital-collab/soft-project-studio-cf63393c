@@ -132,6 +132,8 @@ export const DEFAULT_SECTION_STYLE: Required<Pick<SectionStyle,
   button_fg: "#ffffff",
 };
 
+// Solid colors used site-wide. `value` may be a hex or a CSS `background`
+// string (gradient), so bg_color / button_bg accept the same swatches.
 export const BRAND_SWATCHES = [
   { label: "Brand blue", value: "#2b8fce" },
   { label: "Brand green", value: "#4bc16b" },
@@ -140,3 +142,13 @@ export const BRAND_SWATCHES = [
   { label: "White", value: "#ffffff" },
   { label: "Transparent", value: "" },
 ];
+
+// Gradient presets that match the site's `--gradient-brand` and common hero
+// treatments. Shown as extra swatches under Background & Button background.
+export const GRADIENT_SWATCHES = [
+  { label: "Brand gradient", value: "linear-gradient(135deg, #2b8fce, #4bc16b)" },
+  { label: "Brand dark gradient", value: "linear-gradient(135deg, #101a33, #2b8fce)" },
+  { label: "Sunset", value: "linear-gradient(135deg, #f97316, #ec4899)" },
+  { label: "Aqua", value: "linear-gradient(135deg, #06b6d4, #2b8fce)" },
+];
+
