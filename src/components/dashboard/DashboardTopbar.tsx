@@ -197,11 +197,18 @@ export function DashboardTopbar() {
         </DropdownMenu>
       </div>
 
-      <CommandDialog open={open} onOpenChange={setOpen}>
-        <CommandInput placeholder="Search pages, forms, media, posts…" />
+      <CommandDialog open={open} onOpenChange={setOpen} shouldFilter={debounced.length < 2}>
+        <CommandInput
+          placeholder="Search pages, posts, media, submissions…"
+          value={query}
+          onValueChange={setQuery}
+        />
         <CommandList>
-          <CommandEmpty>No results found.</CommandEmpty>
-          {grouped.map(([group, items]) => (
+          <CommandEmpty>
+            {debounced.length >= 2 && dynamic.isFetching ? "Searching…" : "No results found."}
+          </CommandEmpty>
+
+          {debounced.length < 2 && grouped.map(([group, items]) => (
             <CommandGroup key={group} heading={group}>
               {items.map((item) => (
                 <CommandItem
@@ -215,6 +222,88 @@ export function DashboardTopbar() {
               ))}
             </CommandGroup>
           ))}
+
+          {debounced.length >= 2 && dynamic.data && (
+            <>
+              {dynamic.data.pages.length > 0 && (
+                <CommandGroup heading="Pages">
+                  {dynamic.data.pages.map((p: any) => (
+                    <CommandItem key={`page-${p.id}`} value={`page ${p.title}`} onSelect={() => go(`/dashboard/pages/${p.id}`)}>
+                      <FileStack className="mr-2 h-4 w-4" />
+                      <span className="flex-1 truncate">{p.title}</span>
+                      <span className="ml-2 truncate text-xs text-muted-foreground">{p.route_path || p.slug}</span>
+                    </CommandItem>
+                  ))}
+                </CommandGroup>
+              )}
+              {dynamic.data.posts.length > 0 && (
+                <CommandGroup heading="Blog posts">
+                  {dynamic.data.posts.map((p: any) => (
+                    <CommandItem key={`post-${p.id}`} value={`post ${p.title}`} onSelect={() => go(`/dashboard/posts/${p.id}`)}>
+                      <Newspaper className="mr-2 h-4 w-4" />
+                      <span className="flex-1 truncate">{p.title}</span>
+                    </CommandItem>
+                  ))}
+                </CommandGroup>
+              )}
+              {dynamic.data.cases.length > 0 && (
+                <CommandGroup heading="Case studies">
+                  {dynamic.data.cases.map((p: any) => (
+                    <CommandItem key={`case-${p.id}`} value={`case ${p.title}`} onSelect={() => go(`/dashboard/case-studies/${p.id}`)}>
+                      <BookMarked className="mr-2 h-4 w-4" />
+                      <span className="flex-1 truncate">{p.title}</span>
+                    </CommandItem>
+                  ))}
+                </CommandGroup>
+              )}
+              {dynamic.data.events.length > 0 && (
+                <CommandGroup heading="Events">
+                  {dynamic.data.events.map((p: any) => (
+                    <CommandItem key={`event-${p.id}`} value={`event ${p.title}`} onSelect={() => go(`/dashboard/events/${p.id}`)}>
+                      <CalendarDays className="mr-2 h-4 w-4" />
+                      <span className="flex-1 truncate">{p.title}</span>
+                    </CommandItem>
+                  ))}
+                </CommandGroup>
+              )}
+              {dynamic.data.media.length > 0 && (
+                <CommandGroup heading="Media">
+                  {dynamic.data.media.map((m: any) => (
+                    <CommandItem key={`media-${m.id}`} value={`media ${m.filename}`} onSelect={() => go(`/dashboard/media`)}>
+                      <ImageIcon className="mr-2 h-4 w-4" />
+                      <span className="flex-1 truncate">{m.filename}</span>
+                    </CommandItem>
+                  ))}
+                </CommandGroup>
+              )}
+              {dynamic.data.subs.length > 0 && (
+                <CommandGroup heading="Form submissions">
+                  {dynamic.data.subs.map((s: any) => (
+                    <CommandItem key={`sub-${s.id}`} value={`submission ${s.name} ${s.email}`} onSelect={() => go(`/dashboard/forms`)}>
+                      <Inbox className="mr-2 h-4 w-4" />
+                      <span className="flex-1 truncate">{s.name || s.email}</span>
+                      <span className="ml-2 truncate text-xs text-muted-foreground">{s.subject}</span>
+                    </CommandItem>
+                  ))}
+                </CommandGroup>
+              )}
+              <CommandSeparator />
+              <CommandGroup heading="Navigation">
+                {searchIndex
+                  .filter((i) =>
+                    i.title.toLowerCase().includes(debounced.toLowerCase()) ||
+                    (i.keywords ?? "").toLowerCase().includes(debounced.toLowerCase()),
+                  )
+                  .slice(0, 6)
+                  .map((item) => (
+                    <CommandItem key={item.url} value={`nav ${item.title}`} onSelect={() => go(item.url)}>
+                      <item.icon className="mr-2 h-4 w-4" />
+                      {item.title}
+                    </CommandItem>
+                  ))}
+              </CommandGroup>
+            </>
+          )}
         </CommandList>
       </CommandDialog>
     </header>
