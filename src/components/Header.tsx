@@ -166,13 +166,27 @@ export function Header() {
 
 
 
-          <Link
-            to={localized(ctaUrl)}
-            className={`hidden rounded-full px-6 py-2.5 text-sm font-semibold transition-transform md:inline-block ${ctaClasses(ctaVariant)}`}
-            style={ctaStyle}
-          >
-            {ctaLabel}
-          </Link>
+          {ctaIsExternal ? (
+            <a
+              href={ctaUrl}
+              target={ctaNewTab ? "_blank" : undefined}
+              rel={ctaNewTab ? "noreferrer noopener" : undefined}
+              className={`hidden rounded-full px-6 py-2.5 text-sm font-semibold transition-transform md:inline-block ${ctaClasses(ctaVariant)}`}
+              style={ctaStyle}
+            >
+              {ctaLabel}
+            </a>
+          ) : (
+            <Link
+              to={localized(ctaUrl)}
+              target={ctaNewTab ? "_blank" : undefined}
+              rel={ctaNewTab ? "noreferrer noopener" : undefined}
+              className={`hidden rounded-full px-6 py-2.5 text-sm font-semibold transition-transform md:inline-block ${ctaClasses(ctaVariant)}`}
+              style={ctaStyle}
+            >
+              {ctaLabel}
+            </Link>
+          )}
 
           <button
             type="button"
