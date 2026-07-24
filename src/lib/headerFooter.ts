@@ -212,6 +212,7 @@ export function useHeaderFooter() {
         footer_columns: arr<FooterColumn>(d.footer_columns),
         footer_social: arr<SocialLink>(d.footer_social),
         footer_copyright: (d.footer_copyright as string) ?? null,
+        footer_style: (d.footer_style as FooterStyle) ?? {},
       };
     },
   });
