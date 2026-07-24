@@ -17,6 +17,7 @@ import {
 
 import { MediaPickerDialog } from "@/components/dashboard/MediaPickerDialog";
 import { SeoEditor } from "@/components/dashboard/SeoEditor";
+import { QuickPageSeo } from "@/components/dashboard/QuickPageSeo";
 import { RevisionsPanel } from "@/components/dashboard/RevisionsPanel";
 import { PageBuilder } from "@/components/dashboard/PageBuilder";
 import ContactEditor from "@/pages/dashboard/ContactEditor";
