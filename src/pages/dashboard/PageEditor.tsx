@@ -326,6 +326,8 @@ export default function PageEditor() {
             </CardContent>
           </Card>
 
+          <QuickPageSeo entityType="page" entityId={pageId} fallbackTitle={form.title} />
+
           <Tabs defaultValue="builder">
             <TabsList>
               <TabsTrigger value="builder">Builder</TabsTrigger>
