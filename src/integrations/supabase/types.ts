@@ -627,6 +627,7 @@ export type Database = {
           header_brand_text: string | null
           header_cta_bg_color: string | null
           header_cta_label: string | null
+          header_cta_new_tab: boolean
           header_cta_text_color: string | null
           header_cta_url: string | null
           header_cta_variant: string
@@ -646,12 +647,14 @@ export type Database = {
           mobile_drawer_bg_color: string | null
           mobile_drawer_side: string
           mobile_drawer_text_color: string | null
+          mobile_drawer_title: string | null
           mobile_drawer_width_pct: number
           mobile_menu_items: Json
           mobile_more_label: string
           mobile_show_cta: boolean
           mobile_show_lang: boolean
           mobile_show_logo: boolean
+          mobile_show_menu_tree: boolean
           mobile_show_social: boolean
           singleton: boolean
           translations: Json
@@ -668,6 +671,7 @@ export type Database = {
           header_brand_text?: string | null
           header_cta_bg_color?: string | null
           header_cta_label?: string | null
+          header_cta_new_tab?: boolean
           header_cta_text_color?: string | null
           header_cta_url?: string | null
           header_cta_variant?: string
@@ -687,12 +691,14 @@ export type Database = {
           mobile_drawer_bg_color?: string | null
           mobile_drawer_side?: string
           mobile_drawer_text_color?: string | null
+          mobile_drawer_title?: string | null
           mobile_drawer_width_pct?: number
           mobile_menu_items?: Json
           mobile_more_label?: string
           mobile_show_cta?: boolean
           mobile_show_lang?: boolean
           mobile_show_logo?: boolean
+          mobile_show_menu_tree?: boolean
           mobile_show_social?: boolean
           singleton?: boolean
           translations?: Json
@@ -709,6 +715,7 @@ export type Database = {
           header_brand_text?: string | null
           header_cta_bg_color?: string | null
           header_cta_label?: string | null
+          header_cta_new_tab?: boolean
           header_cta_text_color?: string | null
           header_cta_url?: string | null
           header_cta_variant?: string
@@ -728,12 +735,14 @@ export type Database = {
           mobile_drawer_bg_color?: string | null
           mobile_drawer_side?: string
           mobile_drawer_text_color?: string | null
+          mobile_drawer_title?: string | null
           mobile_drawer_width_pct?: number
           mobile_menu_items?: Json
           mobile_more_label?: string
           mobile_show_cta?: boolean
           mobile_show_lang?: boolean
           mobile_show_logo?: boolean
+          mobile_show_menu_tree?: boolean
           mobile_show_social?: boolean
           singleton?: boolean
           translations?: Json
