@@ -243,7 +243,7 @@ html[dir="rtl"] svg.lucide-arrow-left {
 /* Each rule is gated by a property-specific class. A button-only change must
    not clear the section background, recolor headings, or resize body copy. */
 .section-styled {
-  isolation: isolate;
+  position: relative;
 }
 
 .section-styled.section-style-bg {

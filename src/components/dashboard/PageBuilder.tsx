@@ -144,9 +144,11 @@ export function PageBuilder({ pageId, pageSlug }: { pageId: string; pageSlug?: s
         invalidate();
       }
     } catch (error) {
-      if (styleSaveQueues.current.get(id) === request) styleSaveQueues.current.delete(id);
-      toast.error(error instanceof Error ? error.message : "Design save failed");
-      invalidate();
+      if (styleSaveQueues.current.get(id) === request) {
+        styleSaveQueues.current.delete(id);
+        toast.error(error instanceof Error ? error.message : "Design save failed");
+        invalidate();
+      }
     }
   }
 
