@@ -283,7 +283,7 @@ html[dir="rtl"] svg.lucide-arrow-left {
 
 .section-styled.section-style-accent a[data-brand-accent],
 .section-styled.section-style-accent .text-brand-accent,
-.section-styled.section-style-accent [class*="text-primary"] {
+.section-styled.section-style-accent .text-primary {
   color: var(--section-accent) !important;
 }
 
@@ -303,13 +303,13 @@ html[dir="rtl"] svg.lucide-arrow-left {
   font-size: var(--section-button-fontsize) !important;
 }
 
-/* The wrapper owns custom vertical spacing; remove only the root section's
-   coded padding so values replace it rather than doubling it. */
+/* Replace the content section's coded vertical spacing. Hero <main> padding
+   often reserves header space, so its nested content section is targeted. */
 .section-styled.section-style-padding > section,
-.section-styled.section-style-padding > main,
 .section-styled.section-style-padding > div > section,
-.section-styled.section-style-padding > div > main {
-  padding-block: 0 !important;
+.section-styled.section-style-padding > main > section,
+.section-styled.section-style-padding > div > main > section {
+  padding-block: var(--section-padding-y) !important;
 }
 
 /* Tailwind text alignment on descendants otherwise wins over inheritance. */

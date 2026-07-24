@@ -21,11 +21,11 @@ export type SectionStyle = {
 };
 
 const PAD_Y: Record<NonNullable<SectionStyle["padding_y"]>, string> = {
-  none: "py-0",
-  sm: "py-6 md:py-8",
-  md: "py-12 md:py-16",
-  lg: "py-20 md:py-28",
-  xl: "py-28 md:py-40",
+  none: "0px",
+  sm: "clamp(1.5rem, 3vw, 2rem)",
+  md: "clamp(3rem, 5vw, 4rem)",
+  lg: "clamp(5rem, 8vw, 7rem)",
+  xl: "clamp(7rem, 11vw, 10rem)",
 };
 
 const MARGIN_TOP: Record<NonNullable<SectionStyle["margin_top"]>, string> = {
@@ -71,7 +71,10 @@ export function resolveSectionStyle(style: SectionStyle | null | undefined) {
   const classes: string[] = ["section-styled"];
   const inline: React.CSSProperties & Record<string, string> = {};
 
-  if (s.padding_y) classes.push("section-style-padding", PAD_Y[s.padding_y]);
+  if (s.padding_y) {
+    classes.push("section-style-padding");
+    inline["--section-padding-y"] = PAD_Y[s.padding_y];
+  }
   if (s.margin_top) classes.push(MARGIN_TOP[s.margin_top]);
   if (s.margin_bottom) classes.push(MARGIN_BOTTOM[s.margin_bottom]);
   if (s.align) classes.push("section-style-align", ALIGN[s.align]);
