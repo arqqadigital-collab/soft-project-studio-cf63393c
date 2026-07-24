@@ -737,6 +737,63 @@ export default function HeaderFooterEditor() {
                 </div>
               ))}
             </div>
+            </div>
+
+            <div className="space-y-4 rounded-lg border p-4">
+              <div>
+                <h3 className="text-base font-semibold">Design & sizing</h3>
+                <p className="text-xs text-muted-foreground">Control the footer's colors, text sizes, spacing and logo height.</p>
+              </div>
+              {(() => {
+                const fs = (form.footer_style ?? {}) as Record<string, any>;
+                const setFs = (patch: Record<string, any>) => {
+                  const next = { ...fs, ...patch };
+                  Object.keys(next).forEach((k) => {
+                    if (next[k] === "" || next[k] === null || Number.isNaN(next[k])) delete next[k];
+                  });
+                  set({ footer_style: next });
+                };
+                const num = (k: string, label: string, ph?: string) => (
+                  <div className="space-y-1">
+                    <Label className="text-xs">{label}</Label>
+                    <Input
+                      type="number"
+                      value={fs[k] ?? ""}
+                      placeholder={ph}
+                      onChange={(e) => setFs({ [k]: e.target.value === "" ? undefined : Number(e.target.value) })}
+                    />
+                  </div>
+                );
+                return (
+                  <>
+                    <div className="grid gap-3 md:grid-cols-2">
+                      <ColorField label="Background" value={fs.bg_color ?? ""} onChange={(v) => setFs({ bg_color: v })} placeholder="e.g. #0b1e3a or gradient" />
+                      <ColorField label="Body text color" value={fs.text_color ?? ""} onChange={(v) => setFs({ text_color: v })} />
+                      <ColorField label="Column heading color" value={fs.heading_color ?? ""} onChange={(v) => setFs({ heading_color: v })} />
+                      <ColorField label="Link color" value={fs.link_color ?? ""} onChange={(v) => setFs({ link_color: v })} />
+                      <ColorField label="Link hover color" value={fs.link_hover_color ?? ""} onChange={(v) => setFs({ link_hover_color: v })} />
+                      <ColorField label="Divider color" value={fs.border_color ?? ""} onChange={(v) => setFs({ border_color: v })} />
+                      <ColorField label="Copyright color" value={fs.copyright_color ?? ""} onChange={(v) => setFs({ copyright_color: v })} />
+                    </div>
+                    <div className="grid gap-3 md:grid-cols-3">
+                      {num("logo_height", "Logo height (px)", "56")}
+                      {num("tagline_size", "Tagline size (px)", "14")}
+                      {num("heading_size", "Column heading size (px)", "14")}
+                      {num("link_size", "Link size (px)", "16")}
+                      {num("copyright_size", "Copyright size (px)", "14")}
+                      {num("padding_y", "Vertical padding (px)", "80")}
+                      {num("column_gap", "Column gap (px)", "48")}
+                      {num("link_gap", "Space between links (px)", "16")}
+                    </div>
+                    <div>
+                      <Button variant="ghost" size="sm" onClick={() => set({ footer_style: {} })}>
+                        Reset design to defaults
+                      </Button>
+                    </div>
+                  </>
+                );
+              })()}
+            </div>
           </Card>
         </TabsContent>
 
