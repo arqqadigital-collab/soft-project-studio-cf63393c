@@ -36,9 +36,9 @@ const MARGIN_BOTTOM: Record<NonNullable<SectionStyle["margin_bottom"]>, string> 
 };
 
 const CONTAINER: Record<NonNullable<SectionStyle["container"]>, string> = {
-  narrow: "max-w-3xl mx-auto px-6",
-  default: "max-w-6xl mx-auto px-6",
-  wide: "max-w-[1400px] mx-auto px-6",
+  narrow: "max-w-3xl mx-auto",
+  default: "max-w-6xl mx-auto",
+  wide: "max-w-[1400px] mx-auto",
   full: "w-full px-0",
 };
 
@@ -127,7 +127,9 @@ export function resolveSectionStyle(style: SectionStyle | null | undefined) {
     wrapperClass: classes.join(" "),
     wrapperStyle: inline,
     containerClass: s.container ? CONTAINER[s.container] : "",
-    hasOverrides: Object.keys(s).length > 0,
+    // Empty strings are meaningful for transparent backgrounds; undefined and
+    // null legacy entries are not real overrides and should not add a wrapper.
+    hasOverrides: Object.values(s).some((value) => value !== undefined && value !== null),
   };
 }
 
