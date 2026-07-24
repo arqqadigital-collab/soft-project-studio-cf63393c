@@ -55,6 +55,7 @@ export type HeaderFooterSettings = {
   header_cta_label: string | null;
   header_cta_url: string | null;
   header_cta_variant: CtaVariant;
+  header_cta_new_tab: boolean;
   header_show_menus: boolean;
   header_sticky: boolean;
   header_transparent_on_hero: boolean;
@@ -70,6 +71,8 @@ export type HeaderFooterSettings = {
   mobile_show_cta: boolean;
   mobile_show_lang: boolean;
   mobile_show_logo: boolean;
+  mobile_show_menu_tree: boolean;
+  mobile_drawer_title: string | null;
   mobile_more_label: string | null;
   mobile_default_expanded: boolean;
   header_bg_color: string | null;
@@ -98,6 +101,7 @@ function applyOverlay(base: Record<string, unknown>, overlay: Record<string, unk
     "footer_tagline",
     "footer_copyright",
     "mobile_more_label",
+    "mobile_drawer_title",
   ];
   for (const k of textKeys) {
     if (typeof overlay[k] === "string" && (overlay[k] as string).length > 0) {
@@ -159,11 +163,12 @@ export function useHeaderFooter() {
         header_cta_label: (d.header_cta_label as string) ?? null,
         header_cta_url: (d.header_cta_url as string) ?? null,
         header_cta_variant: ((d.header_cta_variant as CtaVariant) ?? "gradient"),
+        header_cta_new_tab: (d.header_cta_new_tab as boolean) ?? false,
         header_show_menus: (d.header_show_menus as boolean) ?? true,
         header_sticky: (d.header_sticky as boolean) ?? true,
         header_transparent_on_hero: (d.header_transparent_on_hero as boolean) ?? false,
         header_shadow_style: ((d.header_shadow_style as ShadowStyle) ?? "soft"),
-        header_show_locale_switcher: (d.header_show_locale_switcher as boolean) ?? false,
+        header_show_locale_switcher: (d.header_show_locale_switcher as boolean) ?? true,
         header_locales: arr<LocaleOption>(d.header_locales),
         mobile_menu_items: arr<MobileMenuItem>(d.mobile_menu_items),
         mobile_show_social: (d.mobile_show_social as boolean) ?? true,
@@ -174,6 +179,8 @@ export function useHeaderFooter() {
         mobile_show_cta: (d.mobile_show_cta as boolean) ?? true,
         mobile_show_lang: (d.mobile_show_lang as boolean) ?? true,
         mobile_show_logo: (d.mobile_show_logo as boolean) ?? true,
+        mobile_show_menu_tree: (d.mobile_show_menu_tree as boolean) ?? true,
+        mobile_drawer_title: (d.mobile_drawer_title as string) ?? null,
         mobile_more_label: (d.mobile_more_label as string) ?? "More",
         mobile_default_expanded: (d.mobile_default_expanded as boolean) ?? false,
 

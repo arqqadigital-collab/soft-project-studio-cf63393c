@@ -197,6 +197,7 @@ export default function HeaderFooterEditor() {
         header_cta_label: form.header_cta_label,
         header_cta_url: form.header_cta_url,
         header_cta_variant: form.header_cta_variant || "gradient",
+        header_cta_new_tab: !!form.header_cta_new_tab,
         header_show_menus: form.header_show_menus,
         header_sticky: !!form.header_sticky,
         header_transparent_on_hero: !!form.header_transparent_on_hero,
@@ -212,6 +213,8 @@ export default function HeaderFooterEditor() {
         mobile_show_cta: form.mobile_show_cta !== false,
         mobile_show_lang: form.mobile_show_lang !== false,
         mobile_show_logo: form.mobile_show_logo !== false,
+        mobile_show_menu_tree: form.mobile_show_menu_tree !== false,
+        mobile_drawer_title: form.mobile_drawer_title || null,
         mobile_more_label: form.mobile_more_label || "More",
         mobile_default_expanded: !!form.mobile_default_expanded,
 
@@ -375,7 +378,14 @@ export default function HeaderFooterEditor() {
                 <Switch checked={form.header_show_menus} onCheckedChange={(v) => set({ header_show_menus: v })} />
                 <Label>Show mega-menus</Label>
               </div>
+              <div className="flex items-center gap-3 pt-6">
+                <Switch checked={!!form.header_cta_new_tab} onCheckedChange={(v) => set({ header_cta_new_tab: v })} />
+                <Label>Open CTA in a new tab</Label>
+              </div>
             </div>
+            <p className="text-xs text-muted-foreground">
+              CTA URL supports internal paths (<code>/contact</code>) and external URLs (<code>https://…</code>, <code>mailto:</code>, <code>tel:</code>).
+            </p>
           </Card>
 
           <Card className="p-4 space-y-4">
@@ -410,41 +420,21 @@ export default function HeaderFooterEditor() {
             </div>
           </Card>
 
-          <Card className="p-4 space-y-4">
+          <Card className="p-4 space-y-3">
             <div className="flex items-center gap-3">
               <Switch checked={!!form.header_show_locale_switcher} onCheckedChange={(v) => set({ header_show_locale_switcher: v })} />
-              <h2 className="text-lg font-semibold">Language / region switcher</h2>
+              <h2 className="text-lg font-semibold">Language switcher</h2>
             </div>
-            <p className="text-sm text-muted-foreground">Add the locales you want visible in the switcher.</p>
-            <div className="space-y-2">
-              {locales.map((l, i) => (
-                <div key={i} className="flex items-center gap-2">
-                  <Input placeholder="en" value={l.code} maxLength={5} onChange={(e) => {
-                    const arr = [...locales]; arr[i] = { ...arr[i], code: e.target.value };
-                    set({ header_locales: arr });
-                  }} className="max-w-[100px]" />
-                  <Input placeholder="English" value={l.label} onChange={(e) => {
-                    const arr = [...locales]; arr[i] = { ...arr[i], label: e.target.value };
-                    set({ header_locales: arr });
-                  }} />
-                  <Input placeholder="/en (optional URL)" value={l.url ?? ""} onChange={(e) => {
-                    const arr = [...locales]; arr[i] = { ...arr[i], url: e.target.value };
-                    set({ header_locales: arr });
-                  }} />
-                  <Button variant="ghost" size="icon" onClick={() => set({ header_locales: locales.filter((_, j) => j !== i) })}>
-                    <Trash2 className="h-4 w-4 text-destructive" />
-                  </Button>
-                </div>
-              ))}
-              <Button variant="outline" size="sm" onClick={() => set({ header_locales: [...locales, { code: "", label: "", url: "" }] })}>
-                <Plus className="mr-1 h-4 w-4" /> Add locale
-              </Button>
-            </div>
+            <p className="text-sm text-muted-foreground">
+              Shows the EN / AR toggle in the header. Available locales come from the site's language settings — no per-locale list needed here.
+            </p>
           </Card>
 
           <Card className="p-4 space-y-4">
             <h2 className="text-lg font-semibold">Mobile menu</h2>
-            <p className="text-sm text-muted-foreground">Control the drawer that opens on mobile / tablet.</p>
+            <p className="text-sm text-muted-foreground">
+              Controls the drawer that opens on mobile / tablet. Menu items come from the same tree as desktop — edit them under Pages &amp; Navigation.
+            </p>
 
             <div className="grid gap-4 md:grid-cols-2">
               <div className="space-y-2">
@@ -500,21 +490,38 @@ export default function HeaderFooterEditor() {
                 <Label>Show social icons</Label>
               </div>
               <div className="flex items-center gap-3">
+                <Switch checked={form.mobile_show_menu_tree !== false} onCheckedChange={(v) => set({ mobile_show_menu_tree: v })} />
+                <Label>Show primary navigation in drawer</Label>
+              </div>
+              <div className="flex items-center gap-3">
                 <Switch checked={!!form.mobile_default_expanded} onCheckedChange={(v) => set({ mobile_default_expanded: v })} />
                 <Label>Expand all menu groups by default</Label>
               </div>
             </div>
 
-            <div className="space-y-2">
-              <Label>"More" section heading</Label>
-              <Input
-                value={txt("mobile_more_label")}
-                onChange={(e) => setTxt("mobile_more_label", e.target.value)}
-                placeholder={loc === "ar" ? "المزيد" : "More"}
-                dir={loc === "ar" ? "rtl" : "ltr"}
-              />
-              <p className="text-xs text-muted-foreground">Shown above the mobile-only links list.</p>
+            <div className="grid gap-4 md:grid-cols-2">
+              <div className="space-y-2">
+                <Label>Drawer heading (optional)</Label>
+                <Input
+                  value={txt("mobile_drawer_title")}
+                  onChange={(e) => setTxt("mobile_drawer_title", e.target.value)}
+                  placeholder={loc === "ar" ? "القائمة" : "Menu"}
+                  dir={loc === "ar" ? "rtl" : "ltr"}
+                />
+                <p className="text-xs text-muted-foreground">Small label shown at the top of the drawer.</p>
+              </div>
+              <div className="space-y-2">
+                <Label>"More" section heading</Label>
+                <Input
+                  value={txt("mobile_more_label")}
+                  onChange={(e) => setTxt("mobile_more_label", e.target.value)}
+                  placeholder={loc === "ar" ? "المزيد" : "More"}
+                  dir={loc === "ar" ? "rtl" : "ltr"}
+                />
+                <p className="text-xs text-muted-foreground">Shown above the mobile-only links list.</p>
+              </div>
             </div>
+
 
             <div className="space-y-2">
               <Label>Mobile-only links</Label>

@@ -93,6 +93,8 @@ export function Header() {
   const ctaLabel = settings?.header_cta_label || DEFAULT_HEADER_CTA_LABEL;
   const ctaUrl = settings?.header_cta_url || DEFAULT_HEADER_CTA_URL;
   const ctaVariant = settings?.header_cta_variant ?? "gradient";
+  const ctaNewTab = settings?.header_cta_new_tab ?? false;
+  const ctaIsExternal = /^(https?:)?\/\//i.test(ctaUrl) || /^(mailto:|tel:)/i.test(ctaUrl);
   const showMenus = settings?.header_show_menus ?? true;
   const showBrandText = settings?.header_show_brand_text ?? false;
   const brandText = settings?.header_brand_text ?? "";
@@ -102,6 +104,8 @@ export function Header() {
   const mobileShowCta = settings?.mobile_show_cta ?? true;
   const mobileShowLang = settings?.mobile_show_lang ?? true;
   const mobileShowLogo = settings?.mobile_show_logo ?? true;
+  const mobileShowMenuTree = settings?.mobile_show_menu_tree ?? true;
+  const mobileDrawerTitle = settings?.mobile_drawer_title ?? "";
   const mobileSide = settings?.mobile_drawer_side ?? "end";
   const mobileWidth = Math.min(100, Math.max(50, settings?.mobile_drawer_width_pct ?? 86));
   const mobileBg = settings?.mobile_drawer_bg_color || undefined;
@@ -162,13 +166,27 @@ export function Header() {
 
 
 
-          <Link
-            to={localized(ctaUrl)}
-            className={`hidden rounded-full px-6 py-2.5 text-sm font-semibold transition-transform md:inline-block ${ctaClasses(ctaVariant)}`}
-            style={ctaStyle}
-          >
-            {ctaLabel}
-          </Link>
+          {ctaIsExternal ? (
+            <a
+              href={ctaUrl}
+              target={ctaNewTab ? "_blank" : undefined}
+              rel={ctaNewTab ? "noreferrer noopener" : undefined}
+              className={`hidden rounded-full px-6 py-2.5 text-sm font-semibold transition-transform md:inline-block ${ctaClasses(ctaVariant)}`}
+              style={ctaStyle}
+            >
+              {ctaLabel}
+            </a>
+          ) : (
+            <Link
+              to={localized(ctaUrl)}
+              target={ctaNewTab ? "_blank" : undefined}
+              rel={ctaNewTab ? "noreferrer noopener" : undefined}
+              className={`hidden rounded-full px-6 py-2.5 text-sm font-semibold transition-transform md:inline-block ${ctaClasses(ctaVariant)}`}
+              style={ctaStyle}
+            >
+              {ctaLabel}
+            </Link>
+          )}
 
           <button
             type="button"
@@ -209,9 +227,14 @@ export function Header() {
               </div>
             </div>
 
+            {mobileDrawerTitle && (
+              <div className="mb-4 text-xs font-semibold uppercase tracking-[0.2em] text-white/50">
+                {mobileDrawerTitle}
+              </div>
+            )}
 
             <nav className="space-y-6">
-              {tree
+              {mobileShowMenuTree && tree
                 .filter((g) => g.is_visible)
                 .map((g) => {
                   const isOpen = !!openGroups[g.id];
@@ -250,7 +273,19 @@ export function Header() {
                               }
                               const l = it.link;
                               if (!l.is_visible) return null;
-                              return (
+                              const isExt = /^(https?:)?\/\//i.test(l.url) || /^(mailto:|tel:)/i.test(l.url);
+                              return isExt ? (
+                                <a
+                                  key={l.id}
+                                  href={l.url}
+                                  target="_blank"
+                                  rel="noreferrer noopener"
+                                  onClick={() => setMobileOpen(false)}
+                                  className="block rounded-lg px-3 py-2 text-sm text-white/85 hover:bg-white/10"
+                                >
+                                  {l.label}
+                                </a>
+                              ) : (
                                 <Link
                                   key={l.id}
                                   to={localized(l.url)}
@@ -274,30 +309,59 @@ export function Header() {
                   </div>
 
                   <div className="space-y-1">
-                    {mobileExtra.map((m, i) => (
-                      <Link
-                        key={i}
-                        to={localized(m.url)}
-                        onClick={() => setMobileOpen(false)}
-                        className="block rounded-lg px-3 py-2 text-sm text-white/85 hover:bg-white/10"
-                      >
-                        {m.label}
-                      </Link>
-                    ))}
+                    {mobileExtra.map((m, i) => {
+                      const isExt = /^(https?:)?\/\//i.test(m.url) || /^(mailto:|tel:)/i.test(m.url);
+                      return isExt ? (
+                        <a
+                          key={i}
+                          href={m.url}
+                          target="_blank"
+                          rel="noreferrer noopener"
+                          onClick={() => setMobileOpen(false)}
+                          className="block rounded-lg px-3 py-2 text-sm text-white/85 hover:bg-white/10"
+                        >
+                          {m.label}
+                        </a>
+                      ) : (
+                        <Link
+                          key={i}
+                          to={localized(m.url)}
+                          onClick={() => setMobileOpen(false)}
+                          className="block rounded-lg px-3 py-2 text-sm text-white/85 hover:bg-white/10"
+                        >
+                          {m.label}
+                        </Link>
+                      );
+                    })}
                   </div>
                 </div>
               )}
             </nav>
 
             {mobileShowCta && (
-              <Link
-                to={localized(ctaUrl)}
-                onClick={() => setMobileOpen(false)}
-                className={`mt-8 block rounded-full px-6 py-3 text-center text-sm font-semibold transition-transform ${ctaClasses(ctaVariant)}`}
-                style={ctaStyle}
-              >
-                {ctaLabel}
-              </Link>
+              ctaIsExternal ? (
+                <a
+                  href={ctaUrl}
+                  target={ctaNewTab ? "_blank" : undefined}
+                  rel={ctaNewTab ? "noreferrer noopener" : undefined}
+                  onClick={() => setMobileOpen(false)}
+                  className={`mt-8 block rounded-full px-6 py-3 text-center text-sm font-semibold transition-transform ${ctaClasses(ctaVariant)}`}
+                  style={ctaStyle}
+                >
+                  {ctaLabel}
+                </a>
+              ) : (
+                <Link
+                  to={localized(ctaUrl)}
+                  target={ctaNewTab ? "_blank" : undefined}
+                  rel={ctaNewTab ? "noreferrer noopener" : undefined}
+                  onClick={() => setMobileOpen(false)}
+                  className={`mt-8 block rounded-full px-6 py-3 text-center text-sm font-semibold transition-transform ${ctaClasses(ctaVariant)}`}
+                  style={ctaStyle}
+                >
+                  {ctaLabel}
+                </Link>
+              )
             )}
 
 
