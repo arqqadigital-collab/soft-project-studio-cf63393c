@@ -490,8 +490,35 @@ export default function HeaderFooterEditor() {
                 <Label>Show social icons</Label>
               </div>
               <div className="flex items-center gap-3">
+                <Switch checked={form.mobile_show_menu_tree !== false} onCheckedChange={(v) => set({ mobile_show_menu_tree: v })} />
+                <Label>Show primary navigation in drawer</Label>
+              </div>
+              <div className="flex items-center gap-3">
                 <Switch checked={!!form.mobile_default_expanded} onCheckedChange={(v) => set({ mobile_default_expanded: v })} />
                 <Label>Expand all menu groups by default</Label>
+              </div>
+            </div>
+
+            <div className="grid gap-4 md:grid-cols-2">
+              <div className="space-y-2">
+                <Label>Drawer heading (optional)</Label>
+                <Input
+                  value={txt("mobile_drawer_title")}
+                  onChange={(e) => setTxt("mobile_drawer_title", e.target.value)}
+                  placeholder={loc === "ar" ? "القائمة" : "Menu"}
+                  dir={loc === "ar" ? "rtl" : "ltr"}
+                />
+                <p className="text-xs text-muted-foreground">Small label shown at the top of the drawer.</p>
+              </div>
+              <div className="space-y-2">
+                <Label>"More" section heading</Label>
+                <Input
+                  value={txt("mobile_more_label")}
+                  onChange={(e) => setTxt("mobile_more_label", e.target.value)}
+                  placeholder={loc === "ar" ? "المزيد" : "More"}
+                  dir={loc === "ar" ? "rtl" : "ltr"}
+                />
+                <p className="text-xs text-muted-foreground">Shown above the mobile-only links list.</p>
               </div>
             </div>
 
