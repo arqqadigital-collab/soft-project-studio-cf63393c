@@ -420,36 +420,14 @@ export default function HeaderFooterEditor() {
             </div>
           </Card>
 
-          <Card className="p-4 space-y-4">
+          <Card className="p-4 space-y-3">
             <div className="flex items-center gap-3">
               <Switch checked={!!form.header_show_locale_switcher} onCheckedChange={(v) => set({ header_show_locale_switcher: v })} />
-              <h2 className="text-lg font-semibold">Language / region switcher</h2>
+              <h2 className="text-lg font-semibold">Language switcher</h2>
             </div>
-            <p className="text-sm text-muted-foreground">Add the locales you want visible in the switcher.</p>
-            <div className="space-y-2">
-              {locales.map((l, i) => (
-                <div key={i} className="flex items-center gap-2">
-                  <Input placeholder="en" value={l.code} maxLength={5} onChange={(e) => {
-                    const arr = [...locales]; arr[i] = { ...arr[i], code: e.target.value };
-                    set({ header_locales: arr });
-                  }} className="max-w-[100px]" />
-                  <Input placeholder="English" value={l.label} onChange={(e) => {
-                    const arr = [...locales]; arr[i] = { ...arr[i], label: e.target.value };
-                    set({ header_locales: arr });
-                  }} />
-                  <Input placeholder="/en (optional URL)" value={l.url ?? ""} onChange={(e) => {
-                    const arr = [...locales]; arr[i] = { ...arr[i], url: e.target.value };
-                    set({ header_locales: arr });
-                  }} />
-                  <Button variant="ghost" size="icon" onClick={() => set({ header_locales: locales.filter((_, j) => j !== i) })}>
-                    <Trash2 className="h-4 w-4 text-destructive" />
-                  </Button>
-                </div>
-              ))}
-              <Button variant="outline" size="sm" onClick={() => set({ header_locales: [...locales, { code: "", label: "", url: "" }] })}>
-                <Plus className="mr-1 h-4 w-4" /> Add locale
-              </Button>
-            </div>
+            <p className="text-sm text-muted-foreground">
+              Shows the EN / AR toggle in the header. Available locales come from the site's language settings — no per-locale list needed here.
+            </p>
           </Card>
 
           <Card className="p-4 space-y-4">
