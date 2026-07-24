@@ -79,10 +79,10 @@ export function resolveSectionStyle(style: SectionStyle | null | undefined) {
   if (s.margin_bottom) classes.push(MARGIN_BOTTOM[s.margin_bottom]);
   if (s.align) classes.push("section-style-align", ALIGN[s.align]);
 
-  if (s.bg_color) {
+  if (s.bg_color !== undefined) {
     classes.push("section-style-bg");
-    inline.background = s.bg_color;
-    inline["--section-bg"] = s.bg_color;
+    inline.background = s.bg_color || "transparent";
+    inline["--section-bg"] = s.bg_color || "transparent";
   }
   if (s.text_color) {
     classes.push("section-style-text");
@@ -105,9 +105,9 @@ export function resolveSectionStyle(style: SectionStyle | null | undefined) {
     classes.push("section-style-body-size");
     inline["--section-body-size"] = BODY_SIZE[s.body_size];
   }
-  if (s.button_bg) {
+  if (s.button_bg !== undefined) {
     classes.push("section-style-button-bg");
-    inline["--section-button-bg"] = s.button_bg;
+    inline["--section-button-bg"] = s.button_bg || "transparent";
   }
   if (s.button_fg) {
     classes.push("section-style-button-fg");

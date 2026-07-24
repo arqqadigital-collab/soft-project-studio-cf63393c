@@ -120,7 +120,9 @@ export function SectionStyleEditor({ value, onChange, kind }: Props) {
 
   const s: SectionStyle = { ...defaults, ...saved };
   const set = (patch: Partial<SectionStyle>) => {
-    const next = { ...savedRef.current, ...patch };
+    const next = Object.fromEntries(
+      Object.entries({ ...savedRef.current, ...patch }).filter(([, entry]) => entry !== undefined),
+    ) as SectionStyle;
     savedRef.current = next;
     setSaved(next);
     onChange(next);
@@ -181,9 +183,9 @@ export function SectionStyleEditor({ value, onChange, kind }: Props) {
 
       <div className="grid gap-4 border-t border-border pt-4 sm:grid-cols-2">
         <ColorRow label="Background color" value={s.bg_color} onChange={(v) => set({ bg_color: v })} allowGradient />
-        <ColorRow label="Text color" value={s.text_color} onChange={(v) => set({ text_color: v })} />
-        <ColorRow label="Headline color" value={s.heading_color} onChange={(v) => set({ heading_color: v })} />
-        <ColorRow label="Accent color" value={s.accent_color} onChange={(v) => set({ accent_color: v })} />
+        <ColorRow label="Text color" value={s.text_color} onChange={(v) => set({ text_color: v || undefined })} />
+        <ColorRow label="Headline color" value={s.heading_color} onChange={(v) => set({ heading_color: v || undefined })} />
+        <ColorRow label="Accent color" value={s.accent_color} onChange={(v) => set({ accent_color: v || undefined })} />
       </div>
 
       <div className="grid gap-4 border-t border-border pt-4 sm:grid-cols-2">
@@ -220,7 +222,7 @@ export function SectionStyleEditor({ value, onChange, kind }: Props) {
             onChange={(v) => set({ button_radius: v })}
           />
           <ColorRow label="Button background" value={s.button_bg} onChange={(v) => set({ button_bg: v })} allowGradient />
-          <ColorRow label="Button text color" value={s.button_fg} onChange={(v) => set({ button_fg: v })} />
+          <ColorRow label="Button text color" value={s.button_fg} onChange={(v) => set({ button_fg: v || undefined })} />
         </div>
       </div>
 

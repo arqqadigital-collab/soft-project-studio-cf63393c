@@ -242,10 +242,6 @@ html[dir="rtl"] svg.lucide-arrow-left {
 /* -------- Per-section design overrides (SectionStyleEditor) -------- */
 /* Each rule is gated by a property-specific class. A button-only change must
    not clear the section background, recolor headings, or resize body copy. */
-.section-styled {
-  position: relative;
-}
-
 .section-styled.section-style-bg {
   background: var(--section-bg);
 }
