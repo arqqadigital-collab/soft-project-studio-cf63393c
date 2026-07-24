@@ -1,0 +1,1 @@
+ALTER TABLE public.header_footer_settings ADD COLUMN IF NOT EXISTS footer_style jsonb NOT NULL DEFAULT '{}'::jsonb;
