@@ -76,6 +76,17 @@ export function DashboardTopbar() {
   const navigate = useNavigate();
   const initials = (user?.email?.[0] ?? "U").toUpperCase();
   const [open, setOpen] = useState(false);
+  const [query, setQuery] = useState("");
+  const [debounced, setDebounced] = useState("");
+
+  useEffect(() => {
+    const t = setTimeout(() => setDebounced(query.trim()), 200);
+    return () => clearTimeout(t);
+  }, [query]);
+
+  useEffect(() => {
+    if (!open) setQuery("");
+  }, [open]);
 
   useEffect(() => {
     const onKey = (e: KeyboardEvent) => {
@@ -87,6 +98,30 @@ export function DashboardTopbar() {
     window.addEventListener("keydown", onKey);
     return () => window.removeEventListener("keydown", onKey);
   }, []);
+
+  const dynamic = useQuery({
+    queryKey: ["global-search", debounced],
+    enabled: open && debounced.length >= 2,
+    queryFn: async () => {
+      const like = `%${debounced}%`;
+      const [pages, posts, cases, events, media, subs] = await Promise.all([
+        supabase.from("pages").select("id, title, slug, route_path").ilike("title", like).limit(8),
+        supabase.from("posts").select("id, title, slug").ilike("title", like).limit(8),
+        supabase.from("case_studies").select("id, title, slug").ilike("title", like).limit(8),
+        supabase.from("events").select("id, title, slug").ilike("title", like).limit(8),
+        supabase.from("media").select("id, filename, alt_text").or(`filename.ilike.${like},alt_text.ilike.${like}`).limit(6),
+        supabase.from("contact_submissions").select("id, name, email, subject").or(`name.ilike.${like},email.ilike.${like},subject.ilike.${like}`).limit(6),
+      ]);
+      return {
+        pages: pages.data ?? [],
+        posts: posts.data ?? [],
+        cases: cases.data ?? [],
+        events: events.data ?? [],
+        media: media.data ?? [],
+        subs: subs.data ?? [],
+      };
+    },
+  });
 
   const grouped = useMemo(() => {
     const map = new Map<string, SearchItem[]>();
