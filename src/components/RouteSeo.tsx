@@ -26,14 +26,15 @@ export function RouteSeo() {
   const key = decoded.replace(/\/+$/g, "").replace(/\//g, "-");
 
   const { data } = useQuery({
-    queryKey: ["route-seo", key, isAr],
+    queryKey: ["route-seo", enPath, key, isAr],
     enabled: !!key,
     staleTime: 60_000,
     queryFn: async () => {
+      // Match by slug/slug_ar (CMS pages) OR by route_path (coded pages).
       const { data: page } = await supabase
         .from("pages")
-        .select("id, translations")
-        .or(`slug.eq.${key},slug_ar.eq.${key}`)
+        .select("id, translations, route_path, slug")
+        .or(`slug.eq.${key},slug_ar.eq.${key},route_path.eq.${enPath}`)
         .maybeSingle();
       if (!page) return null;
       const { data: seo } = await supabase
