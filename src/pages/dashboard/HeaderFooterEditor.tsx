@@ -737,7 +737,8 @@ export default function HeaderFooterEditor() {
                 </div>
               ))}
             </div>
-            </div>
+
+
 
             <div className="space-y-4 rounded-lg border p-4">
               <div>
