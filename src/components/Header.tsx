@@ -93,6 +93,8 @@ export function Header() {
   const ctaLabel = settings?.header_cta_label || DEFAULT_HEADER_CTA_LABEL;
   const ctaUrl = settings?.header_cta_url || DEFAULT_HEADER_CTA_URL;
   const ctaVariant = settings?.header_cta_variant ?? "gradient";
+  const ctaNewTab = settings?.header_cta_new_tab ?? false;
+  const ctaIsExternal = /^(https?:)?\/\//i.test(ctaUrl) || /^(mailto:|tel:)/i.test(ctaUrl);
   const showMenus = settings?.header_show_menus ?? true;
   const showBrandText = settings?.header_show_brand_text ?? false;
   const brandText = settings?.header_brand_text ?? "";
@@ -102,6 +104,8 @@ export function Header() {
   const mobileShowCta = settings?.mobile_show_cta ?? true;
   const mobileShowLang = settings?.mobile_show_lang ?? true;
   const mobileShowLogo = settings?.mobile_show_logo ?? true;
+  const mobileShowMenuTree = settings?.mobile_show_menu_tree ?? true;
+  const mobileDrawerTitle = settings?.mobile_drawer_title ?? "";
   const mobileSide = settings?.mobile_drawer_side ?? "end";
   const mobileWidth = Math.min(100, Math.max(50, settings?.mobile_drawer_width_pct ?? 86));
   const mobileBg = settings?.mobile_drawer_bg_color || undefined;
