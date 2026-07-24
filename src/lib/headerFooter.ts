@@ -84,6 +84,25 @@ export type HeaderFooterSettings = {
   footer_columns: FooterColumn[];
   footer_social: SocialLink[];
   footer_copyright: string | null;
+  footer_style: FooterStyle;
+};
+
+export type FooterStyle = {
+  bg_color?: string;
+  text_color?: string;
+  heading_color?: string;
+  link_color?: string;
+  link_hover_color?: string;
+  border_color?: string;
+  copyright_color?: string;
+  logo_height?: number;
+  tagline_size?: number;
+  heading_size?: number;
+  link_size?: number;
+  copyright_size?: number;
+  padding_y?: number;
+  column_gap?: number;
+  link_gap?: number;
 };
 
 
@@ -193,6 +212,7 @@ export function useHeaderFooter() {
         footer_columns: arr<FooterColumn>(d.footer_columns),
         footer_social: arr<SocialLink>(d.footer_social),
         footer_copyright: (d.footer_copyright as string) ?? null,
+        footer_style: (d.footer_style as FooterStyle) ?? {},
       };
     },
   });

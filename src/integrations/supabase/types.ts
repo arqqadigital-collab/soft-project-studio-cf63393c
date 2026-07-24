@@ -622,6 +622,7 @@ export type Database = {
           footer_copyright: string | null
           footer_logo_url: string | null
           footer_social: Json
+          footer_style: Json
           footer_tagline: string | null
           header_bg_color: string | null
           header_brand_text: string | null
@@ -666,6 +667,7 @@ export type Database = {
           footer_copyright?: string | null
           footer_logo_url?: string | null
           footer_social?: Json
+          footer_style?: Json
           footer_tagline?: string | null
           header_bg_color?: string | null
           header_brand_text?: string | null
@@ -710,6 +712,7 @@ export type Database = {
           footer_copyright?: string | null
           footer_logo_url?: string | null
           footer_social?: Json
+          footer_style?: Json
           footer_tagline?: string | null
           header_bg_color?: string | null
           header_brand_text?: string | null
