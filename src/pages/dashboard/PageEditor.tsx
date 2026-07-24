@@ -274,7 +274,7 @@ export default function PageEditor() {
                 value={form.title}
                 onChange={(e) => patch("title", e.target.value)}
                 placeholder="Page title (English)"
-                className="border-none px-0 text-2xl font-semibold shadow-none focus-visible:ring-0"
+                className="h-12 text-2xl font-semibold"
               />
               <div className="flex items-center gap-2">
                 <span className="rounded bg-secondary px-1.5 py-0.5 text-[10px] font-semibold uppercase text-muted-foreground">AR</span>
@@ -283,7 +283,7 @@ export default function PageEditor() {
                   onChange={(e) => patch("title_ar", e.target.value)}
                   placeholder="عنوان الصفحة (بالعربية)"
                   dir="rtl"
-                  className="border-none px-0 text-xl font-semibold shadow-none focus-visible:ring-0"
+                  className="h-12 text-xl font-semibold"
                 />
               </div>
               <div className="flex items-center gap-2 text-sm text-muted-foreground">
