@@ -227,6 +227,7 @@ export default function HeaderFooterEditor() {
         footer_columns: columns,
         footer_social: social,
         footer_copyright: form.footer_copyright,
+        footer_style: form.footer_style ?? {},
         translations: form.translations ?? {},
       })
       .eq("id", form.id);
