@@ -240,51 +240,79 @@ html[dir="rtl"] svg.lucide-arrow-left {
 }
 
 /* -------- Per-section design overrides (SectionStyleEditor) -------- */
-/* When a section has design overrides, force the inner section to inherit
-   background/color so wrapper styling actually shows through the section
-   components' own Tailwind classes. */
+/* Each rule is gated by a property-specific class. A button-only change must
+   not clear the section background, recolor headings, or resize body copy. */
 .section-styled {
-  background: var(--section-bg, transparent);
-  color: var(--section-fg, inherit);
+  isolation: isolate;
 }
-.section-styled > section,
-.section-styled section,
-.section-styled > div > section {
+
+.section-styled.section-style-bg {
+  background: var(--section-bg);
+}
+.section-styled.section-style-bg > section,
+.section-styled.section-style-bg > main,
+.section-styled.section-style-bg > div > section,
+.section-styled.section-style-bg > div > main {
   background: transparent !important;
   background-color: transparent !important;
   background-image: none !important;
-  color: inherit;
 }
-.section-styled h1,
-.section-styled h2,
-.section-styled h3,
-.section-styled h4 {
-  color: var(--section-heading, inherit) !important;
-  font-size: var(--section-heading-size, inherit);
+
+.section-styled.section-style-text {
+  color: var(--section-fg);
 }
-.section-styled p,
-.section-styled li {
-  font-size: var(--section-body-size, inherit);
-  color: var(--section-fg, inherit);
+.section-styled.section-style-text p,
+.section-styled.section-style-text li {
+  color: var(--section-fg) !important;
 }
-.section-styled a[data-brand-accent],
-.section-styled .text-brand-accent,
-.section-styled [class*="text-primary"] {
-  color: var(--section-accent, inherit) !important;
+
+/* Headline controls intentionally target the section's semantic H1/H2 only.
+   Card H3/H4 titles keep their own scale and contrast. */
+.section-styled.section-style-heading-color h1,
+.section-styled.section-style-heading-color h2 {
+  color: var(--section-heading) !important;
 }
-.section-styled .btn,
-.section-styled button:not([data-no-section-style]):not([aria-haspopup]):not([role="tab"]):not([role="menuitem"]):not([role="switch"]),
-.section-styled a[role="button"]:not([data-no-section-style]) {
-  background: var(--section-button-bg, inherit) !important;
-  color: var(--section-button-fg, inherit) !important;
-  border-radius: var(--section-button-radius, inherit);
-  padding: var(--section-button-padding, inherit);
-  font-size: var(--section-button-fontsize, inherit);
+.section-styled.section-style-heading-size h1,
+.section-styled.section-style-heading-size h2 {
+  font-size: var(--section-heading-size) !important;
 }
-/* Never let button color vars leak into gradient-text headings that use
-   `bg-clip-text` (e.g. "Every Decision" in the hero). */
-.section-styled [class*="bg-clip-text"],
-.section-styled .bg-clip-text {
-  background: inherit !important;
-  -webkit-text-fill-color: initial;
+.section-styled.section-style-body-size p,
+.section-styled.section-style-body-size li {
+  font-size: var(--section-body-size) !important;
+}
+
+.section-styled.section-style-accent a[data-brand-accent],
+.section-styled.section-style-accent .text-brand-accent,
+.section-styled.section-style-accent [class*="text-primary"] {
+  color: var(--section-accent) !important;
+}
+
+/* CTA selectors are deliberately narrow. Slider arrows, FAQ triggers and
+   other functional controls must not become CTA buttons. */
+.section-styled.section-style-button-bg :is(.btn, a.inline-flex, button.inline-flex):not([data-no-section-style]) {
+  background: var(--section-button-bg) !important;
+}
+.section-styled.section-style-button-fg :is(.btn, a.inline-flex, button.inline-flex):not([data-no-section-style]) {
+  color: var(--section-button-fg) !important;
+}
+.section-styled.section-style-button-radius :is(.btn, a.inline-flex, button.inline-flex):not([data-no-section-style]) {
+  border-radius: var(--section-button-radius) !important;
+}
+.section-styled.section-style-button-size :is(.btn, a.inline-flex, button.inline-flex):not([data-no-section-style]) {
+  padding: var(--section-button-padding) !important;
+  font-size: var(--section-button-fontsize) !important;
+}
+
+/* The wrapper owns custom vertical spacing; remove only the root section's
+   coded padding so values replace it rather than doubling it. */
+.section-styled.section-style-padding > section,
+.section-styled.section-style-padding > main,
+.section-styled.section-style-padding > div > section,
+.section-styled.section-style-padding > div > main {
+  padding-block: 0 !important;
+}
+
+/* Tailwind text alignment on descendants otherwise wins over inheritance. */
+.section-styled.section-style-align :is(h1, h2, p) {
+  text-align: inherit !important;
 }

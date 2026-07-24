@@ -1,6 +1,7 @@
+import { useEffect, useRef, useState } from "react";
 import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
-import { BRAND_SWATCHES, GRADIENT_SWATCHES, DEFAULT_SECTION_STYLE, getSectionDefaults, type SectionStyle } from "@/lib/sectionStyle";
+import { BRAND_SWATCHES, GRADIENT_SWATCHES, getSectionDefaults, type SectionStyle } from "@/lib/sectionStyle";
 import { RotateCcw } from "lucide-react";
 
 type Props = {
@@ -108,15 +109,33 @@ export function SectionStyleEditor({ value, onChange, kind }: Props) {
   // persist every other default too — and the section's headline/body/etc.
   // would visually change even though the user only edited the button.
   const defaults = getSectionDefaults(kind);
-  const saved: SectionStyle = value ?? {};
+  const [saved, setSaved] = useState<SectionStyle>(value ?? {});
+  const savedRef = useRef<SectionStyle>(value ?? {});
+
+  useEffect(() => {
+    const next = value ?? {};
+    savedRef.current = next;
+    setSaved(next);
+  }, [value]);
+
   const s: SectionStyle = { ...defaults, ...saved };
-  const set = (patch: Partial<SectionStyle>) => onChange({ ...saved, ...patch });
+  const set = (patch: Partial<SectionStyle>) => {
+    const next = { ...savedRef.current, ...patch };
+    savedRef.current = next;
+    setSaved(next);
+    onChange(next);
+  };
+  const reset = () => {
+    savedRef.current = {};
+    setSaved({});
+    onChange({});
+  };
 
   return (
     <div className="space-y-4 rounded-md border border-border bg-muted/20 p-4">
       <div className="flex items-center justify-between">
         <div className="text-sm font-semibold">Design & layout</div>
-        <Button size="sm" variant="ghost" onClick={() => onChange({})} className="h-7 gap-1 text-xs">
+        <Button size="sm" variant="ghost" onClick={reset} className="h-7 gap-1 text-xs">
           <RotateCcw className="h-3 w-3" /> Reset to default
         </Button>
       </div>
