@@ -432,7 +432,9 @@ export default function HeaderFooterEditor() {
 
           <Card className="p-4 space-y-4">
             <h2 className="text-lg font-semibold">Mobile menu</h2>
-            <p className="text-sm text-muted-foreground">Control the drawer that opens on mobile / tablet.</p>
+            <p className="text-sm text-muted-foreground">
+              Controls the drawer that opens on mobile / tablet. Menu items come from the same tree as desktop — edit them under Pages &amp; Navigation.
+            </p>
 
             <div className="grid gap-4 md:grid-cols-2">
               <div className="space-y-2">
