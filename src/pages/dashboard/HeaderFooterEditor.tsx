@@ -522,16 +522,6 @@ export default function HeaderFooterEditor() {
               </div>
             </div>
 
-            <div className="space-y-2">
-              <Label>"More" section heading</Label>
-              <Input
-                value={txt("mobile_more_label")}
-                onChange={(e) => setTxt("mobile_more_label", e.target.value)}
-                placeholder={loc === "ar" ? "المزيد" : "More"}
-                dir={loc === "ar" ? "rtl" : "ltr"}
-              />
-              <p className="text-xs text-muted-foreground">Shown above the mobile-only links list.</p>
-            </div>
 
             <div className="space-y-2">
               <Label>Mobile-only links</Label>
