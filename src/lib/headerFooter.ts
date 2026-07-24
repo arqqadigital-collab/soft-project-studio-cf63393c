@@ -101,6 +101,7 @@ function applyOverlay(base: Record<string, unknown>, overlay: Record<string, unk
     "footer_tagline",
     "footer_copyright",
     "mobile_more_label",
+    "mobile_drawer_title",
   ];
   for (const k of textKeys) {
     if (typeof overlay[k] === "string" && (overlay[k] as string).length > 0) {
