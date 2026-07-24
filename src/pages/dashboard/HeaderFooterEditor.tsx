@@ -197,6 +197,7 @@ export default function HeaderFooterEditor() {
         header_cta_label: form.header_cta_label,
         header_cta_url: form.header_cta_url,
         header_cta_variant: form.header_cta_variant || "gradient",
+        header_cta_new_tab: !!form.header_cta_new_tab,
         header_show_menus: form.header_show_menus,
         header_sticky: !!form.header_sticky,
         header_transparent_on_hero: !!form.header_transparent_on_hero,
@@ -212,6 +213,8 @@ export default function HeaderFooterEditor() {
         mobile_show_cta: form.mobile_show_cta !== false,
         mobile_show_lang: form.mobile_show_lang !== false,
         mobile_show_logo: form.mobile_show_logo !== false,
+        mobile_show_menu_tree: form.mobile_show_menu_tree !== false,
+        mobile_drawer_title: form.mobile_drawer_title || null,
         mobile_more_label: form.mobile_more_label || "More",
         mobile_default_expanded: !!form.mobile_default_expanded,
 
