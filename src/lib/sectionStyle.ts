@@ -21,11 +21,11 @@ export type SectionStyle = {
 };
 
 const PAD_Y: Record<NonNullable<SectionStyle["padding_y"]>, string> = {
-  none: "py-0",
-  sm: "py-6 md:py-8",
-  md: "py-12 md:py-16",
-  lg: "py-20 md:py-28",
-  xl: "py-28 md:py-40",
+  none: "0px",
+  sm: "clamp(1.5rem, 3vw, 2rem)",
+  md: "clamp(3rem, 5vw, 4rem)",
+  lg: "clamp(5rem, 8vw, 7rem)",
+  xl: "clamp(7rem, 11vw, 10rem)",
 };
 
 const MARGIN_TOP: Record<NonNullable<SectionStyle["margin_top"]>, string> = {
@@ -36,9 +36,9 @@ const MARGIN_BOTTOM: Record<NonNullable<SectionStyle["margin_bottom"]>, string> 
 };
 
 const CONTAINER: Record<NonNullable<SectionStyle["container"]>, string> = {
-  narrow: "max-w-3xl mx-auto px-6",
-  default: "max-w-6xl mx-auto px-6",
-  wide: "max-w-[1400px] mx-auto px-6",
+  narrow: "max-w-3xl mx-auto",
+  default: "max-w-6xl mx-auto",
+  wide: "max-w-[1400px] mx-auto",
   full: "w-full px-0",
 };
 
@@ -68,39 +68,68 @@ const BUTTON_FS: Record<NonNullable<SectionStyle["button_size"]>, string> = {
 
 export function resolveSectionStyle(style: SectionStyle | null | undefined) {
   const s = style ?? {};
-  const classes: string[] = [];
+  const classes: string[] = ["section-styled"];
   const inline: React.CSSProperties & Record<string, string> = {};
 
-  if (s.padding_y) classes.push(PAD_Y[s.padding_y]);
+  if (s.padding_y) {
+    classes.push("section-style-padding");
+    inline["--section-padding-y"] = PAD_Y[s.padding_y];
+  }
   if (s.margin_top) classes.push(MARGIN_TOP[s.margin_top]);
   if (s.margin_bottom) classes.push(MARGIN_BOTTOM[s.margin_bottom]);
-  if (s.align) classes.push(ALIGN[s.align]);
+  if (s.align) classes.push("section-style-align", ALIGN[s.align]);
 
-  if (s.bg_color) {
-    inline.background = s.bg_color;
-    (inline as any)["--section-bg"] = s.bg_color;
+  if (s.bg_color !== undefined) {
+    classes.push("section-style-bg");
+    inline.background = s.bg_color || "transparent";
+    inline["--section-bg"] = s.bg_color || "transparent";
   }
   if (s.text_color) {
+    classes.push("section-style-text");
     inline.color = s.text_color;
-    (inline as any)["--section-fg"] = s.text_color;
+    inline["--section-fg"] = s.text_color;
   }
-  if (s.heading_color) (inline as any)["--section-heading"] = s.heading_color;
-  if (s.accent_color) (inline as any)["--section-accent"] = s.accent_color;
-  if (s.heading_size) (inline as any)["--section-heading-size"] = HEADING_SIZE[s.heading_size];
-  if (s.body_size) (inline as any)["--section-body-size"] = BODY_SIZE[s.body_size];
-  if (s.button_bg) (inline as any)["--section-button-bg"] = s.button_bg;
-  if (s.button_fg) (inline as any)["--section-button-fg"] = s.button_fg;
-  if (s.button_radius) (inline as any)["--section-button-radius"] = BUTTON_RADIUS[s.button_radius];
+  if (s.heading_color) {
+    classes.push("section-style-heading-color");
+    inline["--section-heading"] = s.heading_color;
+  }
+  if (s.accent_color) {
+    classes.push("section-style-accent");
+    inline["--section-accent"] = s.accent_color;
+  }
+  if (s.heading_size) {
+    classes.push("section-style-heading-size");
+    inline["--section-heading-size"] = HEADING_SIZE[s.heading_size];
+  }
+  if (s.body_size) {
+    classes.push("section-style-body-size");
+    inline["--section-body-size"] = BODY_SIZE[s.body_size];
+  }
+  if (s.button_bg !== undefined) {
+    classes.push("section-style-button-bg");
+    inline["--section-button-bg"] = s.button_bg || "transparent";
+  }
+  if (s.button_fg) {
+    classes.push("section-style-button-fg");
+    inline["--section-button-fg"] = s.button_fg;
+  }
+  if (s.button_radius) {
+    classes.push("section-style-button-radius");
+    inline["--section-button-radius"] = BUTTON_RADIUS[s.button_radius];
+  }
   if (s.button_size) {
-    (inline as any)["--section-button-padding"] = BUTTON_PAD[s.button_size];
-    (inline as any)["--section-button-fontsize"] = BUTTON_FS[s.button_size];
+    classes.push("section-style-button-size");
+    inline["--section-button-padding"] = BUTTON_PAD[s.button_size];
+    inline["--section-button-fontsize"] = BUTTON_FS[s.button_size];
   }
 
   return {
     wrapperClass: classes.join(" "),
     wrapperStyle: inline,
     containerClass: s.container ? CONTAINER[s.container] : "",
-    hasOverrides: Object.keys(s).length > 0,
+    // Empty strings are meaningful for transparent backgrounds; undefined and
+    // null legacy entries are not real overrides and should not add a wrapper.
+    hasOverrides: Object.values(s).some((value) => value !== undefined && value !== null),
   };
 }
 

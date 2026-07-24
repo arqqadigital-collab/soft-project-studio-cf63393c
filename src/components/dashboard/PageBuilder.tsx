@@ -1,4 +1,4 @@
-import { useMemo, useState } from "react";
+import { useMemo, useRef, useState } from "react";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { toast } from "sonner";
 import { supabase } from "@/integrations/supabase/client";
@@ -40,6 +40,7 @@ export function PageBuilder({ pageId, pageSlug }: { pageId: string; pageSlug?: s
   const [activeTab, setActiveTab] = useState<string | undefined>(undefined);
   const [locale, setLocale] = useState<LocaleCode>("en");
   const [translating, setTranslating] = useState(false);
+  const styleSaveQueues = useRef(new Map<string, Promise<void>>());
 
   async function translateAll(missingOnly = false) {
     const msg = missingOnly
@@ -121,10 +122,34 @@ export function PageBuilder({ pageId, pageSlug }: { pageId: string; pageSlug?: s
   }
 
   async function updateStyle(id: string, style: SectionStyle) {
-    const { error } = await supabase.from("page_sections").update({ style }).eq("id", id);
-    if (error) return toast.error(error.message);
-    toast.success("Design saved");
-    invalidate();
+    // Reflect the latest click immediately and serialize writes per section.
+    // Without this, quick changes can finish out of order and an older style
+    // payload can overwrite the user's newest selection.
+    qc.setQueryData<Row[]>(["page-sections-admin", pageId], (current) =>
+      current?.map((row) => (row.id === id ? { ...row, style } : row)),
+    );
+
+    const previous = styleSaveQueues.current.get(id) ?? Promise.resolve();
+    const request = previous.catch(() => undefined).then(async () => {
+      const { error } = await supabase.from("page_sections").update({ style }).eq("id", id);
+      if (error) throw error;
+    });
+    styleSaveQueues.current.set(id, request);
+
+    try {
+      await request;
+      if (styleSaveQueues.current.get(id) === request) {
+        styleSaveQueues.current.delete(id);
+        toast.success("Design saved");
+        invalidate();
+      }
+    } catch (error) {
+      if (styleSaveQueues.current.get(id) === request) {
+        styleSaveQueues.current.delete(id);
+        toast.error(error instanceof Error ? error.message : "Design save failed");
+        invalidate();
+      }
+    }
   }
 
   async function toggleVisible(id: string, current: boolean) {
