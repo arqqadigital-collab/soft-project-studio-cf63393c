@@ -55,6 +55,7 @@ export type HeaderFooterSettings = {
   header_cta_label: string | null;
   header_cta_url: string | null;
   header_cta_variant: CtaVariant;
+  header_cta_new_tab: boolean;
   header_show_menus: boolean;
   header_sticky: boolean;
   header_transparent_on_hero: boolean;
@@ -70,6 +71,8 @@ export type HeaderFooterSettings = {
   mobile_show_cta: boolean;
   mobile_show_lang: boolean;
   mobile_show_logo: boolean;
+  mobile_show_menu_tree: boolean;
+  mobile_drawer_title: string | null;
   mobile_more_label: string | null;
   mobile_default_expanded: boolean;
   header_bg_color: string | null;
