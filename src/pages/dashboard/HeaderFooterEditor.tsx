@@ -378,7 +378,14 @@ export default function HeaderFooterEditor() {
                 <Switch checked={form.header_show_menus} onCheckedChange={(v) => set({ header_show_menus: v })} />
                 <Label>Show mega-menus</Label>
               </div>
+              <div className="flex items-center gap-3 pt-6">
+                <Switch checked={!!form.header_cta_new_tab} onCheckedChange={(v) => set({ header_cta_new_tab: v })} />
+                <Label>Open CTA in a new tab</Label>
+              </div>
             </div>
+            <p className="text-xs text-muted-foreground">
+              CTA URL supports internal paths (<code>/contact</code>) and external URLs (<code>https://…</code>, <code>mailto:</code>, <code>tel:</code>).
+            </p>
           </Card>
 
           <Card className="p-4 space-y-4">
