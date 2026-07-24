@@ -289,16 +289,16 @@ html[dir="rtl"] svg.lucide-arrow-left {
 
 /* CTA selectors are deliberately narrow. Slider arrows, FAQ triggers and
    other functional controls must not become CTA buttons. */
-.section-styled.section-style-button-bg :is(.btn, a.inline-flex, button.inline-flex):not([data-no-section-style]) {
+.section-styled.section-style-button-bg :is(.btn, a.inline-flex[class*="rounded"], button.inline-flex[class*="rounded"]):not([data-no-section-style]) {
   background: var(--section-button-bg) !important;
 }
-.section-styled.section-style-button-fg :is(.btn, a.inline-flex, button.inline-flex):not([data-no-section-style]) {
+.section-styled.section-style-button-fg :is(.btn, a.inline-flex[class*="rounded"], button.inline-flex[class*="rounded"]):not([data-no-section-style]) {
   color: var(--section-button-fg) !important;
 }
-.section-styled.section-style-button-radius :is(.btn, a.inline-flex, button.inline-flex):not([data-no-section-style]) {
+.section-styled.section-style-button-radius :is(.btn, a.inline-flex[class*="rounded"], button.inline-flex[class*="rounded"]):not([data-no-section-style]) {
   border-radius: var(--section-button-radius) !important;
 }
-.section-styled.section-style-button-size :is(.btn, a.inline-flex, button.inline-flex):not([data-no-section-style]) {
+.section-styled.section-style-button-size :is(.btn, a.inline-flex[class*="rounded"], button.inline-flex[class*="rounded"]):not([data-no-section-style]) {
   padding: var(--section-button-padding) !important;
   font-size: var(--section-button-fontsize) !important;
 }
