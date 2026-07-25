@@ -49,7 +49,7 @@ export default function Contact() {
     queryKey: ["contact_page_public"],
     queryFn: async () => {
       const { data, error } = await supabase
-        .from("contact_page")
+        .from("contact_page_public" as any)
         .select("*")
         .eq("singleton", true)
         .maybeSingle();
