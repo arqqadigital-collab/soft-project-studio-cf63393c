@@ -10,11 +10,14 @@ import {
   Newspaper,
   BookMarked,
   CalendarDays,
-  Tags,
   Shield,
   Palette,
-  Activity,
-  Type,
+  Home,
+  Search,
+  BarChart3,
+  Brush,
+  LayoutGrid,
+  FolderTree,
 } from "lucide-react";
 import {
   Sidebar,
@@ -44,16 +47,11 @@ const groups: { label: string; items: Item[] }[] = [
     label: "Content",
     items: [
       { title: "Dashboard", url: "/dashboard", icon: LayoutDashboard, exact: true },
+      { title: "Homepage", url: "/dashboard/homepage", icon: Home, allow: ["admin", "editor"] },
       { title: "Pages & Navigation", url: "/dashboard/pages", icon: FileStack, allow: ["admin", "editor"] },
-      
       { title: "Header & Footer", url: "/dashboard/header-footer", icon: PanelsTopLeft, allow: ["admin", "editor"] },
-      
       { title: "Forms", url: "/dashboard/forms", icon: Inbox, allow: ["admin", "editor"] },
-      { title: "Site Settings", url: "/dashboard/settings", icon: Settings, allow: ["admin"] },
-      { title: "Branding", url: "/dashboard/branding", icon: Palette, allow: ["admin"] },
-
       { title: "Media Library", url: "/dashboard/media", icon: ImageIcon },
-
     ],
   },
   {
@@ -62,15 +60,24 @@ const groups: { label: string; items: Item[] }[] = [
       { title: "Blogs", url: "/dashboard/posts", icon: Newspaper },
       { title: "Case Studies", url: "/dashboard/case-studies", icon: BookMarked, allow: ["admin", "editor", "author"] },
       { title: "Events & Webinars", url: "/dashboard/events", icon: CalendarDays, allow: ["admin", "editor", "author"] },
-      { title: "Categories", url: "/dashboard/taxonomy", icon: Tags, allow: ["admin", "editor", "author"] },
-      { title: "Cards", url: "/dashboard/list-heros", icon: PanelsTopLeft, allow: ["admin", "editor"] },
+      { title: "Categories", url: "/dashboard/taxonomy", icon: FolderTree, allow: ["admin", "editor", "author"] },
+      { title: "Cards", url: "/dashboard/list-heros", icon: LayoutGrid, allow: ["admin", "editor"] },
+    ],
+  },
+  {
+    label: "Site",
+    items: [
+      { title: "Site Settings", url: "/dashboard/settings", icon: Settings, allow: ["admin"] },
+      { title: "Branding", url: "/dashboard/branding", icon: Palette, allow: ["admin"] },
+      { title: "Global Styles", url: "/dashboard/style", icon: Brush, allow: ["admin"] },
+      { title: "SEO", url: "/dashboard/seo", icon: Search, allow: ["admin", "editor"] },
+      { title: "Analytics", url: "/dashboard/analytics", icon: BarChart3, allow: ["admin", "editor"] },
     ],
   },
   {
     label: "Administration",
     items: [
       { title: "Admin", url: "/dashboard/users", icon: Shield, allow: ["admin"] },
-
     ],
   },
 ];
