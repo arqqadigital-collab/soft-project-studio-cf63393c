@@ -17,6 +17,7 @@ import {
   BarChart3,
   Brush,
   LayoutGrid,
+  FolderTree,
 } from "lucide-react";
 import {
   Sidebar,
@@ -59,7 +60,7 @@ const groups: { label: string; items: Item[] }[] = [
       { title: "Blogs", url: "/dashboard/posts", icon: Newspaper },
       { title: "Case Studies", url: "/dashboard/case-studies", icon: BookMarked, allow: ["admin", "editor", "author"] },
       { title: "Events & Webinars", url: "/dashboard/events", icon: CalendarDays, allow: ["admin", "editor", "author"] },
-      { title: "Categories", url: "/dashboard/taxonomy", icon: FileStack, allow: ["admin", "editor", "author"] },
+      { title: "Categories", url: "/dashboard/taxonomy", icon: FolderTree, allow: ["admin", "editor", "author"] },
       { title: "Cards", url: "/dashboard/list-heros", icon: LayoutGrid, allow: ["admin", "editor"] },
     ],
   },
