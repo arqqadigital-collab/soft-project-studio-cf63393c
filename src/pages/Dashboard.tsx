@@ -25,7 +25,7 @@ import CaseStudiesList from "./dashboard/CaseStudiesList";
 import CaseStudyEditor from "./dashboard/CaseStudyEditor";
 import EventsList from "./dashboard/EventsList";
 import EventEditor from "./dashboard/EventEditor";
-import ContactEditor from "./dashboard/ContactEditor";
+
 import ListPageHeros from "./dashboard/ListPageHeros";
 
 import { RoleGate } from "@/components/dashboard/RoleGate";
@@ -39,9 +39,9 @@ export default function Dashboard() {
           path="homepage"
           element={<RoleGate allow={["admin", "editor"]}><HomepageEditor /></RoleGate>}
         />
-        <Route path="posts" element={<PostsList />} />
-        <Route path="posts/new" element={<PostEditor />} />
-        <Route path="posts/:id" element={<PostEditor />} />
+        <Route path="posts" element={<RoleGate allow={["admin", "editor", "author"]}><PostsList /></RoleGate>} />
+        <Route path="posts/new" element={<RoleGate allow={["admin", "editor", "author"]}><PostEditor /></RoleGate>} />
+        <Route path="posts/:id" element={<RoleGate allow={["admin", "editor", "author"]}><PostEditor /></RoleGate>} />
         <Route
           path="pages"
           element={<RoleGate allow={["admin", "editor"]}><PagesAndNavigation /></RoleGate>}
@@ -92,7 +92,7 @@ export default function Dashboard() {
           path="events/:id"
           element={<RoleGate allow={["admin", "editor", "author"]}><EventEditor /></RoleGate>}
         />
-        <Route path="media" element={<MediaLibrary />} />
+        <Route path="media" element={<RoleGate allow={["admin", "editor", "author"]}><MediaLibrary /></RoleGate>} />
         <Route
           path="taxonomy"
           element={
@@ -128,10 +128,7 @@ export default function Dashboard() {
           element={<RoleGate allow={["admin"]}><StyleEditor /></RoleGate>}
         />
 
-        <Route
-          path="contact"
-          element={<RoleGate allow={["admin", "editor"]}><ContactEditor /></RoleGate>}
-        />
+        <Route path="contact" element={<Navigate to="/dashboard/pages" replace />} />
         <Route
           path="list-heros"
           element={<RoleGate allow={["admin", "editor"]}><ListPageHeros /></RoleGate>}
