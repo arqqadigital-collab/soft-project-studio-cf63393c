@@ -1475,6 +1475,7 @@ export type Database = {
           logo_dark_url: string | null
           og_image_url: string | null
           primary_color: string | null
+          robots_txt: string | null
           singleton: boolean
           site_description: string | null
           site_description_ar: string | null
@@ -1501,6 +1502,7 @@ export type Database = {
           logo_dark_url?: string | null
           og_image_url?: string | null
           primary_color?: string | null
+          robots_txt?: string | null
           singleton?: boolean
           site_description?: string | null
           site_description_ar?: string | null
@@ -1527,6 +1529,7 @@ export type Database = {
           logo_dark_url?: string | null
           og_image_url?: string | null
           primary_color?: string | null
+          robots_txt?: string | null
           singleton?: boolean
           site_description?: string | null
           site_description_ar?: string | null
