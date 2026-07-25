@@ -431,6 +431,7 @@ export type Database = {
           id: string
           message: string
           name: string
+          notified_at: string | null
           page_path: string | null
           page_title: string | null
           phone: string
@@ -448,6 +449,7 @@ export type Database = {
           id?: string
           message?: string
           name: string
+          notified_at?: string | null
           page_path?: string | null
           page_title?: string | null
           phone?: string
@@ -465,6 +467,7 @@ export type Database = {
           id?: string
           message?: string
           name?: string
+          notified_at?: string | null
           page_path?: string | null
           page_title?: string | null
           phone?: string
@@ -1616,7 +1619,66 @@ export type Database = {
       }
     }
     Views: {
-      [_ in never]: never
+      contact_page_public: {
+        Row: {
+          created_at: string | null
+          form_heading: string | null
+          form_subheading: string | null
+          form_submit_label: string | null
+          hero_background_url: string | null
+          hero_cta_href: string | null
+          hero_cta_label: string | null
+          hero_eyebrow: string | null
+          hero_headline: string | null
+          hero_subheadline: string | null
+          id: string | null
+          offices_heading: string | null
+          offices_subheading: string | null
+          quick_info: Json | null
+          singleton: boolean | null
+          translations: Json | null
+          updated_at: string | null
+        }
+        Insert: {
+          created_at?: string | null
+          form_heading?: string | null
+          form_subheading?: string | null
+          form_submit_label?: string | null
+          hero_background_url?: string | null
+          hero_cta_href?: string | null
+          hero_cta_label?: string | null
+          hero_eyebrow?: string | null
+          hero_headline?: string | null
+          hero_subheadline?: string | null
+          id?: string | null
+          offices_heading?: string | null
+          offices_subheading?: string | null
+          quick_info?: Json | null
+          singleton?: boolean | null
+          translations?: Json | null
+          updated_at?: string | null
+        }
+        Update: {
+          created_at?: string | null
+          form_heading?: string | null
+          form_subheading?: string | null
+          form_submit_label?: string | null
+          hero_background_url?: string | null
+          hero_cta_href?: string | null
+          hero_cta_label?: string | null
+          hero_eyebrow?: string | null
+          hero_headline?: string | null
+          hero_subheadline?: string | null
+          id?: string | null
+          offices_heading?: string | null
+          offices_subheading?: string | null
+          quick_info?: Json | null
+          singleton?: boolean | null
+          translations?: Json | null
+          updated_at?: string | null
+        }
+        Relationships: []
+      }
     }
     Functions: {
       find_media_usage: {
