@@ -5,4 +5,4 @@ Disallow: /admin
 Disallow: /login
 Disallow: /preview/
 
-Sitemap: https://pahfisskacgnxiphyrrh.supabase.co/functions/v1/sitemap
+Sitemap: https://soft-project-studio.lovable.app/sitemap.xml
