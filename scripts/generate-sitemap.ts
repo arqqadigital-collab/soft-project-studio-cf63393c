@@ -14,7 +14,9 @@ async function main() {
   try {
     const res = await fetch(SITEMAP_URL, { headers: { Origin: SITE_URL } });
     if (!res.ok) throw new Error(`HTTP ${res.status}`);
-    const xml = await res.text();
+    let xml = await res.text();
+    // Rewrite any non-site origins (Supabase functions URL, etc.) to SITE_URL
+    xml = xml.replace(/https?:\/\/[^/<]*supabase\.co/gi, SITE_URL);
     writeFileSync(resolve("public/sitemap.xml"), xml);
     console.log(`sitemap.xml written (${xml.length} bytes)`);
   } catch (err) {
