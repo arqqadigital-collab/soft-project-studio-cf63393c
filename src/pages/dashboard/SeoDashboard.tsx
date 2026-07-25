@@ -40,6 +40,56 @@ export default function SeoDashboard() {
   const [entityType, setEntityType] = useState<"post" | "page">("post");
   const [oldSlug, setOldSlug] = useState("");
   const [newSlug, setNewSlug] = useState("");
+  const [robots, setRobots] = useState("");
+
+  const robotsQuery = useQuery({
+    queryKey: ["site_settings_robots"],
+    queryFn: async () => {
+      const { data, error } = await supabase
+        .from("site_settings")
+        .select("robots_txt")
+        .eq("singleton", true)
+        .maybeSingle();
+      if (error) throw error;
+      if (data?.robots_txt && data.robots_txt.length > 0) return data.robots_txt;
+      // Fall back to the live /robots.txt so the editor pre-fills with what's served today.
+      try {
+        const res = await fetch("/robots.txt", { cache: "no-store" });
+        if (res.ok) return await res.text();
+      } catch {}
+      return DEFAULT_ROBOTS;
+    },
+  });
+
+  useEffect(() => {
+    if (typeof robotsQuery.data === "string") setRobots(robotsQuery.data);
+  }, [robotsQuery.data]);
+
+  const saveRobots = useMutation({
+    mutationFn: async (content: string) => {
+      const { error } = await supabase
+        .from("site_settings")
+        .update({ robots_txt: content })
+        .eq("singleton", true);
+      if (error) throw error;
+    },
+    onSuccess: () => {
+      qc.invalidateQueries({ queryKey: ["site_settings_robots"] });
+      toast.success("robots.txt updated");
+    },
+    onError: (e: any) => toast.error(e.message),
+  });
+
+  const handleSaveRobots = () => {
+    if (robots.trim().length === 0) {
+      const ok = window.confirm(
+        "robots.txt is empty. Saving this will remove all crawler rules. Continue?",
+      );
+      if (!ok) return;
+    }
+    saveRobots.mutate(robots);
+  };
+
 
   const query = useQuery({
     queryKey: ["slug_redirects"],
