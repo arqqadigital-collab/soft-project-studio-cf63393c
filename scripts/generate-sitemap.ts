@@ -8,9 +8,11 @@ import { resolve } from "path";
 const SITEMAP_URL =
   "https://pahfisskacgnxiphyrrh.supabase.co/functions/v1/sitemap";
 
+const SITE_URL = "https://soft-project-studio.lovable.app";
+
 async function main() {
   try {
-    const res = await fetch(SITEMAP_URL);
+    const res = await fetch(SITEMAP_URL, { headers: { Origin: SITE_URL } });
     if (!res.ok) throw new Error(`HTTP ${res.status}`);
     const xml = await res.text();
     writeFileSync(resolve("public/sitemap.xml"), xml);
