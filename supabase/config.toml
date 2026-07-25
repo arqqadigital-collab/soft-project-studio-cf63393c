@@ -1,1 +1,4 @@
 project_id = "pahfisskacgnxiphyrrh"
+
+[functions.robots]
+verify_jwt = false
