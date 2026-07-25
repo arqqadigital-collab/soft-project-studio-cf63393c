@@ -35,6 +35,19 @@ Deno.serve(async (req) => {
         headers: { ...corsHeaders, 'Content-Type': 'application/json' },
       });
     }
+    if (submission.notified_at) {
+      return new Response(JSON.stringify({ skipped: 'already_notified' }), {
+        status: 200,
+        headers: { ...corsHeaders, 'Content-Type': 'application/json' },
+      });
+    }
+    // Reserve the slot immediately to prevent concurrent replays
+    const { error: markErr } = await supabase
+      .from('contact_submissions')
+      .update({ notified_at: new Date().toISOString() })
+      .eq('id', submission.id)
+      .is('notified_at', null);
+    if (markErr) throw markErr;
 
     const { data: page } = await supabase
       .from('contact_page')
