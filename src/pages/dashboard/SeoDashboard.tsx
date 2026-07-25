@@ -272,6 +272,40 @@ export default function SeoDashboard() {
           </p>
         </CardContent>
       </Card>
+
+      <Card>
+        <CardHeader className="pb-3">
+          <CardTitle className="text-sm">Robots.txt</CardTitle>
+        </CardHeader>
+        <CardContent className="space-y-3">
+          <Textarea
+            value={robots}
+            onChange={(e) => setRobots(e.target.value)}
+            rows={12}
+            spellCheck={false}
+            className="font-mono text-xs"
+            placeholder={robotsQuery.isLoading ? "Loading…" : DEFAULT_ROBOTS}
+          />
+          <div className="flex flex-wrap items-center gap-2">
+            <Button onClick={handleSaveRobots} disabled={saveRobots.isPending}>
+              <Save className="mr-1 h-4 w-4" />
+              Save changes
+            </Button>
+            <Button
+              variant="outline"
+              onClick={() => setRobots(DEFAULT_ROBOTS)}
+              disabled={saveRobots.isPending}
+            >
+              <RotateCcw className="mr-1 h-4 w-4" />
+              Reset to default
+            </Button>
+          </div>
+          <p className="text-xs text-muted-foreground">
+            Changes apply immediately. This controls which pages search engines are allowed to
+            crawl.
+          </p>
+        </CardContent>
+      </Card>
     </div>
   );
 }
