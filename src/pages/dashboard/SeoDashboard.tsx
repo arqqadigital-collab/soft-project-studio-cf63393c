@@ -1,12 +1,13 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { toast } from "sonner";
-import { Plus, Trash2 } from "lucide-react";
+import { Plus, Trash2, RotateCcw, Save } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { Textarea } from "@/components/ui/textarea";
 import {
   Select, SelectContent, SelectItem, SelectTrigger, SelectValue,
 } from "@/components/ui/select";
@@ -14,6 +15,17 @@ import {
   Table, TableBody, TableCell, TableHead, TableHeader, TableRow,
 } from "@/components/ui/table";
 import { formatDistanceToNow } from "date-fns";
+
+const DEFAULT_ROBOTS = `User-agent: *
+Allow: /
+Disallow: /dashboard
+Disallow: /admin
+Disallow: /login
+Disallow: /preview/
+
+Sitemap: ${import.meta.env.VITE_SUPABASE_URL}/functions/v1/sitemap
+`;
+
 
 type Redirect = {
   id: string;
@@ -28,6 +40,56 @@ export default function SeoDashboard() {
   const [entityType, setEntityType] = useState<"post" | "page">("post");
   const [oldSlug, setOldSlug] = useState("");
   const [newSlug, setNewSlug] = useState("");
+  const [robots, setRobots] = useState("");
+
+  const robotsQuery = useQuery({
+    queryKey: ["site_settings_robots"],
+    queryFn: async () => {
+      const { data, error } = await supabase
+        .from("site_settings")
+        .select("robots_txt")
+        .eq("singleton", true)
+        .maybeSingle();
+      if (error) throw error;
+      if (data?.robots_txt && data.robots_txt.length > 0) return data.robots_txt;
+      // Fall back to the live /robots.txt so the editor pre-fills with what's served today.
+      try {
+        const res = await fetch("/robots.txt", { cache: "no-store" });
+        if (res.ok) return await res.text();
+      } catch {}
+      return DEFAULT_ROBOTS;
+    },
+  });
+
+  useEffect(() => {
+    if (typeof robotsQuery.data === "string") setRobots(robotsQuery.data);
+  }, [robotsQuery.data]);
+
+  const saveRobots = useMutation({
+    mutationFn: async (content: string) => {
+      const { error } = await supabase
+        .from("site_settings")
+        .update({ robots_txt: content })
+        .eq("singleton", true);
+      if (error) throw error;
+    },
+    onSuccess: () => {
+      qc.invalidateQueries({ queryKey: ["site_settings_robots"] });
+      toast.success("robots.txt updated");
+    },
+    onError: (e: any) => toast.error(e.message),
+  });
+
+  const handleSaveRobots = () => {
+    if (robots.trim().length === 0) {
+      const ok = window.confirm(
+        "robots.txt is empty. Saving this will remove all crawler rules. Continue?",
+      );
+      if (!ok) return;
+    }
+    saveRobots.mutate(robots);
+  };
+
 
   const query = useQuery({
     queryKey: ["slug_redirects"],
@@ -207,6 +269,40 @@ export default function SeoDashboard() {
           <p className="text-xs text-muted-foreground">
             The sitemap URL is already listed in <code>robots.txt</code>. Set your site URL in
             Settings so both feeds emit absolute links.
+          </p>
+        </CardContent>
+      </Card>
+
+      <Card>
+        <CardHeader className="pb-3">
+          <CardTitle className="text-sm">Robots.txt</CardTitle>
+        </CardHeader>
+        <CardContent className="space-y-3">
+          <Textarea
+            value={robots}
+            onChange={(e) => setRobots(e.target.value)}
+            rows={12}
+            spellCheck={false}
+            className="font-mono text-xs"
+            placeholder={robotsQuery.isLoading ? "Loading…" : DEFAULT_ROBOTS}
+          />
+          <div className="flex flex-wrap items-center gap-2">
+            <Button onClick={handleSaveRobots} disabled={saveRobots.isPending}>
+              <Save className="mr-1 h-4 w-4" />
+              Save changes
+            </Button>
+            <Button
+              variant="outline"
+              onClick={() => setRobots(DEFAULT_ROBOTS)}
+              disabled={saveRobots.isPending}
+            >
+              <RotateCcw className="mr-1 h-4 w-4" />
+              Reset to default
+            </Button>
+          </div>
+          <p className="text-xs text-muted-foreground">
+            Changes apply immediately. This controls which pages search engines are allowed to
+            crawl.
           </p>
         </CardContent>
       </Card>
