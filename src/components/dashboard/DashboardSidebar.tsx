@@ -47,7 +47,6 @@ const groups: { label: string; items: Item[] }[] = [
     label: "Content",
     items: [
       { title: "Dashboard", url: "/dashboard", icon: LayoutDashboard, exact: true },
-      { title: "Homepage", url: "/dashboard/homepage", icon: Home, allow: ["admin", "editor"] },
       { title: "Pages & Navigation", url: "/dashboard/pages", icon: FileStack, allow: ["admin", "editor"] },
       { title: "Header & Footer", url: "/dashboard/header-footer", icon: PanelsTopLeft, allow: ["admin", "editor"] },
       { title: "Forms", url: "/dashboard/forms", icon: Inbox, allow: ["admin", "editor"] },
@@ -69,7 +68,6 @@ const groups: { label: string; items: Item[] }[] = [
     items: [
       { title: "Site Settings", url: "/dashboard/settings", icon: Settings, allow: ["admin"] },
       { title: "Branding", url: "/dashboard/branding", icon: Palette, allow: ["admin"] },
-      { title: "Global Styles", url: "/dashboard/style", icon: Brush, allow: ["admin"] },
       { title: "SEO", url: "/dashboard/seo", icon: Search, allow: ["admin", "editor"] },
       { title: "Analytics", url: "/dashboard/analytics", icon: BarChart3, allow: ["admin", "editor"] },
     ],
