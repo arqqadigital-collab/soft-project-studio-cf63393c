@@ -2,6 +2,8 @@ import { useEffect, useState } from "react";
 import { useParams, useSearchParams, Link } from "react-router-dom";
 import { SeoHead } from "@/components/SeoHead";
 import { sanitizeHtml } from "@/lib/sanitize";
+import { PageRenderer } from "@/components/PageRenderer";
+import { Footer } from "@/components/Footer";
 
 type Kind = "post" | "page";
 
@@ -55,23 +57,51 @@ export default function PublicPreview() {
     );
   }
 
+  const isPage = kind === "page";
+  const hasHtmlContent = !!(data.content && String(data.content).trim());
+
   return (
     <>
       <SeoHead title={`Preview — ${data.title}`} noindex ogType={kind === "post" ? "article" : "website"} />
       <div className="sticky top-0 z-50 border-b bg-amber-100 px-4 py-2 text-center text-xs font-medium text-amber-900">
         Draft preview — not visible to the public. Status: {data.status}
       </div>
-      <article className="mx-auto max-w-3xl px-6 py-10">
-        {data.featured_image_url && (
-          <img src={data.featured_image_url} alt="" className="mb-6 w-full rounded-lg border object-cover" />
-        )}
-        <h1 className="text-4xl font-bold tracking-tight">{data.title}</h1>
-        {data.excerpt && <p className="mt-3 text-lg text-muted-foreground">{data.excerpt}</p>}
-        <div
-          className="prose prose-neutral mt-8 max-w-none dark:prose-invert"
-          dangerouslySetInnerHTML={{ __html: sanitizeHtml(data.content ?? "") }}
-        />
-      </article>
+
+      {isPage ? (
+        <main className="min-h-screen bg-background">
+          {!hasHtmlContent && (
+            <section className="pt-32 md:pt-40">
+              <div className="mx-auto max-w-5xl px-6">
+                <h1 className="text-3xl font-bold leading-tight tracking-tight text-foreground md:text-5xl">
+                  {data.title}
+                </h1>
+              </div>
+            </section>
+          )}
+          <PageRenderer pageId={data.id} />
+          {hasHtmlContent && (
+            <article className="mx-auto max-w-3xl px-6 py-12">
+              <div
+                className="prose prose-neutral max-w-none dark:prose-invert"
+                dangerouslySetInnerHTML={{ __html: sanitizeHtml(data.content) }}
+              />
+            </article>
+          )}
+          <Footer />
+        </main>
+      ) : (
+        <article className="mx-auto max-w-3xl px-6 py-10">
+          {data.featured_image_url && (
+            <img src={data.featured_image_url} alt="" className="mb-6 w-full rounded-lg border object-cover" />
+          )}
+          <h1 className="text-4xl font-bold tracking-tight">{data.title}</h1>
+          {data.excerpt && <p className="mt-3 text-lg text-muted-foreground">{data.excerpt}</p>}
+          <div
+            className="prose prose-neutral mt-8 max-w-none dark:prose-invert"
+            dangerouslySetInnerHTML={{ __html: sanitizeHtml(data.content ?? "") }}
+          />
+        </article>
+      )}
     </>
   );
 }
