@@ -375,17 +375,80 @@ function makeEdit(sectionName: string) {
 function GenericRender({ data, kind }: { data: SectionData; kind: string }) {
   const heading = data?.heading ?? data?.headline ?? kind;
   const eyebrow = data?.eyebrow;
+  const subheading = data?.subheading ?? data?.subheadline;
   const body = data?.body;
-  const itemCount = Array.isArray(data?.items) ? data.items.length
-    : Array.isArray(data?.groups) ? data.groups.length
-    : Array.isArray(data?.chips) ? data.chips.length : 0;
+  const items: any[] = Array.isArray(data?.items) ? data.items : [];
+  const groups: any[] = Array.isArray(data?.groups) ? data.groups : [];
+  const chips: any[] = Array.isArray(data?.chips) ? data.chips : Array.isArray(data?.tags) ? data.tags : [];
+
   return (
-    <section className="border-y border-border bg-muted/20 py-8">
-      <div className="mx-auto max-w-3xl px-6 text-center">
-        {eyebrow && <div className="mb-2 text-xs font-semibold uppercase tracking-wider text-muted-foreground">{eyebrow}</div>}
-        <div className="text-lg font-semibold text-foreground">{heading}</div>
-        {body && <p className="mt-2 text-sm text-muted-foreground">{String(body).slice(0, 240)}{String(body).length > 240 ? "…" : ""}</p>}
-        {itemCount > 0 && <div className="mt-3 text-xs text-muted-foreground">{itemCount} item{itemCount === 1 ? "" : "s"}</div>}
+    <section className="border-y border-border bg-background py-12">
+      <div className="mx-auto max-w-6xl px-6">
+        <div className="text-center">
+          {eyebrow && (
+            <div className="mb-2 text-xs font-semibold uppercase tracking-wider text-muted-foreground">
+              {eyebrow}
+            </div>
+          )}
+          <h2 className="text-2xl md:text-3xl font-bold text-foreground">{heading}</h2>
+          {subheading && <p className="mt-3 text-base text-muted-foreground max-w-3xl mx-auto">{subheading}</p>}
+          {body && <p className="mt-3 text-sm text-muted-foreground max-w-3xl mx-auto">{body}</p>}
+        </div>
+
+        {chips.length > 0 && (
+          <div className="mt-6 flex flex-wrap items-center justify-center gap-2">
+            {chips.map((c, i) => (
+              <span key={i} className="rounded-full border border-border bg-muted/40 px-3 py-1 text-xs text-foreground">
+                {typeof c === "string" ? c : c?.label ?? c?.title ?? ""}
+              </span>
+            ))}
+          </div>
+        )}
+
+        {items.length > 0 && (
+          <div className="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+            {items.map((it: any, i: number) => (
+              <div key={i} className="rounded-2xl border border-border bg-card p-5 shadow-sm">
+                {(it?.image || it?.icon_url) && (
+                  <img
+                    src={it.image ?? it.icon_url}
+                    alt=""
+                    className="mb-3 h-32 w-full rounded-lg object-cover"
+                  />
+                )}
+                <div className="font-semibold text-foreground">{it?.title ?? it?.name ?? it?.label}</div>
+                {(it?.description ?? it?.body ?? it?.subtitle) && (
+                  <p className="mt-2 text-sm text-muted-foreground">
+                    {it.description ?? it.body ?? it.subtitle}
+                  </p>
+                )}
+              </div>
+            ))}
+          </div>
+        )}
+
+        {groups.length > 0 && (
+          <div className="mt-8 grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+            {groups.map((g: any, i: number) => (
+              <div key={i} className="rounded-2xl border border-border bg-card p-5 shadow-sm">
+                <div className="font-semibold text-foreground">{g?.title ?? g?.name}</div>
+                {g?.subtitle && <div className="mt-1 text-xs text-muted-foreground">{g.subtitle}</div>}
+                {Array.isArray(g?.items) && g.items.length > 0 && (
+                  <ul className="mt-3 flex flex-wrap gap-1.5">
+                    {g.items.map((it: any, j: number) => (
+                      <li
+                        key={j}
+                        className="rounded-full border border-border bg-muted/40 px-2.5 py-1 text-xs text-foreground"
+                      >
+                        {typeof it === "string" ? it : it?.name ?? it?.label ?? it?.title}
+                      </li>
+                    ))}
+                  </ul>
+                )}
+              </div>
+            ))}
+          </div>
+        )}
       </div>
     </section>
   );
