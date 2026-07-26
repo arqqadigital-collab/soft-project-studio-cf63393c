@@ -234,20 +234,32 @@
     <priority>0.7</priority>
   </url>
   <url>
+    <loc>https://soft-project-studio.lovable.app/p/ksa-compliance-and-integration</loc>
+    <lastmod>2026-07-26T10:33:51.731Z</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
     <loc>https://soft-project-studio.lovable.app/p/clinic</loc>
-    <lastmod>2026-07-19T18:28:03.063Z</lastmod>
+    <lastmod>2026-07-26T11:09:43.292Z</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://soft-project-studio.lovable.app/p/healthcare-emram</loc>
+    <lastmod>2026-07-26T11:09:43.301Z</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
     <loc>https://soft-project-studio.lovable.app/p/ris</loc>
-    <lastmod>2026-07-19T18:28:03.351Z</lastmod>
+    <lastmod>2026-07-26T11:09:43.319Z</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
     <loc>https://soft-project-studio.lovable.app/p/lis</loc>
-    <lastmod>2026-07-19T18:28:03.351Z</lastmod>
+    <lastmod>2026-07-26T11:09:43.338Z</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
@@ -264,32 +276,14 @@
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://soft-project-studio.lovable.app/p/dental-management-suite</loc>
-    <lastmod>2026-07-19T18:28:03.296Z</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://soft-project-studio.lovable.app/p/rcm</loc>
-    <lastmod>2026-07-19T18:28:03.334Z</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://soft-project-studio.lovable.app/p/his</loc>
-    <lastmod>2026-07-24T18:57:56.879Z</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
     <loc>https://soft-project-studio.lovable.app/p/healthcare-ksa-compliance</loc>
     <lastmod>2026-07-19T18:28:01.924Z</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://soft-project-studio.lovable.app/p/healthcare-clinical-ai</loc>
-    <lastmod>2026-07-19T18:28:02.028Z</lastmod>
+    <loc>https://soft-project-studio.lovable.app/p/dental-management-suite</loc>
+    <lastmod>2026-07-26T11:09:43.280Z</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
@@ -300,8 +294,8 @@
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://soft-project-studio.lovable.app/p/healthcare-revenue-cycle</loc>
-    <lastmod>2026-07-19T18:28:02.335Z</lastmod>
+    <loc>https://soft-project-studio.lovable.app/p/rcm</loc>
+    <lastmod>2026-07-26T11:09:43.270Z</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
@@ -312,14 +306,20 @@
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://soft-project-studio.lovable.app/p/physiotherapy</loc>
-    <lastmod>2026-07-19T18:28:03.364Z</lastmod>
+    <loc>https://soft-project-studio.lovable.app/p/emergency</loc>
+    <lastmod>2026-07-26T11:09:43.310Z</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://soft-project-studio.lovable.app/p/emergency</loc>
-    <lastmod>2026-07-19T18:28:03.397Z</lastmod>
+    <loc>https://soft-project-studio.lovable.app/p/physiotherapy</loc>
+    <lastmod>2026-07-26T11:09:43.300Z</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://soft-project-studio.lovable.app/p/healthcare-clinical-ai</loc>
+    <lastmod>2026-07-26T11:09:43.325Z</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
@@ -361,7 +361,7 @@
   </url>
   <url>
     <loc>https://soft-project-studio.lovable.app/p/contact</loc>
-    <lastmod>2026-07-19T18:28:02.064Z</lastmod>
+    <lastmod>2026-07-26T10:52:10.849Z</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
@@ -392,12 +392,6 @@
   <url>
     <loc>https://soft-project-studio.lovable.app/p/erp-odoo</loc>
     <lastmod>2026-07-19T18:28:02.799Z</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://soft-project-studio.lovable.app/p/healthcare-emram</loc>
-    <lastmod>2026-07-19T18:28:02.813Z</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
@@ -452,6 +446,12 @@
   <url>
     <loc>https://soft-project-studio.lovable.app/p/careers</loc>
     <lastmod>2026-07-22T13:25:29.120Z</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://soft-project-studio.lovable.app/p/his</loc>
+    <lastmod>2026-07-26T11:09:43.305Z</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
