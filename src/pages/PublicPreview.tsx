@@ -2,6 +2,8 @@ import { useEffect, useState } from "react";
 import { useParams, useSearchParams, Link } from "react-router-dom";
 import { SeoHead } from "@/components/SeoHead";
 import { sanitizeHtml } from "@/lib/sanitize";
+import { PageRenderer } from "@/components/PageRenderer";
+import { Footer } from "@/components/Footer";
 
 type Kind = "post" | "page";
 
