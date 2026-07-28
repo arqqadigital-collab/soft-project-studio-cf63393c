@@ -84,6 +84,8 @@ export type HeaderFooterSettings = {
   footer_columns: FooterColumn[];
   footer_social: SocialLink[];
   footer_copyright: string | null;
+  footer_copyright_link_text: string | null;
+  footer_copyright_url: string | null;
   footer_style: FooterStyle;
 };
 
