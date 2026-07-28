@@ -652,6 +652,16 @@ export default function HeaderFooterEditor() {
                 <Label>Copyright</Label>
                 <Input value={txt("footer_copyright")} onChange={(e) => setTxt("footer_copyright", e.target.value)} placeholder={loc === "ar" ? "© 2026 الشركة" : "© 2026 Company"} dir={loc === "ar" ? "rtl" : "ltr"} />
               </div>
+              <div className="space-y-2">
+                <Label>Link text in copyright</Label>
+                <Input value={form.footer_copyright_link_text ?? ""} onChange={(e) => set({ footer_copyright_link_text: e.target.value })} placeholder="arqqa" dir={loc === "ar" ? "rtl" : "ltr"} />
+                <p className="text-xs text-muted-foreground">The exact word/phrase inside the copyright line to turn into a link.</p>
+              </div>
+              <div className="space-y-2">
+                <Label>Company link URL</Label>
+                <Input value={form.footer_copyright_url ?? ""} onChange={(e) => set({ footer_copyright_url: e.target.value })} placeholder="https://arqqa.com" />
+                <p className="text-xs text-muted-foreground">The URL the linked text will open to (internal path or external URL).</p>
+              </div>
 
             </div>
 
