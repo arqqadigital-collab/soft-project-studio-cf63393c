@@ -156,13 +156,35 @@ export function Footer() {
               fontSize: style.copyright_size ?? 14,
             }}
           >
-            {copyright}
+            {renderCopyright(copyright, copyrightLinkText, copyrightUrl)}
           </p>
         </div>
       </div>
       <style>{`
         .footer-link:hover { color: var(--footer-link-hover) !important; }
+        .footer-copyright-link { text-decoration: underline; text-underline-offset: 2px; }
+        .footer-copyright-link:hover { opacity: 0.8; }
       `}</style>
     </footer>
+  );
+}
+
+function renderCopyright(text: string, linkText: string | null, url: string | null): ReactNode {
+  if (!linkText || !url || !text.includes(linkText)) {
+    return text;
+  }
+  const parts = text.split(linkText);
+  const isExternal = /^https?:\/\//.test(url);
+  const linkProps = isExternal
+    ? { href: url, target: "_blank", rel: "noreferrer" }
+    : { href: url };
+  return (
+    <>
+      {parts[0]}
+      <a className="footer-copyright-link" style={{ color: "inherit" }} {...linkProps}>
+        {linkText}
+      </a>
+      {parts.slice(1).join(linkText)}
+    </>
   );
 }
