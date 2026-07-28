@@ -623,6 +623,8 @@ export type Database = {
           created_at: string
           footer_columns: Json
           footer_copyright: string | null
+          footer_copyright_link_text: string | null
+          footer_copyright_url: string | null
           footer_logo_url: string | null
           footer_social: Json
           footer_style: Json
@@ -668,6 +670,8 @@ export type Database = {
           created_at?: string
           footer_columns?: Json
           footer_copyright?: string | null
+          footer_copyright_link_text?: string | null
+          footer_copyright_url?: string | null
           footer_logo_url?: string | null
           footer_social?: Json
           footer_style?: Json
@@ -713,6 +717,8 @@ export type Database = {
           created_at?: string
           footer_columns?: Json
           footer_copyright?: string | null
+          footer_copyright_link_text?: string | null
+          footer_copyright_url?: string | null
           footer_logo_url?: string | null
           footer_social?: Json
           footer_style?: Json

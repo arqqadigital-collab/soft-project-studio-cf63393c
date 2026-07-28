@@ -84,6 +84,8 @@ export type HeaderFooterSettings = {
   footer_columns: FooterColumn[];
   footer_social: SocialLink[];
   footer_copyright: string | null;
+  footer_copyright_link_text: string | null;
+  footer_copyright_url: string | null;
   footer_style: FooterStyle;
 };
 
@@ -212,6 +214,8 @@ export function useHeaderFooter() {
         footer_columns: arr<FooterColumn>(d.footer_columns),
         footer_social: arr<SocialLink>(d.footer_social),
         footer_copyright: (d.footer_copyright as string) ?? null,
+        footer_copyright_link_text: (d.footer_copyright_link_text as string) ?? null,
+        footer_copyright_url: (d.footer_copyright_url as string) ?? null,
         footer_style: (d.footer_style as FooterStyle) ?? {},
       };
     },

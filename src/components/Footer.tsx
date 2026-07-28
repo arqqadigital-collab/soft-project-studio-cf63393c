@@ -9,7 +9,7 @@ import {
 } from "@/lib/headerFooter";
 import { useLocale } from "@/i18n/LanguageProvider";
 import { localizePath, useRouteMap } from "@/lib/routeMap";
-import { CSSProperties } from "react";
+import { CSSProperties, ReactNode } from "react";
 
 export function Footer() {
   const { data: settings } = useHeaderFooter();
@@ -26,6 +26,8 @@ export function Footer() {
   const copyright =
     settings?.footer_copyright ||
     `© ${new Date().getFullYear()} Superior Business Solutions. All rights reserved.`;
+  const copyrightLinkText = settings?.footer_copyright_link_text || null;
+  const copyrightUrl = settings?.footer_copyright_url || null;
 
   const style: FooterStyle = settings?.footer_style ?? {};
   const bg = style.bg_color || "var(--brand-blue)";
@@ -154,13 +156,40 @@ export function Footer() {
               fontSize: style.copyright_size ?? 14,
             }}
           >
-            {copyright}
+            {renderCopyright(copyright, copyrightLinkText, copyrightUrl)}
           </p>
         </div>
       </div>
       <style>{`
         .footer-link:hover { color: var(--footer-link-hover) !important; }
+        .footer-copyright-link { text-decoration: underline; text-underline-offset: 2px; }
+        .footer-copyright-link:hover { opacity: 0.8; }
       `}</style>
     </footer>
+  );
+}
+
+function renderCopyright(text: string, linkText: string | null, url: string | null): ReactNode {
+  if (!linkText || !url) return text;
+  const lowerText = text.toLowerCase();
+  const lowerLink = linkText.toLowerCase();
+  const idx = lowerText.indexOf(lowerLink);
+  if (idx === -1) return text;
+
+  const before = text.slice(0, idx);
+  const matched = text.slice(idx, idx + linkText.length);
+  const after = text.slice(idx + linkText.length);
+  const isExternal = /^https?:\/\//.test(url);
+  const linkProps = isExternal
+    ? { href: url, target: "_blank", rel: "noreferrer" }
+    : { href: url };
+  return (
+    <>
+      {before}
+      <a className="footer-copyright-link" style={{ color: "inherit" }} {...linkProps}>
+        {matched}
+      </a>
+      {after}
+    </>
   );
 }
