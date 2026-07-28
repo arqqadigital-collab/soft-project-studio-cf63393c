@@ -65,7 +65,7 @@ const searchIndex: SearchItem[] = [
   { title: "Case Studies", url: "/dashboard/case-studies", group: "Post Types", icon: BookMarked },
   { title: "Events & Webinars", url: "/dashboard/events", group: "Post Types", icon: CalendarDays },
   { title: "Categories", url: "/dashboard/taxonomy", group: "Post Types", icon: Tags, keywords: "taxonomy" },
-  { title: "Cards", url: "/dashboard/list-heros", group: "Post Types", icon: PanelsTopLeft, keywords: "list page heros" },
+  { title: "Archive Pages", url: "/dashboard/list-heros", group: "Post Types", icon: PanelsTopLeft, keywords: "list page heros cards archive" },
   { title: "Admin", url: "/dashboard/users", group: "Administration", icon: Shield, keywords: "users roles" },
   { title: "Profile", url: "/dashboard/profile", group: "Account", icon: UserIcon },
 ];
