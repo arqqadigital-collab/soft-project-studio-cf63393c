@@ -170,21 +170,26 @@ export function Footer() {
 }
 
 function renderCopyright(text: string, linkText: string | null, url: string | null): ReactNode {
-  if (!linkText || !url || !text.includes(linkText)) {
-    return text;
-  }
-  const parts = text.split(linkText);
+  if (!linkText || !url) return text;
+  const lowerText = text.toLowerCase();
+  const lowerLink = linkText.toLowerCase();
+  const idx = lowerText.indexOf(lowerLink);
+  if (idx === -1) return text;
+
+  const before = text.slice(0, idx);
+  const matched = text.slice(idx, idx + linkText.length);
+  const after = text.slice(idx + linkText.length);
   const isExternal = /^https?:\/\//.test(url);
   const linkProps = isExternal
     ? { href: url, target: "_blank", rel: "noreferrer" }
     : { href: url };
   return (
     <>
-      {parts[0]}
+      {before}
       <a className="footer-copyright-link" style={{ color: "inherit" }} {...linkProps}>
-        {linkText}
+        {matched}
       </a>
-      {parts.slice(1).join(linkText)}
+      {after}
     </>
   );
 }
