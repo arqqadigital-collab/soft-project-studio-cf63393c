@@ -9,7 +9,7 @@ import {
 } from "@/lib/headerFooter";
 import { useLocale } from "@/i18n/LanguageProvider";
 import { localizePath, useRouteMap } from "@/lib/routeMap";
-import { CSSProperties } from "react";
+import { CSSProperties, ReactNode } from "react";
 
 export function Footer() {
   const { data: settings } = useHeaderFooter();
