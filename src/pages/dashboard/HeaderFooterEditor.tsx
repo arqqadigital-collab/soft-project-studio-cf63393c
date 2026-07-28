@@ -227,6 +227,8 @@ export default function HeaderFooterEditor() {
         footer_columns: columns,
         footer_social: social,
         footer_copyright: form.footer_copyright,
+        footer_copyright_link_text: form.footer_copyright_link_text || null,
+        footer_copyright_url: form.footer_copyright_url || null,
         footer_style: form.footer_style ?? {},
         translations: form.translations ?? {},
       })
