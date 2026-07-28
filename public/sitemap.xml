@@ -264,6 +264,30 @@
     <priority>0.7</priority>
   </url>
   <url>
+    <loc>https://soft-project-studio.lovable.app/p/testtest</loc>
+    <lastmod>2026-07-27T10:23:59.349Z</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://soft-project-studio.lovable.app/p/services-cybersecurity</loc>
+    <lastmod>2026-07-27T10:27:14.333Z</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://soft-project-studio.lovable.app/p/erp-zoho</loc>
+    <lastmod>2026-07-27T10:27:14.334Z</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://soft-project-studio.lovable.app/p/erp-dynamics-365</loc>
+    <lastmod>2026-07-27T10:27:14.288Z</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
     <loc>https://soft-project-studio.lovable.app/p/healthcare-uae-compliance</loc>
     <lastmod>2026-07-19T18:28:02.683Z</lastmod>
     <changefreq>monthly</changefreq>
@@ -348,8 +372,8 @@
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://soft-project-studio.lovable.app/p/services-cybersecurity</loc>
-    <lastmod>2026-07-19T18:28:01.672Z</lastmod>
+    <loc>https://soft-project-studio.lovable.app/p/erp-odoo</loc>
+    <lastmod>2026-07-27T10:27:14.288Z</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
@@ -362,12 +386,6 @@
   <url>
     <loc>https://soft-project-studio.lovable.app/p/contact</loc>
     <lastmod>2026-07-26T10:52:10.849Z</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://soft-project-studio.lovable.app/p/erp-dynamics-365</loc>
-    <lastmod>2026-07-19T18:28:02.105Z</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
@@ -386,18 +404,6 @@
   <url>
     <loc>https://soft-project-studio.lovable.app/p/about</loc>
     <lastmod>2026-07-24T18:44:51.125Z</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://soft-project-studio.lovable.app/p/erp-odoo</loc>
-    <lastmod>2026-07-19T18:28:02.799Z</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://soft-project-studio.lovable.app/p/erp-zoho</loc>
-    <lastmod>2026-07-19T18:28:02.960Z</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
