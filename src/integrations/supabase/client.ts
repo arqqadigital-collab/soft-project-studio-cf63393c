@@ -27,7 +27,9 @@ function createSupabaseFetch(supabaseKey: string): typeof fetch {
     }
 
     headers.set('apikey', supabaseKey);
-    const response = await fetch(input, { ...init, headers });
+    // CMS content must never be served from the browser's HTTP cache. React
+    // Query remains responsible for normal in-memory caching where appropriate.
+    const response = await fetch(input, { ...init, headers, cache: 'no-store' });
 
     // Content saved by the dashboard can contain Lovable asset paths. Vite can
     // rewrite imported *.asset.json files, but it cannot rewrite values fetched

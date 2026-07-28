@@ -28,7 +28,14 @@ export default function PublicPreview() {
         const base = import.meta.env.VITE_SUPABASE_URL as string;
         const key = import.meta.env.VITE_SUPABASE_PUBLISHABLE_KEY as string;
         const url = `${base}/functions/v1/preview-content?type=${kind}&id=${id}&token=${encodeURIComponent(token)}`;
-        const resp = await fetch(url, { headers: { apikey: key, Authorization: `Bearer ${key}` } });
+        const resp = await fetch(url, {
+          headers: {
+            apikey: key,
+            Authorization: `Bearer ${key}`,
+            "Cache-Control": "no-cache",
+          },
+          cache: "no-store",
+        });
         const json = await resp.json();
         if (!resp.ok) throw new Error(json.error || "Preview unavailable");
         if (!cancelled) setData(json.data);
@@ -78,7 +85,7 @@ export default function PublicPreview() {
               </div>
             </section>
           )}
-          <PageRenderer pageId={data.id} />
+          <PageRenderer pageId={data.id} fresh cacheKey={token} />
           {hasHtmlContent && (
             <article className="mx-auto max-w-3xl px-6 py-12">
               <div

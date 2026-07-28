@@ -22,10 +22,14 @@ function mergeDeep(base: any, over: any): any {
   return over ?? base;
 }
 
-export function usePageSections(pageId: string | null | undefined) {
+export function usePageSections(
+  pageId: string | null | undefined,
+  options?: { fresh?: boolean; cacheKey?: string | null },
+) {
   const { locale } = useLocale();
+  const fresh = options?.fresh === true;
   return useQuery({
-    queryKey: ["page-sections", pageId, locale],
+    queryKey: ["page-sections", pageId, locale, options?.cacheKey ?? "public"],
     enabled: !!pageId,
     queryFn: async () => {
       const { data, error } = await supabase
@@ -42,11 +46,22 @@ export function usePageSections(pageId: string | null | undefined) {
             : mergeDeep(row.data ?? {}, row.translations?.[locale] ?? {}),
       }));
     },
+    staleTime: fresh ? 0 : undefined,
+    gcTime: fresh ? 0 : undefined,
+    refetchOnMount: fresh ? "always" : undefined,
   });
 }
 
-export function PageRenderer({ pageId }: { pageId: string }) {
-  const q = usePageSections(pageId);
+export function PageRenderer({
+  pageId,
+  fresh = false,
+  cacheKey,
+}: {
+  pageId: string;
+  fresh?: boolean;
+  cacheKey?: string | null;
+}) {
+  const q = usePageSections(pageId, { fresh, cacheKey });
   const rows = (q.data ?? []).filter((r) => r.is_visible);
   if (q.isLoading) {
     return (
