@@ -26,6 +26,8 @@ export function Footer() {
   const copyright =
     settings?.footer_copyright ||
     `© ${new Date().getFullYear()} Superior Business Solutions. All rights reserved.`;
+  const copyrightLinkText = settings?.footer_copyright_link_text || null;
+  const copyrightUrl = settings?.footer_copyright_url || null;
 
   const style: FooterStyle = settings?.footer_style ?? {};
   const bg = style.bg_color || "var(--brand-blue)";
