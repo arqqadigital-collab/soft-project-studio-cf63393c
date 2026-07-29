@@ -16,6 +16,8 @@ type Tokens = {
   border_radius: string | null;
   heading_font: string | null;
   body_font: string | null;
+  heading_font_ar: string | null;
+  body_font_ar: string | null;
   site_logo_url: string | null;
   logo_dark_url: string | null;
   favicon_url: string | null;
