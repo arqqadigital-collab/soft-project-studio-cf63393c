@@ -77,6 +77,8 @@ export default function BrandingPage() {
         border_radius: form.border_radius,
         heading_font: form.heading_font,
         body_font: form.body_font,
+        heading_font_ar: form.heading_font_ar,
+        body_font_ar: form.body_font_ar,
         site_logo_url: form.site_logo_url,
         logo_dark_url: form.logo_dark_url,
         favicon_url: form.favicon_url,
