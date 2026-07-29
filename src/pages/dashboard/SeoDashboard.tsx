@@ -31,15 +31,25 @@ Sitemap: ${import.meta.env.VITE_SUPABASE_URL}/functions/v1/sitemap
 
 type Redirect = {
   id: string;
-  entity_type: "post" | "page";
+  entity_type: string;
   old_slug: string;
   new_slug: string;
   created_at: string;
 };
 
+/** Legacy rows stored bare slugs per type; new rows store full paths. */
+function displayUrl(r: Redirect, value: string) {
+  if (isExternalTarget(value)) return value;
+  if (r.entity_type === "path") return normalizePath(value);
+  if (r.entity_type === "post") return `/blog/${value}`;
+  if (r.entity_type === "case_study") return `/case-studies/${value}`;
+  if (r.entity_type === "event") return `/events/${value}`;
+  return `/${value}`;
+}
+
 export default function SeoDashboard() {
   const qc = useQueryClient();
-  const [entityType, setEntityType] = useState<"post" | "page">("post");
+
   const [oldSlug, setOldSlug] = useState("");
   const [newSlug, setNewSlug] = useState("");
   const [robots, setRobots] = useState("");
