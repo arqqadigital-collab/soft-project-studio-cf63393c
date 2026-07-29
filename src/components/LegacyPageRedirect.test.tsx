@@ -39,8 +39,9 @@ describe("legacy /p redirects", () => {
   });
 
   it("redirects Arabic (percent-encoded) slugs under /ar/p", () => {
-    const slug = encodeURIComponent("سياسة-الخصوصية");
-    expect(renderAt(`/ar/p/${slug}`)).toBe(`/ar/${slug}`);
+    const slug = "سياسة-الخصوصية";
+    // React Router decodes the :slug param, so the target uses the decoded slug.
+    expect(renderAt(`/ar/p/${encodeURIComponent(slug)}`)).toBe(`/ar/${slug}`);
   });
 
   it("preserves query string and hash", () => {
