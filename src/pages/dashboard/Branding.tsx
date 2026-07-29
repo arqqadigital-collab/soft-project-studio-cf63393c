@@ -192,6 +192,44 @@ export default function BrandingPage() {
 
       <Card>
         <CardHeader>
+          <CardTitle>Arabic typography</CardTitle>
+          <CardDescription>
+            Used on the Arabic (RTL) version of the site. Defaults to Cairo.
+          </CardDescription>
+        </CardHeader>
+        <CardContent className="grid gap-4 sm:grid-cols-2">
+          <div className="space-y-2">
+            <Label>Arabic heading font</Label>
+            <Input
+              list="font-presets-ar"
+              value={form.heading_font_ar ?? ""}
+              onChange={(e) => update({ heading_font_ar: e.target.value })}
+              placeholder="Cairo"
+            />
+            <p className="text-xs" dir="rtl" style={{ fontFamily: form.heading_font_ar || "inherit" }}>
+              نموذج نص عربي للعناوين
+            </p>
+          </div>
+          <div className="space-y-2">
+            <Label>Arabic body font</Label>
+            <Input
+              list="font-presets-ar"
+              value={form.body_font_ar ?? ""}
+              onChange={(e) => update({ body_font_ar: e.target.value })}
+              placeholder="Cairo"
+            />
+            <p className="text-xs" dir="rtl" style={{ fontFamily: form.body_font_ar || "inherit" }}>
+              نموذج نص عربي لمحتوى الصفحة والفقرات
+            </p>
+          </div>
+          <datalist id="font-presets-ar">
+            {FONT_PRESETS_AR.map((f) => <option key={f} value={f} />)}
+          </datalist>
+        </CardContent>
+      </Card>
+
+      <Card>
+        <CardHeader>
           <CardTitle>Border radius</CardTitle>
           <CardDescription>Global roundness for cards, buttons and inputs.</CardDescription>
         </CardHeader>
