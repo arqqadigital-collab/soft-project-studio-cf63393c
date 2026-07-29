@@ -10,7 +10,7 @@ function LocationProbe() {
 }
 
 function renderAt(initialPath: string) {
-  render(
+  const view = render(
     <MemoryRouter initialEntries={[initialPath]}>
       <Routes>
         <Route path="/p/:slug" element={<LegacyPageRedirect />} />
@@ -21,7 +21,9 @@ function renderAt(initialPath: string) {
       </Routes>
     </MemoryRouter>,
   );
-  return screen.getByTestId("location").textContent;
+  const text = view.getByTestId("location").textContent;
+  view.unmount();
+  return text;
 }
 
 describe("legacy /p redirects", () => {
