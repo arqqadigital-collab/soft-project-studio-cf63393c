@@ -216,7 +216,8 @@ export default function App() {
         <Route path="/events/:slug" element={<EventDetail />} />
         <Route path="/case-studies" element={<CaseStudies />} />
         <Route path="/case-studies/:slug" element={<CaseStudyDetail />} />
-        <Route path="/p/:slug" element={<PublicPage />} />
+        {/* Legacy /p/:slug → clean /:slug */}
+        <Route path="/p/:slug" element={<LegacyPageRedirect />} />
         <Route path="/preview/:kind/:id" element={<PublicPreview />} />
         <Route path="/contact" element={<Contact />} />
 
