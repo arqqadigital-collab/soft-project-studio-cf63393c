@@ -252,52 +252,65 @@ export function Header() {
                         />
                       </button>
                       {isOpen && (
-                        <div className="mt-1 space-y-1 ps-2">
+                        <div className="mt-1 space-y-4 ps-1">
                           {g.columns
                             .filter((c) => c.is_visible)
-                            .flatMap((c) => c.items)
-                            .map((it) => {
-                              if (it.kind === "page") {
-                                const p = it.page;
-                                if (p.status !== "published" || !p.route_path) return null;
-                                return (
-                                  <Link
-                                    key={p.id}
-                                    to={localized(p.route_path)}
-                                    onClick={() => setMobileOpen(false)}
-                                    className="block rounded-lg px-3 py-2 text-sm text-white/85 hover:bg-white/10"
-                                  >
-                                    {p.nav_label || p.title}
-                                  </Link>
-                                );
-                              }
-                              const l = it.link;
-                              if (!l.is_visible) return null;
-                              const isExt = /^(https?:)?\/\//i.test(l.url) || /^(mailto:|tel:)/i.test(l.url);
-                              return isExt ? (
-                                <a
-                                  key={l.id}
-                                  href={l.url}
-                                  target="_blank"
-                                  rel="noreferrer noopener"
-                                  onClick={() => setMobileOpen(false)}
-                                  className="block rounded-lg px-3 py-2 text-sm text-white/85 hover:bg-white/10"
-                                >
-                                  {l.label}
-                                </a>
-                              ) : (
-                                <Link
-                                  key={l.id}
-                                  to={localized(l.url)}
-                                  onClick={() => setMobileOpen(false)}
-                                  className="block rounded-lg px-3 py-2 text-sm text-white/85 hover:bg-white/10"
-                                >
-                                  {l.label}
-                                </Link>
+                            .map((c) => {
+                              const links = c.items
+                                .map((it) => {
+                                  if (it.kind === "page") {
+                                    const p = it.page;
+                                    if (p.status !== "published" || !p.route_path) return null;
+                                    return (
+                                      <Link
+                                        key={p.id}
+                                        to={localized(p.route_path)}
+                                        onClick={() => setMobileOpen(false)}
+                                        className="block rounded-lg px-3 py-2 text-sm text-white/85 hover:bg-white/10"
+                                      >
+                                        {p.nav_label || p.title}
+                                      </Link>
+                                    );
+                                  }
+                                  const l = it.link;
+                                  if (!l.is_visible) return null;
+                                  const isExt = /^(https?:)?\/\//i.test(l.url) || /^(mailto:|tel:)/i.test(l.url);
+                                  return isExt ? (
+                                    <a
+                                      key={l.id}
+                                      href={l.url}
+                                      target="_blank"
+                                      rel="noreferrer noopener"
+                                      onClick={() => setMobileOpen(false)}
+                                      className="block rounded-lg px-3 py-2 text-sm text-white/85 hover:bg-white/10"
+                                    >
+                                      {l.label}
+                                    </a>
+                                  ) : (
+                                    <Link
+                                      key={l.id}
+                                      to={localized(l.url)}
+                                      onClick={() => setMobileOpen(false)}
+                                      className="block rounded-lg px-3 py-2 text-sm text-white/85 hover:bg-white/10"
+                                    >
+                                      {l.label}
+                                    </Link>
+                                  );
+                                })
+                                .filter(Boolean);
+                              if (links.length === 0) return null;
+                              return (
+                                <div key={c.id} className="rounded-xl border border-white/10 bg-white/[0.03] p-2">
+                                  <div className="px-2 pb-1 pt-1 text-[11px] font-semibold uppercase tracking-[0.15em] text-white/45">
+                                    {c.label}
+                                  </div>
+                                  <div className="space-y-0.5">{links}</div>
+                                </div>
                               );
                             })}
                         </div>
                       )}
+
                     </div>
                   );
                 })}
