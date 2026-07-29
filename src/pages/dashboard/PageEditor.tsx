@@ -62,7 +62,7 @@ const EMPTY: PageForm = {
 
 function defaultRouteForSlug(slug: string): string {
   if (!slug) return "";
-  return `/p/${slug}`;
+  return `/${slug}`;
 }
 
 export default function PageEditor() {
