@@ -146,12 +146,7 @@ function buildArabicRoutes() {
 const AR_ROUTES = buildArabicRoutes();
 
 /** Resolves Arabic paths edited in the CMS after the app was built. */
-function LegacyPageRedirect() {
-  const { slug = "" } = useParams<{ slug: string }>();
-  const { pathname, search, hash } = useLocation();
-  const prefix = pathname.startsWith("/ar/") ? "/ar" : "";
-  return <Navigate to={`${prefix}/${slug}${search}${hash}`} replace />;
-}
+
 
 function CmsArabicRoute() {
   const { pathname } = useLocation();
