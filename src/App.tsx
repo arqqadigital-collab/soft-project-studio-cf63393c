@@ -238,7 +238,9 @@ export default function App() {
         <Route path="/ar/الفعاليات/:slug" element={<EventDetail />} />
         <Route path="/ar/المدونة/:slug" element={<ArticleDetail />} />
         <Route path="/ar/دراسات-الحالة/:slug" element={<CaseStudyDetail />} />
-        <Route path="/ar/p/:slug" element={<PublicPage />} />
+        {/* Legacy /ar/p/:slug → clean /ar/:slug */}
+        <Route path="/ar/p/:slug" element={<LegacyPageRedirect />} />
+        <Route path="/ar/:slug" element={<ArabicSlugRoute />} />
         <Route path="/ar/*" element={<CmsArabicRoute />} />
 
         <Route path="/login" element={<Login />} />
