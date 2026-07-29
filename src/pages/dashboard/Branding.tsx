@@ -16,6 +16,8 @@ type Tokens = {
   border_radius: string | null;
   heading_font: string | null;
   body_font: string | null;
+  heading_font_ar: string | null;
+  body_font_ar: string | null;
   site_logo_url: string | null;
   logo_dark_url: string | null;
   favicon_url: string | null;
@@ -29,6 +31,8 @@ const EMPTY: Tokens = {
   border_radius: "0.625rem",
   heading_font: "Inter",
   body_font: "Inter",
+  heading_font_ar: "Cairo",
+  body_font_ar: "Cairo",
   site_logo_url: "",
   logo_dark_url: "",
   favicon_url: "",
@@ -36,6 +40,7 @@ const EMPTY: Tokens = {
 };
 
 const FONT_PRESETS = ["Inter", "Poppins", "DM Sans", "Space Grotesk", "Outfit", "Sora", "Manrope", "Work Sans", "Playfair Display", "Instrument Serif", "Cormorant", "Lora", "IBM Plex Sans", "JetBrains Mono"];
+const FONT_PRESETS_AR = ["Cairo", "Tajawal", "Almarai", "IBM Plex Sans Arabic", "Noto Kufi Arabic", "Noto Naskh Arabic", "Amiri", "Changa", "El Messiri", "Readex Pro"];
 const RADIUS_PRESETS = [
   { label: "Sharp", value: "0rem" },
   { label: "Small", value: "0.375rem" },
@@ -73,6 +78,8 @@ export default function BrandingPage() {
         border_radius: form.border_radius,
         heading_font: form.heading_font,
         body_font: form.body_font,
+        heading_font_ar: form.heading_font_ar,
+        body_font_ar: form.body_font_ar,
         site_logo_url: form.site_logo_url,
         logo_dark_url: form.logo_dark_url,
         favicon_url: form.favicon_url,
@@ -179,6 +186,44 @@ export default function BrandingPage() {
           </div>
           <datalist id="font-presets">
             {FONT_PRESETS.map((f) => <option key={f} value={f} />)}
+          </datalist>
+        </CardContent>
+      </Card>
+
+      <Card>
+        <CardHeader>
+          <CardTitle>Arabic typography</CardTitle>
+          <CardDescription>
+            Used on the Arabic (RTL) version of the site. Defaults to Cairo.
+          </CardDescription>
+        </CardHeader>
+        <CardContent className="grid gap-4 sm:grid-cols-2">
+          <div className="space-y-2">
+            <Label>Arabic heading font</Label>
+            <Input
+              list="font-presets-ar"
+              value={form.heading_font_ar ?? ""}
+              onChange={(e) => update({ heading_font_ar: e.target.value })}
+              placeholder="Cairo"
+            />
+            <p className="text-xs" dir="rtl" style={{ fontFamily: form.heading_font_ar || "inherit" }}>
+              نموذج نص عربي للعناوين
+            </p>
+          </div>
+          <div className="space-y-2">
+            <Label>Arabic body font</Label>
+            <Input
+              list="font-presets-ar"
+              value={form.body_font_ar ?? ""}
+              onChange={(e) => update({ body_font_ar: e.target.value })}
+              placeholder="Cairo"
+            />
+            <p className="text-xs" dir="rtl" style={{ fontFamily: form.body_font_ar || "inherit" }}>
+              نموذج نص عربي لمحتوى الصفحة والفقرات
+            </p>
+          </div>
+          <datalist id="font-presets-ar">
+            {FONT_PRESETS_AR.map((f) => <option key={f} value={f} />)}
           </datalist>
         </CardContent>
       </Card>

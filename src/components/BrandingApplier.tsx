@@ -9,6 +9,8 @@ type Tokens = {
   border_radius: string | null;
   heading_font: string | null;
   body_font: string | null;
+  heading_font_ar: string | null;
+  body_font_ar: string | null;
   favicon_url: string | null;
 };
 
@@ -41,9 +43,9 @@ export function BrandingApplier() {
     queryFn: async (): Promise<Tokens> => {
       const { data } = await supabase
         .from("site_settings")
-        .select("primary_color, accent_color, brand_dark_color, border_radius, heading_font, body_font, favicon_url")
+        .select("primary_color, accent_color, brand_dark_color, border_radius, heading_font, body_font, heading_font_ar, body_font_ar, favicon_url")
         .maybeSingle();
-      return (data as any) ?? { primary_color: null, accent_color: null, brand_dark_color: null, border_radius: null, heading_font: null, body_font: null, favicon_url: null };
+      return (data as any) ?? { primary_color: null, accent_color: null, brand_dark_color: null, border_radius: null, heading_font: null, body_font: null, heading_font_ar: null, body_font_ar: null, favicon_url: null };
     },
   });
 
@@ -60,6 +62,12 @@ export function BrandingApplier() {
     const fontFams: string[] = [];
     if (data.heading_font) fontFams.push(`h1,h2,h3,h4,h5,h6{font-family:${fmt(data.heading_font)};}`);
     if (data.body_font) fontFams.push(`body{font-family:${fmt(data.body_font)};}`);
+    const headAr = data.heading_font_ar || "Cairo";
+    const bodyAr = data.body_font_ar || "Cairo";
+    fontFams.push(
+      `[dir="rtl"] h1,[dir="rtl"] h2,[dir="rtl"] h3,[dir="rtl"] h4,[dir="rtl"] h5,[dir="rtl"] h6{font-family:${fmt(headAr)};}`,
+      `[dir="rtl"] body,body[dir="rtl"],[dir="rtl"]{font-family:${fmt(bodyAr)};}`,
+    );
 
     const css = `:root{${rules.join("")}} ${fontFams.join(" ")}`;
     let style = document.getElementById(STYLE_ID) as HTMLStyleElement | null;
@@ -70,7 +78,7 @@ export function BrandingApplier() {
     }
     style.textContent = css;
 
-    const gfonts = [data.heading_font, data.body_font].filter((f): f is string => !!f && !isStack(f));
+    const gfonts = [data.heading_font, data.body_font, headAr, bodyAr].filter((f): f is string => !!f && !isStack(f));
     let fontLink = document.getElementById(FONT_ID) as HTMLLinkElement | null;
     if (gfonts.length > 0) {
       if (!fontLink) {

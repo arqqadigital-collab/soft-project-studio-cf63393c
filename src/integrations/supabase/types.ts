@@ -1468,6 +1468,7 @@ export type Database = {
         Row: {
           accent_color: string | null
           body_font: string | null
+          body_font_ar: string | null
           border_radius: string | null
           brand_dark_color: string | null
           created_at: string
@@ -1477,6 +1478,7 @@ export type Database = {
           default_meta_title_ar: string | null
           favicon_url: string | null
           heading_font: string | null
+          heading_font_ar: string | null
           id: string
           logo_dark_url: string | null
           og_image_url: string | null
@@ -1495,6 +1497,7 @@ export type Database = {
         Insert: {
           accent_color?: string | null
           body_font?: string | null
+          body_font_ar?: string | null
           border_radius?: string | null
           brand_dark_color?: string | null
           created_at?: string
@@ -1504,6 +1507,7 @@ export type Database = {
           default_meta_title_ar?: string | null
           favicon_url?: string | null
           heading_font?: string | null
+          heading_font_ar?: string | null
           id?: string
           logo_dark_url?: string | null
           og_image_url?: string | null
@@ -1522,6 +1526,7 @@ export type Database = {
         Update: {
           accent_color?: string | null
           body_font?: string | null
+          body_font_ar?: string | null
           border_radius?: string | null
           brand_dark_color?: string | null
           created_at?: string
@@ -1531,6 +1536,7 @@ export type Database = {
           default_meta_title_ar?: string | null
           favicon_url?: string | null
           heading_font?: string | null
+          heading_font_ar?: string | null
           id?: string
           logo_dark_url?: string | null
           og_image_url?: string | null
