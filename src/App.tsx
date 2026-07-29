@@ -266,6 +266,8 @@ export default function App() {
             </ProtectedRoute>
           }
         />
+        {/* Clean CMS page URLs — must stay last, before the 404 */}
+        <Route path="/:slug" element={<PublicPage />} />
         <Route path="*" element={<NotFound />} />
       </Routes>
     </AuthProvider>
