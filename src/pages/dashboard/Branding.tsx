@@ -40,6 +40,7 @@ const EMPTY: Tokens = {
 };
 
 const FONT_PRESETS = ["Inter", "Poppins", "DM Sans", "Space Grotesk", "Outfit", "Sora", "Manrope", "Work Sans", "Playfair Display", "Instrument Serif", "Cormorant", "Lora", "IBM Plex Sans", "JetBrains Mono"];
+const FONT_PRESETS_AR = ["Cairo", "Tajawal", "Almarai", "IBM Plex Sans Arabic", "Noto Kufi Arabic", "Noto Naskh Arabic", "Amiri", "Changa", "El Messiri", "Readex Pro"];
 const RADIUS_PRESETS = [
   { label: "Sharp", value: "0rem" },
   { label: "Small", value: "0.375rem" },
