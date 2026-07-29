@@ -106,13 +106,12 @@ export default function SeoDashboard() {
 
   const create = useMutation({
     mutationFn: async () => {
-      const clean = (s: string) => s.trim().replace(/^\/+/, "").replace(/\/+$/, "");
-      const from = clean(oldSlug);
-      const to = clean(newSlug);
-      if (!from || !to) throw new Error("Both slugs are required");
-      if (from === to) throw new Error("Old and new slug must differ");
+      const from = normalizePath(oldSlug);
+      const to = isExternalTarget(newSlug) ? newSlug.trim() : normalizePath(newSlug);
+      if (!oldSlug.trim() || !newSlug.trim()) throw new Error("Both URLs are required");
+      if (from === to) throw new Error("Old and new URL must differ");
       const { error } = await supabase.from("slug_redirects").upsert(
-        { entity_type: entityType, old_slug: from, new_slug: to },
+        { entity_type: "path", old_slug: from, new_slug: to },
         { onConflict: "entity_type,old_slug" },
       );
       if (error) throw error;
@@ -121,10 +120,12 @@ export default function SeoDashboard() {
       setOldSlug("");
       setNewSlug("");
       qc.invalidateQueries({ queryKey: ["slug_redirects"] });
+      qc.invalidateQueries({ queryKey: ["path_redirects"] });
       toast.success("Redirect saved");
     },
     onError: (e: any) => toast.error(e.message),
   });
+
 
   const remove = useMutation({
     mutationFn: async (id: string) => {
