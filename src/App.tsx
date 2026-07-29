@@ -1,4 +1,5 @@
-import { Routes, Route, Link, useLocation, useParams, Navigate } from "react-router-dom";
+import { Routes, Route, Link, useLocation } from "react-router-dom";
+import { LegacyPageRedirect } from "@/components/LegacyPageRedirect";
 import { Header } from "@/components/Header";
 import { SiteHead } from "@/components/SiteHead";
 import { RouteSeo } from "@/components/RouteSeo";
@@ -146,12 +147,7 @@ function buildArabicRoutes() {
 const AR_ROUTES = buildArabicRoutes();
 
 /** Resolves Arabic paths edited in the CMS after the app was built. */
-function LegacyPageRedirect() {
-  const { slug = "" } = useParams<{ slug: string }>();
-  const { pathname, search, hash } = useLocation();
-  const prefix = pathname.startsWith("/ar/") ? "/ar" : "";
-  return <Navigate to={`${prefix}/${slug}${search}${hash}`} replace />;
-}
+
 
 function CmsArabicRoute() {
   const { pathname } = useLocation();
