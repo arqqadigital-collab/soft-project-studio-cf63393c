@@ -187,7 +187,7 @@ export default function SeoDashboard() {
             </div>
           </div>
           <p className="mt-3 text-xs text-muted-foreground">
-            Applies to {entityType === "post" ? "/blog/:slug" : "/p/:slug"}. Visitors hitting the
+            Applies to {entityType === "post" ? "/blog/:slug" : "/:slug"}. Visitors hitting the
             old URL are sent to the new one automatically.
           </p>
         </CardContent>
@@ -218,10 +218,10 @@ export default function SeoDashboard() {
                   <TableRow key={r.id}>
                     <TableCell className="capitalize">{r.entity_type}</TableCell>
                     <TableCell className="font-mono text-xs">
-                      /{r.entity_type === "post" ? "blog" : "p"}/{r.old_slug}
+                      {r.entity_type === "post" ? `/blog/${r.old_slug}` : `/${r.old_slug}`}
                     </TableCell>
                     <TableCell className="font-mono text-xs">
-                      /{r.entity_type === "post" ? "blog" : "p"}/{r.new_slug}
+                      {r.entity_type === "post" ? `/blog/${r.new_slug}` : `/${r.new_slug}`}
                     </TableCell>
                     <TableCell className="text-xs text-muted-foreground">
                       {formatDistanceToNow(new Date(r.created_at), { addSuffix: true })}

@@ -1,4 +1,4 @@
-import { Routes, Route, Link, useLocation } from "react-router-dom";
+import { Routes, Route, Link, useLocation, useParams, Navigate } from "react-router-dom";
 import { Header } from "@/components/Header";
 import { SiteHead } from "@/components/SiteHead";
 import { RouteSeo } from "@/components/RouteSeo";
@@ -146,6 +146,13 @@ function buildArabicRoutes() {
 const AR_ROUTES = buildArabicRoutes();
 
 /** Resolves Arabic paths edited in the CMS after the app was built. */
+function LegacyPageRedirect() {
+  const { slug = "" } = useParams<{ slug: string }>();
+  const { pathname, search, hash } = useLocation();
+  const prefix = pathname.startsWith("/ar/") ? "/ar" : "";
+  return <Navigate to={`${prefix}/${slug}${search}${hash}`} replace />;
+}
+
 function CmsArabicRoute() {
   const { pathname } = useLocation();
   const { data: routeMap = DEFAULT_ROUTE_MAP } = useRouteMap();
@@ -153,6 +160,16 @@ function CmsArabicRoute() {
   const row = routeMap.find((item) => (item.path_ar ?? item.path_en) === arPath || item.path_en === arPath);
   const Component = row ? ROUTE_COMPONENTS[row.route_key] : undefined;
   return Component ? <Component /> : <NotFound />;
+}
+
+/** /ar/:slug — a coded page if the route map knows it, otherwise a CMS page. */
+function ArabicSlugRoute() {
+  const { pathname } = useLocation();
+  const { data: routeMap = DEFAULT_ROUTE_MAP } = useRouteMap();
+  const arPath = pathname.slice(3) || "/";
+  const row = routeMap.find((item) => (item.path_ar ?? item.path_en) === arPath || item.path_en === arPath);
+  const Component = row ? ROUTE_COMPONENTS[row.route_key] : undefined;
+  return Component ? <Component /> : <PublicPage />;
 }
 
 export default function App() {
@@ -216,7 +233,8 @@ export default function App() {
         <Route path="/events/:slug" element={<EventDetail />} />
         <Route path="/case-studies" element={<CaseStudies />} />
         <Route path="/case-studies/:slug" element={<CaseStudyDetail />} />
-        <Route path="/p/:slug" element={<PublicPage />} />
+        {/* Legacy /p/:slug → clean /:slug */}
+        <Route path="/p/:slug" element={<LegacyPageRedirect />} />
         <Route path="/preview/:kind/:id" element={<PublicPreview />} />
         <Route path="/contact" element={<Contact />} />
 
@@ -230,7 +248,9 @@ export default function App() {
         <Route path="/ar/الفعاليات/:slug" element={<EventDetail />} />
         <Route path="/ar/المدونة/:slug" element={<ArticleDetail />} />
         <Route path="/ar/دراسات-الحالة/:slug" element={<CaseStudyDetail />} />
-        <Route path="/ar/p/:slug" element={<PublicPage />} />
+        {/* Legacy /ar/p/:slug → clean /ar/:slug */}
+        <Route path="/ar/p/:slug" element={<LegacyPageRedirect />} />
+        <Route path="/ar/:slug" element={<ArabicSlugRoute />} />
         <Route path="/ar/*" element={<CmsArabicRoute />} />
 
         <Route path="/login" element={<Login />} />
@@ -246,6 +266,8 @@ export default function App() {
             </ProtectedRoute>
           }
         />
+        {/* Clean CMS page URLs — must stay last, before the 404 */}
+        <Route path="/:slug" element={<PublicPage />} />
         <Route path="*" element={<NotFound />} />
       </Routes>
     </AuthProvider>

@@ -61,7 +61,8 @@ export default function PublicPage() {
           .eq("old_slug", slug)
           .maybeSingle();
         if (redirect?.new_slug && !cancelled) {
-          navigate(`/p/${redirect.new_slug}`, { replace: true });
+          const prefix = typeof window !== "undefined" && window.location.pathname.startsWith("/ar/") ? "/ar" : "";
+          navigate(`${prefix}/${redirect.new_slug}`, { replace: true });
           return;
         }
         setNotFound(true);

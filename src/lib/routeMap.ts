@@ -125,7 +125,7 @@ export function findCounterpart(pathname: string, targetLocale: "en" | "ar"): st
     if (decoded.startsWith("/blog/")) return `/ar/المدونة/${decoded.slice(6)}`;
     if (decoded.startsWith("/events/")) return `/ar/الفعاليات/${decoded.slice(8)}`;
     if (decoded.startsWith("/case-studies/")) return `/ar/دراسات-الحالة/${decoded.slice(14)}`;
-    if (decoded.startsWith("/p/")) return `/ar/p/${decoded.slice(3)}`;
+    if (decoded.startsWith("/p/")) return `/ar/${decoded.slice(3)}`;
     return `/ar${decoded === "/" ? "" : decoded}`;
   }
 }
