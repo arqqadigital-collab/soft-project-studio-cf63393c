@@ -202,7 +202,6 @@ export default function SeoDashboard() {
             <Table>
               <TableHeader>
                 <TableRow>
-                  <TableHead>Type</TableHead>
                   <TableHead>From</TableHead>
                   <TableHead>To</TableHead>
                   <TableHead>Created</TableHead>
@@ -212,13 +211,9 @@ export default function SeoDashboard() {
               <TableBody>
                 {query.data!.map((r) => (
                   <TableRow key={r.id}>
-                    <TableCell className="capitalize">{r.entity_type}</TableCell>
-                    <TableCell className="font-mono text-xs">
-                      {r.entity_type === "post" ? `/blog/${r.old_slug}` : `/${r.old_slug}`}
-                    </TableCell>
-                    <TableCell className="font-mono text-xs">
-                      {r.entity_type === "post" ? `/blog/${r.new_slug}` : `/${r.new_slug}`}
-                    </TableCell>
+                    <TableCell className="font-mono text-xs">{displayUrl(r, r.old_slug)}</TableCell>
+                    <TableCell className="font-mono text-xs">{displayUrl(r, r.new_slug)}</TableCell>
+
                     <TableCell className="text-xs text-muted-foreground">
                       {formatDistanceToNow(new Date(r.created_at), { addSuffix: true })}
                     </TableCell>
