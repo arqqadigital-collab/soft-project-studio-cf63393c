@@ -31,6 +31,8 @@ const EMPTY: Tokens = {
   border_radius: "0.625rem",
   heading_font: "Inter",
   body_font: "Inter",
+  heading_font_ar: "Cairo",
+  body_font_ar: "Cairo",
   site_logo_url: "",
   logo_dark_url: "",
   favicon_url: "",
