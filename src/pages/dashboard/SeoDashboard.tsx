@@ -15,6 +15,8 @@ import {
   Table, TableBody, TableCell, TableHead, TableHeader, TableRow,
 } from "@/components/ui/table";
 import { formatDistanceToNow } from "date-fns";
+import { normalizePath, isExternalTarget } from "@/components/PathRedirect";
+
 
 const DEFAULT_ROBOTS = `User-agent: *
 Allow: /
