@@ -69,7 +69,6 @@ const groups: { label: string; items: Item[] }[] = [
       { title: "Site Settings", url: "/dashboard/settings", icon: Settings, allow: ["admin"] },
       { title: "Branding", url: "/dashboard/branding", icon: Palette, allow: ["admin"] },
       { title: "SEO Redirect", url: "/dashboard/seo", icon: Search, allow: ["admin", "editor"] },
-      { title: "Analytics", url: "/dashboard/analytics", icon: BarChart3, allow: ["admin", "editor"] },
     ],
   },
   {
