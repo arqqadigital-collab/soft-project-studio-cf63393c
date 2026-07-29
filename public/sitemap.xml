@@ -264,12 +264,6 @@
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://soft-project-studio.lovable.app/p/testtest</loc>
-    <lastmod>2026-07-27T10:23:59.349Z</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
     <loc>https://soft-project-studio.lovable.app/p/services-cybersecurity</loc>
     <lastmod>2026-07-27T10:27:14.333Z</lastmod>
     <changefreq>monthly</changefreq>
@@ -282,8 +276,20 @@
     <priority>0.7</priority>
   </url>
   <url>
+    <loc>https://soft-project-studio.lovable.app/p/testtest</loc>
+    <lastmod>2026-07-29T18:32:04.099Z</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
     <loc>https://soft-project-studio.lovable.app/p/erp-dynamics-365</loc>
     <lastmod>2026-07-27T10:27:14.288Z</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://soft-project-studio.lovable.app/p/lasttest</loc>
+    <lastmod>2026-07-29T18:37:34.124Z</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
