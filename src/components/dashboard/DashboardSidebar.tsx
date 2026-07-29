@@ -14,7 +14,6 @@ import {
   Palette,
   Home,
   Search,
-  BarChart3,
   Brush,
   LayoutGrid,
   FolderTree,
