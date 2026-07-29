@@ -156,31 +156,21 @@ export default function SeoDashboard() {
           <CardTitle className="text-sm">Add a redirect</CardTitle>
         </CardHeader>
         <CardContent>
-          <div className="grid gap-3 sm:grid-cols-[130px_1fr_1fr_auto]">
+          <div className="grid gap-3 sm:grid-cols-[1fr_1fr_auto]">
             <div className="space-y-1.5">
-              <Label className="text-xs">Type</Label>
-              <Select value={entityType} onValueChange={(v) => setEntityType(v as any)}>
-                <SelectTrigger><SelectValue /></SelectTrigger>
-                <SelectContent>
-                  <SelectItem value="post">Post</SelectItem>
-                  <SelectItem value="page">Page</SelectItem>
-                </SelectContent>
-              </Select>
-            </div>
-            <div className="space-y-1.5">
-              <Label className="text-xs">From (old slug)</Label>
+              <Label className="text-xs">From (old URL)</Label>
               <Input
                 value={oldSlug}
                 onChange={(e) => setOldSlug(e.target.value)}
-                placeholder="old-url"
+                placeholder="/old-site-page or https://old-site.com/page"
               />
             </div>
             <div className="space-y-1.5">
-              <Label className="text-xs">To (new slug)</Label>
+              <Label className="text-xs">To (new URL)</Label>
               <Input
                 value={newSlug}
                 onChange={(e) => setNewSlug(e.target.value)}
-                placeholder="new-url"
+                placeholder="/new-page"
               />
             </div>
             <div className="flex items-end">
@@ -190,9 +180,12 @@ export default function SeoDashboard() {
             </div>
           </div>
           <p className="mt-3 text-xs text-muted-foreground">
-            Applies to {entityType === "post" ? "/blog/:slug" : "/:slug"}. Visitors hitting the
-            old URL are sent to the new one automatically.
+            Paste any full path from your old website (e.g. <code>/services/old-page</code> or a
+            full <code>https://old-site.com/...</code> URL — only the path is used). Visitors
+            hitting that URL are sent to the new one automatically. The target can be an internal
+            path or an external URL.
           </p>
+
         </CardContent>
       </Card>
 
