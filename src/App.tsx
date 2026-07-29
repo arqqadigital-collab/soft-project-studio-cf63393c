@@ -182,6 +182,8 @@ export default function App() {
   return (
     <AuthProvider>
       <SiteHead />
+      <PathRedirect />
+
       <RouteSeo />
       <BrandingApplier />
       <StyleApplier />
