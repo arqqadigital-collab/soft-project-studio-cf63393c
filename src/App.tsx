@@ -162,6 +162,16 @@ function CmsArabicRoute() {
   return Component ? <Component /> : <NotFound />;
 }
 
+/** /ar/:slug — a coded page if the route map knows it, otherwise a CMS page. */
+function ArabicSlugRoute() {
+  const { pathname } = useLocation();
+  const { data: routeMap = DEFAULT_ROUTE_MAP } = useRouteMap();
+  const arPath = pathname.slice(3) || "/";
+  const row = routeMap.find((item) => (item.path_ar ?? item.path_en) === arPath || item.path_en === arPath);
+  const Component = row ? ROUTE_COMPONENTS[row.route_key] : undefined;
+  return Component ? <Component /> : <PublicPage />;
+}
+
 export default function App() {
   const location = useLocation();
   const hideHeader =
