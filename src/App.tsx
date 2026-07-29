@@ -1,4 +1,5 @@
-import { Routes, Route, Link, useLocation, useParams, Navigate } from "react-router-dom";
+import { Routes, Route, Link, useLocation } from "react-router-dom";
+import { LegacyPageRedirect } from "@/components/LegacyPageRedirect";
 import { Header } from "@/components/Header";
 import { SiteHead } from "@/components/SiteHead";
 import { RouteSeo } from "@/components/RouteSeo";
