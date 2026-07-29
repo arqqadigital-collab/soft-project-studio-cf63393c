@@ -1,5 +1,7 @@
 import { Routes, Route, Link, useLocation } from "react-router-dom";
 import { LegacyPageRedirect } from "@/components/LegacyPageRedirect";
+import { PathRedirect } from "@/components/PathRedirect";
+
 import { Header } from "@/components/Header";
 import { SiteHead } from "@/components/SiteHead";
 import { RouteSeo } from "@/components/RouteSeo";
@@ -182,6 +184,8 @@ export default function App() {
   return (
     <AuthProvider>
       <SiteHead />
+      <PathRedirect />
+
       <RouteSeo />
       <BrandingApplier />
       <StyleApplier />

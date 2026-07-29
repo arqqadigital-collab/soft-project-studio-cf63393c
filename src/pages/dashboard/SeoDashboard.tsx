@@ -9,12 +9,11 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import {
-  Select, SelectContent, SelectItem, SelectTrigger, SelectValue,
-} from "@/components/ui/select";
-import {
   Table, TableBody, TableCell, TableHead, TableHeader, TableRow,
 } from "@/components/ui/table";
 import { formatDistanceToNow } from "date-fns";
+import { normalizePath, isExternalTarget } from "@/components/PathRedirect";
+
 
 const DEFAULT_ROBOTS = `User-agent: *
 Allow: /
@@ -29,15 +28,25 @@ Sitemap: ${import.meta.env.VITE_SUPABASE_URL}/functions/v1/sitemap
 
 type Redirect = {
   id: string;
-  entity_type: "post" | "page";
+  entity_type: string;
   old_slug: string;
   new_slug: string;
   created_at: string;
 };
 
+/** Legacy rows stored bare slugs per type; new rows store full paths. */
+function displayUrl(r: Redirect, value: string) {
+  if (isExternalTarget(value)) return value;
+  if (r.entity_type === "path") return normalizePath(value);
+  if (r.entity_type === "post") return `/blog/${value}`;
+  if (r.entity_type === "case_study") return `/case-studies/${value}`;
+  if (r.entity_type === "event") return `/events/${value}`;
+  return `/${value}`;
+}
+
 export default function SeoDashboard() {
   const qc = useQueryClient();
-  const [entityType, setEntityType] = useState<"post" | "page">("post");
+
   const [oldSlug, setOldSlug] = useState("");
   const [newSlug, setNewSlug] = useState("");
   const [robots, setRobots] = useState("");
@@ -106,13 +115,12 @@ export default function SeoDashboard() {
 
   const create = useMutation({
     mutationFn: async () => {
-      const clean = (s: string) => s.trim().replace(/^\/+/, "").replace(/\/+$/, "");
-      const from = clean(oldSlug);
-      const to = clean(newSlug);
-      if (!from || !to) throw new Error("Both slugs are required");
-      if (from === to) throw new Error("Old and new slug must differ");
+      const from = normalizePath(oldSlug);
+      const to = isExternalTarget(newSlug) ? newSlug.trim() : normalizePath(newSlug);
+      if (!oldSlug.trim() || !newSlug.trim()) throw new Error("Both URLs are required");
+      if (from === to) throw new Error("Old and new URL must differ");
       const { error } = await supabase.from("slug_redirects").upsert(
-        { entity_type: entityType, old_slug: from, new_slug: to },
+        { entity_type: "path", old_slug: from, new_slug: to },
         { onConflict: "entity_type,old_slug" },
       );
       if (error) throw error;
@@ -121,10 +129,12 @@ export default function SeoDashboard() {
       setOldSlug("");
       setNewSlug("");
       qc.invalidateQueries({ queryKey: ["slug_redirects"] });
+      qc.invalidateQueries({ queryKey: ["path_redirects"] });
       toast.success("Redirect saved");
     },
     onError: (e: any) => toast.error(e.message),
   });
+
 
   const remove = useMutation({
     mutationFn: async (id: string) => {
@@ -153,31 +163,21 @@ export default function SeoDashboard() {
           <CardTitle className="text-sm">Add a redirect</CardTitle>
         </CardHeader>
         <CardContent>
-          <div className="grid gap-3 sm:grid-cols-[130px_1fr_1fr_auto]">
+          <div className="grid gap-3 sm:grid-cols-[1fr_1fr_auto]">
             <div className="space-y-1.5">
-              <Label className="text-xs">Type</Label>
-              <Select value={entityType} onValueChange={(v) => setEntityType(v as any)}>
-                <SelectTrigger><SelectValue /></SelectTrigger>
-                <SelectContent>
-                  <SelectItem value="post">Post</SelectItem>
-                  <SelectItem value="page">Page</SelectItem>
-                </SelectContent>
-              </Select>
-            </div>
-            <div className="space-y-1.5">
-              <Label className="text-xs">From (old slug)</Label>
+              <Label className="text-xs">From (old URL)</Label>
               <Input
                 value={oldSlug}
                 onChange={(e) => setOldSlug(e.target.value)}
-                placeholder="old-url"
+                placeholder="/old-site-page or https://old-site.com/page"
               />
             </div>
             <div className="space-y-1.5">
-              <Label className="text-xs">To (new slug)</Label>
+              <Label className="text-xs">To (new URL)</Label>
               <Input
                 value={newSlug}
                 onChange={(e) => setNewSlug(e.target.value)}
-                placeholder="new-url"
+                placeholder="/new-page"
               />
             </div>
             <div className="flex items-end">
@@ -187,9 +187,12 @@ export default function SeoDashboard() {
             </div>
           </div>
           <p className="mt-3 text-xs text-muted-foreground">
-            Applies to {entityType === "post" ? "/blog/:slug" : "/:slug"}. Visitors hitting the
-            old URL are sent to the new one automatically.
+            Paste any full path from your old website (e.g. <code>/services/old-page</code> or a
+            full <code>https://old-site.com/...</code> URL — only the path is used). Visitors
+            hitting that URL are sent to the new one automatically. The target can be an internal
+            path or an external URL.
           </p>
+
         </CardContent>
       </Card>
 
@@ -206,7 +209,6 @@ export default function SeoDashboard() {
             <Table>
               <TableHeader>
                 <TableRow>
-                  <TableHead>Type</TableHead>
                   <TableHead>From</TableHead>
                   <TableHead>To</TableHead>
                   <TableHead>Created</TableHead>
@@ -216,13 +218,9 @@ export default function SeoDashboard() {
               <TableBody>
                 {query.data!.map((r) => (
                   <TableRow key={r.id}>
-                    <TableCell className="capitalize">{r.entity_type}</TableCell>
-                    <TableCell className="font-mono text-xs">
-                      {r.entity_type === "post" ? `/blog/${r.old_slug}` : `/${r.old_slug}`}
-                    </TableCell>
-                    <TableCell className="font-mono text-xs">
-                      {r.entity_type === "post" ? `/blog/${r.new_slug}` : `/${r.new_slug}`}
-                    </TableCell>
+                    <TableCell className="font-mono text-xs">{displayUrl(r, r.old_slug)}</TableCell>
+                    <TableCell className="font-mono text-xs">{displayUrl(r, r.new_slug)}</TableCell>
+
                     <TableCell className="text-xs text-muted-foreground">
                       {formatDistanceToNow(new Date(r.created_at), { addSuffix: true })}
                     </TableCell>
