@@ -24,6 +24,14 @@ import { CtaSection } from "@/components/CtaSection";
 import { useHorizontalScroll } from "@/hooks/use-horizontal-scroll";
 import { useDentalContent } from "@/lib/dentalContent";
 import { StyledSection } from "@/components/StyledSection";
+import { useLocale } from "@/i18n/LanguageProvider";
+import {
+  Carousel,
+  CarouselContent,
+  CarouselItem,
+  CarouselPrevious,
+  CarouselNext,
+} from "@/components/ui/carousel";
 
 const ICONS: Record<string, LucideIcon> = {
   AlertTriangle, Smile, ClipboardList, CalendarCheck, Scan, BellRing,
@@ -144,6 +152,7 @@ function FaqItem({ q, a }: { q: string; a: string }) {
 
 export default function Dental() {
   const c = useDentalContent();
+  const { isRTL } = useLocale();
   const v = c._visible;
   const hero = c.Hero;
   const intro = c.Introduction;
@@ -429,32 +438,40 @@ export default function Dental() {
                 const cells: Array<{ name: string; logo?: string }> = (g.items ?? []).slice(0, 6);
                 const shrinkLogo = ["Intraoral Cameras", "Accounting & Payments", "Insurance Payers"].includes(g.title);
                 return (
-                  <div key={g.title}>
-                    <h3 className="text-xl font-semibold tracking-tight text-foreground md:text-2xl">
-                      {g.title}
-                    </h3>
-                    <div className="mt-6 grid grid-cols-3 gap-4">
-                      {cells.map((c, i) => (
-                        <div
-                          key={i}
-                          className="flex aspect-square items-center justify-center rounded-2xl border border-border bg-card p-3 transition hover:border-[color:var(--brand-blue)]/40 hover:shadow-sm"
-                        >
-                          {c.logo ? (
-                            <img
-                              src={c.logo}
-                              alt={`${c.name} logo`}
-                              loading="lazy"
-                              className={`object-contain ${shrinkLogo ? "max-h-[80%] max-w-[80%]" : "max-h-full max-w-full"}`}
-                            />
-                          ) : c.name ? (
-                            <span className="text-center text-[11px] font-medium leading-tight text-foreground/70 md:text-xs">
-                              {c.name}
-                            </span>
-                          ) : null}
-                        </div>
-                      ))}
+                  <Carousel
+                    key={g.title}
+                    opts={{ direction: isRTL ? "rtl" : "ltr", align: "start", loop: cells.length > 3 }}
+                  >
+                    <div className="flex items-center justify-between gap-4">
+                      <h3 className="text-xl font-semibold tracking-tight text-foreground md:text-2xl">
+                        {g.title}
+                      </h3>
+                      <div className="flex items-center gap-2">
+                        <CarouselPrevious className="static h-8 w-8 translate-x-0 translate-y-0" />
+                        <CarouselNext className="static h-8 w-8 translate-x-0 translate-y-0" />
+                      </div>
                     </div>
-                  </div>
+                    <CarouselContent className="mt-6">
+                      {cells.map((c, i) => (
+                        <CarouselItem key={i} className="basis-1/2 sm:basis-1/3">
+                          <div className="flex aspect-square items-center justify-center rounded-2xl border border-border bg-card p-3 transition hover:border-[color:var(--brand-blue)]/40 hover:shadow-sm">
+                            {c.logo ? (
+                              <img
+                                src={c.logo}
+                                alt={`${c.name} logo`}
+                                loading="lazy"
+                                className={`object-contain ${shrinkLogo ? "max-h-[80%] max-w-[80%]" : "max-h-full max-w-full"}`}
+                              />
+                            ) : c.name ? (
+                              <span className="text-center text-[11px] font-medium leading-tight text-foreground/70 md:text-xs">
+                                {c.name}
+                              </span>
+                            ) : null}
+                          </div>
+                        </CarouselItem>
+                      ))}
+                    </CarouselContent>
+                  </Carousel>
                 );
               })}
             </div>
