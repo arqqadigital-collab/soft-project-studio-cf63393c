@@ -7,7 +7,7 @@ const ANON = Deno.env.get('SUPABASE_PUBLISHABLE_KEY') ?? Deno.env.get('SUPABASE_
 
 type Action = 'list' | 'invite' | 'create' | 'send_reset' | 'set_password' | 'set_role' | 'delete';
 
-const VALID_ROLES = ['admin', 'editor', 'author', 'subscriber'] as const;
+const VALID_ROLES = ['admin', 'editor', 'seo_specialist'] as const;
 const EMAIL_PATTERN = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
 function validRole(role: unknown): role is typeof VALID_ROLES[number] {

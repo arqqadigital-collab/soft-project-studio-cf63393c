@@ -38,9 +38,9 @@ export default function Dashboard() {
           path="homepage"
           element={<RoleGate allow={["admin", "editor"]}><HomepageEditor /></RoleGate>}
         />
-        <Route path="posts" element={<RoleGate allow={["admin", "editor", "author"]}><PostsList /></RoleGate>} />
-        <Route path="posts/new" element={<RoleGate allow={["admin", "editor", "author"]}><PostEditor /></RoleGate>} />
-        <Route path="posts/:id" element={<RoleGate allow={["admin", "editor", "author"]}><PostEditor /></RoleGate>} />
+        <Route path="posts" element={<RoleGate allow={["admin", "editor"]}><PostsList /></RoleGate>} />
+        <Route path="posts/new" element={<RoleGate allow={["admin", "editor"]}><PostEditor /></RoleGate>} />
+        <Route path="posts/:id" element={<RoleGate allow={["admin", "editor"]}><PostEditor /></RoleGate>} />
         <Route
           path="pages"
           element={<RoleGate allow={["admin", "editor"]}><PagesAndNavigation /></RoleGate>}
@@ -69,33 +69,33 @@ export default function Dashboard() {
         />
         <Route
           path="case-studies"
-          element={<RoleGate allow={["admin", "editor", "author"]}><CaseStudiesList /></RoleGate>}
+          element={<RoleGate allow={["admin", "editor"]}><CaseStudiesList /></RoleGate>}
         />
         <Route
           path="case-studies/new"
-          element={<RoleGate allow={["admin", "editor", "author"]}><CaseStudyEditor /></RoleGate>}
+          element={<RoleGate allow={["admin", "editor"]}><CaseStudyEditor /></RoleGate>}
         />
         <Route
           path="case-studies/:id"
-          element={<RoleGate allow={["admin", "editor", "author"]}><CaseStudyEditor /></RoleGate>}
+          element={<RoleGate allow={["admin", "editor"]}><CaseStudyEditor /></RoleGate>}
         />
         <Route
           path="events"
-          element={<RoleGate allow={["admin", "editor", "author"]}><EventsList /></RoleGate>}
+          element={<RoleGate allow={["admin", "editor"]}><EventsList /></RoleGate>}
         />
         <Route
           path="events/new"
-          element={<RoleGate allow={["admin", "editor", "author"]}><EventEditor /></RoleGate>}
+          element={<RoleGate allow={["admin", "editor"]}><EventEditor /></RoleGate>}
         />
         <Route
           path="events/:id"
-          element={<RoleGate allow={["admin", "editor", "author"]}><EventEditor /></RoleGate>}
+          element={<RoleGate allow={["admin", "editor"]}><EventEditor /></RoleGate>}
         />
-        <Route path="media" element={<RoleGate allow={["admin", "editor", "author"]}><MediaLibrary /></RoleGate>} />
+        <Route path="media" element={<RoleGate allow={["admin", "editor"]}><MediaLibrary /></RoleGate>} />
         <Route
           path="taxonomy"
           element={
-            <RoleGate allow={["admin", "editor", "author"]}>
+            <RoleGate allow={["admin", "editor"]}>
               <Taxonomy />
             </RoleGate>
           }
@@ -108,7 +108,7 @@ export default function Dashboard() {
 
         <Route
           path="seo"
-          element={<RoleGate allow={["admin", "editor"]}><SeoDashboard /></RoleGate>}
+          element={<RoleGate allow={["admin", "editor", "seo_specialist"]}><SeoDashboard /></RoleGate>}
         />
         <Route
           path="settings"

@@ -55,7 +55,7 @@ type AdminUser = {
   roles: AppRole[];
 };
 
-const ROLES: AppRole[] = ["admin", "editor", "author", "subscriber"];
+const ROLES: AppRole[] = ["admin", "editor", "seo_specialist"];
 
 async function callAdmin(body: any) {
   const { data, error } = await supabase.functions.invoke("admin-users", { body });
@@ -68,7 +68,7 @@ export default function UsersPage() {
   const qc = useQueryClient();
   const [inviteOpen, setInviteOpen] = useState(false);
   const [inviteEmail, setInviteEmail] = useState("");
-  const [inviteRole, setInviteRole] = useState<AppRole>("author");
+  const [inviteRole, setInviteRole] = useState<AppRole>("seo_specialist");
   const [newPassword, setNewPassword] = useState("");
   const [passwordUser, setPasswordUser] = useState<AdminUser | null>(null);
   const [replacementPassword, setReplacementPassword] = useState("");
@@ -111,7 +111,7 @@ export default function UsersPage() {
       toast.success("User created");
       setInviteOpen(false);
       setInviteEmail("");
-      setInviteRole("author");
+      setInviteRole("seo_specialist");
       setNewPassword("");
       qc.invalidateQueries({ queryKey: ["admin-users"] });
     },
@@ -212,7 +212,7 @@ export default function UsersPage() {
               </TableHeader>
               <TableBody>
                 {usersQ.data?.map((u) => {
-                  const primary = u.roles[0] ?? "subscriber";
+                  const primary = u.roles[0] ?? "seo_specialist";
                   return (
                     <TableRow key={u.id}>
                       <TableCell>

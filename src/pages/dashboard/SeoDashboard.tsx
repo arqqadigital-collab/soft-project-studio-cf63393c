@@ -11,8 +11,10 @@ import { Textarea } from "@/components/ui/textarea";
 import {
   Table, TableBody, TableCell, TableHead, TableHeader, TableRow,
 } from "@/components/ui/table";
+import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
 import { formatDistanceToNow } from "date-fns";
 import { normalizePath, isExternalTarget } from "@/components/PathRedirect";
+import { SeoContentList } from "@/components/dashboard/SeoContentList";
 
 
 const DEFAULT_ROBOTS = `User-agent: *
@@ -153,11 +155,26 @@ export default function SeoDashboard() {
       <div>
         <h1 className="text-2xl font-semibold">SEO</h1>
         <p className="text-sm text-muted-foreground">
-          Per-page SEO lives inside each post/page editor. This screen manages URL redirects,
-          which are also created automatically when you rename a slug.
+          Edit per-page search listings, manage URL redirects, and control crawling.
         </p>
       </div>
 
+      <Tabs defaultValue="content">
+        <TabsList>
+          <TabsTrigger value="content">Pages &amp; Posts</TabsTrigger>
+          <TabsTrigger value="redirects">Redirects</TabsTrigger>
+          <TabsTrigger value="feeds">Feeds &amp; Robots</TabsTrigger>
+        </TabsList>
+
+        <TabsContent value="content" className="space-y-4 pt-4">
+          <Card>
+            <CardContent className="pt-6">
+              <SeoContentList />
+            </CardContent>
+          </Card>
+        </TabsContent>
+
+        <TabsContent value="redirects" className="space-y-6 pt-4">
       <Card>
         <CardHeader className="pb-3">
           <CardTitle className="text-sm">Add a redirect</CardTitle>
@@ -236,7 +253,9 @@ export default function SeoDashboard() {
           )}
         </CardContent>
       </Card>
+        </TabsContent>
 
+        <TabsContent value="feeds" className="space-y-6 pt-4">
       <Card>
         <CardHeader className="pb-3">
           <CardTitle className="text-sm">Feeds &amp; discovery</CardTitle>
@@ -304,6 +323,8 @@ export default function SeoDashboard() {
           </p>
         </CardContent>
       </Card>
+        </TabsContent>
+      </Tabs>
     </div>
   );
 }

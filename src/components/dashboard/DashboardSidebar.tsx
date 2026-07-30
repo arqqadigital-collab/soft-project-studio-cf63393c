@@ -38,7 +38,7 @@ type Item = {
   url: string;
   icon: React.ComponentType<{ className?: string }>;
   exact?: boolean;
-  allow?: readonly ("admin" | "editor" | "author" | "subscriber")[] | null;
+  allow?: readonly ("admin" | "editor" | "seo_specialist")[] | null;
 };
 
 const groups: { label: string; items: Item[] }[] = [
@@ -49,16 +49,16 @@ const groups: { label: string; items: Item[] }[] = [
       { title: "Pages & Navigation", url: "/dashboard/pages", icon: FileStack, allow: ["admin", "editor"] },
       { title: "Header & Footer", url: "/dashboard/header-footer", icon: PanelsTopLeft, allow: ["admin", "editor"] },
       { title: "Forms", url: "/dashboard/forms", icon: Inbox, allow: ["admin", "editor"] },
-      { title: "Media Library", url: "/dashboard/media", icon: ImageIcon },
+      { title: "Media Library", url: "/dashboard/media", icon: ImageIcon, allow: ["admin", "editor"] },
     ],
   },
   {
     label: "Post Types",
     items: [
-      { title: "Blogs", url: "/dashboard/posts", icon: Newspaper },
-      { title: "Case Studies", url: "/dashboard/case-studies", icon: BookMarked, allow: ["admin", "editor", "author"] },
-      { title: "Events & Webinars", url: "/dashboard/events", icon: CalendarDays, allow: ["admin", "editor", "author"] },
-      { title: "Categories", url: "/dashboard/taxonomy", icon: FolderTree, allow: ["admin", "editor", "author"] },
+      { title: "Blogs", url: "/dashboard/posts", icon: Newspaper, allow: ["admin", "editor"] },
+      { title: "Case Studies", url: "/dashboard/case-studies", icon: BookMarked, allow: ["admin", "editor"] },
+      { title: "Events & Webinars", url: "/dashboard/events", icon: CalendarDays, allow: ["admin", "editor"] },
+      { title: "Categories", url: "/dashboard/taxonomy", icon: FolderTree, allow: ["admin", "editor"] },
       { title: "Archive Pages", url: "/dashboard/list-heros", icon: LayoutGrid, allow: ["admin", "editor"] },
     ],
   },
@@ -67,7 +67,7 @@ const groups: { label: string; items: Item[] }[] = [
     items: [
       { title: "Site Settings", url: "/dashboard/settings", icon: Settings, allow: ["admin"] },
       { title: "Branding", url: "/dashboard/branding", icon: Palette, allow: ["admin"] },
-      { title: "SEO Redirect", url: "/dashboard/seo", icon: Search, allow: ["admin", "editor"] },
+      { title: "SEO", url: "/dashboard/seo", icon: Search, allow: ["admin", "editor", "seo_specialist"] },
     ],
   },
   {

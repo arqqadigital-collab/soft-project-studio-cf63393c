@@ -2,11 +2,10 @@ import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "./use-auth";
 
-export type AppRole = "admin" | "editor" | "author" | "subscriber";
+export type AppRole = "admin" | "editor" | "seo_specialist";
 
 export const ROLE_RANK: Record<AppRole, number> = {
-  subscriber: 0,
-  author: 1,
+  seo_specialist: 1,
   editor: 2,
   admin: 3,
 };
