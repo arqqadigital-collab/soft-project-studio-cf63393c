@@ -144,7 +144,7 @@ export function Header() {
   return (
     <>
       <header
-        className={`${positionClass} left-0 right-0 top-0 z-50 flex items-center justify-between border-b px-6 py-4 transition-all duration-300 md:px-12 ${bgClass} ${shadowClass(shadowStyle, scrolled)}`}
+        className={`${positionClass} right-0 top-0 z-50 flex w-[100dvw] items-center justify-between border-b px-6 py-4 transition-all duration-300 md:px-12 ${bgClass} ${shadowClass(shadowStyle, scrolled)}`}
         style={headerStyle}
       >
         <Link to={localized("/")} className="flex items-center gap-3">
