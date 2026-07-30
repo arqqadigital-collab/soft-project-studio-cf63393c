@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import { AnimatePresence, motion } from "framer-motion";
 import { useSectionContent } from "@/lib/homepageContent";
@@ -13,6 +13,7 @@ export function ServicesSection() {
   const [paused, setPaused] = useState(false);
   const current = services[active] ?? services[0];
   const { isRTL } = useLocale();
+  const mobileThumbRefs = useRef<(HTMLButtonElement | null)[]>([]);
 
   const advance = () => setActive((i) => (i + 1) % services.length);
   const retreat = () => setActive((i) => (i - 1 + services.length) % services.length);
@@ -27,6 +28,15 @@ export function ServicesSection() {
     return () => clearInterval(id);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [active, paused, services.length]);
+
+  // Keep the active thumbnail fully in view on the mobile horizontal strip.
+  useEffect(() => {
+    mobileThumbRefs.current[active]?.scrollIntoView({
+      behavior: "smooth",
+      inline: "center",
+      block: "nearest",
+    });
+  }, [active]);
 
   return (
     <section id="section-services" className="bg-background py-24 md:py-32">
@@ -56,7 +66,7 @@ export function ServicesSection() {
             </AnimatePresence>
             <div className="absolute inset-0 bg-gradient-to-r from-black/85 via-black/50 to-black/20" />
 
-            <div className="absolute end-4 top-4 flex gap-2 md:end-10 md:top-10">
+            <div className="absolute end-4 top-4 z-30 flex gap-2 md:end-10 md:top-10">
               <button onClick={onLeft} aria-label={isRTL ? "Next" : "Previous"} className="flex h-10 w-10 items-center justify-center rounded-full border border-white/30 bg-white/10 text-white backdrop-blur transition hover:bg-white/20 md:h-12 md:w-12">
                 <ChevronLeft className="h-5 w-5" />
               </button>
@@ -81,7 +91,13 @@ export function ServicesSection() {
                 {services.map((s, i) => {
                   const isActive = i === active;
                   return (
-                    <button key={i} onClick={() => setActive(i)} className="group relative h-20 w-[140px] shrink-0 overflow-hidden rounded-xl text-start transition" style={{ boxShadow: isActive ? "0 0 0 2px var(--brand-green)" : "0 0 0 1px rgba(255,255,255,0.2)" }}>
+                    <button
+                      key={i}
+                      ref={(el) => { mobileThumbRefs.current[i] = el; }}
+                      onClick={() => setActive(i)}
+                      className="group relative h-20 w-[140px] shrink-0 overflow-hidden rounded-xl text-start transition"
+                      style={{ boxShadow: isActive ? "0 0 0 2px var(--brand-green)" : "0 0 0 1px rgba(255,255,255,0.2)" }}
+                    >
                       <img src={s.image_url} alt={s.title} className="absolute inset-0 h-full w-full object-cover transition-transform group-hover:scale-105" />
                       <div className="absolute inset-0" style={{ background: isActive ? "linear-gradient(to top, rgba(0,0,0,0.85), rgba(0,0,0,0.2))" : "linear-gradient(to top, rgba(0,0,0,0.75), rgba(0,0,0,0.35))" }} />
                       <span className="absolute inset-x-0 bottom-0 line-clamp-2 p-2 text-[11px] font-semibold leading-tight text-white">{s.title}</span>
