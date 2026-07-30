@@ -1,13 +1,16 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import { AnimatePresence, motion } from "framer-motion";
 import { useSectionContent } from "@/lib/homepageContent";
 import { useLocale } from "@/i18n/LanguageProvider";
 
+const AUTOPLAY_DELAY_MS = 6000;
+
 export function ServicesSection() {
   const c = useSectionContent("services");
   const services = c.items;
   const [active, setActive] = useState(0);
+  const [paused, setPaused] = useState(false);
   const current = services[active] ?? services[0];
   const { isRTL } = useLocale();
 
@@ -15,6 +18,15 @@ export function ServicesSection() {
   const retreat = () => setActive((i) => (i - 1 + services.length) % services.length);
   const onLeft = isRTL ? advance : retreat;
   const onRight = isRTL ? retreat : advance;
+
+  // Auto-advance through the services; pauses on hover/focus and restarts
+  // the countdown whenever the active slide changes (auto or manual).
+  useEffect(() => {
+    if (paused || services.length <= 1) return;
+    const id = setInterval(advance, AUTOPLAY_DELAY_MS);
+    return () => clearInterval(id);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [active, paused, services.length]);
 
   return (
     <section id="section-services" className="bg-background py-24 md:py-32">
@@ -27,7 +39,17 @@ export function ServicesSection() {
           </h2>
         </motion.div>
 
-        <motion.div className="relative mt-16 overflow-hidden rounded-[2.5rem] shadow-2xl" initial={{ opacity: 0, y: 60, scale: 0.96 }} whileInView={{ opacity: 1, y: 0, scale: 1 }} viewport={{ once: true, amount: 0.2 }} transition={{ duration: 0.8, delay: 0.2 }}>
+        <motion.div
+          className="relative mt-16 overflow-hidden rounded-[2.5rem] shadow-2xl"
+          initial={{ opacity: 0, y: 60, scale: 0.96 }}
+          whileInView={{ opacity: 1, y: 0, scale: 1 }}
+          viewport={{ once: true, amount: 0.2 }}
+          transition={{ duration: 0.8, delay: 0.2 }}
+          onMouseEnter={() => setPaused(true)}
+          onMouseLeave={() => setPaused(false)}
+          onFocus={() => setPaused(true)}
+          onBlur={() => setPaused(false)}
+        >
           <div className="relative h-[560px] sm:h-[520px] md:h-[620px]">
             <AnimatePresence mode="wait">
               <motion.img key={current.image_url} src={current.image_url} alt={current.title} initial={{ opacity: 0, scale: 1.05 }} animate={{ opacity: 1, scale: 1 }} exit={{ opacity: 0 }} transition={{ duration: 0.6 }} className="absolute inset-0 h-full w-full object-cover" />
