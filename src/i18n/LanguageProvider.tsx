@@ -1,4 +1,4 @@
-import { createContext, useContext, useEffect, useMemo, useState, type ReactNode } from "react";
+import { createContext, useContext, useEffect, useLayoutEffect, useMemo, useState, type ReactNode } from "react";
 import { useLocation } from "react-router-dom";
 import i18n, { isRTL, normalizeLocale, type Locale } from "./index";
 import { isArabicPath } from "@/lib/routeMap";
@@ -49,7 +49,7 @@ export function LanguageProvider({ children }: { children: ReactNode }) {
     if (!forcedLtr && i18n.language !== urlLocale) i18n.changeLanguage(urlLocale);
   }, [urlLocale, forcedLtr]);
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     const dir = !forcedLtr && isRTL(activeLocale) ? "rtl" : "ltr";
     document.documentElement.setAttribute("lang", activeLocale);
     document.documentElement.setAttribute("dir", dir);
