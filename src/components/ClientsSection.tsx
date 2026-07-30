@@ -1,11 +1,9 @@
 import { useSectionContent } from "@/lib/homepageContent";
-import { useLocale } from "@/i18n/LanguageProvider";
 
 
 export function ClientsSection() {
   const c = useSectionContent("clients");
-  const { isRTL } = useLocale();
-  const loop = [...c.logos, ...c.logos];
+  const loop = [...c.logos, ...c.logos, ...c.logos, ...c.logos];
 
 
   return (
@@ -20,9 +18,9 @@ export function ClientsSection() {
       </div>
 
       <div className="marquee-pause group relative mt-16 overflow-hidden" style={{ maskImage: "linear-gradient(to right, transparent, black 10%, black 90%, transparent)", WebkitMaskImage: "linear-gradient(to right, transparent, black 10%, black 90%, transparent)" }}>
-        <div className="flex w-max animate-marquee gap-16 md:gap-24" style={{ animationDirection: isRTL ? "reverse" : "normal" }}>
+        <div className="flex w-max animate-marquee gap-6 md:gap-10">
           {loop.map((logo, i) => (
-            <div key={i} className="flex h-36 w-72 shrink-0 items-center justify-center md:h-44 md:w-80">
+            <div key={i} className="flex h-28 w-48 shrink-0 items-center justify-center md:h-36 md:w-56">
               <img src={logo.src} alt={logo.name} className="max-h-full max-w-full object-contain grayscale opacity-60 transition duration-300 hover:grayscale-0 hover:opacity-100" />
             </div>
           ))}
