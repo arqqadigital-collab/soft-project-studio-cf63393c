@@ -65,7 +65,15 @@ export function Header() {
   const [openColumns, setOpenColumns] = useState<Record<string, boolean>>({});
   const toggleColumn = (id: string) => setOpenColumns((s) => ({ ...s, [id]: !s[id] }));
 
-  
+  const [mobileMounted, setMobileMounted] = useState(false);
+  useEffect(() => {
+    if (mobileOpen) {
+      setMobileMounted(true);
+    } else if (mobileMounted) {
+      const t = setTimeout(() => setMobileMounted(false), 300);
+      return () => clearTimeout(t);
+    }
+  }, [mobileOpen, mobileMounted]);
 
   const location = useLocation();
   const sticky = settings?.header_sticky ?? true;
@@ -202,11 +210,20 @@ export function Header() {
       </header>
 
       {/* Mobile drawer */}
-      {mobileOpen && (
+      {mobileMounted && (
         <div className="fixed inset-0 z-[60] lg:hidden">
-          <div className="absolute inset-0 bg-black/60 backdrop-blur-sm" onClick={() => setMobileOpen(false)} />
           <div
-            className={`absolute top-0 h-full overflow-y-auto p-6 shadow-2xl ${mobileSide === "start" ? "start-0" : "end-0"} ${mobileBg ? "" : "bg-[var(--brand-dark)]"}`}
+            className={`absolute inset-0 bg-black/60 backdrop-blur-sm transition-opacity duration-300 ease-out ${mobileOpen ? "opacity-100" : "opacity-0"}`}
+            onClick={() => setMobileOpen(false)}
+          />
+          <div
+            className={`absolute top-0 h-full overflow-y-auto p-6 shadow-2xl transition-transform duration-300 ease-out ${mobileSide === "start" ? "start-0" : "end-0"} ${mobileBg ? "" : "bg-[var(--brand-dark)]"} ${
+              mobileOpen
+                ? "translate-x-0"
+                : mobileSide === "start"
+                  ? "-translate-x-full rtl:translate-x-full"
+                  : "translate-x-full rtl:-translate-x-full"
+            }`}
             style={{ width: `${mobileWidth}%`, maxWidth: 480, background: mobileBg, color: mobileText }}
           >
             <div className="mb-6 flex items-center justify-between">
@@ -253,8 +270,10 @@ export function Header() {
                           className={`h-4 w-4 transition-transform ${isOpen ? "rotate-180" : ""}`}
                         />
                       </button>
-                      {isOpen && (
-                        <div className="mt-1 space-y-4 ps-1">
+                      <div
+                        className={`grid overflow-hidden transition-[grid-template-rows] duration-300 ease-out ${isOpen ? "grid-rows-[1fr]" : "grid-rows-[0fr]"}`}
+                      >
+                        <div className="min-h-0 mt-1 space-y-4 ps-1">
                           {g.columns
                             .filter((c) => c.is_visible)
                             .map((c) => {
@@ -315,12 +334,16 @@ export function Header() {
                                       className={`h-3.5 w-3.5 shrink-0 transition-transform ${isColOpen ? "rotate-180" : ""}`}
                                     />
                                   </button>
-                                  {isColOpen && <div className="space-y-0.5">{links}</div>}
+                                  <div
+                                    className={`grid overflow-hidden transition-[grid-template-rows] duration-300 ease-out ${isColOpen ? "grid-rows-[1fr]" : "grid-rows-[0fr]"}`}
+                                  >
+                                    <div className="min-h-0 space-y-0.5">{links}</div>
+                                  </div>
                                 </div>
                               );
                             })}
                         </div>
-                      )}
+                      </div>
 
                     </div>
                   );

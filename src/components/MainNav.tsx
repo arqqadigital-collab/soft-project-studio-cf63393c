@@ -192,7 +192,7 @@ export function MainNav() {
               <ChevronDown className="h-3.5 w-3.5 transition-transform group-hover:rotate-180" />
             </button>
             <div
-              className={`invisible absolute left-1/2 top-full z-50 ${width} -translate-x-1/2 pt-3 opacity-0 transition-all duration-200 group-hover:visible group-hover:opacity-100`}
+              className={`pointer-events-none absolute left-1/2 top-full z-50 ${width} -translate-x-1/2 translate-y-2 scale-[0.98] pt-3 opacity-0 transition-all duration-200 ease-out group-hover:pointer-events-auto group-hover:translate-y-0 group-hover:scale-100 group-hover:opacity-100`}
             >
               <div className="overflow-hidden rounded-2xl border border-white/10 bg-[var(--brand-dark)]/95 shadow-2xl backdrop-blur-md">
                 <MegaPanel menu={menu} />
