@@ -466,8 +466,8 @@ export default function Dental() {
                           </CarouselItem>
                         ))}
                       </CarouselContent>
-                      <CarouselPrevious className="start-2 md:-start-12" />
-                      <CarouselNext className="end-2 md:-end-12" />
+                      <CarouselPrevious className="start-2 md:-start-6" />
+                      <CarouselNext className="end-2 md:-end-6" />
                     </div>
                   </Carousel>
                 );
