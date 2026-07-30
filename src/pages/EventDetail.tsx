@@ -29,6 +29,17 @@ type EventDetail = {
   translations?: Record<string, Partial<Pick<EventDetail, "title" | "description" | "location">>> | null;
 };
 
+type SeoMeta = {
+  meta_title: string | null;
+  meta_description: string | null;
+  og_image_url: string | null;
+  canonical_url: string | null;
+  noindex: boolean | null;
+  nofollow: boolean | null;
+  schema_markup?: any;
+  translations?: any;
+};
+
 function CoverPlaceholder({ className }: { className?: string }) {
   return (
     <div
@@ -65,6 +76,7 @@ export default function EventDetail() {
   const { slug } = useParams();
   const navigate = useNavigate();
   const [ev, setEv] = useState<EventDetail | null>(null);
+  const [seo, setSeo] = useState<SeoMeta | null>(null);
   const [loading, setLoading] = useState(true);
   const [notFound, setNotFound] = useState(false);
 
@@ -94,6 +106,15 @@ export default function EventDetail() {
           ...(locale === "en" ? {} : base.translations?.[locale] ?? {}),
           category: base.category ? { ...base.category, name: categoryName ?? base.category.name } : null,
         });
+
+        const { data: seoRow } = await supabase
+          .from("seo_meta")
+          .select("meta_title,meta_description,og_image_url,canonical_url,noindex,nofollow,schema_markup,translations")
+          .eq("entity_type", "event")
+          .eq("entity_id", base.id)
+          .maybeSingle();
+        if (!cancelled) setSeo((seoRow as SeoMeta | null) ?? null);
+
         setLoading(false);
         return;
       }
@@ -139,9 +160,38 @@ export default function EventDetail() {
 
   const isOnline = !!ev.virtual_link || (ev.location ?? "").toLowerCase() === "online";
 
+  const seoAr = (seo?.translations as any)?.ar || {};
+  const seoTitle = (locale === "ar" ? seoAr.meta_title : null) || seo?.meta_title || ev.title;
+  const seoDescription =
+    (locale === "ar" ? seoAr.meta_description : null) || seo?.meta_description || ev.description || undefined;
+  const seoImage = seo?.og_image_url || ev.cover_image_url || undefined;
+
   return (
     <main className="min-h-screen bg-background">
-      <SeoHead title={ev.title} description={ev.description ?? undefined} ogType="article" />
+      <SeoHead
+        title={seoTitle}
+        description={seoDescription}
+        canonical={seo?.canonical_url || undefined}
+        ogImage={seoImage}
+        ogType="article"
+        noindex={!!seo?.noindex}
+        nofollow={!!seo?.nofollow}
+        jsonLd={seo?.schema_markup ?? {
+          "@context": "https://schema.org",
+          "@type": "Event",
+          name: ev.title,
+          description: seoDescription,
+          image: seoImage,
+          startDate: ev.starts_at ?? undefined,
+          endDate: ev.ends_at ?? undefined,
+          eventAttendanceMode: isOnline
+            ? "https://schema.org/OnlineEventAttendanceMode"
+            : "https://schema.org/OfflineEventAttendanceMode",
+          location: isOnline
+            ? { "@type": "VirtualLocation", url: ev.virtual_link ?? undefined }
+            : { "@type": "Place", name: ev.location ?? undefined },
+        }}
+      />
 
       <section className="pb-10 pt-28 md:pt-36">
         <div className="mx-auto max-w-5xl px-6">

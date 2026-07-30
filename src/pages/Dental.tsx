@@ -442,35 +442,33 @@ export default function Dental() {
                     key={g.title}
                     opts={{ direction: isRTL ? "rtl" : "ltr", align: "start", loop: cells.length > 3 }}
                   >
-                    <div className="flex items-center justify-between gap-4">
-                      <h3 className="text-xl font-semibold tracking-tight text-foreground md:text-2xl">
-                        {g.title}
-                      </h3>
-                      <div className="flex items-center gap-2">
-                        <CarouselPrevious className="static h-8 w-8 translate-x-0 translate-y-0" />
-                        <CarouselNext className="static h-8 w-8 translate-x-0 translate-y-0" />
-                      </div>
+                    <h3 className="text-xl font-semibold tracking-tight text-foreground md:text-2xl">
+                      {g.title}
+                    </h3>
+                    <div className="relative mt-6">
+                      <CarouselContent>
+                        {cells.map((c, i) => (
+                          <CarouselItem key={i} className="basis-1/2 sm:basis-1/3">
+                            <div className="flex aspect-square items-center justify-center rounded-2xl border border-border bg-card p-3 transition hover:border-[color:var(--brand-blue)]/40 hover:shadow-sm">
+                              {c.logo ? (
+                                <img
+                                  src={c.logo}
+                                  alt={`${c.name} logo`}
+                                  loading="lazy"
+                                  className={`object-contain ${shrinkLogo ? "max-h-[80%] max-w-[80%]" : "max-h-full max-w-full"}`}
+                                />
+                              ) : c.name ? (
+                                <span className="text-center text-[11px] font-medium leading-tight text-foreground/70 md:text-xs">
+                                  {c.name}
+                                </span>
+                              ) : null}
+                            </div>
+                          </CarouselItem>
+                        ))}
+                      </CarouselContent>
+                      <CarouselPrevious className="start-2 md:-start-12" />
+                      <CarouselNext className="end-2 md:-end-12" />
                     </div>
-                    <CarouselContent className="mt-6">
-                      {cells.map((c, i) => (
-                        <CarouselItem key={i} className="basis-1/2 sm:basis-1/3">
-                          <div className="flex aspect-square items-center justify-center rounded-2xl border border-border bg-card p-3 transition hover:border-[color:var(--brand-blue)]/40 hover:shadow-sm">
-                            {c.logo ? (
-                              <img
-                                src={c.logo}
-                                alt={`${c.name} logo`}
-                                loading="lazy"
-                                className={`object-contain ${shrinkLogo ? "max-h-[80%] max-w-[80%]" : "max-h-full max-w-full"}`}
-                              />
-                            ) : c.name ? (
-                              <span className="text-center text-[11px] font-medium leading-tight text-foreground/70 md:text-xs">
-                                {c.name}
-                              </span>
-                            ) : null}
-                          </div>
-                        </CarouselItem>
-                      ))}
-                    </CarouselContent>
                   </Carousel>
                 );
               })}

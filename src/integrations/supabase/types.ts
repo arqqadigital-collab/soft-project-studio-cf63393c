@@ -1429,6 +1429,7 @@ export type Database = {
           nofollow: boolean
           noindex: boolean
           og_image_url: string | null
+          schema_markup: Json | null
           translations: Json
           updated_at: string
         }
@@ -1444,6 +1445,7 @@ export type Database = {
           nofollow?: boolean
           noindex?: boolean
           og_image_url?: string | null
+          schema_markup?: Json | null
           translations?: Json
           updated_at?: string
         }
@@ -1459,6 +1461,7 @@ export type Database = {
           nofollow?: boolean
           noindex?: boolean
           og_image_url?: string | null
+          schema_markup?: Json | null
           translations?: Json
           updated_at?: string
         }

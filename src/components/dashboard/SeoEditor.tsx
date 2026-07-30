@@ -32,6 +32,7 @@ interface SeoForm {
   nofollow: boolean;
   meta_title_ar: string;
   meta_description_ar: string;
+  schema_markup: string;
 }
 
 const EMPTY: SeoForm = {
@@ -44,7 +45,14 @@ const EMPTY: SeoForm = {
   nofollow: false,
   meta_title_ar: "",
   meta_description_ar: "",
+  schema_markup: "",
 };
+
+const SCHEMA_PLACEHOLDER = `{
+  "@context": "https://schema.org",
+  "@type": "Article",
+  "headline": "Your headline here"
+}`;
 
 export function SeoEditor({
   entityType,
@@ -90,6 +98,7 @@ export function SeoEditor({
         nofollow: !!d.nofollow,
         meta_title_ar: ar.meta_title ?? "",
         meta_description_ar: ar.meta_description ?? "",
+        schema_markup: d.schema_markup ? JSON.stringify(d.schema_markup, null, 2) : "",
       });
     } else if (existing.isFetched) {
       setRowId(null);
@@ -105,6 +114,15 @@ export function SeoEditor({
     if (!entityId) {
       toast.error("Save the draft first, then add SEO");
       return;
+    }
+    let schemaMarkup: unknown = null;
+    if (form.schema_markup.trim()) {
+      try {
+        schemaMarkup = JSON.parse(form.schema_markup);
+      } catch {
+        toast.error("Structured data isn't valid JSON — fix it before saving");
+        return;
+      }
     }
     setSaving(true);
     try {
@@ -125,6 +143,7 @@ export function SeoEditor({
         focus_keyword: form.focus_keyword || null,
         noindex: form.noindex,
         nofollow: form.nofollow,
+        schema_markup: schemaMarkup,
         translations,
       } as any;
       if (rowId) {
@@ -149,6 +168,15 @@ export function SeoEditor({
   const url = form.canonical_url || publicUrl || "example.com/…";
   const titleLen = form.meta_title.length;
   const descLen = form.meta_description.length;
+  const schemaError = (() => {
+    if (!form.schema_markup.trim()) return null;
+    try {
+      JSON.parse(form.schema_markup);
+      return null;
+    } catch {
+      return "Not valid JSON";
+    }
+  })();
 
   if (!entityId) {
     return (
@@ -276,6 +304,37 @@ export function SeoEditor({
               </div>
               <Switch checked={form.nofollow} onCheckedChange={(v) => patch("nofollow", v)} />
             </div>
+          </div>
+
+          <div className="space-y-1.5 rounded-md border p-3">
+            <div className="flex items-center justify-between gap-3">
+              <Label className="text-xs">Structured data (Schema.org)</Label>
+              <a
+                href="https://schema.org"
+                target="_blank"
+                rel="noreferrer"
+                className="text-[11px] text-primary underline"
+              >
+                What's this?
+              </a>
+            </div>
+            <Textarea
+              rows={8}
+              value={form.schema_markup}
+              onChange={(e) => patch("schema_markup", e.target.value)}
+              placeholder={SCHEMA_PLACEHOLDER}
+              spellCheck={false}
+              className={`font-mono text-xs ${schemaError ? "border-destructive" : ""}`}
+            />
+            {schemaError ? (
+              <p className="text-[11px] text-destructive">{schemaError}</p>
+            ) : (
+              <p className="text-[11px] text-muted-foreground">
+                Optional. Paste raw JSON-LD (e.g. Article, Product, FAQPage, LocalBusiness) — it's
+                added to this page's <code>&lt;head&gt;</code> for rich search results. Leave empty
+                to use the site's default.
+              </p>
+            )}
           </div>
 
           <Button onClick={save} disabled={saving}>

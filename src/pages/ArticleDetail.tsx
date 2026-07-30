@@ -36,6 +36,7 @@ type SeoMeta = {
   canonical_url: string | null;
   noindex: boolean | null;
   nofollow: boolean | null;
+  schema_markup?: any;
   translations?: any;
 };
 
@@ -118,7 +119,7 @@ export default function ArticleDetail() {
 
       const { data: seoRow } = await supabase
         .from("seo_meta")
-        .select("meta_title,meta_description,og_image_url,canonical_url,noindex,nofollow,translations")
+        .select("meta_title,meta_description,og_image_url,canonical_url,noindex,nofollow,schema_markup,translations")
         .eq("entity_type", "post")
         .eq("entity_id", p.id)
         .maybeSingle();
@@ -177,7 +178,7 @@ export default function ArticleDetail() {
         ogType="article"
         noindex={!!seo?.noindex}
         nofollow={!!seo?.nofollow}
-        jsonLd={{
+        jsonLd={seo?.schema_markup ?? {
           "@context": "https://schema.org",
           "@type": "Article",
           headline: post.title,

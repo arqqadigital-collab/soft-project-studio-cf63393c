@@ -28,6 +28,7 @@ type SeoMeta = {
   canonical_url: string | null;
   noindex: boolean | null;
   nofollow: boolean | null;
+  schema_markup?: any;
   translations?: any;
 };
 
@@ -74,7 +75,7 @@ export default function PublicPage() {
 
       const { data: seoRow } = await supabase
         .from("seo_meta")
-        .select("meta_title,meta_description,og_image_url,canonical_url,noindex,nofollow,translations")
+        .select("meta_title,meta_description,og_image_url,canonical_url,noindex,nofollow,schema_markup,translations")
         .eq("entity_type", "page")
         .eq("entity_id", p.id)
         .maybeSingle();
@@ -149,6 +150,7 @@ function RenderedPage({ page, seo }: { page: PageDetail; seo: SeoMeta | null }) 
         ogType="website"
         noindex={!!seo?.noindex}
         nofollow={!!seo?.nofollow}
+        jsonLd={seo?.schema_markup ?? undefined}
       />
 
       {hasSections ? (
