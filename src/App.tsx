@@ -1,4 +1,6 @@
+import { useEffect } from "react";
 import { Routes, Route, Link, useLocation } from "react-router-dom";
+import { logNotFound } from "@/lib/notFoundLog";
 import { LegacyPageRedirect } from "@/components/LegacyPageRedirect";
 import { PathRedirect } from "@/components/PathRedirect";
 
