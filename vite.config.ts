@@ -11,8 +11,39 @@ export default defineConfig({
       "@": path.resolve(__dirname, "./src"),
     },
   },
+  build: {
+    rollupOptions: {
+      output: {
+        // Split large, stable third-party libraries into long-cached vendor
+        // chunks so page-level code-splitting isn't diluted by dependencies.
+        manualChunks(id) {
+          if (!id.includes("node_modules")) return;
+          if (/[\\/]node_modules[\\/](react|react-dom|scheduler)[\\/]/.test(id)) return "vendor-react";
+          if (id.includes("react-router")) return "vendor-router";
+          if (id.includes("@tanstack")) return "vendor-query";
+          if (id.includes("react-helmet-async")) return "vendor-helmet";
+          if (id.includes("@supabase")) return "vendor-supabase";
+          if (id.includes("framer-motion") || id.includes("motion-dom") || id.includes("motion-utils"))
+            return "vendor-motion";
+          if (id.includes("date-fns")) return "vendor-date";
+          if (id.includes("@tiptap") || id.includes("prosemirror") || id.includes("quill"))
+            return "vendor-editor";
+          if (id.includes("recharts") || id.includes("d3-")) return "vendor-charts";
+          if (id.includes("@dnd-kit")) return "vendor-dnd";
+          if (id.includes("@radix-ui")) return "vendor-radix";
+          if (id.includes("dompurify")) return "vendor-sanitize";
+          if (id.includes("lucide-react")) return "vendor-icons";
+          if (id.includes("react-hook-form") || id.includes("zod") || id.includes("@hookform"))
+            return "vendor-forms";
+          if (id.includes("i18next")) return "vendor-i18n";
+          return "vendor";
+        },
+      },
+    },
+  },
   server: {
     host: "::",
     port: 8080,
   },
 });
+
