@@ -1107,6 +1107,42 @@ export type Database = {
           },
         ]
       }
+      not_found_log: {
+        Row: {
+          created_at: string
+          first_seen: string
+          hits: number
+          id: string
+          last_seen: string
+          referrer: string | null
+          status: string
+          updated_at: string
+          url: string
+        }
+        Insert: {
+          created_at?: string
+          first_seen?: string
+          hits?: number
+          id?: string
+          last_seen?: string
+          referrer?: string | null
+          status?: string
+          updated_at?: string
+          url: string
+        }
+        Update: {
+          created_at?: string
+          first_seen?: string
+          hits?: number
+          id?: string
+          last_seen?: string
+          referrer?: string | null
+          status?: string
+          updated_at?: string
+          url?: string
+        }
+        Relationships: []
+      }
       page_sections: {
         Row: {
           created_at: string
@@ -1771,6 +1807,10 @@ export type Database = {
           _user_id: string
         }
         Returns: boolean
+      }
+      log_not_found: {
+        Args: { _referrer?: string; _url: string }
+        Returns: undefined
       }
       publish_scheduled_content: { Args: never; Returns: undefined }
       replace_media_url: {
