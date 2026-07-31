@@ -31,10 +31,6 @@ export default defineConfig({
           if (id.includes("recharts") || id.includes("d3-")) return "vendor-charts";
           if (id.includes("@dnd-kit")) return "vendor-dnd";
           if (id.includes("dompurify")) return "vendor-sanitize";
-          // lucide-react: keep one chunk per icon module. Grouping them makes
-          // every route download the union of all icons used site-wide.
-          const icon = id.match(/lucide-react[\\/].*[\\/]([^\\/]+)\.js$/);
-          if (icon) return `icons/${icon[1]}`;
           // NOTE: lucide-react and @radix-ui are intentionally NOT grouped —
           // per-module splitting keeps unused icons/primitives out of the
           // initial public bundle.
