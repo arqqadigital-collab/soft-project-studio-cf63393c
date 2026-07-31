@@ -2,15 +2,15 @@ import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
 import { useSectionsContent } from "@/lib/useSectionsContent";
 
-import hero from "@/assets/education/hero.jpg.asset.json";
-import tradFail from "@/assets/education/traditional-fail.jpg.asset.json";
-import p1 from "@/assets/education/problem-p1.jpg.asset.json";
-import p2 from "@/assets/education/problem-p2.jpg.asset.json";
-import p3 from "@/assets/education/problem-p3.jpg.asset.json";
-import u1 from "@/assets/education/uc-1.jpg.asset.json";
-import u2 from "@/assets/education/uc-2.jpg.asset.json";
-import u3 from "@/assets/education/uc-3.jpg.asset.json";
-import u4 from "@/assets/education/uc-4.jpg.asset.json";
+import hero from "@/assets/education/hero.jpg";
+import tradFail from "@/assets/education/traditional-fail.jpg";
+import p1 from "@/assets/education/problem-p1.jpg";
+import p2 from "@/assets/education/problem-p2.jpg";
+import p3 from "@/assets/education/problem-p3.jpg";
+import u1 from "@/assets/education/uc-1.jpg";
+import u2 from "@/assets/education/uc-2.jpg";
+import u3 from "@/assets/education/uc-3.jpg";
+import u4 from "@/assets/education/uc-4.jpg";
 
 export type EducationSectionKey =
   | "Hero"
@@ -34,7 +34,7 @@ export const EDUCATION_DEFAULTS = {
     ctaHref: "#contact",
     ctaLabel2: "Explore capabilities",
     ctaHref2: "#capabilities",
-    image: hero.url,
+    image: hero,
   },
   "The Problem": {
     eyebrow: "The Problem",
@@ -43,16 +43,16 @@ export const EDUCATION_DEFAULTS = {
     body:
       "Most institutions don't struggle with teaching or research — they struggle with coordination. The result is not inefficiency; it is loss of academic and financial control.",
     items: [
-      { n: "01", label: "RISK", title: "Disconnected Admissions", body: "Admissions, registration, and student services run on separate tools. Applicants fall through the cracks and enrolled students face rework, delays, and lost documents.", image: p1.url },
-      { n: "02", label: "RISK", title: "Manual Research Administration", body: "Grants, ethics approvals, and project tracking live in spreadsheets. Principal investigators lose time to paperwork instead of research — and finance never sees a real spend picture.", image: p2.url },
-      { n: "03", label: "RISK", title: "Invisible Academic Finance", body: "Tuition, sponsorships, and department budgets are reconciled after the term ends. Deans and CFOs make decisions on delayed, incomplete reports instead of live financial reality.", image: p3.url },
+      { n: "01", label: "RISK", title: "Disconnected Admissions", body: "Admissions, registration, and student services run on separate tools. Applicants fall through the cracks and enrolled students face rework, delays, and lost documents.", image: p1 },
+      { n: "02", label: "RISK", title: "Manual Research Administration", body: "Grants, ethics approvals, and project tracking live in spreadsheets. Principal investigators lose time to paperwork instead of research — and finance never sees a real spend picture.", image: p2 },
+      { n: "03", label: "RISK", title: "Invisible Academic Finance", body: "Tuition, sponsorships, and department budgets are reconciled after the term ends. Deans and CFOs make decisions on delayed, incomplete reports instead of live financial reality.", image: p3 },
     ],
   },
   "Traditional Fail": {
     heading: "Where Traditional Systems Fail Education and Research Institutions",
     body: "Generic ERP systems typically fail because they do not reflect how academia actually works:",
     footnote: "Academic institutions require continuous synchronization between planning and execution — not periodic reporting.",
-    image: tradFail.url,
+    image: tradFail,
     bullets: [
       "Student, HR, and finance systems operate in silos",
       "No live connection between enrollment and revenue",
@@ -92,10 +92,10 @@ export const EDUCATION_DEFAULTS = {
     headingAccent: "we solve for.",
     footnote: "Also serving grant-sensitive academic environments where financial discipline depends on accurate, real-time reporting.",
     items: [
-      { n: "01", title: "Universities with hybrid classroom and online delivery", body: "Unified course, timetable, and assessment management across in-person, hybrid, and fully online cohorts — with a single student record across every mode.", image: u1.url },
-      { n: "02", title: "Research-intensive institutions with active grants", body: "Proposal-to-close grant tracking, milestone visibility, and integrated finance — so PIs, deans, and CFOs work from the same live view of research activity.", image: u2.url },
-      { n: "03", title: "Multi-campus universities and college groups", body: "Central academic catalog and finance, local campus execution, and consolidated reporting across faculties, schools, and campuses.", image: u3.url },
-      { n: "04", title: "Institutions scaling student services and support", body: "Unified student profile, self-service portals, and case-managed student support — reducing time-to-response and improving retention across the student journey.", image: u4.url },
+      { n: "01", title: "Universities with hybrid classroom and online delivery", body: "Unified course, timetable, and assessment management across in-person, hybrid, and fully online cohorts — with a single student record across every mode.", image: u1 },
+      { n: "02", title: "Research-intensive institutions with active grants", body: "Proposal-to-close grant tracking, milestone visibility, and integrated finance — so PIs, deans, and CFOs work from the same live view of research activity.", image: u2 },
+      { n: "03", title: "Multi-campus universities and college groups", body: "Central academic catalog and finance, local campus execution, and consolidated reporting across faculties, schools, and campuses.", image: u3 },
+      { n: "04", title: "Institutions scaling student services and support", body: "Unified student profile, self-service portals, and case-managed student support — reducing time-to-response and improving retention across the student journey.", image: u4 },
     ],
   },
   "Business Impact": {
@@ -140,7 +140,7 @@ export const EDUCATION_DEFAULTS = {
       "If your institution depends on spreadsheets, delayed updates, or disconnected admissions, research, and finance tools — it is not a system. It is fragmentation. SBS helps you rebuild academic control inside a unified ERP environment.",
     ctaLabel: "Request an academic ERP assessment",
     ctaHref: "#contact",
-    image: hero.url,
+    image: hero,
   },
 } as const;
 

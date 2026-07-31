@@ -2,15 +2,15 @@ import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
 import { useSectionsContent } from "@/lib/useSectionsContent";
 
-import hero from "@/assets/implementation/hero.jpg.asset.json";
-import cta from "@/assets/implementation/cta.jpg.asset.json";
-import s1 from "@/assets/implementation/s1.jpg.asset.json";
-import s2 from "@/assets/implementation/s2.jpg.asset.json";
-import s3 from "@/assets/implementation/s3.jpg.asset.json";
-import s4 from "@/assets/implementation/s4.jpg.asset.json";
-import s5 from "@/assets/implementation/s5.jpg.asset.json";
-import s6 from "@/assets/implementation/s6.jpg.asset.json";
-import s7 from "@/assets/implementation/s7.jpg.asset.json";
+import hero from "@/assets/implementation/hero.jpg";
+import cta from "@/assets/implementation/cta.jpg";
+import s1 from "@/assets/implementation/s1.jpg";
+import s2 from "@/assets/implementation/s2.jpg";
+import s3 from "@/assets/implementation/s3.jpg";
+import s4 from "@/assets/implementation/s4.jpg";
+import s5 from "@/assets/implementation/s5.jpg";
+import s6 from "@/assets/implementation/s6.jpg";
+import s7 from "@/assets/implementation/s7.jpg";
 
 export type ImplementationSectionKey =
   | "Hero"
@@ -33,7 +33,7 @@ export const IMPLEMENTATION_DEFAULTS = {
     ctaLabel2: "Talk to an Implementation Expert",
     ctaHref2: "#contact",
     footnote: "Get a detailed project plan, timeline, and cost estimate — with full transparency.",
-    image: hero.url,
+    image: hero,
   },
   "The Problem": {
     eyebrow: "The Challenge",
@@ -68,13 +68,13 @@ export const IMPLEMENTATION_DEFAULTS = {
     heading: "Our Implementation & Integration",
     headingAccent: "Services.",
     items: [
-      { n: "01", icon: "Server", title: "Enterprise Software Implementation", tagline: "Deploy the platforms your business runs on — the right way.", body: "Whether you're implementing an ERP, CRM, ITSM, HCM, or any other enterprise platform, SBS brings the configuration expertise, process alignment skills, and project discipline to deliver a successful deployment that your teams will actually use.", subhead: "Platforms we work with", platforms: ["ERP: SAP, Oracle, Microsoft Dynamics", "CRM: Salesforce, Microsoft Dynamics 365", "ITSM: ServiceNow, Jira Service Management", "HCM: Workday, SAP SuccessFactors"], bullets: ["Requirements gathering and fit-gap analysis", "System configuration and customization", "Data migration planning and execution", "User acceptance testing (UAT) support", "Go-live planning and hypercare support"], image: s1.url },
-      { n: "02", icon: "Plug", title: "Systems Integration & API Development", tagline: "Connect your technology ecosystem. Eliminate data silos.", body: "Modern organizations run on dozens of applications. When those systems don't communicate, the result is duplicated data, manual reconciliation work, broken workflows, and frustrated users. SBS designs and builds integrations that make your technology ecosystem work as one.", bullets: ["Integration architecture design", "RESTful and SOAP API development and management", "Middleware and iPaaS platform implementation (MuleSoft, Azure Integration Services, Dell Boomi)", "Real-time and batch data synchronization", "API documentation and governance"], image: s2.url },
-      { n: "03", icon: "Cloud", title: "Cloud Migration & Deployment", tagline: "Move to the cloud without the disruption.", body: "Cloud migration is one of the most impactful — and most frequently mishandled — technology initiatives an organization can undertake. SBS provides a disciplined, risk-managed migration approach that ensures continuity, security, and performance from day one.", subhead: "Migration strategies we support", platforms: ["Rehost (Lift & Shift)", "Replatform", "Refactor / Re-architect", "Hybrid cloud deployment"], bullets: ["Migration readiness assessment", "Workload prioritization and sequencing", "Migration execution with minimal downtime", "Post-migration optimization and cost management", "Cloud landing zone and governance setup"], image: s3.url },
-      { n: "04", icon: "Network", title: "Network & Infrastructure Implementation", tagline: "Build the foundation your operations depend on.", body: "From LAN/WAN design to data center buildout, SBS implements enterprise network and infrastructure solutions with the reliability, security, and scalability that modern operations demand.", bullets: ["Network architecture design and implementation", "Firewall, switching, and routing deployment", "Data center setup and server provisioning", "SD-WAN and wireless infrastructure implementation", "Infrastructure documentation and configuration management"], image: s4.url },
-      { n: "05", icon: "ShieldCheck", title: "Security Solutions Deployment", tagline: "Implement security tools that actually work together.", body: "Security solutions are most effective when deployed as part of a cohesive, integrated architecture — not as isolated point products. SBS implements security technologies within a unified framework, ensuring they communicate, correlate, and reinforce each other.", subhead: "Solutions we deploy", platforms: ["SIEM platforms (Splunk, Microsoft Sentinel, IBM QRadar)", "Endpoint Detection & Response (EDR/XDR)", "Identity & Access Management (IAM/PAM)", "Firewall and network security platforms", "Email and web security gateways", "Data Loss Prevention (DLP)"], bullets: [], image: s5.url },
-      { n: "06", icon: "Database", title: "Data Integration & Migration", tagline: "Move and connect your data — safely and accurately.", body: "Data is your most valuable asset. Migrating or integrating it poorly can corrupt records, break processes, and undermine the systems that depend on it. SBS executes data migration and integration projects with rigorous quality controls and full traceability.", bullets: ["Data discovery and profiling", "Data cleansing and transformation", "ETL/ELT pipeline design and development", "Migration validation and reconciliation", "Data lineage documentation"], image: s6.url },
-      { n: "07", icon: "Cog", title: "DevOps & Automation Implementation", tagline: "Accelerate delivery. Reduce manual effort. Build better.", body: "Modern software delivery demands speed without sacrificing stability. SBS implements DevOps practices and automation frameworks that shorten release cycles, improve quality, and reduce the toil that slows development teams down.", bullets: ["CI/CD pipeline design and implementation", "Infrastructure as Code (IaC) with Terraform / Ansible", "Container orchestration with Docker and Kubernetes", "Automated testing framework integration", "DevSecOps integration — security embedded in the pipeline"], image: s7.url },
+      { n: "01", icon: "Server", title: "Enterprise Software Implementation", tagline: "Deploy the platforms your business runs on — the right way.", body: "Whether you're implementing an ERP, CRM, ITSM, HCM, or any other enterprise platform, SBS brings the configuration expertise, process alignment skills, and project discipline to deliver a successful deployment that your teams will actually use.", subhead: "Platforms we work with", platforms: ["ERP: SAP, Oracle, Microsoft Dynamics", "CRM: Salesforce, Microsoft Dynamics 365", "ITSM: ServiceNow, Jira Service Management", "HCM: Workday, SAP SuccessFactors"], bullets: ["Requirements gathering and fit-gap analysis", "System configuration and customization", "Data migration planning and execution", "User acceptance testing (UAT) support", "Go-live planning and hypercare support"], image: s1 },
+      { n: "02", icon: "Plug", title: "Systems Integration & API Development", tagline: "Connect your technology ecosystem. Eliminate data silos.", body: "Modern organizations run on dozens of applications. When those systems don't communicate, the result is duplicated data, manual reconciliation work, broken workflows, and frustrated users. SBS designs and builds integrations that make your technology ecosystem work as one.", bullets: ["Integration architecture design", "RESTful and SOAP API development and management", "Middleware and iPaaS platform implementation (MuleSoft, Azure Integration Services, Dell Boomi)", "Real-time and batch data synchronization", "API documentation and governance"], image: s2 },
+      { n: "03", icon: "Cloud", title: "Cloud Migration & Deployment", tagline: "Move to the cloud without the disruption.", body: "Cloud migration is one of the most impactful — and most frequently mishandled — technology initiatives an organization can undertake. SBS provides a disciplined, risk-managed migration approach that ensures continuity, security, and performance from day one.", subhead: "Migration strategies we support", platforms: ["Rehost (Lift & Shift)", "Replatform", "Refactor / Re-architect", "Hybrid cloud deployment"], bullets: ["Migration readiness assessment", "Workload prioritization and sequencing", "Migration execution with minimal downtime", "Post-migration optimization and cost management", "Cloud landing zone and governance setup"], image: s3 },
+      { n: "04", icon: "Network", title: "Network & Infrastructure Implementation", tagline: "Build the foundation your operations depend on.", body: "From LAN/WAN design to data center buildout, SBS implements enterprise network and infrastructure solutions with the reliability, security, and scalability that modern operations demand.", bullets: ["Network architecture design and implementation", "Firewall, switching, and routing deployment", "Data center setup and server provisioning", "SD-WAN and wireless infrastructure implementation", "Infrastructure documentation and configuration management"], image: s4 },
+      { n: "05", icon: "ShieldCheck", title: "Security Solutions Deployment", tagline: "Implement security tools that actually work together.", body: "Security solutions are most effective when deployed as part of a cohesive, integrated architecture — not as isolated point products. SBS implements security technologies within a unified framework, ensuring they communicate, correlate, and reinforce each other.", subhead: "Solutions we deploy", platforms: ["SIEM platforms (Splunk, Microsoft Sentinel, IBM QRadar)", "Endpoint Detection & Response (EDR/XDR)", "Identity & Access Management (IAM/PAM)", "Firewall and network security platforms", "Email and web security gateways", "Data Loss Prevention (DLP)"], bullets: [], image: s5 },
+      { n: "06", icon: "Database", title: "Data Integration & Migration", tagline: "Move and connect your data — safely and accurately.", body: "Data is your most valuable asset. Migrating or integrating it poorly can corrupt records, break processes, and undermine the systems that depend on it. SBS executes data migration and integration projects with rigorous quality controls and full traceability.", bullets: ["Data discovery and profiling", "Data cleansing and transformation", "ETL/ELT pipeline design and development", "Migration validation and reconciliation", "Data lineage documentation"], image: s6 },
+      { n: "07", icon: "Cog", title: "DevOps & Automation Implementation", tagline: "Accelerate delivery. Reduce manual effort. Build better.", body: "Modern software delivery demands speed without sacrificing stability. SBS implements DevOps practices and automation frameworks that shorten release cycles, improve quality, and reduce the toil that slows development teams down.", bullets: ["CI/CD pipeline design and implementation", "Infrastructure as Code (IaC) with Terraform / Ansible", "Container orchestration with Docker and Kubernetes", "Automated testing framework integration", "DevSecOps integration — security embedded in the pipeline"], image: s7 },
     ],
   },
   "Why SBS": {
@@ -120,7 +120,7 @@ export const IMPLEMENTATION_DEFAULTS = {
     ctaLabel2: "Contact Our Delivery Team",
     ctaHref2: "#form",
     footnote: "",
-    image: cta.url,
+    image: cta,
   },
 };
 

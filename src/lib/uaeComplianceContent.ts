@@ -4,16 +4,16 @@ import { useSectionsContent } from "@/lib/useSectionsContent";
 
 import heroVideo from "@/assets/uae-compliance/uae-hero.mp4.asset.json";
 import ctaVideo from "@/assets/uae-compliance/uae-cta.mp4.asset.json";
-import p1 from "@/assets/uae-compliance/problem/p1.jpg.asset.json";
-import p2 from "@/assets/uae-compliance/problem/p2.jpg.asset.json";
-import p3 from "@/assets/uae-compliance/problem/p3.jpg.asset.json";
-import p4 from "@/assets/uae-compliance/problem/p4.jpg.asset.json";
-import p5 from "@/assets/uae-compliance/problem/p5.jpg.asset.json";
-import p6 from "@/assets/uae-compliance/problem/p6.jpg.asset.json";
-import j1 from "@/assets/uae-compliance/journey/j1.jpg.asset.json";
-import j2 from "@/assets/uae-compliance/journey/j2.jpg.asset.json";
-import j3 from "@/assets/uae-compliance/journey/j3.jpg.asset.json";
-import j4 from "@/assets/uae-compliance/journey/j4.jpg.asset.json";
+import p1 from "@/assets/uae-compliance/problem/p1.jpg";
+import p2 from "@/assets/uae-compliance/problem/p2.jpg";
+import p3 from "@/assets/uae-compliance/problem/p3.jpg";
+import p4 from "@/assets/uae-compliance/problem/p4.jpg";
+import p5 from "@/assets/uae-compliance/problem/p5.jpg";
+import p6 from "@/assets/uae-compliance/problem/p6.jpg";
+import j1 from "@/assets/uae-compliance/journey/j1.jpg";
+import j2 from "@/assets/uae-compliance/journey/j2.jpg";
+import j3 from "@/assets/uae-compliance/journey/j3.jpg";
+import j4 from "@/assets/uae-compliance/journey/j4.jpg";
 
 export type UAEComplianceSectionKey =
   | "Hero"
@@ -57,12 +57,12 @@ export const UAE_COMPLIANCE_DEFAULTS = {
     heading: "Every GCC Country is a Different",
     headingAccent: "Compliance Landscape.",
     items: [
-      { title: "Three Frameworks at Once", description: "A group operating in Dubai, Abu Dhabi, and Doha is subject to three different insurance frameworks, data protection regimes, and e-health platform requirements — simultaneously.", image: p1.url },
-      { title: "DHA vs DOH Specifications", description: "UAE facilities must comply with both DHA in Dubai and DOH in Abu Dhabi — similar in intent but different in technical specification. Generic systems can't bridge both.", image: p2.url },
-      { title: "HIE Integration as Afterthought", description: "Malaffi and Riayati require active integration and real-time data sharing — yet most systems treat HIE connectivity as a checkbox rather than a core capability.", image: p3.url },
-      { title: "Disparate National Platforms", description: "Qatar's NHIX, Bahrain's NHRA, and Kuwait's MOH all have distinct integration requirements that a single generic system cannot address without country-specific configuration.", image: p4.url },
-      { title: "Strict Data Protection Laws", description: "UAE Federal Personal Data Protection Law and equivalent GCC frameworks impose strict requirements on how patient data is stored, processed, and transferred.", image: p5.url },
-      { title: "Manual Group Reporting", description: "Multi-country groups produce compliance reports for each market separately using manual processes — slow, error-prone, and impossible to consolidate at group level.", image: p6.url },
+      { title: "Three Frameworks at Once", description: "A group operating in Dubai, Abu Dhabi, and Doha is subject to three different insurance frameworks, data protection regimes, and e-health platform requirements — simultaneously.", image: p1 },
+      { title: "DHA vs DOH Specifications", description: "UAE facilities must comply with both DHA in Dubai and DOH in Abu Dhabi — similar in intent but different in technical specification. Generic systems can't bridge both.", image: p2 },
+      { title: "HIE Integration as Afterthought", description: "Malaffi and Riayati require active integration and real-time data sharing — yet most systems treat HIE connectivity as a checkbox rather than a core capability.", image: p3 },
+      { title: "Disparate National Platforms", description: "Qatar's NHIX, Bahrain's NHRA, and Kuwait's MOH all have distinct integration requirements that a single generic system cannot address without country-specific configuration.", image: p4 },
+      { title: "Strict Data Protection Laws", description: "UAE Federal Personal Data Protection Law and equivalent GCC frameworks impose strict requirements on how patient data is stored, processed, and transferred.", image: p5 },
+      { title: "Manual Group Reporting", description: "Multi-country groups produce compliance reports for each market separately using manual processes — slow, error-prone, and impossible to consolidate at group level.", image: p6 },
     ],
   },
   "The Platform": {
@@ -87,10 +87,10 @@ export const UAE_COMPLIANCE_DEFAULTS = {
     heading: "Regional Compliance in 4 Stages",
     body: "From mapping to continuous alignment — every country, every regulator, every payer covered end to end.",
     items: [
-      { icon: "MapPin", title: "Regional Compliance Mapping", description: "Our GCC implementation team maps your operational footprint — countries, facilities, regulatory frameworks, and payers — and produces a prioritized country-by-country gap analysis.", image: j1.url },
-      { icon: "Settings", title: "Country Configuration & Integration", description: "Each facility is configured to its local regulatory environment. Country-specific payer profiles, coding standards, claim formats, and national platform integrations are activated and tested.", image: j2.url },
-      { icon: "GraduationCap", title: "Bilingual Training & Phased Go-Live", description: "Staff across all markets are trained in Arabic and English by country-specialist consultants. Go-live is phased by country or facility with on-site live support during each go-live.", image: j3.url },
-      { icon: "RefreshCw", title: "Continuous Regulatory Alignment", description: "Our regional compliance team monitors all GCC markets continuously and deploys updates before effective dates — so your facilities stay compliant without tracking changes themselves.", image: j4.url },
+      { icon: "MapPin", title: "Regional Compliance Mapping", description: "Our GCC implementation team maps your operational footprint — countries, facilities, regulatory frameworks, and payers — and produces a prioritized country-by-country gap analysis.", image: j1 },
+      { icon: "Settings", title: "Country Configuration & Integration", description: "Each facility is configured to its local regulatory environment. Country-specific payer profiles, coding standards, claim formats, and national platform integrations are activated and tested.", image: j2 },
+      { icon: "GraduationCap", title: "Bilingual Training & Phased Go-Live", description: "Staff across all markets are trained in Arabic and English by country-specialist consultants. Go-live is phased by country or facility with on-site live support during each go-live.", image: j3 },
+      { icon: "RefreshCw", title: "Continuous Regulatory Alignment", description: "Our regional compliance team monitors all GCC markets continuously and deploys updates before effective dates — so your facilities stay compliant without tracking changes themselves.", image: j4 },
     ],
   },
   Outcomes: {

@@ -4,19 +4,19 @@ import { useSectionsContent } from "@/lib/useSectionsContent";
 
 import heroVideo from "@/assets/emram/emram-hero.mp4.asset.json";
 import ctaVideo from "@/assets/emram/emram-cta.mp4.asset.json";
-import p1 from "@/assets/emram/problem/p1.jpg.asset.json";
-import p2 from "@/assets/emram/problem/p2.jpg.asset.json";
-import p3 from "@/assets/emram/problem/p3.jpg.asset.json";
-import p4 from "@/assets/emram/problem/p4.jpg.asset.json";
-import p5 from "@/assets/emram/problem/p5.jpg.asset.json";
-import p6 from "@/assets/emram/problem/p6.jpg.asset.json";
-import j1 from "@/assets/emram/journey/j1.jpg.asset.json";
-import j2 from "@/assets/emram/journey/j2.jpg.asset.json";
-import j3 from "@/assets/emram/journey/j3.jpg.asset.json";
-import j4 from "@/assets/emram/journey/j4.jpg.asset.json";
-import j5 from "@/assets/emram/journey/j5.jpg.asset.json";
-import j6 from "@/assets/emram/journey/j6.jpg.asset.json";
-import j7 from "@/assets/emram/journey/j7.jpg.asset.json";
+import p1 from "@/assets/emram/problem/p1.jpg";
+import p2 from "@/assets/emram/problem/p2.jpg";
+import p3 from "@/assets/emram/problem/p3.jpg";
+import p4 from "@/assets/emram/problem/p4.jpg";
+import p5 from "@/assets/emram/problem/p5.jpg";
+import p6 from "@/assets/emram/problem/p6.jpg";
+import j1 from "@/assets/emram/journey/j1.jpg";
+import j2 from "@/assets/emram/journey/j2.jpg";
+import j3 from "@/assets/emram/journey/j3.jpg";
+import j4 from "@/assets/emram/journey/j4.jpg";
+import j5 from "@/assets/emram/journey/j5.jpg";
+import j6 from "@/assets/emram/journey/j6.jpg";
+import j7 from "@/assets/emram/journey/j7.jpg";
 
 export type EMRAMSectionKey =
   | "Hero"
@@ -60,12 +60,12 @@ export const EMRAM_DEFAULTS = {
     heading: "EMRAM Stage 7 Is Not a Technology Milestone.",
     headingAccent: "It Is an Organizational Transformation.",
     items: [
-      { title: "Fragmented Clinical Data", description: "Most hospitals enter the EMRAM journey with fragmented, inconsistent or uncleaned data that cannot be trusted in clinical practice — let alone power AI.", image: p1.url },
-      { title: "Clinical Transformation Gap", description: "IT teams understand the technical requirements but lack the clinical transformation expertise to drive the workflow changes Stage 6 and Stage 7 demand.", image: p2.url },
-      { title: "No Framework for Progress", description: "Leadership invests in digital transformation without a clear framework for measuring progress, demonstrating value or maintaining operational standards.", image: p3.url },
-      { title: "Workflow Adoption Underestimated", description: "EMRAM is not purely technical — it requires clinical leadership engagement, staff behavior change and sustained organizational commitment most programs underestimate.", image: p4.url },
-      { title: "Closed-Loop Medication Complexity", description: "ePrescribing through pharmacy verification, dispensing cabinet integration and barcode-verified administration is the requirement hospitals find most challenging.", image: p5.url },
-      { title: "AI Readiness Is Not a Certificate", description: "Stage 7 opens the door to clinical AI — but data quality, governance frameworks, validation processes and AI literacy must be built systematically.", image: p6.url },
+      { title: "Fragmented Clinical Data", description: "Most hospitals enter the EMRAM journey with fragmented, inconsistent or uncleaned data that cannot be trusted in clinical practice — let alone power AI.", image: p1 },
+      { title: "Clinical Transformation Gap", description: "IT teams understand the technical requirements but lack the clinical transformation expertise to drive the workflow changes Stage 6 and Stage 7 demand.", image: p2 },
+      { title: "No Framework for Progress", description: "Leadership invests in digital transformation without a clear framework for measuring progress, demonstrating value or maintaining operational standards.", image: p3 },
+      { title: "Workflow Adoption Underestimated", description: "EMRAM is not purely technical — it requires clinical leadership engagement, staff behavior change and sustained organizational commitment most programs underestimate.", image: p4 },
+      { title: "Closed-Loop Medication Complexity", description: "ePrescribing through pharmacy verification, dispensing cabinet integration and barcode-verified administration is the requirement hospitals find most challenging.", image: p5 },
+      { title: "AI Readiness Is Not a Certificate", description: "Stage 7 opens the door to clinical AI — but data quality, governance frameworks, validation processes and AI literacy must be built systematically.", image: p6 },
     ],
   },
   "The Platform": {
@@ -88,13 +88,13 @@ export const EMRAM_DEFAULTS = {
     heading: "From Assessment to Stage 7 — A Structured Journey",
     body: "Seven sequenced stages that take your organization from current state to validated digital excellence — and into sustained AI-enabled operation.",
     items: [
-      { icon: "ClipboardList", title: "Baseline Assessment", image: j1.url, description: "We assess your current EMRAM position across all criteria. You receive a current-state score, a gap analysis and a prioritized roadmap." },
-      { icon: "Users", title: "Roadmap Agreement", image: j2.url, description: "Leadership reviews and approves the roadmap. Resources, timelines and governance structures are agreed. The transformation program begins." },
-      { icon: "GitBranch", title: "Technology & Integration", image: j3.url, description: "Missing systems are implemented. Integration gaps are closed. Closed-loop medication safety, CDS and electronic documentation are built to EMRAM specification." },
-      { icon: "Workflow", title: "Clinical Adoption", image: j4.url, description: "Workflows are redesigned, staff are trained, adoption is measured and managed. EMRAM operational standards are embedded in daily clinical practice." },
-      { icon: "Sparkles", title: "AI Readiness Foundation", image: j5.url, description: "Data quality, governance and infrastructure are built to support clinical AI. The readiness assessment confirms readiness for Stage 7 AI-powered analytics." },
-      { icon: "BadgeCheck", title: "Validation & Certification", image: j6.url, description: "Pre-validation mock assessment is conducted, gaps are closed and the formal HIMSS validation is supported from preparation through on-site assessment." },
-      { icon: "Target", title: "Sustained Excellence", image: j7.url, description: "Post-validation operational support ensures EMRAM standards are maintained. AI capabilities are progressively deployed on the mature digital foundation." },
+      { icon: "ClipboardList", title: "Baseline Assessment", image: j1, description: "We assess your current EMRAM position across all criteria. You receive a current-state score, a gap analysis and a prioritized roadmap." },
+      { icon: "Users", title: "Roadmap Agreement", image: j2, description: "Leadership reviews and approves the roadmap. Resources, timelines and governance structures are agreed. The transformation program begins." },
+      { icon: "GitBranch", title: "Technology & Integration", image: j3, description: "Missing systems are implemented. Integration gaps are closed. Closed-loop medication safety, CDS and electronic documentation are built to EMRAM specification." },
+      { icon: "Workflow", title: "Clinical Adoption", image: j4, description: "Workflows are redesigned, staff are trained, adoption is measured and managed. EMRAM operational standards are embedded in daily clinical practice." },
+      { icon: "Sparkles", title: "AI Readiness Foundation", image: j5, description: "Data quality, governance and infrastructure are built to support clinical AI. The readiness assessment confirms readiness for Stage 7 AI-powered analytics." },
+      { icon: "BadgeCheck", title: "Validation & Certification", image: j6, description: "Pre-validation mock assessment is conducted, gaps are closed and the formal HIMSS validation is supported from preparation through on-site assessment." },
+      { icon: "Target", title: "Sustained Excellence", image: j7, description: "Post-validation operational support ensures EMRAM standards are maintained. AI capabilities are progressively deployed on the mature digital foundation." },
     ],
   },
   Outcomes: {

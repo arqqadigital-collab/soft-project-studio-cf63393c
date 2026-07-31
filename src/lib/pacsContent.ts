@@ -2,16 +2,16 @@ import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
 import { useSectionsContent } from "@/lib/useSectionsContent";
 
-import heroImage from "@/assets/pacs/hero.jpg.asset.json";
-import problemNoAccess from "@/assets/pacs/problems/no-access.jpg.asset.json";
-import problemLegacy from "@/assets/pacs/problems/legacy.jpg.asset.json";
-import problemCD from "@/assets/pacs/problems/cd-transfer.jpg.asset.json";
-import problemStorage from "@/assets/pacs/problems/storage-fail.jpg.asset.json";
-import problemRemote from "@/assets/pacs/problems/remote.jpg.asset.json";
-import journeyAcquire from "@/assets/pacs/journey/acquire.jpg.asset.json";
-import journeyRetrieve from "@/assets/pacs/journey/retrieve.jpg.asset.json";
-import journeyReport from "@/assets/pacs/journey/report.jpg.asset.json";
-import journeyDeliver from "@/assets/pacs/journey/deliver.jpg.asset.json";
+import heroImage from "@/assets/pacs/hero.jpg";
+import problemNoAccess from "@/assets/pacs/problems/no-access.jpg";
+import problemLegacy from "@/assets/pacs/problems/legacy.jpg";
+import problemCD from "@/assets/pacs/problems/cd-transfer.jpg";
+import problemStorage from "@/assets/pacs/problems/storage-fail.jpg";
+import problemRemote from "@/assets/pacs/problems/remote.jpg";
+import journeyAcquire from "@/assets/pacs/journey/acquire.jpg";
+import journeyRetrieve from "@/assets/pacs/journey/retrieve.jpg";
+import journeyReport from "@/assets/pacs/journey/report.jpg";
+import journeyDeliver from "@/assets/pacs/journey/deliver.jpg";
 
 export type PACSSectionKey =
   | "Hero"
@@ -40,7 +40,7 @@ export const PACS_DEFAULTS = {
       "AI-Ready Infrastructure",
       "HL7 & RIS Integrated",
     ],
-    mediaUrl: heroImage.url,
+    mediaUrl: heroImage,
     mediaKind: "image",
   },
   Introduction: {
@@ -55,11 +55,11 @@ export const PACS_DEFAULTS = {
     heading: "Imaging Infrastructure Failures Cost Clinicians Time, Patients Safety, and Hospitals Money.",
     headingAccent: "Every Day.",
     items: [
-      { title: "No Access Outside Radiology", description: "A surgeon preparing for a complex procedure cannot access pre-operative imaging from the operating theatre because the PACS is not accessible outside the radiology department.", image: problemNoAccess.url },
-      { title: "Legacy Archives, Lost History", description: "Prior studies from a previous admission sit on a legacy system the current PACS cannot retrieve — so the radiologist reads without comparison, missing interval change that would have changed the report.", image: problemLegacy.url },
-      { title: "CDs, Couriers, and Trauma Delays", description: "A patient arrives in the ED after a road traffic accident. Imaging from the referring hospital cannot be transferred digitally — someone burns a CD, drives it across town, and the trauma team decides from verbal descriptions in the meantime.", image: problemCD.url },
-      { title: "Storage Failures, Lost Studies", description: "Infrastructure fails during an upgrade and a subset of archived studies becomes inaccessible — triggering a clinical governance incident, a patient safety review, and emergency data recovery that costs more than the original investment.", image: problemStorage.url },
-      { title: "Remote Reading That Doesn't Perform", description: "Radiologists working from home cannot access studies at the same speed or quality as they can in the department — because the PACS architecture was never designed for remote reading.", image: problemRemote.url },
+      { title: "No Access Outside Radiology", description: "A surgeon preparing for a complex procedure cannot access pre-operative imaging from the operating theatre because the PACS is not accessible outside the radiology department.", image: problemNoAccess },
+      { title: "Legacy Archives, Lost History", description: "Prior studies from a previous admission sit on a legacy system the current PACS cannot retrieve — so the radiologist reads without comparison, missing interval change that would have changed the report.", image: problemLegacy },
+      { title: "CDs, Couriers, and Trauma Delays", description: "A patient arrives in the ED after a road traffic accident. Imaging from the referring hospital cannot be transferred digitally — someone burns a CD, drives it across town, and the trauma team decides from verbal descriptions in the meantime.", image: problemCD },
+      { title: "Storage Failures, Lost Studies", description: "Infrastructure fails during an upgrade and a subset of archived studies becomes inaccessible — triggering a clinical governance incident, a patient safety review, and emergency data recovery that costs more than the original investment.", image: problemStorage },
+      { title: "Remote Reading That Doesn't Perform", description: "Radiologists working from home cannot access studies at the same speed or quality as they can in the department — because the PACS architecture was never designed for remote reading.", image: problemRemote },
     ],
   },
   "The Platform": {
@@ -83,10 +83,10 @@ export const PACS_DEFAULTS = {
     eyebrow: "How It Works",
     heading: "From Image Acquisition to Clinical Decision — Every Step Seamless",
     items: [
-      { icon: "ScanLine", title: "Image Acquired", image: journeyAcquire.url, description: "The patient is scanned. The modality transmits the study to Secreta PACS via DICOM immediately after acquisition. The study appears in the archive and on the radiologist's worklist within seconds of the last image being generated." },
-      { icon: "History", title: "Priors Retrieved", image: journeyRetrieve.url, description: "Secreta PACS automatically retrieves the patient's relevant prior studies — from the local archive, from federated PACS systems, and from imported external media — and associates them with the current study for comparison viewing." },
-      { icon: "Eye", title: "Displayed & Reported", image: journeyReport.url, description: "The radiologist opens the study in the diagnostic viewer. Priors load in the comparison panel automatically. Advanced visualization is available without switching applications. The structured report template opens pre-populated. The radiologist dictates, reviews, and signs." },
-      { icon: "FileCheck", title: "Report Delivered", image: journeyDeliver.url, description: "The signed report is transmitted to the RIS, referring clinician's EMR view, and patient portal simultaneously. Images are accessible to authorized clinical team members — surgeons, oncologists, emergency physicians — through role-appropriate viewing portals." },
+      { icon: "ScanLine", title: "Image Acquired", image: journeyAcquire, description: "The patient is scanned. The modality transmits the study to Secreta PACS via DICOM immediately after acquisition. The study appears in the archive and on the radiologist's worklist within seconds of the last image being generated." },
+      { icon: "History", title: "Priors Retrieved", image: journeyRetrieve, description: "Secreta PACS automatically retrieves the patient's relevant prior studies — from the local archive, from federated PACS systems, and from imported external media — and associates them with the current study for comparison viewing." },
+      { icon: "Eye", title: "Displayed & Reported", image: journeyReport, description: "The radiologist opens the study in the diagnostic viewer. Priors load in the comparison panel automatically. Advanced visualization is available without switching applications. The structured report template opens pre-populated. The radiologist dictates, reviews, and signs." },
+      { icon: "FileCheck", title: "Report Delivered", image: journeyDeliver, description: "The signed report is transmitted to the RIS, referring clinician's EMR view, and patient portal simultaneously. Images are accessible to authorized clinical team members — surgeons, oncologists, emergency physicians — through role-appropriate viewing portals." },
     ],
   },
   Outcomes: {
@@ -137,7 +137,7 @@ export const PACS_DEFAULTS = {
     secondaryLabel: "Request a PACS Migration Consultation",
     secondaryHref: "#",
     footnote: "Legacy PACS migration support included. On-premise, cloud, and hybrid deployment available. Infrastructure assessment delivered within two weeks. Pricing tailored to your study volume and site configuration.",
-    mediaUrl: heroImage.url,
+    mediaUrl: heroImage,
   },
 } as const;
 

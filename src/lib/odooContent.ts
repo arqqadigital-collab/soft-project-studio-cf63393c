@@ -3,11 +3,11 @@ import { supabase } from "@/integrations/supabase/client";
 import { useSectionsContent } from "@/lib/useSectionsContent";
 
 import heroVideo from "@/assets/odoo/odoo-hero.mp4.asset.json";
-import pattern from "@/assets/odoo/pattern.jpg.asset.json";
-import u1 from "@/assets/odoo/use-case-1.jpg.asset.json";
-import u2 from "@/assets/odoo/use-case-2.jpg.asset.json";
-import u3 from "@/assets/odoo/use-case-3.jpg.asset.json";
-import u4 from "@/assets/odoo/use-case-4.jpg.asset.json";
+import pattern from "@/assets/odoo/pattern.jpg";
+import u1 from "@/assets/odoo/use-case-1.jpg";
+import u2 from "@/assets/odoo/use-case-2.jpg";
+import u3 from "@/assets/odoo/use-case-3.jpg";
+import u4 from "@/assets/odoo/use-case-4.jpg";
 
 export type OdooSectionKey =
   | "Hero"
@@ -81,10 +81,10 @@ export const ODOO_DEFAULTS = {
     body:
       "Representative examples of how custom Odoo development solves operational, integration, and scalability challenges across complex enterprise environments — beyond standard configurations.",
     items: [
-      { n: "01", title: "Multi-Level Purchase Approval Workflow", body: "Configurable approval structures based on purchase value, departments, cost centers, and procurement categories — routing requests automatically across L1, L2, and executive approval chains. Includes delegation rules, escalation logic, and audit tracking.", image: u1.url, alt: "Multi-level purchase approval workflow", modules: "Purchase · Accounting · Approvals" },
-      { n: "02", title: "SAP Financial Synchronization Connector", body: "Real-time synchronization between Odoo and SAP FI environments, aligning journal entries, chart of accounts, cost centers, and financial structures. Built with reconciliation controls, conflict detection, and scheduled delta synchronization.", image: u2.url, alt: "SAP financial synchronization connector", modules: "Accounting · Integration · API" },
-      { n: "03", title: "Customer Self-Service Portal", body: "Custom Odoo portal allowing customers to manage operational interactions through a branded self-service experience. Includes order tracking, invoice access, document downloads, service requests, and dispute management via OWL-based interfaces.", image: u3.url, alt: "Customer self-service portal", modules: "Website · Portal · OWL" },
-      { n: "04", title: "High-Volume Inventory API Infrastructure", body: "Custom API layer exposing real-time inventory availability, reservation status, and inbound supply data to external WMS, 3PL, retail, and eCommerce platforms — with queue-based processing, authentication, and response caching.", image: u4.url, alt: "High-volume inventory API infrastructure", modules: "Inventory · API · Queue" },
+      { n: "01", title: "Multi-Level Purchase Approval Workflow", body: "Configurable approval structures based on purchase value, departments, cost centers, and procurement categories — routing requests automatically across L1, L2, and executive approval chains. Includes delegation rules, escalation logic, and audit tracking.", image: u1, alt: "Multi-level purchase approval workflow", modules: "Purchase · Accounting · Approvals" },
+      { n: "02", title: "SAP Financial Synchronization Connector", body: "Real-time synchronization between Odoo and SAP FI environments, aligning journal entries, chart of accounts, cost centers, and financial structures. Built with reconciliation controls, conflict detection, and scheduled delta synchronization.", image: u2, alt: "SAP financial synchronization connector", modules: "Accounting · Integration · API" },
+      { n: "03", title: "Customer Self-Service Portal", body: "Custom Odoo portal allowing customers to manage operational interactions through a branded self-service experience. Includes order tracking, invoice access, document downloads, service requests, and dispute management via OWL-based interfaces.", image: u3, alt: "Customer self-service portal", modules: "Website · Portal · OWL" },
+      { n: "04", title: "High-Volume Inventory API Infrastructure", body: "Custom API layer exposing real-time inventory availability, reservation status, and inbound supply data to external WMS, 3PL, retail, and eCommerce platforms — with queue-based processing, authentication, and response caching.", image: u4, alt: "High-volume inventory API infrastructure", modules: "Inventory · API · Queue" },
     ],
   },
   "80/20 Statement": {
@@ -94,7 +94,7 @@ export const ODOO_DEFAULTS = {
       "That final 20% is where differentiation lives: your approvals, reporting formats, controls, and integration contracts.",
     body2:
       "We build that layer with the same engineering discipline as the rest of your stack — designed for maintainability, tested before deployment, and documented for the teams that support it long term.",
-    backgroundUrl: pattern.url,
+    backgroundUrl: pattern,
   },
   "Who We Serve": {
     eyebrow: "Business Impact",

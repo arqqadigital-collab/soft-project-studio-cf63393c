@@ -2,15 +2,15 @@ import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
 import { useSectionsContent } from "@/lib/useSectionsContent";
 
-import hero from "@/assets/consulting/hero.jpg.asset.json";
-import cta from "@/assets/consulting/cta.jpg.asset.json";
-import s1 from "@/assets/consulting/s1.jpg.asset.json";
-import s2 from "@/assets/consulting/s2.jpg.asset.json";
-import s3 from "@/assets/consulting/s3.jpg.asset.json";
-import s4 from "@/assets/consulting/s4.jpg.asset.json";
-import s5 from "@/assets/consulting/s5.jpg.asset.json";
-import s6 from "@/assets/consulting/s6.jpg.asset.json";
-import s7 from "@/assets/consulting/s7.jpg.asset.json";
+import hero from "@/assets/consulting/hero.jpg";
+import cta from "@/assets/consulting/cta.jpg";
+import s1 from "@/assets/consulting/s1.jpg";
+import s2 from "@/assets/consulting/s2.jpg";
+import s3 from "@/assets/consulting/s3.jpg";
+import s4 from "@/assets/consulting/s4.jpg";
+import s5 from "@/assets/consulting/s5.jpg";
+import s6 from "@/assets/consulting/s6.jpg";
+import s7 from "@/assets/consulting/s7.jpg";
 
 export type ConsultingSectionKey =
   | "Hero"
@@ -33,7 +33,7 @@ export const CONSULTING_DEFAULTS = {
     ctaLabel2: "Talk to a Consultant",
     ctaHref2: "#contact",
     footnote: "A complimentary 60-minute session with a senior SBS consultant. No obligation.",
-    image: hero.url,
+    image: hero,
   },
   "The Problem": {
     eyebrow: "The Challenge",
@@ -68,13 +68,13 @@ export const CONSULTING_DEFAULTS = {
     heading: "Our Consulting",
     headingAccent: "Services.",
     items: [
-      { n: "01", icon: "Map", title: "IT Strategy & Technology Roadmap Development", tagline: "Build a clear, prioritized path forward.", body: "Many organizations operate without a coherent IT strategy — responding to immediate needs rather than building toward a long-term vision. SBS helps you define where you want to go, what it will take to get there, and how to sequence your investments for maximum impact.", image: s1.url, bullets: ["Current-state assessment of your IT landscape and capabilities", "Future-state vision aligned with business strategy", "Multi-year technology roadmap with prioritized initiatives", "Business case development for key investments", "Executive presentation and stakeholder alignment support"] },
-      { n: "02", icon: "Rocket", title: "Digital Transformation Advisory", tagline: "Transform intelligently — not just rapidly.", body: "Digital transformation is one of the most overused and least understood terms in business today. SBS cuts through the noise with a structured, people-centered transformation approach that addresses technology, process, and organizational change together.", image: s2.url, bullets: ["Digital maturity assessment and benchmarking", "Transformation strategy and phased execution plan", "Change management framework and communication planning", "Technology enablement recommendations", "Executive sponsorship and governance model design"] },
-      { n: "03", icon: "Building2", title: "Enterprise Architecture Consulting", tagline: "Build an architecture that scales with your ambitions.", body: "An organization's enterprise architecture is the foundation on which all technology decisions rest. Poor architecture leads to technical debt, integration failures, and systems that constrain rather than enable growth. SBS architects design future-ready, scalable, and secure enterprise architectures aligned with your strategic objectives.", image: s3.url, bullets: ["Business, application, data, and technology architecture design", "Architecture assessment and gap analysis", "Reference architecture and standards development", "Integration architecture design", "Architecture governance framework"] },
-      { n: "04", icon: "ClipboardCheck", title: "Technology Assessment & Vendor Selection", tagline: "Choose the right technology with confidence.", body: "With thousands of technology vendors competing for your attention, making the wrong choice is easy. SBS provides an objective, structured evaluation process that cuts through vendor noise and identifies the solution that genuinely fits your requirements.", image: s4.url, bullets: ["Requirements gathering and functional specification development", "Market scan and vendor longlist/shortlist development", "RFP/RFI development and management", "Vendor evaluation scorecards and demos facilitation", "Final recommendation with detailed rationale"] },
-      { n: "05", icon: "ListChecks", title: "Project Management Office (PMO) & Governance", tagline: "Bring discipline and accountability to your technology programs.", body: "Technology programs fail most often due to poor governance — unclear accountability, inadequate risk management, and insufficient executive visibility. SBS establishes or strengthens your PMO to ensure every initiative is delivered with discipline and transparency.", image: s5.url, bullets: ["PMO setup and operating model design", "Project governance frameworks and escalation paths", "Portfolio, program, and project management methodology", "Reporting dashboards and executive status updates", "Risk and issue management processes"] },
-      { n: "06", icon: "Workflow", title: "Business Process Optimization", tagline: "Eliminate waste. Unlock productivity.", body: "Many organizations carry significant operational inefficiency that silently drains resources and limits growth. SBS maps, analyzes, and redesigns your business processes to eliminate bottlenecks, reduce manual effort, and create the operational foundation for scalable growth.", image: s6.url, bullets: ["Current-state process mapping and analysis", "Bottleneck and waste identification", "Future-state process design", "Automation opportunity assessment", "Implementation planning and change management support"] },
-      { n: "07", icon: "ShieldCheck", title: "Compliance & Risk Management Consulting", tagline: "Know your obligations. Manage your exposure.", body: "Regulatory complexity is growing in every industry. SBS helps organizations build sustainable compliance and risk management programs that satisfy regulators, protect operations, and create genuine business value.", image: s7.url, bullets: ["Regulatory landscape mapping and obligation inventory", "Risk assessment and risk register development", "Control framework design and implementation", "Policy and procedure documentation", "Audit readiness and evidence preparation support", "Ongoing compliance advisory retainer options"] },
+      { n: "01", icon: "Map", title: "IT Strategy & Technology Roadmap Development", tagline: "Build a clear, prioritized path forward.", body: "Many organizations operate without a coherent IT strategy — responding to immediate needs rather than building toward a long-term vision. SBS helps you define where you want to go, what it will take to get there, and how to sequence your investments for maximum impact.", image: s1, bullets: ["Current-state assessment of your IT landscape and capabilities", "Future-state vision aligned with business strategy", "Multi-year technology roadmap with prioritized initiatives", "Business case development for key investments", "Executive presentation and stakeholder alignment support"] },
+      { n: "02", icon: "Rocket", title: "Digital Transformation Advisory", tagline: "Transform intelligently — not just rapidly.", body: "Digital transformation is one of the most overused and least understood terms in business today. SBS cuts through the noise with a structured, people-centered transformation approach that addresses technology, process, and organizational change together.", image: s2, bullets: ["Digital maturity assessment and benchmarking", "Transformation strategy and phased execution plan", "Change management framework and communication planning", "Technology enablement recommendations", "Executive sponsorship and governance model design"] },
+      { n: "03", icon: "Building2", title: "Enterprise Architecture Consulting", tagline: "Build an architecture that scales with your ambitions.", body: "An organization's enterprise architecture is the foundation on which all technology decisions rest. Poor architecture leads to technical debt, integration failures, and systems that constrain rather than enable growth. SBS architects design future-ready, scalable, and secure enterprise architectures aligned with your strategic objectives.", image: s3, bullets: ["Business, application, data, and technology architecture design", "Architecture assessment and gap analysis", "Reference architecture and standards development", "Integration architecture design", "Architecture governance framework"] },
+      { n: "04", icon: "ClipboardCheck", title: "Technology Assessment & Vendor Selection", tagline: "Choose the right technology with confidence.", body: "With thousands of technology vendors competing for your attention, making the wrong choice is easy. SBS provides an objective, structured evaluation process that cuts through vendor noise and identifies the solution that genuinely fits your requirements.", image: s4, bullets: ["Requirements gathering and functional specification development", "Market scan and vendor longlist/shortlist development", "RFP/RFI development and management", "Vendor evaluation scorecards and demos facilitation", "Final recommendation with detailed rationale"] },
+      { n: "05", icon: "ListChecks", title: "Project Management Office (PMO) & Governance", tagline: "Bring discipline and accountability to your technology programs.", body: "Technology programs fail most often due to poor governance — unclear accountability, inadequate risk management, and insufficient executive visibility. SBS establishes or strengthens your PMO to ensure every initiative is delivered with discipline and transparency.", image: s5, bullets: ["PMO setup and operating model design", "Project governance frameworks and escalation paths", "Portfolio, program, and project management methodology", "Reporting dashboards and executive status updates", "Risk and issue management processes"] },
+      { n: "06", icon: "Workflow", title: "Business Process Optimization", tagline: "Eliminate waste. Unlock productivity.", body: "Many organizations carry significant operational inefficiency that silently drains resources and limits growth. SBS maps, analyzes, and redesigns your business processes to eliminate bottlenecks, reduce manual effort, and create the operational foundation for scalable growth.", image: s6, bullets: ["Current-state process mapping and analysis", "Bottleneck and waste identification", "Future-state process design", "Automation opportunity assessment", "Implementation planning and change management support"] },
+      { n: "07", icon: "ShieldCheck", title: "Compliance & Risk Management Consulting", tagline: "Know your obligations. Manage your exposure.", body: "Regulatory complexity is growing in every industry. SBS helps organizations build sustainable compliance and risk management programs that satisfy regulators, protect operations, and create genuine business value.", image: s7, bullets: ["Regulatory landscape mapping and obligation inventory", "Risk assessment and risk register development", "Control framework design and implementation", "Policy and procedure documentation", "Audit readiness and evidence preparation support", "Ongoing compliance advisory retainer options"] },
     ],
   },
   "Why SBS": {
@@ -120,7 +120,7 @@ export const CONSULTING_DEFAULTS = {
     ctaLabel2: "Contact Our Consulting Team",
     ctaHref2: "#form",
     footnote: "Confidential. No obligation. Delivered by a senior consultant — not a sales rep.",
-    image: cta.url,
+    image: cta,
   },
 } as const;
 

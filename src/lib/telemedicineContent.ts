@@ -2,17 +2,17 @@ import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
 import { useSectionsContent } from "@/lib/useSectionsContent";
 
-import heroImage from "@/assets/telemedicine/hero.jpg.asset.json";
-import p1 from "@/assets/telemedicine/problems/p1.jpg.asset.json";
-import p2 from "@/assets/telemedicine/problems/p2.jpg.asset.json";
-import p3 from "@/assets/telemedicine/problems/p3.jpg.asset.json";
-import p4 from "@/assets/telemedicine/problems/p4.jpg.asset.json";
-import p5 from "@/assets/telemedicine/problems/p5.jpg.asset.json";
-import j1 from "@/assets/telemedicine/journey/j1.jpg.asset.json";
-import j2 from "@/assets/telemedicine/journey/j2.jpg.asset.json";
-import j3 from "@/assets/telemedicine/journey/j3.jpg.asset.json";
-import j4 from "@/assets/telemedicine/journey/j4.jpg.asset.json";
-import j5 from "@/assets/telemedicine/journey/j5.jpg.asset.json";
+import heroImage from "@/assets/telemedicine/hero.jpg";
+import p1 from "@/assets/telemedicine/problems/p1.jpg";
+import p2 from "@/assets/telemedicine/problems/p2.jpg";
+import p3 from "@/assets/telemedicine/problems/p3.jpg";
+import p4 from "@/assets/telemedicine/problems/p4.jpg";
+import p5 from "@/assets/telemedicine/problems/p5.jpg";
+import j1 from "@/assets/telemedicine/journey/j1.jpg";
+import j2 from "@/assets/telemedicine/journey/j2.jpg";
+import j3 from "@/assets/telemedicine/journey/j3.jpg";
+import j4 from "@/assets/telemedicine/journey/j4.jpg";
+import j5 from "@/assets/telemedicine/journey/j5.jpg";
 
 export type TelemedicineSectionKey =
   | "Hero"
@@ -41,7 +41,7 @@ export const TELEMEDICINE_DEFAULTS = {
       "e-Prescribing Ready",
       "Multi-Language",
     ],
-    mediaUrl: heroImage.url,
+    mediaUrl: heroImage,
     mediaKind: "image",
   },
   Introduction: {
@@ -56,11 +56,11 @@ export const TELEMEDICINE_DEFAULTS = {
     heading: "Consumer Tools Weren't Built for Clinical Care.",
     headingAccent: "Every Visit Is a Risk.",
     items: [
-      { title: "Consumer Video Isn't Clinical", description: "Consultations happening on consumer video apps with no clinical record, no consent trail and no way to prescribe safely — a compliance incident waiting to happen.", image: p1.url },
-      { title: "Fragmented Follow-Up", description: "A patient sees a virtual doctor once, then disappears — because there is no messaging channel, no follow-up workflow and no shared record with their local physician.", image: p2.url },
-      { title: "Prescriptions in Limbo", description: "A prescription written on video with no e-prescribing integration ends up as a screenshot the patient walks around with — with no audit trail and no pharmacy link.", image: p3.url },
-      { title: "Blind Vitals", description: "A clinician makes a treatment decision on a virtual call without any objective vitals — because the patient's home devices don't connect to any clinical system.", image: p4.url },
-      { title: "Unauditable Consultations", description: "A malpractice claim arrives months later with no recording, no structured notes and no consent — because the tool used for the visit was never designed for healthcare.", image: p5.url },
+      { title: "Consumer Video Isn't Clinical", description: "Consultations happening on consumer video apps with no clinical record, no consent trail and no way to prescribe safely — a compliance incident waiting to happen.", image: p1 },
+      { title: "Fragmented Follow-Up", description: "A patient sees a virtual doctor once, then disappears — because there is no messaging channel, no follow-up workflow and no shared record with their local physician.", image: p2 },
+      { title: "Prescriptions in Limbo", description: "A prescription written on video with no e-prescribing integration ends up as a screenshot the patient walks around with — with no audit trail and no pharmacy link.", image: p3 },
+      { title: "Blind Vitals", description: "A clinician makes a treatment decision on a virtual call without any objective vitals — because the patient's home devices don't connect to any clinical system.", image: p4 },
+      { title: "Unauditable Consultations", description: "A malpractice claim arrives months later with no recording, no structured notes and no consent — because the tool used for the visit was never designed for healthcare.", image: p5 },
     ],
   },
   "The Platform": {
@@ -81,11 +81,11 @@ export const TELEMEDICINE_DEFAULTS = {
     eyebrow: "How It Works",
     heading: "The Complete Virtual Visit — Managed in One System",
     items: [
-      { icon: "CalendarClock", title: "Patient Books Online", image: j1.url, description: "The patient chooses a provider, specialty and time slot from any device. Insurance and payment are captured up front. A secure consultation link is issued instantly with reminders scheduled automatically." },
-      { icon: "FileText", title: "Digital Intake", image: j2.url, description: "Before the call, the patient completes structured intake, uploads photos and signs digital consent. The clinician reviews the summary before the session starts — every minute of the visit spent on care, not admin." },
-      { icon: "Video", title: "Secure Video Consult", image: j3.url, description: "Encrypted video begins on time with the full clinical record loaded, vitals streaming from connected devices, and in-call tools for imaging, screen share and note-taking." },
-      { icon: "Pill", title: "Diagnosis & e-Prescription", image: j4.url, description: "The clinician documents the encounter with reusable templates, orders investigations and prescribes electronically — with drug safety checks running in the background at every order." },
-      { icon: "MessageSquare", title: "Follow-up & Continuous Care", image: j5.url, description: "After the visit, patients access notes, prescriptions and educational content in their portal. Secure messaging keeps the care team connected until the next scheduled review." },
+      { icon: "CalendarClock", title: "Patient Books Online", image: j1, description: "The patient chooses a provider, specialty and time slot from any device. Insurance and payment are captured up front. A secure consultation link is issued instantly with reminders scheduled automatically." },
+      { icon: "FileText", title: "Digital Intake", image: j2, description: "Before the call, the patient completes structured intake, uploads photos and signs digital consent. The clinician reviews the summary before the session starts — every minute of the visit spent on care, not admin." },
+      { icon: "Video", title: "Secure Video Consult", image: j3, description: "Encrypted video begins on time with the full clinical record loaded, vitals streaming from connected devices, and in-call tools for imaging, screen share and note-taking." },
+      { icon: "Pill", title: "Diagnosis & e-Prescription", image: j4, description: "The clinician documents the encounter with reusable templates, orders investigations and prescribes electronically — with drug safety checks running in the background at every order." },
+      { icon: "MessageSquare", title: "Follow-up & Continuous Care", image: j5, description: "After the visit, patients access notes, prescriptions and educational content in their portal. Secure messaging keeps the care team connected until the next scheduled review." },
     ],
   },
   Outcomes: {
@@ -130,7 +130,7 @@ export const TELEMEDICINE_DEFAULTS = {
     secondaryLabel: "Start a 30-Day Trial",
     secondaryHref: "#",
     footnote: "No setup fees. No long-term contracts. Dedicated support from day one.",
-    mediaUrl: heroImage.url,
+    mediaUrl: heroImage,
   },
 } as const;
 

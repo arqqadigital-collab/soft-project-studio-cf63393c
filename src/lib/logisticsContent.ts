@@ -2,16 +2,16 @@ import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
 import { useSectionsContent } from "@/lib/useSectionsContent";
 
-import hero from "@/assets/logistics/hero.jpg.asset.json";
-import tradFail from "@/assets/logistics/traditional-fail.jpg.asset.json";
-import p1 from "@/assets/logistics/p1.jpg.asset.json";
-import p2 from "@/assets/logistics/p2.jpg.asset.json";
-import p3 from "@/assets/logistics/p3.jpg.asset.json";
-import u1 from "@/assets/logistics/uc1.jpg.asset.json";
-import u2 from "@/assets/logistics/uc2.jpg.asset.json";
-import u3 from "@/assets/logistics/uc3.jpg.asset.json";
-import u4 from "@/assets/logistics/uc4.jpg.asset.json";
-import u5 from "@/assets/logistics/uc5.jpg.asset.json";
+import hero from "@/assets/logistics/hero.jpg";
+import tradFail from "@/assets/logistics/traditional-fail.jpg";
+import p1 from "@/assets/logistics/p1.jpg";
+import p2 from "@/assets/logistics/p2.jpg";
+import p3 from "@/assets/logistics/p3.jpg";
+import u1 from "@/assets/logistics/uc1.jpg";
+import u2 from "@/assets/logistics/uc2.jpg";
+import u3 from "@/assets/logistics/uc3.jpg";
+import u4 from "@/assets/logistics/uc4.jpg";
+import u5 from "@/assets/logistics/uc5.jpg";
 
 export type LogisticsSectionKey =
   | "Hero"
@@ -35,7 +35,7 @@ export const LOGISTICS_DEFAULTS = {
     ctaHref: "#contact",
     ctaLabel2: "Explore capabilities",
     ctaHref2: "#capabilities",
-    image: hero.url,
+    image: hero,
   },
   "The Problem": {
     eyebrow: "The Problem",
@@ -44,16 +44,16 @@ export const LOGISTICS_DEFAULTS = {
     body:
       "Logistics complexity is rarely about transportation — it is about synchronization. Small inefficiencies compound into systemic delivery failure.",
     items: [
-      { n: "01", label: "RISK", title: "Inventory Inconsistencies", body: "Stock levels differ across warehouses. Reports say one thing, shelves show another — and every mismatch becomes a delayed order or a lost sale.", image: p1.url },
-      { n: "02", label: "RISK", title: "Shipment Delays", body: "Dispatch, routing, and tracking live in separate tools. Poor coordination between teams turns predictable deliveries into daily firefighting.", image: p2.url },
-      { n: "03", label: "RISK", title: "Manual Movement Tracking", body: "Goods movement is logged on paper and re-entered later. Real-time stock visibility is impossible when data is always hours behind reality.", image: p3.url },
+      { n: "01", label: "RISK", title: "Inventory Inconsistencies", body: "Stock levels differ across warehouses. Reports say one thing, shelves show another — and every mismatch becomes a delayed order or a lost sale.", image: p1 },
+      { n: "02", label: "RISK", title: "Shipment Delays", body: "Dispatch, routing, and tracking live in separate tools. Poor coordination between teams turns predictable deliveries into daily firefighting.", image: p2 },
+      { n: "03", label: "RISK", title: "Manual Movement Tracking", body: "Goods movement is logged on paper and re-entered later. Real-time stock visibility is impossible when data is always hours behind reality.", image: p3 },
     ],
   },
   "Traditional Fail": {
     heading: "Why Traditional ERP Systems Fail Logistics Companies",
     body: "Most ERP systems treat logistics as a reporting layer — not a real-time operational system:",
     footnote: "Logistics requires live operational orchestration, not record keeping.",
-    image: tradFail.url,
+    image: tradFail,
     bullets: [
       "Warehouse data is updated after movement, not during it",
       "Shipment tracking is external and disconnected",
@@ -92,11 +92,11 @@ export const LOGISTICS_DEFAULTS = {
     heading: "Real distribution environments",
     headingAccent: "we solve for.",
     items: [
-      { n: "01", title: "Multi-warehouse distribution networks", body: "Unified visibility and synchronized inventory across every warehouse, so stock decisions reflect the entire network — not one location.", image: u1.url },
-      { n: "02", title: "High-volume order fulfillment operations", body: "Automated picking, packing, and dispatch workflows built to absorb spikes without breaking service levels.", image: u2.url },
-      { n: "03", title: "Import/export supply chain coordination", body: "Coordinated procurement, customs, and inbound logistics so international movement is tracked as one continuous flow.", image: u3.url },
-      { n: "04", title: "Retail distribution networks", body: "Store replenishment driven by real demand — connecting distribution centers, transport, and retail outlets in one system.", image: u4.url },
-      { n: "05", title: "3PL logistics operations", body: "Client-segregated inventory, billing rules, and SLAs managed inside a single control tower purpose-built for third-party logistics.", image: u5.url },
+      { n: "01", title: "Multi-warehouse distribution networks", body: "Unified visibility and synchronized inventory across every warehouse, so stock decisions reflect the entire network — not one location.", image: u1 },
+      { n: "02", title: "High-volume order fulfillment operations", body: "Automated picking, packing, and dispatch workflows built to absorb spikes without breaking service levels.", image: u2 },
+      { n: "03", title: "Import/export supply chain coordination", body: "Coordinated procurement, customs, and inbound logistics so international movement is tracked as one continuous flow.", image: u3 },
+      { n: "04", title: "Retail distribution networks", body: "Store replenishment driven by real demand — connecting distribution centers, transport, and retail outlets in one system.", image: u4 },
+      { n: "05", title: "3PL logistics operations", body: "Client-segregated inventory, billing rules, and SLAs managed inside a single control tower purpose-built for third-party logistics.", image: u5 },
     ],
   },
   "Business Impact": {
@@ -141,7 +141,7 @@ export const LOGISTICS_DEFAULTS = {
       "If your logistics decisions rely on delayed reports or disconnected systems, your supply chain is operating blind. SBS builds ERP systems that bring real-time clarity to every movement in your network.",
     ctaLabel: "Request a logistics ERP consultation",
     ctaHref: "#contact",
-    image: hero.url,
+    image: hero,
   },
 } as const;
 

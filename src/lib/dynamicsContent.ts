@@ -3,11 +3,11 @@ import { supabase } from "@/integrations/supabase/client";
 import { useSectionsContent } from "@/lib/useSectionsContent";
 
 import heroVideo from "@/assets/dynamics/dynamics-hero-bg.mp4.asset.json";
-import pattern from "@/assets/dynamics/dynamics-pattern.jpg.asset.json";
-import u1 from "@/assets/dynamics/use-case-1.jpg.asset.json";
-import u2 from "@/assets/dynamics/use-case-2.jpg.asset.json";
-import u3 from "@/assets/dynamics/use-case-3.jpg.asset.json";
-import u4 from "@/assets/dynamics/use-case-4.jpg.asset.json";
+import pattern from "@/assets/dynamics/dynamics-pattern.jpg";
+import u1 from "@/assets/dynamics/use-case-1.jpg";
+import u2 from "@/assets/dynamics/use-case-2.jpg";
+import u3 from "@/assets/dynamics/use-case-3.jpg";
+import u4 from "@/assets/dynamics/use-case-4.jpg";
 
 export type DynamicsSectionKey =
   | "Hero"
@@ -28,7 +28,7 @@ export const DYNAMICS_DEFAULTS = {
     ctaLabel2: "View capabilities",
     ctaHref2: "#services",
     mediaUrl: heroVideo.url,
-    posterUrl: pattern.url,
+    posterUrl: pattern,
   },
   Introduction: {
     headline: "Microsoft Dynamics 365",
@@ -155,7 +155,7 @@ export const DYNAMICS_DEFAULTS = {
         title: "Multi-Entity Financial Management",
         body:
           "Centralized financial operations across multiple companies, branches, or operational entities with standardized reporting, approval governance, and consolidated visibility.",
-        image: u1.url,
+        image: u1,
         alt: "Multi-entity financial consolidation",
       },
       {
@@ -163,7 +163,7 @@ export const DYNAMICS_DEFAULTS = {
         title: "Procurement & Approval Workflow Automation",
         body:
           "Automated procurement approvals based on department structure, budget thresholds, operational hierarchy, and compliance policies.",
-        image: u2.url,
+        image: u2,
         alt: "Procurement and approval workflow automation",
       },
       {
@@ -171,7 +171,7 @@ export const DYNAMICS_DEFAULTS = {
         title: "Executive Power BI Reporting Layer",
         body:
           "Centralized operational and financial dashboards providing leadership teams with real-time visibility into KPIs, operational performance, and enterprise metrics.",
-        image: u3.url,
+        image: u3,
         alt: "Executive Power BI reporting dashboard",
       },
       {
@@ -179,7 +179,7 @@ export const DYNAMICS_DEFAULTS = {
         title: "Cross-System ERP Integration",
         body:
           "Integration between Microsoft Dynamics and external operational systems including banking platforms, logistics providers, healthcare systems, and enterprise applications.",
-        image: u4.url,
+        image: u4,
         alt: "Cross-system ERP integration",
       },
     ],
@@ -252,7 +252,7 @@ export const DYNAMICS_DEFAULTS = {
       "Out-of-the-box Dynamics 365 handles the standard. It does not handle your approval governance, your multi-entity reporting structure, your integration contracts with legacy systems, or the operational logic that defines how your enterprise runs.",
     body2:
       "SBS builds that layer — structured around your operational requirements, governed through a defined implementation process, and maintained for long-term scalability.",
-    backgroundUrl: pattern.url,
+    backgroundUrl: pattern,
   },
   "Discovery Session": {
     eyebrow: "Discovery Session",

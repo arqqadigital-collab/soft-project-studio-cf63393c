@@ -2,18 +2,18 @@ import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
 import { useSectionsContent } from "@/lib/useSectionsContent";
 
-import hero from "@/assets/cybersecurity/hero.jpg.asset.json";
-import cta from "@/assets/cybersecurity/cta.jpg.asset.json";
-import t1 from "@/assets/cybersecurity/threat1.jpg.asset.json";
-import t2 from "@/assets/cybersecurity/threat2.jpg.asset.json";
-import t3 from "@/assets/cybersecurity/threat3.jpg.asset.json";
-import s1 from "@/assets/cybersecurity/s1.jpg.asset.json";
-import s2 from "@/assets/cybersecurity/s2.jpg.asset.json";
-import s3 from "@/assets/cybersecurity/s3.jpg.asset.json";
-import s4 from "@/assets/cybersecurity/s4.jpg.asset.json";
-import s5 from "@/assets/cybersecurity/s5.jpg.asset.json";
-import s6 from "@/assets/cybersecurity/s6.jpg.asset.json";
-import s7 from "@/assets/cybersecurity/s7.jpg.asset.json";
+import hero from "@/assets/cybersecurity/hero.jpg";
+import cta from "@/assets/cybersecurity/cta.jpg";
+import t1 from "@/assets/cybersecurity/threat1.jpg";
+import t2 from "@/assets/cybersecurity/threat2.jpg";
+import t3 from "@/assets/cybersecurity/threat3.jpg";
+import s1 from "@/assets/cybersecurity/s1.jpg";
+import s2 from "@/assets/cybersecurity/s2.jpg";
+import s3 from "@/assets/cybersecurity/s3.jpg";
+import s4 from "@/assets/cybersecurity/s4.jpg";
+import s5 from "@/assets/cybersecurity/s5.jpg";
+import s6 from "@/assets/cybersecurity/s6.jpg";
+import s7 from "@/assets/cybersecurity/s7.jpg";
 
 export type CybersecuritySectionKey =
   | "Hero"
@@ -36,7 +36,7 @@ export const CYBERSECURITY_DEFAULTS = {
     ctaLabel2: "Speak to a Cybersecurity Expert",
     ctaHref2: "#contact",
     footnote: "No commitment required. Walk away with a clear picture of your security posture.",
-    image: hero.url,
+    image: hero,
   },
   "The Problem": {
     eyebrow: "The Reality of Cyber Risk Today",
@@ -44,9 +44,9 @@ export const CYBERSECURITY_DEFAULTS = {
     headingAccent: "The Stakes Have Never Been Higher.",
     body: "Ransomware, phishing, insider threats, zero-day exploits, and supply chain vulnerabilities are no longer distant risks — they are daily realities. The question is not whether you will be targeted. It's whether you will be ready.",
     items: [
-      { n: "01", title: "Ransomware & Zero-Day Exploits", body: "Financial losses averaging $4.4 million per incident — operations frozen, backups compromised, and negotiations you never wanted to have.", image: t1.url },
-      { n: "02", title: "Phishing & Insider Threats", body: "Over 80% of breaches involve a human element. One click on a well-crafted email is enough to hand attackers the keys to your environment.", image: t2.url },
-      { n: "03", title: "Supply Chain & Data Breaches", body: "Regulatory fines, legal consequences, and irreparable damage to customer trust — long after the incident itself has ended.", image: t3.url },
+      { n: "01", title: "Ransomware & Zero-Day Exploits", body: "Financial losses averaging $4.4 million per incident — operations frozen, backups compromised, and negotiations you never wanted to have.", image: t1 },
+      { n: "02", title: "Phishing & Insider Threats", body: "Over 80% of breaches involve a human element. One click on a well-crafted email is enough to hand attackers the keys to your environment.", image: t2 },
+      { n: "03", title: "Supply Chain & Data Breaches", body: "Regulatory fines, legal consequences, and irreparable damage to customer trust — long after the incident itself has ended.", image: t3 },
     ],
   },
   Pillars: {
@@ -65,13 +65,13 @@ export const CYBERSECURITY_DEFAULTS = {
     heading: "Our Cybersecurity",
     headingAccent: "Services.",
     items: [
-      { n: "01", icon: "Search", title: "Vulnerability Assessment & Penetration Testing", tagline: "Find your weaknesses before attackers do.", body: "Certified ethical hackers run rigorous simulated attacks across your infrastructure, web and mobile apps, and internal networks to uncover vulnerabilities that automated tools miss.", image: s1.url, bullets: ["Detailed technical findings with severity ratings", "Step-by-step remediation recommendations", "Executive summary for leadership and board reporting", "Re-testing after remediation to verify fixes"], ideal: "Annual compliance, pre-launch testing, post-incident validation, proactive risk management." },
-      { n: "02", icon: "Radar", title: "Security Operations Center (SOC) as a Service", tagline: "24/7 eyes on your environment — without the overhead.", body: "Immediate access to a fully equipped, expert-staffed SOC that monitors your environment around the clock, detects threats early, and responds fast.", image: s2.url, bullets: ["Continuous monitoring of logs, endpoints, and network traffic", "Real-time threat detection and alerting", "Incident triage, investigation, and containment", "Monthly threat intelligence and security reporting"], ideal: "Organizations without internal SOC capacity, regulated industries, sensitive-data businesses." },
-      { n: "03", icon: "Lock", title: "Identity & Access Management (IAM)", tagline: "Control access. Eliminate unnecessary risk.", body: "IAM frameworks that enforce the right level of access for every user, device, and application — closing off one of the leading causes of breaches.", image: s3.url, bullets: ["Single Sign-On (SSO) and Multi-Factor Authentication (MFA)", "Role-based access control (RBAC) design", "Privileged Access Management (PAM) solutions", "Identity governance and lifecycle management"], ideal: "Large workforces, cloud migrations, and high-compliance environments." },
-      { n: "04", icon: "Cloud", title: "Cloud Security", tagline: "Secure your cloud — without slowing it down.", body: "End-to-end cloud security services across AWS, Microsoft Azure, and Google Cloud Platform, built for the attack surfaces traditional tools were never designed for.", image: s4.url, bullets: ["Cloud security architecture design and review", "Configuration hardening and CIS benchmark compliance", "Cloud-native threat detection and response", "Continuous posture management (CSPM)", "Data encryption and DLP implementation"], ideal: "Cloud migrations, hybrid environments, and cloud-native DevOps teams." },
-      { n: "05", icon: "FileCheck2", title: "Compliance & Regulatory Advisory", tagline: "Meet your obligations. Avoid penalties. Build trust.", body: "Advisors who help you understand your obligations and build the controls, documentation, and processes to meet and sustain them.", image: s5.url, bullets: ["ISO/IEC 27001, NIST CSF, GDPR, PCI-DSS, HIPAA", "NCA Essential Cybersecurity Controls (ECC) & SAMA CSF", "Policy and procedure development", "Audit preparation and evidence collection support", "Ongoing compliance monitoring and advisory"], ideal: "Regulated organizations preparing for certification, audit, or cross-border compliance." },
-      { n: "06", icon: "Users", title: "Security Awareness Training", tagline: "Your people are your most important security control.", body: "Customized programs that turn your workforce into an active line of defense — not a vulnerability.", image: s6.url, bullets: ["Role-based training modules for all staff levels", "Simulated phishing campaigns with real-time reporting", "Engaging, interactive content — not just slides", "Behavioral metrics and training effectiveness reports"], ideal: "Large non-technical workforces, remote teams, high-value data handlers." },
-      { n: "07", icon: "Siren", title: "Incident Response & Digital Forensics", tagline: "When a breach happens, every second counts.", body: "Rapid incident response and forensic investigation to contain damage, understand what happened, and recover quickly — while preserving evidence for regulatory and legal purposes.", image: s7.url, bullets: ["24/7 incident response hotline and on-call team", "Rapid containment and eradication", "Root cause analysis and forensic investigation", "Post-incident reporting and lessons-learned review", "Legal and regulatory notification support"], ideal: "Every organization — because no one plans to be breached, but everyone should plan for it." },
+      { n: "01", icon: "Search", title: "Vulnerability Assessment & Penetration Testing", tagline: "Find your weaknesses before attackers do.", body: "Certified ethical hackers run rigorous simulated attacks across your infrastructure, web and mobile apps, and internal networks to uncover vulnerabilities that automated tools miss.", image: s1, bullets: ["Detailed technical findings with severity ratings", "Step-by-step remediation recommendations", "Executive summary for leadership and board reporting", "Re-testing after remediation to verify fixes"], ideal: "Annual compliance, pre-launch testing, post-incident validation, proactive risk management." },
+      { n: "02", icon: "Radar", title: "Security Operations Center (SOC) as a Service", tagline: "24/7 eyes on your environment — without the overhead.", body: "Immediate access to a fully equipped, expert-staffed SOC that monitors your environment around the clock, detects threats early, and responds fast.", image: s2, bullets: ["Continuous monitoring of logs, endpoints, and network traffic", "Real-time threat detection and alerting", "Incident triage, investigation, and containment", "Monthly threat intelligence and security reporting"], ideal: "Organizations without internal SOC capacity, regulated industries, sensitive-data businesses." },
+      { n: "03", icon: "Lock", title: "Identity & Access Management (IAM)", tagline: "Control access. Eliminate unnecessary risk.", body: "IAM frameworks that enforce the right level of access for every user, device, and application — closing off one of the leading causes of breaches.", image: s3, bullets: ["Single Sign-On (SSO) and Multi-Factor Authentication (MFA)", "Role-based access control (RBAC) design", "Privileged Access Management (PAM) solutions", "Identity governance and lifecycle management"], ideal: "Large workforces, cloud migrations, and high-compliance environments." },
+      { n: "04", icon: "Cloud", title: "Cloud Security", tagline: "Secure your cloud — without slowing it down.", body: "End-to-end cloud security services across AWS, Microsoft Azure, and Google Cloud Platform, built for the attack surfaces traditional tools were never designed for.", image: s4, bullets: ["Cloud security architecture design and review", "Configuration hardening and CIS benchmark compliance", "Cloud-native threat detection and response", "Continuous posture management (CSPM)", "Data encryption and DLP implementation"], ideal: "Cloud migrations, hybrid environments, and cloud-native DevOps teams." },
+      { n: "05", icon: "FileCheck2", title: "Compliance & Regulatory Advisory", tagline: "Meet your obligations. Avoid penalties. Build trust.", body: "Advisors who help you understand your obligations and build the controls, documentation, and processes to meet and sustain them.", image: s5, bullets: ["ISO/IEC 27001, NIST CSF, GDPR, PCI-DSS, HIPAA", "NCA Essential Cybersecurity Controls (ECC) & SAMA CSF", "Policy and procedure development", "Audit preparation and evidence collection support", "Ongoing compliance monitoring and advisory"], ideal: "Regulated organizations preparing for certification, audit, or cross-border compliance." },
+      { n: "06", icon: "Users", title: "Security Awareness Training", tagline: "Your people are your most important security control.", body: "Customized programs that turn your workforce into an active line of defense — not a vulnerability.", image: s6, bullets: ["Role-based training modules for all staff levels", "Simulated phishing campaigns with real-time reporting", "Engaging, interactive content — not just slides", "Behavioral metrics and training effectiveness reports"], ideal: "Large non-technical workforces, remote teams, high-value data handlers." },
+      { n: "07", icon: "Siren", title: "Incident Response & Digital Forensics", tagline: "When a breach happens, every second counts.", body: "Rapid incident response and forensic investigation to contain damage, understand what happened, and recover quickly — while preserving evidence for regulatory and legal purposes.", image: s7, bullets: ["24/7 incident response hotline and on-call team", "Rapid containment and eradication", "Root cause analysis and forensic investigation", "Post-incident reporting and lessons-learned review", "Legal and regulatory notification support"], ideal: "Every organization — because no one plans to be breached, but everyone should plan for it." },
     ],
   },
   "Why SBS": {
@@ -117,7 +117,7 @@ export const CYBERSECURITY_DEFAULTS = {
     ctaLabel2: "Contact Our Security Team",
     ctaHref2: "#form",
     footnote: "No sales pressure. No jargon. Just clarity.",
-    image: cta.url,
+    image: cta,
   },
 };
 

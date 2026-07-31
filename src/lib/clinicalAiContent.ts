@@ -4,19 +4,19 @@ import { useSectionsContent } from "@/lib/useSectionsContent";
 
 import heroVideo from "@/assets/emram/emram-hero.mp4.asset.json";
 import ctaVideo from "@/assets/emram/emram-cta.mp4.asset.json";
-import p1 from "@/assets/emram/problem/p1.jpg.asset.json";
-import p2 from "@/assets/emram/problem/p2.jpg.asset.json";
-import p3 from "@/assets/emram/problem/p3.jpg.asset.json";
-import p4 from "@/assets/emram/problem/p4.jpg.asset.json";
-import p5 from "@/assets/emram/problem/p5.jpg.asset.json";
-import p6 from "@/assets/emram/problem/p6.jpg.asset.json";
-import j1 from "@/assets/emram/journey/j1.jpg.asset.json";
-import j2 from "@/assets/emram/journey/j2.jpg.asset.json";
-import j3 from "@/assets/emram/journey/j3.jpg.asset.json";
-import j4 from "@/assets/emram/journey/j4.jpg.asset.json";
-import j5 from "@/assets/emram/journey/j5.jpg.asset.json";
-import j6 from "@/assets/emram/journey/j6.jpg.asset.json";
-import j7 from "@/assets/emram/journey/j7.jpg.asset.json";
+import p1 from "@/assets/emram/problem/p1.jpg";
+import p2 from "@/assets/emram/problem/p2.jpg";
+import p3 from "@/assets/emram/problem/p3.jpg";
+import p4 from "@/assets/emram/problem/p4.jpg";
+import p5 from "@/assets/emram/problem/p5.jpg";
+import p6 from "@/assets/emram/problem/p6.jpg";
+import j1 from "@/assets/emram/journey/j1.jpg";
+import j2 from "@/assets/emram/journey/j2.jpg";
+import j3 from "@/assets/emram/journey/j3.jpg";
+import j4 from "@/assets/emram/journey/j4.jpg";
+import j5 from "@/assets/emram/journey/j5.jpg";
+import j6 from "@/assets/emram/journey/j6.jpg";
+import j7 from "@/assets/emram/journey/j7.jpg";
 
 export type ClinicalAiSectionKey =
   | "Hero"
@@ -59,12 +59,12 @@ export const CLINICAL_AI_DEFAULTS = {
     heading: "Clinicians Are Drowning in Documentation.",
     headingAccent: "Point-Solution AI Is Making It Riskier.",
     items: [
-      { title: "Documentation Burden Is Burning Out Clinicians", description: "Clinicians spend more time typing into the EMR than looking at patients. Documentation is the number-one driver of clinician burnout and attrition in every recent workforce study.", image: p1.url },
-      { title: "Notes That Do Not Serve Care", description: "Copy-forward, template-driven notes have become optimized for billing, not for clinical communication — degrading the very record that downstream care depends on.", image: p2.url },
-      { title: "Coding Leakage and Denials", description: "Manual coding lags the encounter by days, misses documented conditions, and generates preventable denials — leaving significant realized revenue on the table every month.", image: p3.url },
-      { title: "AI Tools Bolted Onto the Side", description: "Point-solution AI scribes live outside the EMR, without governance, audit trails or bilingual support — creating clinical safety, compliance and integration risk instead of solving it.", image: p4.url },
-      { title: "No Governance for Clinical AI", description: "Most organizations deploy AI without model validation, drift monitoring, override tracking or a medical AI committee — a posture regulators are moving quickly to end.", image: p5.url },
-      { title: "Arabic Documentation Is an Afterthought", description: "Most clinical AI tools were built for English-only workflows. Arabic medical terminology, RTL rendering and bilingual patient-facing outputs are handled poorly or not at all.", image: p6.url },
+      { title: "Documentation Burden Is Burning Out Clinicians", description: "Clinicians spend more time typing into the EMR than looking at patients. Documentation is the number-one driver of clinician burnout and attrition in every recent workforce study.", image: p1 },
+      { title: "Notes That Do Not Serve Care", description: "Copy-forward, template-driven notes have become optimized for billing, not for clinical communication — degrading the very record that downstream care depends on.", image: p2 },
+      { title: "Coding Leakage and Denials", description: "Manual coding lags the encounter by days, misses documented conditions, and generates preventable denials — leaving significant realized revenue on the table every month.", image: p3 },
+      { title: "AI Tools Bolted Onto the Side", description: "Point-solution AI scribes live outside the EMR, without governance, audit trails or bilingual support — creating clinical safety, compliance and integration risk instead of solving it.", image: p4 },
+      { title: "No Governance for Clinical AI", description: "Most organizations deploy AI without model validation, drift monitoring, override tracking or a medical AI committee — a posture regulators are moving quickly to end.", image: p5 },
+      { title: "Arabic Documentation Is an Afterthought", description: "Most clinical AI tools were built for English-only workflows. Arabic medical terminology, RTL rendering and bilingual patient-facing outputs are handled poorly or not at all.", image: p6 },
     ],
   },
   "The Platform": {
@@ -87,13 +87,13 @@ export const CLINICAL_AI_DEFAULTS = {
     heading: "From Discovery to Governed Rollout — A Structured Program",
     body: "Seven sequenced stages that take clinical AI from concept to safe, adopted daily use across your specialties and sites.",
     items: [
-      { icon: "ClipboardList", image: j1.url, title: "Clinical Workflow Discovery", description: "We map the specialties, encounter types, documentation templates and coding workflows in scope — and identify the highest-value opportunities for AI-assisted documentation." },
-      { icon: "Users", image: j2.url, title: "Model & Template Configuration", description: "Specialty-specific prompts, note templates, coding rules and safety guardrails are configured to your organization's clinical standards, formulary and regulator requirements." },
-      { icon: "GitBranch", image: j3.url, title: "EMR & Voice Integration", description: "Ambient capture devices, mobile app, and the assistant surface are integrated with your EMR via HL7 FHIR — with SSO, role-based access and full audit logging in place." },
-      { icon: "Sparkles", image: j4.url, title: "Clinician Pilot & Calibration", description: "A pilot cohort uses the assistant on live encounters. Outputs are graded, prompts are tuned, and clinician-specific personalization is calibrated before wider rollout." },
-      { icon: "Activity", image: j5.url, title: "Phased Clinical Rollout", description: "Rollout is phased by department and specialty with on-floor super-users, adoption tracking and daily quality huddles during each go-live wave." },
-      { icon: "BadgeCheck", image: j6.url, title: "Governance & Continuous Monitoring", description: "Model performance, override rates, safety events and coding accuracy are monitored continuously. Findings feed a monthly medical AI governance review." },
-      { icon: "Target", image: j7.url, title: "Expansion & Advanced AI", description: "Once documentation AI is embedded, adjacent capabilities — predictive risk, population health, imaging AI — are progressively deployed on the same governed foundation." },
+      { icon: "ClipboardList", image: j1, title: "Clinical Workflow Discovery", description: "We map the specialties, encounter types, documentation templates and coding workflows in scope — and identify the highest-value opportunities for AI-assisted documentation." },
+      { icon: "Users", image: j2, title: "Model & Template Configuration", description: "Specialty-specific prompts, note templates, coding rules and safety guardrails are configured to your organization's clinical standards, formulary and regulator requirements." },
+      { icon: "GitBranch", image: j3, title: "EMR & Voice Integration", description: "Ambient capture devices, mobile app, and the assistant surface are integrated with your EMR via HL7 FHIR — with SSO, role-based access and full audit logging in place." },
+      { icon: "Sparkles", image: j4, title: "Clinician Pilot & Calibration", description: "A pilot cohort uses the assistant on live encounters. Outputs are graded, prompts are tuned, and clinician-specific personalization is calibrated before wider rollout." },
+      { icon: "Activity", image: j5, title: "Phased Clinical Rollout", description: "Rollout is phased by department and specialty with on-floor super-users, adoption tracking and daily quality huddles during each go-live wave." },
+      { icon: "BadgeCheck", image: j6, title: "Governance & Continuous Monitoring", description: "Model performance, override rates, safety events and coding accuracy are monitored continuously. Findings feed a monthly medical AI governance review." },
+      { icon: "Target", image: j7, title: "Expansion & Advanced AI", description: "Once documentation AI is embedded, adjacent capabilities — predictive risk, population health, imaging AI — are progressively deployed on the same governed foundation." },
     ],
   },
   Outcomes: {

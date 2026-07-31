@@ -4,16 +4,16 @@ import { useSectionsContent } from "@/lib/useSectionsContent";
 
 import heroVideo from "@/assets/his-hero.mp4.asset.json";
 import ctaVideo from "@/assets/his-cta.mp4.asset.json";
-import p1 from "@/assets/his/problem-1.jpg.asset.json";
-import p2 from "@/assets/his/problem-2.jpg.asset.json";
-import p3 from "@/assets/his/problem-3.jpg.asset.json";
-import p4 from "@/assets/his/problem-4.jpg.asset.json";
-import p5 from "@/assets/his/problem-5.jpg.asset.json";
-import jRegistration from "@/assets/his-journey/registration.png.asset.json";
-import jConsultation from "@/assets/his-journey/outpatient-consultation.png.asset.json";
-import jAdmission from "@/assets/his-journey/admission.png.asset.json";
-import jInpatient from "@/assets/his-journey/inpatient-care.png.asset.json";
-import jDischarge from "@/assets/his-journey/discharge.png.asset.json";
+import p1 from "@/assets/his/problem-1.jpg";
+import p2 from "@/assets/his/problem-2.jpg";
+import p3 from "@/assets/his/problem-3.jpg";
+import p4 from "@/assets/his/problem-4.jpg";
+import p5 from "@/assets/his/problem-5.jpg";
+import jRegistration from "@/assets/his-journey/registration.png";
+import jConsultation from "@/assets/his-journey/outpatient-consultation.png";
+import jAdmission from "@/assets/his-journey/admission.png";
+import jInpatient from "@/assets/his-journey/inpatient-care.png";
+import jDischarge from "@/assets/his-journey/discharge.png";
 
 export type HOSectionKey =
   | "Hero"
@@ -59,11 +59,11 @@ export const HOSPITAL_OPERATIONS_DEFAULTS = {
     subheading:
       "Without live location and operational data, small delays compound into hours of lost productivity, unsafe conditions and capital wasted on the wrong problems.",
     items: [
-      { title: "Beds Nobody Can Find", image: p1.url, description: "An admitted ED patient waits four hours for a bed that has actually been ready for two — because there is no live view of cleaning and occupancy status across the wards." },
-      { title: "The Equipment Hunt", image: p2.url, description: "Nurses spend an hour a day searching for infusion pumps, wheelchairs and vital signs monitors — because inventory location lives in memory, not in a system." },
-      { title: "Silent Cold Chain Failure", image: p3.url, description: "A vaccine fridge drifts out of range overnight. No one notices until morning rounds — and thousands of dollars of stock is discarded, unreported until the next audit." },
-      { title: "Slow Duress Response", image: p4.url, description: "A staff member facing an aggressive visitor cannot reach a phone. There is no wearable alert, no location broadcast, no automated escalation — help arrives too late." },
-      { title: "Guesswork Capacity Planning", image: p5.url, description: "The executive team plans capital investment based on gut feeling — because true equipment utilization, room dwell time and bottleneck data simply do not exist." },
+      { title: "Beds Nobody Can Find", image: p1, description: "An admitted ED patient waits four hours for a bed that has actually been ready for two — because there is no live view of cleaning and occupancy status across the wards." },
+      { title: "The Equipment Hunt", image: p2, description: "Nurses spend an hour a day searching for infusion pumps, wheelchairs and vital signs monitors — because inventory location lives in memory, not in a system." },
+      { title: "Silent Cold Chain Failure", image: p3, description: "A vaccine fridge drifts out of range overnight. No one notices until morning rounds — and thousands of dollars of stock is discarded, unreported until the next audit." },
+      { title: "Slow Duress Response", image: p4, description: "A staff member facing an aggressive visitor cannot reach a phone. There is no wearable alert, no location broadcast, no automated escalation — help arrives too late." },
+      { title: "Guesswork Capacity Planning", image: p5, description: "The executive team plans capital investment based on gut feeling — because true equipment utilization, room dwell time and bottleneck data simply do not exist." },
     ],
   },
   "The Platform": {
@@ -86,11 +86,11 @@ export const HOSPITAL_OPERATIONS_DEFAULTS = {
     heading: "From Live Signal to Operational Command",
     body: "",
     items: [
-      { icon: "MapPin", title: "Assets & People Tagged", image: jRegistration.url, description: "Staff badges, patient wristbands and equipment tags stream location data into the platform. A digital twin of the hospital updates continuously — every asset, every bay, every person accounted for." },
-      { icon: "BedDouble", title: "Live Operational Command", image: jConsultation.url, description: "Bed managers, charge nurses and operations leaders work from a single live dashboard — occupancy, cleaning status, staffing coverage and equipment availability visible at a glance." },
-      { icon: "Activity", title: "Automated Workflows Trigger", image: jAdmission.url, description: "A patient discharge triggers housekeeping, a fridge excursion triggers pharmacy notification, a duress button triggers security — automation replaces the pager and the phone call." },
-      { icon: "Wrench", title: "Utilization Insights", image: jInpatient.url, description: "Every movement, dwell time and status change feeds analytics. Leadership sees exactly how bays are used, where patients wait, and which equipment truly needs replacement." },
-      { icon: "ClipboardList", title: "Continuous Improvement", image: jDischarge.url, description: "Weekly and monthly performance reviews are built from validated operational data — not anecdotes. Every improvement initiative starts with real numbers and ends with a measurable outcome." },
+      { icon: "MapPin", title: "Assets & People Tagged", image: jRegistration, description: "Staff badges, patient wristbands and equipment tags stream location data into the platform. A digital twin of the hospital updates continuously — every asset, every bay, every person accounted for." },
+      { icon: "BedDouble", title: "Live Operational Command", image: jConsultation, description: "Bed managers, charge nurses and operations leaders work from a single live dashboard — occupancy, cleaning status, staffing coverage and equipment availability visible at a glance." },
+      { icon: "Activity", title: "Automated Workflows Trigger", image: jAdmission, description: "A patient discharge triggers housekeeping, a fridge excursion triggers pharmacy notification, a duress button triggers security — automation replaces the pager and the phone call." },
+      { icon: "Wrench", title: "Utilization Insights", image: jInpatient, description: "Every movement, dwell time and status change feeds analytics. Leadership sees exactly how bays are used, where patients wait, and which equipment truly needs replacement." },
+      { icon: "ClipboardList", title: "Continuous Improvement", image: jDischarge, description: "Weekly and monthly performance reviews are built from validated operational data — not anecdotes. Every improvement initiative starts with real numbers and ends with a measurable outcome." },
     ],
   },
   Outcomes: {

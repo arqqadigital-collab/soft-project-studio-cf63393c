@@ -3,16 +3,16 @@ import { supabase } from "@/integrations/supabase/client";
 import { useSectionsContent } from "@/lib/useSectionsContent";
 
 import heroVideo from "@/assets/ai-imaging/hero-video.mp4.asset.json";
-import journeyAcquire from "@/assets/ai-imaging/journey/acquire.jpg.asset.json";
-import journeyAnalyze from "@/assets/ai-imaging/journey/analyze.jpg.asset.json";
-import journeyPrioritize from "@/assets/ai-imaging/journey/prioritize.jpg.asset.json";
-import journeyReview from "@/assets/ai-imaging/journey/review.jpg.asset.json";
-import journeyDeliver from "@/assets/ai-imaging/journey/deliver.jpg.asset.json";
-import problemWorkload from "@/assets/ai-imaging/problems/workload.jpg.asset.json";
-import problemSubtle from "@/assets/ai-imaging/problems/subtle.jpg.asset.json";
-import problemWorklist from "@/assets/ai-imaging/problems/worklist.jpg.asset.json";
-import problemIncidental from "@/assets/ai-imaging/problems/incidental.jpg.asset.json";
-import problemRural from "@/assets/ai-imaging/problems/rural.jpg.asset.json";
+import journeyAcquire from "@/assets/ai-imaging/journey/acquire.jpg";
+import journeyAnalyze from "@/assets/ai-imaging/journey/analyze.jpg";
+import journeyPrioritize from "@/assets/ai-imaging/journey/prioritize.jpg";
+import journeyReview from "@/assets/ai-imaging/journey/review.jpg";
+import journeyDeliver from "@/assets/ai-imaging/journey/deliver.jpg";
+import problemWorkload from "@/assets/ai-imaging/problems/workload.jpg";
+import problemSubtle from "@/assets/ai-imaging/problems/subtle.jpg";
+import problemWorklist from "@/assets/ai-imaging/problems/worklist.jpg";
+import problemIncidental from "@/assets/ai-imaging/problems/incidental.jpg";
+import problemRural from "@/assets/ai-imaging/problems/rural.jpg";
 
 export type AIImagingSectionKey =
   | "Hero"
@@ -55,11 +55,11 @@ export const AI_IMAGING_DEFAULTS = {
     heading: "Medical Imaging Is Facing a Crisis That Technology Must Help",
     headingAccent: "Solve.",
     items: [
-      { title: "Radiologist Workload Crisis", description: "Workloads have increased over 30% in the last decade while trained radiologists have not kept pace. Studies are read faster, under greater pressure, with less time per image — and the error rate reflects it.", image: problemWorkload.url },
-      { title: "Subtle Findings Get Missed", description: "A 4mm pulmonary nodule, early diabetic retinopathy, a hairline fracture on a night shift plain film — the findings most likely to be missed are the ones most likely to matter.", image: problemSubtle.url },
-      { title: "Critical Studies Sit in Worklists", description: "Time-sensitive studies sit in queues for hours because there is no automated triage logic to surface them before a radiologist manually reviews the worklist.", image: problemWorklist.url },
-      { title: "Incidental Findings Go Unreported", description: "Findings in non-target organs are missed because no structured system prompts the radiologist to look beyond the primary clinical indication.", image: problemIncidental.url },
-      { title: "Rural Sites Wait for Subspecialty Reads", description: "Under-resourced facilities perform imaging without access to subspecialty expertise — patients wait days or weeks for a specialist read that AI-assisted workflows could support in minutes.", image: problemRural.url },
+      { title: "Radiologist Workload Crisis", description: "Workloads have increased over 30% in the last decade while trained radiologists have not kept pace. Studies are read faster, under greater pressure, with less time per image — and the error rate reflects it.", image: problemWorkload },
+      { title: "Subtle Findings Get Missed", description: "A 4mm pulmonary nodule, early diabetic retinopathy, a hairline fracture on a night shift plain film — the findings most likely to be missed are the ones most likely to matter.", image: problemSubtle },
+      { title: "Critical Studies Sit in Worklists", description: "Time-sensitive studies sit in queues for hours because there is no automated triage logic to surface them before a radiologist manually reviews the worklist.", image: problemWorklist },
+      { title: "Incidental Findings Go Unreported", description: "Findings in non-target organs are missed because no structured system prompts the radiologist to look beyond the primary clinical indication.", image: problemIncidental },
+      { title: "Rural Sites Wait for Subspecialty Reads", description: "Under-resourced facilities perform imaging without access to subspecialty expertise — patients wait days or weeks for a specialist read that AI-assisted workflows could support in minutes.", image: problemRural },
     ],
   },
   "The Platform": {
@@ -85,11 +85,11 @@ export const AI_IMAGING_DEFAULTS = {
     eyebrow: "How It Works",
     heading: "AI That Fits Into Your Workflow — Not the Other Way Around",
     items: [
-      { icon: "ScanLine", title: "Image Acquired", image: journeyAcquire.url, description: "The patient is scanned. Images are transmitted to your PACS as normal. No change to acquisition protocols or technologist workflows." },
-      { icon: "Cpu", title: "AI Analysis Runs Automatically", image: journeyAnalyze.url, description: "The moment images arrive in the PACS, Secreta AI begins analysis in the background. For urgent pathologies — intracranial hemorrhage, pneumothorax, large vessel occlusion — analysis completes within 60 seconds of acquisition." },
-      { icon: "ListOrdered", title: "Worklist Prioritized & Annotated", image: journeyPrioritize.url, description: "The worklist updates automatically with AI urgency scores. Critical studies rise to the top. AI annotations — highlighted regions, measurements, confidence scores, and structured findings — are waiting when the radiologist opens the study." },
-      { icon: "Eye", title: "Radiologist Reviews & Reports", image: journeyReview.url, description: "The radiologist reviews the image with AI annotations as a second opinion layer. They accept, modify, or dismiss each AI finding with a click. AI structured findings pre-populate the report template — the radiologist adds clinical judgment, context, and signs." },
-      { icon: "FileCheck", title: "Report Delivered & Outcome Tracked", image: journeyDeliver.url, description: "The final report is delivered to the referring clinician. AI findings and radiologist decisions are logged. Agreement data feeds the performance monitoring dashboard. Over time, the AI is continuously validated against the clinical environment." },
+      { icon: "ScanLine", title: "Image Acquired", image: journeyAcquire, description: "The patient is scanned. Images are transmitted to your PACS as normal. No change to acquisition protocols or technologist workflows." },
+      { icon: "Cpu", title: "AI Analysis Runs Automatically", image: journeyAnalyze, description: "The moment images arrive in the PACS, Secreta AI begins analysis in the background. For urgent pathologies — intracranial hemorrhage, pneumothorax, large vessel occlusion — analysis completes within 60 seconds of acquisition." },
+      { icon: "ListOrdered", title: "Worklist Prioritized & Annotated", image: journeyPrioritize, description: "The worklist updates automatically with AI urgency scores. Critical studies rise to the top. AI annotations — highlighted regions, measurements, confidence scores, and structured findings — are waiting when the radiologist opens the study." },
+      { icon: "Eye", title: "Radiologist Reviews & Reports", image: journeyReview, description: "The radiologist reviews the image with AI annotations as a second opinion layer. They accept, modify, or dismiss each AI finding with a click. AI structured findings pre-populate the report template — the radiologist adds clinical judgment, context, and signs." },
+      { icon: "FileCheck", title: "Report Delivered & Outcome Tracked", image: journeyDeliver, description: "The final report is delivered to the referring clinician. AI findings and radiologist decisions are logged. Agreement data feeds the performance monitoring dashboard. Over time, the AI is continuously validated against the clinical environment." },
     ],
   },
   Outcomes: {

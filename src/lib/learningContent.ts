@@ -2,18 +2,18 @@ import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
 import { useSectionsContent } from "@/lib/useSectionsContent";
 
-import hero from "@/assets/learning/hero.jpg.asset.json";
-import cta from "@/assets/learning/cta.jpg.asset.json";
-import t1 from "@/assets/learning/threat1.jpg.asset.json";
-import t2 from "@/assets/learning/threat2.jpg.asset.json";
-import t3 from "@/assets/learning/threat3.jpg.asset.json";
-import s1 from "@/assets/learning/s1.jpg.asset.json";
-import s2 from "@/assets/learning/s2.jpg.asset.json";
-import s3 from "@/assets/learning/s3.jpg.asset.json";
-import s4 from "@/assets/learning/s4.jpg.asset.json";
-import s5 from "@/assets/learning/s5.jpg.asset.json";
-import s6 from "@/assets/learning/s6.jpg.asset.json";
-import s7 from "@/assets/learning/s7.jpg.asset.json";
+import hero from "@/assets/learning/hero.jpg";
+import cta from "@/assets/learning/cta.jpg";
+import t1 from "@/assets/learning/threat1.jpg";
+import t2 from "@/assets/learning/threat2.jpg";
+import t3 from "@/assets/learning/threat3.jpg";
+import s1 from "@/assets/learning/s1.jpg";
+import s2 from "@/assets/learning/s2.jpg";
+import s3 from "@/assets/learning/s3.jpg";
+import s4 from "@/assets/learning/s4.jpg";
+import s5 from "@/assets/learning/s5.jpg";
+import s6 from "@/assets/learning/s6.jpg";
+import s7 from "@/assets/learning/s7.jpg";
 
 export type LearningSectionKey =
   | "Hero"
@@ -36,7 +36,7 @@ export const LEARNING_DEFAULTS = {
     ctaLabel2: "Speak to a Learning Expert",
     ctaHref2: "#contact",
     footnote: "No commitment required. Walk away with a clear view of your capability gaps.",
-    image: hero.url,
+    image: hero,
   },
   "The Problem": {
     eyebrow: "The Reality of Capability Risk Today",
@@ -44,9 +44,9 @@ export const LEARNING_DEFAULTS = {
     headingAccent: "The Cost of Falling Behind Has Never Been Higher.",
     body: "AI, cloud, data, and new operating models are rewriting the definition of every job. Generic training and one-off workshops don't close the gap. The question isn't whether your workforce needs to evolve. It's whether they'll be ready in time.",
     items: [
-      { n: "01", title: "Disengaged, Outdated Training Programs", body: "Generic slide decks and one-off sessions that fail to shift behavior — leaving teams unprepared for the tools, systems, and challenges they face every day.", image: t1.url },
-      { n: "02", title: "Widening Skills Gaps", body: "Technology and business models evolve faster than in-house capabilities. Critical roles go unfilled, projects stall, and transformation initiatives lose momentum.", image: t2.url },
-      { n: "03", title: "Talent Attrition & Lost Knowledge", body: "Top performers leave when they stop growing. Institutional knowledge walks out the door, and replacement costs quickly exceed the price of investing in your people.", image: t3.url },
+      { n: "01", title: "Disengaged, Outdated Training Programs", body: "Generic slide decks and one-off sessions that fail to shift behavior — leaving teams unprepared for the tools, systems, and challenges they face every day.", image: t1 },
+      { n: "02", title: "Widening Skills Gaps", body: "Technology and business models evolve faster than in-house capabilities. Critical roles go unfilled, projects stall, and transformation initiatives lose momentum.", image: t2 },
+      { n: "03", title: "Talent Attrition & Lost Knowledge", body: "Top performers leave when they stop growing. Institutional knowledge walks out the door, and replacement costs quickly exceed the price of investing in your people.", image: t3 },
     ],
   },
   Pillars: {
@@ -65,13 +65,13 @@ export const LEARNING_DEFAULTS = {
     heading: "Our Learning & Knowledge",
     headingAccent: "Services.",
     items: [
-      { n: "01", icon: "Search", title: "Skills Assessment & Learning Needs Analysis", tagline: "Know exactly where your people stand — and where they need to go.", body: "Structured assessments that map current capabilities against role requirements and strategic priorities, giving you a clear, data-driven baseline to design targeted learning journeys.", image: s1.url, bullets: ["Role-based competency frameworks and skills matrices", "Individual and team-level skills diagnostics", "Gap analysis with prioritized learning roadmaps", "Executive summary for leadership and HR alignment"], ideal: "Annual planning, restructuring, digital transformation programs, capability-building initiatives." },
-      { n: "02", icon: "Users", title: "Instructor-Led Training & Workshops", tagline: "Live, expert-led learning that drives real behavior change.", body: "Interactive workshops delivered on-site or virtually by senior practitioners — combining frameworks, discussion, and hands-on practice built around your business context.", image: s2.url, bullets: ["Custom curriculum aligned to your goals and tools", "Delivered by certified instructors and industry experts", "Case studies and exercises using your real scenarios", "Post-workshop resources and follow-up coaching"], ideal: "Team upskilling, leadership offsites, new-system rollouts, change-management programs." },
-      { n: "03", icon: "Monitor", title: "Digital Learning & LMS Solutions", tagline: "Scalable, self-paced learning available anywhere.", body: "End-to-end digital learning — from LMS platform deployment to bespoke content production — that lets your entire workforce learn at their own pace, on any device.", image: s3.url, bullets: ["LMS selection, implementation, and administration", "Custom eLearning content and micro-learning modules", "SCORM/xAPI-compliant course libraries", "Learner engagement, gamification, and social features"], ideal: "Distributed workforces, onboarding at scale, compliance training, continuous learning cultures." },
-      { n: "04", icon: "Award", title: "Certification & Exam Preparation", tagline: "Prepare your teams to earn the credentials that matter.", body: "Structured preparation programs across leading technology, project management, and business certifications — with practice exams, mentoring, and success guarantees.", image: s4.url, bullets: ["PMP, PRINCE2, ITIL, TOGAF, Six Sigma tracks", "AWS, Azure, Google Cloud, and Microsoft certifications", "SAP, Oracle, and Salesforce credential preparation", "Mock exams, study plans, and dedicated mentor support"], ideal: "Individual career development, team credentialing, partner certification requirements." },
-      { n: "05", icon: "UserCog", title: "Leadership & Executive Development", tagline: "Build the leaders who will drive your next chapter.", body: "Multi-touch leadership programs that combine assessment, coaching, and experiential learning — developing the strategic, people, and change-leadership skills modern executives need.", image: s5.url, bullets: ["360-degree assessments and executive coaching", "Strategic leadership and change-management modules", "Peer learning cohorts and action-learning projects", "Succession planning and high-potential development"], ideal: "Emerging leaders, senior managers, succession pipelines, board-level talent programs." },
-      { n: "06", icon: "Code2", title: "Technical & Digital Bootcamps", tagline: "Accelerated, hands-on training for the skills you need now.", body: "Immersive bootcamps that take your teams from foundational to job-ready in weeks — across software engineering, data, AI, and modern cloud disciplines.", image: s6.url, bullets: ["Full-stack development, DevOps, and cloud engineering", "Data analytics, data science, and applied AI", "Cybersecurity fundamentals and specialist tracks", "Live projects, code reviews, and capstone assessments"], ideal: "Reskilling initiatives, graduate programs, technology transformations, talent redeployment." },
-      { n: "07", icon: "BarChart3", title: "Learning Analytics & Advisory", tagline: "Prove impact. Improve outcomes. Justify investment.", body: "Turn learning data into decisions — with dashboards, ROI models, and advisory support that connect training activity to business performance.", image: s7.url, bullets: ["Learning KPIs, dashboards, and executive reporting", "Kirkpatrick-based evaluation and impact measurement", "Learning strategy, governance, and operating models", "Vendor selection and content curation advisory", "Continuous improvement based on learner outcomes"], ideal: "L&D leaders scaling their function, CHROs building capability strategies, transformation offices." },
+      { n: "01", icon: "Search", title: "Skills Assessment & Learning Needs Analysis", tagline: "Know exactly where your people stand — and where they need to go.", body: "Structured assessments that map current capabilities against role requirements and strategic priorities, giving you a clear, data-driven baseline to design targeted learning journeys.", image: s1, bullets: ["Role-based competency frameworks and skills matrices", "Individual and team-level skills diagnostics", "Gap analysis with prioritized learning roadmaps", "Executive summary for leadership and HR alignment"], ideal: "Annual planning, restructuring, digital transformation programs, capability-building initiatives." },
+      { n: "02", icon: "Users", title: "Instructor-Led Training & Workshops", tagline: "Live, expert-led learning that drives real behavior change.", body: "Interactive workshops delivered on-site or virtually by senior practitioners — combining frameworks, discussion, and hands-on practice built around your business context.", image: s2, bullets: ["Custom curriculum aligned to your goals and tools", "Delivered by certified instructors and industry experts", "Case studies and exercises using your real scenarios", "Post-workshop resources and follow-up coaching"], ideal: "Team upskilling, leadership offsites, new-system rollouts, change-management programs." },
+      { n: "03", icon: "Monitor", title: "Digital Learning & LMS Solutions", tagline: "Scalable, self-paced learning available anywhere.", body: "End-to-end digital learning — from LMS platform deployment to bespoke content production — that lets your entire workforce learn at their own pace, on any device.", image: s3, bullets: ["LMS selection, implementation, and administration", "Custom eLearning content and micro-learning modules", "SCORM/xAPI-compliant course libraries", "Learner engagement, gamification, and social features"], ideal: "Distributed workforces, onboarding at scale, compliance training, continuous learning cultures." },
+      { n: "04", icon: "Award", title: "Certification & Exam Preparation", tagline: "Prepare your teams to earn the credentials that matter.", body: "Structured preparation programs across leading technology, project management, and business certifications — with practice exams, mentoring, and success guarantees.", image: s4, bullets: ["PMP, PRINCE2, ITIL, TOGAF, Six Sigma tracks", "AWS, Azure, Google Cloud, and Microsoft certifications", "SAP, Oracle, and Salesforce credential preparation", "Mock exams, study plans, and dedicated mentor support"], ideal: "Individual career development, team credentialing, partner certification requirements." },
+      { n: "05", icon: "UserCog", title: "Leadership & Executive Development", tagline: "Build the leaders who will drive your next chapter.", body: "Multi-touch leadership programs that combine assessment, coaching, and experiential learning — developing the strategic, people, and change-leadership skills modern executives need.", image: s5, bullets: ["360-degree assessments and executive coaching", "Strategic leadership and change-management modules", "Peer learning cohorts and action-learning projects", "Succession planning and high-potential development"], ideal: "Emerging leaders, senior managers, succession pipelines, board-level talent programs." },
+      { n: "06", icon: "Code2", title: "Technical & Digital Bootcamps", tagline: "Accelerated, hands-on training for the skills you need now.", body: "Immersive bootcamps that take your teams from foundational to job-ready in weeks — across software engineering, data, AI, and modern cloud disciplines.", image: s6, bullets: ["Full-stack development, DevOps, and cloud engineering", "Data analytics, data science, and applied AI", "Cybersecurity fundamentals and specialist tracks", "Live projects, code reviews, and capstone assessments"], ideal: "Reskilling initiatives, graduate programs, technology transformations, talent redeployment." },
+      { n: "07", icon: "BarChart3", title: "Learning Analytics & Advisory", tagline: "Prove impact. Improve outcomes. Justify investment.", body: "Turn learning data into decisions — with dashboards, ROI models, and advisory support that connect training activity to business performance.", image: s7, bullets: ["Learning KPIs, dashboards, and executive reporting", "Kirkpatrick-based evaluation and impact measurement", "Learning strategy, governance, and operating models", "Vendor selection and content curation advisory", "Continuous improvement based on learner outcomes"], ideal: "L&D leaders scaling their function, CHROs building capability strategies, transformation offices." },
     ],
   },
   "Why SBS": {
@@ -117,7 +117,7 @@ export const LEARNING_DEFAULTS = {
     ctaLabel2: "Contact Our Learning Team",
     ctaHref2: "#form",
     footnote: "No sales pressure. No jargon. Just clarity.",
-    image: cta.url,
+    image: cta,
   },
 };
 

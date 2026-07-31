@@ -4,16 +4,16 @@ import { useSectionsContent } from "@/lib/useSectionsContent";
 
 import heroVideo from "@/assets/uae-compliance/uae-hero.mp4.asset.json";
 import ctaVideo from "@/assets/uae-compliance/uae-cta.mp4.asset.json";
-import p1 from "@/assets/uae-compliance/problem/p1.jpg.asset.json";
-import p2 from "@/assets/uae-compliance/problem/p2.jpg.asset.json";
-import p3 from "@/assets/uae-compliance/problem/p3.jpg.asset.json";
-import p4 from "@/assets/uae-compliance/problem/p4.jpg.asset.json";
-import p5 from "@/assets/uae-compliance/problem/p5.jpg.asset.json";
-import p6 from "@/assets/uae-compliance/problem/p6.jpg.asset.json";
-import j1 from "@/assets/uae-compliance/journey/j1.jpg.asset.json";
-import j2 from "@/assets/uae-compliance/journey/j2.jpg.asset.json";
-import j3 from "@/assets/uae-compliance/journey/j3.jpg.asset.json";
-import j4 from "@/assets/uae-compliance/journey/j4.jpg.asset.json";
+import p1 from "@/assets/uae-compliance/problem/p1.jpg";
+import p2 from "@/assets/uae-compliance/problem/p2.jpg";
+import p3 from "@/assets/uae-compliance/problem/p3.jpg";
+import p4 from "@/assets/uae-compliance/problem/p4.jpg";
+import p5 from "@/assets/uae-compliance/problem/p5.jpg";
+import p6 from "@/assets/uae-compliance/problem/p6.jpg";
+import j1 from "@/assets/uae-compliance/journey/j1.jpg";
+import j2 from "@/assets/uae-compliance/journey/j2.jpg";
+import j3 from "@/assets/uae-compliance/journey/j3.jpg";
+import j4 from "@/assets/uae-compliance/journey/j4.jpg";
 
 export type KSAComplianceSectionKey =
   | "Hero"
@@ -57,12 +57,12 @@ export const KSA_COMPLIANCE_DEFAULTS = {
     heading: "Every KSA Regulator is a Different",
     headingAccent: "Compliance Landscape.",
     items: [
-      { title: "Overlapping Regulator Mandates", description: "KSA operators face parallel obligations from MOH, CBAHI, CCHI, SCFHS, and ZATCA — each with its own portals, formats, and deadlines that generic systems cannot orchestrate in one workflow.", image: p1.url },
-      { title: "NPHIES Complexity", description: "NPHIES imposes strict FHIR-based transaction structures for eligibility, authorization, and claims — and payer-specific quirks that break generic integrations at scale.", image: p2.url },
-      { title: "ZATCA Phase 2 Enforcement", description: "ZATCA e-invoicing Phase 2 requires cryptographic stamping and real-time clearance for every invoice. Non-compliant facilities face financial penalties and blocked collections.", image: p3.url },
-      { title: "CBAHI Evidence Burden", description: "CBAHI accreditation cycles demand extensive evidence trails across clinical, operational, and safety domains — most systems force teams to assemble it manually every three years.", image: p4.url },
-      { title: "PDPL & Data Residency", description: "The Saudi Personal Data Protection Law and NCA controls require in-Kingdom data residency and strict consent handling — a hard constraint most global platforms cannot satisfy.", image: p5.url },
-      { title: "Cluster-Level Reporting Gaps", description: "Under the Health Sector Transformation, clusters must report consolidated KPIs across hospitals and PHCs — impossible when each facility runs a different system on different data models.", image: p6.url },
+      { title: "Overlapping Regulator Mandates", description: "KSA operators face parallel obligations from MOH, CBAHI, CCHI, SCFHS, and ZATCA — each with its own portals, formats, and deadlines that generic systems cannot orchestrate in one workflow.", image: p1 },
+      { title: "NPHIES Complexity", description: "NPHIES imposes strict FHIR-based transaction structures for eligibility, authorization, and claims — and payer-specific quirks that break generic integrations at scale.", image: p2 },
+      { title: "ZATCA Phase 2 Enforcement", description: "ZATCA e-invoicing Phase 2 requires cryptographic stamping and real-time clearance for every invoice. Non-compliant facilities face financial penalties and blocked collections.", image: p3 },
+      { title: "CBAHI Evidence Burden", description: "CBAHI accreditation cycles demand extensive evidence trails across clinical, operational, and safety domains — most systems force teams to assemble it manually every three years.", image: p4 },
+      { title: "PDPL & Data Residency", description: "The Saudi Personal Data Protection Law and NCA controls require in-Kingdom data residency and strict consent handling — a hard constraint most global platforms cannot satisfy.", image: p5 },
+      { title: "Cluster-Level Reporting Gaps", description: "Under the Health Sector Transformation, clusters must report consolidated KPIs across hospitals and PHCs — impossible when each facility runs a different system on different data models.", image: p6 },
     ],
   },
   "The Platform": {
@@ -87,10 +87,10 @@ export const KSA_COMPLIANCE_DEFAULTS = {
     heading: "KSA Compliance in 4 Stages",
     body: "From mapping to continuous alignment — MOH, CBAHI, NPHIES, ZATCA, and SCFHS covered end to end.",
     items: [
-      { icon: "MapPin", title: "Kingdom Compliance Mapping", description: "Our KSA implementation team maps your operational footprint — facilities, payer mix, regulatory frameworks, and integration obligations — and produces a prioritized MOH/CBAHI/NPHIES gap analysis.", image: j1.url },
-      { icon: "Settings", title: "Configuration & National Integration", description: "Each facility is configured to KSA-specific standards. NPHIES payer profiles, ZATCA e-invoicing, SCFHS credentialing, and SEHA/Sehhaty integrations are activated and tested end to end.", image: j2.url },
-      { icon: "GraduationCap", title: "Bilingual Training & Phased Go-Live", description: "Staff are trained in Arabic and English by KSA-specialist consultants. Go-live is phased by facility with on-site live support, MOH readiness sign-off, and CBAHI evidence handover.", image: j3.url },
-      { icon: "RefreshCw", title: "Continuous Regulatory Alignment", description: "Our KSA compliance team monitors MOH, CBAHI, NPHIES, ZATCA, and SCFHS updates continuously — and deploys changes before effective dates so your facilities stay compliant automatically.", image: j4.url },
+      { icon: "MapPin", title: "Kingdom Compliance Mapping", description: "Our KSA implementation team maps your operational footprint — facilities, payer mix, regulatory frameworks, and integration obligations — and produces a prioritized MOH/CBAHI/NPHIES gap analysis.", image: j1 },
+      { icon: "Settings", title: "Configuration & National Integration", description: "Each facility is configured to KSA-specific standards. NPHIES payer profiles, ZATCA e-invoicing, SCFHS credentialing, and SEHA/Sehhaty integrations are activated and tested end to end.", image: j2 },
+      { icon: "GraduationCap", title: "Bilingual Training & Phased Go-Live", description: "Staff are trained in Arabic and English by KSA-specialist consultants. Go-live is phased by facility with on-site live support, MOH readiness sign-off, and CBAHI evidence handover.", image: j3 },
+      { icon: "RefreshCw", title: "Continuous Regulatory Alignment", description: "Our KSA compliance team monitors MOH, CBAHI, NPHIES, ZATCA, and SCFHS updates continuously — and deploys changes before effective dates so your facilities stay compliant automatically.", image: j4 },
     ],
   },
   Outcomes: {

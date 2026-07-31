@@ -2,15 +2,15 @@ import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
 import { useSectionsContent } from "@/lib/useSectionsContent";
 
-import hero from "@/assets/retail/hero.jpg.asset.json";
-import tradFail from "@/assets/retail/traditional-fail.jpg.asset.json";
-import p1 from "@/assets/retail/problem-p1.jpg.asset.json";
-import p2 from "@/assets/retail/problem-p2.jpg.asset.json";
-import p3 from "@/assets/retail/problem-p3.jpg.asset.json";
-import u1 from "@/assets/retail/uc-1.jpg.asset.json";
-import u2 from "@/assets/retail/uc-2.jpg.asset.json";
-import u3 from "@/assets/retail/uc-3.jpg.asset.json";
-import u4 from "@/assets/retail/uc-4.jpg.asset.json";
+import hero from "@/assets/retail/hero.jpg";
+import tradFail from "@/assets/retail/traditional-fail.jpg";
+import p1 from "@/assets/retail/problem-p1.jpg";
+import p2 from "@/assets/retail/problem-p2.jpg";
+import p3 from "@/assets/retail/problem-p3.jpg";
+import u1 from "@/assets/retail/uc-1.jpg";
+import u2 from "@/assets/retail/uc-2.jpg";
+import u3 from "@/assets/retail/uc-3.jpg";
+import u4 from "@/assets/retail/uc-4.jpg";
 
 export type RetailSectionKey =
   | "Hero"
@@ -34,7 +34,7 @@ export const RETAIL_DEFAULTS = {
     ctaHref: "#contact",
     ctaLabel2: "Explore capabilities",
     ctaHref2: "#capabilities",
-    image: hero.url,
+    image: hero,
   },
   "The Problem": {
     eyebrow: "The Problem",
@@ -43,16 +43,16 @@ export const RETAIL_DEFAULTS = {
     body:
       "Most retailers don't struggle with selling — they struggle with coordination. The result is not inefficiency; it is lost customers, lost stock, and lost margin.",
     items: [
-      { n: "01", label: "RISK", title: "Disconnected Channels", body: "Stores, online storefronts, and marketplaces run on separate stock and pricing rules. Customers see one price online, another in store, and out-of-stock messages that don't reflect reality.", image: p1.url },
-      { n: "02", label: "RISK", title: "Manual Fulfilment", body: "Orders are re-keyed between webshop, POS, and warehouse. Missed SLAs, wrong picks, and refunds pile up because no single system owns the order lifecycle end to end.", image: p2.url },
-      { n: "03", label: "RISK", title: "Invisible Margins", body: "Margin is calculated after the season, not per order. Promotions, returns, and marketplace fees eat into profit long before finance sees the number.", image: p3.url },
+      { n: "01", label: "RISK", title: "Disconnected Channels", body: "Stores, online storefronts, and marketplaces run on separate stock and pricing rules. Customers see one price online, another in store, and out-of-stock messages that don't reflect reality.", image: p1 },
+      { n: "02", label: "RISK", title: "Manual Fulfilment", body: "Orders are re-keyed between webshop, POS, and warehouse. Missed SLAs, wrong picks, and refunds pile up because no single system owns the order lifecycle end to end.", image: p2 },
+      { n: "03", label: "RISK", title: "Invisible Margins", body: "Margin is calculated after the season, not per order. Promotions, returns, and marketplace fees eat into profit long before finance sees the number.", image: p3 },
     ],
   },
   "Traditional Fail": {
     heading: "Where Traditional Systems Fail Retail and E-commerce Companies",
     body: "Generic ERP systems typically fail because they do not reflect how modern commerce actually works:",
     footnote: "Retail requires continuous synchronization between demand, stock, and fulfilment — not periodic reporting.",
-    image: tradFail.url,
+    image: tradFail,
     bullets: [
       "POS, e-commerce, and warehouse operate in silos",
       "No live connection between demand and replenishment",
@@ -92,10 +92,10 @@ export const RETAIL_DEFAULTS = {
     headingAccent: "we solve for.",
     footnote: "Also serving margin-sensitive commerce environments where profitability depends on accurate, real-time pricing and stock.",
     items: [
-      { n: "01", title: "Omnichannel retailers with store and online demand", body: "Unified inventory, pricing, and order orchestration so store and online demand are served from one operational model — with no oversell and no stranded stock.", image: u1.url },
-      { n: "02", title: "Multi-store chains across regions", body: "Central catalog and pricing, local store execution, and consolidated reporting across regions with role-based visibility for HQ, area, and store managers.", image: u2.url },
-      { n: "03", title: "Pure-play e-commerce and marketplace sellers", body: "High-volume fulfilment with automated picking, packing, and courier assignment — plus marketplace listing, order, and payout reconciliation built in.", image: u3.url },
-      { n: "04", title: "Loyalty-driven brands with personalized offers", body: "Unified customer profile across channels, segmentation, and personalized promotions tied directly to margin-aware pricing at the point of sale.", image: u4.url },
+      { n: "01", title: "Omnichannel retailers with store and online demand", body: "Unified inventory, pricing, and order orchestration so store and online demand are served from one operational model — with no oversell and no stranded stock.", image: u1 },
+      { n: "02", title: "Multi-store chains across regions", body: "Central catalog and pricing, local store execution, and consolidated reporting across regions with role-based visibility for HQ, area, and store managers.", image: u2 },
+      { n: "03", title: "Pure-play e-commerce and marketplace sellers", body: "High-volume fulfilment with automated picking, packing, and courier assignment — plus marketplace listing, order, and payout reconciliation built in.", image: u3 },
+      { n: "04", title: "Loyalty-driven brands with personalized offers", body: "Unified customer profile across channels, segmentation, and personalized promotions tied directly to margin-aware pricing at the point of sale.", image: u4 },
     ],
   },
   "Business Impact": {
@@ -140,7 +140,7 @@ export const RETAIL_DEFAULTS = {
       "If your commerce depends on spreadsheets, delayed stock updates, or disconnected channels — it is not a system. It is fragmentation. SBS helps you rebuild retail control inside a unified ERP environment.",
     ctaLabel: "Request a retail ERP assessment",
     ctaHref: "#contact",
-    image: hero.url,
+    image: hero,
   },
 } as const;
 

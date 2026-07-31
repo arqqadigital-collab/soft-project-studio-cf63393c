@@ -3,10 +3,10 @@ import { supabase } from "@/integrations/supabase/client";
 import { useSectionsContent } from "@/lib/useSectionsContent";
 
 import heroVideo from "@/assets/zoho/zoho-hero.mp4.asset.json";
-import u1 from "@/assets/zoho/use-case-1.jpg.asset.json";
-import u2 from "@/assets/zoho/use-case-2.jpg.asset.json";
-import u3 from "@/assets/zoho/use-case-3.jpg.asset.json";
-import u4 from "@/assets/zoho/use-case-4.jpg.asset.json";
+import u1 from "@/assets/zoho/use-case-1.jpg";
+import u2 from "@/assets/zoho/use-case-2.jpg";
+import u3 from "@/assets/zoho/use-case-3.jpg";
+import u4 from "@/assets/zoho/use-case-4.jpg";
 
 export type ZohoSectionKey =
   | "Hero"
@@ -75,10 +75,10 @@ export const ZOHO_DEFAULTS = {
     body:
       "Representative examples of operational improvements enabled through Zoho implementation and customization.",
     items: [
-      { n: "01", title: "Multi-Stage Sales Process Automation", body: "Automated lead qualification, opportunity management, approval workflows, and sales pipeline tracking across multiple sales teams and operational stages.", image: u1.url, impacts: ["Improved sales visibility", "Faster lead progression", "Reduced manual coordination", "Standardized sales execution"] },
-      { n: "02", title: "Customer Onboarding Workflow Management", body: "Centralized onboarding workflows connecting sales, finance, operations, and customer support teams through automated task routing and process visibility.", image: u2.url, impacts: ["Faster onboarding cycles", "Improved customer experience", "Better internal coordination", "Reduced operational delays"] },
-      { n: "03", title: "Finance & Invoice Approval Automation", body: "Automated invoice routing, expense approvals, payment tracking, and finance notifications aligned to organizational approval structures and operational controls.", image: u3.url, impacts: ["Faster financial approvals", "Reduced processing delays", "Improved financial visibility", "Better operational accountability"] },
-      { n: "04", title: "Executive Reporting & Operational Dashboards", body: "Centralized reporting environments providing leadership teams with visibility into sales performance, workflow execution, finance operations, and organizational KPIs.", image: u4.url, impacts: ["Improved decision-making", "Real-time operational visibility", "Reduced manual reporting effort", "Better performance monitoring"] },
+      { n: "01", title: "Multi-Stage Sales Process Automation", body: "Automated lead qualification, opportunity management, approval workflows, and sales pipeline tracking across multiple sales teams and operational stages.", image: u1, impacts: ["Improved sales visibility", "Faster lead progression", "Reduced manual coordination", "Standardized sales execution"] },
+      { n: "02", title: "Customer Onboarding Workflow Management", body: "Centralized onboarding workflows connecting sales, finance, operations, and customer support teams through automated task routing and process visibility.", image: u2, impacts: ["Faster onboarding cycles", "Improved customer experience", "Better internal coordination", "Reduced operational delays"] },
+      { n: "03", title: "Finance & Invoice Approval Automation", body: "Automated invoice routing, expense approvals, payment tracking, and finance notifications aligned to organizational approval structures and operational controls.", image: u3, impacts: ["Faster financial approvals", "Reduced processing delays", "Improved financial visibility", "Better operational accountability"] },
+      { n: "04", title: "Executive Reporting & Operational Dashboards", body: "Centralized reporting environments providing leadership teams with visibility into sales performance, workflow execution, finance operations, and organizational KPIs.", image: u4, impacts: ["Improved decision-making", "Real-time operational visibility", "Reduced manual reporting effort", "Better performance monitoring"] },
     ],
   },
   "Business Impact": {
