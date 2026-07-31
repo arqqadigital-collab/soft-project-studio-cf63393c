@@ -77,6 +77,7 @@ export function MediaGrid({
   const [selected, setSelected] = useState<MediaRow | null>(null);
   const [selectedCodeItem, setSelectedCodeItem] = useState<SectionMediaItem | null>(null);
   const [uploading, setUploading] = useState(false);
+  const [mainView, setMainView] = useState<"supabase" | "code">("supabase");
   const [folder, setFolder] = useState<string>("root");
   const [typeFilter, setTypeFilter] = useState<TypeFilter>(filterType === "image" ? "image" : "all");
   const [tagFilter, setTagFilter] = useState<string | null>(null);
@@ -120,15 +121,17 @@ export function MediaGrid({
   }, [media.data]);
 
   const combined = useMemo(() => {
-    const uploaded = media.data ?? [];
-    // Every image/video referenced by code-level page defaults across the
-    // whole site (not just the homepage) — lives in a virtual "code-images"
-    // folder since there's no real storage object behind these until an
-    // admin registers one via Save/Replace.
-    const codeMedia = getAllCodeMedia().map((b) => ({ ...b, tags: b.tags ?? [] }));
-    let list = [...uploaded, ...codeMedia];
+    let list: MediaRow[];
+    if (mainView === "code") {
+      // Every image/video referenced by code-level page defaults across the
+      // whole site (not just the homepage) — lives entirely in the code
+      // (not Supabase Storage) until an admin registers/replaces one.
+      list = getAllCodeMedia().map((b) => ({ ...b, tags: b.tags ?? [] }));
+    } else {
+      list = media.data ?? [];
+      list = list.filter((m) => (m.folder || "root") === folder);
+    }
     if (filterType === "image") list = list.filter((m) => (m.file_type ?? "").startsWith("image/"));
-    if (folder) list = list.filter((m) => (m.folder || "root") === folder);
     list = list.filter((m) => matchesType(m, typeFilter));
     if (tagFilter) list = list.filter((m) => (m.tags ?? []).includes(tagFilter));
     if (search.trim()) {
@@ -136,7 +139,7 @@ export function MediaGrid({
       list = list.filter((m) => m.file_name.toLowerCase().includes(s));
     }
     return list;
-  }, [media.data, filterType, folder, typeFilter, tagFilter, search]);
+  }, [media.data, mainView, filterType, folder, typeFilter, tagFilter, search]);
 
   // Clear stale selections when the visible list changes
   useEffect(() => {
@@ -152,7 +155,7 @@ export function MediaGrid({
     if (!user) return;
     setUploading(true);
     try {
-      for (const f of files) await uploadFile(f, user.id, folder === "code-images" ? "root" : folder);
+      for (const f of files) await uploadFile(f, user.id, folder);
       toast.success(`Uploaded ${files.length} file(s)`);
       qc.invalidateQueries({ queryKey: ["media"] });
     } catch (e: any) {
@@ -191,6 +194,26 @@ export function MediaGrid({
     toast.success(`Folder "${name}" created`);
   }
 
+  async function deleteFolder(name: string, e: React.MouseEvent) {
+    e.stopPropagation();
+    if (name === "root") return;
+    const count = (media.data ?? []).filter((m) => (m.folder || "root") === name).length;
+    const msg = count > 0
+      ? `Delete folder "${name}"? ${count} file(s) inside will be moved to "root".`
+      : `Delete empty folder "${name}"?`;
+    if (!confirm(msg)) return;
+    if (count > 0) {
+      const { error: e1 } = await supabase.from("media").update({ folder: "root" }).eq("folder", name);
+      if (e1) return toast.error(e1.message);
+    }
+    const { error: e2 } = await supabase.from("media_folders").delete().eq("name", name);
+    if (e2) return toast.error(e2.message);
+    qc.invalidateQueries({ queryKey: ["media"] });
+    qc.invalidateQueries({ queryKey: ["media-folders"] });
+    if (folder === name) setFolder("root");
+    toast.success(`Folder "${name}" deleted`);
+  }
+
   async function bulkDelete() {
     const ids = Array.from(selectedIds);
     if (!ids.length) return;
@@ -215,27 +238,65 @@ export function MediaGrid({
       {/* Sidebar: folders + tags */}
       <aside className="space-y-4 rounded-md border bg-card p-3 text-sm">
         <div>
-          <div className="mb-2 flex items-center justify-between">
-            <span className="font-medium">Folders</span>
-            <Button size="icon" variant="ghost" onClick={createFolder} title="New folder">
-              <FolderPlus className="h-4 w-4" />
-            </Button>
-          </div>
+          <div className="mb-2 font-medium">Where</div>
           <ul className="space-y-0.5">
-            {folders.concat(["code-images"]).filter((v, i, a) => a.indexOf(v) === i).map((f) => (
-              <li key={f}>
-                <button
-                  type="button"
-                  onClick={() => setFolder(f)}
-                  className={`flex w-full items-center gap-2 rounded px-2 py-1 text-left hover:bg-muted ${folder === f ? "bg-muted font-medium" : ""}`}
-                >
-                  <FolderIcon className="h-3.5 w-3.5" />
-                  <span className="truncate">{f}</span>
-                </button>
-              </li>
-            ))}
+            <li>
+              <button
+                type="button"
+                onClick={() => setMainView("supabase")}
+                className={`flex w-full items-center gap-2 rounded px-2 py-1 text-left hover:bg-muted ${mainView === "supabase" ? "bg-muted font-medium" : ""}`}
+              >
+                <FolderIcon className="h-3.5 w-3.5" />
+                <span className="truncate">Supabase</span>
+              </button>
+            </li>
+            <li>
+              <button
+                type="button"
+                onClick={() => setMainView("code")}
+                className={`flex w-full items-center gap-2 rounded px-2 py-1 text-left hover:bg-muted ${mainView === "code" ? "bg-muted font-medium" : ""}`}
+              >
+                <FolderIcon className="h-3.5 w-3.5" />
+                <span className="truncate">Code images</span>
+              </button>
+            </li>
           </ul>
         </div>
+
+        {mainView === "supabase" && (
+          <div>
+            <div className="mb-2 flex items-center justify-between">
+              <span className="font-medium">Sub-folders</span>
+              <Button size="icon" variant="ghost" onClick={createFolder} title="New folder">
+                <FolderPlus className="h-4 w-4" />
+              </Button>
+            </div>
+            <ul className="space-y-0.5">
+              {folders.map((f) => (
+                <li key={f} className="group flex items-center">
+                  <button
+                    type="button"
+                    onClick={() => setFolder(f)}
+                    className={`flex flex-1 items-center gap-2 rounded px-2 py-1 text-left hover:bg-muted ${folder === f ? "bg-muted font-medium" : ""}`}
+                  >
+                    <FolderIcon className="h-3.5 w-3.5" />
+                    <span className="truncate">{f}</span>
+                  </button>
+                  {f !== "root" && (
+                    <button
+                      type="button"
+                      onClick={(e) => deleteFolder(f, e)}
+                      className="rounded p-1 text-muted-foreground opacity-0 hover:bg-muted hover:text-destructive group-hover:opacity-100"
+                      title={`Delete folder "${f}"`}
+                    >
+                      <Trash2 className="h-3.5 w-3.5" />
+                    </button>
+                  )}
+                </li>
+              ))}
+            </ul>
+          </div>
+        )}
 
         {allTags.length > 0 && (
           <div>
