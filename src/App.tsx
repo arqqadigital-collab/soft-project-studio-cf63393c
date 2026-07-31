@@ -95,7 +95,7 @@ function NotFound() {
 }
 
 // Component registry keyed by route_map.route_key.
-const ROUTE_COMPONENTS: Record<RouteKey, React.ComponentType<Record<string, never>>> = {
+const ROUTE_COMPONENTS: Record<RouteKey, React.ComponentType> = {
   "home": Index,
   "about": About,
   "careers": Careers,
