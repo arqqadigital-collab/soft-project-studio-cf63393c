@@ -15,6 +15,8 @@ import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
 import { formatDistanceToNow } from "date-fns";
 import { normalizePath, isExternalTarget } from "@/components/PathRedirect";
 import { SeoContentList } from "@/components/dashboard/SeoContentList";
+import { SeoSocialSchema } from "@/components/dashboard/SeoSocialSchema";
+import { SeoMarketing } from "@/components/dashboard/SeoMarketing";
 import { triggerSeoSync } from "@/lib/seoSync";
 
 
@@ -166,9 +168,20 @@ export default function SeoDashboard() {
       <Tabs defaultValue="content">
         <TabsList>
           <TabsTrigger value="content">Pages &amp; Posts</TabsTrigger>
+          <TabsTrigger value="social">Social &amp; Schema</TabsTrigger>
           <TabsTrigger value="redirects">Redirects</TabsTrigger>
           <TabsTrigger value="feeds">Feeds &amp; Robots</TabsTrigger>
+          <TabsTrigger value="marketing">Marketing</TabsTrigger>
         </TabsList>
+
+        <TabsContent value="social" className="space-y-4 pt-4">
+          <SeoSocialSchema />
+        </TabsContent>
+
+        <TabsContent value="marketing" className="space-y-4 pt-4">
+          <SeoMarketing />
+        </TabsContent>
+
 
         <TabsContent value="content" className="space-y-4 pt-4">
           <Card>

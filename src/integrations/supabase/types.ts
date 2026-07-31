@@ -1496,16 +1496,24 @@ export type Database = {
           border_radius: string | null
           brand_dark_color: string | null
           created_at: string
+          custom_body_html: string | null
+          custom_head_html: string | null
           default_meta_description: string | null
           default_meta_description_ar: string | null
           default_meta_title: string | null
           default_meta_title_ar: string | null
+          default_og_image_url: string | null
           favicon_url: string | null
+          ga4_id: string | null
+          gtm_id: string | null
           heading_font: string | null
           heading_font_ar: string | null
           id: string
+          linkedin_partner_id: string | null
           logo_dark_url: string | null
+          meta_pixel_id: string | null
           og_image_url: string | null
+          organization: Json
           primary_color: string | null
           robots_txt: string | null
           singleton: boolean
@@ -1516,6 +1524,7 @@ export type Database = {
           site_title_ar: string | null
           site_url: string | null
           style_tokens: Json
+          twitter_handle: string | null
           updated_at: string
         }
         Insert: {
@@ -1525,16 +1534,24 @@ export type Database = {
           border_radius?: string | null
           brand_dark_color?: string | null
           created_at?: string
+          custom_body_html?: string | null
+          custom_head_html?: string | null
           default_meta_description?: string | null
           default_meta_description_ar?: string | null
           default_meta_title?: string | null
           default_meta_title_ar?: string | null
+          default_og_image_url?: string | null
           favicon_url?: string | null
+          ga4_id?: string | null
+          gtm_id?: string | null
           heading_font?: string | null
           heading_font_ar?: string | null
           id?: string
+          linkedin_partner_id?: string | null
           logo_dark_url?: string | null
+          meta_pixel_id?: string | null
           og_image_url?: string | null
+          organization?: Json
           primary_color?: string | null
           robots_txt?: string | null
           singleton?: boolean
@@ -1545,6 +1562,7 @@ export type Database = {
           site_title_ar?: string | null
           site_url?: string | null
           style_tokens?: Json
+          twitter_handle?: string | null
           updated_at?: string
         }
         Update: {
@@ -1554,16 +1572,24 @@ export type Database = {
           border_radius?: string | null
           brand_dark_color?: string | null
           created_at?: string
+          custom_body_html?: string | null
+          custom_head_html?: string | null
           default_meta_description?: string | null
           default_meta_description_ar?: string | null
           default_meta_title?: string | null
           default_meta_title_ar?: string | null
+          default_og_image_url?: string | null
           favicon_url?: string | null
+          ga4_id?: string | null
+          gtm_id?: string | null
           heading_font?: string | null
           heading_font_ar?: string | null
           id?: string
+          linkedin_partner_id?: string | null
           logo_dark_url?: string | null
+          meta_pixel_id?: string | null
           og_image_url?: string | null
+          organization?: Json
           primary_color?: string | null
           robots_txt?: string | null
           singleton?: boolean
@@ -1574,6 +1600,7 @@ export type Database = {
           site_title_ar?: string | null
           site_url?: string | null
           style_tokens?: Json
+          twitter_handle?: string | null
           updated_at?: string
         }
         Relationships: []
