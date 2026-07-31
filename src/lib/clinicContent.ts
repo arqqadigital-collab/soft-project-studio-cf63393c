@@ -9,8 +9,8 @@ import problem3 from "@/assets/his/problem-3.jpg";
 import problem4 from "@/assets/his/problem-4.jpg";
 import problem5 from "@/assets/his/problem-5.jpg";
 import problem6 from "@/assets/his/problem-6.jpg";
-import hisHeroVideo from "@/assets/his-hero.mp4.asset.json";
-import hisCtaVideo from "@/assets/his-cta.mp4.asset.json";
+
+
 import registrationStep from "@/assets/his-journey/registration.png";
 import outpatientConsultationStep from "@/assets/his-journey/outpatient-consultation.png";
 import admissionStep from "@/assets/his-journey/admission.png";
@@ -25,6 +25,7 @@ import emiratesIdLogo from "@/assets/logos/emirates-id.png";
 import absherLogo from "@/assets/logos/absher.png";
 import nhraLogo from "@/assets/logos/nhra.png";
 import wasfatyLogo from "@/assets/logos/wasfaty.png";
+import { HIS_HERO_VIDEO_URL as hisHeroVideo, HIS_CTA_VIDEO_URL as hisCtaVideo } from "@/lib/migratedVideoUrls";
 
 export type ClinicSectionKey =
   | "Hero"
@@ -53,7 +54,7 @@ export const CLINIC_DEFAULTS = {
       "Arabic & English",
       "Open APIs",
     ],
-    mediaUrl: hisHeroVideo.url,
+    mediaUrl: hisHeroVideo,
   },
   Introduction: {
     eyebrow: "Introducing the Clinic Suite",
@@ -169,7 +170,7 @@ export const CLINIC_DEFAULTS = {
     secondaryLabel: "Talk to a Product Specialist",
     secondaryHref: "#",
     footnote: "Guided onboarding included. Data migration handled for you. Simple per-provider pricing, no lock-in.",
-    mediaUrl: hisCtaVideo.url,
+    mediaUrl: hisCtaVideo,
   },
 } as const;
 

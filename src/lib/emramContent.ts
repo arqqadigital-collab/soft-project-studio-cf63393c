@@ -2,8 +2,8 @@ import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
 import { useSectionsContent } from "@/lib/useSectionsContent";
 
-import heroVideo from "@/assets/emram/emram-hero.mp4.asset.json";
-import ctaVideo from "@/assets/emram/emram-cta.mp4.asset.json";
+
+
 import p1 from "@/assets/emram/problem/p1.jpg";
 import p2 from "@/assets/emram/problem/p2.jpg";
 import p3 from "@/assets/emram/problem/p3.jpg";
@@ -17,6 +17,7 @@ import j4 from "@/assets/emram/journey/j4.jpg";
 import j5 from "@/assets/emram/journey/j5.jpg";
 import j6 from "@/assets/emram/journey/j6.jpg";
 import j7 from "@/assets/emram/journey/j7.jpg";
+import { EMRAM_HERO_VIDEO_URL as heroVideo, EMRAM_CTA_VIDEO_URL as ctaVideo } from "@/lib/migratedVideoUrls";
 
 export type EMRAMSectionKey =
   | "Hero"
@@ -45,7 +46,7 @@ export const EMRAM_DEFAULTS = {
       "HL7 FHIR R4 Architecture",
       "AI Readiness Program",
     ],
-    mediaUrl: heroVideo.url,
+    mediaUrl: heroVideo,
     mediaKind: "video",
   },
   Introduction: {
@@ -171,7 +172,7 @@ export const EMRAM_DEFAULTS = {
     secondaryHref: "#",
     footnote:
       "Advisory and implementation support available in Arabic and English. GCC and international experience. Assessment findings delivered within 4 weeks.",
-    mediaUrl: ctaVideo.url,
+    mediaUrl: ctaVideo,
   },
 } as const;
 

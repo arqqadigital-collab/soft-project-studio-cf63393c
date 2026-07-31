@@ -2,8 +2,8 @@ import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
 import { useSectionsContent } from "@/lib/useSectionsContent";
 
-import hisHeroVideo from "@/assets/his-hero.mp4.asset.json";
-import hisCtaVideo from "@/assets/his-cta.mp4.asset.json";
+
+
 import problem1 from "@/assets/his/problem-1.jpg";
 import problem2 from "@/assets/his/problem-2.jpg";
 import problem3 from "@/assets/his/problem-3.jpg";
@@ -25,6 +25,7 @@ import emiratesIdLogo from "@/assets/logos/emirates-id.png";
 import absherLogo from "@/assets/logos/absher.png";
 import nhraLogo from "@/assets/logos/nhra.png";
 import wasfatyLogo from "@/assets/logos/wasfaty.png";
+import { HIS_HERO_VIDEO_URL as hisHeroVideo, HIS_CTA_VIDEO_URL as hisCtaVideo } from "@/lib/migratedVideoUrls";
 
 export type PhysioSectionKey =
   | "Hero"
@@ -53,7 +54,7 @@ export const PHYSIO_DEFAULTS = {
       "Arabic & English",
       "Wearables Integrated",
     ] as string[],
-    mediaUrl: hisHeroVideo.url,
+    mediaUrl: hisHeroVideo,
     mediaKind: "video",
   },
   Introduction: {
@@ -159,7 +160,7 @@ export const PHYSIO_DEFAULTS = {
     secondaryLabel: "Talk to a Product Specialist",
     secondaryHref: "#",
     footnote: "Guided onboarding. Data migration handled. Simple per-therapist pricing, no lock-in.",
-    mediaUrl: hisCtaVideo.url,
+    mediaUrl: hisCtaVideo,
     mediaKind: "video",
   },
 } as const;

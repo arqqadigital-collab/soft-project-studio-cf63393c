@@ -2,8 +2,8 @@ import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
 import { useSectionsContent } from "@/lib/useSectionsContent";
 
-import heroVideo from "@/assets/medication/hero-video.mp4.asset.json";
-import ctaVideo from "@/assets/medication/cta-video.mp4.asset.json";
+
+
 import problemAllergy from "@/assets/medication/problems/allergy.jpg";
 import problemPaper from "@/assets/medication/problems/paper-mar.jpg";
 import problemInteraction from "@/assets/medication/problems/interaction.jpg";
@@ -14,6 +14,7 @@ import journeyVerify from "@/assets/medication/journey/verify.jpg";
 import journeyDispense from "@/assets/medication/journey/dispense.jpg";
 import journeyAdminister from "@/assets/medication/journey/administer.jpg";
 import journeyDocument from "@/assets/medication/journey/document.jpg";
+import { MEDICATION_HERO_VIDEO_URL as heroVideo, MEDICATION_CTA_VIDEO_URL as ctaVideo } from "@/lib/migratedVideoUrls";
 
 export type MedSectionKey =
   | "Hero"
@@ -42,7 +43,7 @@ export const MEDICATION_DEFAULTS = {
       "HL7 v2 & FHIR",
       "GS1 Barcodes",
     ],
-    mediaUrl: heroVideo.url,
+    mediaUrl: heroVideo,
     mediaKind: "video",
   },
   Introduction: {
@@ -139,7 +140,7 @@ export const MEDICATION_DEFAULTS = {
     secondaryLabel: "Start a 30-Day Trial",
     secondaryHref: "#contact",
     footnote: "No setup fees. No long-term contracts. Dedicated support from day one.",
-    mediaUrl: ctaVideo.url,
+    mediaUrl: ctaVideo,
     mediaKind: "video",
   },
 } as const;

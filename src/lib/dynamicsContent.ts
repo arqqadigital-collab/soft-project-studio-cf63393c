@@ -2,12 +2,13 @@ import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
 import { useSectionsContent } from "@/lib/useSectionsContent";
 
-import heroVideo from "@/assets/dynamics/dynamics-hero-bg.mp4.asset.json";
+
 import pattern from "@/assets/dynamics/dynamics-pattern.jpg";
 import u1 from "@/assets/dynamics/use-case-1.jpg";
 import u2 from "@/assets/dynamics/use-case-2.jpg";
 import u3 from "@/assets/dynamics/use-case-3.jpg";
 import u4 from "@/assets/dynamics/use-case-4.jpg";
+import { DYNAMICS_HERO_VIDEO_URL as heroVideo } from "@/lib/migratedVideoUrls";
 
 export type DynamicsSectionKey =
   | "Hero"
@@ -27,7 +28,7 @@ export const DYNAMICS_DEFAULTS = {
     ctaHref: "#contact",
     ctaLabel2: "View capabilities",
     ctaHref2: "#services",
-    mediaUrl: heroVideo.url,
+    mediaUrl: heroVideo,
     posterUrl: pattern,
   },
   Introduction: {

@@ -3,7 +3,7 @@ import { supabase } from "@/integrations/supabase/client";
 import { useSectionsContent } from "@/lib/useSectionsContent";
 
 import heroVideo from "@/assets/blood-bank/hero-video.mp4";
-import ctaVideo from "@/assets/blood-bank/cta-video.mp4.asset.json";
+
 import problemMislabeled from "@/assets/blood-bank/problems/mislabeled.jpg";
 import problemExpired from "@/assets/blood-bank/problems/expired.jpg";
 import problemPaper from "@/assets/blood-bank/problems/paper.jpg";
@@ -18,6 +18,7 @@ import aabbLogo from "@/assets/bloodbank/integrations/aabb.png";
 import fdaLogo from "@/assets/bloodbank/integrations/fda.png";
 import iccbbaLogo from "@/assets/bloodbank/integrations/iccbba.png";
 import iso15189Logo from "@/assets/bloodbank/integrations/iso15189.png";
+import { BLOOD_BANK_CTA_VIDEO_URL as ctaVideo } from "@/lib/migratedVideoUrls";
 
 export type BloodBankSectionKey =
   | "Hero"
@@ -146,7 +147,7 @@ export const BLOOD_BANK_DEFAULTS = {
     secondaryLabel: "Start a 30-Day Trial",
     secondaryHref: "#contact",
     footnote: "No setup fees. No long-term contracts. Dedicated support from day one.",
-    mediaUrl: ctaVideo.url,
+    mediaUrl: ctaVideo,
     mediaKind: "video",
   },
 } as const;

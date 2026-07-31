@@ -2,8 +2,8 @@ import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
 import { useSectionsContent } from "@/lib/useSectionsContent";
 
-import rcmHeroVideo from "@/assets/rcm/rcm-hero.mp4.asset.json";
-import hisVideo from "@/assets/rcm/his-video.mp4.asset.json";
+
+
 import rcmProblem1 from "@/assets/rcm/problem-1.jpg";
 import rcmProblem3 from "@/assets/rcm/problem-3.jpg";
 import rcmProblem4 from "@/assets/rcm/problem-4.jpg";
@@ -15,6 +15,7 @@ import rcmJourney3 from "@/assets/rcm/journey-3.jpg";
 import rcmJourney4 from "@/assets/rcm/journey-4.jpg";
 import rcmJourney5 from "@/assets/rcm/journey-5.jpg";
 import rcmJourney6 from "@/assets/rcm/journey-6.jpg";
+import { RCM_HERO_VIDEO_URL as rcmHeroVideo, RCM_HIS_VIDEO_URL as hisVideo } from "@/lib/migratedVideoUrls";
 
 export type RcmSectionKey =
   | "Hero"
@@ -43,7 +44,7 @@ export const RCM_DEFAULTS = {
       "HL7 FHIR Ready",
       "Arabic & English",
     ] as string[],
-    mediaUrl: rcmHeroVideo.url,
+    mediaUrl: rcmHeroVideo,
     mediaKind: "video",
   },
   Introduction: {
@@ -160,7 +161,7 @@ export const RCM_DEFAULTS = {
     secondaryLabel: "Start a 30-Day Pilot",
     secondaryHref: "#",
     footnote: "Revenue cycle baseline assessment included. Implementation and training support from day one.",
-    mediaUrl: hisVideo.url,
+    mediaUrl: hisVideo,
     mediaKind: "video",
   },
 } as const;

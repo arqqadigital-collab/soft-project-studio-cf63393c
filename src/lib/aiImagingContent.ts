@@ -2,7 +2,7 @@ import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
 import { useSectionsContent } from "@/lib/useSectionsContent";
 
-import heroVideo from "@/assets/ai-imaging/hero-video.mp4.asset.json";
+
 import journeyAcquire from "@/assets/ai-imaging/journey/acquire.jpg";
 import journeyAnalyze from "@/assets/ai-imaging/journey/analyze.jpg";
 import journeyPrioritize from "@/assets/ai-imaging/journey/prioritize.jpg";
@@ -13,6 +13,7 @@ import problemSubtle from "@/assets/ai-imaging/problems/subtle.jpg";
 import problemWorklist from "@/assets/ai-imaging/problems/worklist.jpg";
 import problemIncidental from "@/assets/ai-imaging/problems/incidental.jpg";
 import problemRural from "@/assets/ai-imaging/problems/rural.jpg";
+import { AI_IMAGING_HERO_VIDEO_URL as heroVideo } from "@/lib/migratedVideoUrls";
 
 export type AIImagingSectionKey =
   | "Hero"
@@ -40,7 +41,7 @@ export const AI_IMAGING_DEFAULTS = {
       "CT · MRI · X-Ray · Ultrasound · Pathology",
       "DICOM Native",
     ],
-    mediaUrl: heroVideo.url,
+    mediaUrl: heroVideo,
     mediaKind: "video",
   },
   Introduction: {
@@ -153,7 +154,7 @@ export const AI_IMAGING_DEFAULTS = {
     secondaryLabel: "Request a Validation Data Pack",
     secondaryHref: "#",
     footnote: "No algorithmic black boxes. Full performance transparency. Clinical implementation support from day one.",
-    mediaUrl: heroVideo.url,
+    mediaUrl: heroVideo,
   },
 } as const;
 

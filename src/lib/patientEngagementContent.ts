@@ -19,8 +19,9 @@ import riayatiLogo from "@/assets/logos/riayati.png";
 import emiratesIdLogo from "@/assets/logos/emirates-id.png";
 import absherLogo from "@/assets/logos/absher.png";
 import wasfatyLogo from "@/assets/logos/wasfaty.png";
-import hisHeroVideo from "@/assets/his-hero.mp4.asset.json";
-import hisCtaVideo from "@/assets/his-cta.mp4.asset.json";
+import { HIS_HERO_VIDEO_URL as hisHeroVideo, HIS_CTA_VIDEO_URL as hisCtaVideo } from "@/lib/migratedVideoUrls";
+
+
 
 export const PE_DEFAULTS = {
   Hero: {
@@ -38,7 +39,7 @@ export const PE_DEFAULTS = {
       "Arabic & English",
       "Cloud & On-Premise",
     ],
-    mediaUrl: hisHeroVideo.url,
+    mediaUrl: hisHeroVideo,
   },
   Introduction: {
     eyebrow: "Introducing Patient Engagement & Identity",
@@ -143,7 +144,7 @@ export const PE_DEFAULTS = {
     secondaryHref: "#",
     footnote:
       "Structured implementation support. Deduplication included. Pricing tailored to your patient population and channel mix.",
-    mediaUrl: hisCtaVideo.url,
+    mediaUrl: hisCtaVideo,
   },
 } as const;
 

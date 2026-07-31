@@ -2,8 +2,8 @@ import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
 import { useSectionsContent } from "@/lib/useSectionsContent";
 
-import hisHeroVideo from "@/assets/his-hero.mp4.asset.json";
-import hisCtaVideo from "@/assets/his-cta.mp4.asset.json";
+
+
 import problem1 from "@/assets/his/problem-1.jpg";
 import problem2 from "@/assets/his/problem-2.jpg";
 import problem3 from "@/assets/his/problem-3.jpg";
@@ -25,6 +25,7 @@ import emiratesIdLogo from "@/assets/logos/emirates-id.png";
 import absherLogo from "@/assets/logos/absher.png";
 import nhraLogo from "@/assets/logos/nhra.png";
 import wasfatyLogo from "@/assets/logos/wasfaty.png";
+import { HIS_HERO_VIDEO_URL as hisHeroVideo, HIS_CTA_VIDEO_URL as hisCtaVideo } from "@/lib/migratedVideoUrls";
 
 export type EdSectionKey =
   | "Hero"
@@ -53,7 +54,7 @@ export const ED_DEFAULTS = {
       "Arabic & English",
       "24/7 Uptime",
     ] as string[],
-    mediaUrl: hisHeroVideo.url,
+    mediaUrl: hisHeroVideo,
     mediaKind: "video",
   },
   Introduction: {
@@ -158,7 +159,7 @@ export const ED_DEFAULTS = {
     secondaryLabel: "Request an Implementation Roadmap",
     secondaryHref: "#",
     footnote: "Structured go-live support. 24/7 on-site launch team. Data migration included.",
-    mediaUrl: hisCtaVideo.url,
+    mediaUrl: hisCtaVideo,
     mediaKind: "video",
   },
 } as const;

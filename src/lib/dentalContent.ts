@@ -2,8 +2,8 @@ import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
 import { useSectionsContent } from "@/lib/useSectionsContent";
 
-import dentalHeroVideo from "@/assets/dental/dental-hero.mp4.asset.json";
-import dentalCtaVideo from "@/assets/dental/dental-cta.mp4.asset.json";
+
+
 import problem1 from "@/assets/dental/problem-1.jpg";
 import problem2 from "@/assets/dental/problem-2.jpg";
 import problem3 from "@/assets/dental/problem-3.jpg";
@@ -35,6 +35,7 @@ import imgAcctTelr from "@/assets/dental/accounting/telr.png";
 import imgInsDha from "@/assets/dental/insurance/dha.png";
 import imgInsDoh from "@/assets/dental/insurance/doh.png";
 import imgInsNphies from "@/assets/dental/insurance/nphies.png";
+import { DENTAL_HERO_VIDEO_URL as dentalHeroVideo, DENTAL_CTA_VIDEO_URL as dentalCtaVideo } from "@/lib/migratedVideoUrls";
 
 export type DentalSectionKey =
   | "Hero"
@@ -55,7 +56,7 @@ export const DENTAL_DEFAULTS = {
     ctaHref: "#contact",
     ctaLabel2: "See a Live Demo",
     ctaHref2: "#contact",
-    mediaUrl: dentalHeroVideo.url,
+    mediaUrl: dentalHeroVideo,
     mediaKind: "video",
   },
   Introduction: {
@@ -182,7 +183,7 @@ export const DENTAL_DEFAULTS = {
     secondaryLabel: "Start a 30-Day Trial",
     secondaryHref: "#contact",
     footnote: "No setup fees · No long-term contracts · Full onboarding & data migration support",
-    mediaUrl: dentalCtaVideo.url,
+    mediaUrl: dentalCtaVideo,
     mediaKind: "video",
   },
 } as const;

@@ -2,7 +2,7 @@ import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
 import { useSectionsContent } from "@/lib/useSectionsContent";
 
-import lisHeroVideo from "@/assets/lis/lis-hero.mp4.asset.json";
+
 import problem1 from "@/assets/lis/problem-1.jpg";
 import problem2 from "@/assets/lis/problem-2.jpg";
 import problem3 from "@/assets/lis/problem-3.jpg";
@@ -11,6 +11,7 @@ import journey1 from "@/assets/lis/journey-1.jpg";
 import journey2 from "@/assets/lis/journey-2.png";
 import journey3 from "@/assets/lis/journey-3.png";
 import journey4 from "@/assets/lis/journey-4.jpg";
+import { LIS_HERO_VIDEO_URL as lisHeroVideo } from "@/lib/migratedVideoUrls";
 
 export type LisSectionKey =
   | "Hero"
@@ -38,7 +39,7 @@ export const LIS_DEFAULTS = {
       "HL7 & FHIR Ready",
       "CAP · CLIA · ISO 15189 Ready",
     ] as string[],
-    mediaUrl: lisHeroVideo.url,
+    mediaUrl: lisHeroVideo,
     mediaKind: "video",
   },
   Introduction: {

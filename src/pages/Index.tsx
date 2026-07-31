@@ -4,7 +4,7 @@ import { motion, useScroll, useTransform } from "framer-motion";
 import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
 import { SeoHead } from "@/components/SeoHead";
-import headerVideo from "@/assets/header-bg.mp4";
+import { HEADER_BG_VIDEO_URL as headerVideo } from "@/lib/migratedVideoUrls";
 import { ExpertiseSection } from "@/components/ExpertiseSection";
 import { StatsSection } from "@/components/StatsSection";
 import { ProcessSection } from "@/components/ProcessSection";

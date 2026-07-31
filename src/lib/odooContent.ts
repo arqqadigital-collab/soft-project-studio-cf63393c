@@ -2,12 +2,13 @@ import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
 import { useSectionsContent } from "@/lib/useSectionsContent";
 
-import heroVideo from "@/assets/odoo/odoo-hero.mp4.asset.json";
+
 import pattern from "@/assets/odoo/pattern.jpg";
 import u1 from "@/assets/odoo/use-case-1.jpg";
 import u2 from "@/assets/odoo/use-case-2.jpg";
 import u3 from "@/assets/odoo/use-case-3.jpg";
 import u4 from "@/assets/odoo/use-case-4.jpg";
+import { ODOO_HERO_VIDEO_URL as heroVideo } from "@/lib/migratedVideoUrls";
 
 export type OdooSectionKey =
   | "Hero"
@@ -28,7 +29,7 @@ export const ODOO_DEFAULTS = {
     ctaHref: "#contact",
     ctaLabel2: "View capabilities",
     ctaHref2: "#services",
-    mediaUrl: heroVideo.url,
+    mediaUrl: heroVideo,
   },
   Introduction: {
     headline: "Custom Odoo, built around",

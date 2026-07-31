@@ -2,8 +2,8 @@ import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
 import { useSectionsContent } from "@/lib/useSectionsContent";
 
-import heroVideo from "@/assets/emram/emram-hero.mp4.asset.json";
-import ctaVideo from "@/assets/emram/emram-cta.mp4.asset.json";
+
+
 import p1 from "@/assets/emram/problem/p1.jpg";
 import p2 from "@/assets/emram/problem/p2.jpg";
 import p3 from "@/assets/emram/problem/p3.jpg";
@@ -17,6 +17,7 @@ import j4 from "@/assets/emram/journey/j4.jpg";
 import j5 from "@/assets/emram/journey/j5.jpg";
 import j6 from "@/assets/emram/journey/j6.jpg";
 import j7 from "@/assets/emram/journey/j7.jpg";
+import { EMRAM_HERO_VIDEO_URL as heroVideo, EMRAM_CTA_VIDEO_URL as ctaVideo } from "@/lib/migratedVideoUrls";
 
 export type ClinicalAiSectionKey =
   | "Hero"
@@ -45,7 +46,7 @@ export const CLINICAL_AI_DEFAULTS = {
       "Bilingual Arabic & English",
       "Governed & Auditable",
     ],
-    mediaUrl: heroVideo.url,
+    mediaUrl: heroVideo,
   },
   Introduction: {
     eyebrow: "Secreta Clinical AI & Documentation",
@@ -142,7 +143,7 @@ export const CLINICAL_AI_DEFAULTS = {
     secondaryLabel: "Download the Clinical AI Brief",
     secondaryHref: "#",
     footnote: "Deployment support in Arabic and English. GCC and international experience. Pilots typically live within 6 weeks.",
-    mediaUrl: ctaVideo.url,
+    mediaUrl: ctaVideo,
   },
 } as const;
 

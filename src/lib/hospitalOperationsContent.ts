@@ -2,8 +2,8 @@ import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
 import { useSectionsContent } from "@/lib/useSectionsContent";
 
-import heroVideo from "@/assets/his-hero.mp4.asset.json";
-import ctaVideo from "@/assets/his-cta.mp4.asset.json";
+
+
 import p1 from "@/assets/his/problem-1.jpg";
 import p2 from "@/assets/his/problem-2.jpg";
 import p3 from "@/assets/his/problem-3.jpg";
@@ -14,6 +14,7 @@ import jConsultation from "@/assets/his-journey/outpatient-consultation.png";
 import jAdmission from "@/assets/his-journey/admission.png";
 import jInpatient from "@/assets/his-journey/inpatient-care.png";
 import jDischarge from "@/assets/his-journey/discharge.png";
+import { HIS_HERO_VIDEO_URL as heroVideo, HIS_CTA_VIDEO_URL as ctaVideo } from "@/lib/migratedVideoUrls";
 
 export type HOSectionKey =
   | "Hero"
@@ -42,7 +43,7 @@ export const HOSPITAL_OPERATIONS_DEFAULTS = {
       "Wearable Duress Ready",
       "HL7 FHIR Native",
     ],
-    mediaUrl: heroVideo.url,
+    mediaUrl: heroVideo,
     mediaKind: "video",
   },
   Introduction: {
@@ -135,7 +136,7 @@ export const HOSPITAL_OPERATIONS_DEFAULTS = {
     secondaryLabel: "Request a Pilot Design",
     secondaryHref: "#",
     footnote: "Phased deployment. Measurable outcomes at every stage. Dedicated support from day one.",
-    mediaUrl: ctaVideo.url,
+    mediaUrl: ctaVideo,
     mediaKind: "video",
   },
 } as const;

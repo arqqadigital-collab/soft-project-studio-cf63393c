@@ -13,7 +13,7 @@ import {
   CheckCircle2,
   type LucideIcon,
 } from "lucide-react";
-import aboutHeroVideo from "@/assets/about-hero.mp4";
+import { ABOUT_HERO_VIDEO_URL as aboutHeroVideo } from "@/lib/migratedVideoUrls";
 import { Footer } from "@/components/Footer";
 import { CtaSection } from "@/components/CtaSection";
 import { SeoHead } from "@/components/SeoHead";

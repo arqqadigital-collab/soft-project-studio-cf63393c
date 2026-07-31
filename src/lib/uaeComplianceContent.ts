@@ -2,8 +2,8 @@ import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
 import { useSectionsContent } from "@/lib/useSectionsContent";
 
-import heroVideo from "@/assets/uae-compliance/uae-hero.mp4.asset.json";
-import ctaVideo from "@/assets/uae-compliance/uae-cta.mp4.asset.json";
+
+
 import p1 from "@/assets/uae-compliance/problem/p1.jpg";
 import p2 from "@/assets/uae-compliance/problem/p2.jpg";
 import p3 from "@/assets/uae-compliance/problem/p3.jpg";
@@ -14,6 +14,7 @@ import j1 from "@/assets/uae-compliance/journey/j1.jpg";
 import j2 from "@/assets/uae-compliance/journey/j2.jpg";
 import j3 from "@/assets/uae-compliance/journey/j3.jpg";
 import j4 from "@/assets/uae-compliance/journey/j4.jpg";
+import { UAE_HERO_VIDEO_URL as heroVideo, UAE_CTA_VIDEO_URL as ctaVideo } from "@/lib/migratedVideoUrls";
 
 export type UAEComplianceSectionKey =
   | "Hero"
@@ -42,7 +43,7 @@ export const UAE_COMPLIANCE_DEFAULTS = {
       "Oman TPA Integration",
       "Arabic & English Interface",
     ],
-    mediaUrl: heroVideo.url,
+    mediaUrl: heroVideo,
     mediaKind: "video",
   },
   Introduction: {
@@ -159,7 +160,7 @@ export const UAE_COMPLIANCE_DEFAULTS = {
     ctaLabel2: "Start a 30-Day Trial",
     ctaHref2: "#contact",
     footnote: "GCC-based implementation team. Arabic and English support across all markets. Regulatory updates included.",
-    mediaUrl: ctaVideo.url,
+    mediaUrl: ctaVideo,
     mediaKind: "video",
   },
 } as const;

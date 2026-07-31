@@ -4,9 +4,12 @@ import { useLocale } from "@/i18n/LanguageProvider";
 
 // Import default assets so we can reference them as URL strings
 import expertiseImg from "@/assets/expertise.png";
-import process1 from "@/assets/process-1.mov";
-import process2 from "@/assets/process-2.mov";
-import process3 from "@/assets/process-3.mov";
+import {
+  HOMEPAGE_PROCESS_1_VIDEO_URL as process1,
+  HOMEPAGE_PROCESS_2_VIDEO_URL as process2,
+  HOMEPAGE_PROCESS_3_VIDEO_URL as process3,
+  HOMEPAGE_CTA_TESTIMONIAL_VIDEO_URL as ctaVideo,
+} from "@/lib/migratedVideoUrls";
 import healthcare from "@/assets/service-healthcare-compliance.png";
 import erp from "@/assets/service-erp.png";
 import ai from "@/assets/service-ai-healthcare.png";
@@ -32,7 +35,6 @@ import partner8 from "@/assets/partners/08.png";
 import caseErp from "@/assets/case-erp.jpg";
 import caseHealthcare from "@/assets/case-healthcare.jpg";
 import caseFintech from "@/assets/case-fintech.jpg";
-import ctaVideo from "@/assets/cta-testimonial.mov";
 
 export type SectionKey =
   | "expertise" | "process" | "services" | "promise" | "stats"

@@ -18,8 +18,9 @@ import malaffiLogo from "@/assets/logos/malaffi.png";
 import riayatiLogo from "@/assets/logos/riayati.png";
 import wasfatyLogo from "@/assets/logos/wasfaty.png";
 import nhraLogo from "@/assets/logos/nhra.png";
-import hisHeroVideo from "@/assets/his-hero.mp4.asset.json";
-import hisCtaVideo from "@/assets/his-cta.mp4.asset.json";
+import { HIS_HERO_VIDEO_URL as hisHeroVideo, HIS_CTA_VIDEO_URL as hisCtaVideo } from "@/lib/migratedVideoUrls";
+
+
 
 export const RC_DEFAULTS = {
   Hero: {
@@ -37,7 +38,7 @@ export const RC_DEFAULTS = {
       "Real-Time A/R Analytics",
       "Cloud & On-Premise",
     ],
-    mediaUrl: hisHeroVideo.url,
+    mediaUrl: hisHeroVideo,
   },
   Introduction: {
     eyebrow: "Introducing Revenue Cycle & Financial Performance",
@@ -142,7 +143,7 @@ export const RC_DEFAULTS = {
     secondaryHref: "#",
     footnote:
       "Structured implementation support. Payer integrations included. Pricing tailored to your revenue scale and payer mix.",
-    mediaUrl: hisCtaVideo.url,
+    mediaUrl: hisCtaVideo,
   },
 } as const;
 

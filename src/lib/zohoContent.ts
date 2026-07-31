@@ -2,11 +2,12 @@ import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
 import { useSectionsContent } from "@/lib/useSectionsContent";
 
-import heroVideo from "@/assets/zoho/zoho-hero.mp4.asset.json";
+
 import u1 from "@/assets/zoho/use-case-1.jpg";
 import u2 from "@/assets/zoho/use-case-2.jpg";
 import u3 from "@/assets/zoho/use-case-3.jpg";
 import u4 from "@/assets/zoho/use-case-4.jpg";
+import { ZOHO_HERO_VIDEO_URL as heroVideo } from "@/lib/migratedVideoUrls";
 
 export type ZohoSectionKey =
   | "Hero"
@@ -26,7 +27,7 @@ export const ZOHO_DEFAULTS = {
     ctaHref: "#contact",
     ctaLabel2: "See how we work",
     ctaHref2: "#process",
-    mediaUrl: heroVideo.url,
+    mediaUrl: heroVideo,
   },
   Introduction: {
     headline: "Zoho rebuilt around",
