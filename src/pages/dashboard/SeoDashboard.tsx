@@ -130,17 +130,24 @@ export default function SeoDashboard() {
         { onConflict: "entity_type,old_slug" },
       );
       if (error) throw error;
+      // Close the loop with the 404 monitor: keep the history, flag it as handled.
+      await supabase
+        .from("not_found_log")
+        .update({ status: "redirected" })
+        .in("url", Array.from(new Set([oldSlug.trim(), from])));
     },
     onSuccess: () => {
       setOldSlug("");
       setNewSlug("");
       qc.invalidateQueries({ queryKey: ["slug_redirects"] });
       qc.invalidateQueries({ queryKey: ["path_redirects"] });
+      qc.invalidateQueries({ queryKey: ["not_found_log"] });
       toast.success("Redirect saved");
       triggerSeoSync();
     },
     onError: (e: any) => toast.error(e.message),
   });
+
 
 
   const remove = useMutation({
