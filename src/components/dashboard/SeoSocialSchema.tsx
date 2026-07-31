@@ -13,6 +13,9 @@ import type { OrganizationSettings } from "@/components/SiteSchema";
 
 type Row = {
   id?: string;
+  site_title: string | null;
+  site_url: string | null;
+  site_alternate_name: string | null;
   default_og_image_url: string | null;
   twitter_handle: string | null;
   organization: OrganizationSettings | null;
@@ -25,13 +28,14 @@ export function SeoSocialSchema() {
   const [org, setOrg] = useState<OrganizationSettings>({});
   const [sameAs, setSameAs] = useState("");
   const [picker, setPicker] = useState(false);
+  const [altName, setAltName] = useState("");
 
   const q = useQuery({
     queryKey: ["seo-social-schema"],
     queryFn: async (): Promise<Row | null> => {
       const { data, error } = await supabase
         .from("site_settings")
-        .select("id, default_og_image_url, twitter_handle, organization")
+        .select("id, site_title, site_url, site_alternate_name, default_og_image_url, twitter_handle, organization")
         .maybeSingle();
       if (error) throw error;
       return data as Row | null;
@@ -42,6 +46,7 @@ export function SeoSocialSchema() {
     if (!q.data) return;
     setOgImage(q.data.default_og_image_url ?? "");
     setTwitter(q.data.twitter_handle ?? "");
+    setAltName(q.data.site_alternate_name ?? "");
     const o = (q.data.organization ?? {}) as OrganizationSettings;
     setOrg(o);
     setSameAs((o.same_as ?? []).join("\n"));
@@ -50,6 +55,7 @@ export function SeoSocialSchema() {
   const save = useMutation({
     mutationFn: async () => {
       const payload = {
+        site_alternate_name: altName || null,
         default_og_image_url: ogImage || null,
         twitter_handle: twitter || null,
         organization: {
@@ -110,6 +116,34 @@ export function SeoSocialSchema() {
           <div className="space-y-2">
             <Label className="text-xs">Twitter / X handle</Label>
             <Input value={twitter} onChange={(e) => setTwitter(e.target.value)} placeholder="@company" />
+          </div>
+        </CardContent>
+      </Card>
+
+      <Card>
+        <CardHeader className="pb-3">
+          <CardTitle className="text-sm">Website (structured data)</CardTitle>
+        </CardHeader>
+        <CardContent className="grid gap-4 sm:grid-cols-2">
+          <div className="space-y-2">
+            <Label className="text-xs">Site name</Label>
+            <Input value={q.data?.site_title ?? ""} readOnly disabled />
+          </div>
+          <div className="space-y-2">
+            <Label className="text-xs">Site URL</Label>
+            <Input value={q.data?.site_url ?? ""} readOnly disabled />
+          </div>
+          <div className="space-y-2 sm:col-span-2">
+            <Label className="text-xs">Alternate name (optional)</Label>
+            <Input
+              value={altName}
+              onChange={(e) => setAltName(e.target.value)}
+              placeholder="Short name or acronym, e.g. SBS"
+            />
+            <p className="text-xs text-muted-foreground">
+              WebSite JSON-LD is generated automatically from the site name and URL in Settings —
+              only the alternate name is set here.
+            </p>
           </div>
         </CardContent>
       </Card>
