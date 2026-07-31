@@ -18,7 +18,7 @@ export function SiteHead() {
       const { data, error } = await supabase
         .from("site_settings")
         .select(
-          "site_title, site_title_ar, site_description, site_description_ar, favicon_url"
+          "site_title, site_title_ar, site_description, site_description_ar, favicon_url, default_og_image_url, og_image_url, twitter_handle, site_url"
         )
         .maybeSingle();
       if (error) throw error;
@@ -35,15 +35,27 @@ export function SiteHead() {
     (isAr ? data?.site_description_ar : data?.site_description) ||
     data?.site_description ||
     "";
+  const ogImage = data?.default_og_image_url || data?.og_image_url || "";
+  const twitter = data?.twitter_handle?.trim()
+    ? data.twitter_handle.trim().startsWith("@")
+      ? data.twitter_handle.trim()
+      : `@${data.twitter_handle.trim()}`
+    : "";
 
   return (
     <Helmet>
       <title>{title}</title>
       {description ? <meta name="description" content={description} /> : null}
       <meta property="og:title" content={title} />
+      <meta property="og:site_name" content={title} />
+      <meta property="og:locale" content={isAr ? "ar_AR" : "en_US"} />
       {description ? (
         <meta property="og:description" content={description} />
       ) : null}
+      {ogImage ? <meta property="og:image" content={ogImage} /> : null}
+      <meta name="twitter:card" content={ogImage ? "summary_large_image" : "summary"} />
+      {twitter ? <meta name="twitter:site" content={twitter} /> : null}
+      {ogImage ? <meta name="twitter:image" content={ogImage} /> : null}
       {data?.favicon_url ? (
         <link rel="icon" href={data.favicon_url} />
       ) : null}
