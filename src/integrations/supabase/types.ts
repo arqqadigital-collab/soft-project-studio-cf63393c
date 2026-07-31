@@ -1495,6 +1495,7 @@ export type Database = {
           body_font_ar: string | null
           border_radius: string | null
           brand_dark_color: string | null
+          clarity_project_id: string | null
           created_at: string
           custom_body_html: string | null
           custom_head_html: string | null
@@ -1505,6 +1506,7 @@ export type Database = {
           default_og_image_url: string | null
           favicon_url: string | null
           ga4_id: string | null
+          google_site_verification: string | null
           gtm_id: string | null
           heading_font: string | null
           heading_font_ar: string | null
@@ -1517,6 +1519,7 @@ export type Database = {
           primary_color: string | null
           robots_txt: string | null
           singleton: boolean
+          site_alternate_name: string | null
           site_description: string | null
           site_description_ar: string | null
           site_logo_url: string | null
@@ -1533,6 +1536,7 @@ export type Database = {
           body_font_ar?: string | null
           border_radius?: string | null
           brand_dark_color?: string | null
+          clarity_project_id?: string | null
           created_at?: string
           custom_body_html?: string | null
           custom_head_html?: string | null
@@ -1543,6 +1547,7 @@ export type Database = {
           default_og_image_url?: string | null
           favicon_url?: string | null
           ga4_id?: string | null
+          google_site_verification?: string | null
           gtm_id?: string | null
           heading_font?: string | null
           heading_font_ar?: string | null
@@ -1555,6 +1560,7 @@ export type Database = {
           primary_color?: string | null
           robots_txt?: string | null
           singleton?: boolean
+          site_alternate_name?: string | null
           site_description?: string | null
           site_description_ar?: string | null
           site_logo_url?: string | null
@@ -1571,6 +1577,7 @@ export type Database = {
           body_font_ar?: string | null
           border_radius?: string | null
           brand_dark_color?: string | null
+          clarity_project_id?: string | null
           created_at?: string
           custom_body_html?: string | null
           custom_head_html?: string | null
@@ -1581,6 +1588,7 @@ export type Database = {
           default_og_image_url?: string | null
           favicon_url?: string | null
           ga4_id?: string | null
+          google_site_verification?: string | null
           gtm_id?: string | null
           heading_font?: string | null
           heading_font_ar?: string | null
@@ -1593,6 +1601,7 @@ export type Database = {
           primary_color?: string | null
           robots_txt?: string | null
           singleton?: boolean
+          site_alternate_name?: string | null
           site_description?: string | null
           site_description_ar?: string | null
           site_logo_url?: string | null
