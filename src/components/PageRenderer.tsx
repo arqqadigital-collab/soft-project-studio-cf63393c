@@ -3,6 +3,7 @@ import { supabase } from "@/integrations/supabase/client";
 import { SECTION_REGISTRY, type SectionKind } from "@/lib/pageSections";
 import { useLocale } from "@/i18n/LanguageProvider";
 import { StyledSection } from "@/components/StyledSection";
+import { useRegisterFaqItems, normalizeFaqItems } from "@/lib/faqSchemaStore";
 
 type Row = { id: string; kind: string; position: number; is_visible: boolean; data: any; translations: any; style?: any };
 
