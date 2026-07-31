@@ -4,19 +4,19 @@ import { useSectionsContent } from "@/lib/useSectionsContent";
 
 
 
-import p1 from "@/assets/emram/problem/p1.jpg";
-import p2 from "@/assets/emram/problem/p2.jpg";
-import p3 from "@/assets/emram/problem/p3.jpg";
-import p4 from "@/assets/emram/problem/p4.jpg";
-import p5 from "@/assets/emram/problem/p5.jpg";
-import p6 from "@/assets/emram/problem/p6.jpg";
-import j1 from "@/assets/emram/journey/j1.jpg";
-import j2 from "@/assets/emram/journey/j2.jpg";
-import j3 from "@/assets/emram/journey/j3.jpg";
-import j4 from "@/assets/emram/journey/j4.jpg";
-import j5 from "@/assets/emram/journey/j5.jpg";
-import j6 from "@/assets/emram/journey/j6.jpg";
-import j7 from "@/assets/emram/journey/j7.jpg";
+import { IMG_EMRAM_PROBLEM_P1_URL as p1 } from "@/lib/migratedImageUrls";
+import { IMG_EMRAM_PROBLEM_P2_URL as p2 } from "@/lib/migratedImageUrls";
+import { IMG_EMRAM_PROBLEM_P3_URL as p3 } from "@/lib/migratedImageUrls";
+import { IMG_EMRAM_PROBLEM_P4_URL as p4 } from "@/lib/migratedImageUrls";
+import { IMG_EMRAM_PROBLEM_P5_URL as p5 } from "@/lib/migratedImageUrls";
+import { IMG_EMRAM_PROBLEM_P6_URL as p6 } from "@/lib/migratedImageUrls";
+import { IMG_EMRAM_JOURNEY_J1_URL as j1 } from "@/lib/migratedImageUrls";
+import { IMG_EMRAM_JOURNEY_J2_URL as j2 } from "@/lib/migratedImageUrls";
+import { IMG_EMRAM_JOURNEY_J3_URL as j3 } from "@/lib/migratedImageUrls";
+import { IMG_EMRAM_JOURNEY_J4_URL as j4 } from "@/lib/migratedImageUrls";
+import { IMG_EMRAM_JOURNEY_J5_URL as j5 } from "@/lib/migratedImageUrls";
+import { IMG_EMRAM_JOURNEY_J6_URL as j6 } from "@/lib/migratedImageUrls";
+import { IMG_EMRAM_JOURNEY_J7_URL as j7 } from "@/lib/migratedImageUrls";
 import { EMRAM_HERO_VIDEO_URL as heroVideo, EMRAM_CTA_VIDEO_URL as ctaVideo } from "@/lib/migratedVideoUrls";
 
 export type ClinicalAiSectionKey =

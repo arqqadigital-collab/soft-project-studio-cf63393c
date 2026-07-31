@@ -3,11 +3,11 @@ import { supabase } from "@/integrations/supabase/client";
 import { useSectionsContent } from "@/lib/useSectionsContent";
 
 
-import pattern from "@/assets/dynamics/dynamics-pattern.jpg";
-import u1 from "@/assets/dynamics/use-case-1.jpg";
-import u2 from "@/assets/dynamics/use-case-2.jpg";
-import u3 from "@/assets/dynamics/use-case-3.jpg";
-import u4 from "@/assets/dynamics/use-case-4.jpg";
+import { IMG_DYNAMICS_DYNAMICS_PATTERN_URL as pattern } from "@/lib/migratedImageUrls";
+import { IMG_DYNAMICS_USE_CASE_1_URL as u1 } from "@/lib/migratedImageUrls";
+import { IMG_DYNAMICS_USE_CASE_2_URL as u2 } from "@/lib/migratedImageUrls";
+import { IMG_DYNAMICS_USE_CASE_3_URL as u3 } from "@/lib/migratedImageUrls";
+import { IMG_DYNAMICS_USE_CASE_4_URL as u4 } from "@/lib/migratedImageUrls";
 import { DYNAMICS_HERO_VIDEO_URL as heroVideo } from "@/lib/migratedVideoUrls";
 
 export type DynamicsSectionKey =

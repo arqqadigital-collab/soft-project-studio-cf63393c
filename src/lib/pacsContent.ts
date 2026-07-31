@@ -2,16 +2,16 @@ import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
 import { useSectionsContent } from "@/lib/useSectionsContent";
 
-import heroImage from "@/assets/pacs/hero.jpg";
-import problemNoAccess from "@/assets/pacs/problems/no-access.jpg";
-import problemLegacy from "@/assets/pacs/problems/legacy.jpg";
-import problemCD from "@/assets/pacs/problems/cd-transfer.jpg";
-import problemStorage from "@/assets/pacs/problems/storage-fail.jpg";
-import problemRemote from "@/assets/pacs/problems/remote.jpg";
-import journeyAcquire from "@/assets/pacs/journey/acquire.jpg";
-import journeyRetrieve from "@/assets/pacs/journey/retrieve.jpg";
-import journeyReport from "@/assets/pacs/journey/report.jpg";
-import journeyDeliver from "@/assets/pacs/journey/deliver.jpg";
+import { IMG_PACS_HERO_URL as heroImage } from "@/lib/migratedImageUrls";
+import { IMG_PACS_PROBLEMS_NO_ACCESS_URL as problemNoAccess } from "@/lib/migratedImageUrls";
+import { IMG_PACS_PROBLEMS_LEGACY_URL as problemLegacy } from "@/lib/migratedImageUrls";
+import { IMG_PACS_PROBLEMS_CD_TRANSFER_URL as problemCD } from "@/lib/migratedImageUrls";
+import { IMG_PACS_PROBLEMS_STORAGE_FAIL_URL as problemStorage } from "@/lib/migratedImageUrls";
+import { IMG_PACS_PROBLEMS_REMOTE_URL as problemRemote } from "@/lib/migratedImageUrls";
+import { IMG_PACS_JOURNEY_ACQUIRE_URL as journeyAcquire } from "@/lib/migratedImageUrls";
+import { IMG_PACS_JOURNEY_RETRIEVE_URL as journeyRetrieve } from "@/lib/migratedImageUrls";
+import { IMG_PACS_JOURNEY_REPORT_URL as journeyReport } from "@/lib/migratedImageUrls";
+import { IMG_PACS_JOURNEY_DELIVER_URL as journeyDeliver } from "@/lib/migratedImageUrls";
 
 export type PACSSectionKey =
   | "Hero"

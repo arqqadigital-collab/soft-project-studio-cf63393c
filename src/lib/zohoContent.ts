@@ -3,10 +3,10 @@ import { supabase } from "@/integrations/supabase/client";
 import { useSectionsContent } from "@/lib/useSectionsContent";
 
 
-import u1 from "@/assets/zoho/use-case-1.jpg";
-import u2 from "@/assets/zoho/use-case-2.jpg";
-import u3 from "@/assets/zoho/use-case-3.jpg";
-import u4 from "@/assets/zoho/use-case-4.jpg";
+import { IMG_ZOHO_USE_CASE_1_URL as u1 } from "@/lib/migratedImageUrls";
+import { IMG_ZOHO_USE_CASE_2_URL as u2 } from "@/lib/migratedImageUrls";
+import { IMG_ZOHO_USE_CASE_3_URL as u3 } from "@/lib/migratedImageUrls";
+import { IMG_ZOHO_USE_CASE_4_URL as u4 } from "@/lib/migratedImageUrls";
 import { ZOHO_HERO_VIDEO_URL as heroVideo } from "@/lib/migratedVideoUrls";
 
 export type ZohoSectionKey =

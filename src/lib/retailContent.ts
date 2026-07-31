@@ -2,15 +2,15 @@ import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
 import { useSectionsContent } from "@/lib/useSectionsContent";
 
-import hero from "@/assets/retail/hero.jpg";
-import tradFail from "@/assets/retail/traditional-fail.jpg";
-import p1 from "@/assets/retail/problem-p1.jpg";
-import p2 from "@/assets/retail/problem-p2.jpg";
-import p3 from "@/assets/retail/problem-p3.jpg";
-import u1 from "@/assets/retail/uc-1.jpg";
-import u2 from "@/assets/retail/uc-2.jpg";
-import u3 from "@/assets/retail/uc-3.jpg";
-import u4 from "@/assets/retail/uc-4.jpg";
+import { IMG_RETAIL_HERO_URL as hero } from "@/lib/migratedImageUrls";
+import { IMG_RETAIL_TRADITIONAL_FAIL_URL as tradFail } from "@/lib/migratedImageUrls";
+import { IMG_RETAIL_PROBLEM_P1_URL as p1 } from "@/lib/migratedImageUrls";
+import { IMG_RETAIL_PROBLEM_P2_URL as p2 } from "@/lib/migratedImageUrls";
+import { IMG_RETAIL_PROBLEM_P3_URL as p3 } from "@/lib/migratedImageUrls";
+import { IMG_RETAIL_UC_1_URL as u1 } from "@/lib/migratedImageUrls";
+import { IMG_RETAIL_UC_2_URL as u2 } from "@/lib/migratedImageUrls";
+import { IMG_RETAIL_UC_3_URL as u3 } from "@/lib/migratedImageUrls";
+import { IMG_RETAIL_UC_4_URL as u4 } from "@/lib/migratedImageUrls";
 
 export type RetailSectionKey =
   | "Hero"

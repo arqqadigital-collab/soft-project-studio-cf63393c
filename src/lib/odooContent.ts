@@ -3,11 +3,11 @@ import { supabase } from "@/integrations/supabase/client";
 import { useSectionsContent } from "@/lib/useSectionsContent";
 
 
-import pattern from "@/assets/odoo/pattern.jpg";
-import u1 from "@/assets/odoo/use-case-1.jpg";
-import u2 from "@/assets/odoo/use-case-2.jpg";
-import u3 from "@/assets/odoo/use-case-3.jpg";
-import u4 from "@/assets/odoo/use-case-4.jpg";
+import { IMG_ODOO_PATTERN_URL as pattern } from "@/lib/migratedImageUrls";
+import { IMG_ODOO_USE_CASE_1_URL as u1 } from "@/lib/migratedImageUrls";
+import { IMG_ODOO_USE_CASE_2_URL as u2 } from "@/lib/migratedImageUrls";
+import { IMG_ODOO_USE_CASE_3_URL as u3 } from "@/lib/migratedImageUrls";
+import { IMG_ODOO_USE_CASE_4_URL as u4 } from "@/lib/migratedImageUrls";
 import { ODOO_HERO_VIDEO_URL as heroVideo } from "@/lib/migratedVideoUrls";
 
 export type OdooSectionKey =

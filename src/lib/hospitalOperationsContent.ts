@@ -4,16 +4,16 @@ import { useSectionsContent } from "@/lib/useSectionsContent";
 
 
 
-import p1 from "@/assets/his/problem-1.jpg";
-import p2 from "@/assets/his/problem-2.jpg";
-import p3 from "@/assets/his/problem-3.jpg";
-import p4 from "@/assets/his/problem-4.jpg";
-import p5 from "@/assets/his/problem-5.jpg";
-import jRegistration from "@/assets/his-journey/registration.png";
-import jConsultation from "@/assets/his-journey/outpatient-consultation.png";
-import jAdmission from "@/assets/his-journey/admission.png";
-import jInpatient from "@/assets/his-journey/inpatient-care.png";
-import jDischarge from "@/assets/his-journey/discharge.png";
+import { IMG_HIS_PROBLEM_1_URL as p1 } from "@/lib/migratedImageUrls";
+import { IMG_HIS_PROBLEM_2_URL as p2 } from "@/lib/migratedImageUrls";
+import { IMG_HIS_PROBLEM_3_URL as p3 } from "@/lib/migratedImageUrls";
+import { IMG_HIS_PROBLEM_4_URL as p4 } from "@/lib/migratedImageUrls";
+import { IMG_HIS_PROBLEM_5_URL as p5 } from "@/lib/migratedImageUrls";
+import { IMG_HIS_JOURNEY_REGISTRATION_URL as jRegistration } from "@/lib/migratedImageUrls";
+import { IMG_HIS_JOURNEY_OUTPATIENT_CONSULTATION_URL as jConsultation } from "@/lib/migratedImageUrls";
+import { IMG_HIS_JOURNEY_ADMISSION_URL as jAdmission } from "@/lib/migratedImageUrls";
+import { IMG_HIS_JOURNEY_INPATIENT_CARE_URL as jInpatient } from "@/lib/migratedImageUrls";
+import { IMG_HIS_JOURNEY_DISCHARGE_URL as jDischarge } from "@/lib/migratedImageUrls";
 import { HIS_HERO_VIDEO_URL as heroVideo, HIS_CTA_VIDEO_URL as ctaVideo } from "@/lib/migratedVideoUrls";
 
 export type HOSectionKey =

@@ -2,16 +2,16 @@ import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
 import { useSectionsContent } from "@/lib/useSectionsContent";
 
-import hero from "@/assets/staffaug/hero.jpg";
-import cta from "@/assets/staffaug/cta.jpg";
-import s1 from "@/assets/staffaug/managed-it-new.jpg";
-import s2 from "@/assets/staffaug/s2.jpg";
-import s3 from "@/assets/staffaug/s3.jpg";
-import s4 from "@/assets/staffaug/s4-new.jpg";
-import s5 from "@/assets/staffaug/s5.jpg";
-import s6 from "@/assets/staffaug/s6.jpg";
-import s7 from "@/assets/staffaug/managed-cloud-services.png";
-import s8 from "@/assets/staffaug/s8.jpg";
+import { IMG_STAFFAUG_HERO_URL as hero } from "@/lib/migratedImageUrls";
+import { IMG_STAFFAUG_CTA_URL as cta } from "@/lib/migratedImageUrls";
+import { IMG_STAFFAUG_MANAGED_IT_NEW_URL as s1 } from "@/lib/migratedImageUrls";
+import { IMG_STAFFAUG_S2_URL as s2 } from "@/lib/migratedImageUrls";
+import { IMG_STAFFAUG_S3_URL as s3 } from "@/lib/migratedImageUrls";
+import { IMG_STAFFAUG_S4_NEW_URL as s4 } from "@/lib/migratedImageUrls";
+import { IMG_STAFFAUG_S5_URL as s5 } from "@/lib/migratedImageUrls";
+import { IMG_STAFFAUG_S6_URL as s6 } from "@/lib/migratedImageUrls";
+import { IMG_STAFFAUG_MANAGED_CLOUD_SERVICES_URL as s7 } from "@/lib/migratedImageUrls";
+import { IMG_STAFFAUG_S8_URL as s8 } from "@/lib/migratedImageUrls";
 
 export type StaffAugSectionKey =
   | "Hero"

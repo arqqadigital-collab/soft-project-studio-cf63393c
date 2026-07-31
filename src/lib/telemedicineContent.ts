@@ -2,17 +2,17 @@ import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
 import { useSectionsContent } from "@/lib/useSectionsContent";
 
-import heroImage from "@/assets/telemedicine/hero.jpg";
-import p1 from "@/assets/telemedicine/problems/p1.jpg";
-import p2 from "@/assets/telemedicine/problems/p2.jpg";
-import p3 from "@/assets/telemedicine/problems/p3.jpg";
-import p4 from "@/assets/telemedicine/problems/p4.jpg";
-import p5 from "@/assets/telemedicine/problems/p5.jpg";
-import j1 from "@/assets/telemedicine/journey/j1.jpg";
-import j2 from "@/assets/telemedicine/journey/j2.jpg";
-import j3 from "@/assets/telemedicine/journey/j3.jpg";
-import j4 from "@/assets/telemedicine/journey/j4.jpg";
-import j5 from "@/assets/telemedicine/journey/j5.jpg";
+import { IMG_TELEMEDICINE_HERO_URL as heroImage } from "@/lib/migratedImageUrls";
+import { IMG_TELEMEDICINE_PROBLEMS_P1_URL as p1 } from "@/lib/migratedImageUrls";
+import { IMG_TELEMEDICINE_PROBLEMS_P2_URL as p2 } from "@/lib/migratedImageUrls";
+import { IMG_TELEMEDICINE_PROBLEMS_P3_URL as p3 } from "@/lib/migratedImageUrls";
+import { IMG_TELEMEDICINE_PROBLEMS_P4_URL as p4 } from "@/lib/migratedImageUrls";
+import { IMG_TELEMEDICINE_PROBLEMS_P5_URL as p5 } from "@/lib/migratedImageUrls";
+import { IMG_TELEMEDICINE_JOURNEY_J1_URL as j1 } from "@/lib/migratedImageUrls";
+import { IMG_TELEMEDICINE_JOURNEY_J2_URL as j2 } from "@/lib/migratedImageUrls";
+import { IMG_TELEMEDICINE_JOURNEY_J3_URL as j3 } from "@/lib/migratedImageUrls";
+import { IMG_TELEMEDICINE_JOURNEY_J4_URL as j4 } from "@/lib/migratedImageUrls";
+import { IMG_TELEMEDICINE_JOURNEY_J5_URL as j5 } from "@/lib/migratedImageUrls";
 
 export type TelemedicineSectionKey =
   | "Hero"

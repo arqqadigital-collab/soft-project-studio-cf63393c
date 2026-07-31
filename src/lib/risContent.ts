@@ -2,22 +2,22 @@ import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
 import { useSectionsContent } from "@/lib/useSectionsContent";
 
-import risProblem1 from "@/assets/ris/problem-1.jpg";
-import risProblem2 from "@/assets/ris/problem-2.jpg";
-import risProblem3 from "@/assets/ris/problem-3.jpg";
-import risProblem4 from "@/assets/ris/problem-4.jpg";
-import risProblem5 from "@/assets/ris/problem-5.jpg";
-import risJourney1 from "@/assets/ris/journey-1.jpg";
-import risJourney2 from "@/assets/ris/journey-2.jpg";
-import risJourney3 from "@/assets/ris/journey-3.jpg";
-import risJourney4 from "@/assets/ris/journey-4.jpg";
-import risJourney5 from "@/assets/ris/journey-5.jpg";
-import philipsLogo from "@/assets/ris/integrations/philips.png";
-import iheLogo from "@/assets/ris/integrations/ihe.png";
-import epicLogo from "@/assets/ris/integrations/epic.png";
-import dicomLogo from "@/assets/ris/integrations/dicom.png";
-import cernerLogo from "@/assets/ris/integrations/cerner.png";
-import agfaLogo from "@/assets/ris/integrations/agfa.png";
+import { IMG_RIS_PROBLEM_1_URL as risProblem1 } from "@/lib/migratedImageUrls";
+import { IMG_RIS_PROBLEM_2_URL as risProblem2 } from "@/lib/migratedImageUrls";
+import { IMG_RIS_PROBLEM_3_URL as risProblem3 } from "@/lib/migratedImageUrls";
+import { IMG_RIS_PROBLEM_4_URL as risProblem4 } from "@/lib/migratedImageUrls";
+import { IMG_RIS_PROBLEM_5_URL as risProblem5 } from "@/lib/migratedImageUrls";
+import { IMG_RIS_JOURNEY_1_URL as risJourney1 } from "@/lib/migratedImageUrls";
+import { IMG_RIS_JOURNEY_2_URL as risJourney2 } from "@/lib/migratedImageUrls";
+import { IMG_RIS_JOURNEY_3_URL as risJourney3 } from "@/lib/migratedImageUrls";
+import { IMG_RIS_JOURNEY_4_URL as risJourney4 } from "@/lib/migratedImageUrls";
+import { IMG_RIS_JOURNEY_5_URL as risJourney5 } from "@/lib/migratedImageUrls";
+import { IMG_RIS_INTEGRATIONS_PHILIPS_URL as philipsLogo } from "@/lib/migratedImageUrls";
+import { IMG_RIS_INTEGRATIONS_IHE_URL as iheLogo } from "@/lib/migratedImageUrls";
+import { IMG_RIS_INTEGRATIONS_EPIC_URL as epicLogo } from "@/lib/migratedImageUrls";
+import { IMG_RIS_INTEGRATIONS_DICOM_URL as dicomLogo } from "@/lib/migratedImageUrls";
+import { IMG_RIS_INTEGRATIONS_CERNER_URL as cernerLogo } from "@/lib/migratedImageUrls";
+import { IMG_RIS_INTEGRATIONS_AGFA_URL as agfaLogo } from "@/lib/migratedImageUrls";
 
 export type RisSectionKey =
   | "Hero"

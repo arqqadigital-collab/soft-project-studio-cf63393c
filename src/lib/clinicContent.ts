@@ -3,28 +3,28 @@ import { supabase } from "@/integrations/supabase/client";
 import { useSectionsContent } from "@/lib/useSectionsContent";
 
 // Default assets so URLs stay valid across builds.
-import problem1 from "@/assets/his/problem-1.jpg";
-import problem2 from "@/assets/his/problem-2.jpg";
-import problem3 from "@/assets/his/problem-3.jpg";
-import problem4 from "@/assets/his/problem-4.jpg";
-import problem5 from "@/assets/his/problem-5.jpg";
-import problem6 from "@/assets/his/problem-6.jpg";
+import { IMG_HIS_PROBLEM_1_URL as problem1 } from "@/lib/migratedImageUrls";
+import { IMG_HIS_PROBLEM_2_URL as problem2 } from "@/lib/migratedImageUrls";
+import { IMG_HIS_PROBLEM_3_URL as problem3 } from "@/lib/migratedImageUrls";
+import { IMG_HIS_PROBLEM_4_URL as problem4 } from "@/lib/migratedImageUrls";
+import { IMG_HIS_PROBLEM_5_URL as problem5 } from "@/lib/migratedImageUrls";
+import { IMG_HIS_PROBLEM_6_URL as problem6 } from "@/lib/migratedImageUrls";
 
 
-import registrationStep from "@/assets/his-journey/registration.png";
-import outpatientConsultationStep from "@/assets/his-journey/outpatient-consultation.png";
-import admissionStep from "@/assets/his-journey/admission.png";
-import inpatientCareStep from "@/assets/his-journey/inpatient-care.png";
-import dischargeStep from "@/assets/his-journey/discharge.png";
-import billingSettlementStep from "@/assets/his-journey/billing-settlement.png";
-import nphiesLogo from "@/assets/logos/nphies.png";
-import malaffiLogo from "@/assets/logos/malaffi.png";
-import riayatiLogo from "@/assets/logos/riayati.png";
-import zatcaLogo from "@/assets/logos/zatca.png";
-import emiratesIdLogo from "@/assets/logos/emirates-id.png";
-import absherLogo from "@/assets/logos/absher.png";
-import nhraLogo from "@/assets/logos/nhra.png";
-import wasfatyLogo from "@/assets/logos/wasfaty.png";
+import { IMG_HIS_JOURNEY_REGISTRATION_URL as registrationStep } from "@/lib/migratedImageUrls";
+import { IMG_HIS_JOURNEY_OUTPATIENT_CONSULTATION_URL as outpatientConsultationStep } from "@/lib/migratedImageUrls";
+import { IMG_HIS_JOURNEY_ADMISSION_URL as admissionStep } from "@/lib/migratedImageUrls";
+import { IMG_HIS_JOURNEY_INPATIENT_CARE_URL as inpatientCareStep } from "@/lib/migratedImageUrls";
+import { IMG_HIS_JOURNEY_DISCHARGE_URL as dischargeStep } from "@/lib/migratedImageUrls";
+import { IMG_HIS_JOURNEY_BILLING_SETTLEMENT_URL as billingSettlementStep } from "@/lib/migratedImageUrls";
+import { IMG_LOGOS_NPHIES_URL as nphiesLogo } from "@/lib/migratedImageUrls";
+import { IMG_LOGOS_MALAFFI_URL as malaffiLogo } from "@/lib/migratedImageUrls";
+import { IMG_LOGOS_RIAYATI_URL as riayatiLogo } from "@/lib/migratedImageUrls";
+import { IMG_LOGOS_ZATCA_URL as zatcaLogo } from "@/lib/migratedImageUrls";
+import { IMG_LOGOS_EMIRATES_ID_URL as emiratesIdLogo } from "@/lib/migratedImageUrls";
+import { IMG_LOGOS_ABSHER_URL as absherLogo } from "@/lib/migratedImageUrls";
+import { IMG_LOGOS_NHRA_URL as nhraLogo } from "@/lib/migratedImageUrls";
+import { IMG_LOGOS_WASFATY_URL as wasfatyLogo } from "@/lib/migratedImageUrls";
 import { HIS_HERO_VIDEO_URL as hisHeroVideo, HIS_CTA_VIDEO_URL as hisCtaVideo } from "@/lib/migratedVideoUrls";
 
 export type ClinicSectionKey =

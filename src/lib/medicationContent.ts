@@ -4,16 +4,16 @@ import { useSectionsContent } from "@/lib/useSectionsContent";
 
 
 
-import problemAllergy from "@/assets/medication/problems/allergy.jpg";
-import problemPaper from "@/assets/medication/problems/paper-mar.jpg";
-import problemInteraction from "@/assets/medication/problems/interaction.jpg";
-import problemControlled from "@/assets/medication/problems/controlled.jpg";
-import problemPediatric from "@/assets/medication/problems/pediatric-dose.jpg";
-import journeyPrescribe from "@/assets/medication/journey/prescribe.jpg";
-import journeyVerify from "@/assets/medication/journey/verify.jpg";
-import journeyDispense from "@/assets/medication/journey/dispense.jpg";
-import journeyAdminister from "@/assets/medication/journey/administer.jpg";
-import journeyDocument from "@/assets/medication/journey/document.jpg";
+import { IMG_MEDICATION_PROBLEMS_ALLERGY_URL as problemAllergy } from "@/lib/migratedImageUrls";
+import { IMG_MEDICATION_PROBLEMS_PAPER_MAR_URL as problemPaper } from "@/lib/migratedImageUrls";
+import { IMG_MEDICATION_PROBLEMS_INTERACTION_URL as problemInteraction } from "@/lib/migratedImageUrls";
+import { IMG_MEDICATION_PROBLEMS_CONTROLLED_URL as problemControlled } from "@/lib/migratedImageUrls";
+import { IMG_MEDICATION_PROBLEMS_PEDIATRIC_DOSE_URL as problemPediatric } from "@/lib/migratedImageUrls";
+import { IMG_MEDICATION_JOURNEY_PRESCRIBE_URL as journeyPrescribe } from "@/lib/migratedImageUrls";
+import { IMG_MEDICATION_JOURNEY_VERIFY_URL as journeyVerify } from "@/lib/migratedImageUrls";
+import { IMG_MEDICATION_JOURNEY_DISPENSE_URL as journeyDispense } from "@/lib/migratedImageUrls";
+import { IMG_MEDICATION_JOURNEY_ADMINISTER_URL as journeyAdminister } from "@/lib/migratedImageUrls";
+import { IMG_MEDICATION_JOURNEY_DOCUMENT_URL as journeyDocument } from "@/lib/migratedImageUrls";
 import { MEDICATION_HERO_VIDEO_URL as heroVideo, MEDICATION_CTA_VIDEO_URL as ctaVideo } from "@/lib/migratedVideoUrls";
 
 export type MedSectionKey =

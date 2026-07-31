@@ -4,16 +4,16 @@ import { useSectionsContent } from "@/lib/useSectionsContent";
 
 import heroVideo from "@/assets/blood-bank/hero-video.mp4";
 
-import problemMislabeled from "@/assets/blood-bank/problems/mislabeled.jpg";
-import problemExpired from "@/assets/blood-bank/problems/expired.jpg";
-import problemPaper from "@/assets/blood-bank/problems/paper.jpg";
-import problemReaction from "@/assets/blood-bank/problems/reaction.jpg";
-import problemAudit from "@/assets/blood-bank/problems/audit.jpg";
-import journeyDonor from "@/assets/blood-bank/journey/donor-arrives-new.jpg";
-import journeyCollection from "@/assets/blood-bank/journey/collection.jpg";
-import journeyTesting from "@/assets/blood-bank/journey/testing.jpg";
-import journeyCrossmatch from "@/assets/blood-bank/journey/crossmatch.jpg";
-import journeyTransfusion from "@/assets/blood-bank/journey/transfusion.jpg";
+import { IMG_BLOOD_BANK_PROBLEMS_MISLABELED_URL as problemMislabeled } from "@/lib/migratedImageUrls";
+import { IMG_BLOOD_BANK_PROBLEMS_EXPIRED_URL as problemExpired } from "@/lib/migratedImageUrls";
+import { IMG_BLOOD_BANK_PROBLEMS_PAPER_URL as problemPaper } from "@/lib/migratedImageUrls";
+import { IMG_BLOOD_BANK_PROBLEMS_REACTION_URL as problemReaction } from "@/lib/migratedImageUrls";
+import { IMG_BLOOD_BANK_PROBLEMS_AUDIT_URL as problemAudit } from "@/lib/migratedImageUrls";
+import { IMG_BLOOD_BANK_JOURNEY_DONOR_ARRIVES_NEW_URL as journeyDonor } from "@/lib/migratedImageUrls";
+import { IMG_BLOOD_BANK_JOURNEY_COLLECTION_URL as journeyCollection } from "@/lib/migratedImageUrls";
+import { IMG_BLOOD_BANK_JOURNEY_TESTING_URL as journeyTesting } from "@/lib/migratedImageUrls";
+import { IMG_BLOOD_BANK_JOURNEY_CROSSMATCH_URL as journeyCrossmatch } from "@/lib/migratedImageUrls";
+import { IMG_BLOOD_BANK_JOURNEY_TRANSFUSION_URL as journeyTransfusion } from "@/lib/migratedImageUrls";
 import aabbLogo from "@/assets/bloodbank/integrations/aabb.png";
 import fdaLogo from "@/assets/bloodbank/integrations/fda.png";
 import iccbbaLogo from "@/assets/bloodbank/integrations/iccbba.png";

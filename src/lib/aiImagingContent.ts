@@ -3,16 +3,16 @@ import { supabase } from "@/integrations/supabase/client";
 import { useSectionsContent } from "@/lib/useSectionsContent";
 
 
-import journeyAcquire from "@/assets/ai-imaging/journey/acquire.jpg";
-import journeyAnalyze from "@/assets/ai-imaging/journey/analyze.jpg";
-import journeyPrioritize from "@/assets/ai-imaging/journey/prioritize.jpg";
-import journeyReview from "@/assets/ai-imaging/journey/review.jpg";
-import journeyDeliver from "@/assets/ai-imaging/journey/deliver.jpg";
-import problemWorkload from "@/assets/ai-imaging/problems/workload.jpg";
-import problemSubtle from "@/assets/ai-imaging/problems/subtle.jpg";
-import problemWorklist from "@/assets/ai-imaging/problems/worklist.jpg";
-import problemIncidental from "@/assets/ai-imaging/problems/incidental.jpg";
-import problemRural from "@/assets/ai-imaging/problems/rural.jpg";
+import { IMG_AI_IMAGING_JOURNEY_ACQUIRE_URL as journeyAcquire } from "@/lib/migratedImageUrls";
+import { IMG_AI_IMAGING_JOURNEY_ANALYZE_URL as journeyAnalyze } from "@/lib/migratedImageUrls";
+import { IMG_AI_IMAGING_JOURNEY_PRIORITIZE_URL as journeyPrioritize } from "@/lib/migratedImageUrls";
+import { IMG_AI_IMAGING_JOURNEY_REVIEW_URL as journeyReview } from "@/lib/migratedImageUrls";
+import { IMG_AI_IMAGING_JOURNEY_DELIVER_URL as journeyDeliver } from "@/lib/migratedImageUrls";
+import { IMG_AI_IMAGING_PROBLEMS_WORKLOAD_URL as problemWorkload } from "@/lib/migratedImageUrls";
+import { IMG_AI_IMAGING_PROBLEMS_SUBTLE_URL as problemSubtle } from "@/lib/migratedImageUrls";
+import { IMG_AI_IMAGING_PROBLEMS_WORKLIST_URL as problemWorklist } from "@/lib/migratedImageUrls";
+import { IMG_AI_IMAGING_PROBLEMS_INCIDENTAL_URL as problemIncidental } from "@/lib/migratedImageUrls";
+import { IMG_AI_IMAGING_PROBLEMS_RURAL_URL as problemRural } from "@/lib/migratedImageUrls";
 import { AI_IMAGING_HERO_VIDEO_URL as heroVideo } from "@/lib/migratedVideoUrls";
 
 export type AIImagingSectionKey =

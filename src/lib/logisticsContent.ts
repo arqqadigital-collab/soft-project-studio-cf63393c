@@ -2,16 +2,16 @@ import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
 import { useSectionsContent } from "@/lib/useSectionsContent";
 
-import hero from "@/assets/logistics/hero.jpg";
-import tradFail from "@/assets/logistics/traditional-fail.jpg";
-import p1 from "@/assets/logistics/p1.jpg";
-import p2 from "@/assets/logistics/p2.jpg";
-import p3 from "@/assets/logistics/p3.jpg";
-import u1 from "@/assets/logistics/uc1.jpg";
-import u2 from "@/assets/logistics/uc2.jpg";
-import u3 from "@/assets/logistics/uc3.jpg";
-import u4 from "@/assets/logistics/uc4.jpg";
-import u5 from "@/assets/logistics/uc5.jpg";
+import { IMG_LOGISTICS_HERO_URL as hero } from "@/lib/migratedImageUrls";
+import { IMG_LOGISTICS_TRADITIONAL_FAIL_URL as tradFail } from "@/lib/migratedImageUrls";
+import { IMG_LOGISTICS_P1_URL as p1 } from "@/lib/migratedImageUrls";
+import { IMG_LOGISTICS_P2_URL as p2 } from "@/lib/migratedImageUrls";
+import { IMG_LOGISTICS_P3_URL as p3 } from "@/lib/migratedImageUrls";
+import { IMG_LOGISTICS_UC1_URL as u1 } from "@/lib/migratedImageUrls";
+import { IMG_LOGISTICS_UC2_URL as u2 } from "@/lib/migratedImageUrls";
+import { IMG_LOGISTICS_UC3_URL as u3 } from "@/lib/migratedImageUrls";
+import { IMG_LOGISTICS_UC4_URL as u4 } from "@/lib/migratedImageUrls";
+import { IMG_LOGISTICS_UC5_URL as u5 } from "@/lib/migratedImageUrls";
 
 export type LogisticsSectionKey =
   | "Hero"

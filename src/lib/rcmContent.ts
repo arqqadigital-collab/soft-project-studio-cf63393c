@@ -4,17 +4,17 @@ import { useSectionsContent } from "@/lib/useSectionsContent";
 
 
 
-import rcmProblem1 from "@/assets/rcm/problem-1.jpg";
-import rcmProblem3 from "@/assets/rcm/problem-3.jpg";
-import rcmProblem4 from "@/assets/rcm/problem-4.jpg";
-import rcmProblem5 from "@/assets/rcm/problem-5.jpg";
-import rcmProblem2Real from "@/assets/rcm/rcm-problem-2-real.png";
-import rcmJourney1 from "@/assets/rcm/journey-1.jpg";
-import rcmJourney2 from "@/assets/rcm/journey-2.jpg";
-import rcmJourney3 from "@/assets/rcm/journey-3.jpg";
-import rcmJourney4 from "@/assets/rcm/journey-4.jpg";
-import rcmJourney5 from "@/assets/rcm/journey-5.jpg";
-import rcmJourney6 from "@/assets/rcm/journey-6.jpg";
+import { IMG_RCM_PROBLEM_1_URL as rcmProblem1 } from "@/lib/migratedImageUrls";
+import { IMG_RCM_PROBLEM_3_URL as rcmProblem3 } from "@/lib/migratedImageUrls";
+import { IMG_RCM_PROBLEM_4_URL as rcmProblem4 } from "@/lib/migratedImageUrls";
+import { IMG_RCM_PROBLEM_5_URL as rcmProblem5 } from "@/lib/migratedImageUrls";
+import { IMG_RCM_RCM_PROBLEM_2_REAL_URL as rcmProblem2Real } from "@/lib/migratedImageUrls";
+import { IMG_RCM_JOURNEY_1_URL as rcmJourney1 } from "@/lib/migratedImageUrls";
+import { IMG_RCM_JOURNEY_2_URL as rcmJourney2 } from "@/lib/migratedImageUrls";
+import { IMG_RCM_JOURNEY_3_URL as rcmJourney3 } from "@/lib/migratedImageUrls";
+import { IMG_RCM_JOURNEY_4_URL as rcmJourney4 } from "@/lib/migratedImageUrls";
+import { IMG_RCM_JOURNEY_5_URL as rcmJourney5 } from "@/lib/migratedImageUrls";
+import { IMG_RCM_JOURNEY_6_URL as rcmJourney6 } from "@/lib/migratedImageUrls";
 import { RCM_HERO_VIDEO_URL as rcmHeroVideo, RCM_HIS_VIDEO_URL as hisVideo } from "@/lib/migratedVideoUrls";
 
 export type RcmSectionKey =

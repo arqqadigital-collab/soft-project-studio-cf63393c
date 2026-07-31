@@ -4,37 +4,37 @@ import { useSectionsContent } from "@/lib/useSectionsContent";
 
 
 
-import problem1 from "@/assets/dental/problem-1.jpg";
-import problem2 from "@/assets/dental/problem-2.jpg";
-import problem3 from "@/assets/dental/problem-3.jpg";
-import problem4 from "@/assets/dental/problem-4.jpg";
-import problem5 from "@/assets/dental/problem-5.jpg";
-import problem6 from "@/assets/dental/problem-6.jpg";
-import preVisitOnlineBooking from "@/assets/dental/journey/pre-visit-online-booking.png";
-import checkInReception from "@/assets/dental/journey/check-in-reception.png";
-import examinationCharting from "@/assets/dental/journey/examination-charting.png";
-import treatmentPlanApproval from "@/assets/dental/journey/treatment-plan-approval.png";
-import treatmentDeliveredDocumented from "@/assets/dental/journey/treatment-delivered-documented.png";
-import claimPaymentRecallSet from "@/assets/dental/journey/claim-payment-recall-set.png";
+import { IMG_DENTAL_PROBLEM_1_URL as problem1 } from "@/lib/migratedImageUrls";
+import { IMG_DENTAL_PROBLEM_2_URL as problem2 } from "@/lib/migratedImageUrls";
+import { IMG_DENTAL_PROBLEM_3_URL as problem3 } from "@/lib/migratedImageUrls";
+import { IMG_DENTAL_PROBLEM_4_URL as problem4 } from "@/lib/migratedImageUrls";
+import { IMG_DENTAL_PROBLEM_5_URL as problem5 } from "@/lib/migratedImageUrls";
+import { IMG_DENTAL_PROBLEM_6_URL as problem6 } from "@/lib/migratedImageUrls";
+import { IMG_DENTAL_JOURNEY_PRE_VISIT_ONLINE_BOOKING_URL as preVisitOnlineBooking } from "@/lib/migratedImageUrls";
+import { IMG_DENTAL_JOURNEY_CHECK_IN_RECEPTION_URL as checkInReception } from "@/lib/migratedImageUrls";
+import { IMG_DENTAL_JOURNEY_EXAMINATION_CHARTING_URL as examinationCharting } from "@/lib/migratedImageUrls";
+import { IMG_DENTAL_JOURNEY_TREATMENT_PLAN_APPROVAL_URL as treatmentPlanApproval } from "@/lib/migratedImageUrls";
+import { IMG_DENTAL_JOURNEY_TREATMENT_DELIVERED_DOCUMENTED_URL as treatmentDeliveredDocumented } from "@/lib/migratedImageUrls";
+import { IMG_DENTAL_JOURNEY_CLAIM_PAYMENT_RECALL_SET_URL as claimPaymentRecallSet } from "@/lib/migratedImageUrls";
 
-import imgVatech from "@/assets/dental/integrations/vatech.png";
-import imgRomexis from "@/assets/dental/integrations/romexis.png";
-import imgPlanetDds from "@/assets/dental/integrations/planet-dds.png";
-import imgDentsply from "@/assets/dental/integrations/dentsply-sirona.png";
-import imgCarestream from "@/assets/dental/integrations/carestream.png";
-import imgApteryx from "@/assets/dental/integrations/apteryx.png";
-import imgIntraApteryx from "@/assets/dental/intraoral/apteryx.png";
-import imgIntraDexis from "@/assets/dental/intraoral/dexis.png";
-import imgIntraSchick from "@/assets/dental/intraoral/schick.png";
-import imgAcctXero from "@/assets/dental/accounting/xero.png";
-import imgAcctQb from "@/assets/dental/accounting/quickbooks.png";
-import imgAcctSage from "@/assets/dental/accounting/sage.png";
-import imgAcctStripe from "@/assets/dental/accounting/stripe.png";
-import imgAcctNetwork from "@/assets/dental/accounting/network.png";
-import imgAcctTelr from "@/assets/dental/accounting/telr.png";
-import imgInsDha from "@/assets/dental/insurance/dha.png";
-import imgInsDoh from "@/assets/dental/insurance/doh.png";
-import imgInsNphies from "@/assets/dental/insurance/nphies.png";
+import { IMG_DENTAL_INTEGRATIONS_VATECH_URL as imgVatech } from "@/lib/migratedImageUrls";
+import { IMG_DENTAL_INTEGRATIONS_ROMEXIS_URL as imgRomexis } from "@/lib/migratedImageUrls";
+import { IMG_DENTAL_INTEGRATIONS_PLANET_DDS_URL as imgPlanetDds } from "@/lib/migratedImageUrls";
+import { IMG_DENTAL_INTEGRATIONS_DENTSPLY_SIRONA_URL as imgDentsply } from "@/lib/migratedImageUrls";
+import { IMG_DENTAL_INTEGRATIONS_CARESTREAM_URL as imgCarestream } from "@/lib/migratedImageUrls";
+import { IMG_DENTAL_INTEGRATIONS_APTERYX_URL as imgApteryx } from "@/lib/migratedImageUrls";
+import { IMG_DENTAL_INTRAORAL_APTERYX_URL as imgIntraApteryx } from "@/lib/migratedImageUrls";
+import { IMG_DENTAL_INTRAORAL_DEXIS_URL as imgIntraDexis } from "@/lib/migratedImageUrls";
+import { IMG_DENTAL_INTRAORAL_SCHICK_URL as imgIntraSchick } from "@/lib/migratedImageUrls";
+import { IMG_DENTAL_ACCOUNTING_XERO_URL as imgAcctXero } from "@/lib/migratedImageUrls";
+import { IMG_DENTAL_ACCOUNTING_QUICKBOOKS_URL as imgAcctQb } from "@/lib/migratedImageUrls";
+import { IMG_DENTAL_ACCOUNTING_SAGE_URL as imgAcctSage } from "@/lib/migratedImageUrls";
+import { IMG_DENTAL_ACCOUNTING_STRIPE_URL as imgAcctStripe } from "@/lib/migratedImageUrls";
+import { IMG_DENTAL_ACCOUNTING_NETWORK_URL as imgAcctNetwork } from "@/lib/migratedImageUrls";
+import { IMG_DENTAL_ACCOUNTING_TELR_URL as imgAcctTelr } from "@/lib/migratedImageUrls";
+import { IMG_DENTAL_INSURANCE_DHA_URL as imgInsDha } from "@/lib/migratedImageUrls";
+import { IMG_DENTAL_INSURANCE_DOH_URL as imgInsDoh } from "@/lib/migratedImageUrls";
+import { IMG_DENTAL_INSURANCE_NPHIES_URL as imgInsNphies } from "@/lib/migratedImageUrls";
 import { DENTAL_HERO_VIDEO_URL as dentalHeroVideo, DENTAL_CTA_VIDEO_URL as dentalCtaVideo } from "@/lib/migratedVideoUrls";
 
 export type DentalSectionKey =
