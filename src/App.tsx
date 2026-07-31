@@ -6,6 +6,7 @@ import { Header } from "@/components/Header";
 import { SiteHead } from "@/components/SiteHead";
 import { RouteSeo } from "@/components/RouteSeo";
 import { SiteSchema } from "@/components/SiteSchema";
+import { FaqSchema } from "@/components/FaqSchema";
 import { TrackingScripts } from "@/components/TrackingScripts";
 import { BrandingApplier } from "@/components/BrandingApplier";
 import { StyleApplier } from "@/components/StyleApplier";
@@ -190,6 +191,7 @@ export default function App() {
 
       <RouteSeo />
       <SiteSchema />
+      <FaqSchema />
       <TrackingScripts />
       <BrandingApplier />
       <StyleApplier />

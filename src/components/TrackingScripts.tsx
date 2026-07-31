@@ -1,4 +1,5 @@
 import { useEffect } from "react";
+import { Helmet } from "react-helmet-async";
 import { useQuery } from "@tanstack/react-query";
 import { useLocation } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
@@ -10,6 +11,8 @@ type Tracking = {
   linkedin_partner_id: string | null;
   custom_head_html: string | null;
   custom_body_html: string | null;
+  clarity_project_id: string | null;
+  google_site_verification: string | null;
 };
 
 const MARK = "data-marketing-tag";
@@ -47,6 +50,17 @@ function addScript(key: string, opts: { src?: string; text?: string; async?: boo
 }
 
 /**
+ * Accepts either a bare Search Console token or the full
+ * `<meta name="google-site-verification" content="..." />` tag.
+ */
+export function parseVerificationToken(value: string | null | undefined): string {
+  const raw = (value ?? "").trim();
+  if (!raw) return "";
+  const match = raw.match(/content\s*=\s*["']([^"']+)["']/i);
+  return (match ? match[1] : raw.replace(/[<>]/g, "")).trim();
+}
+
+/**
  * Marketing / analytics tags configured in the dashboard (SEO → Marketing).
  * Loaded once on public pages only — never inside the dashboard or login.
  */
@@ -63,7 +77,7 @@ export function TrackingScripts() {
       const { data, error } = await supabase
         .from("site_settings")
         .select(
-          "ga4_id, gtm_id, meta_pixel_id, linkedin_partner_id, custom_head_html, custom_body_html",
+          "ga4_id, gtm_id, meta_pixel_id, linkedin_partner_id, custom_head_html, custom_body_html, clarity_project_id, google_site_verification",
         )
         .maybeSingle();
       if (error) throw error;
@@ -102,6 +116,12 @@ export function TrackingScripts() {
       });
     }
 
+    if (data.clarity_project_id) {
+      addScript("clarity", {
+        text: `(function(c,l,a,r,i,t,y){c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);})(window,document,"clarity","script","${data.clarity_project_id}");`,
+      });
+    }
+
     if (data.custom_head_html && !document.querySelector(`[${MARK}="custom-head"]`)) {
       injectHtml(data.custom_head_html, document.head, "custom-head");
     }
@@ -122,5 +142,13 @@ export function TrackingScripts() {
     }
   }, [pathname, data, isPrivate]);
 
-  return null;
+  const verification = isPrivate ? "" : parseVerificationToken(data?.google_site_verification);
+
+  if (!verification) return null;
+
+  return (
+    <Helmet>
+      <meta name="google-site-verification" content={verification} />
+    </Helmet>
+  );
 }

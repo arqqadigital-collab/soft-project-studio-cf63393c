@@ -1,6 +1,7 @@
 import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
 import { useLocale } from "@/i18n/LanguageProvider";
+import { useRegisterFaqItems, normalizeFaqItems } from "@/lib/faqSchemaStore";
 
 function merge<T>(base: T, over: any): T {
   if (over === undefined || over === null) return base;
@@ -94,5 +95,11 @@ export function useSectionsContent<T extends Record<string, any>>(
     merged._visible[key] = visibility[key as string] ?? true;
     merged._style[key] = styles[key as string] ?? null;
   }
+
+  // Expose FAQ content (when the section is visible) for FAQPage JSON-LD.
+  useRegisterFaqItems(
+    merged._visible?.FAQ === false ? [] : normalizeFaqItems(merged?.FAQ?.items),
+  );
+
   return merged;
 }
