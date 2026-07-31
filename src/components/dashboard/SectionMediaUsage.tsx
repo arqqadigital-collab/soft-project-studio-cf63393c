@@ -1,7 +1,7 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { toast } from "sonner";
-import { X } from "lucide-react";
+import { RefreshCw, X } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/hooks/use-auth";
 import { Button } from "@/components/ui/button";
@@ -11,6 +11,8 @@ import { Badge } from "@/components/ui/badge";
 import { Dialog, DialogContent, DialogFooter, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 
 export type SectionMediaItem = { url: string; kind: "image" | "video" };
+
+const SIGNED_URL_TTL = 60 * 60 * 24 * 365 * 10;
 
 // Walks an arbitrary section-data object and collects every image/video URL
 // referenced anywhere inside it (nested objects and arrays included).
@@ -44,12 +46,17 @@ function extractStoragePath(url: string): string {
   return idx === -1 ? noQuery : decodeURIComponent(noQuery.slice(idx + marker.length));
 }
 
-function MediaMetaDialog({
-  item, open, onOpenChange,
+function isSupabaseStorageUrl(url: string): boolean {
+  return url.includes("/object/sign/media/");
+}
+
+export function MediaMetaDialog({
+  item, open, onOpenChange, defaultFolder = "page-content",
 }: {
   item: SectionMediaItem | null;
   open: boolean;
   onOpenChange: (o: boolean) => void;
+  defaultFolder?: string;
 }) {
   const qc = useQueryClient();
   const { user } = useAuth();
@@ -57,16 +64,21 @@ function MediaMetaDialog({
   const [tags, setTags] = useState<string[]>([]);
   const [newTag, setNewTag] = useState("");
   const [saving, setSaving] = useState(false);
+  const [replacing, setReplacing] = useState(false);
+  const [currentUrl, setCurrentUrl] = useState<string | null>(null);
+  const fileInputRef = useRef<HTMLInputElement>(null);
 
-  const path = item ? extractStoragePath(item.url) : "";
+  useEffect(() => setCurrentUrl(item?.url ?? null), [item?.url]);
+
+  const path = currentUrl ? extractStoragePath(currentUrl) : "";
 
   const match = useQuery({
     queryKey: ["section-media-match", path],
-    enabled: !!item && open,
+    enabled: !!currentUrl && open,
     queryFn: async () => {
       const { data, error } = await supabase
         .from("media")
-        .select("id, file_name, alt_text, tags")
+        .select("id, file_name, file_type, alt_text, tags")
         .ilike("file_url", `%${path}%`)
         .limit(1)
         .maybeSingle();
@@ -75,11 +87,21 @@ function MediaMetaDialog({
     },
   });
 
+  const usage = useQuery({
+    queryKey: ["section-media-usage", currentUrl],
+    enabled: !!currentUrl && open,
+    queryFn: async () => {
+      const { data, error } = await supabase.rpc("find_media_usage", { _url: currentUrl! });
+      if (error) throw error;
+      return (data ?? []) as unknown[];
+    },
+  });
+
   useEffect(() => {
     setAltText(match.data?.alt_text ?? "");
     setTags(match.data?.tags ?? []);
     setNewTag("");
-  }, [match.data, item?.url]);
+  }, [match.data, currentUrl]);
 
   function addTag() {
     const t = newTag.trim();
@@ -89,7 +111,7 @@ function MediaMetaDialog({
   }
 
   async function save() {
-    if (!item) return;
+    if (!currentUrl) return;
     setSaving(true);
     try {
       if (match.data?.id) {
@@ -106,11 +128,11 @@ function MediaMetaDialog({
         const fileName = path.split("/").pop() || "media";
         const { error } = await supabase.from("media").insert({
           file_name: fileName,
-          file_url: item.url,
-          file_type: item.kind === "video" ? "video/mp4" : "image/*",
+          file_url: currentUrl,
+          file_type: item?.kind === "video" ? "video/mp4" : "image/*",
           alt_text: altText,
           tags,
-          folder: "page-content",
+          folder: defaultFolder,
           uploaded_by: user.id,
         });
         if (error) throw error;
@@ -126,7 +148,81 @@ function MediaMetaDialog({
     }
   }
 
-  if (!item) return null;
+  async function replaceFile(file: File) {
+    if (!currentUrl || !user) return;
+    setReplacing(true);
+    try {
+      const oldUrl = currentUrl;
+      const ext = file.name.split(".").pop() || "bin";
+      const key = `${user.id}/${crypto.randomUUID()}.${ext}`;
+      const up = await supabase.storage.from("media").upload(key, file, { contentType: file.type });
+      if (up.error) throw up.error;
+      const signed = await supabase.storage.from("media").createSignedUrl(key, SIGNED_URL_TTL);
+      if (signed.error) throw signed.error;
+      const newUrl = signed.data.signedUrl;
+
+      if (match.data?.id) {
+        const { error } = await supabase.from("media").update({
+          file_name: file.name,
+          file_url: newUrl,
+          file_type: file.type,
+          file_size: file.size,
+        }).eq("id", match.data.id);
+        if (error) throw error;
+      } else {
+        const { error } = await supabase.from("media").insert({
+          file_name: file.name,
+          file_url: newUrl,
+          file_type: file.type,
+          file_size: file.size,
+          alt_text: altText,
+          tags,
+          folder: defaultFolder,
+          uploaded_by: user.id,
+        });
+        if (error) throw error;
+      }
+
+      // Propagate to any database content that referenced the old URL
+      // (matches by storage path, so it also catches copies signed at a
+      // different time). If this asset was only a code-level default with
+      // no database usage, this simply affects 0 rows — the live site
+      // won't change until a developer updates the code import.
+      const { data: replacedCount, error: rpcErr } = await supabase.rpc("replace_media_url", {
+        _old: oldUrl,
+        _new: newUrl,
+      });
+      if (rpcErr) throw rpcErr;
+
+      if (isSupabaseStorageUrl(oldUrl)) {
+        try {
+          const oldPath = extractStoragePath(oldUrl);
+          await supabase.storage.from("media").remove([oldPath]);
+        } catch {
+          // best-effort cleanup of the old object; not fatal
+        }
+      }
+
+      const n = (replacedCount as number) ?? 0;
+      if (n > 0) {
+        toast.success(`Replaced. Updated ${n} live reference(s).`);
+      } else {
+        toast.success("Replaced in the Media Library. This file isn't used by any saved page content yet, so the live site won't change until it's set as a page's media or a developer updates the code.");
+      }
+      setCurrentUrl(newUrl);
+      qc.invalidateQueries({ queryKey: ["section-media-match"] });
+      qc.invalidateQueries({ queryKey: ["section-media-usage"] });
+      qc.invalidateQueries({ queryKey: ["media"] });
+    } catch (e: any) {
+      toast.error(e.message ?? "Replace failed");
+    } finally {
+      setReplacing(false);
+    }
+  }
+
+  if (!item || !currentUrl) return null;
+  const kind: "image" | "video" = /\.(mp4|webm|mov)(\?|$)/i.test(currentUrl) ? "video" : item.kind;
+  const usageCount = usage.data?.length ?? 0;
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
@@ -136,15 +232,22 @@ function MediaMetaDialog({
         </DialogHeader>
         <div className="space-y-4">
           <div className="flex items-center justify-center rounded-md border bg-muted/40 p-2">
-            {item.kind === "video" ? (
-              <video src={item.url} muted loop playsInline controls className="max-h-64 rounded" />
+            {kind === "video" ? (
+              <video key={currentUrl} src={currentUrl} muted loop playsInline controls className="max-h-64 rounded" />
             ) : (
-              <img src={item.url} alt={altText} className="max-h-64 rounded object-contain" />
+              <img key={currentUrl} src={currentUrl} alt={altText} className="max-h-64 rounded object-contain" />
             )}
           </div>
           {!match.isLoading && !match.data && (
             <p className="text-xs text-muted-foreground">
-              Not yet registered in the Media Library — saving will add it (folder: page-content).
+              Not yet registered in the Media Library — saving will add it (folder: {defaultFolder}).
+            </p>
+          )}
+          {!usage.isLoading && (
+            <p className="text-xs text-muted-foreground">
+              {usageCount > 0
+                ? `Used live on ${usageCount} page section(s) — replacing here updates all of them.`
+                : "Not currently used by any saved page content — this may be a code-only default. Replacing it updates the Media Library but won't change the live site unless a page is set to use it, or a developer updates the code."}
             </p>
           )}
           <div className="space-y-1.5">
@@ -179,12 +282,29 @@ function MediaMetaDialog({
           </div>
           <div className="space-y-1.5">
             <Label className="text-xs">URL</Label>
-            <Input readOnly value={item.url} className="text-xs" />
+            <Input readOnly value={currentUrl} className="text-xs" />
           </div>
         </div>
-        <DialogFooter>
-          <Button variant="outline" onClick={() => onOpenChange(false)}>Close</Button>
-          <Button onClick={save} disabled={saving || match.isLoading}>{saving ? "Saving…" : "Save"}</Button>
+        <DialogFooter className="flex flex-wrap justify-between gap-2 sm:justify-between">
+          <input
+            ref={fileInputRef}
+            type="file"
+            className="sr-only"
+            accept={kind === "video" ? "video/*" : "image/*"}
+            onChange={(e) => e.target.files?.[0] && replaceFile(e.target.files[0])}
+          />
+          <Button
+            type="button"
+            variant="outline"
+            disabled={replacing}
+            onClick={() => fileInputRef.current?.click()}
+          >
+            <RefreshCw className="mr-1 h-4 w-4" /> {replacing ? "Replacing…" : "Replace file"}
+          </Button>
+          <div className="flex gap-2">
+            <Button variant="outline" onClick={() => onOpenChange(false)}>Close</Button>
+            <Button onClick={save} disabled={saving || match.isLoading}>{saving ? "Saving…" : "Save"}</Button>
+          </div>
         </DialogFooter>
       </DialogContent>
     </Dialog>
@@ -200,7 +320,7 @@ export function SectionMediaUsagePanel({ data }: { data: any }) {
   return (
     <div className="rounded-md border border-border">
       <div className="border-b border-border px-3 py-2 text-xs font-medium text-muted-foreground">
-        Media used in this section ({items.length}) — click to edit alt text & tags
+        Media used in this section ({items.length}) — click to edit alt text, tags, or replace
       </div>
       <div className="grid grid-cols-4 gap-2 p-3 sm:grid-cols-6 lg:grid-cols-8">
         {items.map((item) => (
@@ -209,7 +329,7 @@ export function SectionMediaUsagePanel({ data }: { data: any }) {
             type="button"
             onClick={() => setSelected(item)}
             className="block overflow-hidden rounded border transition-shadow hover:shadow"
-            title="Click to edit alt text & tags"
+            title="Click to edit alt text, tags, or replace"
           >
             {item.kind === "video" ? (
               <video src={item.url} muted playsInline className="h-16 w-full object-cover" />

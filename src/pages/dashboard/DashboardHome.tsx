@@ -5,7 +5,7 @@ import { supabase } from "@/integrations/supabase/client";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { formatDistanceToNow } from "date-fns";
-import { getBuiltinMedia } from "@/lib/builtinMedia";
+import { getAllCodeMedia } from "@/lib/allCodeMedia";
 import { useSiteBranding } from "@/hooks/use-site-branding";
 
 function StatCard({ label, value, icon: Icon }: { label: string; value: number | string; icon: any }) {
@@ -35,12 +35,12 @@ export default function DashboardHome() {
         supabase.from("categories").select("id", { count: "exact", head: true }),
         supabase.from("page_views").select("id", { count: "exact", head: true }),
       ]);
-      const builtinCount = getBuiltinMedia().length;
+      const codeMediaCount = getAllCodeMedia().length;
       return {
         posts: posts.count ?? 0,
         pages: pages.count ?? 0,
         users: users.count ?? 0,
-        media: (media.count ?? 0) + builtinCount,
+        media: (media.count ?? 0) + codeMediaCount,
         categories: categories.count ?? 0,
         views: views.count ?? 0,
       };

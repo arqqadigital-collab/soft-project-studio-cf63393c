@@ -16,7 +16,8 @@ import {
 } from "@/components/ui/dialog";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { formatDistanceToNow } from "date-fns";
-import { getBuiltinMedia, isBuiltinMedia } from "@/lib/builtinMedia";
+import { getAllCodeMedia, isCodeMedia } from "@/lib/allCodeMedia";
+import { MediaMetaDialog, type SectionMediaItem } from "@/components/dashboard/SectionMediaUsage";
 import { Badge } from "@/components/ui/badge";
 
 const SIGNED_URL_TTL = 60 * 60 * 24 * 365 * 10;
@@ -74,6 +75,7 @@ export function MediaGrid({
   const qc = useQueryClient();
   const [search, setSearch] = useState("");
   const [selected, setSelected] = useState<MediaRow | null>(null);
+  const [selectedCodeItem, setSelectedCodeItem] = useState<SectionMediaItem | null>(null);
   const [uploading, setUploading] = useState(false);
   const [folder, setFolder] = useState<string>("root");
   const [typeFilter, setTypeFilter] = useState<TypeFilter>(filterType === "image" ? "image" : "all");
@@ -92,12 +94,24 @@ export function MediaGrid({
     },
   });
 
+  // Persisted folder names, so a folder created with zero files in it still
+  // shows up (and keeps showing up) instead of disappearing.
+  const persistedFolders = useQuery({
+    queryKey: ["media-folders"],
+    queryFn: async () => {
+      const { data, error } = await supabase.from("media_folders").select("name").order("name");
+      if (error) throw error;
+      return (data ?? []).map((r) => r.name as string);
+    },
+  });
+
   // All folders / tags across the library (for pickers)
   const folders = useMemo(() => {
     const s = new Set<string>(["root"]);
     (media.data ?? []).forEach((m) => s.add(m.folder || "root"));
+    (persistedFolders.data ?? []).forEach((f) => s.add(f));
     return Array.from(s).sort();
-  }, [media.data]);
+  }, [media.data, persistedFolders.data]);
 
   const allTags = useMemo(() => {
     const s = new Set<string>();
@@ -107,10 +121,12 @@ export function MediaGrid({
 
   const combined = useMemo(() => {
     const uploaded = media.data ?? [];
-    let builtins = getBuiltinMedia() as MediaRow[];
-    // Built-ins live in a virtual "built-in" folder
-    builtins = builtins.map((b) => ({ ...b, folder: "built-in", tags: b.tags ?? [] }));
-    let list = [...uploaded, ...builtins];
+    // Every image/video referenced by code-level page defaults across the
+    // whole site (not just the homepage) — lives in a virtual "code-images"
+    // folder since there's no real storage object behind these until an
+    // admin registers one via Save/Replace.
+    const codeMedia = getAllCodeMedia().map((b) => ({ ...b, tags: b.tags ?? [] }));
+    let list = [...uploaded, ...codeMedia];
     if (filterType === "image") list = list.filter((m) => (m.file_type ?? "").startsWith("image/"));
     if (folder) list = list.filter((m) => (m.folder || "root") === folder);
     list = list.filter((m) => matchesType(m, typeFilter));
@@ -136,7 +152,7 @@ export function MediaGrid({
     if (!user) return;
     setUploading(true);
     try {
-      for (const f of files) await uploadFile(f, user.id, folder === "built-in" ? "root" : folder);
+      for (const f of files) await uploadFile(f, user.id, folder === "code-images" ? "root" : folder);
       toast.success(`Uploaded ${files.length} file(s)`);
       qc.invalidateQueries({ queryKey: ["media"] });
     } catch (e: any) {
@@ -158,15 +174,21 @@ export function MediaGrid({
   }
 
   function selectAllVisible() {
-    const ids = combined.filter((m) => !isBuiltinMedia(m)).map((m) => m.id);
+    const ids = combined.filter((m) => !isCodeMedia(m)).map((m) => m.id);
     setSelectedIds(new Set(ids));
   }
 
-  function createFolder() {
+  async function createFolder() {
     const name = prompt("New folder name")?.trim();
     if (!name) return;
+    const { error } = await supabase.from("media_folders").insert({ name, created_by: user?.id ?? null });
+    if (error && !/duplicate key/i.test(error.message)) {
+      toast.error(error.message);
+      return;
+    }
+    qc.invalidateQueries({ queryKey: ["media-folders"] });
     setFolder(name);
-    toast.info(`Uploads will now go to "${name}". Create files to save the folder.`);
+    toast.success(`Folder "${name}" created`);
   }
 
   async function bulkDelete() {
@@ -200,7 +222,7 @@ export function MediaGrid({
             </Button>
           </div>
           <ul className="space-y-0.5">
-            {folders.concat(["built-in"]).filter((v, i, a) => a.indexOf(v) === i).map((f) => (
+            {folders.concat(["code-images"]).filter((v, i, a) => a.indexOf(v) === i).map((f) => (
               <li key={f}>
                 <button
                   type="button"
@@ -313,14 +335,14 @@ export function MediaGrid({
             <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6">
               {combined.map((m) => {
                 const isImg = m.file_type?.startsWith("image/");
-                const builtin = isBuiltinMedia(m);
+                const codeSourced = isCodeMedia(m);
                 const isSelected = selectedIds.has(m.id);
                 return (
                   <div
                     key={m.id}
                     className={`group relative overflow-hidden rounded-md border bg-card text-left transition-shadow hover:shadow ${isSelected ? "ring-2 ring-primary" : ""}`}
                   >
-                    {!builtin && (
+                    {!codeSourced && (
                       <button
                         type="button"
                         onClick={(e) => toggleSelect(m.id, e)}
@@ -331,12 +353,19 @@ export function MediaGrid({
                         {isSelected ? <CheckSquare className="h-4 w-4" /> : <Square className="h-4 w-4" />}
                       </button>
                     )}
-                    {builtin && (
-                      <Badge variant="secondary" className="absolute right-1 top-1 z-10 text-[10px]">Built-in</Badge>
+                    {codeSourced && (
+                      <Badge variant="secondary" className="absolute right-1 top-1 z-10 text-[10px]" title="Lives in the codebase, not Supabase Storage">Code</Badge>
                     )}
                     <button
                       type="button"
-                      onClick={() => (onPick ? onPick(m) : setSelected(m))}
+                      onClick={() => {
+                        if (onPick) return onPick(m);
+                        if (codeSourced) {
+                          setSelectedCodeItem({ url: m.file_url, kind: isImg ? "image" : "video" });
+                        } else {
+                          setSelected(m);
+                        }
+                      }}
                       className="block w-full"
                     >
                       <div className="flex aspect-square items-center justify-center bg-muted/50">
@@ -370,6 +399,13 @@ export function MediaGrid({
           folders={folders}
           allTags={allTags}
           onOpenChange={(o) => !o && setSelected(null)}
+        />
+
+        <MediaMetaDialog
+          item={selectedCodeItem}
+          open={!!selectedCodeItem}
+          onOpenChange={(o) => !o && setSelectedCodeItem(null)}
+          defaultFolder="code-images"
         />
 
         <BulkActionDialog
@@ -568,7 +604,7 @@ function MediaDetailsDialog({
 
   if (!media) return null;
   const isImg = media.file_type?.startsWith("image/");
-  const builtin = isBuiltinMedia(media);
+  const builtin = isCodeMedia(media);
 
   function addTag() {
     const t = newTag.trim();
