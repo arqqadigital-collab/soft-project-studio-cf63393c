@@ -17,6 +17,7 @@ import { normalizePath, isExternalTarget } from "@/components/PathRedirect";
 import { SeoContentList } from "@/components/dashboard/SeoContentList";
 import { SeoSocialSchema } from "@/components/dashboard/SeoSocialSchema";
 import { SeoMarketing } from "@/components/dashboard/SeoMarketing";
+import { Seo404Monitor } from "@/components/dashboard/Seo404Monitor";
 import { triggerSeoSync } from "@/lib/seoSync";
 
 
@@ -52,6 +53,7 @@ function displayUrl(r: Redirect, value: string) {
 export default function SeoDashboard() {
   const qc = useQueryClient();
 
+  const [tab, setTab] = useState("content");
   const [oldSlug, setOldSlug] = useState("");
   const [newSlug, setNewSlug] = useState("");
   const [robots, setRobots] = useState("");
@@ -172,7 +174,7 @@ export default function SeoDashboard() {
         </p>
       </div>
 
-      <Tabs defaultValue="content">
+      <Tabs value={tab} onValueChange={setTab}>
         <TabsList>
           <TabsTrigger value="content">Pages &amp; Posts</TabsTrigger>
           <TabsTrigger value="social">Social &amp; Schema</TabsTrigger>
@@ -277,6 +279,15 @@ export default function SeoDashboard() {
           )}
         </CardContent>
       </Card>
+      <Seo404Monitor
+        onCreateRedirect={(url) => {
+          setTab("redirects");
+          setOldSlug(url);
+          setNewSlug("");
+          window.scrollTo({ top: 0, behavior: "smooth" });
+        }}
+      />
+
         </TabsContent>
 
         <TabsContent value="feeds" className="space-y-6 pt-4">
