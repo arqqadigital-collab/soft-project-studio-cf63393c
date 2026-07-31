@@ -15,6 +15,8 @@ import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
 import { formatDistanceToNow } from "date-fns";
 import { normalizePath, isExternalTarget } from "@/components/PathRedirect";
 import { SeoContentList } from "@/components/dashboard/SeoContentList";
+import { SeoSocialSchema } from "@/components/dashboard/SeoSocialSchema";
+import { SeoMarketing } from "@/components/dashboard/SeoMarketing";
 import { triggerSeoSync } from "@/lib/seoSync";
 
 
