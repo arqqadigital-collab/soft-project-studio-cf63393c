@@ -247,6 +247,7 @@ export default function ArticleDetail() {
               <img
                 src={post.featured_image_url}
                 alt={post.title}
+                loading="eager"
                 className="aspect-[16/9] w-full object-cover"
               />
             ) : (

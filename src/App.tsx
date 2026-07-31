@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { lazy, Suspense, useEffect } from "react";
 import { Routes, Route, Link, useLocation } from "react-router-dom";
 import { logNotFound } from "@/lib/notFoundLog";
 import { LegacyPageRedirect } from "@/components/LegacyPageRedirect";
@@ -14,55 +14,58 @@ import { BrandingApplier } from "@/components/BrandingApplier";
 import { StyleApplier } from "@/components/StyleApplier";
 import { AuthProvider } from "@/hooks/use-auth";
 import { ProtectedRoute } from "@/components/ProtectedRoute";
-import Login from "./pages/Login";
-import SetPassword from "./pages/SetPassword";
-import Dashboard from "./pages/Dashboard";
-import AdminRedirect from "./pages/AdminRedirect";
-import Index from "./pages/Index";
-import About from "./pages/About";
-import Careers from "./pages/Careers";
-import HIS from "./pages/HIS";
-import ClinicManagement from "./pages/ClinicManagement";
-import EmergencyDepartment from "./pages/EmergencyDepartment";
-import Physiotherapy from "./pages/Physiotherapy";
-import Telemedicine from "./pages/Telemedicine";
-import HospitalOperations from "./pages/HospitalOperations";
-import Dental from "./pages/Dental";
-import LIS from "./pages/LIS";
-import RIS from "./pages/RIS";
-import RCM from "./pages/RCM";
-import BloodBank from "./pages/BloodBank";
-import MedicationDosage from "./pages/MedicationDosage";
-import PACS from "./pages/PACS";
-import AIImaging from "./pages/AIImaging";
-import UAECompliance from "./pages/UAECompliance";
-import KSACompliance from "./pages/KSACompliance";
-import EMRAM from "./pages/EMRAM";
-import ClinicalAI from "./pages/ClinicalAI";
-import PatientEngagement from "./pages/PatientEngagement";
-import RevenueCycle from "./pages/RevenueCycle";
-import Dynamics365 from "./pages/Dynamics365";
-import Odoo from "./pages/Odoo";
-import Zoho from "./pages/Zoho";
-import Manufacturing from "./pages/Manufacturing";
-import Retail from "./pages/Retail";
-import Education from "./pages/Education";
-import Logistics from "./pages/Logistics";
-import Cybersecurity from "./pages/Cybersecurity";
-import Consulting from "./pages/Consulting";
-import Implementation from "./pages/Implementation";
-import StaffAug from "./pages/StaffAug";
-import Learning from "./pages/Learning";
-import Blog from "./pages/Blog";
-import Events from "./pages/Events";
-import EventDetail from "./pages/EventDetail";
 
-import CaseStudies from "./pages/CaseStudies";
-import CaseStudyDetail from "./pages/CaseStudyDetail";
-import Contact from "./pages/Contact";
-import ArticleDetail from "./pages/ArticleDetail";
-import PublicPage from "./pages/PublicPage";
-import PublicPreview from "./pages/PublicPreview";
+// Every page-level route is code-split; only shell/chrome ships in the
+// initial bundle. Behaviour is unchanged — these are the same components.
+const Login = lazy(() => import("./pages/Login"));
+const SetPassword = lazy(() => import("./pages/SetPassword"));
+const Dashboard = lazy(() => import("./pages/Dashboard"));
+const AdminRedirect = lazy(() => import("./pages/AdminRedirect"));
+const Index = lazy(() => import("./pages/Index"));
+const About = lazy(() => import("./pages/About"));
+const Careers = lazy(() => import("./pages/Careers"));
+const HIS = lazy(() => import("./pages/HIS"));
+const ClinicManagement = lazy(() => import("./pages/ClinicManagement"));
+const EmergencyDepartment = lazy(() => import("./pages/EmergencyDepartment"));
+const Physiotherapy = lazy(() => import("./pages/Physiotherapy"));
+const Telemedicine = lazy(() => import("./pages/Telemedicine"));
+const HospitalOperations = lazy(() => import("./pages/HospitalOperations"));
+const Dental = lazy(() => import("./pages/Dental"));
+const LIS = lazy(() => import("./pages/LIS"));
+const RIS = lazy(() => import("./pages/RIS"));
+const RCM = lazy(() => import("./pages/RCM"));
+const BloodBank = lazy(() => import("./pages/BloodBank"));
+const MedicationDosage = lazy(() => import("./pages/MedicationDosage"));
+const PACS = lazy(() => import("./pages/PACS"));
+const AIImaging = lazy(() => import("./pages/AIImaging"));
+const UAECompliance = lazy(() => import("./pages/UAECompliance"));
+const KSACompliance = lazy(() => import("./pages/KSACompliance"));
+const EMRAM = lazy(() => import("./pages/EMRAM"));
+const ClinicalAI = lazy(() => import("./pages/ClinicalAI"));
+const PatientEngagement = lazy(() => import("./pages/PatientEngagement"));
+const RevenueCycle = lazy(() => import("./pages/RevenueCycle"));
+const Dynamics365 = lazy(() => import("./pages/Dynamics365"));
+const Odoo = lazy(() => import("./pages/Odoo"));
+const Zoho = lazy(() => import("./pages/Zoho"));
+const Manufacturing = lazy(() => import("./pages/Manufacturing"));
+const Retail = lazy(() => import("./pages/Retail"));
+const Education = lazy(() => import("./pages/Education"));
+const Logistics = lazy(() => import("./pages/Logistics"));
+const Cybersecurity = lazy(() => import("./pages/Cybersecurity"));
+const Consulting = lazy(() => import("./pages/Consulting"));
+const Implementation = lazy(() => import("./pages/Implementation"));
+const StaffAug = lazy(() => import("./pages/StaffAug"));
+const Learning = lazy(() => import("./pages/Learning"));
+const Blog = lazy(() => import("./pages/Blog"));
+const Events = lazy(() => import("./pages/Events"));
+const EventDetail = lazy(() => import("./pages/EventDetail"));
+const CaseStudies = lazy(() => import("./pages/CaseStudies"));
+const CaseStudyDetail = lazy(() => import("./pages/CaseStudyDetail"));
+const Contact = lazy(() => import("./pages/Contact"));
+const ArticleDetail = lazy(() => import("./pages/ArticleDetail"));
+const PublicPage = lazy(() => import("./pages/PublicPage"));
+const PublicPreview = lazy(() => import("./pages/PublicPreview"));
+
 import { DEFAULT_ROUTE_MAP, useRouteMap, type RouteKey } from "@/lib/routeMap";
 
 function NotFound() {
@@ -202,6 +205,7 @@ export default function App() {
       <BrandingApplier />
       <StyleApplier />
       {!hideHeader && <Header />}
+      <Suspense fallback={<div className="min-h-screen" aria-busy="true" />}>
       <Routes>
         {/* English (default) routes */}
         <Route path="/" element={<Index />} />
@@ -282,6 +286,7 @@ export default function App() {
         <Route path="/:slug" element={<PublicPage />} />
         <Route path="*" element={<NotFound />} />
       </Routes>
+      </Suspense>
     </AuthProvider>
   );
 }

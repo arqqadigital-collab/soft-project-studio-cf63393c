@@ -248,6 +248,7 @@ export default function EventDetail() {
             <img
               src={ev.cover_image_url}
               alt={ev.title}
+              loading="eager"
               className="aspect-[16/9] w-full rounded-3xl object-cover"
             />
           ) : (
