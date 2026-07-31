@@ -94,5 +94,11 @@ export function useSectionsContent<T extends Record<string, any>>(
     merged._visible[key] = visibility[key as string] ?? true;
     merged._style[key] = styles[key as string] ?? null;
   }
+
+  // Expose FAQ content (when the section is visible) for FAQPage JSON-LD.
+  useRegisterFaqItems(
+    merged._visible?.FAQ === false ? [] : normalizeFaqItems(merged?.FAQ?.items),
+  );
+
   return merged;
 }
