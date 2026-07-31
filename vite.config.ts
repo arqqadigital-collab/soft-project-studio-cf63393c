@@ -30,9 +30,10 @@ export default defineConfig({
             return "vendor-editor";
           if (id.includes("recharts") || id.includes("d3-")) return "vendor-charts";
           if (id.includes("@dnd-kit")) return "vendor-dnd";
-          if (id.includes("@radix-ui")) return "vendor-radix";
           if (id.includes("dompurify")) return "vendor-sanitize";
-          if (id.includes("lucide-react")) return "vendor-icons";
+          // NOTE: lucide-react and @radix-ui are intentionally NOT grouped —
+          // per-module splitting keeps unused icons/primitives out of the
+          // initial public bundle.
           if (id.includes("react-hook-form") || id.includes("zod") || id.includes("@hookform"))
             return "vendor-forms";
           if (id.includes("i18next")) return "vendor-i18n";
