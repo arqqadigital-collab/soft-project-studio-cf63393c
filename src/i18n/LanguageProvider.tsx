@@ -51,10 +51,20 @@ export function LanguageProvider({ children }: { children: ReactNode }) {
 
   useLayoutEffect(() => {
     const dir = !forcedLtr && isRTL(activeLocale) ? "rtl" : "ltr";
-    document.documentElement.setAttribute("lang", activeLocale);
-    document.documentElement.setAttribute("dir", dir);
-    document.documentElement.classList.toggle("rtl", dir === "rtl");
+    const root = document.documentElement;
+    const apply = () => {
+      if (root.getAttribute("lang") !== activeLocale) root.setAttribute("lang", activeLocale);
+      if (root.getAttribute("dir") !== dir) root.setAttribute("dir", dir);
+      root.classList.toggle("rtl", dir === "rtl");
+    };
+    apply();
+    // Guard: react-helmet-async (and any other head manager) mutates
+    // <html> asynchronously and can wipe these attributes on unmount.
+    const observer = new MutationObserver(apply);
+    observer.observe(root, { attributes: true, attributeFilter: ["lang", "dir"] });
+    return () => observer.disconnect();
   }, [activeLocale, forcedLtr]);
+
 
   const value = useMemo<LanguageContextValue>(
     () => ({
