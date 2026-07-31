@@ -41,7 +41,9 @@ export function SeoHead({
 
   return (
     <Helmet>
-      <html lang={isAr ? "ar" : "en"} dir={isAr ? "rtl" : "ltr"} />
+      {/* NOTE: <html lang/dir> is owned exclusively by LanguageProvider.
+          Managing it here made Helmet strip the attributes whenever a page
+          with SeoHead unmounted, silently dropping RTL after navigation. */}
       <title>{title}</title>
       {description && <meta name="description" content={description} />}
       {url && <link rel="canonical" href={url} />}
