@@ -15,7 +15,7 @@ export async function logNotFound(pathname?: string) {
     sessionStorage.setItem(key, "1");
     await supabase.rpc("log_not_found", {
       _url: url,
-      _referrer: document.referrer || null,
+      _referrer: document.referrer || undefined,
     });
   } catch {
     // silent — monitoring must never break rendering
