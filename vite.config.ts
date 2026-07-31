@@ -37,7 +37,9 @@ export default defineConfig({
           if (id.includes("react-hook-form") || id.includes("zod") || id.includes("@hookform"))
             return "vendor-forms";
           if (id.includes("i18next")) return "vendor-i18n";
-          return "vendor";
+          // Everything else stays auto-split so route chunks only pull what
+          // they actually use.
+          return undefined;
         },
       },
     },
