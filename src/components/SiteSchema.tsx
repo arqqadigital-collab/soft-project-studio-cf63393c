@@ -40,6 +40,7 @@ export function SiteSchema() {
       const { data, error } = await supabase
         .from("site_settings")
         .select("site_title, site_title_ar, site_alternate_name, site_url, site_logo_url, organization")
+        .eq("singleton", true)
         .maybeSingle();
       if (error) throw error;
       return data;

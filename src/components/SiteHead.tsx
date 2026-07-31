@@ -20,6 +20,7 @@ export function SiteHead() {
         .select(
           "site_title, site_title_ar, site_description, site_description_ar, favicon_url, default_og_image_url, og_image_url, twitter_handle, site_url"
         )
+        .eq("singleton", true)
         .maybeSingle();
       if (error) throw error;
       return data;

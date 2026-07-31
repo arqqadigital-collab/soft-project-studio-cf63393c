@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useRef } from "react";
 import { Helmet } from "react-helmet-async";
 import { useQuery } from "@tanstack/react-query";
 import { useLocation } from "react-router-dom";
@@ -79,6 +79,7 @@ export function TrackingScripts() {
         .select(
           "ga4_id, gtm_id, meta_pixel_id, linkedin_partner_id, custom_head_html, custom_body_html, clarity_project_id, google_site_verification",
         )
+        .eq("singleton", true)
         .maybeSingle();
       if (error) throw error;
       return data as Tracking | null;
@@ -100,7 +101,7 @@ export function TrackingScripts() {
     if (data.ga4_id) {
       addScript("ga4-src", { src: `https://www.googletagmanager.com/gtag/js?id=${data.ga4_id}` });
       addScript("ga4-init", {
-        text: `window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','${data.ga4_id}');`,
+        text: `window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','${data.ga4_id}',{send_page_view:false});`,
       });
     }
 
@@ -131,6 +132,10 @@ export function TrackingScripts() {
   }, [data, isPrivate]);
 
   // SPA page views for GA4 / Meta on route change.
+  // GA4 is configured with send_page_view:false so this is the single source
+  // of page_view events. The Meta base snippet already fires the first
+  // PageView, so skip that one to avoid double counting.
+  const firstPixelView = useRef(true);
   useEffect(() => {
     if (isPrivate || !data) return;
     const w = window as any;
@@ -138,7 +143,8 @@ export function TrackingScripts() {
       w.gtag("event", "page_view", { page_path: pathname, page_location: window.location.href });
     }
     if (data.meta_pixel_id && typeof w.fbq === "function") {
-      w.fbq("track", "PageView");
+      if (firstPixelView.current) firstPixelView.current = false;
+      else w.fbq("track", "PageView");
     }
   }, [pathname, data, isPrivate]);
 
