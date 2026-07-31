@@ -42,6 +42,13 @@ export function getAllCodeMedia(): MediaRow[] {
 
       const items = collectSectionMedia(value);
       for (const item of items) {
+        // Skip anything already hosted remotely (Supabase Storage or any
+        // other absolute URL) — those are real database-backed assets, not
+        // code-bundled files, even though they're still referenced as a
+        // fallback value inside a *Content.ts defaults object. Only local
+        // Vite asset imports (resolved to a same-origin path, never starting
+        // with "http") actually live in the codebase.
+        if (/^https?:\/\//i.test(item.url)) continue;
         if (seen.has(item.url)) continue;
         seen.set(item.url, {
           id: `code:${item.url}`,
