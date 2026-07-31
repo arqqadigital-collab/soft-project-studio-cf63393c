@@ -95,7 +95,7 @@ function NotFound() {
 }
 
 // Component registry keyed by route_map.route_key.
-const ROUTE_COMPONENTS: Record<RouteKey, React.ComponentType> = {
+const ROUTE_COMPONENTS: Record<RouteKey, React.ComponentType<Record<string, never>>> = {
   "home": Index,
   "about": About,
   "careers": Careers,
@@ -205,6 +205,7 @@ export default function App() {
       <BrandingApplier />
       <StyleApplier />
       {!hideHeader && <Header />}
+      <Suspense fallback={<div className="min-h-screen" aria-busy="true" />}>
       <Routes>
         {/* English (default) routes */}
         <Route path="/" element={<Index />} />
@@ -285,6 +286,7 @@ export default function App() {
         <Route path="/:slug" element={<PublicPage />} />
         <Route path="*" element={<NotFound />} />
       </Routes>
+      </Suspense>
     </AuthProvider>
   );
 }
