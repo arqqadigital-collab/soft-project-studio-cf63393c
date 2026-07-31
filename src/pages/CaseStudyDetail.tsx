@@ -236,6 +236,7 @@ export default function CaseStudyDetail() {
             <img
               src={cs.cover_image_url}
               alt={cs.title}
+              loading="eager"
               className="w-full rounded-3xl border border-border object-cover"
             />
           ) : (

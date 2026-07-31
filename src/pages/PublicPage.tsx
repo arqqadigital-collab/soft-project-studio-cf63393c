@@ -170,6 +170,7 @@ function RenderedPage({ page, seo }: { page: PageDetail; seo: SeoMeta | null }) 
                 <img
                   src={page.featured_image_url}
                   alt={displayTitle}
+                  loading="eager"
                   className="mt-8 aspect-[16/9] w-full rounded-3xl object-cover"
                 />
               )}
