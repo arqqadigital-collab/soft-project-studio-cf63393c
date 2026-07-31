@@ -5,6 +5,8 @@ import { PathRedirect } from "@/components/PathRedirect";
 import { Header } from "@/components/Header";
 import { SiteHead } from "@/components/SiteHead";
 import { RouteSeo } from "@/components/RouteSeo";
+import { SiteSchema } from "@/components/SiteSchema";
+import { TrackingScripts } from "@/components/TrackingScripts";
 import { BrandingApplier } from "@/components/BrandingApplier";
 import { StyleApplier } from "@/components/StyleApplier";
 import { AuthProvider } from "@/hooks/use-auth";
@@ -187,6 +189,8 @@ export default function App() {
       <PathRedirect />
 
       <RouteSeo />
+      <SiteSchema />
+      <TrackingScripts />
       <BrandingApplier />
       <StyleApplier />
       {!hideHeader && <Header />}
