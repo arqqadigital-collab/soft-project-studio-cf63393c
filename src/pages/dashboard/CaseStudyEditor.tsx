@@ -19,6 +19,7 @@ import { RichTextEditor } from "@/components/dashboard/RichTextEditor";
 import { SeoEditor } from "@/components/dashboard/SeoEditor";
 import { RevisionsPanel } from "@/components/dashboard/RevisionsPanel";
 import { LocaleTabs, LocaleHint, type EditorLocale } from "@/components/dashboard/LocaleTabs";
+import { triggerSeoSync } from "@/lib/seoSync";
 
 type Status = "draft" | "published" | "scheduled" | "trashed";
 
@@ -176,6 +177,7 @@ export default function CaseStudyEditor() {
       setLastSavedAt(new Date());
       qc.invalidateQueries({ queryKey: ["case_studies"] });
       qc.invalidateQueries({ queryKey: ["case_study", pid] });
+      triggerSeoSync();
       if (!opts?.silent) toast.success("Saved");
     } catch (e: any) {
       if (!opts?.silent) toast.error(e.message || "Save failed");

@@ -2,3 +2,9 @@ project_id = "pahfisskacgnxiphyrrh"
 
 [functions.robots]
 verify_jwt = false
+
+[functions.sitemap]
+verify_jwt = false
+
+[functions.seo-routes]
+verify_jwt = false

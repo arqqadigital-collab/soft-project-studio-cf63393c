@@ -21,6 +21,7 @@ import { QuickPageSeo } from "@/components/dashboard/QuickPageSeo";
 import { RevisionsPanel } from "@/components/dashboard/RevisionsPanel";
 import { PageBuilder } from "@/components/dashboard/PageBuilder";
 import ContactEditor from "@/pages/dashboard/ContactEditor";
+import { triggerSeoSync } from "@/lib/seoSync";
 
 type Status = "draft" | "published" | "trashed";
 type Template = "default" | "full-width" | "landing";
@@ -210,6 +211,7 @@ export default function PageEditor() {
       qc.invalidateQueries({ queryKey: ["pages"] });
       qc.invalidateQueries({ queryKey: ["menu-tree"] });
       qc.invalidateQueries({ queryKey: ["page", pid] });
+      triggerSeoSync();
       if (!opts?.silent) toast.success("Saved");
     } catch (e: any) {
       if (!opts?.silent) toast.error(e.message || "Save failed");

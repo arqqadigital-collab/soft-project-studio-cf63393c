@@ -1,0 +1,22 @@
+# Managed by this project's SEO sync (see seo-sync.php). Content between the
+# AUTO SEO markers below is regenerated automatically from the Dashboard's
+# Redirect Manager and published content; everything else in this file is
+# yours and will never be touched by the sync script.
+#
+# Run seo-sync.php once right after your first upload (see the project's
+# SEO setup docs) to populate the AUTO SEO block immediately.
+
+RewriteEngine On
+
+# Serve real files/directories exactly as they are.
+RewriteCond %{REQUEST_FILENAME} -f [OR]
+RewriteCond %{REQUEST_FILENAME} -d
+RewriteRule ^ - [L]
+
+# BEGIN AUTO SEO
+# (populated automatically the first time seo-sync.php runs)
+# END AUTO SEO
+
+# Real 404 status for anything not matched above, while still rendering the
+# SPA (and its own Not Found page) as the response body.
+ErrorDocument 404 /index.html

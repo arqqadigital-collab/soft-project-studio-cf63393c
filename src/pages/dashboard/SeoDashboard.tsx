@@ -15,6 +15,7 @@ import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
 import { formatDistanceToNow } from "date-fns";
 import { normalizePath, isExternalTarget } from "@/components/PathRedirect";
 import { SeoContentList } from "@/components/dashboard/SeoContentList";
+import { triggerSeoSync } from "@/lib/seoSync";
 
 
 const DEFAULT_ROBOTS = `User-agent: *
@@ -24,7 +25,7 @@ Disallow: /admin
 Disallow: /login
 Disallow: /preview/
 
-Sitemap: ${import.meta.env.VITE_SUPABASE_URL}/functions/v1/sitemap
+Sitemap: ${typeof window !== "undefined" ? window.location.origin : ""}/sitemap.xml
 `;
 
 
@@ -87,6 +88,7 @@ export default function SeoDashboard() {
     onSuccess: () => {
       qc.invalidateQueries({ queryKey: ["site_settings_robots"] });
       toast.success("robots.txt updated");
+      triggerSeoSync();
     },
     onError: (e: any) => toast.error(e.message),
   });
@@ -133,6 +135,7 @@ export default function SeoDashboard() {
       qc.invalidateQueries({ queryKey: ["slug_redirects"] });
       qc.invalidateQueries({ queryKey: ["path_redirects"] });
       toast.success("Redirect saved");
+      triggerSeoSync();
     },
     onError: (e: any) => toast.error(e.message),
   });
@@ -146,6 +149,7 @@ export default function SeoDashboard() {
     onSuccess: () => {
       qc.invalidateQueries({ queryKey: ["slug_redirects"] });
       toast.success("Redirect removed");
+      triggerSeoSync();
     },
     onError: (e: any) => toast.error(e.message),
   });
