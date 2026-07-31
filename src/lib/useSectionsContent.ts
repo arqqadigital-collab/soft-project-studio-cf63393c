@@ -1,6 +1,7 @@
 import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
 import { useLocale } from "@/i18n/LanguageProvider";
+import { useRegisterFaqItems, normalizeFaqItems } from "@/lib/faqSchemaStore";
 
 function merge<T>(base: T, over: any): T {
   if (over === undefined || over === null) return base;
