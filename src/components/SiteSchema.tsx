@@ -39,7 +39,7 @@ export function SiteSchema() {
     queryFn: async () => {
       const { data, error } = await supabase
         .from("site_settings")
-        .select("site_title, site_title_ar, site_url, site_logo_url, organization")
+        .select("site_title, site_title_ar, site_alternate_name, site_url, site_logo_url, organization")
         .maybeSingle();
       if (error) throw error;
       return data;
@@ -93,6 +93,7 @@ export function SiteSchema() {
     "@context": "https://schema.org",
     "@type": "WebSite",
     name,
+    alternateName: data.site_alternate_name?.trim() || undefined,
     url: siteUrl || undefined,
     inLanguage: isAr ? "ar" : "en",
   };
