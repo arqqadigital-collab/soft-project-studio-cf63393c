@@ -3,6 +3,7 @@ import { Link, useParams, useNavigate } from "react-router-dom";
 import { ArrowLeft } from "lucide-react";
 import { Footer } from "@/components/Footer";
 import { supabase } from "@/integrations/supabase/client";
+import { logNotFound } from "@/lib/notFoundLog";
 import { SeoHead } from "@/components/SeoHead";
 import { logPageView } from "@/lib/analytics";
 import { PageRenderer, usePageSections } from "@/components/PageRenderer";
@@ -67,6 +68,7 @@ export default function PublicPage() {
           return;
         }
         setNotFound(true);
+        logNotFound();
         setLoading(false);
         return;
       }
