@@ -9,6 +9,12 @@
   force = true
 
 [[redirects]]
+  from = "/sitemap.xml"
+  to = "https://pahfisskacgnxiphyrrh.supabase.co/functions/v1/sitemap"
+  status = 200
+  force = true
+
+[[redirects]]
   from = "/robots.txt"
   to = "https://pahfisskacgnxiphyrrh.supabase.co/functions/v1/robots"
   status = 200

@@ -17,6 +17,7 @@ import { normalizePath, isExternalTarget } from "@/components/PathRedirect";
 import { SeoContentList } from "@/components/dashboard/SeoContentList";
 import { SeoSocialSchema } from "@/components/dashboard/SeoSocialSchema";
 import { SeoMarketing } from "@/components/dashboard/SeoMarketing";
+import { Seo404Monitor } from "@/components/dashboard/Seo404Monitor";
 import { triggerSeoSync } from "@/lib/seoSync";
 
 
@@ -52,6 +53,7 @@ function displayUrl(r: Redirect, value: string) {
 export default function SeoDashboard() {
   const qc = useQueryClient();
 
+  const [tab, setTab] = useState("content");
   const [oldSlug, setOldSlug] = useState("");
   const [newSlug, setNewSlug] = useState("");
   const [robots, setRobots] = useState("");
@@ -130,17 +132,24 @@ export default function SeoDashboard() {
         { onConflict: "entity_type,old_slug" },
       );
       if (error) throw error;
+      // Close the loop with the 404 monitor: keep the history, flag it as handled.
+      await supabase
+        .from("not_found_log")
+        .update({ status: "redirected" })
+        .in("url", Array.from(new Set([oldSlug.trim(), from])));
     },
     onSuccess: () => {
       setOldSlug("");
       setNewSlug("");
       qc.invalidateQueries({ queryKey: ["slug_redirects"] });
       qc.invalidateQueries({ queryKey: ["path_redirects"] });
+      qc.invalidateQueries({ queryKey: ["not_found_log"] });
       toast.success("Redirect saved");
       triggerSeoSync();
     },
     onError: (e: any) => toast.error(e.message),
   });
+
 
 
   const remove = useMutation({
@@ -165,7 +174,7 @@ export default function SeoDashboard() {
         </p>
       </div>
 
-      <Tabs defaultValue="content">
+      <Tabs value={tab} onValueChange={setTab}>
         <TabsList>
           <TabsTrigger value="content">Pages &amp; Posts</TabsTrigger>
           <TabsTrigger value="social">Social &amp; Schema</TabsTrigger>
@@ -270,6 +279,15 @@ export default function SeoDashboard() {
           )}
         </CardContent>
       </Card>
+      <Seo404Monitor
+        onCreateRedirect={(url) => {
+          setTab("redirects");
+          setOldSlug(url);
+          setNewSlug("");
+          window.scrollTo({ top: 0, behavior: "smooth" });
+        }}
+      />
+
         </TabsContent>
 
         <TabsContent value="feeds" className="space-y-6 pt-4">

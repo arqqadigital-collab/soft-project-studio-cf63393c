@@ -5,6 +5,7 @@ import { Link, useNavigate, useParams } from "react-router-dom";
 import { Footer } from "@/components/Footer";
 import { SeoHead } from "@/components/SeoHead";
 import { supabase } from "@/integrations/supabase/client";
+import { logNotFound } from "@/lib/notFoundLog";
 import { useLocale } from "@/i18n/LanguageProvider";
 import { useSetAltLanguagePath } from "@/i18n/AltLanguagePath";
 import { useListPageHero } from "@/hooks/use-list-page-hero";
@@ -107,6 +108,7 @@ export default function CaseStudyDetail() {
           return;
         }
         setNotFound(true);
+        logNotFound();
         setLoading(false);
         return;
       }
