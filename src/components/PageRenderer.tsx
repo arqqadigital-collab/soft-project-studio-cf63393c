@@ -63,6 +63,12 @@ export function PageRenderer({
 }) {
   const q = usePageSections(pageId, { fresh, cacheKey });
   const rows = (q.data ?? []).filter((r) => r.is_visible);
+
+  // FAQ sections rendered by the builder feed FAQPage JSON-LD.
+  useRegisterFaqItems(
+    rows.filter((r) => r.kind === "faq").flatMap((r) => normalizeFaqItems(r.data?.items)),
+  );
+
   if (q.isLoading) {
     return (
       <div className="flex min-h-[40vh] items-center justify-center">
