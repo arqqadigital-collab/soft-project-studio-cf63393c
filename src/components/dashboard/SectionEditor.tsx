@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useState } from "react";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { toast } from "sonner";
 import { Save, Plus, Trash2, Image as ImageIcon, Eye, EyeOff } from "lucide-react";
@@ -12,6 +12,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { MediaPickerDialog } from "@/components/dashboard/MediaPickerDialog";
 import { DEFAULTS, type SectionKey } from "@/lib/homepageContent";
 import { SectionStyleEditor } from "@/components/dashboard/SectionStyleEditor";
+import { SectionMediaUsagePanel } from "@/components/dashboard/SectionMediaUsage";
 import type { SectionStyle } from "@/lib/sectionStyle";
 
 const LABELS: Record<SectionKey, string> = {
@@ -199,21 +200,6 @@ function ObjectFields({ obj, onChange }: { obj: any; onChange: (v: any) => void 
   );
 }
 
-function collectImages(data: any): string[] {
-  const out = new Set<string>();
-  const walk = (v: any) => {
-    if (!v) return;
-    if (typeof v === "string") {
-      if (/^(https?:|\/|data:image)/.test(v) && /\.(png|jpe?g|gif|webp|svg|avif)(\?|$)/i.test(v)) out.add(v);
-      return;
-    }
-    if (Array.isArray(v)) return v.forEach(walk);
-    if (typeof v === "object") for (const k of Object.keys(v)) walk(v[k]);
-  };
-  walk(data);
-  return Array.from(out);
-}
-
 export function SectionEditor({ sectionKey }: { sectionKey: SectionKey }) {
   const qc = useQueryClient();
   const [content, setContent] = useState<any>(DEFAULTS[sectionKey]);
@@ -301,7 +287,6 @@ export function SectionEditor({ sectionKey }: { sectionKey: SectionKey }) {
 
   const activeContent = lang === "en" ? content : arContent;
   const setActive = lang === "en" ? setContent : setArContent;
-  const images = useMemo(() => collectImages(activeContent), [activeContent]);
 
   if (isLoading) return <div className="text-sm text-muted-foreground">Loading…</div>;
 
@@ -346,20 +331,7 @@ export function SectionEditor({ sectionKey }: { sectionKey: SectionKey }) {
 
       <SectionStyleEditor kind={sectionKey} value={style} onChange={setStyle} />
 
-      {images.length > 0 && (
-        <div className="rounded-md border border-border">
-          <div className="border-b border-border px-3 py-2 text-xs font-medium text-muted-foreground">
-            Images used in this section ({images.length})
-          </div>
-          <div className="grid grid-cols-4 gap-2 p-3 sm:grid-cols-6 lg:grid-cols-8">
-            {images.map((u) => (
-              <a key={u} href={u} target="_blank" rel="noreferrer" className="block">
-                <img src={u} alt="" className="h-16 w-full rounded border object-cover" />
-              </a>
-            ))}
-          </div>
-        </div>
-      )}
+      <SectionMediaUsagePanel data={activeContent} />
     </div>
   );
 }

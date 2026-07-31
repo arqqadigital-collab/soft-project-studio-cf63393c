@@ -14,6 +14,7 @@ import {
 import { SECTION_REGISTRY, SECTION_KINDS, type SectionKind, type SectionDef } from "@/lib/pageSections";
 import { PageDefaultsProvider } from "@/lib/contentSections";
 import { SectionStyleEditor } from "@/components/dashboard/SectionStyleEditor";
+import { SectionMediaUsagePanel } from "@/components/dashboard/SectionMediaUsage";
 import type { SectionStyle } from "@/lib/sectionStyle";
 
 type LocaleCode = "en" | "ar";
@@ -357,31 +358,6 @@ function sectionDisplayName(row: Row, fallback: string) {
   return d.section_name || d.eyebrow || d.heading || d.headline || d.title || fallback;
 }
 
-function collectImages(data: any): string[] {
-  const out = new Set<string>();
-  const walk = (v: any) => {
-    if (!v) return;
-    if (typeof v === "string") {
-      if (/^(https?:|\/|data:image)/.test(v) && /\.(png|jpe?g|gif|webp|svg|avif)(\?|$)/i.test(v)) {
-        out.add(v);
-      }
-      return;
-    }
-    if (Array.isArray(v)) return v.forEach(walk);
-    if (typeof v === "object") {
-      for (const k of Object.keys(v)) {
-        if (/(url|logo|image|src|thumb|cover|media)/i.test(k) && typeof v[k] === "string" && v[k]) {
-          out.add(v[k]);
-        } else {
-          walk(v[k]);
-        }
-      }
-    }
-  };
-  walk(data);
-  return Array.from(out).filter((u) => !/\.(mp4|webm|mov)(\?|$)/i.test(u));
-}
-
 function SectionEditForm({
   initial, onSave, def, locale,
 }: {
@@ -393,7 +369,6 @@ function SectionEditForm({
   const [draft, setDraft] = useState(initial);
   const dirty = useMemo(() => JSON.stringify(draft) !== JSON.stringify(initial), [draft, initial]);
   const Edit = def.Edit;
-  const images = useMemo(() => collectImages(draft), [draft]);
   return (
     <div className="space-y-4">
       <div className="rounded-md border border-border bg-muted/30 p-3">
@@ -409,20 +384,7 @@ function SectionEditForm({
         />
       </div>
       <Edit data={draft} onChange={setDraft} />
-      {images.length > 0 && (
-        <div className="rounded-md border border-border">
-          <div className="border-b border-border px-3 py-2 text-xs font-medium text-muted-foreground">
-            Images used in this section ({images.length})
-          </div>
-          <div className="grid grid-cols-4 gap-2 p-3 sm:grid-cols-6 lg:grid-cols-8">
-            {images.map((u) => (
-              <a key={u} href={u} target="_blank" rel="noreferrer" className="block">
-                <img src={u} alt="" className="h-16 w-full rounded border object-cover" />
-              </a>
-            ))}
-          </div>
-        </div>
-      )}
+      <SectionMediaUsagePanel data={draft} />
       <div className="flex justify-end gap-2 border-t border-border pt-3">
         <Button variant="outline" size="sm" onClick={() => setDraft(initial)} disabled={!dirty}>Reset</Button>
         <Button size="sm" onClick={() => onSave(draft)} disabled={!dirty}>
