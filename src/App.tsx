@@ -190,6 +190,7 @@ export default function App() {
 
       <RouteSeo />
       <SiteSchema />
+      <FaqSchema />
       <TrackingScripts />
       <BrandingApplier />
       <StyleApplier />
