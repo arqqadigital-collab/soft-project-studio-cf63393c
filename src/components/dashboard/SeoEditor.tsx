@@ -66,6 +66,7 @@ export function SeoEditor({
   const [saving, setSaving] = useState(false);
   const [pickerOpen, setPickerOpen] = useState(false);
   const [rowId, setRowId] = useState<string | null>(null);
+  const [lang, setLang] = useState<"en" | "ar">("en");
 
   const existing = useQuery({
     queryKey: ["seo_meta", entityType, entityId],
