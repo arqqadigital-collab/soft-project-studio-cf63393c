@@ -367,16 +367,21 @@ export function SeoEditor({
 
       <div className="space-y-4">
         <Card>
-          <CardHeader className="pb-3"><CardTitle className="text-sm">Google preview</CardTitle></CardHeader>
-          <CardContent className="space-y-1">
-            <p className="truncate text-xs text-muted-foreground">{url}</p>
+          <CardHeader className="flex-row items-center justify-between space-y-0 pb-3">
+            <CardTitle className="text-sm">Google preview</CardTitle>
+            <span className="rounded-full border px-2 py-0.5 text-[11px] text-muted-foreground">
+              {isAr ? "العربية" : "English"}
+            </span>
+          </CardHeader>
+          <CardContent className="space-y-1" dir={isAr ? "rtl" : "ltr"}>
+            <p className="truncate text-xs text-muted-foreground" dir="ltr">{url}</p>
             <p className="line-clamp-1 text-base text-primary underline">{title}</p>
             <p className="line-clamp-2 text-xs text-muted-foreground">{desc}</p>
           </CardContent>
         </Card>
         <Card>
           <CardHeader className="pb-3"><CardTitle className="text-sm">Social preview</CardTitle></CardHeader>
-          <CardContent className="space-y-2">
+          <CardContent className="space-y-2" dir={isAr ? "rtl" : "ltr"}>
             {form.og_image_url ? (
               <img src={form.og_image_url} alt="" className="aspect-video w-full rounded-md border object-cover" />
             ) : (
