@@ -87,6 +87,9 @@ export default function PageEditor() {
   const [pickerOpen, setPickerOpen] = useState(false);
   const dirtyRef = useRef(false);
   const [dirty, setDirty] = useState(false);
+  // A "draft" exists when the item is not published, or when a published
+  // item has unsaved local changes that differ from the live version.
+  const hasDraft = form.status !== "published" || dirty;
 
   const otherPages = useQuery({
     queryKey: ["pages-parents"],
