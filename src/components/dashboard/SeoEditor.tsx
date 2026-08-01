@@ -66,6 +66,7 @@ export function SeoEditor({
   const [saving, setSaving] = useState(false);
   const [pickerOpen, setPickerOpen] = useState(false);
   const [rowId, setRowId] = useState<string | null>(null);
+  const [lang, setLang] = useState<"en" | "ar">("en");
 
   const existing = useQuery({
     queryKey: ["seo_meta", entityType, entityId],
@@ -163,9 +164,30 @@ export function SeoEditor({
     }
   }
 
-  const title = form.meta_title || fallbackTitle || "Untitled";
-  const desc = form.meta_description || fallbackDescription || "No description yet.";
-  const url = form.canonical_url || publicUrl || "example.com/…";
+  const isAr = lang === "ar";
+  // Arabic previews fall back to the English values when AR fields are empty.
+  const title = isAr
+    ? form.meta_title_ar || form.meta_title || fallbackTitle || "Untitled"
+    : form.meta_title || fallbackTitle || "Untitled";
+  const desc = isAr
+    ? form.meta_description_ar || form.meta_description || fallbackDescription || "No description yet."
+    : form.meta_description || fallbackDescription || "No description yet.";
+  const basePath = publicUrl || "example.com/…";
+  const arPath = (() => {
+    if (form.canonical_url) return form.canonical_url;
+    if (!publicUrl) return "/ar";
+    if (/^https?:\/\//i.test(publicUrl)) {
+      try {
+        const u = new URL(publicUrl);
+        if (!u.pathname.startsWith("/ar")) u.pathname = `/ar${u.pathname === "/" ? "" : u.pathname}`;
+        return u.toString();
+      } catch {
+        return publicUrl;
+      }
+    }
+    return publicUrl.startsWith("/ar") ? publicUrl : `/ar${publicUrl === "/" ? "" : publicUrl}`;
+  })();
+  const url = isAr ? arPath : form.canonical_url || basePath;
   const titleLen = form.meta_title.length;
   const descLen = form.meta_description.length;
   const schemaError = (() => {
@@ -195,7 +217,7 @@ export function SeoEditor({
           <CardTitle className="text-sm">Search engine listing</CardTitle>
         </CardHeader>
         <CardContent className="space-y-4">
-          <Tabs defaultValue="en" className="w-full">
+          <Tabs value={lang} onValueChange={(v) => setLang(v as "en" | "ar")} className="w-full">
             <TabsList className="mb-2">
               <TabsTrigger value="en">English</TabsTrigger>
               <TabsTrigger value="ar">العربية</TabsTrigger>
@@ -345,16 +367,21 @@ export function SeoEditor({
 
       <div className="space-y-4">
         <Card>
-          <CardHeader className="pb-3"><CardTitle className="text-sm">Google preview</CardTitle></CardHeader>
-          <CardContent className="space-y-1">
-            <p className="truncate text-xs text-muted-foreground">{url}</p>
+          <CardHeader className="flex-row items-center justify-between space-y-0 pb-3">
+            <CardTitle className="text-sm">Google preview</CardTitle>
+            <span className="rounded-full border px-2 py-0.5 text-[11px] text-muted-foreground">
+              {isAr ? "العربية" : "English"}
+            </span>
+          </CardHeader>
+          <CardContent className="space-y-1" dir={isAr ? "rtl" : "ltr"}>
+            <p className="truncate text-xs text-muted-foreground" dir="ltr">{url}</p>
             <p className="line-clamp-1 text-base text-primary underline">{title}</p>
             <p className="line-clamp-2 text-xs text-muted-foreground">{desc}</p>
           </CardContent>
         </Card>
         <Card>
           <CardHeader className="pb-3"><CardTitle className="text-sm">Social preview</CardTitle></CardHeader>
-          <CardContent className="space-y-2">
+          <CardContent className="space-y-2" dir={isAr ? "rtl" : "ltr"}>
             {form.og_image_url ? (
               <img src={form.og_image_url} alt="" className="aspect-video w-full rounded-md border object-cover" />
             ) : (

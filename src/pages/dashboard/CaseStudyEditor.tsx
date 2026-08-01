@@ -66,6 +66,10 @@ export default function CaseStudyEditor() {
   const [tagInput, setTagInput] = useState("");
   const [pickerOpen, setPickerOpen] = useState(false);
   const dirtyRef = useRef(false);
+  const [dirty, setDirty] = useState(false);
+  // A "draft" exists when the item is not published, or when a published
+  // item has unsaved local changes that differ from the live version.
+  const hasDraft = form.status !== "published" || dirty;
   const [locale, setLocale] = useState<EditorLocale>("en");
   const [ar, setAr] = useState<Record<string, string>>({});
   const [translations, setTranslations] = useState<Record<string, any>>({});
@@ -104,7 +108,7 @@ export default function CaseStudyEditor() {
       setPreviewToken(d.preview_token ?? null);
       setSlugTouched(true);
       if (d.slug_ar) setSlugArTouched(true);
-      dirtyRef.current = false;
+      dirtyRef.current = false; setDirty(false);
       const t = (d.translations ?? {}) as Record<string, any>;
       setTranslations(t);
       setAr((t.ar ?? {}) as any);
@@ -113,7 +117,7 @@ export default function CaseStudyEditor() {
 
   function patch<K extends keyof CsForm>(key: K, value: CsForm[K]) {
     setForm((f) => ({ ...f, [key]: value }));
-    dirtyRef.current = true;
+    dirtyRef.current = true; setDirty(true);
   }
 
   useEffect(() => {
@@ -134,7 +138,7 @@ export default function CaseStudyEditor() {
   const getV = (k: (typeof AR_FIELDS)[number]) =>
     locale === "ar" ? (ar[k] ?? "") : ((form as any)[k] ?? "");
   const setV = (k: (typeof AR_FIELDS)[number], v: string) => {
-    if (locale === "ar") { setAr((x) => ({ ...x, [k]: v })); dirtyRef.current = true; }
+    if (locale === "ar") { setAr((x) => ({ ...x, [k]: v })); dirtyRef.current = true; setDirty(true); }
     else patch(k as any, v as any);
   };
 
@@ -173,7 +177,7 @@ export default function CaseStudyEditor() {
         if (error) throw error;
       }
       if (opts?.overrideStatus) patch("status", opts.overrideStatus);
-      dirtyRef.current = false;
+      dirtyRef.current = false; setDirty(false);
       setLastSavedAt(new Date());
       qc.invalidateQueries({ queryKey: ["case_studies"] });
       qc.invalidateQueries({ queryKey: ["case_study", pid] });
@@ -221,6 +225,8 @@ export default function CaseStudyEditor() {
           {csId && previewToken && (
             <Button
               variant="outline" size="sm"
+              disabled={!hasDraft}
+              title={hasDraft ? "Open a preview of the unpublished draft" : "No draft to preview"}
               onClick={() => {
                 const url = `${window.location.origin}/preview/case-study/${csId}?token=${previewToken}`;
                 navigator.clipboard.writeText(url).catch(() => {});
@@ -396,7 +402,7 @@ export default function CaseStudyEditor() {
             entityType="case_study"
             entityId={csId}
             restorableFields={["title", "summary", "excerpt", "challenge", "solution", "results", "cover_image_url"]}
-            onRestore={(snap) => { setForm((f) => ({ ...f, ...snap })); dirtyRef.current = true; }}
+            onRestore={(snap) => { setForm((f) => ({ ...f, ...snap })); dirtyRef.current = true; setDirty(true); }}
           />
         </aside>
       </div>
