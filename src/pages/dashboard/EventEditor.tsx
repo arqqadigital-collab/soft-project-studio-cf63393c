@@ -234,6 +234,8 @@ export default function EventEditor() {
           {evId && previewToken && (
             <Button
               variant="outline" size="sm"
+              disabled={!hasDraft}
+              title={hasDraft ? "Open a preview of the unpublished draft" : "No draft to preview"}
               onClick={() => {
                 const url = `${window.location.origin}/preview/event/${evId}?token=${previewToken}`;
                 navigator.clipboard.writeText(url).catch(() => {});

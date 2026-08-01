@@ -222,6 +222,8 @@ export default function CaseStudyEditor() {
           {csId && previewToken && (
             <Button
               variant="outline" size="sm"
+              disabled={!hasDraft}
+              title={hasDraft ? "Open a preview of the unpublished draft" : "No draft to preview"}
               onClick={() => {
                 const url = `${window.location.origin}/preview/case-study/${csId}?token=${previewToken}`;
                 navigator.clipboard.writeText(url).catch(() => {});

@@ -250,6 +250,8 @@ export default function PageEditor() {
             <Button
               variant="outline"
               size="sm"
+              disabled={!hasDraft}
+              title={hasDraft ? "Open a preview of the unpublished draft" : "No draft to preview"}
               onClick={() => {
                 const url = `${window.location.origin}/preview/page/${pageId}?token=${previewToken}`;
                 navigator.clipboard.writeText(url).catch(() => {});

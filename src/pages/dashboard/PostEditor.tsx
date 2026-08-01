@@ -249,6 +249,8 @@ export default function PostEditor() {
             <Button
               variant="outline"
               size="sm"
+              disabled={!hasDraft}
+              title={hasDraft ? "Open a preview of the unpublished draft" : "No draft to preview"}
               onClick={() => {
                 const url = `${window.location.origin}/preview/post/${postId}?token=${previewToken}`;
                 navigator.clipboard.writeText(url).catch(() => {});
