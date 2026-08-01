@@ -217,7 +217,7 @@ export function SeoEditor({
           <CardTitle className="text-sm">Search engine listing</CardTitle>
         </CardHeader>
         <CardContent className="space-y-4">
-          <Tabs defaultValue="en" className="w-full">
+          <Tabs value={lang} onValueChange={(v) => setLang(v as "en" | "ar")} className="w-full">
             <TabsList className="mb-2">
               <TabsTrigger value="en">English</TabsTrigger>
               <TabsTrigger value="ar">العربية</TabsTrigger>
