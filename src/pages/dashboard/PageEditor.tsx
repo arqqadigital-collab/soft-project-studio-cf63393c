@@ -86,6 +86,7 @@ export default function PageEditor() {
   const [lastSavedAt, setLastSavedAt] = useState<Date | null>(null);
   const [pickerOpen, setPickerOpen] = useState(false);
   const dirtyRef = useRef(false);
+  const [dirty, setDirty] = useState(false);
 
   const otherPages = useQuery({
     queryKey: ["pages-parents"],
@@ -138,13 +139,13 @@ export default function PageEditor() {
       setPreviewToken(d.preview_token ?? null);
       setSlugTouched(true);
       setRouteTouched(true);
-      dirtyRef.current = false;
+      dirtyRef.current = false; setDirty(false);
     }
   }, [existing.data]);
 
   function patch<K extends keyof PageForm>(key: K, value: PageForm[K]) {
     setForm((f) => ({ ...f, [key]: value }));
-    dirtyRef.current = true;
+    dirtyRef.current = true; setDirty(true);
   }
 
   useEffect(() => {
@@ -206,7 +207,7 @@ export default function PageEditor() {
         if (error) throw error;
       }
       if (opts?.overrideStatus) patch("status", opts.overrideStatus);
-      dirtyRef.current = false;
+      dirtyRef.current = false; setDirty(false);
       setLastSavedAt(new Date());
       qc.invalidateQueries({ queryKey: ["pages"] });
       qc.invalidateQueries({ queryKey: ["menu-tree"] });
@@ -476,7 +477,7 @@ export default function PageEditor() {
             restorableFields={["title", "content", "featured_image_url"]}
             onRestore={(snap) => {
               setForm((f) => ({ ...f, ...snap }));
-              dirtyRef.current = true;
+              dirtyRef.current = true; setDirty(true);
             }}
           />
         </aside>

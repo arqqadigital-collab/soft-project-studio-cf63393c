@@ -68,6 +68,7 @@ export default function PostEditor() {
   const [tagInput, setTagInput] = useState("");
   const [pickerOpen, setPickerOpen] = useState(false);
   const dirtyRef = useRef(false);
+  const [dirty, setDirty] = useState(false);
   const [locale, setLocale] = useState<EditorLocale>("en");
   const [ar, setAr] = useState<{ title?: string; excerpt?: string; content?: string }>({});
   const [translations, setTranslations] = useState<Record<string, any>>({});
@@ -115,7 +116,7 @@ export default function PostEditor() {
       setPreviewToken(d.preview_token ?? null);
       setSlugTouched(true);
       if (d.slug_ar) setSlugArTouched(true);
-      dirtyRef.current = false;
+      dirtyRef.current = false; setDirty(false);
       const t = (d.translations ?? {}) as Record<string, any>;
       setTranslations(t);
       setAr((t.ar ?? {}) as any);
@@ -124,7 +125,7 @@ export default function PostEditor() {
 
   function patch<K extends keyof PostForm>(key: K, value: PostForm[K]) {
     setForm((f) => ({ ...f, [key]: value }));
-    dirtyRef.current = true;
+    dirtyRef.current = true; setDirty(true);
   }
 
   // Auto-slug from title until user edits slug manually
@@ -196,7 +197,7 @@ export default function PostEditor() {
       }
       await upsertTagsAndLink(pid!, form.tags);
       if (opts?.overrideStatus) patch("status", opts.overrideStatus);
-      dirtyRef.current = false;
+      dirtyRef.current = false; setDirty(false);
       setLastSavedAt(new Date());
       qc.invalidateQueries({ queryKey: ["posts"] });
       qc.invalidateQueries({ queryKey: ["post", pid] });
@@ -278,7 +279,7 @@ export default function PostEditor() {
                 <Input
                   value={locale === "ar" ? (ar.title ?? "") : form.title}
                   onChange={(e) => {
-                    if (locale === "ar") { setAr((x) => ({ ...x, title: e.target.value })); dirtyRef.current = true; }
+                    if (locale === "ar") { setAr((x) => ({ ...x, title: e.target.value })); dirtyRef.current = true; setDirty(true); }
                     else patch("title", e.target.value);
                   }}
                   placeholder={locale === "ar" ? "عنوان المقال" : "Post title"}
@@ -321,7 +322,7 @@ export default function PostEditor() {
                 key={locale}
                 value={locale === "ar" ? (ar.content ?? "") : form.content}
                 onChange={(html) => {
-                  if (locale === "ar") { setAr((x) => ({ ...x, content: html })); dirtyRef.current = true; }
+                  if (locale === "ar") { setAr((x) => ({ ...x, content: html })); dirtyRef.current = true; setDirty(true); }
                   else patch("content", html);
                 }}
               />
@@ -331,7 +332,7 @@ export default function PostEditor() {
                 rows={5}
                 value={locale === "ar" ? (ar.excerpt ?? "") : form.excerpt}
                 onChange={(e) => {
-                  if (locale === "ar") { setAr((x) => ({ ...x, excerpt: e.target.value })); dirtyRef.current = true; }
+                  if (locale === "ar") { setAr((x) => ({ ...x, excerpt: e.target.value })); dirtyRef.current = true; setDirty(true); }
                   else patch("excerpt", e.target.value);
                 }}
                 placeholder={locale === "ar" ? form.excerpt || "ملخص المقال…" : "Optional summary shown in post lists…"}
@@ -422,7 +423,7 @@ export default function PostEditor() {
             restorableFields={["title", "content", "excerpt", "featured_image_url"]}
             onRestore={(snap) => {
               setForm((f) => ({ ...f, ...snap }));
-              dirtyRef.current = true;
+              dirtyRef.current = true; setDirty(true);
             }}
           />
         </aside>

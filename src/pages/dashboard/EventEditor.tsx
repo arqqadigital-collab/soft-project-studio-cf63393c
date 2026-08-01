@@ -75,6 +75,7 @@ export default function EventEditor() {
   const [tagInput, setTagInput] = useState("");
   const [pickerOpen, setPickerOpen] = useState(false);
   const dirtyRef = useRef(false);
+  const [dirty, setDirty] = useState(false);
   const [locale, setLocale] = useState<EditorLocale>("en");
   const [ar, setAr] = useState<Record<string, string>>({});
   const [translations, setTranslations] = useState<Record<string, any>>({});
@@ -115,7 +116,7 @@ export default function EventEditor() {
       setPreviewToken(d.preview_token ?? null);
       setSlugTouched(true);
       if (d.slug_ar) setSlugArTouched(true);
-      dirtyRef.current = false;
+      dirtyRef.current = false; setDirty(false);
       const t = (d.translations ?? {}) as Record<string, any>;
       setTranslations(t);
       setAr((t.ar ?? {}) as any);
@@ -124,7 +125,7 @@ export default function EventEditor() {
 
   function patch<K extends keyof EvForm>(key: K, value: EvForm[K]) {
     setForm((f) => ({ ...f, [key]: value }));
-    dirtyRef.current = true;
+    dirtyRef.current = true; setDirty(true);
   }
 
   useEffect(() => {
@@ -145,7 +146,7 @@ export default function EventEditor() {
   const getV = (k: (typeof AR_FIELDS)[number]) =>
     locale === "ar" ? (ar[k] ?? "") : ((form as any)[k] ?? "");
   const setV = (k: (typeof AR_FIELDS)[number], v: string) => {
-    if (locale === "ar") { setAr((x) => ({ ...x, [k]: v })); dirtyRef.current = true; }
+    if (locale === "ar") { setAr((x) => ({ ...x, [k]: v })); dirtyRef.current = true; setDirty(true); }
     else patch(k as any, v as any);
   };
 
@@ -185,7 +186,7 @@ export default function EventEditor() {
         if (error) throw error;
       }
       if (opts?.overrideStatus) patch("status", opts.overrideStatus);
-      dirtyRef.current = false;
+      dirtyRef.current = false; setDirty(false);
       setLastSavedAt(new Date());
       qc.invalidateQueries({ queryKey: ["events"] });
       qc.invalidateQueries({ queryKey: ["event", pid] });
@@ -427,7 +428,7 @@ export default function EventEditor() {
             entityType="event"
             entityId={evId}
             restorableFields={["title", "description", "excerpt", "cover_image_url"]}
-            onRestore={(snap) => { setForm((f) => ({ ...f, ...snap })); dirtyRef.current = true; }}
+            onRestore={(snap) => { setForm((f) => ({ ...f, ...snap })); dirtyRef.current = true; setDirty(true); }}
           />
         </aside>
       </div>
