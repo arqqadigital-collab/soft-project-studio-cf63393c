@@ -4,8 +4,16 @@ import { createClient } from 'npm:@supabase/supabase-js@2';
 const SUPABASE_URL = Deno.env.get('SUPABASE_URL')!;
 const SERVICE_ROLE = Deno.env.get('SUPABASE_SERVICE_ROLE_KEY')!;
 
-// Returns draft content for a post/page when the request carries a valid preview token.
-// Bypasses RLS (service role) after validating id + token match.
+// Returns draft content for a post/page/event/case-study when the request
+// carries a valid preview token. Bypasses RLS (service role) after
+// validating id + token match.
+const TABLES: Record<string, string> = {
+  post: 'posts',
+  page: 'pages',
+  event: 'events',
+  'case-study': 'case_studies',
+};
+
 Deno.serve(async (req) => {
   if (req.method === 'OPTIONS') return new Response('ok', { headers: corsHeaders });
   try {
@@ -14,7 +22,8 @@ Deno.serve(async (req) => {
     const id = url.searchParams.get('id');
     const token = url.searchParams.get('token');
 
-    if ((type !== 'post' && type !== 'page') || !id || !token) {
+    const table = type ? TABLES[type] : undefined;
+    if (!table || !id || !token) {
       return new Response(JSON.stringify({ error: 'Missing type, id, or token' }), {
         status: 400,
         headers: { ...corsHeaders, 'Content-Type': 'application/json' },
@@ -22,7 +31,6 @@ Deno.serve(async (req) => {
     }
 
     const admin = createClient(SUPABASE_URL, SERVICE_ROLE);
-    const table = type === 'post' ? 'posts' : 'pages';
     const { data, error } = await admin
       .from(table)
       .select('*')

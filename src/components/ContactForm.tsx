@@ -168,7 +168,16 @@ export function ContactForm({
         }
       }
 
+      // Generated client-side (rather than read back via `.select()`) because
+      // anonymous visitors have INSERT but not SELECT access to this table —
+      // `INSERT ... RETURNING` requires read visibility on the row and would
+      // fail RLS for a public visitor, even though the insert itself is
+      // allowed. Knowing the id upfront also means the notification fires
+      // even if the read-back would have failed for any other reason.
+      const id = crypto.randomUUID();
+
       const payload: any = {
+        id,
         name: builtin.name ?? "",
         email: (builtin.email ?? "").toLowerCase(),
         phone: builtin.phone ?? "",
@@ -180,17 +189,11 @@ export function ContactForm({
         ...submissionMeta(),
       };
 
-      const { data: inserted, error } = await supabase
-        .from("contact_submissions")
-        .insert(payload)
-        .select("id")
-        .single();
+      const { error } = await supabase.from("contact_submissions").insert(payload);
       if (error) throw error;
-      if (inserted?.id) {
-        supabase.functions
-          .invoke("send-contact-notification", { body: { submission_id: inserted.id } })
-          .catch((err) => console.warn("notification invoke failed", err));
-      }
+      supabase.functions
+        .invoke("send-contact-notification", { body: { submission_id: id } })
+        .catch((err) => console.warn("notification invoke failed", err));
       toast.success(successMessage || L("success_message", t("Thanks! We'll get back to you within one business day.", "شكرًا لك! سنعاود التواصل خلال يوم عمل واحد.")));
       setValues({});
       setSubmitted(true);

@@ -14,7 +14,7 @@ import { MediaPickerDialog } from "@/components/dashboard/MediaPickerDialog";
 import { useMenuTree } from "@/lib/menuTree";
 import { SectionEditor } from "@/components/dashboard/SectionEditor";
 
-type FooterLink = { label: string; href: string };
+type FooterLink = { label: string; href?: string; to?: string };
 type FooterColumn = { title: string; links: FooterLink[] };
 type SocialLink = { platform: string; url: string };
 
@@ -697,11 +697,15 @@ export default function HeaderFooterEditor() {
 
                       <Input
                         placeholder="/href"
-                        value={link.href}
+                        value={link.to ?? link.href ?? ""}
                         onChange={(e) => {
                           const c = [...columns];
                           const links = [...c[ci].links];
-                          links[li] = { ...links[li], href: e.target.value };
+                          // Editing always saves as `href` — the render logic
+                          // in Footer.tsx checks `to` first, so a leftover
+                          // `to` would otherwise silently override this edit.
+                          const { to, ...rest } = links[li];
+                          links[li] = { ...rest, href: e.target.value };
                           c[ci] = { ...c[ci], links };
                           set({ footer_columns: c });
                         }}

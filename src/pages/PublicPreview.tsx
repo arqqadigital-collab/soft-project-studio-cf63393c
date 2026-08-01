@@ -5,7 +5,7 @@ import { sanitizeHtml } from "@/lib/sanitize";
 import { PageRenderer } from "@/components/PageRenderer";
 import { Footer } from "@/components/Footer";
 
-type Kind = "post" | "page";
+type Kind = "post" | "page" | "event" | "case-study";
 
 export default function PublicPreview() {
   const { kind, id } = useParams<{ kind: Kind; id: string }>();
@@ -32,7 +32,6 @@ export default function PublicPreview() {
           headers: {
             apikey: key,
             Authorization: `Bearer ${key}`,
-            "Cache-Control": "no-cache",
           },
           cache: "no-store",
         });
@@ -67,6 +66,22 @@ export default function PublicPreview() {
   const isPage = kind === "page";
   const hasHtmlContent = !!(data.content && String(data.content).trim());
 
+  // Posts have a single `content` HTML field and `featured_image_url`.
+  // Events/case studies don't — normalize their fields into the same shape
+  // so the article layout below can render any of the three consistently.
+  const image = data.featured_image_url ?? data.cover_image_url ?? null;
+  const subtitle = data.excerpt ?? data.summary ?? null;
+  const bodyHtml =
+    kind === "case-study"
+      ? [
+          data.challenge && `<h2>Challenge</h2>${data.challenge}`,
+          data.solution && `<h2>Solution</h2>${data.solution}`,
+          data.results && `<h2>Results</h2>${data.results}`,
+        ]
+          .filter(Boolean)
+          .join("")
+      : (data.content ?? data.description ?? "");
+
   return (
     <>
       <SeoHead title={`Preview — ${data.title}`} noindex ogType={kind === "post" ? "article" : "website"} />
@@ -98,14 +113,21 @@ export default function PublicPreview() {
         </main>
       ) : (
         <article className="mx-auto max-w-3xl px-6 py-10">
-          {data.featured_image_url && (
-            <img src={data.featured_image_url} alt="" className="mb-6 w-full rounded-lg border object-cover" />
+          {image && (
+            <img src={image} alt="" className="mb-6 w-full rounded-lg border object-cover" />
           )}
           <h1 className="text-4xl font-bold tracking-tight">{data.title}</h1>
-          {data.excerpt && <p className="mt-3 text-lg text-muted-foreground">{data.excerpt}</p>}
+          {kind === "event" && (data.starts_at || data.location) && (
+            <p className="mt-2 text-sm text-muted-foreground">
+              {[data.starts_at && new Date(data.starts_at).toLocaleString(), data.location]
+                .filter(Boolean)
+                .join(" — ")}
+            </p>
+          )}
+          {subtitle && <p className="mt-3 text-lg text-muted-foreground">{subtitle}</p>}
           <div
             className="prose prose-neutral mt-8 max-w-none dark:prose-invert"
-            dangerouslySetInnerHTML={{ __html: sanitizeHtml(data.content ?? "") }}
+            dangerouslySetInnerHTML={{ __html: sanitizeHtml(bodyHtml) }}
           />
         </article>
       )}
