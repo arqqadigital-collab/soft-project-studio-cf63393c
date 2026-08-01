@@ -164,9 +164,30 @@ export function SeoEditor({
     }
   }
 
-  const title = form.meta_title || fallbackTitle || "Untitled";
-  const desc = form.meta_description || fallbackDescription || "No description yet.";
-  const url = form.canonical_url || publicUrl || "example.com/…";
+  const isAr = lang === "ar";
+  // Arabic previews fall back to the English values when AR fields are empty.
+  const title = isAr
+    ? form.meta_title_ar || form.meta_title || fallbackTitle || "Untitled"
+    : form.meta_title || fallbackTitle || "Untitled";
+  const desc = isAr
+    ? form.meta_description_ar || form.meta_description || fallbackDescription || "No description yet."
+    : form.meta_description || fallbackDescription || "No description yet.";
+  const basePath = publicUrl || "example.com/…";
+  const arPath = (() => {
+    if (form.canonical_url) return form.canonical_url;
+    if (!publicUrl) return "/ar";
+    if (/^https?:\/\//i.test(publicUrl)) {
+      try {
+        const u = new URL(publicUrl);
+        if (!u.pathname.startsWith("/ar")) u.pathname = `/ar${u.pathname === "/" ? "" : u.pathname}`;
+        return u.toString();
+      } catch {
+        return publicUrl;
+      }
+    }
+    return publicUrl.startsWith("/ar") ? publicUrl : `/ar${publicUrl === "/" ? "" : publicUrl}`;
+  })();
+  const url = isAr ? arPath : form.canonical_url || basePath;
   const titleLen = form.meta_title.length;
   const descLen = form.meta_description.length;
   const schemaError = (() => {
