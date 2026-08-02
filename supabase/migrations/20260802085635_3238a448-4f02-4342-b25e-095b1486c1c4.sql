@@ -1,0 +1,1 @@
+update public.contact_submissions set notified_at = null where id = '714ae052-0109-4b56-a747-b868a3400770';
