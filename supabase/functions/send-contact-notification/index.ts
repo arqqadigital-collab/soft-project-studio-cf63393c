@@ -90,7 +90,9 @@ Deno.serve(async (req) => {
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({
-        from: 'SBS Contact <onboarding@resend.dev>',
+        // Set the CONTACT_FROM_EMAIL secret (e.g. "SBS <noreply@sbs-me.com>")
+        // once sbs-me.com is verified in Resend. Falls back to Resend's test sender.
+        from: Deno.env.get('CONTACT_FROM_EMAIL') ?? 'SBS Contact <onboarding@resend.dev>',
         to: [to],
         reply_to: submission.email ?? undefined,
         subject: `New contact inquiry from ${submission.name ?? 'website'}`,
@@ -101,6 +103,11 @@ Deno.serve(async (req) => {
     if (!resp.ok) {
       const details = await resp.text();
       console.error(`Resend send failed [${resp.status}]: ${details}`);
+      // Release the reservation so the notification can be retried later
+      await supabase
+        .from('contact_submissions')
+        .update({ notified_at: null })
+        .eq('id', submission.id);
       return new Response(
         JSON.stringify({ error: 'resend_failed', status: resp.status, details }),
         { status: resp.status, headers: { ...corsHeaders, 'Content-Type': 'application/json' } },
