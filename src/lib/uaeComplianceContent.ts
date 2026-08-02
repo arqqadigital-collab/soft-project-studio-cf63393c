@@ -15,6 +15,14 @@ import { IMG_UAE_COMPLIANCE_JOURNEY_J2_URL as j2 } from "@/lib/migratedImageUrls
 import { IMG_UAE_COMPLIANCE_JOURNEY_J3_URL as j3 } from "@/lib/migratedImageUrls";
 import { IMG_UAE_COMPLIANCE_JOURNEY_J4_URL as j4 } from "@/lib/migratedImageUrls";
 import { UAE_HERO_VIDEO_URL as heroVideo, UAE_CTA_VIDEO_URL as ctaVideo } from "@/lib/migratedVideoUrls";
+import { IMG_LOGOS_NPHIES_URL as nphiesLogo } from "@/lib/migratedImageUrls";
+import { IMG_LOGOS_MALAFFI_URL as malaffiLogo } from "@/lib/migratedImageUrls";
+import { IMG_LOGOS_RIAYATI_URL as riayatiLogo } from "@/lib/migratedImageUrls";
+import { IMG_LOGOS_ZATCA_URL as zatcaLogo } from "@/lib/migratedImageUrls";
+import { IMG_LOGOS_EMIRATES_ID_URL as emiratesIdLogo } from "@/lib/migratedImageUrls";
+import { IMG_LOGOS_ABSHER_URL as absherLogo } from "@/lib/migratedImageUrls";
+import { IMG_LOGOS_NHRA_URL as nhraLogo } from "@/lib/migratedImageUrls";
+import { IMG_LOGOS_WASFATY_URL as wasfatyLogo } from "@/lib/migratedImageUrls";
 
 export type UAEComplianceSectionKey =
   | "Hero"
@@ -109,34 +117,16 @@ export const UAE_COMPLIANCE_DEFAULTS = {
     eyebrow: "Integrations",
     heading: "Certified Across Every GCC National Health Platform",
     body: "Secreta UAE & GCC holds active, certified integrations with every major national health and insurance platform across the Gulf — maintained and updated as specifications evolve in each market.",
-    groups: [
-      {
-        title: "National Platform Integrations",
-        tags: [
-          "Malaffi — Abu Dhabi HIE",
-          "Riayati — Dubai HIE",
-          "DHA eClaims Portal",
-          "DOH Abu Dhabi Insurance Gateway",
-          "Qatar NHIX",
-          "NHRA Bahrain Insurance Portal",
-          "Kuwait MOH Reporting Platform",
-          "Oman TPA Integration Gateway",
-        ],
-      },
-      {
-        title: "Supported Standards Across GCC Markets",
-        tags: [
-          "HL7 FHIR R4",
-          "ICD-10-AM",
-          "CPT-4",
-          "DRG GCC Grouper Variants",
-          "UAE Federal Data Protection Law",
-          "Qatar Personal Data Privacy Law",
-          "GCC Cybersecurity Frameworks",
-          "REST API",
-          "Arabic Unicode Clinical Documentation",
-        ],
-      },
+    sliderLabel: "National Platforms",
+    items: [
+      { name: "Malaffi — Abu Dhabi HIE", logo: malaffiLogo },
+      { name: "Riayati — Dubai HIE", logo: riayatiLogo },
+      { name: "NPHIES", logo: nphiesLogo },
+      { name: "NHRA Bahrain", logo: nhraLogo },
+      { name: "UAE Emirates ID", logo: emiratesIdLogo },
+      { name: "Saudi Absher", logo: absherLogo },
+      { name: "ZATCA Fatoora", logo: zatcaLogo },
+      { name: "Wasfaty", logo: wasfatyLogo },
     ],
   },
   FAQ: {

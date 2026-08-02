@@ -21,6 +21,7 @@ import {
 import type { LucideIcon } from "lucide-react";
 
 import { Footer } from "@/components/Footer";
+import { LogoSlider, type Platform } from "@/components/LogoSlider";
 import { CtaSection } from "@/components/CtaSection";
 import { useHorizontalScroll } from "@/hooks/use-horizontal-scroll";
 import { useRcmContent } from "@/lib/rcmContent";
@@ -451,19 +452,16 @@ export default function RCM() {
                 {integrations.subheading}
               </p>
             )}
-            {integrations.items?.length ? (
-              <div className="mt-10 flex flex-wrap justify-center gap-3">
-                {integrations.items.map((tag: any) => (
-                  <span
-                    key={tag.title}
-                    className="rounded-full border border-border bg-card px-4 py-2 text-sm font-medium text-foreground/80 shadow-sm"
-                  >
-                    {tag.title}
-                  </span>
-                ))}
-              </div>
-            ) : null}
           </div>
+
+          {integrations.items?.length ? (
+            <div className="mx-auto mt-12 max-w-6xl">
+              <p className="text-center text-xs font-semibold uppercase tracking-[0.25em] text-foreground/50">
+                {(integrations as any).sliderLabel ?? "Platforms"}
+              </p>
+              <LogoSlider platforms={integrations.items as unknown as Platform[]} />
+            </div>
+          ) : null}
         </section>
         </StyledSection>
       )}

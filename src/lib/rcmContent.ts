@@ -16,6 +16,14 @@ import { IMG_RCM_JOURNEY_4_URL as rcmJourney4 } from "@/lib/migratedImageUrls";
 import { IMG_RCM_JOURNEY_5_URL as rcmJourney5 } from "@/lib/migratedImageUrls";
 import { IMG_RCM_JOURNEY_6_URL as rcmJourney6 } from "@/lib/migratedImageUrls";
 import { RCM_HERO_VIDEO_URL as rcmHeroVideo, RCM_HIS_VIDEO_URL as hisVideo } from "@/lib/migratedVideoUrls";
+import { IMG_LOGOS_NPHIES_URL as nphiesLogo } from "@/lib/migratedImageUrls";
+import { IMG_LOGOS_MALAFFI_URL as malaffiLogo } from "@/lib/migratedImageUrls";
+import { IMG_LOGOS_RIAYATI_URL as riayatiLogo } from "@/lib/migratedImageUrls";
+import { IMG_LOGOS_ZATCA_URL as zatcaLogo } from "@/lib/migratedImageUrls";
+import { IMG_LOGOS_EMIRATES_ID_URL as emiratesIdLogo } from "@/lib/migratedImageUrls";
+import { IMG_LOGOS_ABSHER_URL as absherLogo } from "@/lib/migratedImageUrls";
+import { IMG_LOGOS_NHRA_URL as nhraLogo } from "@/lib/migratedImageUrls";
+import { IMG_LOGOS_WASFATY_URL as wasfatyLogo } from "@/lib/migratedImageUrls";
 
 export type RcmSectionKey =
   | "Hero"
@@ -117,27 +125,17 @@ export const RCM_DEFAULTS = {
     heading: "Connected to Every Payer, System, and National Platform",
     subheading:
       "Secreta RCM connects with your clinical systems, national health platforms, payer portals, and financial management infrastructure — creating a revenue cycle that flows automatically from clinical activity to collected cash, without manual bridges between disconnected systems.",
+    sliderLabel: "National Platforms",
     items: [
-      { title: "NPHIES" },
-      { title: "ZATCA Fatoora" },
-      { title: "DHA eClaims" },
-      { title: "DOH Abu Dhabi" },
-      { title: "Qatar NHIX" },
-      { title: "Bahrain NHRA" },
-      { title: "Wasfaty" },
-      { title: "Epic" },
-      { title: "Cerner" },
-      { title: "Meditech" },
-      { title: "SAP" },
-      { title: "Oracle Financials" },
-      { title: "MS Dynamics" },
-      { title: "HL7 v2 & FHIR R4" },
-      { title: "ICD-10-AM" },
-      { title: "CPT-4" },
-      { title: "DRG GCC Grouper" },
-      { title: "837/835 EDI" },
-      { title: "REST API" },
-    ] as Array<{ title: string }>,
+      { name: "NPHIES", logo: nphiesLogo },
+      { name: "ZATCA Fatoora", logo: zatcaLogo },
+      { name: "Wasfaty", logo: wasfatyLogo },
+      { name: "Malaffi", logo: malaffiLogo },
+      { name: "Riayati", logo: riayatiLogo },
+      { name: "UAE Emirates ID", logo: emiratesIdLogo },
+      { name: "Saudi Absher", logo: absherLogo },
+      { name: "Bahrain NHRA", logo: nhraLogo },
+    ] as Array<{ name: string; logo: string }>,
   },
   FAQ: {
     eyebrow: "FAQ",
