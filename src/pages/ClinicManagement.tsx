@@ -231,7 +231,7 @@ export default function ClinicManagement() {
 <main className="pt-20 relative min-h-[90vh] w-full overflow-hidden bg-background">
         <div className="absolute inset-0">
           {hero.mediaUrl && (
-            /\.(mp4|webm|mov)$/i.test(hero.mediaUrl) ? (
+            /\.(mp4|webm|mov)(\?|$)/i.test(hero.mediaUrl) ? (
               <video src={hero.mediaUrl} autoPlay muted loop playsInline className="h-full w-full object-cover" />
             ) : (
               <img src={hero.mediaUrl} alt="" className="h-full w-full object-cover" />
@@ -555,7 +555,7 @@ export default function ClinicManagement() {
 <section id="contact" className="relative overflow-hidden px-6 py-24 md:px-12" style={{ backgroundColor: "#091628" }}>
         <div className="absolute inset-0">
           {finalCta.mediaUrl && (
-            /\.(mp4|webm|mov)$/i.test(finalCta.mediaUrl) ? (
+            /\.(mp4|webm|mov)(\?|$)/i.test(finalCta.mediaUrl) ? (
               <video src={finalCta.mediaUrl} autoPlay muted loop playsInline className="h-full w-full object-cover" />
             ) : (
               <img src={finalCta.mediaUrl} alt="" className="h-full w-full object-cover" />

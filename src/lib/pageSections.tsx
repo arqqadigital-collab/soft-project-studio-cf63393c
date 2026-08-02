@@ -19,7 +19,7 @@ function MediaField({
   accept?: "image" | "video" | "image|video";
 }) {
   const [open, setOpen] = useState(false);
-  const isVideo = /\.(mp4|webm|mov)$/i.test(value);
+  const isVideo = /\.(mp4|webm|mov)(\?|$)/i.test(value);
   return (
     <div className="space-y-1.5">
       <Label className="text-xs">{label}</Label>
