@@ -41,12 +41,13 @@ export function LogoSlider({ platforms }: { platforms: Platform[] }) {
       <button
         onClick={() => scroll("left")}
         disabled={!canScrollLeft}
-        className="absolute -start-4 top-1/2 z-10 hidden h-10 w-10 -translate-y-1/2 items-center justify-center rounded-full border border-border bg-background shadow-md transition-opacity hover:bg-muted md:flex"
+        className="absolute -start-1 top-1/2 z-10 flex h-9 w-9 -translate-y-1/2 items-center justify-center rounded-full border border-border bg-background shadow-md transition-opacity hover:bg-muted md:-start-4 md:h-10 md:w-10"
         style={{ opacity: canScrollLeft ? 1 : 0.3 }}
         aria-label="Scroll previous"
       >
         <ChevronLeft className="h-5 w-5" />
       </button>
+
 
       <div
         ref={scrollRef}
@@ -69,12 +70,13 @@ export function LogoSlider({ platforms }: { platforms: Platform[] }) {
       <button
         onClick={() => scroll("right")}
         disabled={!canScrollRight}
-        className="absolute -end-4 top-1/2 z-10 hidden h-10 w-10 -translate-y-1/2 items-center justify-center rounded-full border border-border bg-background shadow-md transition-opacity hover:bg-muted md:flex"
+        className="absolute -end-1 top-1/2 z-10 flex h-9 w-9 -translate-y-1/2 items-center justify-center rounded-full border border-border bg-background shadow-md transition-opacity hover:bg-muted md:-end-4 md:h-10 md:w-10"
         style={{ opacity: canScrollRight ? 1 : 0.3 }}
         aria-label="Scroll next"
       >
         <ChevronRight className="h-5 w-5" />
       </button>
+
     </div>
   );
 }
