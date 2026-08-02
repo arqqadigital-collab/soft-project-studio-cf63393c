@@ -16,14 +16,16 @@ import { IMG_RCM_JOURNEY_4_URL as rcmJourney4 } from "@/lib/migratedImageUrls";
 import { IMG_RCM_JOURNEY_5_URL as rcmJourney5 } from "@/lib/migratedImageUrls";
 import { IMG_RCM_JOURNEY_6_URL as rcmJourney6 } from "@/lib/migratedImageUrls";
 import { RCM_HERO_VIDEO_URL as rcmHeroVideo, RCM_HIS_VIDEO_URL as hisVideo } from "@/lib/migratedVideoUrls";
-import { IMG_LOGOS_NPHIES_URL as nphiesLogo } from "@/lib/migratedImageUrls";
-import { IMG_LOGOS_MALAFFI_URL as malaffiLogo } from "@/lib/migratedImageUrls";
-import { IMG_LOGOS_RIAYATI_URL as riayatiLogo } from "@/lib/migratedImageUrls";
-import { IMG_LOGOS_ZATCA_URL as zatcaLogo } from "@/lib/migratedImageUrls";
-import { IMG_LOGOS_EMIRATES_ID_URL as emiratesIdLogo } from "@/lib/migratedImageUrls";
-import { IMG_LOGOS_ABSHER_URL as absherLogo } from "@/lib/migratedImageUrls";
-import { IMG_LOGOS_NHRA_URL as nhraLogo } from "@/lib/migratedImageUrls";
-import { IMG_LOGOS_WASFATY_URL as wasfatyLogo } from "@/lib/migratedImageUrls";
+import {
+  RCM_LOGO_NAFEES,
+  RCM_LOGO_FATOORA,
+  RCM_LOGO_DOH_ABU_DHABI,
+  RCM_LOGO_NHRA_BAHRAIN,
+  RCM_LOGO_WASFATY,
+  RCM_LOGO_EPIC,
+  RCM_LOGO_CERNER,
+  RCM_LOGO_MEDITECH,
+} from "@/lib/rcmIntegrationLogos";
 
 export type RcmSectionKey =
   | "Hero"
@@ -127,14 +129,14 @@ export const RCM_DEFAULTS = {
       "Secreta RCM connects with your clinical systems, national health platforms, payer portals, and financial management infrastructure — creating a revenue cycle that flows automatically from clinical activity to collected cash, without manual bridges between disconnected systems.",
     sliderLabel: "National Platforms",
     items: [
-      { name: "NPHIES", logo: nphiesLogo },
-      { name: "ZATCA Fatoora", logo: zatcaLogo },
-      { name: "Wasfaty", logo: wasfatyLogo },
-      { name: "Malaffi", logo: malaffiLogo },
-      { name: "Riayati", logo: riayatiLogo },
-      { name: "UAE Emirates ID", logo: emiratesIdLogo },
-      { name: "Saudi Absher", logo: absherLogo },
-      { name: "Bahrain NHRA", logo: nhraLogo },
+      { name: "Nafees", logo: RCM_LOGO_NAFEES },
+      { name: "Fatoora (ZATCA)", logo: RCM_LOGO_FATOORA },
+      { name: "Department of Health – Abu Dhabi", logo: RCM_LOGO_DOH_ABU_DHABI },
+      { name: "NHRA Bahrain", logo: RCM_LOGO_NHRA_BAHRAIN },
+      { name: "Wasfaty", logo: RCM_LOGO_WASFATY },
+      { name: "Epic", logo: RCM_LOGO_EPIC },
+      { name: "Cerner", logo: RCM_LOGO_CERNER },
+      { name: "MEDITECH", logo: RCM_LOGO_MEDITECH },
     ] as Array<{ name: string; logo: string }>,
   },
   FAQ: {
