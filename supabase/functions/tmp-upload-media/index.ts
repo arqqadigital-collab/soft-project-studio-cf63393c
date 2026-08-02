@@ -1,6 +1,6 @@
 import { createClient } from "https://esm.sh/@supabase/supabase-js@2.45.0";
 
-const TOKEN = Deno.env.get("TMP_UPLOAD_TOKEN") ?? "";
+const TOKEN = "a75c35a69695a6a2025188d7cb4b9af1";
 
 Deno.serve(async (req) => {
   if (req.method !== "POST") return new Response("method not allowed", { status: 405 });
