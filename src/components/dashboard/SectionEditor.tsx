@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { toast } from "sonner";
 import { Save, Plus, Trash2, Image as ImageIcon, Eye, EyeOff } from "lucide-react";
@@ -68,7 +68,25 @@ function isColorKey(k: string) { return /_color$|_from$|_to$/i.test(k); }
 
 function MediaField({ value, onChange, label }: { value: string; onChange: (v: string) => void; label: string }) {
   const [open, setOpen] = useState(false);
+  const videoRef = useRef<HTMLVideoElement>(null);
   const isVideo = /\.(mp4|mov|webm)(\?|$)/i.test(value);
+
+  // The `autoPlay` attribute alone is unreliable here: this field is
+  // rendered inside a tab panel, and browsers frequently skip autoplay for
+  // a <video> that mounts while its container is hidden (e.g. an inactive
+  // tab) or inside an embedding iframe (the Lovable editor preview). Calling
+  // .play() explicitly once the element is actually on-screen fixes the
+  // stuck-on-a-black-frame preview without affecting the published site,
+  // which never has this hidden-then-shown mounting problem.
+  useEffect(() => {
+    if (isVideo && value) {
+      videoRef.current?.play().catch(() => {
+        // Autoplay can still be blocked by the browser/embedder — the
+        // static black frame is an acceptable fallback in that case.
+      });
+    }
+  }, [isVideo, value]);
+
   return (
     <div className="space-y-2">
       <Label className="text-xs">{label}</Label>
@@ -80,7 +98,7 @@ function MediaField({ value, onChange, label }: { value: string; onChange: (v: s
       </div>
       {value ? (
         isVideo ? (
-          <video src={value} autoPlay muted loop playsInline className="max-h-24 rounded border bg-black" />
+          <video ref={videoRef} src={value} autoPlay muted loop playsInline className="max-h-24 rounded border bg-black" />
         ) : (
           <img src={value} alt="" className="max-h-24 rounded border object-cover" />
         )
