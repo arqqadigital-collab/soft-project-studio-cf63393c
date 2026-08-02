@@ -15,14 +15,12 @@ import { IMG_UAE_COMPLIANCE_JOURNEY_J2_URL as j2 } from "@/lib/migratedImageUrls
 import { IMG_UAE_COMPLIANCE_JOURNEY_J3_URL as j3 } from "@/lib/migratedImageUrls";
 import { IMG_UAE_COMPLIANCE_JOURNEY_J4_URL as j4 } from "@/lib/migratedImageUrls";
 import { UAE_HERO_VIDEO_URL as heroVideo, UAE_CTA_VIDEO_URL as ctaVideo } from "@/lib/migratedVideoUrls";
-import { IMG_LOGOS_NPHIES_URL as nphiesLogo } from "@/lib/migratedImageUrls";
-import { IMG_LOGOS_MALAFFI_URL as malaffiLogo } from "@/lib/migratedImageUrls";
-import { IMG_LOGOS_RIAYATI_URL as riayatiLogo } from "@/lib/migratedImageUrls";
-import { IMG_LOGOS_ZATCA_URL as zatcaLogo } from "@/lib/migratedImageUrls";
-import { IMG_LOGOS_EMIRATES_ID_URL as emiratesIdLogo } from "@/lib/migratedImageUrls";
-import { IMG_LOGOS_ABSHER_URL as absherLogo } from "@/lib/migratedImageUrls";
-import { IMG_LOGOS_NHRA_URL as nhraLogo } from "@/lib/migratedImageUrls";
-import { IMG_LOGOS_WASFATY_URL as wasfatyLogo } from "@/lib/migratedImageUrls";
+import {
+  UAE_LOGO_MALAFFI as malaffiLogo,
+  UAE_LOGO_RIAYATI as riayatiLogo,
+  UAE_LOGO_DOH_ABU_DHABI as dohAbuDhabiLogo,
+  UAE_LOGO_NHRA_BAHRAIN as nhraLogo,
+} from "@/lib/uaeIntegrationLogos";
 
 export type UAEComplianceSectionKey =
   | "Hero"
@@ -117,16 +115,12 @@ export const UAE_COMPLIANCE_DEFAULTS = {
     eyebrow: "Integrations",
     heading: "Certified Across Every GCC National Health Platform",
     body: "Secreta UAE & GCC holds active, certified integrations with every major national health and insurance platform across the Gulf — maintained and updated as specifications evolve in each market.",
-    sliderLabel: "National Platforms",
+    sliderLabel: "National Platform Integrations",
     items: [
       { name: "Malaffi — Abu Dhabi HIE", logo: malaffiLogo },
-      { name: "Riayati — Dubai HIE", logo: riayatiLogo },
-      { name: "NPHIES", logo: nphiesLogo },
+      { name: "Riayati — UAE National HIE", logo: riayatiLogo },
+      { name: "Department of Health — Abu Dhabi", logo: dohAbuDhabiLogo },
       { name: "NHRA Bahrain", logo: nhraLogo },
-      { name: "UAE Emirates ID", logo: emiratesIdLogo },
-      { name: "Saudi Absher", logo: absherLogo },
-      { name: "ZATCA Fatoora", logo: zatcaLogo },
-      { name: "Wasfaty", logo: wasfatyLogo },
     ],
   },
   FAQ: {
