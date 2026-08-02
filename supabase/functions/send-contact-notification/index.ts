@@ -101,6 +101,11 @@ Deno.serve(async (req) => {
     if (!resp.ok) {
       const details = await resp.text();
       console.error(`Resend send failed [${resp.status}]: ${details}`);
+      // Release the reservation so the notification can be retried later
+      await supabase
+        .from('contact_submissions')
+        .update({ notified_at: null })
+        .eq('id', submission.id);
       return new Response(
         JSON.stringify({ error: 'resend_failed', status: resp.status, details }),
         { status: resp.status, headers: { ...corsHeaders, 'Content-Type': 'application/json' } },
