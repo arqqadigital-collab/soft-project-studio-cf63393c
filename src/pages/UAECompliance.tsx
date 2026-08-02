@@ -21,6 +21,7 @@ import {
   type LucideIcon,
 } from "lucide-react";
 import { Footer } from "@/components/Footer";
+import { LogoSlider, type Platform } from "@/components/LogoSlider";
 import { CtaSection } from "@/components/CtaSection";
 import { useHorizontalScroll } from "@/hooks/use-horizontal-scroll";
 import { useUAEComplianceContent } from "@/lib/uaeComplianceContent";
@@ -379,20 +380,14 @@ export default function UAECompliance() {
             </p>
           </div>
 
-          <div className="mt-12 grid gap-6 md:grid-cols-2">
-            {c.Integrations.groups.map((g: any) => (
-              <div key={g.title} className="rounded-3xl border border-border bg-card p-8 shadow-sm">
-                <h3 className="text-lg font-bold text-foreground">{g.title}</h3>
-                <div className="mt-5 flex flex-wrap gap-2">
-                  {g.tags.map((tag: string) => (
-                    <span key={tag} className="rounded-full border border-border bg-background px-3.5 py-1.5 text-xs font-medium text-foreground/80">
-                      {tag}
-                    </span>
-                  ))}
-                </div>
-              </div>
-            ))}
-          </div>
+          {(c.Integrations as any).items?.length ? (
+            <div className="mt-12">
+              <p className="text-center text-xs font-semibold uppercase tracking-[0.25em] text-foreground/50">
+                {(c.Integrations as any).sliderLabel ?? "Platforms"}
+              </p>
+              <LogoSlider platforms={(c.Integrations as any).items as Platform[]} />
+            </div>
+          ) : null}
         </div>
       </section>
         </StyledSection>
