@@ -16,6 +16,14 @@ import { IMG_RCM_JOURNEY_4_URL as rcmJourney4 } from "@/lib/migratedImageUrls";
 import { IMG_RCM_JOURNEY_5_URL as rcmJourney5 } from "@/lib/migratedImageUrls";
 import { IMG_RCM_JOURNEY_6_URL as rcmJourney6 } from "@/lib/migratedImageUrls";
 import { RCM_HERO_VIDEO_URL as rcmHeroVideo, RCM_HIS_VIDEO_URL as hisVideo } from "@/lib/migratedVideoUrls";
+import { IMG_LOGOS_NPHIES_URL as nphiesLogo } from "@/lib/migratedImageUrls";
+import { IMG_LOGOS_MALAFFI_URL as malaffiLogo } from "@/lib/migratedImageUrls";
+import { IMG_LOGOS_RIAYATI_URL as riayatiLogo } from "@/lib/migratedImageUrls";
+import { IMG_LOGOS_ZATCA_URL as zatcaLogo } from "@/lib/migratedImageUrls";
+import { IMG_LOGOS_EMIRATES_ID_URL as emiratesIdLogo } from "@/lib/migratedImageUrls";
+import { IMG_LOGOS_ABSHER_URL as absherLogo } from "@/lib/migratedImageUrls";
+import { IMG_LOGOS_NHRA_URL as nhraLogo } from "@/lib/migratedImageUrls";
+import { IMG_LOGOS_WASFATY_URL as wasfatyLogo } from "@/lib/migratedImageUrls";
 
 export type RcmSectionKey =
   | "Hero"
