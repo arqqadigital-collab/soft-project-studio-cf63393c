@@ -562,6 +562,7 @@ export default function PagesAndNavigation() {
                       onEditGroup={() => setEdit({ kind: "group", id: g.id, label: g.label })}
                       onDeleteGroup={() => remove("menu_groups", g.id, g.label)}
                       onAddColumn={() => setEdit({ kind: "column", group_id: g.id, label: "", description: "" })}
+                      onAddPageDirect={() => navigate(`/dashboard/pages/new?group=${g.id}`)}
                       onEditColumn={(c) => setEdit({ kind: "column", id: c.id, group_id: g.id, label: c.label, description: c.description ?? "" })}
                       onDeleteColumn={(c) => remove("menu_columns", c.id, c.label)}
                       onToggleGroupVisible={() => toggleVisible("menu_groups", g.id, g.is_visible)}
@@ -664,6 +665,7 @@ function GroupNode(props: {
   onEditGroup: () => void;
   onDeleteGroup: () => void;
   onAddColumn: () => void;
+  onAddPageDirect: () => void;
   onEditColumn: (c: Col) => void;
   onDeleteColumn: (c: Col) => void;
   onToggleGroupVisible: () => void;
@@ -698,7 +700,10 @@ function GroupNode(props: {
           </IconBtn>
           <IconBtn title="Edit" onClick={props.onEditGroup}><Pencil className="h-4 w-4" /></IconBtn>
           <IconBtn title="Delete" onClick={props.onDeleteGroup}><Trash2 className="h-4 w-4 text-destructive" /></IconBtn>
-          <Button size="sm" variant="outline" onClick={props.onAddColumn} className="ml-2">
+          <Button size="sm" variant="outline" onClick={props.onAddPageDirect} className="ml-2">
+            <Plus className="mr-1 h-4 w-4" /> Page
+          </Button>
+          <Button size="sm" variant="outline" onClick={props.onAddColumn}>
             <Plus className="mr-1 h-4 w-4" /> Column
           </Button>
         </div>

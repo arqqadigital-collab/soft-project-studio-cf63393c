@@ -80,6 +80,11 @@ export default function PageEditor() {
     const c = searchParams.get("column");
     return c ? { ...EMPTY, menu_column_id: c } : EMPTY;
   });
+  // When creating a page via "+ Page" on a menu group (not a column), we
+  // auto-create a matching column labeled after the page on first save.
+  const [pendingGroupId, setPendingGroupId] = useState<string | null>(
+    () => searchParams.get("group"),
+  );
   const [slugTouched, setSlugTouched] = useState(false);
   const [routeTouched, setRouteTouched] = useState(false);
   const [saving, setSaving] = useState(false);
@@ -171,6 +176,35 @@ export default function PageEditor() {
     if (!user) return;
     if (!form.title.trim()) { if (!opts?.silent) toast.error("Title is required"); return; }
     setSaving(true);
+    let resolvedColumnId = form.menu_column_id;
+    if (!resolvedColumnId && pendingGroupId && !pageId) {
+      try {
+        const { data: maxCol } = await supabase
+          .from("menu_columns")
+          .select("position")
+          .eq("group_id", pendingGroupId)
+          .order("position", { ascending: false })
+          .limit(1)
+          .maybeSingle();
+        const { data: newCol, error: colErr } = await supabase
+          .from("menu_columns")
+          .insert({
+            group_id: pendingGroupId,
+            label: form.nav_label.trim() || form.title.trim(),
+            description: null,
+            position: (maxCol?.position ?? -1) + 1,
+            is_visible: true,
+          })
+          .select("id")
+          .single();
+        if (colErr) throw colErr;
+        resolvedColumnId = newCol.id;
+      } catch (e: any) {
+        setSaving(false);
+        toast.error(`Could not create menu item: ${e.message}`);
+        return;
+      }
+    }
     const existingTx = (existing.data as any)?.translations ?? {};
     const translations = {
       ...existingTx,
@@ -188,7 +222,7 @@ export default function PageEditor() {
       status: opts?.overrideStatus ?? form.status,
       template: form.template,
       parent_id: form.parent_id,
-      menu_column_id: form.menu_column_id,
+      menu_column_id: resolvedColumnId,
       nav_label: form.nav_label || null,
       page_kind: form.page_kind,
       route_path: form.route_path || defaultRouteForSlug(form.slug || toSlug(form.title)),
@@ -205,6 +239,11 @@ export default function PageEditor() {
         setPageId(pid);
         setPreviewToken(data.preview_token ?? null);
         window.history.replaceState(null, "", `/dashboard/pages/${pid}`);
+        if (resolvedColumnId !== form.menu_column_id) {
+          setForm((f) => ({ ...f, menu_column_id: resolvedColumnId }));
+        }
+        setPendingGroupId(null);
+        qc.invalidateQueries({ queryKey: ["menu-columns-flat"] });
       } else {
         const { error } = await supabase.from("pages").update(payload).eq("id", pid);
         if (error) throw error;
